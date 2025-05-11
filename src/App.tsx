@@ -1,5 +1,5 @@
 // src/App.tsx
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const App: React.FC = () => {
   const [inputText, setInputText] = useState('')
@@ -7,8 +7,23 @@ const App: React.FC = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [apiKey, setApiKey] = useState('')
 
+  useEffect(() => {
+    const storedKey = localStorage.getItem('gcpTTSKey')
+    if (storedKey) setApiKey(storedKey)
+  }, [])
+
   const cleanText = (text: string) => {
     return text.trim().replace(/[\u00A1\u00BF]/g, '')
+  }
+
+  const handleKeyChange = (value: string) => {
+    setApiKey(value)
+    localStorage.setItem('gcpTTSKey', value)
+  }
+
+  const handleClearKey = () => {
+    localStorage.removeItem('gcpTTSKey')
+    setApiKey('')
   }
 
   const handleGenerate = async () => {
@@ -53,10 +68,16 @@ const App: React.FC = () => {
         <input
           type="text"
           value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
+          onChange={(e) => handleKeyChange(e.target.value)}
           placeholder="Enter your API key"
-          className="input-reset ba b--black-20 pa2 mb3 db w-100"
+          className="input-reset ba b--black-20 pa2 mb2 db w-100"
         />
+        <button
+          onClick={handleClearKey}
+          className="bg-light-red white pa2 br2 pointer db w-100 tc mb3"
+        >
+          Clear API Key
+        </button>
 
         <label className="db mb2 f6">Spanish Input</label>
         <textarea
