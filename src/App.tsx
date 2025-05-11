@@ -194,7 +194,24 @@ const App: React.FC = () => {
             <audio controls src={audioUrl} className="w-100" />
           </div>
         )}
-      </section>
+              <button
+          onClick={() => {
+            const synth = window.speechSynthesis
+            const voices = synth.getVoices()
+
+            const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
+            const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a 'Let's Connect!'")
+            utterance.voice = spanishVoice
+            utterance.lang = spanishVoice.lang
+            utterance.rate = 0.9
+            synth.speak(utterance)
+          }}
+          className="bg-green white pa2 br2 pointer db w-100 tc mt3"
+        >
+          Welcome (Local TTS)
+        </button>
+
+$1
     </main>
   )
 }
