@@ -8,21 +8,31 @@ const App: React.FC = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [apiKey, setApiKey] = useState('')
   const [maskKey, setMaskKey] = useState(false)
-  const [voicesReady, setVoicesReady] = useState(false)
+
+  const [openAiKey, setOpenAiKey] = useState('')
+  const [maskOpenAiKey, setMaskOpenAiKey] = useState(false)
+  const [question, setQuestion] = useState('')
+  const [answer, setAnswer] = useState('')
 
   useEffect(() => {
     const handleVoiceLoad = () => {
       const voices = window.speechSynthesis.getVoices()
       console.log('[Chrome] Voices loaded:', voices.map(v => v.lang + ' - ' + v.name))
-      setVoicesReady(true)
     }
 
     window.speechSynthesis.onvoiceschanged = handleVoiceLoad
     handleVoiceLoad()
+
     const storedKey = localStorage.getItem('gcpTTSKey')
     if (storedKey) {
       setApiKey(storedKey)
       setMaskKey(true)
+    }
+
+    const storedOpenAiKey = localStorage.getItem('openAiKey')
+    if (storedOpenAiKey) {
+      setOpenAiKey(storedOpenAiKey)
+      setMaskOpenAiKey(true)
     }
   }, [])
 
@@ -46,6 +56,24 @@ const App: React.FC = () => {
     localStorage.removeItem('gcpTTSKey')
     setApiKey('')
     setMaskKey(false)
+  }
+
+  const handleOpenAiKeyChange = (value: string) => {
+    setOpenAiKey(value)
+    setMaskOpenAiKey(false)
+  }
+
+  const handleOpenAiKeyBlur = () => {
+    if (openAiKey) {
+      localStorage.setItem('openAiKey', openAiKey)
+      setMaskOpenAiKey(true)
+    }
+  }
+
+  const handleClearOpenAiKey = () => {
+    localStorage.removeItem('openAiKey')
+    setOpenAiKey('')
+    setMaskOpenAiKey(false)
   }
 
   const handleGenerate = async () => {
@@ -104,20 +132,28 @@ const App: React.FC = () => {
     }
   }
 
-  const handleWelcome = () => {
-    if (!voicesReady) {
-      alert('Voices not yet ready. Please try again shortly.')
-      return
-    }
+  const handleAskOpenAI = async () => {
+    if (!openAiKey || !question) return
 
-    const synth = window.speechSynthesis
-    const voices = synth.getVoices()
-    const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-    const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a 'Let's Connect!'")
-    utterance.voice = spanishVoice
-    utterance.lang = spanishVoice.lang
-    utterance.rate = 0.9
-    synth.speak(utterance)
+    try {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${openAiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [{ role: 'user', content: question }],
+        }),
+      })
+
+      const data = await res.json()
+      const reply = data.choices?.[0]?.message?.content || ''
+      setAnswer(reply)
+    } catch (err) {
+      console.error('Failed to call OpenAI:', err)
+    }
   }
 
   return (
@@ -182,8 +218,65 @@ const App: React.FC = () => {
             <audio controls src={audioUrl} className="w-100" />
           </div>
         )}
+
+        <hr className="mv4" />
+
+        <label className="db mb2 f6">OpenAI API Key</label>
+        <input
+          type={maskOpenAiKey ? 'password' : 'text'}
+          value={openAiKey}
+          onChange={(e) => handleOpenAiKeyChange(e.target.value)}
+          onBlur={handleOpenAiKeyBlur}
+          placeholder="Enter your OpenAI API key"
+          className="input-reset ba b--black-20 pa2 mb2 db w-100"
+        />
         <button
-          onClick={handleWelcome}
+          onClick={handleClearOpenAiKey}
+          className="bg-light-red white pa2 br2 pointer db w-100 tc mb3"
+        >
+          Clear OpenAI Key
+        </button>
+
+        <label className="db mb2 f6">Ask ChatGPT</label>
+        <textarea
+          rows={4}
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          placeholder="Enter a question to ask OpenAI..."
+          className="input-reset ba b--black-20 pa2 mb2 db w-100"
+        />
+        <button
+          onClick={handleAskOpenAI}
+          className="bg-purple white pa2 br2 pointer db w-100 tc mb3"
+        >
+          Ask OpenAI
+        </button>
+
+        {answer && (
+          <div className="mv3">
+            <p className="f6 silver mb1">OpenAI Response</p>
+            <p>{answer}</p>
+          </div>
+        )}
+
+        <button
+          onClick={() => {
+            const synth = window.speechSynthesis
+            const speakNow = () => {
+              const voices = synth.getVoices()
+              const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices.find(v => v.lang.startsWith('en')) || voices[0]
+              const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a 'Let's Connect!'")
+              utterance.voice = spanishVoice
+              utterance.lang = spanishVoice.lang
+              utterance.rate = 0.9
+              synth.speak(utterance)
+            }
+            if (synth.getVoices().length > 0) {
+              speakNow()
+            } else {
+              synth.onvoiceschanged = speakNow
+            }
+          }}
           className="bg-green white pa2 br2 pointer db w-100 tc mt3"
         >
           Welcome (Local TTS)
