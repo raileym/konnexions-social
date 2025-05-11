@@ -166,7 +166,8 @@ const App: React.FC = () => {
   }
 
   const ttsWeeklyLimit = Math.floor((ttsBudget / 16) * 1_000_000 / ttsAvgChars)
-  const openAiWeeklyLimit = Math.floor((openAiBudget / 0.0035) / openAiAvgTokens / 12 * 52)
+  // const openAiWeeklyLimit = Math.floor((openAiBudget / 0.0035) / openAiAvgTokens / 12 * 52)
+  const openAiWeeklyLimit = Math.floor((openAiBudget / 0.0035 / 4.33) * (1000 / openAiAvgTokens))
 
   return (
     <main className="pa4 sans-serif bg-light-gray min-vh-100">
