@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 
 const App: React.FC = () => {
+  const [useCloudTTS, setUseCloudTTS] = useState(true)
   const [inputText, setInputText] = useState('')
   const [cleanedText, setCleanedText] = useState('')
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
@@ -39,6 +40,35 @@ const App: React.FC = () => {
   }
 
   const handleGenerate = async () => {
+    const cleaned = cleanText(inputText)
+    setCleanedText(cleaned)
+
+    if (!useCloudTTS || !apiKey) {
+      const synth = window.speechSynthesis
+      const voices = synth.getVoices()
+
+      if (!voices.length) {
+        synth.onvoiceschanged = () => {
+          const updatedVoices = synth.getVoices()
+          const spanishVoice = updatedVoices.find(v => v.lang.startsWith('es')) || updatedVoices[0]
+
+          const utterance = new SpeechSynthesisUtterance(cleaned)
+          utterance.voice = spanishVoice
+          utterance.lang = spanishVoice.lang
+          utterance.rate = 0.9
+          synth.speak(utterance)
+        }
+        return
+      }
+
+      const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
+      const utterance = new SpeechSynthesisUtterance(cleanedText)
+      utterance.voice = spanishVoice
+      utterance.lang = spanishVoice.lang
+      utterance.rate = 0.9
+      synth.speak(utterance)
+      return
+    }
     const cleaned = cleanText(inputText)
     setCleanedText(cleaned)
 
@@ -101,6 +131,19 @@ const App: React.FC = () => {
   return (
     <main className="pa4 sans-serif bg-light-gray min-vh-100">
       <section className="mw6 center bg-white pa3 br3 shadow-5">
+        {apiKey && useCloudTTS
+          ? <div className="mb3 light-green">🎧 Enhanced voice mode active</div>
+          : <div className="mb3 orange">🗣️ Using your browser’s built-in voice</div>
+        }
+        <label className="db mb2 f6">
+          <input
+            type="checkbox"
+            checked={useCloudTTS}
+            onChange={(e) => setUseCloudTTS(e.target.checked)}
+            className="mr2"
+          />
+          Use enhanced voice if available
+        </label>
         {apiKey
           ? <div className="mb3 light-green">🎧 Enhanced voice mode active</div>
           : <div className="mb3 orange">🗣️ Using your browser’s built-in voice</div>
