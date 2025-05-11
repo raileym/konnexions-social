@@ -42,6 +42,14 @@ const App: React.FC = () => {
     const cleaned = cleanText(inputText)
     setCleanedText(cleaned)
 
+    if (!apiKey) {
+      const utterance = new SpeechSynthesisUtterance(cleaned)
+      utterance.lang = 'es-US'
+      utterance.rate = 0.9
+      speechSynthesis.speak(utterance)
+      return
+    }
+
     try {
       const response = await fetch(
         `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
