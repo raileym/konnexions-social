@@ -8,11 +8,13 @@ const App: React.FC = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [apiKey, setApiKey] = useState('')
   const [maskKey, setMaskKey] = useState(false)
+  const [voicesReady, setVoicesReady] = useState(false)
 
   useEffect(() => {
     const handleVoiceLoad = () => {
       const voices = window.speechSynthesis.getVoices()
       console.log('[Chrome] Voices loaded:', voices.map(v => v.lang + ' - ' + v.name))
+      setVoicesReady(true)
     }
 
     window.speechSynthesis.onvoiceschanged = handleVoiceLoad
@@ -102,6 +104,22 @@ const App: React.FC = () => {
     }
   }
 
+  const handleWelcome = () => {
+    if (!voicesReady) {
+      alert('Voices not yet ready. Please try again shortly.')
+      return
+    }
+
+    const synth = window.speechSynthesis
+    const voices = synth.getVoices()
+    const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
+    const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a 'Let's Connect!'")
+    utterance.voice = spanishVoice
+    utterance.lang = spanishVoice.lang
+    utterance.rate = 0.9
+    synth.speak(utterance)
+  }
+
   return (
     <main className="pa4 sans-serif bg-light-gray min-vh-100">
       <section className="mw6 center bg-white pa3 br3 shadow-5">
@@ -165,25 +183,7 @@ const App: React.FC = () => {
           </div>
         )}
         <button
-          onClick={() => {
-            const synth = window.speechSynthesis
-
-            const speakNow = () => {
-              const voices = synth.getVoices()
-              const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices.find(v => v.lang.startsWith('en')) || voices[0]
-              const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a 'Let's Connect!'")
-              utterance.voice = spanishVoice
-              utterance.lang = spanishVoice.lang
-              utterance.rate = 0.9
-              synth.speak(utterance)
-            }
-
-            if (synth.getVoices().length > 0) {
-              speakNow()
-            } else {
-              synth.onvoiceschanged = speakNow
-            }
-          }}
+          onClick={handleWelcome}
           className="bg-green white pa2 br2 pointer db w-100 tc mt3"
         >
           Welcome (Local TTS)
