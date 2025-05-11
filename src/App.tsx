@@ -43,10 +43,29 @@ const App: React.FC = () => {
     setCleanedText(cleaned)
 
     if (!apiKey) {
+      const synth = window.speechSynthesis
+      const voices = synth.getVoices()
+
+      if (!voices.length) {
+        synth.onvoiceschanged = () => {
+          const updatedVoices = synth.getVoices()
+          const spanishVoice = updatedVoices.find(v => v.lang.startsWith('es')) || updatedVoices[0]
+
+          const utterance = new SpeechSynthesisUtterance(cleaned)
+          utterance.voice = spanishVoice
+          utterance.lang = spanishVoice.lang
+          utterance.rate = 0.9
+          synth.speak(utterance)
+        }
+        return
+      }
+
+      const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
       const utterance = new SpeechSynthesisUtterance(cleaned)
-      utterance.lang = 'es-US'
+      utterance.voice = spanishVoice
+      utterance.lang = spanishVoice.lang
       utterance.rate = 0.9
-      speechSynthesis.speak(utterance)
+      synth.speak(utterance)
       return
     }
 
@@ -82,6 +101,10 @@ const App: React.FC = () => {
   return (
     <main className="pa4 sans-serif bg-light-gray min-vh-100">
       <section className="mw6 center bg-white pa3 br3 shadow-5">
+        {apiKey
+          ? <div className="mb3 light-green">🎧 Enhanced voice mode active</div>
+          : <div className="mb3 orange">🗣️ Using your browser’s built-in voice</div>
+        }
         <h1 className="f2 dark-gray mb3">Let's connect!</h1>
 
         <label className="db mb2 f6">Google API Key</label>
