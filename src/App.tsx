@@ -10,6 +10,13 @@ const App: React.FC = () => {
   const [maskKey, setMaskKey] = useState(false)
 
   useEffect(() => {
+    const handleVoiceLoad = () => {
+      const voices = window.speechSynthesis.getVoices()
+      console.log('[Chrome] Voices loaded:', voices.map(v => v.lang + ' - ' + v.name))
+    }
+
+    window.speechSynthesis.onvoiceschanged = handleVoiceLoad
+    handleVoiceLoad()
     const storedKey = localStorage.getItem('gcpTTSKey')
     if (storedKey) {
       setApiKey(storedKey)
@@ -163,7 +170,7 @@ const App: React.FC = () => {
 
             const speakNow = () => {
               const voices = synth.getVoices()
-              const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
+              const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices.find(v => v.lang.startsWith('en')) || voices[0]
               const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a 'Let's Connect!'")
               utterance.voice = spanishVoice
               utterance.lang = spanishVoice.lang
