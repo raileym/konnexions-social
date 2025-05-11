@@ -47,26 +47,22 @@ const App: React.FC = () => {
       const synth = window.speechSynthesis
       const voices = synth.getVoices()
 
-      if (!voices.length) {
-        synth.onvoiceschanged = () => {
-          const updatedVoices = synth.getVoices()
-          const spanishVoice = updatedVoices.find(v => v.lang.startsWith('es')) || updatedVoices[0]
+      const speakText = () => {
+        const updatedVoices = synth.getVoices()
+        const spanishVoice = updatedVoices.find(v => v.lang.startsWith('es')) || updatedVoices[0]
+        const utterance = new SpeechSynthesisUtterance(cleaned)
+        utterance.voice = spanishVoice
+        utterance.lang = spanishVoice.lang
+        utterance.rate = 0.9
+        synth.speak(utterance)
+      }
 
-          const utterance = new SpeechSynthesisUtterance(cleaned)
-          utterance.voice = spanishVoice
-          utterance.lang = spanishVoice.lang
-          utterance.rate = 0.9
-          synth.speak(utterance)
-        }
+      if (!voices.length) {
+        synth.onvoiceschanged = speakText
         return
       }
 
-      const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-      const utterance = new SpeechSynthesisUtterance(cleaned)
-      utterance.voice = spanishVoice
-      utterance.lang = spanishVoice.lang
-      utterance.rate = 0.9
-      synth.speak(utterance)
+      speakText()
       return
     }
 
@@ -164,14 +160,22 @@ const App: React.FC = () => {
         <button
           onClick={() => {
             const synth = window.speechSynthesis
-            const voices = synth.getVoices()
 
-            const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-            const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a 'Let's Connect!'")
-            utterance.voice = spanishVoice
-            utterance.lang = spanishVoice.lang
-            utterance.rate = 0.9
-            synth.speak(utterance)
+            const speakNow = () => {
+              const voices = synth.getVoices()
+              const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
+              const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a 'Let's Connect!'")
+              utterance.voice = spanishVoice
+              utterance.lang = spanishVoice.lang
+              utterance.rate = 0.9
+              synth.speak(utterance)
+            }
+
+            if (synth.getVoices().length > 0) {
+              speakNow()
+            } else {
+              synth.onvoiceschanged = speakNow
+            }
           }}
           className="bg-green white pa2 br2 pointer db w-100 tc mt3"
         >
