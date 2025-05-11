@@ -2311,6 +2311,7 @@ __metadata:
     globals: ^16.0.0
     react: ^19.1.0
     react-dom: ^19.1.0
+    tachyons: ^4.12.0
     typescript: ~5.8.3
     typescript-eslint: ^8.30.1
     vite: ^6.3.5
@@ -3245,6 +3246,13 @@ __metadata:
   dependencies:
     has-flag: ^4.0.0
   checksum: 3dda818de06ebbe5b9653e07842d9479f3555ebc77e9a0280caf5a14fb877ffee9ed57007c3b78f5a6324b8dbeec648d9e97a24e2ed9fdb81ddc69ea07100f4a
+  languageName: node
+  linkType: hard
+
+"tachyons@npm:^4.12.0":
+  version: 4.12.0
+  resolution: "tachyons@npm:4.12.0"
+  checksum: 7f31c80eaf5109c1cf4ccf1073b9b9aed8fcae21cd7558101171bbb939256a5a258a04cba8b745d6ba6713ed9328304041dcc666f7eef44950d2bc2fd3c55cbc
   languageName: node
   linkType: hard
 
