@@ -18,7 +18,7 @@ const App: React.FC = () => {
   }, [])
 
   const cleanText = (text: string) => {
-    return text.trim().replace(/[\u00A1\u00BF]/g, '')
+    return text.trim().replace(/[¡¿]/g, '')
   }
 
   const handleKeyChange = (value: string) => {
@@ -44,35 +44,6 @@ const App: React.FC = () => {
     setCleanedText(cleaned)
 
     if (!useCloudTTS || !apiKey) {
-      const synth = window.speechSynthesis
-      const voices = synth.getVoices()
-
-      if (!voices.length) {
-        synth.onvoiceschanged = () => {
-          const updatedVoices = synth.getVoices()
-          const spanishVoice = updatedVoices.find(v => v.lang.startsWith('es')) || updatedVoices[0]
-
-          const utterance = new SpeechSynthesisUtterance(cleaned)
-          utterance.voice = spanishVoice
-          utterance.lang = spanishVoice.lang
-          utterance.rate = 0.9
-          synth.speak(utterance)
-        }
-        return
-      }
-
-      const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-      const utterance = new SpeechSynthesisUtterance(cleanedText)
-      utterance.voice = spanishVoice
-      utterance.lang = spanishVoice.lang
-      utterance.rate = 0.9
-      synth.speak(utterance)
-      return
-    }
-    const cleaned = cleanText(inputText)
-    setCleanedText(cleaned)
-
-    if (!apiKey) {
       const synth = window.speechSynthesis
       const voices = synth.getVoices()
 
@@ -144,10 +115,6 @@ const App: React.FC = () => {
           />
           Use enhanced voice if available
         </label>
-        {apiKey
-          ? <div className="mb3 light-green">🎧 Enhanced voice mode active</div>
-          : <div className="mb3 orange">🗣️ Using your browser’s built-in voice</div>
-        }
         <h1 className="f2 dark-gray mb3">Let's connect!</h1>
 
         <label className="db mb2 f6">Google API Key</label>
@@ -194,7 +161,7 @@ const App: React.FC = () => {
             <audio controls src={audioUrl} className="w-100" />
           </div>
         )}
-              <button
+        <button
           onClick={() => {
             const synth = window.speechSynthesis
             const voices = synth.getVoices()
@@ -210,8 +177,7 @@ const App: React.FC = () => {
         >
           Welcome (Local TTS)
         </button>
-
-$1
+      </section>
     </main>
   )
 }
