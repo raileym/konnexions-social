@@ -13,6 +13,29 @@ const App: React.FC = () => {
   const [maskOpenAiKey, setMaskOpenAiKey] = useState(false)
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
+  const [openAiUsage, setOpenAiUsage] = useState(0)
+  const weeklyLimit = 330
+
+  const getCurrentWeek = () => {
+    const now = new Date()
+    const start = new Date(now.getFullYear(), 0, 1)
+    const diff = (now.getTime() - start.getTime()) / 86400000
+    return Math.floor((diff + start.getDay() + 1) / 7)
+  }
+
+  const loadOpenAiUsage = () => {
+    const week = getCurrentWeek()
+    const stored = localStorage.getItem(`openAiUsageW${week}`)
+    setOpenAiUsage(stored ? parseInt(stored, 10) : 0)
+  }
+
+  const incrementOpenAiUsage = () => {
+    const week = getCurrentWeek()
+    const key = `openAiUsageW${week}`
+    const current = openAiUsage + 1
+    localStorage.setItem(key, current.toString())
+    setOpenAiUsage(current)
+  }
 
   useEffect(() => {
     const handleVoiceLoad = () => {
@@ -34,6 +57,9 @@ const App: React.FC = () => {
       setOpenAiKey(storedOpenAiKey)
       setMaskOpenAiKey(true)
     }
+
+    loadOpenAiUsage()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const cleanText = (text: string) => {
@@ -151,6 +177,7 @@ const App: React.FC = () => {
       const data = await res.json()
       const reply = data.choices?.[0]?.message?.content || ''
       setAnswer(reply)
+      incrementOpenAiUsage()
     } catch (err) {
       console.error('Failed to call OpenAI:', err)
     }
@@ -251,6 +278,10 @@ const App: React.FC = () => {
         >
           Ask OpenAI
         </button>
+
+        <div className="mb3 gray">
+          <small>{weeklyLimit - openAiUsage} OpenAI questions remaining this week</small>
+        </div>
 
         {answer && (
           <div className="mv3">
