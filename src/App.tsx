@@ -6,10 +6,14 @@ const App: React.FC = () => {
   const [cleanedText, setCleanedText] = useState('')
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [apiKey, setApiKey] = useState('')
+  const [maskKey, setMaskKey] = useState(false)
 
   useEffect(() => {
     const storedKey = localStorage.getItem('gcpTTSKey')
-    if (storedKey) setApiKey(storedKey)
+    if (storedKey) {
+      setApiKey(storedKey)
+      setMaskKey(true)
+    }
   }, [])
 
   const cleanText = (text: string) => {
@@ -18,12 +22,20 @@ const App: React.FC = () => {
 
   const handleKeyChange = (value: string) => {
     setApiKey(value)
-    localStorage.setItem('gcpTTSKey', value)
+    setMaskKey(false)
+  }
+
+  const handleKeyBlur = () => {
+    if (apiKey) {
+      localStorage.setItem('gcpTTSKey', apiKey)
+      setMaskKey(true)
+    }
   }
 
   const handleClearKey = () => {
     localStorage.removeItem('gcpTTSKey')
     setApiKey('')
+    setMaskKey(false)
   }
 
   const handleGenerate = async () => {
@@ -62,13 +74,14 @@ const App: React.FC = () => {
   return (
     <main className="pa4 sans-serif bg-light-gray min-vh-100">
       <section className="mw6 center bg-white pa3 br3 shadow-5">
-        <h1 className="f2 dark-gray mb3">Hello, world</h1>
+        <h1 className="f2 dark-gray mb3">Let's connect!</h1>
 
         <label className="db mb2 f6">Google API Key</label>
         <input
-          type="text"
+          type={maskKey ? 'password' : 'text'}
           value={apiKey}
           onChange={(e) => handleKeyChange(e.target.value)}
+          onBlur={handleKeyBlur}
           placeholder="Enter your API key"
           className="input-reset ba b--black-20 pa2 mb2 db w-100"
         />
