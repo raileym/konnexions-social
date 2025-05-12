@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // src/App.tsx
 import React, { useState, useEffect } from 'react'
 
@@ -59,8 +60,10 @@ const App: React.FC = () => {
       console.log('[Chrome] Voices loaded:', voices.map(v => v.lang + ' - ' + v.name))
     }
 
-    window.speechSynthesis.onvoiceschanged = handleVoiceLoad
-    handleVoiceLoad()
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.onvoiceschanged = handleVoiceLoad
+      handleVoiceLoad()
+    }
 
     const storedKey = localStorage.getItem('gcpTTSKey')
     if (storedKey) {
@@ -75,11 +78,30 @@ const App: React.FC = () => {
     }
 
     loadUsage()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const cleanText = (text: string) => {
     return text.trim().replace(/[¡¿]/g, '')
+  }
+
+  const handleWelcome = () => {
+    const synth = window.speechSynthesis
+
+    const speakText = () => {
+      const voices = synth.getVoices()
+      const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
+      const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a Let's Connect!")
+      utterance.voice = spanishVoice
+      utterance.lang = spanishVoice.lang
+      utterance.rate = 0.9
+      synth.speak(utterance)
+    }
+
+    if (!synth.getVoices().length) {
+      synth.onvoiceschanged = speakText
+    } else {
+      speakText()
+    }
   }
 
   const handleGenerate = async () => {
@@ -88,8 +110,6 @@ const App: React.FC = () => {
 
     if (!useCloudTTS || !apiKey) {
       const synth = window.speechSynthesis
-      const voices = synth.getVoices()
-
       const speakText = () => {
         const updatedVoices = synth.getVoices()
         const spanishVoice = updatedVoices.find(v => v.lang.startsWith('es')) || updatedVoices[0]
@@ -100,7 +120,7 @@ const App: React.FC = () => {
         synth.speak(utterance)
       }
 
-      if (!voices.length) {
+      if (!synth.getVoices().length) {
         synth.onvoiceschanged = speakText
         return
       }
@@ -166,7 +186,6 @@ const App: React.FC = () => {
   }
 
   const ttsWeeklyLimit = Math.floor((ttsBudget / 16) * 1_000_000 / ttsAvgChars)
-  // const openAiWeeklyLimit = Math.floor((openAiBudget / 0.0035) / openAiAvgTokens / 12 * 52)
   const openAiWeeklyLimit = Math.floor((openAiBudget / 0.0035 / 4.33) * (1000 / openAiAvgTokens))
 
   return (
@@ -250,16 +269,21 @@ const App: React.FC = () => {
         </button>
 
         {cleanedText && <div className="pa2 bg-washed-blue mb3">{cleanedText}</div>}
-
         {audioUrl && (
           <audio controls src={audioUrl} className="db w-100 mb3" />
         )}
 
         <button
-          onClick={() => setUseCloudTTS(!useCloudTTS)}
+          onClick={() => {
+            if (useCloudTTS) {
+              setUseCloudTTS(false)
+            } else {
+              handleWelcome()
+            }
+          }}
           className={`white pa2 br2 bn pointer db w-100 ${useCloudTTS ? 'bg-green' : 'bg-dark-gray'}`}
         >
-          {useCloudTTS ? 'Welcome (Cloud TTS)' : 'Welcome (Local TTS)'}
+          {useCloudTTS ? 'Switch to Local TTS' : 'Play Welcome (Local TTS)'}
         </button>
 
         <hr className="mv4" />
