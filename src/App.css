@@ -1,42 +1,111 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* src/App.css */
+
+.panel {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.slide-in {
+  animation: slideInFromRight 0.3s ease forwards;
 }
 
-@keyframes logo-spin {
+.slide-out {
+  animation: slideOut 300ms ease-in-out forwards;
+}
+
+@keyframes slideInFromRight {
   from {
-    transform: rotate(0deg);
+    transform: translateX(100%);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    transform: translateX(0%);
+    opacity: 1;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
   }
 }
 
-.card {
-  padding: 2em;
+@keyframes slideOut {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
 }
 
-.read-the-docs {
-  color: #888;
+/* Overlay behavior */
+.base-panel {
+  position: relative;
+  z-index: 0;
+}
+
+.overlay-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 10;
+}
+
+/* Slide in from right */
+.slide-in-right {
+  animation: slideInRight 300ms ease-out forwards;
+}
+
+/* Slide out to right */
+.slide-out-right {
+  animation: slideOutRight 300ms ease-in forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0.2;
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* src/App.css */
+
+.transition-transform {
+  transition: transform 1000ms ease-in-out;
+}
+
+.translate-x-0 {
+  transform: translateX(0%);
+}
+
+.translate-x-full {
+  transform: translateX(100%);
 }
