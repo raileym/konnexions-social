@@ -1,21 +1,23 @@
 // src/components/Navbar.tsx
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 
-const navStyle = 'pa2 dim'
+type NavbarProps = {
+  onOpenSettings: () => void
+  onOpenHelp: () => void
+}
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<NavbarProps> = ({ onOpenSettings, onOpenHelp }) => {
   return (
-    <nav className="flex justify-center bg-light-gray pa3">
-      <NavLink to="/" end className={({ isActive }) => `${navStyle} ${isActive ? 'b dark-blue' : ''}`}>
-        Home
-      </NavLink>
-      <NavLink to="/settings" className={({ isActive }) => `${navStyle} ${isActive ? 'b dark-blue' : ''}`}>
-        Settings
-      </NavLink>
-      <NavLink to="/help" className={({ isActive }) => `${navStyle} ${isActive ? 'b dark-blue' : ''}`}>
-        Help
-      </NavLink>
+    <nav className="fixed top-0 left-0 w-100 bg-dark-gray white flex items-center justify-between ph3 pv2 z-999">
+      <div className="f4 b">Let's Connect!</div>
+      <div>
+        <button className="mr2 bg-light-gray dark-gray pa2 br2 bn pointer" onClick={onOpenSettings}>
+          Settings
+        </button>
+        <button className="bg-light-gray dark-gray pa2 br2 bn pointer" onClick={onOpenHelp}>
+          Help
+        </button>
+      </div>
     </nav>
   )
 }
