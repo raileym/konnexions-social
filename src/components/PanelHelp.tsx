@@ -1,14 +1,17 @@
 // src/components/PanelHelp.tsx
 import React from 'react'
 
-const PanelHelp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+type PanelHelpProps = {
+  onActive: boolean
+}
+
+const PanelHelp: React.FC<PanelHelpProps> = ({ onActive }) => {
+  const translateX = onActive ? 'translate-x-0' : 'translate-x-full'
+
   return (
-    <div className="pa4">
+    <div className={`absolute top-0 left-0 w-100 h-100 bg-white z-1 transition-transform ${translateX}`} >
       <h2 className="f3">Help</h2>
       <p>Need assistance? You're in the right place.</p>
-      <button onClick={onClose} className="mt3">
-        Close Help
-      </button>
     </div>
   )
 }
