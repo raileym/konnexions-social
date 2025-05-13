@@ -9,8 +9,8 @@ const PanelHelp: React.FC<PanelHelpProps> = ({ onActive }) => {
   const translateX = onActive ? 'translate-x-0' : 'translate-x-full'
 
   return (
-    <div className={`absolute top-0 left-0 w-100 h-100 bg-white z-1 transition-transform ${translateX}`} >
-      <h2 className="f3">Help</h2>
+    <div className={`pa4 absolute bg-blue white top-0 left-0 w-100 h-100 bg-whiteX z-1 transition-transform ${translateX}`} >
+      <h2 className={"f3 mt5"}>Help</h2>
       <p>Need assistance? You're in the right place.</p>
     </div>
   )
