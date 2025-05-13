@@ -1,19 +1,17 @@
-// src/components/PanelHelp.tsx
 import React from 'react'
+import { useAppContext } from '../context/AppContext'
 
-type PanelHelpProps = {
-  onActive: boolean
-}
-
-const PanelHelp: React.FC<PanelHelpProps> = ({ onActive }) => {
-  const translateX = onActive ? 'translate-x-0' : 'translate-x-full'
+const PanelSettings: React.FC = () => {
+  const { activePanel } = useAppContext()
+  const isActive = activePanel === 'help'
+  const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
   return (
-    <div className={`pa4 absolute bg-blue white top-0 left-0 w-100 h-100 bg-whiteX z-1 transition-transform ${translateX}`} >
-      <h2 className={"f3 mt5"}>Help</h2>
-      <p>Need assistance? You're in the right place.</p>
+    <div className={`absolute top-0 left-0 w-100 h-100 bg-green white transition-transform ${translateX}`}>
+      <h2 className="f3 pa3 mt5">Help Panel</h2>
+      <p>This panel slides in and out correctly based on context.</p>
     </div>
   )
 }
 
-export default PanelHelp
+export default PanelSettings

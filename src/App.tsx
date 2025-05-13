@@ -1,26 +1,34 @@
-import React, { useState } from 'react'
+// src/App.tsx
+import React from 'react'
+import PanelKeys from './components/PanelKeys'
 import PanelHome from './components/PanelHome'
 import PanelSettings from './components/PanelSettings'
 import PanelHelp from './components/PanelHelp'
 import Navbar from './components/Navbar'
+// import { useAppContext, type AppPanel } from './context/AppContext'
 import './App.css'
 
 const App: React.FC = () => {
-  const [activePanel, setActivePanel] = useState<'home' | 'settings' | 'help'>('home')
+  // const { activePanel, setActivePanel } = useAppContext()
 
-  const togglePanel = (panel: 'settings' | 'help') =>
-    setActivePanel(prev => (prev === panel ? 'home' : panel))
+  // const togglePanel = (panel: Exclude<AppPanel, 'home'>) => {
+  //   const updateActivePanel = activePanel === panel ? 'home' : panel
+  //   setActivePanel(updateActivePanel)
+  // }
+  
 
   return (
     <>
-      <Navbar
-        onToggleSettings={() => togglePanel('settings')}
-        onToggleHelp={() => togglePanel('help')}
+      <Navbar 
+        // onToggleKeys={() => togglePanel('keys')}
+        // onToggleSettings={() => togglePanel('settings')}
+        // onToggleHelp={() => togglePanel('help')}
       />
       <div className="relative w-100 min-vh-100 overflow-hidden bg-light-gray">
         <PanelHome />
-        <PanelSettings onActive={activePanel === 'settings'} />
-        <PanelHelp onActive={activePanel === 'help'} />
+        <PanelKeys />
+        <PanelSettings />
+        <PanelHelp />
       </div>
     </>
   )

@@ -4,29 +4,46 @@ import React from 'react'
 // import { faGear, faKey } from '@fortawesome/free-solid-svg-icons'
 // import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import Button from './Button'
+import { faCircleQuestion, faGear, faKey } from '@fortawesome/free-solid-svg-icons'
 
-type NavbarProps = {
-  onToggleSettings: () => void
-  onToggleHelp: () => void
-}
+// type NavbarProps = {
+//   onToggleSettings: () => void
+//   onToggleHelp: () => void
+//   onToggleKeys: () => void
+// }
 
-const Navbar: React.FC<NavbarProps> = ({ onToggleSettings, onToggleHelp }) => {
+const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white dark-gray flex items-center justify-between ph3 pv2 z-999">
       <div className="flex items-center">
         <img
-          src="/logo-white-on-purple-224x224.png"
-          alt="Let's Connect logo"
-          className="h3 w3 mr2"
+          src="/logo-blue-on-transparent-178x133.png"
+          // src="/logo-white-on-purple-224x224.png"
+          alt="CKN logo"
+          className="aspect-ratio aspect-ratio--1x h3 w3X mr2"
+          style={{height: '3em'}}
         />
+        <div className="black-30 ml2 f3 b lh-title tl">
+          <div>CKՈ Series on Joy</div>
+          <div className="black-20 f5">Joy of Language - Spanish</div>
+        </div>
+        {/*
+        <div className="black-30 ml2 f4 b lh-solid tc">
+          <div>Joy of Language</div>
+          <div className="black-20">(Spanish)</div>
+        </div>
+        */}
+        {/*
         <div className="ml3 f3 b lh-solid">
           Share the<br/> connection!
         </div>
+        */}
       </div>
       <div>
 
-        <Button icon="gear" title="Settings" onClick={onToggleSettings} />
-        <Button icon="question-regular" title="Help" onClick={onToggleHelp} />
+      <Button panel="settings" icon={faGear} title="Settings" />
+      <Button panel="help" icon={faCircleQuestion} title="Help" />
+      <Button panel="keys" icon={faKey} title="API Keys" />
               
         {/*
         <button

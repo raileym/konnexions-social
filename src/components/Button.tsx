@@ -1,45 +1,30 @@
-// src/components/Button.tsx
-import React, { useState } from 'react'
+// components/Button.tsx
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faKey,
-  faCircleQuestion,
-  faGear,
-  type IconDefinition,
-} from '@fortawesome/free-solid-svg-icons'
-import { faCircleQuestion as faCircleQuestionRegular } from '@fortawesome/free-regular-svg-icons'
-
-type IconName = 'gear' | 'key' | 'question' | 'question-regular'
+import { useAppContext } from '../context/AppContext'
+import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 type ButtonProps = {
-  icon: IconName
+  panel: 'settings' | 'help' | 'keys'
+  icon: IconProp
   title?: string
-  onClick?: () => void
-  className?: string
 }
 
-const iconMap: Record<IconName, IconDefinition> = {
-  gear: faGear,
-  key: faKey,
-  question: faCircleQuestion,
-  'question-regular': faCircleQuestionRegular,
-}
-
-const Button: React.FC<ButtonProps> = ({ icon, title, onClick, className = '' }) => {
-  const [selected, setSelected] = useState(false)
+const Button: React.FC<ButtonProps> = ({ panel, icon, title }) => {
+  const { activePanel, setActivePanel } = useAppContext()
+  const isActive = activePanel === panel
 
   const handleClick = () => {
-    setSelected(!selected)
-    if (onClick) onClick()
+    setActivePanel(isActive ? 'home' : panel)
   }
 
   return (
     <button
-      title={title}
       onClick={handleClick}
-      className={`f2 pa2 br2 bn pointer mr2 ${selected ? 'bg-blue white' : 'bg-white dark-gray'} ${className}`}
+      className={`f2 pa2 br2 bn pointer bg-white ${isActive ? 'bg-light-purple white' : 'dark-gray'} mr2`}
+      title={title}
     >
-      <FontAwesomeIcon icon={iconMap[icon]} />
+      <FontAwesomeIcon icon={icon} />
     </button>
   )
 }
