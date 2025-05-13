@@ -7,6 +7,7 @@ import PanelHelp from './components/PanelHelp'
 import Navbar from './components/Navbar'
 // import { useAppContext, type AppPanel } from './context/AppContext'
 import './App.css'
+import PanelGenAI from './components/PanelGenAI'
 
 const App: React.FC = () => {
   // const { activePanel, setActivePanel } = useAppContext()
@@ -19,16 +20,13 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Navbar 
-        // onToggleKeys={() => togglePanel('keys')}
-        // onToggleSettings={() => togglePanel('settings')}
-        // onToggleHelp={() => togglePanel('help')}
-      />
+      <Navbar />
       <div className="relative w-100 min-vh-100 overflow-hidden bg-light-gray">
         <PanelHome />
         <PanelKeys />
         <PanelSettings />
         <PanelHelp />
+        <PanelGenAI />
       </div>
     </>
   )

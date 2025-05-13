@@ -1,7 +1,7 @@
 // src/components/Navbar.tsx
 import React from 'react'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGear, faKey } from '@fortawesome/free-solid-svg-icons'
+import { faGear, faKey, faRobot } from '@fortawesome/free-solid-svg-icons'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import Button from './Button'
 
@@ -17,7 +17,6 @@ const Navbar: React.FC = () => {
       <div className="flex items-center">
         <img
           src="/logo-blue-on-transparent-178x133.png"
-          // src="/logo-white-on-purple-224x224.png"
           alt="CKN logo"
           className="aspect-ratio aspect-ratio--1x h3 w3X mr2"
           style={{height: '3em'}}
@@ -26,20 +25,10 @@ const Navbar: React.FC = () => {
           <div>CKՈ Series on Joy</div>
           <div className="black-20 f5">Joy of Language - Spanish</div>
         </div>
-        {/*
-        <div className="black-30 ml2 f4 b lh-solid tc">
-          <div>Joy of Language</div>
-          <div className="black-20">(Spanish)</div>
-        </div>
-        */}
-        {/*
-        <div className="ml3 f3 b lh-solid">
-          Share the<br/> connection!
-        </div>
-        */}
       </div>
       <div>
 
+      <Button panel="genAI" icon={faRobot} title="GenAI" />
       <Button panel="settings" icon={faGear} title="Settings" />
       <Button panel="help" icon={faCircleQuestion} title="Help" />
       <Button panel="keys" icon={faKey} title="API Keys" />

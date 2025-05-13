@@ -5,7 +5,7 @@ import { useAppContext } from '../context/AppContext'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 type ButtonProps = {
-  panel: 'settings' | 'help' | 'keys'
+  panel: 'settings' | 'help' | 'keys' | 'genAI'
   icon: IconProp
   title?: string
 }

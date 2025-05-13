@@ -2,7 +2,7 @@
 // context/AppContext.tsx
 import React, { createContext, useContext, useState } from 'react'
 
-export type AppPanel = 'home' | 'settings' | 'help' | 'keys'
+export type AppPanel = 'home' | 'settings' | 'help' | 'keys' | 'genAI'
 
 type AppContextType = {
   activePanel: AppPanel
