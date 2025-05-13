@@ -60,7 +60,7 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
 }
 
 @media (prefers-color-scheme: light) {
@@ -185,3 +185,4 @@ button:focus-visible {
 .translate-x-full {
   transform: translateX(100%);
 }
+

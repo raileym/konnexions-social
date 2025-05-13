@@ -1,10 +1,9 @@
 // src/components/Navbar.tsx
 import React from 'react'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faGear, faKey } from '@fortawesome/free-solid-svg-icons'
-// import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
+import { faGear, faKey } from '@fortawesome/free-solid-svg-icons'
+import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import Button from './Button'
-import { faCircleQuestion, faGear, faKey } from '@fortawesome/free-solid-svg-icons'
 
 // type NavbarProps = {
 //   onToggleSettings: () => void
