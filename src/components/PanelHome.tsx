@@ -1,22 +1,22 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faSliders,
-  faRulerCombined,
-  faWeightHanging,
-  faChartSimple,
-  faRobot
-} from '@fortawesome/free-solid-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import {
+//   faSliders,
+//   faRulerCombined,
+//   faWeightHanging,
+//   faChartSimple,
+//   faRobot
+// } from '@fortawesome/free-solid-svg-icons'
 
-import SettingsIcon from '@mui/icons-material/Settings'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
-import TuneIcon from '@mui/icons-material/Tune'
-import SmartToyIcon from '@mui/icons-material/SmartToy'
-import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing'
-import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt'
-import ScienceIcon from '@mui/icons-material/Science'
-import BarChartIcon from '@mui/icons-material/BarChart'
+// import SettingsIcon from '@mui/icons-material/Settings'
+// import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+// import TuneIcon from '@mui/icons-material/Tune'
+// import SmartToyIcon from '@mui/icons-material/SmartToy'
+// import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing'
+// import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt'
+// import ScienceIcon from '@mui/icons-material/Science'
+// import BarChartIcon from '@mui/icons-material/BarChart'
 
-import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
+// import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 
 export default function PanelHome() {
   return (
@@ -25,21 +25,17 @@ export default function PanelHome() {
         <h2 className="f3 mt5">Home</h2>
       </div>
 
-      <div className="flex flex-wrap gap-3 mt4">
-        {/* Settings + Measure Icons */}
+      {/* <div className="flex flex-wrap gap-3 mt4">
         <FontAwesomeIcon icon={faSliders} className="bg-white black pa3 br3 f2" />
         <FontAwesomeIcon icon={faRulerCombined} className="bg-white black pa3 br3 f2" />
         <FontAwesomeIcon icon={faWeightHanging} className="bg-white black pa3 br3 f2" />
         <FontAwesomeIcon icon={faChartSimple} className="bg-white black pa3 br3 f2" />
 
-        {/* Help Icons */}
         <FontAwesomeIcon icon={faCircleQuestion} className="bg-white black pa3 br3 f2" />
-
-        {/* AI-related Icons */}
         <FontAwesomeIcon icon={faRobot} className="bg-white black pa3 br3 f2" />
-      </div>
+      </div> */}
 
-      <div className="flex flex-wrap gap-3 mt4">
+      {/* <div className="flex flex-wrap gap-3 mt4">
         <SettingsIcon className="bg-white black pa3 br3 f2" />
         <HelpOutlineIcon className="bg-white black pa3 br3 f2" />
         <TuneIcon className="bg-white black pa3 br3 f2" />
@@ -48,7 +44,7 @@ export default function PanelHome() {
         <PsychologyAltIcon className="bg-white black pa3 br3 f2" />
         <ScienceIcon className="bg-white black pa3 br3 f2" />
         <BarChartIcon className="bg-white black pa3 br3 f2" />
-      </div>
+      </div> */}
 
     </div>
   )

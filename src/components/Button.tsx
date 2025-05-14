@@ -3,9 +3,11 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppContext } from '../context/AppContext'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
-
+import { type AppPanelValue } from '../cknTypes/types/types'
+// import type { AppPanel } from '../cknTypes/types/types'
 type ButtonProps = {
-  panel: 'settings' | 'help' | 'keys' | 'genAI'
+  panel: AppPanelValue
+  // panel: AppPanel
   icon: IconProp
   title?: string
 }
@@ -27,6 +29,7 @@ const Button: React.FC<ButtonProps> = ({ panel, icon, title }) => {
       title={title}
     >
       <FontAwesomeIcon icon={icon} />
+      <div className="f6 mt1">{title}</div>
     </button>
   )
 }

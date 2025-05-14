@@ -1,28 +1,16 @@
 /* eslint-disable react-refresh/only-export-components */
-// context/AppContext.tsx
 import React, { createContext, useContext, useState } from 'react'
-
-export type AppPanel = 'home' | 'settings' | 'help' | 'keys' | 'genAI'
-
-type AppContextType = {
-  activePanel: AppPanel
-  setActivePanel: (panel: AppPanel) => void
-  gcpKey: string
-  setGcpKey: (key: string) => void
-  openAiKey: string
-  setOpenAiKey: (key: string) => void
-  switchPanel: (newPanel: AppPanel) => void
-}
+import { type AppPanelValue, type AppContextType, APP_PANEL } from '../cknTypes/types/types'
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [activePanel, setActivePanel] = useState<AppPanel>('home')
+  const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.HOME)
   const [gcpKey, setGcpKey] = useState('')
   const [openAiKey, setOpenAiKey] = useState('')
   const [isTransitioning, setIsTransitioning] = useState(false)
 
-  const handlePanelSwitch = (newPanel: AppPanel) => {
+  const handlePanelSwitch = (newPanel: AppPanelValue) => {
     if (isTransitioning) return
   
     if (newPanel === activePanel) {

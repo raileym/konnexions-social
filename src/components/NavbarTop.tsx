@@ -1,17 +1,10 @@
-// src/components/Navbar.tsx
+// src/components/NavbarTop.tsx
 import React from 'react'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGear, faKey, faRobot } from '@fortawesome/free-solid-svg-icons'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import Button from './Button'
 
-// type NavbarProps = {
-//   onToggleSettings: () => void
-//   onToggleHelp: () => void
-//   onToggleKeys: () => void
-// }
-
-const Navbar: React.FC = () => {
+const NavbarTop: React.FC = () => {
   return (
     <nav className="fixed top-0 shadow-3 left-0 w-100 bg-whiteX dark-grayX bg-primary flex items-center justify-between ph3 pv2 z-999">
       <div className="flex items-center">
@@ -29,10 +22,7 @@ const Navbar: React.FC = () => {
       </div>
       <div>
 
-      <Button panel="genAI" icon={faRobot} title="GenAI" />
-      <Button panel="settings" icon={faGear} title="Settings" />
       <Button panel="help" icon={faCircleQuestion} title="Help" />
-      <Button panel="keys" icon={faKey} title="API Keys" />
               
         {/*
         <button
@@ -63,4 +53,4 @@ const Navbar: React.FC = () => {
   )
 }
 
-export default Navbar
+export default NavbarTop
