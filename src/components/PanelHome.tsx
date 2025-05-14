@@ -20,7 +20,7 @@
 
 export default function PanelHome() {
   return (
-    <div className="absolute bg-white top-0 left-0 w-100 h-100 z-0">
+    <div className="absolute z-0 bg-white top-0 left-0 w-100 h-100">
       <div className="pa4">
         <h2 className="f3 mt5">Home</h2>
       </div>

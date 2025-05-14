@@ -16,7 +16,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (newPanel === activePanel) {
       setIsTransitioning(true)
 
-      setActivePanel('home')
+      setActivePanel(APP_PANEL.HOME)
 
       setTimeout(() => {
         setIsTransitioning(false)
@@ -24,7 +24,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } else {
       setIsTransitioning(true)
     
-      setActivePanel('home')
+      setActivePanel(APP_PANEL.HOME)
     
       setTimeout(() => {
         setActivePanel(newPanel)

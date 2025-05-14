@@ -10,7 +10,7 @@ const NavbarBottom: React.FC = () => {
       <Button panel="genAI" icon={faRobot} title="GenAI" />
       <Button panel="settings" icon={faGear} title="Settings" />
       <Button panel="keys" icon={faKey} title="API Keys" />
-      <Button panel="help" icon={faBars} title="Menu" />
+      <Button panel="menu" icon={faBars} title="Menu" />
     </nav>
   )
 }

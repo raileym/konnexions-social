@@ -14,7 +14,7 @@ export const APP_PANEL = {
   HOME: 'home',
   SETTINGS: 'settings',
   HELP: 'help',
-  keys: 'keys',
+  KEYS: 'keys',
   GEN_AI: 'genAI',
   MENU: 'menu',
 } as const

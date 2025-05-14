@@ -17,7 +17,6 @@ const Button: React.FC<ButtonProps> = ({ panel, icon, title }) => {
   const isActive = activePanel === panel
 
   const handleClick = () => {
-    // switchPanel(isActive ? 'home' : panel)
     switchPanel(panel)
   }
 

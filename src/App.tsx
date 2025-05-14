@@ -13,7 +13,6 @@ import PanelMenu from './components/PanelMenu'
 const App: React.FC = () => {
   return (
     <>
-      <NavbarTop />
       <div className="relative w-100 min-vh-100 overflow-hidden bg-light-gray">
         <PanelHome />
         <PanelKeys />
@@ -22,6 +21,7 @@ const App: React.FC = () => {
         <PanelGenAI />
         <PanelMenu />
       </div>
+      <NavbarTop />
       <NavbarBottom />
       </>
   )
