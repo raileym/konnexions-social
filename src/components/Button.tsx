@@ -11,11 +11,12 @@ type ButtonProps = {
 }
 
 const Button: React.FC<ButtonProps> = ({ panel, icon, title }) => {
-  const { activePanel, setActivePanel } = useAppContext()
+  const { activePanel, switchPanel } = useAppContext()
   const isActive = activePanel === panel
 
   const handleClick = () => {
-    setActivePanel(isActive ? 'home' : panel)
+    // switchPanel(isActive ? 'home' : panel)
+    switchPanel(panel)
   }
 
   return (

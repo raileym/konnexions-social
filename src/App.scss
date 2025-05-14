@@ -1,4 +1,10 @@
 /* src/App.css */
+// src/App.scss or src/styles/main.scss
+/* @import '../scss/globals'; */
+@import './scss/tachyons';
+// @import './scss/color';
+/* @import '../scss/panel'; */
+// Add more as needed
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -175,7 +181,7 @@ button:focus-visible {
 /* src/App.css */
 
 .transition-transform {
-  transition: transform 1000ms ease-in-out;
+  transition: transform 600ms ease-in-out;
 }
 
 .translate-x-0 {

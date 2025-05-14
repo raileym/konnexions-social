@@ -13,7 +13,7 @@ import Button from './Button'
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white dark-gray flex items-center justify-between ph3 pv2 z-999">
+    <nav className="fixed top-0 shadow-3 left-0 w-100 bg-whiteX dark-grayX bg-primary flex items-center justify-between ph3 pv2 z-999">
       <div className="flex items-center">
         <img
           src="/logo-blue-on-transparent-178x133.png"

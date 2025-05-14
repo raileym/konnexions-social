@@ -1,0 +1,521 @@
+/*************************************************************
+ *************************************************************
+ *
+ * CitePrep: color.scss YES
+ *
+ *************************************************************
+ *************************************************************
+ */
+
+// Even better colors
+// See https://www.color-hex.com/color-palette/54706
+//
+$highlight-blue:        #00cdff;
+$highlight-red:         #ff00bc;
+$highlight-yellow:      #deff00;
+$highlight-green:       #03ff00;
+$highlight-purple:      #8500ff;
+$highlight-transparent: transparent;
+
+$softorange:            rgba(210, 127, 51, 1);
+$softblue:              rgba(0, 125, 255, 1);
+
+/* NOTES
+  *
+  * https://stackoverflow.com/questions/70411152/sass-detect-colour-darkness-to-determine-styles
+  */
+$color-set: ( 
+  "highlightblue":   #00cdff44,
+  "highlightred":    #ff00bc44,
+  "highlightyellow": #ffff00aa,
+  "highlightgreen":  #03ff0044,
+  "highlightpurple": #8500ff44,
+
+  "greenscreen":     #000,//#04F404FF,
+
+  "softorange":      $softorange,
+  "softblue":        $softblue,
+
+  "black" :          black,
+  "brown" :          brown,
+  "blue" :           blue,
+  "crimson":         crimson,
+  "cyan":            cyan,
+  "peru":            peru,
+  "darkorange":      darkorange,
+  "forestgreen":     forestgreen,
+  "ghostwhite":      ghostwhite,
+  "gold":            gold,
+  "green":           green,
+  "dimgrey":         dimgrey,
+  "grey":            grey,
+  "darkgrey":        darkgray,
+  "silver":          silver,
+  "lightgrey":       lightgrey,
+  "lightblue":       lightblue,
+  "steelblue":       steelblue,
+  "lightyellow":     lightyellow,
+  "navy":            navy,
+  "oceanblue":       midnightblue,
+  "orangered":       orangered,
+  "orange":          orange,
+  "ukraineblue":     steelblue,
+  "ukraineyellow":   gold,
+  "purple":          purple,
+  "red" :            red,
+  "yellow" :         yellow,
+  "white" :          white,
+);
+
+
+
+// ******************************************** 
+// ******************************************** 
+//
+// Brand colors
+// 
+// ******************************************** 
+// ******************************************** 
+
+$brand : blue;
+$brand-light : white;// #9F5223; //rgba(142, 89,44,1);//scale-color(peru, $lightness: -10%);
+$brand-dark : black;
+$brand-bright: orangered;
+
+// https://stackoverflow.com/questions/60774409/custom-css-properties-in-lighten-darken-scss-function
+
+// body:not(.mode-light):not(.mode-dark) {
+//   background-color: pink;
+// }
+
+main {
+  background-color: transparent;
+}
+
+body.mode-dark {
+  background-color: black;
+}
+
+body.mode-light {
+  background-color: white;
+}
+
+.transparent {
+  color: transparent;
+}
+  
+// ******************************************** 
+// ******************************************** 
+//
+// Selected colors
+// 
+// ******************************************** 
+// ******************************************** 
+
+body.mode-light {
+  
+  .selected .dark {
+    color: orange;
+
+    --fa-primary-color: green;
+    --fa-secondary-color: green;
+    --fa-primary-opacity: 1.0; 
+    --fa-secondary-opacity: 1.0; 
+  }
+
+  .selected .light {
+    color: cyan;
+
+    --fa-primary-color: yellow;
+    --fa-secondary-color: yellow;
+    --fa-primary-opacity: 1.0; 
+    --fa-secondary-opacity: 1.0; 
+  }
+
+}
+
+body.mode-dark {
+
+  .selected .dark { 
+    color: red; 
+
+    --fa-primary-color: red;
+    --fa-secondary-color: red;
+    --fa-primary-opacity: 1.0; 
+    --fa-secondary-opacity: 1.0; 
+  }
+  
+  .selected .light { 
+    color: lightgreen; 
+    
+    --fa-primary-color: lightgreen;
+    --fa-secondary-color: lightgreen;
+    --fa-primary-opacity: 1.0; 
+    --fa-secondary-opacity: 1.0; 
+  }
+
+}
+
+// ******************************************** 
+// ******************************************** 
+//
+// Brand colors - Specialties
+// 
+// ******************************************** 
+// ******************************************** 
+
+body.mode-light {
+  
+  .brand { color: $brand; }
+  .brand-dark { color: $brand-dark; }
+  .brand-light { color: $brand-light; }
+  .brand-grey { color: gray; }
+  .brand-gray { color: gray; }
+  
+  .bg-brand { background-color: $brand; }
+  .bg-brand-dark { background-color: $brand-dark; }
+  .bg-brand-light { background-color: $brand-light; }
+  
+}
+
+body.mode-dark {
+  
+  .brand {color: dimgrey} //{ color: $brand-bright; }
+  .brand-dark { color: $brand-light; }
+  .brand-light { color: $brand-dark; }
+  .brand-grey { color: gray; }
+  .brand-gray { color: gray; }
+  
+  .bg-brand { background-color: $brand-bright; }
+  .bg-brand-dark { background-color: $brand-dark; }
+  .bg-brand-light { background-color: $brand-dark; }
+  
+}
+
+
+
+
+// ******************************************** 
+// ******************************************** 
+//
+// Specialized markers
+//
+// Other broad markers that are based on mode-dark and 
+// mode-light.
+// 
+// ******************************************** 
+// ******************************************** 
+
+body.mode-light {
+
+  color: $brand-dark;
+  p, .P {
+    color: $brand-dark;
+  }
+
+  .light { color: $brand-light; }
+  .dark { color: $brand-dark; }
+  
+  .bg-dark { background-color: $brand-dark; }
+  .bg-light { background-color: $brand-light; }
+
+  h1, h2, h3, h4, h5, h6 { color: $brand-dark; }
+
+  @each $name, $hex in $color-set {
+    .#{$name} {color: $hex}
+    .#{$name} p {color: $hex}
+  }
+
+}
+
+body.mode-dark {
+
+  color: $brand-light;
+  p, .P {
+    color: $brand-light;
+  }
+
+  .light { color: silver; }
+  .dark { color: $brand-light; }
+
+  // Swap light with dark
+  .bg-dark { background-color: $brand-dark; }
+  .bg-light { background-color: $brand-dark; }
+
+  h1, h2, h3, h4, h5, h6 {color: dimgrey } // { color: $brand-light; }
+
+  @each $name, $hex in $color-set {
+    .#{$name} {color: $hex}
+  }
+  .blue {color: dimgrey}
+  .orangered { color: $brand-light }
+
+  hr { 
+    background-color: dimgrey; // #{$sHex}; 
+    border-color: dimgrey; // #{$sHex};
+  }
+
+}
+
+
+
+// ***************************************************** 
+// ***************************************************** 
+// 
+// stand-alone, neither mode-dark nor mode-light 
+//
+// ***************************************************** 
+// ***************************************************** 
+
+@each $name, $hex in $color-set {
+
+  $custom-0  : $hex;
+  
+  $custom-10 : scale-color($hex, $lightness: 10%);
+  $custom-20 : scale-color($hex, $lightness: 20%);
+  $custom-30 : scale-color($hex, $lightness: 30%);
+  $custom-40 : scale-color($hex, $lightness: 40%);
+  $custom-50 : scale-color($hex, $lightness: 50%);
+  $custom-60 : scale-color($hex, $lightness: 60%);
+  $custom-70 : scale-color($hex, $lightness: 70%);
+  $custom-80 : scale-color($hex, $lightness: 80%);
+  $custom-90 : scale-color($hex, $lightness: 90%);
+
+  $custom--10 : scale-color($hex, $lightness: -10%);
+  $custom--20 : scale-color($hex, $lightness: -20%);
+  $custom--30 : scale-color($hex, $lightness: -30%);
+  $custom--40 : scale-color($hex, $lightness: -40%);
+  $custom--50 : scale-color($hex, $lightness: -50%);
+  $custom--60 : scale-color($hex, $lightness: -60%);
+  $custom--70 : scale-color($hex, $lightness: -70%);
+  $custom--80 : scale-color($hex, $lightness: -80%);
+  $custom--90 : scale-color($hex, $lightness: -90%);
+
+  // Transparent versions of the primary color 
+  // 
+  body.primary-#{$name} {
+
+    @for $i from 1 through 9 {
+      .primary-#{10*$i}     { color: scale-color($hex, $lightness: 10%*$i)}
+      .primary--#{10*$i}    { color: scale-color($hex, $lightness: -10%*$i)}
+      // .bg-primary-#{10*$i}  { background-color: scale-color($hex, $lightness: 10%*$i)}
+      // .bg-primary--#{10*$i} { background-color: scale-color($hex, $lightness: -10%*$i)}
+      .bg-primary-#{10*$i} { background-color: transparentize($hex, 0.1*$i); }
+    }
+
+  }
+  
+  body.secondary-#{$name} {
+
+    @for $i from 1 through 9 {
+      .secondary-#{10*$i}     { color: scale-color($hex, $lightness: 10%*$i)}
+      .secondary--#{10*$i}    { color: scale-color($hex, $lightness: -10%*$i)}
+      .bg-secondary-#{10*$i}  { background-color: scale-color($hex, $lightness: 10%*$i)}
+      .bg-secondary--#{10*$i} { background-color: scale-color($hex, $lightness: -10%*$i)}
+    }
+    
+  }
+  
+  // Assorted backgrounds by transparency
+  //
+  .bg-#{$name}-10 { background-color: transparentize($hex, 0.1); }
+  .bg-#{$name}-20 { background-color: transparentize($hex, 0.2); }
+  .bg-#{$name}-30 { background-color: transparentize($hex, 0.3); }
+  .bg-#{$name}-40 { background-color: transparentize($hex, 0.4); }
+  .bg-#{$name}-50 { background-color: transparentize($hex, 0.5); }
+  .bg-#{$name}-60 { background-color: transparentize($hex, 0.6); }
+  .bg-#{$name}-70 { background-color: transparentize($hex, 0.7); }
+  .bg-#{$name}-80 { background-color: transparentize($hex, 0.8); }
+  .bg-#{$name}-90 { background-color: transparentize($hex, 0.9); }
+
+
+
+  // All encompassing, regardless of the highest level 
+  // including as high as body.
+  // 
+  .#{$name} { color: $custom-0; }
+
+  .#{$name}--10 { color: $custom--10; }
+  .#{$name}--20 { color: $custom--20; }
+  .#{$name}--30 { color: $custom--30; }
+  .#{$name}--40 { color: $custom--40; }
+  .#{$name}--50 { color: $custom--50; }
+  .#{$name}--60 { color: $custom--60; }
+  .#{$name}--70 { color: $custom--70; }
+  .#{$name}--80 { color: $custom--80; }
+  .#{$name}--90 { color: $custom--90; }
+
+  .#{$name}-0  { color: $custom-0;  }
+  .#{$name}-10 { color: $custom-10; }
+  .#{$name}-20 { color: $custom-20; }
+  .#{$name}-30 { color: $custom-30; }
+  .#{$name}-40 { color: $custom-40; }
+  .#{$name}-50 { color: $custom-50; }
+  .#{$name}-60 { color: $custom-60; }
+  .#{$name}-70 { color: $custom-70; }
+  .#{$name}-80 { color: $custom-80; }
+  .#{$name}-90 { color: $custom-90; }
+
+  .dark-#{$name} { color: $custom--20; }
+  .darkest-#{$name} { color: $custom--40; }
+
+  .bg-#{$name} { background-color: $hex; }
+  .bg-dark-#{$name} { background-color: $custom--20; }
+  .bg-darkest-#{$name} { background-color: $custom--40; }
+
+
+  // Drive from the highest level (body) so that I do 
+  // not confuse WHEN I can use the highest level mark as 
+  // .primary-WHATEVER. Here, lower-level colors and backgrounds 
+  // involve primary.
+  // 
+  // PRIMARY PRIMARY PRIMARY 
+  body.primary-#{$name} .bg-primary { background-color: $hex; }
+  body.primary-dark-#{$name} .bg-primary { background-color: $custom--20; }
+  body.primary-darkest-#{$name} .bg-primary { background-color: $custom--40; }
+  
+  body.primary-#{$name}.mode-dark .bg-primary {background-color: dimgrey;} // { background-color: $hex; }
+  body.primary-dark-#{$name}.mode-dark .bg-primary {background-color: dimgrey;} // { background-color: $custom--20; }
+  body.primary-darkest-#{$name}.mode-dark .bg-primary {background-color: dimgrey;} // { background-color: $custom--40; }
+  
+  body.primary-#{$name} .bg-primary-complement { background-color: complement($hex); }
+  body.primary-dark-#{$name} .bg-primary-complement { background-color: complement($hex); }
+  body.primary-darkest-#{$name} .bg-primary-complement { background-color: complement($hex); }
+  
+  @each $degree in (90deg, 180deg, 270deg) {
+    body.primary-#{$name} .bg-primary-#{$degree} { background-color: adjust-hue($hex, $degree); }
+    body.primary-dark-#{$name} .bg-primary-#{$degree} { background-color: adjust-hue($hex, $degree); }
+    body.primary-darkest-#{$name} .bg-primary-#{$degree} { background-color: adjust-hue($hex, $degree); }
+  }
+  
+  // SECONDARY SECONDARY SECONDARY 
+  body.secondary-#{$name} .secondary { color: $hex; }
+  body.secondary-dark-#{$name} .secondary { color: $custom--20; }
+  body.secondary-darkest-#{$name} .secondary { color: $custom--40; }
+  
+  body.secondary-#{$name} .bg-secondary { background-color: $hex; }
+  body.secondary-dark-#{$name} .bg-secondary { background-color: $custom--20; }
+  body.secondary-darkest-#{$name} .bg-secondary { background-color: $custom--40; }
+  
+  body.secondary-#{$name} .bg-secondary-complement { background-color: complement($hex); }
+  body.secondary-dark-#{$name} .bg-secondary-complement { background-color: complement($hex); }
+  body.secondary-darkest-#{$name} .bg-secondary-complement { background-color: complement($hex); }
+  
+  @each $degree in (90deg, 180deg, 270deg) {
+    body.secondary-#{$name} .bg-secondary-#{$degree} { background-color: adjust-hue($hex, $degree); }
+    body.secondary-dark-#{$name} .bg-secondary-#{$degree} { background-color: adjust-hue($hex, $degree); }
+    body.secondary-darkest-#{$name} .bg-secondary-#{$degree} { background-color: adjust-hue($hex, $degree); }
+  }
+  
+
+
+
+  body.mode-light.#{$name} { color: $brand-dark; }
+  body.mode-light.dark-#{$name} { color: $brand-dark; }
+  body.mode-light.dark-#{$name} { color: $brand-dark; }
+
+  body.mode-light.bg-#{$name} { background-color: $brand-dark; }
+  body.mode-light.bg-dark-#{$name} { background-color: $brand-dark; }
+  body.mode-light.bg-dark-#{$name} { background-color: $brand-dark; }
+
+  body.mode-dark.#{$name} { color: $brand-light; }
+  body.mode-dark.dark-#{$name} { color: $brand-light; }
+  body.mode-dark.dark-#{$name} { color: $brand-light; }
+
+  body.mode-dark.bg-#{$name} { background-color: $brand-light; }
+  body.mode-dark.bg-dark-#{$name} { background-color: $brand-light; }
+  body.mode-dark.bg-dark-#{$name} { background-color: $brand-light; }
+
+
+
+  body.mode-light.#{$name} { color: $custom-0; }
+  body.mode-light.dark-#{$name} { color: $custom--20; }
+  body.mode-light.dark-#{$name} { color: $custom--40; }
+
+  body.mode-light.bg-#{$name} { background-color: $custom-0; }
+  body.mode-light.bg-dark-#{$name} { background-color: $custom--20; }
+  body.mode-light.bg-dark-#{$name} { background-color: $custom--40; }
+
+  body.mode-dark.#{$name} { color: $custom-0; }
+  body.mode-dark.dark-#{$name} { color: $custom--20; }
+  body.mode-dark.dark-#{$name} { color: $custom--40; }
+
+  body.mode-dark.bg-#{$name} { background-color: $custom-0; }
+  body.mode-dark.bg-dark-#{$name} { background-color: $custom--20; }
+  body.mode-dark.bg-dark-#{$name} { background-color: $custom--40; }
+
+
+
+  $shading-set: ( 
+    primary   primary           $hex,
+    primary   primary-dark      $custom--20, 
+    primary   primary-darkest   $custom--40,
+    secondary secondary         $hex,
+    secondary secondary-dark    $custom--20, 
+    secondary secondary-darkest $custom--40,
+  );
+
+  @each $sQualifier, $sName, $sHex in $shading-set {
+
+    body.#{$sName}-#{$name} {
+      .b--#{$sName} { border-color: #{$sHex}; }
+      .b--punch { border-color: #{$sHex}; }
+      .bg-punch { background-color: #{$sHex}; }
+      .#{$sName},
+      .#{$sName}-color { 
+        color: $sHex; 
+        --fa-#{$sName}-color: #{$sHex};
+        --fa-#{$sName}-opacity: 1.0; 
+        p, .P {
+          color: $brand-dark;
+        }
+        h1, h2, h3, h4, h5, h6 { color: #{$sHex}; }
+      }
+      hr { 
+        background-color: #{$sHex}; 
+        border-color: #{$sHex};
+      }
+    }
+
+    body.#{$sName}-#{$name}.mode-dark {
+      hr {
+        background-color: dimgrey;
+        border-color: dimgrey;
+      }
+    }
+  }
+
+
+}
+
+
+#citation-group-set {
+  background-color:$brand-light;
+}
+
+.mode-light .ICON-FA-SPA {
+  --fa-primary-color: green;
+  --fa-secondary-color: blue;
+  --fa-secondary-opacity: .4;
+}
+
+.mode-dark .ICON-FA-SPA {
+  --fa-primary-color: green;
+  --fa-secondary-color: blue;
+  --fa-secondary-opacity: 1.0;
+  --fa-primary-opacity: 1.0;
+}
+
+.b--lightgray {border-color:lightgray}
+.b--lightgrey {border-color:lightgrey}
+
+.thought-bubble,
+.thought-bubble-bubble-left:after,
+.thought-bubble-bubble-left:before,
+.thought-bubble-bubble-right:after,
+.thought-bubble-bubble-right:before {
+  border-color: $softorange;
+  background-color: $softorange;
+}
+
+.b--softorange { border-color: $softorange; }

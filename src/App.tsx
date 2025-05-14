@@ -5,19 +5,10 @@ import PanelHome from './components/PanelHome'
 import PanelSettings from './components/PanelSettings'
 import PanelHelp from './components/PanelHelp'
 import Navbar from './components/Navbar'
-// import { useAppContext, type AppPanel } from './context/AppContext'
-import './App.css'
+import './App.scss'
 import PanelGenAI from './components/PanelGenAI'
 
 const App: React.FC = () => {
-  // const { activePanel, setActivePanel } = useAppContext()
-
-  // const togglePanel = (panel: Exclude<AppPanel, 'home'>) => {
-  //   const updateActivePanel = activePanel === panel ? 'home' : panel
-  //   setActivePanel(updateActivePanel)
-  // }
-  
-
   return (
     <>
       <Navbar />
