@@ -2,9 +2,13 @@
 // src/App.scss or src/styles/main.scss
 /* @import '../scss/globals'; */
 @import './scss/tachyons';
-// @import './scss/color';
+@import './scss/color';
 /* @import '../scss/panel'; */
 // Add more as needed
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;

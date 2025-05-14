@@ -77,7 +77,7 @@ $color-set: (
 // ******************************************** 
 // ******************************************** 
 
-$brand : blue;
+$brand : #17ADFF; // blue;
 $brand-light : white;// #9F5223; //rgba(142, 89,44,1);//scale-color(peru, $lightness: -10%);
 $brand-dark : black;
 $brand-bright: orangered;
@@ -164,6 +164,8 @@ body.mode-dark {
 // ******************************************** 
 // ******************************************** 
 
+
+body,
 body.mode-light {
   
   .brand { color: $brand; }

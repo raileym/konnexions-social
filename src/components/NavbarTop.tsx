@@ -8,7 +8,7 @@ const NavbarTop: React.FC = () => {
   return (
     <nav className="fixed top-0 shadow-3 left-0 w-100 bg-whiteX dark-grayX bg-white flex items-center justify-between ph3 pv2 z-999">
       <div className="flex items-center">
-        <div className="bg-blue mr4">
+        <div className="bg-brand mr4">
           <img
             src="/logo-blue-transparent-on-white-173x126.png"
             alt="CKN logo"
@@ -16,7 +16,7 @@ const NavbarTop: React.FC = () => {
           />
         </div>
         <div className="black-30 ml2 f3 b lh-title tl">
-          <div><span className="blue">CK</span>Ո Series on Joy</div>
+          <div><span className="brand">CK</span>Ո Series on Joy</div>
           <div className="black-20 f5">Joy of Language - Spanish</div>
         </div>
       </div>

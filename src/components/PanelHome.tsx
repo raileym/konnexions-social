@@ -20,10 +20,8 @@
 
 export default function PanelHome() {
   return (
-    <div className="absolute z-0 bg-white top-0 left-0 w-100 h-100">
-      <div className="pa4">
-        <h2 className="f3 mt5">Home</h2>
-      </div>
+    <div className="absolute z-0 pa4 bg-white top-0 left-0 w-100 h-100">
+        <h2 className="f3 pa3 mt5">Home</h2>
 
       {/* <div className="flex flex-wrap gap-3 mt4">
         <FontAwesomeIcon icon={faSliders} className="bg-white black pa3 br3 f2" />
