@@ -5,6 +5,8 @@ import Button from "./Button"
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek, getScenarioDetails } from './Util'
 import Scenario from './Scenario'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLock, faUnlock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 
 const PanelGenAI: React.FC = () => {
   const { activePanel } = useAppContext()
@@ -71,7 +73,7 @@ const PanelGenAI: React.FC = () => {
       <span className="b">{scenarioParticipants}</span>.
       {scenario === 'custom' && (
         <>
-          "
+          " Keep your question for ChatGPT clear, succinct, but brief. Every word costs($).
         </>
       )}
     </div>
@@ -95,30 +97,18 @@ const PanelGenAI: React.FC = () => {
           </div>
       )}
 
-      {/* { openAiKey && (
-        <>
-          <div className="silver">{fullPrompt}</div>
-          <label className="db mt3 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label>
-          <textarea
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            className="input-reset ba b--black-20 pa2 mb2 db w-100"
-            rows={8}
-            placeholder="Ask a question..."
-          />
-          <button
-            onClick={handleAskOpenAI}
-            className="bg-dark-purple white pa2 br2 bn pointer db mb3 w-100"
-          >
-            Ask OpenAI
-          </button>
-        </>
-      )} */}
-
       { openAiKey && scenario === 'custom' && (
         <>
           <div className="silver h4">{fullPrompt}</div>
-          <label className="o-100 db mt3 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label>
+          <hr />
+          <div className="flex items-center mv3">
+            <FontAwesomeIcon icon={faLockOpen} />
+            <p className="ml2 pa0 ma0">
+              This field is available when Custom is selected.
+            </p>
+          </div>
+          <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT</label>
+          {/* <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label> */}
           <textarea
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
@@ -128,30 +118,48 @@ const PanelGenAI: React.FC = () => {
           />
           <button
             onClick={handleAskOpenAI}
-            className="o-100 bg-dark-purple white pa2 br2 bn pointer db mb3 w-100"
+            className="o-100 bg-brand white pa2 br2 bn pointer db mb3 w-100"
           >
             Ask OpenAI
           </button>
         </>
       )}
 
-      { openAiKey && scenario !== 'custom' && (
+      {openAiKey && scenario !== 'custom' && (
         <>
           <div className="silver h4">{fullPrompt}</div>
-          <label className="o-30 db mt3 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label>
-          <textarea
-            value={questionContext}
-            onChange={(e) => setQuestionContext(e.target.value)}
-            className="o-30 input-reset ba b--black-20 pa2 mb2 db w-100"
-            rows={8}
-            placeholder="Ask a question..."
-          />
-          <button
-            onClick={handleAskOpenAI}
-            className="o-30 bg-dark-purple white pa2 br2 bn pointer db mb3 w-100"
-          >
-            Ask OpenAI
-          </button>
+          <hr />
+          <div className="flex items-center mv3">
+            <FontAwesomeIcon icon={faLock} />
+            <p className="ml2 pa0 ma0">
+              This field is available when Custom is selected.
+            </p>
+          </div>
+          <div className="relative baX">
+            {/* Overlay mask (dim layer) */}
+            {/* <div className="absolute top-0 left-0 w-100 h-100 bg-white bg-blackX o-80 z-2 pointer-events-none" /> */}
+
+            {/* Content to be masked but not removed */}
+            {/* <div className="relative z-1"> */}
+              <label className="o-20 db mt0 mb2 f3 b">Ask ChatGPT</label>
+              {/* <label className="o-20 db mt0 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label> */}
+              <textarea
+                value={questionContext}
+                onChange={(e) => setQuestionContext(e.target.value)}
+                className="o-50 bg-white input-reset ba b--black-20 pa2 mb2 db w-100"
+                rows={8}
+                placeholder="Ask a question..."
+                disabled
+              />
+              <button
+                onClick={handleAskOpenAI}
+                className="o-30 bg-brand white pa2 br2 bn db mb3 w-100"
+                disabled
+              >
+                Ask OpenAI
+              </button>
+            </div>
+          {/* </div> */}
         </>
       )}
 
