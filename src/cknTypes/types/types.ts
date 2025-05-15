@@ -1,14 +1,86 @@
-// export type AppPanel = 'home' | 'settings' | 'help' | 'keys' | 'genAI'
-
 export type AppContextType = {
-  activePanel: AppPanelValue
-  setActivePanel: (panel: AppPanelValue) => void
-  gcpKey: string
-  setGcpKey: (key: string) => void
-  openAiKey: string
-  setOpenAiKey: (key: string) => void
-  switchPanel: (newPanel: AppPanelValue) => void
+  activePanel: ActivePanel
+  answer: Answer
+  apiKey: ApiKey
+  audioUrl: AudioUrl
+  cleanedText: CleanedText
+  gcpKey: GcpKey
+  inputText: InputText
+  maskKey: MaskKey
+  maskOpenAiKey: MaskOpenAiKey
+  openAiAvgTokens: OpenAiAvgTokens
+  openAiBudget: OpenAiBudget
+  openAiKey: OpenAiKey
+  openAiUsage: OpenAiUsage
+  question: Question
+  questionContext: QuestionContext
+  setActivePanel: SetActivePanel
+  setAnswer: SetAnswer
+  setApiKey: SetApiKey
+  setAudioUrl: SetAudioUrl
+  setCleanedText: SetCleanedText
+  setGcpKey: SetGcpKey
+  setInputText: SetInputText
+  setMaskKey: SetMaskKey
+  setMaskOpenAiKey: SetMaskOpenAiKey
+  setOpenAiAvgTokens: SetOpenAiAvgTokens
+  setOpenAiBudget: SetOpenAiBudget
+  setOpenAiKey: SetOpenAiKey
+  setOpenAiUsage: SetOpenAiUsage
+  setQuestion: SetQuestion
+  setQuestionContext: SetQuestionContext
+  setTtsAvgChars: SetTtsAvgChars
+  setTtsBudget: SetTtsBudget
+  setTtsCharUsage: SetTtsCharUsage
+  setUseCloudTTS: SetUseCloudTTS
+  switchPanel: SwitchPanel
+  ttsAvgChars: TtsAvgChars
+  ttsBudget: TtsBudget
+  ttsCharUsage: TtsCharUsage
+  useCloudTTS: UseCloudTTS
 }
+
+export type ActivePanel = AppPanelValue
+export type Answer = string
+export type ApiKey = string
+export type AudioUrl = string | null
+export type CleanedText = string
+export type GcpKey = string
+export type InputText = string
+export type IsTransitioning = boolean
+export type MaskKey = boolean
+export type MaskOpenAiKey = boolean
+export type OpenAiAvgTokens = number
+export type OpenAiBudget = number
+export type OpenAiKey = string
+export type OpenAiUsage = number
+export type Question = string
+export type QuestionContext = string
+export type UseCloudTTS = boolean
+export type SetActivePanel = (panel: AppPanelValue) => void
+export type SetAnswer = (answer: Answer) => void
+export type SetApiKey = (apiKey: ApiKey) => void
+export type SetAudioUrl = (audioUrl: AudioUrl) => void
+export type SetCleanedText = (cleanedText: CleanedText) => void
+export type SetGcpKey = (gcpKey: GcpKey) => void
+export type SetInputText = (inputText: InputText) => void
+export type SetIsTransitioning = (isTransitioning: IsTransitioning) => void
+export type SetMaskKey = (maskKey: MaskKey) => void
+export type SetMaskOpenAiKey = (maskOpenAiKey: MaskOpenAiKey) => void
+export type SetOpenAiAvgTokens = (openAiAvgTokens: OpenAiAvgTokens) => void
+export type SetOpenAiBudget = (openAiBudget: OpenAiBudget) => void
+export type SetOpenAiKey = (openAiKey: OpenAiKey) => void
+export type SetOpenAiUsage = (openAiUsage: OpenAiUsage) => void
+export type SetQuestion = (question: Question) => void
+export type SetQuestionContext = (questionContext: QuestionContext) => void
+export type SetTtsAvgChars = (ttsAvgChars: TtsAvgChars) => void
+export type SetTtsBudget = (ttsBudget: TtsBudget) => void
+export type SetTtsCharUsage = (ttsCharUsage: TtsCharUsage) => void
+export type SetUseCloudTTS = (useCloudTTS: UseCloudTTS) => void
+export type SwitchPanel = (newPanel: AppPanelValue) => void
+export type TtsAvgChars = number
+export type TtsBudget = number
+export type TtsCharUsage = number
 
 export const APP_PANEL = {
   HOME: 'home',
