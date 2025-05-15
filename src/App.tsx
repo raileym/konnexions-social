@@ -11,19 +11,16 @@ import NavbarBottom from './components/NavbarBottom'
 import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext'
 import { getCurrentWeek } from './components/Util'
+import type Scenario from './components/Scenario'
 
 const App: React.FC = () => {
   const {
-    // activePanel,
-    // apiKey,
-    // maskKey,
-    // maskOpenAiKey,
-    // openAiKey,
     setApiKey,
     setMaskKey,
     setMaskOpenAiKey,    
     setOpenAiKey,
     setOpenAiUsage,
+    setScenario,
     setTtsCharUsage
   } = useAppContext()
 
@@ -47,6 +44,14 @@ const App: React.FC = () => {
       handleVoiceLoad()
     }
 
+    const stored = localStorage.getItem('scenario') as Scenario | null
+    if (stored) {
+      setScenario(stored)
+    } else {
+      setScenario('restaurant') // default if nothing stored
+      localStorage.setItem('scenario', 'restaurant')
+    }
+    
     const storedKey = localStorage.getItem('gcpTTSKey')
     if (storedKey) {
       setApiKey(storedKey)
@@ -60,6 +65,7 @@ const App: React.FC = () => {
     }
 
     loadUsage()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

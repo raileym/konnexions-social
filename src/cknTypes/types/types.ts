@@ -14,6 +14,7 @@ export type AppContextType = {
   openAiUsage: OpenAiUsage
   question: Question
   questionContext: QuestionContext
+  scenario: Scenario
   setActivePanel: SetActivePanel
   setAnswer: SetAnswer
   setApiKey: SetApiKey
@@ -29,6 +30,7 @@ export type AppContextType = {
   setOpenAiUsage: SetOpenAiUsage
   setQuestion: SetQuestion
   setQuestionContext: SetQuestionContext
+  setScenario: SetScenario
   setTtsAvgChars: SetTtsAvgChars
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
@@ -56,7 +58,7 @@ export type OpenAiKey = string
 export type OpenAiUsage = number
 export type Question = string
 export type QuestionContext = string
-export type UseCloudTTS = boolean
+export type Scenario = string
 export type SetActivePanel = (panel: AppPanelValue) => void
 export type SetAnswer = (answer: Answer) => void
 export type SetApiKey = (apiKey: ApiKey) => void
@@ -73,6 +75,7 @@ export type SetOpenAiKey = (openAiKey: OpenAiKey) => void
 export type SetOpenAiUsage = (openAiUsage: OpenAiUsage) => void
 export type SetQuestion = (question: Question) => void
 export type SetQuestionContext = (questionContext: QuestionContext) => void
+export type SetScenario = (scenario: Scenario) => void
 export type SetTtsAvgChars = (ttsAvgChars: TtsAvgChars) => void
 export type SetTtsBudget = (ttsBudget: TtsBudget) => void
 export type SetTtsCharUsage = (ttsCharUsage: TtsCharUsage) => void
@@ -81,6 +84,7 @@ export type SwitchPanel = (newPanel: AppPanelValue) => void
 export type TtsAvgChars = number
 export type TtsBudget = number
 export type TtsCharUsage = number
+export type UseCloudTTS = boolean
 
 export const APP_PANEL = {
   HOME: 'home',

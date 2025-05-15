@@ -21,7 +21,8 @@ import type {
   TtsAvgChars,
   TtsBudget,
   TtsCharUsage,
-  UseCloudTTS
+  UseCloudTTS,
+  Scenario
 } from '../cknTypes/types/types'
 import {
   APP_PANEL
@@ -32,28 +33,26 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.HOME)
 
-  const [gcpKey, setGcpKey] = useState<GcpKey>('')
-  const [isTransitioning, setIsTransitioning] = useState<IsTransitioning>(false)
-
-  const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
-  const [inputText, setInputText] = useState<InputText>('')
-  const [cleanedText, setCleanedText] = useState<CleanedText>('')
-  const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
+  const [answer, setAnswer] = useState<Answer>('')
   const [apiKey, setApiKey] = useState<ApiKey>('')
+  const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
+  const [cleanedText, setCleanedText] = useState<CleanedText>('')
+  const [gcpKey, setGcpKey] = useState<GcpKey>('')
+  const [inputText, setInputText] = useState<InputText>('')
+  const [isTransitioning, setIsTransitioning] = useState<IsTransitioning>(false)
   const [maskKey, setMaskKey] = useState<MaskKey>(false)
-
-  const [openAiKey, setOpenAiKey] = useState<OpenAiKey>('')
   const [maskOpenAiKey, setMaskOpenAiKey] = useState<MaskOpenAiKey>(false)
+  const [openAiAvgTokens, setOpenAiAvgTokens] = useState<OpenAiAvgTokens>(200)
+  const [openAiBudget, setOpenAiBudget] = useState<OpenAiBudget>(1)
+  const [openAiKey, setOpenAiKey] = useState<OpenAiKey>('')
+  const [openAiUsage, setOpenAiUsage] = useState<OpenAiUsage>(0)
   const [question, setQuestion] = useState<Question>('')
   const [questionContext, setQuestionContext] = useState<QuestionContext>('')
-  const [answer, setAnswer] = useState<Answer>('')
-  const [openAiUsage, setOpenAiUsage] = useState<OpenAiUsage>(0)
-  const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
-
-  const [openAiBudget, setOpenAiBudget] = useState<OpenAiBudget>(1)
-  const [openAiAvgTokens, setOpenAiAvgTokens] = useState<OpenAiAvgTokens>(200)
-  const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
+  const [scenario, setScenario] = useState<Scenario>('')
   const [ttsAvgChars, setTtsAvgChars] = useState<TtsAvgChars>(80)
+  const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
+  const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
+  const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
   const handlePanelSwitch = (newPanel: AppPanelValue) => {
     if (isTransitioning) return
@@ -94,6 +93,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     openAiUsage,
     question,
     questionContext,
+    scenario,
     setActivePanel,
     setAnswer,
     setApiKey,
@@ -109,6 +109,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setOpenAiUsage,
     setQuestion,
     setQuestionContext,
+    setScenario,
     setTtsAvgChars,
     setTtsBudget,
     setTtsCharUsage,

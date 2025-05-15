@@ -4,6 +4,7 @@ import { APP_PANEL } from '../cknTypes/types/types'
 import Button from "./Button"
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek } from './Util'
+import Scenario from './Scenario'
 
 const PanelGenAI: React.FC = () => {
   const { activePanel } = useAppContext()
@@ -19,7 +20,8 @@ const PanelGenAI: React.FC = () => {
     setAnswer,
     openAiUsage,
     setOpenAiUsage,
-    answer
+    answer,
+    scenario
   } = useAppContext()
 
   const incrementOpenAiUsage = () => {
@@ -58,8 +60,10 @@ const PanelGenAI: React.FC = () => {
   return (
     <div className={`absolute z-1 top-0 pa4 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX}`}>
         <h2 className="f3 pa3 pb0 mt5 w-100 tc">GenAI Panel</h2>
-        <div className="f3 baX pa3 pt0 mt0">Ask ChatGpt to express a custom dialog within a desired scenario, e.g., at the airport, in a restaurant, or in a taxi. Adjust the context below regarding your expected response.</div>
+        <div className="f3 baX pa3 pt0 mt0">Ask ChatGPT to express a custom dialog within a desired scenario, e.g., at the airport, in a restaurant, or in a taxi. Adjust the context below regarding your expected response.</div>
 
+      <Scenario />
+      
       { !openAiKey && (
           <div className="mt5">
             <div>*Set a <b>GenAI Key</b> to use a Generative AI technology</div>
@@ -73,7 +77,7 @@ const PanelGenAI: React.FC = () => {
 
       { openAiKey && (
         <>
-          <label className="db mt3 mb2 f3 b">Ask ChatGPT</label>
+          <label className="db mt3 mb2 f3 b">Ask ChatGPT - {scenario}</label>
           <textarea
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
