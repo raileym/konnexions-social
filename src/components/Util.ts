@@ -12,6 +12,7 @@ const scenarioTitles: Record<ScenarioValue, string> = {
   hotel: 'Hotel',
   airport: 'Airport',
   taxi: 'Taxi',
+  custom: 'Custom'
 }
 
 const scenarioLabels: Record<ScenarioValue, string> = {
@@ -19,6 +20,7 @@ const scenarioLabels: Record<ScenarioValue, string> = {
   hotel: 'at the hotel',
   airport: 'at the airport',
   taxi: 'in a taxi',
+  custom: 'WHERE'
 }
 
 const scenarioPrompts: Record<ScenarioValue, string> = {
@@ -33,6 +35,8 @@ const scenarioPrompts: Record<ScenarioValue, string> = {
     'Express a dialog between a random combination of two people',
     taxi:
     'Express a dialog between a random combination of two people',
+    custom:
+    'Express a dialog between a random combination of two people',
 }
 
 const scenarioParticipants: Record<ScenarioValue, string> = {
@@ -44,6 +48,8 @@ const scenarioParticipants: Record<ScenarioValue, string> = {
     'an airline agent, a gate attendant, a TSA officer, a baggage handler, a flight attendant, a male traveler, or a female traveler',
     taxi:
     'the driver, a rideshare driver, a dispatcher, a male passenger, a female passenger, a couple sharing the ride, or a tourist unfamiliar with the city',
+    custom:
+    'WHICH DIALOG PARTICIPANTS',
 }
 
 export function getScenarioDetails(scenario: ScenarioValue) {

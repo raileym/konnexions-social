@@ -46,7 +46,8 @@ export const SCENARIO = {
   RESTAURANT: 'restaurant',
   HOTEL: 'hotel',
   AIRPORT: 'airport',
-  TAXI: 'taxi'
+  TAXI: 'taxi',
+  CUSTOM: 'custom'
 } as const
 
 export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]

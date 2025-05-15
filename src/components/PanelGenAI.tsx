@@ -58,7 +58,24 @@ const PanelGenAI: React.FC = () => {
   }
 
   const {scenarioLabel, scenarioParticipants} = getScenarioDetails(scenario)
-  const fullPrompt = <div>Ask ChatGPT: I am <span className="b">{scenarioLabel}</span>. Please create a dialog between me and two other people, randomly chosen from <span className="b">{scenarioParticipants}</span>.</div>
+  const fullPrompt = (
+    <div>
+      Ask ChatGPT:{' '}
+      {scenario === 'custom' && (
+        <>
+          <span className="grayX">You could say, "</span>
+        </>
+      )}
+      I am <span className="b">{scenarioLabel}</span>.{' '}
+      Please create a dialog between me and two other people, randomly chosen from{' '}
+      <span className="b">{scenarioParticipants}</span>.
+      {scenario === 'custom' && (
+        <>
+          "
+        </>
+      )}
+    </div>
+  )  
 
   return (
     <div className={`absolute z-1 top-0 pa4 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX}`}>

@@ -9,7 +9,8 @@ const Scenario: React.FC = () => {
     SCENARIO.RESTAURANT,
     SCENARIO.HOTEL,
     SCENARIO.AIRPORT,
-    SCENARIO.TAXI
+    SCENARIO.TAXI,
+    SCENARIO.CUSTOM
   ]
 
   const updateScenario = (value: ScenarioValue) => {
