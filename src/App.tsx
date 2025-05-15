@@ -11,7 +11,7 @@ import NavbarBottom from './components/NavbarBottom'
 import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext'
 import { getCurrentWeek } from './components/Util'
-import type Scenario from './components/Scenario'
+import { SCENARIO, type ScenarioValue } from './cknTypes/types/types'
 
 const App: React.FC = () => {
   const {
@@ -44,13 +44,14 @@ const App: React.FC = () => {
       handleVoiceLoad()
     }
 
-    const stored = localStorage.getItem('scenario') as Scenario | null
-    if (stored) {
-      setScenario(stored)
+    const stored = localStorage.getItem('scenario') as ScenarioValue | null
+
+    if (stored && Object.values(SCENARIO).includes(stored)) {
+      setScenario(stored as ScenarioValue)
     } else {
-      setScenario('restaurant') // default if nothing stored
-      localStorage.setItem('scenario', 'restaurant')
-    }
+      setScenario(SCENARIO.RESTAURANT)
+      localStorage.setItem('scenario', SCENARIO.RESTAURANT)
+    }    
     
     const storedKey = localStorage.getItem('gcpTTSKey')
     if (storedKey) {

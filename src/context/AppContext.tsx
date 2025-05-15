@@ -22,17 +22,17 @@ import type {
   TtsBudget,
   TtsCharUsage,
   UseCloudTTS,
-  Scenario
+  ScenarioValue
 } from '../cknTypes/types/types'
 import {
-  APP_PANEL
+  APP_PANEL,
+  SCENARIO
 } from '../cknTypes/types/types'
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.HOME)
-
   const [answer, setAnswer] = useState<Answer>('')
   const [apiKey, setApiKey] = useState<ApiKey>('')
   const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
@@ -48,7 +48,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [openAiUsage, setOpenAiUsage] = useState<OpenAiUsage>(0)
   const [question, setQuestion] = useState<Question>('')
   const [questionContext, setQuestionContext] = useState<QuestionContext>('')
-  const [scenario, setScenario] = useState<Scenario>('')
+  const [scenario, setScenario] = useState<ScenarioValue>(SCENARIO.RESTAURANT)
   const [ttsAvgChars, setTtsAvgChars] = useState<TtsAvgChars>(80)
   const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)

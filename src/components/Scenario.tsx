@@ -1,14 +1,18 @@
 // src/components/Scenario.tsx
 import React from 'react'
 import { useAppContext } from '../context/AppContext'
-
-type Scenario = 'restaurant' | 'hotel' | 'airport' | 'taxi'
+import { SCENARIO, type ScenarioValue } from '../cknTypes/types/types'
 
 const Scenario: React.FC = () => {
   const { scenario, setScenario } = useAppContext()
-  const scenarios: Scenario[] = ['restaurant', 'hotel', 'airport', 'taxi']
+  const scenarios: ScenarioValue[] = [
+    SCENARIO.RESTAURANT,
+    SCENARIO.HOTEL,
+    SCENARIO.AIRPORT,
+    SCENARIO.TAXI
+  ]
 
-  const updateScenario = (value: Scenario) => {
+  const updateScenario = (value: ScenarioValue) => {
     localStorage.setItem('scenario', value)
     setScenario(value)
   }

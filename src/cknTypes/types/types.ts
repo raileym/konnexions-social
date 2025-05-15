@@ -14,7 +14,7 @@ export type AppContextType = {
   openAiUsage: OpenAiUsage
   question: Question
   questionContext: QuestionContext
-  scenario: Scenario
+  scenario: ScenarioValue
   setActivePanel: SetActivePanel
   setAnswer: SetAnswer
   setApiKey: SetApiKey
@@ -41,6 +41,16 @@ export type AppContextType = {
   ttsCharUsage: TtsCharUsage
   useCloudTTS: UseCloudTTS
 }
+
+export const SCENARIO = {
+  RESTAURANT: 'restaurant',
+  HOTEL: 'hotel',
+  AIRPORT: 'airport',
+  TAXI: 'taxi'
+} as const
+
+export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]
+export type ScenarioKey = keyof typeof SCENARIO
 
 export type ActivePanel = AppPanelValue
 export type Answer = string
@@ -75,7 +85,7 @@ export type SetOpenAiKey = (openAiKey: OpenAiKey) => void
 export type SetOpenAiUsage = (openAiUsage: OpenAiUsage) => void
 export type SetQuestion = (question: Question) => void
 export type SetQuestionContext = (questionContext: QuestionContext) => void
-export type SetScenario = (scenario: Scenario) => void
+export type SetScenario = (scenario: ScenarioValue) => void
 export type SetTtsAvgChars = (ttsAvgChars: TtsAvgChars) => void
 export type SetTtsBudget = (ttsBudget: TtsBudget) => void
 export type SetTtsCharUsage = (ttsCharUsage: TtsCharUsage) => void

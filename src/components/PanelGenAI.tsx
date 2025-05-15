@@ -3,7 +3,7 @@ import { useAppContext } from '../context/AppContext'
 import { APP_PANEL } from '../cknTypes/types/types'
 import Button from "./Button"
 import { faKey } from '@fortawesome/free-solid-svg-icons'
-import { getCurrentWeek } from './Util'
+import { getCurrentWeek, getScenarioDetails } from './Util'
 import Scenario from './Scenario'
 
 const PanelGenAI: React.FC = () => {
@@ -57,6 +57,9 @@ const PanelGenAI: React.FC = () => {
     }
   }
 
+  const {scenarioLabel, scenarioParticipants} = getScenarioDetails(scenario)
+  const fullPrompt = <div>Ask ChatGPT: I am <span className="b">{scenarioLabel}</span>. Please create a dialog between me and two other people, randomly chosen from <span className="b">{scenarioParticipants}</span>.</div>
+
   return (
     <div className={`absolute z-1 top-0 pa4 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX}`}>
         <h2 className="f3 pa3 pb0 mt5 w-100 tc">GenAI Panel</h2>
@@ -77,7 +80,8 @@ const PanelGenAI: React.FC = () => {
 
       { openAiKey && (
         <>
-          <label className="db mt3 mb2 f3 b">Ask ChatGPT - {scenario}</label>
+          <div className="silver">{fullPrompt}</div>
+          <label className="db mt3 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label>
           <textarea
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
