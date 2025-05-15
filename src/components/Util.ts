@@ -20,7 +20,7 @@ const scenarioLabels: Record<ScenarioValue, string> = {
   hotel: 'at the hotel',
   airport: 'at the airport',
   taxi: 'in a taxi',
-  custom: 'WHERE'
+  custom: 'Custom'
 }
 
 const scenarioPrompts: Record<ScenarioValue, string> = {

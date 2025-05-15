@@ -78,7 +78,7 @@ const PanelGenAI: React.FC = () => {
   )  
 
   return (
-    <div className={`absolute z-1 top-0 pa4 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX}`}>
+    <div className={`absolute z-1 top-0 pa4 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX} overflow-y-auto`}>
         <h2 className="f3 pa3 pb0 mt5 w-100 tc">GenAI Panel</h2>
         <div className="f3 baX pa3 pt0 mt0">Ask ChatGPT to express a custom dialog within a desired scenario, e.g., at the airport, in a restaurant, or in a taxi. Adjust the context below regarding your expected response.</div>
 
@@ -95,7 +95,7 @@ const PanelGenAI: React.FC = () => {
           </div>
       )}
 
-      { openAiKey && (
+      {/* { openAiKey && (
         <>
           <div className="silver">{fullPrompt}</div>
           <label className="db mt3 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label>
@@ -113,23 +113,44 @@ const PanelGenAI: React.FC = () => {
             Ask OpenAI
           </button>
         </>
-      )}
+      )} */}
 
-      { openAiKey && (
+      { openAiKey && scenario === 'custom' && (
         <>
-          <label className="db mt5 mb2 f6">Set the context for ChatGPT</label>
+          <div className="silver h4">{fullPrompt}</div>
+          <label className="o-100 db mt3 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label>
           <textarea
-            value={questionContext}
-            onChange={(e) => setQuestionContext(e.target.value)}
-            className="input-reset ba b--black-20 pa2 mb2 db w-100"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            className="o-100 input-reset ba b--black-20 pa2 mb2 db w-100"
             rows={8}
-            placeholder="Set the context for your questions ..."
+            placeholder="Ask a question..."
           />
           <button
             onClick={handleAskOpenAI}
-            className="bg-dark-purple white pa2 br2 bn pointer db mb3 w-100"
+            className="o-100 bg-dark-purple white pa2 br2 bn pointer db mb3 w-100"
           >
-            Set the context - OpenAI
+            Ask OpenAI
+          </button>
+        </>
+      )}
+
+      { openAiKey && scenario !== 'custom' && (
+        <>
+          <div className="silver h4">{fullPrompt}</div>
+          <label className="o-30 db mt3 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label>
+          <textarea
+            value={questionContext}
+            onChange={(e) => setQuestionContext(e.target.value)}
+            className="o-30 input-reset ba b--black-20 pa2 mb2 db w-100"
+            rows={8}
+            placeholder="Ask a question..."
+          />
+          <button
+            onClick={handleAskOpenAI}
+            className="o-30 bg-dark-purple white pa2 br2 bn pointer db mb3 w-100"
+          >
+            Ask OpenAI
           </button>
         </>
       )}
