@@ -81,29 +81,33 @@ const PanelSettings: React.FC = () => {
       <div className="f3 baX pa3X pv3 pt0 mt0">{headline}</div>
 
       <div className="f3 baX pv3X pt4 pb4 pv3X b pt0 mt0">Choose local or cloud-based TTS services</div>
-      <button
-        onClick={() => {
-          if (!apiKey) {
-            handleWelcomeLocal()
-            return
-          }
+      <div className="w-100 flex justify-center">
+          <button
+            onClick={() => {
+              if (!apiKey) {
+                handleWelcomeLocal()
+                return
+              }
 
-          if (useCloudTTS) {
-            setUseCloudTTS(false)
-            handleWelcomeLocal()
-          } else {
-            setUseCloudTTS(true)
-            handleWelcomeCloud()
-          }
-        }}
-        className={`white mt5X pa2 br2 bn pointer db w-100 ${!apiKey ? 'bg-dark-gray' : useCloudTTS ? 'bg-green' : 'bg-dark-gray'}`}
-      >
-        {!apiKey
-          ? 'Play Welcome (Local TTS)'
-          : useCloudTTS
-            ? 'Switch to built-in voice'
-            : 'Switch to cloud voice'}
-      </button>
+              if (useCloudTTS) {
+                setUseCloudTTS(false)
+                localStorage.setItem('useCloudTTS', 'false')
+                handleWelcomeLocal()
+              } else {
+                setUseCloudTTS(true)
+                localStorage.setItem('useCloudTTS', 'true')
+                handleWelcomeCloud()
+              }
+            }}
+            className={`shadow-black-mediumX bg-blueX white pa3 mt2 f4 br-pill bn pointer db mb3 w-60 ${!apiKey ? 'bg-dark-gray' : useCloudTTS ? 'bg-green' : 'bg-brand'}`}
+          >
+            {!apiKey
+              ? 'Play Welcome (Local TTS)'
+              : useCloudTTS
+                ? 'Switch to a standard-quality built-in voice'
+                : 'Switch to a higher-quality cloud voice'}
+          </button>
+      </div>
 
       <hr className="mv4"/>
 

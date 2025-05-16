@@ -178,7 +178,7 @@ export default function PanelHome() {
       </p>
       <div className="flex justify-center w-100 mv4">
         <div
-          className="shadow-black-medium db items-center tc ba pa1 w-20 f2 br3 pointer"
+          className="shadow-black-mediumX db items-center tc ba pa1 w-20 f2 br3 pointer"
           style={{ width: '2em' }}
           onClick={() => switchPanel(APP_PANEL.KEYS)}
           role="button"
@@ -205,34 +205,16 @@ export default function PanelHome() {
           rows={8}
           placeholder="Hola, mundo"
         />
-        <button
-          onClick={handleGenerate}
-          className="bg-blue white pa3 f4 br2 bn pointer db mb3 w-100"
-        >
-          Hear your Spanish text with a {useCloudTTS ? 'cloud-based voice' : 'local voice'}
-        </button>
+        <div className="w-100 flex justify-center">
+          <button
+            onClick={handleGenerate}
+            className="shadow-black-mediumX bg-blue white pa3 mt2 f4 br-pill bn pointer db mb3 w-60"
+          >
+            Hear your Spanish text using a {useCloudTTS ? 'cloud-based voice' : 'local voice'}
+          </button>
+        </div>
 
         <hr className="mv4" />
-
-        {/* {useCloudTTS && (
-          <>
-            <div className="b f3">Generated Audio</div>
-            <div className="flex items-center mv3">
-              <FontAwesomeIcon icon={faLockOpen} />
-              <p className="ml2 pa0 ma0">
-                This field is available when cloud-based voice is selected.
-              </p>
-            </div>
-
-            <div className="mb3" style={{ minHeight: '3.5em' }}>
-              {audioUrl ? (
-                <audio controls src={audioUrl} className="db w-100 red bg-light-greenX" />
-              ) : (
-                <audio controls src={undefined} className="o-50 db w-100 red bg-light-redX" />
-              )}
-            </div>
-          </>
-        )} */}
 
         { (
           <>
@@ -248,6 +230,16 @@ export default function PanelHome() {
                   </div>
                   <audio controls src={audioUrl} className="db w-100" />
                 </>
+              ) : useCloudTTS ? (
+                <>
+                  <div className="flex items-center mv3 justify-center">
+                    <FontAwesomeIcon icon={faLock} />
+                    <p className="ml2 pa0 ma0 f6">
+                      This audio control is available only when audio file is present.
+                    </p>
+                  </div>
+                  <audio controls src={undefined} className="db w-100" />
+                </>
               ) : (
                 <>
                   <div className="flex items-center mv3 justify-center">
@@ -256,7 +248,7 @@ export default function PanelHome() {
                       This audio control is available only when cloud-based voice is selected.
                     </p>
                   </div>
-                  <audio controls src={undefined} className="o-50 db w-100 red bg-light-red" />
+                  <audio controls src="" className="o-50 db w-100 red bg-light-redX" />
                 </>
               )}
             </div>
@@ -270,35 +262,6 @@ export default function PanelHome() {
             <div className="pa2 bg-washed-blue mb3">{cleanedText}</div>
           </>
         )}
-
-        {/* {audioUrl && (
-          <audio controls src={audioUrl} className="db w-100 mb3" />
-        )} */}
-
-        {/* 
-        <button
-          onClick={() => {
-            if (!apiKey) {
-              handleWelcomeLocal()
-              return
-            }
-
-            if (useCloudTTS) {
-              setUseCloudTTS(false)
-              handleWelcomeLocal()
-            } else {
-              setUseCloudTTS(true)
-              handleWelcomeCloud()
-            }
-          }}
-          className={`white pa2 br2 bn pointer db w-100 ${!apiKey ? 'bg-dark-gray' : useCloudTTS ? 'bg-green' : 'bg-dark-gray'}`}
-        >
-          {!apiKey
-            ? 'Play Welcome (Local TTS)'
-            : useCloudTTS
-              ? 'Switch to built-in voice'
-              : 'Switch to cloud voice'}
-        </button> */}
       </div>
     </div>
   )

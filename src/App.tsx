@@ -21,7 +21,8 @@ const App: React.FC = () => {
     setOpenAiKey,
     setOpenAiUsage,
     setScenario,
-    setTtsCharUsage
+    setTtsCharUsage,
+    setUseCloudTTS
   } = useAppContext()
 
   const loadUsage = () => {
@@ -65,6 +66,15 @@ const App: React.FC = () => {
       setMaskOpenAiKey(true)
     }
 
+    const storedUseCloudTTS = localStorage.getItem('useCloudTTS')
+    if (storedUseCloudTTS && storedUseCloudTTS === 'true') {
+      setUseCloudTTS(true)
+    } else if (storedUseCloudTTS && storedUseCloudTTS === 'false') {
+      setUseCloudTTS(false)
+    } else {
+      setUseCloudTTS(false)
+    }
+    
     loadUsage()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
