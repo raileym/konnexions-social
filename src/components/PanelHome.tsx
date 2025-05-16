@@ -2,7 +2,6 @@ import { useAppContext } from "../context/AppContext"
 import { getCurrentWeek } from "./Util"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
-// import { faKey, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { APP_PANEL } from "../cknTypes/types/types"
 
 export default function PanelHome() {
@@ -178,7 +177,7 @@ export default function PanelHome() {
       </p>
       <div className="flex justify-center w-100 mv4">
         <div
-          className="shadow-black-mediumX db items-center tc ba pa1 w-20 f2 br3 pointer"
+          className="db items-center tc ba pa1 w-20 f2 br3 pointer"
           style={{ width: '2em' }}
           onClick={() => switchPanel(APP_PANEL.KEYS)}
           role="button"
@@ -195,7 +194,7 @@ export default function PanelHome() {
     <div className="absolute z-0 pa4 bg-white top-0 left-0 w-100 h-100 overflow-y-auto">
       <div className="mb5">
         <h2 className="f3 pa3 pb0 mt5 w-100 tc">Text-To-Speech Panel</h2>
-        <div className="f3 baX pa3X pv3 pt0 mt0">{headline}</div>
+        <div className="f3 pv3 pt0 mt0">{headline}</div>
 
         <label className="o-100 db mt0 mb2 f3 b">Enter your Spanish text</label>
         <textarea
@@ -208,7 +207,7 @@ export default function PanelHome() {
         <div className="w-100 flex justify-center">
           <button
             onClick={handleGenerate}
-            className="shadow-black-mediumX bg-blue white pa3 mt2 f4 br-pill bn pointer db mb3 w-60"
+            className="bg-brand white pa2 f4 br2 bn pointer db mb3 w-100"
           >
             Hear your Spanish text using a {useCloudTTS ? 'cloud-based voice' : 'local voice'}
           </button>
@@ -248,7 +247,7 @@ export default function PanelHome() {
                       This audio control is available only when cloud-based voice is selected.
                     </p>
                   </div>
-                  <audio controls src="" className="o-50 db w-100 red bg-light-redX" />
+                  <audio controls src="" className="o-50 db w-100 red" />
                 </>
               )}
             </div>

@@ -10,7 +10,7 @@ const PanelSettings: React.FC = () => {
   return (
     <div className={`absolute z-1 top-0 left-0 w-100 h-100 bg-green white transition-transform ${translateX}`}>
       <h2 className="f3 pa3 mt5">Help Panel</h2>
-      <p className="pl3 mt5X">This panel slides in and out correctly based on context.</p>
+      <p className="pl3">This panel slides in and out correctly based on context.</p>
     </div>
   )
 }

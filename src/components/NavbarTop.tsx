@@ -6,17 +6,17 @@ import Button from './Button'
 
 const NavbarTop: React.FC = () => {
   return (
-    <nav className="fixed top-0 shadow-3 left-0 w-100 bg-whiteX dark-grayX bg-white flex items-center justify-between ph3 pv2 z-999">
-      <div className="flex items-centerX justify-start baX w-80X">
-        <div className="bg-brand mr3 ba b--white bw2 h3X ml2X">
+    <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph3 pv2 z-999">
+      <div className="flex justify-start">
+        <div className="bg-brand mr3 ba b--white bw2">
           <img
             src="/logo-blue-transparent-on-white-173x126.png"
             alt="CKN logo"
-            className="db aspect-ratio aspect-ratio--1x h3X mv0X"
+            className="db aspect-ratio aspect-ratio--1x"
             style={{height: '3em'}}
           />
         </div>
-        <div className="black-30 ml2X f3 b baX lh-title tlX">
+        <div className="black-30 f3 b lh-title">
           <div><span className="brand">CK</span>Ո Series on Joy</div>
           <div className="black-20 f5">Joy of Language - Spanish</div>
         </div>

@@ -20,9 +20,9 @@ const PanelKeys: React.FC = () => {
 
   return (
     <div className={`absolute pa4 z-1 top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
-      <h2 className="f3 pa3 baX mt5">API Keys</h2>
+      <h2 className="f3 pa3 mt5">API Keys</h2>
 
-      <div className="w-100 pa3 bg-blueX">
+      <div className="w-100 pa3">
         <label className="db mb2 f6">Google TTS API Key</label>
         <input
           type={maskKey ? 'password' : 'text'}
@@ -39,7 +39,7 @@ const PanelKeys: React.FC = () => {
             setMaskKey(false)
             localStorage.removeItem('gcpTTSKey')
           }}
-          className="bg-light-red white pa2 br2 bn pointer db mb3 w-100"
+          className="bg-brand white pa2 br2 bn pointer db mb3 w-100"
         >
           Clear API Key
         </button>
@@ -61,7 +61,7 @@ const PanelKeys: React.FC = () => {
             setMaskOpenAiKey(false)
             localStorage.removeItem('openAiKey')
           }}
-          className="bg-light-red white pa2 br2 bn pointer db mb3 w-100"
+          className="bg-brand white pa2 br2 bn pointer db mb3 w-100"
         >
           Clear OpenAI Key
         </button>          

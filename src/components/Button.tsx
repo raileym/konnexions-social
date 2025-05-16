@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({ panel, icon, title }) => {
   return (
     <button
       onClick={handleClick}
-      className={`f2 pv2X br2X bn pointer bg-white ${isActive ? 'brand' : 'dark-gray'} mr2X`}
+      className={`f2 bn pointer bg-white ${isActive ? 'brand' : 'dark-gray'} mr2X`}
       // className={`f2 pa2 br2 bn pointer bg-white ${isActive ? 'bg-light-purple white' : 'dark-gray'} mr2`}
       title={title}
     >

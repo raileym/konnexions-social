@@ -1,6 +1,8 @@
 import React from 'react'
 import { useAppContext } from '../context/AppContext'
 import { APP_PANEL } from '../cknTypes/types/types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 
 const PanelSettings: React.FC = () => {
   const {
@@ -17,7 +19,8 @@ const PanelSettings: React.FC = () => {
     openAiUsage,
     apiKey,
     useCloudTTS,
-    setUseCloudTTS
+    setUseCloudTTS,
+    openAiKey
   } = useAppContext()
   const isActive = activePanel === APP_PANEL.SETTINGS
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
@@ -76,11 +79,10 @@ const PanelSettings: React.FC = () => {
   )
 
   return (
-    <div className={`absolute z-1 pa4 top-0 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX}`}>
+    <div style={{paddingBottom: '6em'}} className={`absolute z-1 pa4 top-0 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX} overflow-y-auto`}>
       <h2 className="f3 pa3 pb0 mt5 w-100 tc">Settings Panel</h2>
-      <div className="f3 baX pa3X pv3 pt0 mt0">{headline}</div>
-
-      <div className="f3 baX pv3X pt4 pb4 pv3X b pt0 mt0">Choose local or cloud-based TTS services</div>
+      <div className="f3 pv3 pt0 mt0">{headline}</div>
+      <div className="f3 pt4 pb4 b pt0 mt0">Choose local or cloud-based TTS services</div>
       <div className="w-100 flex justify-center">
           <button
             onClick={() => {
@@ -99,7 +101,8 @@ const PanelSettings: React.FC = () => {
                 handleWelcomeCloud()
               }
             }}
-            className={`shadow-black-mediumX bg-blueX white pa3 mt2 f4 br-pill bn pointer db mb3 w-60 ${!apiKey ? 'bg-dark-gray' : useCloudTTS ? 'bg-green' : 'bg-brand'}`}
+            className="bg-brand f4 white pa2 br2 bn pointer db mb3 w-100"
+
           >
             {!apiKey
               ? 'Play Welcome (Local TTS)'
@@ -111,46 +114,94 @@ const PanelSettings: React.FC = () => {
 
       <hr className="mv4"/>
 
-      <div className="f3 baX pv3X pt3 pb4 pv3X b pt0 mt0">Set your metrics for cloud-based services</div>
-      <label className="b db mb2 f6">TTS Budget ($/month)</label>
-      <input
-        type="number"
-        value={ttsBudget}
-        onChange={(e) => setTtsBudget(parseFloat(e.target.value))}
-        className="input-reset ba b--black-20 pa2 mb2 db w-100"
-      />
-      <label className="b db mb2 f6">Avg chars per TTS</label>
-      <input
-        type="number"
-        value={ttsAvgChars}
-        onChange={(e) => setTtsAvgChars(parseInt(e.target.value))}
-        className="input-reset ba b--black-20 pa2 mb2 db w-100"
-      />
-      <div className="tc b db mv4 black f4 flex justify-center">
-        <div className="flex flex-row items-center">
-          <div className="ba w3 mr3 bw2">
-            {ttsWeeklyLimit - Math.floor(ttsCharUsage / ttsAvgChars)}
+      <div className="f3 pt0 pb4 b pt0 mt0">Set your metrics for cloud-based Text-To-Speech services</div>
+
+      {useCloudTTS ? (
+        <>
+          <div className="flex items-center mt3 justify-center">
+            <FontAwesomeIcon icon={faLockOpen} />
+            <p className="ml2 pa0 ma0 f6">
+              These TTS metrics are available only when cloud-based TTS service is selected.
+            </p>
           </div>
-          <div>
-            TTS transforms remaining this week
+        </>
+      ) : (
+        <>
+          <div className="flex items-center mv3 justify-center">
+            <FontAwesomeIcon icon={faLock} />
+            <p className="ml2 pa0 ma0 f6">
+              These TTS metrics are available only when cloud-based TTS service is selected.
+            </p>
+          </div>
+        </>
+      )}
+
+      <div className={useCloudTTS ? "": "o-30"}>
+        <label className="b db mb2 f6">TTS Budget ($/month)</label>
+        <input
+          type="number"
+          value={ttsBudget}
+          onChange={(e) => setTtsBudget(parseFloat(e.target.value))}
+          className="input-reset ba b--black-20 pa2 mb2 db w-100"
+        />
+        <label className="b db mb2 f6">Avg chars per TTS</label>
+        <input
+          type="number"
+          value={ttsAvgChars}
+          onChange={(e) => setTtsAvgChars(parseInt(e.target.value))}
+          className="input-reset ba b--black-20 pa2 mb2 db w-100"
+        />
+        <div className="tc b db mv4 black f4 flex justify-center">
+          <div className="flex flex-row items-center">
+            <div className="ba w3 mr3 bw2">
+              {ttsWeeklyLimit - Math.floor(ttsCharUsage / ttsAvgChars)}
+            </div>
+            <div>
+              TTS transforms remaining this week
+            </div>
           </div>
         </div>
       </div>
 
-      <label className="b db mb2 f6">OpenAI Budget ($/month)</label>
-      <input
-        type="number"
-        value={openAiBudget}
-        onChange={(e) => setOpenAiBudget(parseFloat(e.target.value))}
-        className="input-reset ba b--black-20 pa2 mb2 db w-100"
-      />
-      <label className="b db mb2 f6">Avg tokens per Q</label>
-      <input
-        type="number"
-        value={openAiAvgTokens}
-        onChange={(e) => setOpenAiAvgTokens(parseInt(e.target.value))}
-        className="input-reset ba b--black-20 pa2 mb2 db w-100"
-      />
+      <hr className="mv4" />
+
+      <div className="f3 pt3 pb4 b pt0 mt0">Set your OpenAI metrics for cloud-based OpenAI services</div>
+      {openAiKey ? (
+        <>
+          <div className="flex items-center mt5 justify-center">
+            <FontAwesomeIcon icon={faLockOpen} />
+            <p className="ml2 pa0 ma0 f6">
+              These OpenAI metrics are available only when cloud-based OpenAI service is selected.
+            </p>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="flex items-center mv3 mt5 justify-center">
+            <FontAwesomeIcon icon={faLock} />
+            <p className="ml2 pa0 ma0 f6">
+              These OpenAI metrics are available only when cloud-based OpenAI service is selected.
+            </p>
+          </div>
+        </>
+      )}
+
+      <div className={openAiKey ? "": "o-30"}>
+        <label className="b db mb2 f6">OpenAI Budget ($/month)</label>
+        <input
+          type="number"
+          value={openAiBudget}
+          onChange={(e) => setOpenAiBudget(parseFloat(e.target.value))}
+          className="input-reset ba b--black-20 pa2 mb2 db w-100"
+        />
+        <label className="b db mb2 f6">Avg tokens per Q</label>
+        <input
+          type="number"
+          value={openAiAvgTokens}
+          onChange={(e) => setOpenAiAvgTokens(parseInt(e.target.value))}
+          className="input-reset ba b--black-20 pa2 mb2 db w-100"
+        />
+      </div>
 
       <div className="tc b db mv4 black f4 flex justify-center">
         <div className="flex flex-row items-center">

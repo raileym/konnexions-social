@@ -65,7 +65,7 @@ const PanelGenAI: React.FC = () => {
       Ask ChatGPT:{' '}
       {scenario === 'custom' && (
         <>
-          <span className="grayX">You could say, "</span>
+          <span className="">You could say, "</span>
         </>
       )}
       I am <span className="b">{scenarioLabel}</span>.{' '}
@@ -84,7 +84,7 @@ const PanelGenAI: React.FC = () => {
   return (
     <div className={`absolute z-1 top-0 pa4 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX} overflow-y-auto`}>
       <h2 className="f3 pa3 pb0 mt5 w-100 tc">GenAI Panel</h2>
-      <div className="f3 baX pa3X pv3 pt0 mt0">{headline}</div>
+      <div className="f3 pv3 pt0 mt0">{headline}</div>
 
       <Scenario />
       
@@ -137,9 +137,9 @@ const PanelGenAI: React.FC = () => {
               This field is available when Custom is selected.
             </p>
           </div>
-          <div className="relative baX">
+          <div className="relative">
             {/* Overlay mask (dim layer) */}
-            {/* <div className="absolute top-0 left-0 w-100 h-100 bg-white bg-blackX o-80 z-2 pointer-events-none" /> */}
+            {/* <div className="absolute top-0 left-0 w-100 h-100 bg-white o-80 z-2 pointer-events-none" /> */}
 
             {/* Content to be masked but not removed */}
             {/* <div className="relative z-1"> */}

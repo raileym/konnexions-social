@@ -9,8 +9,8 @@ const PanelMenu: React.FC = () => {
 
   return (
     <div className={`absolute z-1 pa4 top-0 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX}`}>
-      <h2 className="f3 baX pa3 mt5">Menu Panel</h2>
-      <p className="pl3 mt5X">This panel slides in and out correctly based on context.</p>
+      <h2 className="f3 pa3 mt5">Menu Panel</h2>
+      <p className="pl3">This panel slides in and out correctly based on context.</p>
     </div>
   )
 }
