@@ -1,7 +1,8 @@
 import { useAppContext } from "../context/AppContext"
 import { getCurrentWeek } from "./Util"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faKey, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+// import { faKey, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+import { faKey, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { APP_PANEL } from "../cknTypes/types/types"
 
 export default function PanelHome() {
@@ -16,7 +17,7 @@ export default function PanelHome() {
     apiKey,
     ttsCharUsage,
     setTtsCharUsage,
-    setUseCloudTTS,
+    // setUseCloudTTS,
     switchPanel
   } = useAppContext()
 
@@ -72,47 +73,47 @@ export default function PanelHome() {
   //   }
   // }
 
-  const handleWelcomeLocal = () => {
-    const synth = window.speechSynthesis
+  // const handleWelcomeLocal = () => {
+  //   const synth = window.speechSynthesis
   
-    const speakText = () => {
-      const voices = synth.getVoices()
-      const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-      const utterance = new SpeechSynthesisUtterance("¡Hola! Usando voz integrada en el dispositivo.")
-      utterance.voice = spanishVoice
-      utterance.lang = spanishVoice.lang
-      utterance.rate = 0.9
-      synth.speak(utterance)
-    }
+  //   const speakText = () => {
+  //     const voices = synth.getVoices()
+  //     const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
+  //     const utterance = new SpeechSynthesisUtterance("¡Hola! Usando voz integrada en el dispositivo.")
+  //     utterance.voice = spanishVoice
+  //     utterance.lang = spanishVoice.lang
+  //     utterance.rate = 0.9
+  //     synth.speak(utterance)
+  //   }
   
-    if (!synth.getVoices().length) {
-      synth.onvoiceschanged = speakText
-    } else {
-      speakText()
-    }
-  }
+  //   if (!synth.getVoices().length) {
+  //     synth.onvoiceschanged = speakText
+  //   } else {
+  //     speakText()
+  //   }
+  // }
   
-  const handleWelcomeCloud = async () => {
-    try {
-      const response = await fetch(
-        `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            input: { ssml: `<speak>Hola. Usando servicio de voz en la nube.</speak>` },
-            voice: { languageCode: 'es-US', name: 'es-US-Wavenet-B' },
-            audioConfig: { audioEncoding: 'MP3', speakingRate: 0.9 },
-          }),
-        }
-      )
-      const data = await response.json()
-      const audio = new Audio(`data:audio/mp3;base64,${data.audioContent}`)
-      audio.play()
-    } catch (err) {
-      console.error('Cloud TTS welcome failed:', err)
-    }
-  }
+  // const handleWelcomeCloud = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
+  //       {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({
+  //           input: { ssml: `<speak>Hola. Usando servicio de voz en la nube.</speak>` },
+  //           voice: { languageCode: 'es-US', name: 'es-US-Wavenet-B' },
+  //           audioConfig: { audioEncoding: 'MP3', speakingRate: 0.9 },
+  //         }),
+  //       }
+  //     )
+  //     const data = await response.json()
+  //     const audio = new Audio(`data:audio/mp3;base64,${data.audioContent}`)
+  //     audio.play()
+  //   } catch (err) {
+  //     console.error('Cloud TTS welcome failed:', err)
+  //   }
+  // }
   
   const handleGenerate = async () => {
     const cleaned = cleanText(inputText)
@@ -193,9 +194,7 @@ export default function PanelHome() {
   return (
     <div className="absolute z-0 pa4 bg-white top-0 left-0 w-100 h-100 overflow-y-auto">
       <div className="mb5">
-        {/* <h2 className="f3 pa3 mt5">English to Spanish (Text-To-Speech service)</h2> */}
         <h2 className="f3 pa3 pb0 mt5 w-100 tc">Text-To-Speech Panel</h2>
-        {/* <div className="f3 baX pa3 pt0 mt0">{headline}</div> */}
         <div className="f3 baX pa3X pv3 pt0 mt0">{headline}</div>
 
         <label className="o-100 db mt0 mb2 f3 b">Enter your Spanish text</label>
@@ -245,7 +244,7 @@ export default function PanelHome() {
         )} */}
 
         <hr className="mv4" />
-
+{/* 
         <button
           onClick={() => {
             if (!apiKey) {
@@ -268,7 +267,7 @@ export default function PanelHome() {
             : useCloudTTS
               ? 'Switch to built-in voice'
               : 'Switch to cloud voice'}
-        </button>
+        </button> */}
       </div>
     </div>
   )
