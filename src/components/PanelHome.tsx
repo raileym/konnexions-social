@@ -1,8 +1,8 @@
 import { useAppContext } from "../context/AppContext"
 import { getCurrentWeek } from "./Util"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faKey, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
-import { faKey, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+import { faKey, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+// import { faKey, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { APP_PANEL } from "../cknTypes/types/types"
 
 export default function PanelHome() {
@@ -212,16 +212,11 @@ export default function PanelHome() {
           Hear your Spanish text with a {useCloudTTS ? 'cloud-based voice' : 'local voice'}
         </button>
 
-        {cleanedText && (
-          <>
-            <hr className="mv4" />
-            <div className="b f4">Clean text</div>
-            <div className="pa2 bg-washed-blue mb3">{cleanedText}</div>
-          </>
-        )}
+        <hr className="mv4" />
 
-        {useCloudTTS && (
+        {/* {useCloudTTS && (
           <>
+            <div className="b f3">Generated Audio</div>
             <div className="flex items-center mv3">
               <FontAwesomeIcon icon={faLockOpen} />
               <p className="ml2 pa0 ma0">
@@ -231,11 +226,48 @@ export default function PanelHome() {
 
             <div className="mb3" style={{ minHeight: '3.5em' }}>
               {audioUrl ? (
-                <audio controls src={audioUrl} className="db w-100" />
+                <audio controls src={audioUrl} className="db w-100 red bg-light-greenX" />
               ) : (
-                <div className="w-100 h-100 bg-transparent" />
+                <audio controls src={undefined} className="o-50 db w-100 red bg-light-redX" />
               )}
             </div>
+          </>
+        )} */}
+
+        { (
+          <>
+            <div className="b f3 mb3">Generated Audio</div>
+            <div className="mb3" style={{ minHeight: '3.5em' }}>
+              {audioUrl && useCloudTTS ? (
+                <>
+                  <div className="flex items-center mv3 justify-center">
+                    <FontAwesomeIcon icon={faLockOpen} />
+                    <p className="ml2 pa0 ma0 f6">
+                      This audio control is available only when cloud-based voice is selected.
+                    </p>
+                  </div>
+                  <audio controls src={audioUrl} className="db w-100" />
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center mv3 justify-center">
+                    <FontAwesomeIcon icon={faLock} />
+                    <p className="ml2 pa0 ma0 f6">
+                      This audio control is available only when cloud-based voice is selected.
+                    </p>
+                  </div>
+                  <audio controls src={undefined} className="o-50 db w-100 red bg-light-red" />
+                </>
+              )}
+            </div>
+          </>
+        )}
+
+        {cleanedText && (
+          <>
+            <hr className="mv4" />
+            <div className="b f3">Clean text</div>
+            <div className="pa2 bg-washed-blue mb3">{cleanedText}</div>
           </>
         )}
 
@@ -243,8 +275,7 @@ export default function PanelHome() {
           <audio controls src={audioUrl} className="db w-100 mb3" />
         )} */}
 
-        <hr className="mv4" />
-{/* 
+        {/* 
         <button
           onClick={() => {
             if (!apiKey) {
