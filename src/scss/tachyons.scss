@@ -42,11 +42,13 @@ $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
     }
 }
 
-$width-details: 1rem, 2rem, 4rem, 8rem, 16rem;
+$width-details: 1rem, 2rem, 4rem, 8rem, 16rem, 32rem, 64rem;
 @each $width in $width-details {
     $i: index($width-details, $width)-1;
     .min-w#{$i} { min-width: $width; }
     .min-h#{$i} { min-height: $width; }
+    .max-w#{$i} { max-width: $width; }
+    .max-h#{$i} { max-height: $width; }
 }     
   
 @for $i from 1 through 8 {

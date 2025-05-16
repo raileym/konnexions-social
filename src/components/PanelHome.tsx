@@ -111,14 +111,9 @@ export default function PanelHome() {
   const headline = (
     <div>
       <p className="pa0 ma0">
-      Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard speech using the built-in voice on your device.
+      Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.
       </p>
       <div className="flex justify-center w-100 mv4">
-        {/* <div className="shadow-black-medium db items-center tc ba pa1 w-20 f2 br3" style={{width: "2em"}}>
-          <FontAwesomeIcon icon={faKey} />
-          <div className="f6 mt0 b">API Keys</div>
-        </div> */}
-
         <div
           className="shadow-black-medium db items-center tc ba pa1 w-20 f2 br3 pointer"
           style={{ width: '2em' }}

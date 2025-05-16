@@ -71,7 +71,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className="relative w-100 min-vh-100 overflow-hidden bg-light-gray">
+      <div className="mw6X max-w6 min-w5 flexX justify-centerX relative w-100 center min-vh-100 overflow-hidden bg-light-gray">
         <PanelHome />
         <PanelKeys />
         <PanelSettings />
