@@ -207,9 +207,9 @@ export default function PanelHome() {
         />
         <button
           onClick={handleGenerate}
-          className="bg-blue white pa2 br2 bn pointer db mb3 w-100"
+          className="bg-blue white pa3 f4 br2 bn pointer db mb3 w-100"
         >
-          Create audio (MP3)
+          Hear your Spanish text with a {useCloudTTS ? 'cloud-based voice' : 'local voice'}
         </button>
 
         {cleanedText && (
