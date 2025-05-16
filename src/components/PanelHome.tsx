@@ -32,26 +32,88 @@ export default function PanelHome() {
     return text.trim().replace(/[¡¿]/g, '')
   }
 
-  const handleWelcome = () => {
-    const synth = window.speechSynthesis
+  // const handleWelcomeLocalService = () => {
+  //   const synth = window.speechSynthesis
 
+  //   const speakText = () => {
+  //     const voices = synth.getVoices()
+  //     const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
+  //     const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a Let's Connect!")
+  //     utterance.voice = spanishVoice
+  //     utterance.lang = spanishVoice.lang
+  //     utterance.rate = 0.9
+  //     synth.speak(utterance)
+  //   }
+
+  //   if (!synth.getVoices().length) {
+  //     synth.onvoiceschanged = speakText
+  //   } else {
+  //     speakText()
+  //   }
+  // }
+
+  // const handleWelcomeCloudService = () => {
+  //   const synth = window.speechSynthesis
+
+  //   const speakText = () => {
+  //     const voices = synth.getVoices()
+  //     const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
+  //     const utterance = new SpeechSynthesisUtterance("¡Buenos noches! Adios! Bienvenido a Let's Connect!")
+  //     utterance.voice = spanishVoice
+  //     utterance.lang = spanishVoice.lang
+  //     utterance.rate = 0.9
+  //     synth.speak(utterance)
+  //   }
+
+  //   if (!synth.getVoices().length) {
+  //     synth.onvoiceschanged = speakText
+  //   } else {
+  //     speakText()
+  //   }
+  // }
+
+  const handleWelcomeLocal = () => {
+    const synth = window.speechSynthesis
+  
     const speakText = () => {
       const voices = synth.getVoices()
       const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-      const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a Let's Connect!")
+      const utterance = new SpeechSynthesisUtterance("¡Hola! Usando voz integrada en el dispositivo.")
       utterance.voice = spanishVoice
       utterance.lang = spanishVoice.lang
       utterance.rate = 0.9
       synth.speak(utterance)
     }
-
+  
     if (!synth.getVoices().length) {
       synth.onvoiceschanged = speakText
     } else {
       speakText()
     }
   }
-
+  
+  const handleWelcomeCloud = async () => {
+    try {
+      const response = await fetch(
+        `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            input: { ssml: `<speak>Hola. Usando servicio de voz en la nube.</speak>` },
+            voice: { languageCode: 'es-US', name: 'es-US-Wavenet-B' },
+            audioConfig: { audioEncoding: 'MP3', speakingRate: 0.9 },
+          }),
+        }
+      )
+      const data = await response.json()
+      const audio = new Audio(`data:audio/mp3;base64,${data.audioContent}`)
+      audio.play()
+    } catch (err) {
+      console.error('Cloud TTS welcome failed:', err)
+    }
+  }
+  
   const handleGenerate = async () => {
     const cleaned = cleanText(inputText)
     setCleanedText(cleaned)
@@ -148,7 +210,7 @@ export default function PanelHome() {
           onClick={handleGenerate}
           className="bg-blue white pa2 br2 bn pointer db mb3 w-100"
         >
-          Clean it
+          Create audio (MP3)
         </button>
 
         {cleanedText && <div className="pa2 bg-washed-blue mb3">{cleanedText}</div>}
@@ -158,15 +220,26 @@ export default function PanelHome() {
 
         <button
           onClick={() => {
+            if (!apiKey) {
+              handleWelcomeLocal()
+              return
+            }
+
             if (useCloudTTS) {
               setUseCloudTTS(false)
+              handleWelcomeLocal()
             } else {
-              handleWelcome()
+              setUseCloudTTS(true)
+              handleWelcomeCloud()
             }
           }}
-          className={`white pa2 br2 bn pointer db w-100 ${useCloudTTS ? 'bg-green' : 'bg-dark-gray'}`}
+          className={`white pa2 br2 bn pointer db w-100 ${!apiKey ? 'bg-dark-gray' : useCloudTTS ? 'bg-green' : 'bg-dark-gray'}`}
         >
-          {useCloudTTS ? 'Switch to Local TTS' : 'Play Welcome (Local TTS)'}
+          {!apiKey
+            ? 'Play Welcome (Local TTS)'
+            : useCloudTTS
+              ? 'Switch to built-in voice'
+              : 'Switch to cloud voice'}
         </button>
       </div>
     </div>
