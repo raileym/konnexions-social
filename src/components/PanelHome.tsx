@@ -1,5 +1,8 @@
 import { useAppContext } from "../context/AppContext"
 import { getCurrentWeek } from "./Util"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faKey } from '@fortawesome/free-solid-svg-icons'
+import { APP_PANEL } from "../cknTypes/types/types"
 
 export default function PanelHome() {
   const {
@@ -14,6 +17,7 @@ export default function PanelHome() {
     ttsCharUsage,
     setTtsCharUsage,
     setUseCloudTTS,
+    switchPanel
   } = useAppContext()
 
   const incrementTtsCharUsage = (chars: number) => {
@@ -104,12 +108,40 @@ export default function PanelHome() {
     }
   }
 
+  const headline = (
+    <div>
+      <p className="pa0 ma0">
+      Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard speech using the built-in voice on your device.
+      </p>
+      <div className="flex justify-center w-100 mv4">
+        {/* <div className="shadow-black-medium db items-center tc ba pa1 w-20 f2 br3" style={{width: "2em"}}>
+          <FontAwesomeIcon icon={faKey} />
+          <div className="f6 mt0 b">API Keys</div>
+        </div> */}
+
+        <div
+          className="shadow-black-medium db items-center tc ba pa1 w-20 f2 br3 pointer"
+          style={{ width: '2em' }}
+          onClick={() => switchPanel(APP_PANEL.KEYS)}
+          role="button"
+          tabIndex={0}
+        >
+          <FontAwesomeIcon icon={faKey} />
+          <div className="f6 mt0 b">API Keys</div>
+        </div>        
+      </div>
+    </div>
+  )
+  
   return (
     <div className="absolute z-0 pa4 bg-white top-0 left-0 w-100 h-100 overflow-y-auto">
       <div className="mb5">
-        <h2 className="f3 pa3 mt5">Home</h2>
+        {/* <h2 className="f3 pa3 mt5">English to Spanish (Text-To-Speech service)</h2> */}
+        <h2 className="f3 pa3 pb0 mt5 w-100 tc">Text-To-Speech Panel</h2>
+        {/* <div className="f3 baX pa3 pt0 mt0">{headline}</div> */}
+        <div className="f3 baX pa3X pv3 pt0 mt0">{headline}</div>
 
-        <label className="db mb2 f6">Enter Spanish text</label>
+        <label className="o-100 db mt0 mb2 f3 b">Enter your Spanish text</label>
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
@@ -141,9 +173,6 @@ export default function PanelHome() {
         >
           {useCloudTTS ? 'Switch to Local TTS' : 'Play Welcome (Local TTS)'}
         </button>
-        <div className="bg-blue white f2 tc mt4 h5">
-          Hello, world
-        </div>
       </div>
     </div>
   )

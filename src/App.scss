@@ -31,6 +31,10 @@ html, body, #root {
   padding: 0;
 }
 
+html {
+  max-width: 30em;   
+}
+
 a {
   font-weight: 500;
   color: #646cff;

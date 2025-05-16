@@ -1,7 +1,7 @@
 // src/components/NavbarBottom.tsx
 import React from 'react'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGear, faKey, faRobot, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faGear, faKey, faRobot, faBars } from '@fortawesome/free-solid-svg-icons'   
 import Button from './Button'
 
 const NavbarBottom: React.FC = () => {
