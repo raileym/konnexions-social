@@ -1,7 +1,7 @@
 import { useAppContext } from "../context/AppContext"
 import { getCurrentWeek } from "./Util"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faKey } from '@fortawesome/free-solid-svg-icons'
+import { faKey, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { APP_PANEL } from "../cknTypes/types/types"
 
 export default function PanelHome() {
@@ -213,10 +213,38 @@ export default function PanelHome() {
           Create audio (MP3)
         </button>
 
-        {cleanedText && <div className="pa2 bg-washed-blue mb3">{cleanedText}</div>}
-        {audioUrl && (
-          <audio controls src={audioUrl} className="db w-100 mb3" />
+        {cleanedText && (
+          <>
+            <hr className="mv4" />
+            <div className="b f4">Clean text</div>
+            <div className="pa2 bg-washed-blue mb3">{cleanedText}</div>
+          </>
         )}
+
+        {useCloudTTS && (
+          <>
+            <div className="flex items-center mv3">
+              <FontAwesomeIcon icon={faLockOpen} />
+              <p className="ml2 pa0 ma0">
+                This field is available when cloud-based voice is selected.
+              </p>
+            </div>
+
+            <div className="mb3" style={{ minHeight: '3.5em' }}>
+              {audioUrl ? (
+                <audio controls src={audioUrl} className="db w-100" />
+              ) : (
+                <div className="w-100 h-100 bg-transparent" />
+              )}
+            </div>
+          </>
+        )}
+
+        {/* {audioUrl && (
+          <audio controls src={audioUrl} className="db w-100 mb3" />
+        )} */}
+
+        <hr className="mv4" />
 
         <button
           onClick={() => {
