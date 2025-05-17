@@ -7,6 +7,7 @@ export type AppContextType = {
   gcpKey: GcpKey
   helpPanel: HelpPanel
   inputText: InputText
+  isTransitioning: IsTransitioning
   maskKey: MaskKey
   maskOpenAiKey: MaskOpenAiKey
   openAiAvgTokens: OpenAiAvgTokens
@@ -24,6 +25,7 @@ export type AppContextType = {
   setGcpKey: SetGcpKey
   setHelpPanel: SetHelpPanel
   setInputText: SetInputText
+  setIsTransitioning: SetIsTransitioning
   setMaskKey: SetMaskKey
   setMaskOpenAiKey: SetMaskOpenAiKey
   setOpenAiAvgTokens: SetOpenAiAvgTokens
@@ -37,7 +39,6 @@ export type AppContextType = {
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
-  switchPanel: SwitchPanel
   ttsAvgChars: TtsAvgChars
   ttsBudget: TtsBudget
   ttsCharUsage: TtsCharUsage

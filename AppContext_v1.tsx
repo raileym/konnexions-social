@@ -55,37 +55,37 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
-  // const handlePanelSwitch = (newPanel: AppPanelValue) => {
-  //   if (isTransitioning) return
+  const handlePanelSwitch = (newPanel: AppPanelValue) => {
+    if (isTransitioning) return
   
-  //   const isHelp = newPanel === APP_PANEL.HELP
-  //   const isSame = newPanel === activePanel
+    const isHelp = newPanel === APP_PANEL.HELP
+    const isSame = newPanel === activePanel
   
-  //   setIsTransitioning(true)
+    setIsTransitioning(true)
   
-  //   if (isHelp) {
-  //     // Toggle Help Panel on/off without affecting the current panel
-  //     setHelpPanel(prev => (prev === APP_PANEL.HELP ? APP_PANEL.HOME : APP_PANEL.HELP))
-  //     setTimeout(() => setIsTransitioning(false), 300)
-  //     return
-  //   }
+    if (isHelp) {
+      // Toggle Help Panel on/off without affecting the current panel
+      setHelpPanel(prev => (prev === APP_PANEL.HELP ? APP_PANEL.HOME : APP_PANEL.HELP))
+      setTimeout(() => setIsTransitioning(false), 300)
+      return
+    }
   
-  //   // Closing any other panel should also hide Help
-  //   if (isSame) {
-  //     setActivePanel(APP_PANEL.HOME)
-  //     setHelpPanel(APP_PANEL.HOME)
-  //     setTimeout(() => setIsTransitioning(false), 300)
-  //     return
-  //   }
+    // Closing any other panel should also hide Help
+    if (isSame) {
+      setActivePanel(APP_PANEL.HOME)
+      setHelpPanel(APP_PANEL.HOME)
+      setTimeout(() => setIsTransitioning(false), 300)
+      return
+    }
   
-  //   // Switching to new primary panel: reset Help and swap panels
-  //   setActivePanel(APP_PANEL.HOME)
-  //   setHelpPanel(APP_PANEL.HOME)
-  //   setTimeout(() => {
-  //     setActivePanel(newPanel)
-  //     setIsTransitioning(false)
-  //   }, 300)
-  // }  
+    // Switching to new primary panel: reset Help and swap panels
+    setActivePanel(APP_PANEL.HOME)
+    setHelpPanel(APP_PANEL.HOME)
+    setTimeout(() => {
+      setActivePanel(newPanel)
+      setIsTransitioning(false)
+    }, 300)
+  }  
 
   const AppContextValue = {
     activePanel,
@@ -96,7 +96,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     gcpKey,
     helpPanel,
     inputText,
-    isTransitioning,
     maskKey,
     maskOpenAiKey,
     openAiAvgTokens,
@@ -114,7 +113,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setGcpKey,
     setHelpPanel,
     setInputText,
-    setIsTransitioning,
     setMaskKey,
     setMaskOpenAiKey,
     setOpenAiAvgTokens,
@@ -128,7 +126,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setTtsBudget,
     setTtsCharUsage,
     setUseCloudTTS,
-    // switchPanel: handlePanelSwitch,
+    switchPanel: handlePanelSwitch,
     ttsAvgChars,
     ttsBudget,
     ttsCharUsage,

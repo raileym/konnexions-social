@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppContext } from '../context/AppContext'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { type AppPanelValue } from '../cknTypes/types/types'
+import { usePanel } from '../hooks/usePanel'
 // import type { AppPanel } from '../cknTypes/types/types'
 type ButtonProps = {
   panel: AppPanelValue
@@ -13,7 +14,9 @@ type ButtonProps = {
 }
 
 const Button: React.FC<ButtonProps> = ({ panel, icon, title }) => {
-  const { activePanel, switchPanel } = useAppContext()
+  const { activePanel } = useAppContext()
+  const { switchPanel } = usePanel()
+  
   const isActive = activePanel === panel
 
   const handleClick = () => {

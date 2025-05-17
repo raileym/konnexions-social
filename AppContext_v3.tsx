@@ -22,18 +22,17 @@ import type {
   TtsBudget,
   TtsCharUsage,
   UseCloudTTS,
-  ScenarioValue
+  Scenario
 } from '../cknTypes/types/types'
 import {
-  APP_PANEL,
-  SCENARIO
+  APP_PANEL
 } from '../cknTypes/types/types'
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.HOME)
-  const [helpPanel, setHelpPanel] = useState<AppPanelValue>(APP_PANEL.HOME)
+
   const [answer, setAnswer] = useState<Answer>('')
   const [apiKey, setApiKey] = useState<ApiKey>('')
   const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
@@ -49,43 +48,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [openAiUsage, setOpenAiUsage] = useState<OpenAiUsage>(0)
   const [question, setQuestion] = useState<Question>('')
   const [questionContext, setQuestionContext] = useState<QuestionContext>('')
-  const [scenario, setScenario] = useState<ScenarioValue>(SCENARIO.RESTAURANT)
+  const [scenario, setScenario] = useState<Scenario>('')
   const [ttsAvgChars, setTtsAvgChars] = useState<TtsAvgChars>(80)
   const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
-  // const handlePanelSwitch = (newPanel: AppPanelValue) => {
-  //   if (isTransitioning) return
+  const handlePanelSwitch = (newPanel: AppPanelValue) => {
+    if (isTransitioning) return
   
-  //   const isHelp = newPanel === APP_PANEL.HELP
-  //   const isSame = newPanel === activePanel
-  
-  //   setIsTransitioning(true)
-  
-  //   if (isHelp) {
-  //     // Toggle Help Panel on/off without affecting the current panel
-  //     setHelpPanel(prev => (prev === APP_PANEL.HELP ? APP_PANEL.HOME : APP_PANEL.HELP))
-  //     setTimeout(() => setIsTransitioning(false), 300)
-  //     return
-  //   }
-  
-  //   // Closing any other panel should also hide Help
-  //   if (isSame) {
-  //     setActivePanel(APP_PANEL.HOME)
-  //     setHelpPanel(APP_PANEL.HOME)
-  //     setTimeout(() => setIsTransitioning(false), 300)
-  //     return
-  //   }
-  
-  //   // Switching to new primary panel: reset Help and swap panels
-  //   setActivePanel(APP_PANEL.HOME)
-  //   setHelpPanel(APP_PANEL.HOME)
-  //   setTimeout(() => {
-  //     setActivePanel(newPanel)
-  //     setIsTransitioning(false)
-  //   }, 300)
-  // }  
+    if (newPanel === activePanel) {
+      setIsTransitioning(true)
+
+      setActivePanel(APP_PANEL.HOME)
+
+      setTimeout(() => {
+        setIsTransitioning(false)
+      }, 600)
+    } else {
+      setIsTransitioning(true)
+    
+      setActivePanel(APP_PANEL.HOME)
+    
+      setTimeout(() => {
+        setActivePanel(newPanel)
+        setIsTransitioning(false)
+      }, 600) // match your CSS transition duration
+    }
+  }
 
   const AppContextValue = {
     activePanel,
@@ -94,9 +84,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     audioUrl,
     cleanedText,
     gcpKey,
-    helpPanel,
     inputText,
-    isTransitioning,
     maskKey,
     maskOpenAiKey,
     openAiAvgTokens,
@@ -112,9 +100,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setAudioUrl,
     setCleanedText,
     setGcpKey,
-    setHelpPanel,
     setInputText,
-    setIsTransitioning,
     setMaskKey,
     setMaskOpenAiKey,
     setOpenAiAvgTokens,
@@ -128,7 +114,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setTtsBudget,
     setTtsCharUsage,
     setUseCloudTTS,
-    // switchPanel: handlePanelSwitch,
+    switchPanel: handlePanelSwitch,
     ttsAvgChars,
     ttsBudget,
     ttsCharUsage,

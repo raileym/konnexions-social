@@ -1,0 +1,40 @@
+// src/hooks/usePanel.ts
+import { useAppContext } from '../context/AppContext'
+import { APP_PANEL, type AppPanelValue } from '../cknTypes/types/types'
+
+export const usePanel = () => {
+  const {
+    activePanel,
+    setActivePanel,
+    setHelpPanel,
+    isTransitioning,
+    setIsTransitioning,
+  } = useAppContext()
+
+  const switchPanel = (newPanel: AppPanelValue) => {
+    if (isTransitioning) return
+  
+    if (newPanel === activePanel) {
+      setIsTransitioning(true)
+
+      setActivePanel(APP_PANEL.HOME)
+      setHelpPanel(APP_PANEL.HOME)
+
+      setTimeout(() => {
+        setIsTransitioning(false)
+      }, 600)
+    } else {
+      setIsTransitioning(true)
+    
+      setActivePanel(APP_PANEL.HOME)
+    
+      setTimeout(() => {
+        setActivePanel(newPanel)
+        setHelpPanel(newPanel)
+        setIsTransitioning(false)
+      }, 600) // match your CSS transition duration
+    }
+  }
+
+  return { switchPanel }
+}

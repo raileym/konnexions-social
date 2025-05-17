@@ -3,6 +3,7 @@ import { getCurrentWeek } from "./Util"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { APP_PANEL } from "../cknTypes/types/types"
+import { usePanel } from "../hooks/usePanel"
 
 export default function PanelHome() {
   const {
@@ -17,9 +18,10 @@ export default function PanelHome() {
     ttsCharUsage,
     setTtsCharUsage,
     // setUseCloudTTS,
-    switchPanel
   } = useAppContext()
 
+  const { switchPanel } = usePanel()
+  
   const incrementTtsCharUsage = (chars: number) => {
     const week = getCurrentWeek()
     const key = `ttsCharUsageW${week}`
