@@ -1,8 +1,8 @@
 import React from 'react'
 import { useAppContext } from '../context/AppContext'
 
-const HELP_PANEL_WIDTH_PERCENT = 'w-25'     // could be 'w-60', 'w-80', etc.
-const HELP_PANEL_TRANSLATE_X = 'translate-x-75' // must match the right offset
+const HELP_PANEL_WIDTH_PERCENT = 'w-40'     // could be 'w-60', 'w-80', etc.
+const HELP_PANEL_TRANSLATE_X = 'translate-x-60' // must match the right offset
 
 const PanelHelp: React.FC = () => {
   const { helpPanel, isHelpOpen } = useAppContext()

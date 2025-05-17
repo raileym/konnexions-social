@@ -196,13 +196,18 @@ button:focus-visible {
 // .w-0 { width: 0%; }
 .translate-x-full { transform: translateX(100%); }
 
-.w-75 { width: 75%; }
-.translate-x-25 { transform: translateX(25%); }
+.w-25 { width: 25%; }
+.translate-x-75 { transform: translateX(75%); }
+
+// .w-30 { width: 30% }
+.translate-x-70 { transform: translateX(70%); }
+
+// .w-40 { width: 40% }
+.translate-x-60 { transform: translateX(60%); }
 
 // .w-50 { width: 50% }
 .translate-x-50 { transform: translateX(50%); }
 
-.w-25 { width: 25%; }
-.translate-x-75 { transform: translateX(75%); }
-
+.w-75 { width: 75%; }
+.translate-x-25 { transform: translateX(25%); }
 
