@@ -1,7 +1,7 @@
 // src/App.tsx
 import React, { useEffect } from 'react'
 import PanelKeys from './components/PanelKeys'
-import PanelHome from './components/PanelHome'
+import PanelBasic from './components/PanelBasic'
 import PanelSettings from './components/PanelSettings'
 import PanelHelp from './components/PanelHelp'
 import NavbarTop from './components/NavbarTop'
@@ -12,6 +12,7 @@ import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext'
 import { getCurrentWeek } from './components/Util'
 import { SCENARIO, type ScenarioValue } from './cknTypes/types/types'
+import PanelGenAIPro from './components/PanelGenAIPro'
 
 const App: React.FC = () => {
   const {
@@ -82,11 +83,14 @@ const App: React.FC = () => {
   return (
     <>
       <div className="flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
-        <PanelHome />
+        <PanelBasic />
+        <PanelGenAI />
+        <PanelGenAIPro />
+
         <PanelKeys />
         <PanelSettings />
-        <PanelGenAI />
         <PanelMenu />
+
         <PanelHelp />
       </div>
       <NavbarTop />

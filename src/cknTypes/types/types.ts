@@ -1,5 +1,6 @@
 export type AppContextType = {
   activePanel: ActivePanel
+  activeHome: ActiveHome
   answer: Answer
   apiKey: ApiKey
   audioUrl: AudioUrl
@@ -19,6 +20,7 @@ export type AppContextType = {
   questionContext: QuestionContext
   scenario: ScenarioValue
   setActivePanel: SetActivePanel
+  setActiveHome: SetActiveHome
   setAnswer: SetAnswer
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
@@ -59,6 +61,7 @@ export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]
 export type ScenarioKey = keyof typeof SCENARIO
 
 export type ActivePanel = AppPanelValue
+export type ActiveHome = AppHomeValue
 export type HelpPanel = AppPanelValue
 export type Answer = string
 export type ApiKey = string
@@ -78,6 +81,7 @@ export type Question = string
 export type QuestionContext = string
 export type Scenario = string
 export type SetActivePanel = (panel: AppPanelValue) => void
+export type SetActiveHome = (home: AppHomeValue) => void
 export type SetAnswer = (answer: Answer) => void
 export type SetApiKey = (apiKey: ApiKey) => void
 export type SetAudioUrl = (audioUrl: AudioUrl) => void
@@ -106,14 +110,28 @@ export type TtsBudget = number
 export type TtsCharUsage = number
 export type UseCloudTTS = boolean
 
+export type IsActive = boolean
+
 export const APP_PANEL = {
-  HOME: 'home',
+  // HOME: 'home',
   SETTINGS: 'settings',
   HELP: 'help',
   KEYS: 'keys',
-  GEN_AI: 'genAI',
   MENU: 'menu',
+  BASIC: 'basic',
+  GEN_AI: 'genAI',
+  GEN_AI_PRO: 'genAIPro'
 } as const
 
 export type AppPanelValue = (typeof APP_PANEL)[keyof typeof APP_PANEL]
 export type AppPanelKey = keyof typeof APP_PANEL
+
+export const APP_HOME = APP_PANEL
+// {
+//   BASIC: 'home',
+//   GEN_AI: 'genAI',
+//   GEN_AI_PRO: 'genAI'
+// } as const
+
+export type AppHomeValue = (typeof APP_HOME)[keyof typeof APP_HOME]
+export type AppHomeKey = keyof typeof APP_HOME

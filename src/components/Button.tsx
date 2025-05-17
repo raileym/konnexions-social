@@ -3,41 +3,50 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppContext } from '../context/AppContext'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { APP_PANEL, type AppPanelValue } from '../cknTypes/types/types'
-import { usePanel } from '../hooks/usePanel'
+import { APP_PANEL, type AppHomeValue, type AppPanelValue, type IsActive } from '../cknTypes/types/types'
+// import { usePanel } from '../hooks/usePanel'
 import { useHelpPanel } from '../hooks/useHelpPanel'
 // import type { AppPanel } from '../cknTypes/types/types'
+
+// type ButtonProps = {
+//   panel: AppPanelValue
+//   // panel: AppPanel
+//   icon: IconProp
+//   title?: string
+//   buttonClass?: string
+// }
+
 type ButtonProps = {
-  panel: AppPanelValue
-  // panel: AppPanel
-  icon: IconProp
+  panel: AppPanelValue | AppHomeValue
+  icon: IconProp // IconDefinition
   title?: string
+  buttonClass?: string
+  switchFn: (target: AppPanelValue | AppHomeValue) => void
+  isActive: IsActive
 }
 
-const Button: React.FC<ButtonProps> = ({ panel, icon, title }) => {
-  const { activePanel, isHelpOpen } = useAppContext()
-  const { switchPanel } = usePanel()
+const Button: React.FC<ButtonProps> = ({ panel, icon, title, buttonClass, switchFn, isActive }) => {
+  const { isHelpOpen } = useAppContext()
+  // const { activePanel, isHelpOpen } = useAppContext()
+  // const { switchPanel } = usePanel()
   const { openHelp, closeHelp } = useHelpPanel()
 
-  const isActive = activePanel === panel
+  // const isActive = activePanel === panel
 
   const handleClick = () => {
-    if (panel === APP_PANEL.HELP && isHelpOpen) {
-      console.log('Close Help')
+    if (isHelpOpen && panel === APP_PANEL.HELP) {
       closeHelp()
-    } else if (panel === APP_PANEL.HELP && !isHelpOpen) {
-      console.log('Open Help')
+    } else if (!isHelpOpen && panel === APP_PANEL.HELP) {
       openHelp()
     } else {
-      console.log('Switch Panel', panel)
-      switchPanel(panel)
+      switchFn(panel)
     }
-  }
+  }  
 
   return (
     <button
       onClick={handleClick}
-      className={`f2 bn pointer bg-white ${isActive ? 'brand' : 'dark-gray'} mr2X`}
+      className={`${buttonClass} f2 bn pointer bg-white ${isActive ? 'brand' : 'dark-gray'} mr2X`}
       // className={`f2 pa2 br2 bn pointer bg-white ${isActive ? 'bg-light-purple white' : 'dark-gray'} mr2`}
       title={title}
     >

@@ -23,9 +23,11 @@ import type {
   TtsCharUsage,
   UseCloudTTS,
   ScenarioValue,
-  IsHelpOpen
+  IsHelpOpen,
+  AppHomeValue
 } from '../cknTypes/types/types'
 import {
+  APP_HOME,
   APP_PANEL,
   SCENARIO
 } from '../cknTypes/types/types'
@@ -33,8 +35,9 @@ import {
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.HOME)
-  const [helpPanel, setHelpPanel] = useState<AppPanelValue>(APP_PANEL.HOME)
+  const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
+  const [activeHome, setActiveHome] = useState<AppHomeValue>(APP_HOME.BASIC)
+  const [helpPanel, setHelpPanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
   const [answer, setAnswer] = useState<Answer>('')
   const [apiKey, setApiKey] = useState<ApiKey>('')
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
@@ -59,6 +62,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const AppContextValue = {
     activePanel,
+    activeHome,
     answer,
     apiKey,
     audioUrl,
@@ -78,6 +82,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     questionContext,
     scenario,
     setActivePanel,
+    setActiveHome,
     setAnswer,
     setApiKey,
     setAudioUrl,

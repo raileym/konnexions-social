@@ -1,45 +1,96 @@
 // src/hooks/usePanel.ts
 import { useAppContext } from '../context/AppContext'
-import { APP_PANEL, type AppPanelValue } from '../cknTypes/types/types'
+import { type AppPanelValue, type AppHomeValue } from '../cknTypes/types/types'
 import { useHelpPanel } from './useHelpPanel'
 
 export const usePanel = () => {
   const {
     activePanel,
     setActivePanel,
+    activeHome,
+    setActiveHome,
     setHelpPanel,
     isTransitioning,
     setIsTransitioning,
+    isHelpOpen
   } = useAppContext()
 
   const { closeHelp } = useHelpPanel()
-  
+
   const switchPanel = (newPanel: AppPanelValue) => {
     if (isTransitioning) return
-  
+
     setIsTransitioning(true)
-  
-    // 1. Close Help Panel first (if open)
-    closeHelp()
-  
-    // 2. Then wait a bit before continuing transition
-    setTimeout(() => {
+
+    if (isHelpOpen) {
+      closeHelp()
+
+      setTimeout(() => {
+        if (newPanel === activePanel) {
+          setActivePanel(activeHome)
+          setHelpPanel(activeHome)
+        } else {
+          setActivePanel(activeHome)
+          setTimeout(() => {
+            setActivePanel(newPanel)
+            setHelpPanel(newPanel)
+          }, 600)
+        }
+
+        setTimeout(() => {
+          setIsTransitioning(false)
+        }, 600)
+      }, 1000)
+    } else {
       if (newPanel === activePanel) {
-        setActivePanel(APP_PANEL.HOME)
-        setHelpPanel(APP_PANEL.HOME)
+        setActivePanel(activeHome)
+        setHelpPanel(activeHome)
       } else {
-        setActivePanel(APP_PANEL.HOME)
+        setActivePanel(activeHome)
         setTimeout(() => {
           setActivePanel(newPanel)
           setHelpPanel(newPanel)
-        }, 600) // Main panel transition after Help is fully closed
+        }, 600)
       }
-  
+
       setTimeout(() => {
         setIsTransitioning(false)
       }, 600)
-    }, 1000) // Delay to let Help visually exit first
-  }  
+    }
+  }
 
-  return { switchPanel }
+  const switchHome = (newHome: AppHomeValue) => {
+    if (isTransitioning) return
+
+    setIsTransitioning(true)
+
+    // If help is open, close first
+    if (isHelpOpen) {
+      closeHelp()
+
+      setTimeout(() => {
+        if (newHome === activeHome) {
+          // Already active
+          setTimeout(() => setIsTransitioning(false), 600)
+        } else {
+          setActivePanel(newHome)
+          setActiveHome(newHome)
+          setTimeout(() => setIsTransitioning(false), 600)
+        }
+      }, 1000)
+    } else {
+      if (newHome === activeHome) {
+        setTimeout(() => setIsTransitioning(false), 600)
+      } else {
+        setActivePanel(newHome)
+        setActiveHome(newHome)
+        setTimeout(() => setIsTransitioning(false), 600)
+      }
+    }
+  }
+
+  return {
+    switchPanel,
+    switchHome,
+  }
 }
