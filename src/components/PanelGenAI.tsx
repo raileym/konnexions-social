@@ -88,19 +88,7 @@ const PanelGenAI: React.FC = () => {
 
     <div className={`gen-ai-panel absolute top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
       <div className="h-100 w-100 overflow-y-auto">
-        <div className="pa4 mw6 w-100 black center mb5">
-
-    {/*
-    <div className={`gen-ai-panel ba bw4 b--red absolute top-0 left-0 w-100 min-vh-100X h-100 transition-transform ${translateX}`}>
-      <div className="flex justify-center w-100 h-100 overflow-y-auto bg-light-gray">
-        <div style={{marginBottom: '10em'}} className="ba bw3 b--green h-100X pa4 mw6 w-100 black pb6X">
-    */}
-
-    {/*
-    <div className={`gen-ai-panel absolute top-0 left-0 w-100 h-100 transition-transform ${translateX}`}>
-      <div className="flex justify-center w-100 h-100 overflow-y-auto bg-light-gray">
-        <div style={{marginBottom: '20em'}} className="ba bw3 b--green pa4 mw6 mb5X w-100 black">
-    */}
+        <div className="pa4 mw7 w-100 black center mb5">
           <h2 className="f3 pa3 pb0 mt5 w-100 tc">GenAI Panel</h2>
           <div className="f3 pv3 pt0 mt0">{headline}</div>
 

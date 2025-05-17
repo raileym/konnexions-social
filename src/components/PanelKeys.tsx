@@ -30,7 +30,7 @@ const PanelKeys: React.FC = () => {
   return (
     <div className={`api-keys-panel absolute top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
       <div className="h-100 w-100 overflow-y-auto">
-        <div className="pa4 mw6 w-100 black center mb5">
+        <div className="pa4 mw7 w-100 black center mb5">
           <h2 className="f3 pa3 pb0 mt5 w-100 tc">API Keys Panel</h2>
           <div className="f3 pv3 pt0 mt0">{headline}</div>
 

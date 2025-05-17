@@ -10,7 +10,7 @@ const PanelMenu: React.FC = () => {
   return (
     <div className={`menu-panel absolute top-0 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX}`}>
       <div className="h-100 w-100 overflow-y-auto">
-        <div className="pa4 mw6 w-100 center mb5">
+        <div className="pa4 mw7 w-100 center mb5">
           <h2 className="f3 pa3 mt5">Menu Panel</h2>
           <p className="pl3">This panel slides in and out correctly based on context.</p>
           <div style={{height: '100em'}} className="bg-red" />
