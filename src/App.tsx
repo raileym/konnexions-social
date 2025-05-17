@@ -81,7 +81,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className="max-w6 min-w5 relative w-100 center min-vh-100 overflow-hidden bg-light-gray">
+      <div className="flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
         <PanelHome />
         <PanelKeys />
         <PanelSettings />

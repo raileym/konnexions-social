@@ -81,92 +81,113 @@ const PanelGenAI: React.FC = () => {
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
 
+  {/* <div className={`gen-ai-panel absolute z-1 top-0 pa4 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX} overflow-y-auto`}> */}
+  // <div className="flex justify-center w-100 min-h-100 overflow-y-auto bg-light-gray">
+
   return (
-    <div className={`gen-ai-panel absolute z-1 top-0 pa4 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX} overflow-y-auto`}>
-      <h2 className="f3 pa3 pb0 mt5 w-100 tc">GenAI Panel</h2>
-      <div className="f3 pv3 pt0 mt0">{headline}</div>
 
-      <Scenario />
-      
-      { !openAiKey && (
-          <div className="mt5">
-            <div>*Set a <b>GenAI Key</b> to use a Generative AI technology</div>
-            <div className="w-100 flex justify-center pa4">
-              <div>
-                <Button panel="keys" icon={faKey} title="API Keys" />
+    <div className={`gen-ai-panel absolute top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
+      <div className="h-100 w-100 overflow-y-auto">
+        <div className="pa4 mw6 w-100 black center mb5">
+
+    {/*
+    <div className={`gen-ai-panel ba bw4 b--red absolute top-0 left-0 w-100 min-vh-100X h-100 transition-transform ${translateX}`}>
+      <div className="flex justify-center w-100 h-100 overflow-y-auto bg-light-gray">
+        <div style={{marginBottom: '10em'}} className="ba bw3 b--green h-100X pa4 mw6 w-100 black pb6X">
+    */}
+
+    {/*
+    <div className={`gen-ai-panel absolute top-0 left-0 w-100 h-100 transition-transform ${translateX}`}>
+      <div className="flex justify-center w-100 h-100 overflow-y-auto bg-light-gray">
+        <div style={{marginBottom: '20em'}} className="ba bw3 b--green pa4 mw6 mb5X w-100 black">
+    */}
+          <h2 className="f3 pa3 pb0 mt5 w-100 tc">GenAI Panel</h2>
+          <div className="f3 pv3 pt0 mt0">{headline}</div>
+
+          <Scenario />
+          
+          { !openAiKey && (
+              <div className="mt5">
+                <div>*Set a <b>GenAI Key</b> to use a Generative AI technology</div>
+                <div className="w-100 flex justify-center pa4">
+                  <div>
+                    <Button panel="keys" icon={faKey} title="API Keys" />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-      )}
+          )}
 
-      { openAiKey && scenario === 'custom' && (
-        <>
-          <div className="silver h4">{fullPrompt}</div>
-          <hr />
-          <div className="flex items-center mv3">
-            <FontAwesomeIcon icon={faLockOpen} />
-            <p className="ml2 pa0 ma0">
-              This field is available when Custom Scenario is selected.
-            </p>
-          </div>
-          <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT</label>
-          {/* <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label> */}
-          <textarea
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            className="o-100 input-reset ba b--black-20 pa2 mb2 db w-100"
-            rows={8}
-            placeholder="Ask a question..."
-          />
-          <button
-            onClick={handleAskOpenAI}
-            className="o-100 bg-brand white pa2 br2 bn pointer db mb3 w-100"
-          >
-            Ask OpenAI
-          </button>
-        </>
-      )}
-
-      {openAiKey && scenario !== 'custom' && (
-        <>
-          <div className="silver h4">{fullPrompt}</div>
-          <hr />
-          <div className="flex items-center mv3">
-            <FontAwesomeIcon icon={faLock} />
-            <p className="ml2 pa0 ma0">
-              This field is available when Custom Scenario is selected.
-            </p>
-          </div>
-          <div className="relative">
-            {/* Overlay mask (dim layer) */}
-            {/* <div className="absolute top-0 left-0 w-100 h-100 bg-white o-80 z-2 pointer-events-none" /> */}
-
-            {/* Content to be masked but not removed */}
-            {/* <div className="relative z-1"> */}
-              <label className="o-20 db mt0 mb2 f3 b">Ask ChatGPT</label>
-              {/* <label className="o-20 db mt0 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label> */}
+          { openAiKey && scenario === 'custom' && (
+            <>
+              <div className="silver h4">{fullPrompt}</div>
+              <hr />
+              <div className="flex items-center mv3">
+                <FontAwesomeIcon icon={faLockOpen} />
+                <p className="ml2 pa0 ma0">
+                  This field is available when Custom Scenario is selected.
+                </p>
+              </div>
+              <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT</label>
+              {/* <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label> */}
               <textarea
-                value={questionContext}
-                onChange={(e) => setQuestionContext(e.target.value)}
-                className="o-50 bg-white input-reset ba b--black-20 pa2 mb2 db w-100"
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                className="o-100 input-reset ba b--black-20 pa2 mb2 db w-100"
                 rows={8}
                 placeholder="Ask a question..."
-                disabled
               />
               <button
                 onClick={handleAskOpenAI}
-                className="o-30 bg-brand white pa2 br2 bn db mb3 w-100"
-                disabled
+                className="o-100 bg-brand white pa2 br2 bn pointer db mb3 w-100"
               >
                 Ask OpenAI
               </button>
-            </div>
-          {/* </div> */}
-        </>
-      )}
+            </>
+          )}
 
-      <label className="db mb2 f6 gray">OpenAI Response</label>
-      <div className="pa2 bg-near-white mb3" style={{ whiteSpace: 'pre-wrap' }}>{answer}</div>
+          {openAiKey && scenario !== 'custom' && (
+            <>
+              <div className="silver h4">{fullPrompt}</div>
+              <hr />
+              <div className="flex items-center mv3">
+                <FontAwesomeIcon icon={faLock} />
+                <p className="ml2 pa0 ma0">
+                  This field is available when Custom Scenario is selected.
+                </p>
+              </div>
+              <div className="relative">
+                {/* Overlay mask (dim layer) */}
+                {/* <div className="absolute top-0 left-0 w-100 h-100 bg-white o-80 z-2 pointer-events-none" /> */}
+
+                {/* Content to be masked but not removed */}
+                {/* <div className="relative z-1"> */}
+                  <label className="o-20 db mt0 mb2 f3 b">Ask ChatGPT</label>
+                  {/* <label className="o-20 db mt0 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label> */}
+                  <textarea
+                    value={questionContext}
+                    onChange={(e) => setQuestionContext(e.target.value)}
+                    className="o-50 bg-white input-reset ba b--black-20 pa2 mb2 db w-100"
+                    rows={8}
+                    placeholder="Ask a question..."
+                    disabled
+                  />
+                  <button
+                    onClick={handleAskOpenAI}
+                    className="o-30 bg-brand white pa2 br2 bn db mb3 w-100"
+                    disabled
+                  >
+                    Ask OpenAI
+                  </button>
+                </div>
+              {/* </div> */}
+            </>
+          )}
+
+          <label className="db mb2 f6 gray">OpenAI Response</label>
+          <div className="pa2 bg-near-white mb3" style={{ whiteSpace: 'pre-wrap' }}>{answer}</div>
+          <div style={{height: '20em'}} className="mb5X h5X bg-green"></div>
+        </div>
+      </div>
     </div>
   )
 }

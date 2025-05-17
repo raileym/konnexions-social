@@ -1,21 +1,22 @@
 import React from 'react'
 import { useAppContext } from '../context/AppContext'
-import { APP_PANEL } from '../cknTypes/types/types'
 
 const PanelSettings: React.FC = () => {
-  const {
-    activePanel,
-    helpPanel
-  } = useAppContext()
-  const isActive = activePanel === APP_PANEL.HELP
-  const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
+  const { helpPanel, isHelpOpen } = useAppContext()
+  
+  const translateX = isHelpOpen ? 'translate-x-0' : 'translate-x-full'
 
   return (
     <div className={`help-panel absolute z-2 top-0 left-0 w-100 h-100 bg-green white transition-transform ${translateX}`}>
-      <h2 className="f3 pa3 mt5">Help Panel for {helpPanel}</h2>
-      <p className="pl3">This panel slides in and out correctly based on context.</p>
+      <div className="h-100 w-100 overflow-y-auto">
+        <div className="pa4 mw6 w-100 center mb5">
+          <h2 className="f3 pa3 mt5">Help Panel for {helpPanel}</h2>
+          <p className="pl3">This panel slides in and out correctly based on context.</p>
+          <div style={{height: '100em'}} className="bg-blue" />
+        </div>
+      </div>
     </div>
-  )
+  )  
 }
 
 export default PanelSettings

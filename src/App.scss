@@ -31,10 +31,6 @@ html, body, #root {
   padding: 0;
 }
 
-html {
-  // max-width: 30em;
-}
-
 a {
   font-weight: 500;
   color: #646cff;
@@ -199,5 +195,17 @@ button:focus-visible {
 
 .translate-x-full {
   transform: translateX(100%);
+}
+
+.translate-x-25 {
+  transform: translateX(25%);
+}
+
+.translate-x-50 {
+  transform: translateX(50%);
+}
+
+.translate-x-75 {
+  transform: translateX(75%);
 }
 

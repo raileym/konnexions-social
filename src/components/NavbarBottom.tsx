@@ -6,7 +6,7 @@ import Button from './Button'
 
 const NavbarBottom: React.FC = () => {
   return (
-    <nav className="fixed bottom-0 bt b--black-30 left-0 w-100 bg-white flex items-center justify-around ph3 pv2 z-999">
+    <nav className="o-20 fixed bottom-0 bt b--black-30 left-0 w-100 bg-white flex items-center justify-around ph3 pv2 z-999">
       <Button panel="genAI" icon={faRobot} title="GenAI" />
       <Button panel="settings" icon={faGear} title="Settings" />
       <Button panel="keys" icon={faKey} title="API Keys" />

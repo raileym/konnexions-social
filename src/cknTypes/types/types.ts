@@ -7,6 +7,7 @@ export type AppContextType = {
   gcpKey: GcpKey
   helpPanel: HelpPanel
   inputText: InputText
+  isHelpOpen: IsHelpOpen
   isTransitioning: IsTransitioning
   maskKey: MaskKey
   maskOpenAiKey: MaskOpenAiKey
@@ -25,6 +26,7 @@ export type AppContextType = {
   setGcpKey: SetGcpKey
   setHelpPanel: SetHelpPanel
   setInputText: SetInputText
+  setIsHelpOpen: SetIsHelpOpen
   setIsTransitioning: SetIsTransitioning
   setMaskKey: SetMaskKey
   setMaskOpenAiKey: SetMaskOpenAiKey
@@ -65,6 +67,7 @@ export type CleanedText = string
 export type GcpKey = string
 export type InputText = string
 export type IsTransitioning = boolean
+export type IsHelpOpen = boolean
 export type MaskKey = boolean
 export type MaskOpenAiKey = boolean
 export type OpenAiAvgTokens = number
@@ -83,6 +86,7 @@ export type SetGcpKey = (gcpKey: GcpKey) => void
 export type SetHelpPanel = (helpPanel: HelpPanel) => void
 export type SetInputText = (inputText: InputText) => void
 export type SetIsTransitioning = (isTransitioning: IsTransitioning) => void
+export type SetIsHelpOpen = (isHelpPanelOpen: IsHelpOpen) => void
 export type SetMaskKey = (maskKey: MaskKey) => void
 export type SetMaskOpenAiKey = (maskOpenAiKey: MaskOpenAiKey) => void
 export type SetOpenAiAvgTokens = (openAiAvgTokens: OpenAiAvgTokens) => void

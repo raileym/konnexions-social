@@ -26,54 +26,59 @@ const PanelKeys: React.FC = () => {
     </div>
   )
 
+  // <div className={`api-keys-panel absolute pa4 pb3 z-1 top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
   return (
-    <div className={`api-keys-panel absolute pa4 pb3 z-1 top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
-      <h2 className="f3 pa3 pb0 mt5 w-100 tc">API Keys Panel</h2>
-      <div className="f3 pv3 pt0 mt0">{headline}</div>
+    <div className={`api-keys-panel absolute top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
+      <div className="h-100 w-100 overflow-y-auto">
+        <div className="pa4 mw6 w-100 black center mb5">
+          <h2 className="f3 pa3 pb0 mt5 w-100 tc">API Keys Panel</h2>
+          <div className="f3 pv3 pt0 mt0">{headline}</div>
 
-      <div className="w-100 pa3">
-        <label className="db mb2 b f3">Google TTS API Key</label>
-        <input
-          type={maskKey ? 'password' : 'text'}
-          value={apiKey}
-          onChange={(e) => {
-            setApiKey(e.target.value)
-            localStorage.setItem('gcpTTSKey', e.target.value)
-          }}
-          className="input-reset ba b--black-20 pa2 mb2 db w-100"
-        />
-        <button
-          onClick={() => {
-            setApiKey('')
-            setMaskKey(false)
-            localStorage.removeItem('gcpTTSKey')
-          }}
-          className="bg-brand white pa2 f4 br2 bn pointer db mb3 w-100"
-        >
-          Clear API Key
-        </button>
+          <div className="w-100 pa3">
+            <label className="db mb2 b f3">Google TTS API Key</label>
+            <input
+              type={maskKey ? 'password' : 'text'}
+              value={apiKey}
+              onChange={(e) => {
+                setApiKey(e.target.value)
+                localStorage.setItem('gcpTTSKey', e.target.value)
+              }}
+              className="input-reset ba b--black-20 pa2 mb2 db w-100"
+            />
+            <button
+              onClick={() => {
+                setApiKey('')
+                setMaskKey(false)
+                localStorage.removeItem('gcpTTSKey')
+              }}
+              className="bg-brand white pa2 f4 br2 bn pointer db mb3 w-100"
+            >
+              Clear API Key
+            </button>
 
-        <label className="db mt5 mb2 b f3">OpenAI API Key</label>
-        <input
-          type={maskOpenAiKey ? 'password' : 'text'}
-          value={openAiKey}
-          onChange={(e) => {
-            console.log(e.target.value)
-            setOpenAiKey(e.target.value)
-            localStorage.setItem('openAiKey', e.target.value)
-          }}
-          className="input-reset ba b--black-20 pa2 mb2 db w-100"
-        />
-        <button
-          onClick={() => {
-            setOpenAiKey('')
-            setMaskOpenAiKey(false)
-            localStorage.removeItem('openAiKey')
-          }}
-          className="bg-brand white pa2 f4 br2 bn pointer db mb3 w-100"
-        >
-          Clear OpenAI Key
-        </button>          
+            <label className="db mt5 mb2 b f3">OpenAI API Key</label>
+            <input
+              type={maskOpenAiKey ? 'password' : 'text'}
+              value={openAiKey}
+              onChange={(e) => {
+                console.log(e.target.value)
+                setOpenAiKey(e.target.value)
+                localStorage.setItem('openAiKey', e.target.value)
+              }}
+              className="input-reset ba b--black-20 pa2 mb2 db w-100"
+            />
+            <button
+              onClick={() => {
+                setOpenAiKey('')
+                setMaskOpenAiKey(false)
+                localStorage.removeItem('openAiKey')
+              }}
+              className="bg-brand white pa2 f4 br2 bn pointer db mb3 w-100"
+            >
+              Clear OpenAI Key
+            </button>          
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -3,8 +3,9 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppContext } from '../context/AppContext'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { type AppPanelValue } from '../cknTypes/types/types'
+import { APP_PANEL, type AppPanelValue } from '../cknTypes/types/types'
 import { usePanel } from '../hooks/usePanel'
+import { useHelpPanel } from '../hooks/useHelpPanel'
 // import type { AppPanel } from '../cknTypes/types/types'
 type ButtonProps = {
   panel: AppPanelValue
@@ -14,13 +15,23 @@ type ButtonProps = {
 }
 
 const Button: React.FC<ButtonProps> = ({ panel, icon, title }) => {
-  const { activePanel } = useAppContext()
+  const { activePanel, isHelpOpen } = useAppContext()
   const { switchPanel } = usePanel()
-  
+  const { openHelp, closeHelp } = useHelpPanel()
+
   const isActive = activePanel === panel
 
   const handleClick = () => {
-    switchPanel(panel)
+    if (panel === APP_PANEL.HELP && isHelpOpen) {
+      console.log('Close Help')
+      closeHelp()
+    } else if (panel === APP_PANEL.HELP && !isHelpOpen) {
+      console.log('Open Help')
+      openHelp()
+    } else {
+      console.log('Switch Panel', panel)
+      switchPanel(panel)
+    }
   }
 
   return (
