@@ -221,7 +221,7 @@ export default function PanelHome() {
             <div className="mb3" style={{ minHeight: '3.5em' }}>
               {audioUrl && useCloudTTS ? (
                 <>
-                  <div className="flex items-center mv3 justify-center">
+                  <div className="flex items-center mv3 justify-start">
                     <FontAwesomeIcon icon={faLockOpen} />
                     <p className="ml2 pa0 ma0 f6">
                       This audio control is available only when cloud-based voice is selected.
@@ -231,7 +231,7 @@ export default function PanelHome() {
                 </>
               ) : useCloudTTS ? (
                 <>
-                  <div className="flex items-center mv3 justify-center">
+                  <div className="flex items-center mv3 justify-start">
                     <FontAwesomeIcon icon={faLock} />
                     <p className="ml2 pa0 ma0 f6">
                       This audio control is available only when audio file is present.
@@ -241,7 +241,7 @@ export default function PanelHome() {
                 </>
               ) : (
                 <>
-                  <div className="flex items-center mv3 justify-center">
+                  <div className="flex items-center mv3 justify-start">
                     <FontAwesomeIcon icon={faLock} />
                     <p className="ml2 pa0 ma0 f6">
                       This audio control is available only when cloud-based voice is selected.

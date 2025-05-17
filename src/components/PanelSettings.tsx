@@ -114,11 +114,11 @@ const PanelSettings: React.FC = () => {
 
       <hr className="mv4"/>
 
-      <div className="f3 pt0 pb4 b pt0 mt0">Set your metrics for cloud-based Text-To-Speech services</div>
+      <div className="f3 pt0 pb3 b pt0 mt0">Set your metrics for cloud-based Text-To-Speech services</div>
 
       {useCloudTTS ? (
         <>
-          <div className="flex items-center mt3 justify-center">
+          <div className="flex items-center mt3 mb4 justify-start">
             <FontAwesomeIcon icon={faLockOpen} />
             <p className="ml2 pa0 ma0 f6">
               These TTS metrics are available only when cloud-based TTS service is selected.
@@ -127,7 +127,7 @@ const PanelSettings: React.FC = () => {
         </>
       ) : (
         <>
-          <div className="flex items-center mv3 justify-center">
+          <div className="flex items-center mt3 mb4 justify-start">
             <FontAwesomeIcon icon={faLock} />
             <p className="ml2 pa0 ma0 f6">
               These TTS metrics are available only when cloud-based TTS service is selected.
@@ -165,10 +165,10 @@ const PanelSettings: React.FC = () => {
 
       <hr className="mv4" />
 
-      <div className="f3 pt3 pb4 b pt0 mt0">Set your OpenAI metrics for cloud-based OpenAI services</div>
+      <div className="f3 pt3 pb3 b pt0 mt0">Set your OpenAI metrics for cloud-based OpenAI services</div>
       {openAiKey ? (
         <>
-          <div className="flex items-center mt5 justify-center">
+          <div className="flex items-center mt3 mb4 justify-start">
             <FontAwesomeIcon icon={faLockOpen} />
             <p className="ml2 pa0 ma0 f6">
               These OpenAI metrics are available only when cloud-based OpenAI service is selected.
@@ -177,7 +177,7 @@ const PanelSettings: React.FC = () => {
         </>
       ) : (
         <>
-          <div className="flex items-center mv3 mt5 justify-center">
+          <div className="flex items-center mv3 mt5 justify-start">
             <FontAwesomeIcon icon={faLock} />
             <p className="ml2 pa0 ma0 f6">
               These OpenAI metrics are available only when cloud-based OpenAI service is selected.

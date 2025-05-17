@@ -106,7 +106,7 @@ const PanelGenAI: React.FC = () => {
           <div className="flex items-center mv3">
             <FontAwesomeIcon icon={faLockOpen} />
             <p className="ml2 pa0 ma0">
-              This field is available when Custom is selected.
+              This field is available when Custom Scenario is selected.
             </p>
           </div>
           <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT</label>
@@ -134,7 +134,7 @@ const PanelGenAI: React.FC = () => {
           <div className="flex items-center mv3">
             <FontAwesomeIcon icon={faLock} />
             <p className="ml2 pa0 ma0">
-              This field is available when Custom is selected.
+              This field is available when Custom Scenario is selected.
             </p>
           </div>
           <div className="relative">

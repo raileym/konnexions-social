@@ -23,7 +23,7 @@ const PanelKeys: React.FC = () => {
       <h2 className="f3 pa3 mt5">API Keys</h2>
 
       <div className="w-100 pa3">
-        <label className="db mb2 f6">Google TTS API Key</label>
+        <label className="db mb2 b f3">Google TTS API Key</label>
         <input
           type={maskKey ? 'password' : 'text'}
           value={apiKey}
@@ -39,12 +39,12 @@ const PanelKeys: React.FC = () => {
             setMaskKey(false)
             localStorage.removeItem('gcpTTSKey')
           }}
-          className="bg-brand white pa2 br2 bn pointer db mb3 w-100"
+          className="bg-brand white pa2 f4 br2 bn pointer db mb3 w-100"
         >
           Clear API Key
         </button>
 
-        <label className="db mt5 mb2 f6">OpenAI API Key</label>
+        <label className="db mt5 mb2 b f3">OpenAI API Key</label>
         <input
           type={maskOpenAiKey ? 'password' : 'text'}
           value={openAiKey}
@@ -61,7 +61,7 @@ const PanelKeys: React.FC = () => {
             setMaskOpenAiKey(false)
             localStorage.removeItem('openAiKey')
           }}
-          className="bg-brand white pa2 br2 bn pointer db mb3 w-100"
+          className="bg-brand white pa2 f4 br2 bn pointer db mb3 w-100"
         >
           Clear OpenAI Key
         </button>          
