@@ -191,7 +191,7 @@ export default function PanelHome() {
   )
   
   return (
-    <div className="absolute z-0 pa4 bg-white top-0 left-0 w-100 h-100 overflow-y-auto">
+    <div className="home-panel absolute z-0 pa4 bg-white top-0 left-0 w-100 h-100 overflow-y-auto">
       <div className="mb5">
         <h2 className="f3 pa3 pb0 mt5 w-100 tc">Text-To-Speech Panel</h2>
         <div className="f3 pv3 pt0 mt0">{headline}</div>

@@ -5,6 +5,7 @@ export type AppContextType = {
   audioUrl: AudioUrl
   cleanedText: CleanedText
   gcpKey: GcpKey
+  helpPanel: HelpPanel
   inputText: InputText
   maskKey: MaskKey
   maskOpenAiKey: MaskOpenAiKey
@@ -21,6 +22,7 @@ export type AppContextType = {
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
   setGcpKey: SetGcpKey
+  setHelpPanel: SetHelpPanel
   setInputText: SetInputText
   setMaskKey: SetMaskKey
   setMaskOpenAiKey: SetMaskOpenAiKey
@@ -54,6 +56,7 @@ export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]
 export type ScenarioKey = keyof typeof SCENARIO
 
 export type ActivePanel = AppPanelValue
+export type HelpPanel = AppPanelValue
 export type Answer = string
 export type ApiKey = string
 export type AudioUrl = string | null
@@ -76,6 +79,7 @@ export type SetApiKey = (apiKey: ApiKey) => void
 export type SetAudioUrl = (audioUrl: AudioUrl) => void
 export type SetCleanedText = (cleanedText: CleanedText) => void
 export type SetGcpKey = (gcpKey: GcpKey) => void
+export type SetHelpPanel = (helpPanel: HelpPanel) => void
 export type SetInputText = (inputText: InputText) => void
 export type SetIsTransitioning = (isTransitioning: IsTransitioning) => void
 export type SetMaskKey = (maskKey: MaskKey) => void

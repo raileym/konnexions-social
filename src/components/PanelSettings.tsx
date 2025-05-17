@@ -79,7 +79,7 @@ const PanelSettings: React.FC = () => {
   )
 
   return (
-    <div style={{paddingBottom: '6em'}} className={`absolute z-1 pa4 top-0 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX} overflow-y-auto`}>
+    <div style={{paddingBottom: '6em'}} className={`settings-panel absolute z-1 pa4 top-0 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX} overflow-y-auto`}>
       <h2 className="f3 pa3 pb0 mt5 w-100 tc">Settings Panel</h2>
       <div className="f3 pv3 pt0 mt0">{headline}</div>
       <div className="f3 pt4 pb4 b pt0 mt0">Choose local or cloud-based TTS services</div>

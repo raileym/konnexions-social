@@ -18,9 +18,18 @@ const PanelKeys: React.FC = () => {
   const isActive = activePanel === APP_PANEL.KEYS
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
+  const headline = (
+    <div>
+      <p className="pa0 ma0">
+      Set your cloud-based keys here for Google Text-To-Speech (TTS) cloud-based services and OpenAI cloud-based service for GenAI.
+      </p>
+    </div>
+  )
+
   return (
-    <div className={`absolute pa4 z-1 top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
-      <h2 className="f3 pa3 mt5">API Keys</h2>
+    <div className={`api-keys-panel absolute pa4 pb3 z-1 top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
+      <h2 className="f3 pa3 pb0 mt5 w-100 tc">API Keys Panel</h2>
+      <div className="f3 pv3 pt0 mt0">{headline}</div>
 
       <div className="w-100 pa3">
         <label className="db mb2 b f3">Google TTS API Key</label>

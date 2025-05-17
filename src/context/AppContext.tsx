@@ -33,6 +33,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.HOME)
+  const [helpPanel, setHelpPanel] = useState<AppPanelValue>(APP_PANEL.HOME)
   const [answer, setAnswer] = useState<Answer>('')
   const [apiKey, setApiKey] = useState<ApiKey>('')
   const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
@@ -57,25 +58,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const handlePanelSwitch = (newPanel: AppPanelValue) => {
     if (isTransitioning) return
   
-    if (newPanel === activePanel) {
-      setIsTransitioning(true)
-
-      setActivePanel(APP_PANEL.HOME)
-
-      setTimeout(() => {
-        setIsTransitioning(false)
-      }, 600)
-    } else {
-      setIsTransitioning(true)
-    
-      setActivePanel(APP_PANEL.HOME)
-    
-      setTimeout(() => {
-        setActivePanel(newPanel)
-        setIsTransitioning(false)
-      }, 600) // match your CSS transition duration
+    const isHelp = newPanel === APP_PANEL.HELP
+    const isSame = newPanel === activePanel
+  
+    setIsTransitioning(true)
+  
+    if (isHelp) {
+      // Toggle Help Panel on/off without affecting the current panel
+      setHelpPanel(prev => (prev === APP_PANEL.HELP ? APP_PANEL.HOME : APP_PANEL.HELP))
+      setTimeout(() => setIsTransitioning(false), 300)
+      return
     }
-  }
+  
+    // Closing any other panel should also hide Help
+    if (isSame) {
+      setActivePanel(APP_PANEL.HOME)
+      setHelpPanel(APP_PANEL.HOME)
+      setTimeout(() => setIsTransitioning(false), 300)
+      return
+    }
+  
+    // Switching to new primary panel: reset Help and swap panels
+    setActivePanel(APP_PANEL.HOME)
+    setHelpPanel(APP_PANEL.HOME)
+    setTimeout(() => {
+      setActivePanel(newPanel)
+      setIsTransitioning(false)
+    }, 300)
+  }  
 
   const AppContextValue = {
     activePanel,
@@ -84,6 +94,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     audioUrl,
     cleanedText,
     gcpKey,
+    helpPanel,
     inputText,
     maskKey,
     maskOpenAiKey,
@@ -100,6 +111,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setAudioUrl,
     setCleanedText,
     setGcpKey,
+    setHelpPanel,
     setInputText,
     setMaskKey,
     setMaskOpenAiKey,

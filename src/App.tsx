@@ -11,7 +11,7 @@ import NavbarBottom from './components/NavbarBottom'
 import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext'
 import { getCurrentWeek } from './components/Util'
-import { SCENARIO, type ScenarioValue } from './cknTypes/types/types'
+import { APP_PANEL, SCENARIO, type ScenarioValue } from './cknTypes/types/types'
 
 const App: React.FC = () => {
   const {
@@ -22,7 +22,9 @@ const App: React.FC = () => {
     setOpenAiUsage,
     setScenario,
     setTtsCharUsage,
-    setUseCloudTTS
+    setUseCloudTTS,
+    activePanel,
+    helpPanel
   } = useAppContext()
 
   const loadUsage = () => {
@@ -85,9 +87,10 @@ const App: React.FC = () => {
         <PanelHome />
         <PanelKeys />
         <PanelSettings />
-        <PanelHelp />
         <PanelGenAI />
         <PanelMenu />
+
+        {helpPanel === APP_PANEL.HELP && (<PanelHelp />)}
       </div>
       <NavbarTop />
       <NavbarBottom />
