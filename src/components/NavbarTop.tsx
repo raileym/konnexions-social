@@ -6,7 +6,7 @@ import Button from './Button'
 
 const NavbarTop: React.FC = () => {
   return (
-    <nav className="o-20 fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph3 pv2 z-999">
+    <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph3 pv2 z-999">
       <div className="flex justify-start">
         <div className="bg-brand mr3 ba b--white bw2">
           <img
