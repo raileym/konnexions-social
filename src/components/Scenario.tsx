@@ -3,7 +3,11 @@ import React from 'react'
 import { useAppContext } from '../context/AppContext'
 import { SCENARIO, type ScenarioValue } from '../cknTypes/types/types'
 
-const Scenario: React.FC = () => {
+type ScenarioProps = {
+  custom: boolean
+}
+
+const Scenario: React.FC = ({ custom }: ScenarioProps) => {
   const { scenario, setScenario } = useAppContext()
   const scenarios: ScenarioValue[] = [
     SCENARIO.RESTAURANT,
