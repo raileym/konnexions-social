@@ -1,6 +1,7 @@
 // src/hooks/usePanel.ts
 import { useAppContext } from '../context/AppContext'
 import { APP_PANEL, type AppPanelValue } from '../cknTypes/types/types'
+import { useHelpPanel } from './useHelpPanel'
 
 export const usePanel = () => {
   const {
@@ -11,9 +12,13 @@ export const usePanel = () => {
     setIsTransitioning,
   } = useAppContext()
 
+    const { closeHelp } = useHelpPanel()
+  
   const switchPanel = (newPanel: AppPanelValue) => {
     if (isTransitioning) return
   
+    closeHelp()
+
     if (newPanel === activePanel) {
       setIsTransitioning(true)
 
