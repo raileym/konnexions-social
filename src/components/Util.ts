@@ -41,13 +41,21 @@ const scenarioPrompts: Record<ScenarioValue, string> = {
 
 const scenarioParticipants: Record<ScenarioValue, string> = {
   restaurant:
-    'the host, hostess, waiter, waitress, bartender, chef, a male diner, a female diner, or a couple seated nearby',
+    `the host, hostess, waiter, waitress, bartender,
+chef, a male diner, a female diner, or a couple
+seated nearby`,
     hotel:
-    'the front desk agent, concierge, bellhop, housekeeper, a male guest, a female guest, or the hotel manager',
+    `the front desk agent, concierge, bellhop, 
+housekeeper, a male guest, a female guest, 
+or the hotel manager`,
     airport:
-    'an airline agent, a gate attendant, a TSA officer, a baggage handler, a flight attendant, a male traveler, or a female traveler',
+    `an airline agent, a gate attendant, a TSA officer,
+    a baggage handler, a flight attendant, a male traveler,
+    or a female traveler`,
     taxi:
-    'the driver, a rideshare driver, a dispatcher, a male passenger, a female passenger, a couple sharing the ride, or a tourist unfamiliar with the city',
+    `the driver, a rideshare driver, a dispatcher,
+a male passenger, a female passenger, a couple
+sharing the ride, or a tourist unfamiliar with the city`,
     custom:
     'WHICH DIALOG PARTICIPANTS',
 }

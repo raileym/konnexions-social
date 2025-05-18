@@ -3,11 +3,11 @@ import { useAppContext } from '../context/AppContext'
 import { APP_HOME } from '../cknTypes/types/types'
 // import Button from "./Button"
 // import { faKey } from '@fortawesome/free-solid-svg-icons'
-// import { getCurrentWeek, getScenarioDetails } from './Util'
+import { getCurrentWeek } from './Util'
 import { getScenarioDetails } from './Util'
 import Scenario from './Scenario'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
 // import { usePanel } from '../hooks/usePanel'
 
 const PanelGenAIPro: React.FC = () => {
@@ -17,77 +17,77 @@ const PanelGenAIPro: React.FC = () => {
   // const { switchPanel } = usePanel()
   
   const {
-    // question,
+    question,
     // questionContext,
-    // setQuestion,
+    setQuestion,
     // setQuestionContext,
     openAiKey,
-    // setAnswer,
-    // openAiUsage,
-    // setOpenAiUsage,
-    // answer,
+    setAnswer,
+    openAiUsage,
+    setOpenAiUsage,
+    answer,
     scenario,
     // activePanel
   } = useAppContext()
 
-  // const incrementOpenAiUsage = () => {
-  //   const week = getCurrentWeek()
-  //   const key = `openAiUsageW${week}`
-  //   const current = openAiUsage + 1
-  //   localStorage.setItem(key, current.toString())
-  //   setOpenAiUsage(current)
-  // }
+  const incrementOpenAiUsage = () => {
+    const week = getCurrentWeek()
+    const key = `openAiUsageW${week}`
+    const current = openAiUsage + 1
+    localStorage.setItem(key, current.toString())
+    setOpenAiUsage(current)
+  }
 
-  // const handleAskOpenAI = async () => {
-  //   if (!openAiKey || !question) return
+  const handleAskOpenAI = async () => {
+    if (!openAiKey || !question) return
 
-  //   try {
-  //     const res = await fetch('https://api.openai.com/v1/chat/completions', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${openAiKey}`,
-  //       },
-  //       body: JSON.stringify({
-  //         model: 'gpt-3.5-turbo',
-  //         messages: [{ role: 'user', content: question }],
-  //       }),
-  //     })
+    try {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${openAiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [{ role: 'user', content: question }],
+        }),
+      })
 
-  //     const data = await res.json()
-  //     const reply = data.choices?.[0]?.message?.content || ''
-  //     setAnswer(reply)
-  //     incrementOpenAiUsage()
-  //   } catch (err) {
-  //     console.error('Failed to call OpenAI:', err)
-  //   }
-  // }
+      const data = await res.json()
+      const reply = data.choices?.[0]?.message?.content || ''
+      setAnswer(reply)
+      incrementOpenAiUsage()
+    } catch (err) {
+      console.error('Failed to call OpenAI:', err)
+    }
+  }
 
   const {scenarioLabel, scenarioParticipants} = getScenarioDetails(scenario)
 
   const extendedInstruction = `
-1. nouns: For each noun in the dialog, match that noun to the 4–5 word expression in the dialog.
-2. verbs: For each verb in the dialog, match that verb to the 4–5 word expression in the dialog.
-3. verbConjugations: Choose four verbs. For each verb chosen, express a conjugation that takes the form
+1. nouns: For each noun in the dialog, extract the 4–5 word expression that contains it.
+2. verbs: For each verb in the dialog, extract the 4–5 word expression that contains it.
+3. verbConjugations: Choose four verbs. For each, return conjugated examples as follows:
   3a. VERB. PRONOUN VERB. PRONOUN VERB DIRECT_OBJECT.
-  3b. Let 1PP: 1st Person Plural, 3PS: 3rd Person Singular, 2PS: 2nd Person Singular.
-  3c. Order these conjugations: 1PP, 1PS, 3PS, 3PP, 2PS. There is no 2PP (Spain).
-4. nounUsage: Choose six nouns. For each noun chosen, express a usage that takes the form by gender ...
-  4a. (masculine nouns) NOUN. EL NOUN. DEL NOUN.
-  4b. (feminine nouns) NOUN. LA NOUN. DE LA NOUN.
-  4c. For each usage, vary the final usage with other prepositions.
-  `
+  3b. Let 1PP = 1st Person Plural, 1PS = 1st Person Singular, 3PS = 3rd Person Singular, 3PP = 3rd Person Plural, 2PS = 2nd Person Singular.
+  3c. Present these in order: 1PP, 1PS, 3PS, 3PP, 2PS. (Skip 2PP, used only in Spain.)
+4. nounUsage: Choose six nouns. For each, provide gendered examples:
+  4a. Masculine: NOUN. EL NOUN. DEL NOUN.
+  4b. Feminine: NOUN. LA NOUN. DE LA NOUN.
+  4c. Use a different preposition in the last example to vary usage.
+`
 
-  const fullPrompt = (
-    <div>
-      Follow these instructions one each in a multi-part response. Respond using JSON format
-      with keys: dialog, nouns, verbs, verbConjugations, nounUsage.
-      dialog: I am {scenarioLabel}.
-      Please create a dialog between me and two other people, randomly chosen from{' '}
-      {scenarioParticipants}. Use no more than six sentences for beginning language instruction.
-      {extendedInstruction}
-    </div>
-  )
+const fullPrompt = `
+Follow these instructions one-by-one in a multi-part response.
+Format the response as JSON with keys: dialog, nouns, verbs, verbConjugations, nounUsage.
+
+dialog: I am ${scenarioLabel}. Please create a dialog between me and two other people,
+randomly chosen from
+${scenarioParticipants}.
+Use no more than six sentences for beginning language instruction.
+${extendedInstruction}
+`
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
 
@@ -111,17 +111,11 @@ const PanelGenAIPro: React.FC = () => {
                   </div>
                 </div>
             )}
+          */}
 
-            { openAiKey && scenario === 'custom' && (
+            { openAiKey && (
               <>
-                <div className="silver h4">{fullPrompt}</div>
                 <hr />
-                <div className="flex items-center mv3">
-                  <FontAwesomeIcon icon={faLockOpen} />
-                  <p className="ml2 pa0 ma0">
-                    This field is available when Custom Scenario is selected.
-                  </p>
-                </div>
                 <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT</label>
                 <textarea
                   value={question}
@@ -139,6 +133,7 @@ const PanelGenAIPro: React.FC = () => {
               </>
             )}
 
+          {/*
             {openAiKey && scenario !== 'custom' && (
               <>
                 <div className="silver h4">{fullPrompt}</div>
@@ -170,13 +165,14 @@ const PanelGenAIPro: React.FC = () => {
               </>
             )}
 
+            */}
+
             <label className="db mb2 f6 gray">OpenAI Response</label>
             <div className="pa2 bg-near-white mb3" style={{ whiteSpace: 'pre-wrap' }}>{answer}</div>
-          */}
 
           {openAiKey && scenario !== 'custom' && (
             <>
-              <div className="silver h4X">{fullPrompt}</div>
+              <div className="silver h4X pre">{fullPrompt}</div>
             </>
           )}
 
