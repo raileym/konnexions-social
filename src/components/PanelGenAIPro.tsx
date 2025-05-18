@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { APP_HOME } from '../cknTypes/types/types'
 // import Button from "./Button"
@@ -6,8 +6,8 @@ import { APP_HOME } from '../cknTypes/types/types'
 import { getCurrentWeek } from './Util'
 import { getScenarioDetails } from './Util'
 import Scenario from './Scenario'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
 // import { usePanel } from '../hooks/usePanel'
 
 const PanelGenAIPro: React.FC = () => {
@@ -15,7 +15,23 @@ const PanelGenAIPro: React.FC = () => {
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
   // const { switchPanel } = usePanel()
+
+  const [showFullPrompt, setShowFullPrompt] = useState(false)
+  const [showQuestionKeep, setShowQuestionKeep] = useState(false)
+  const [showAnswerKeep, setShowAnswerKeep] = useState(false)
   
+  const toggleFullPrompt = () => {
+    setShowFullPrompt(prev => !prev)
+  }
+    
+  const toggleQuestionKeep = () => {
+    setShowQuestionKeep(prev => !prev)
+  }
+    
+  const toggleAnswerKeep = () => {
+    setShowAnswerKeep(prev => !prev)
+  }
+    
   const {
     question,
     // questionContext,
@@ -114,7 +130,7 @@ ${extendedInstruction}
     <div className={`gen-ai-pro-panel z-2 absolute top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
       <div className="h-100 w-100 overflow-y-auto">
         <div className="pa4 mw7 w-100 black center mb5">
-          <h2 className="f3 pa3 pb0 mt5 w-100 tc">GenAI Pro Panel</h2>
+          <h2 className="f3 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
           <div className="f3 pv3 pt0 mt0">{headline}</div>
 
           <Scenario custom={false} />
@@ -189,35 +205,69 @@ ${extendedInstruction}
             <label className="db mb2 f6 gray">OpenAI Response</label>
             <div className="pa2 bg-near-white mb3" style={{ whiteSpace: 'pre-wrap' }}>{answer}</div>
 
-          {openAiKey && (
-            <>
+            {openAiKey && (
+              <button
+                onClick={toggleFullPrompt}
+                className="mb3 pa2 br5 bn bg-light-blue dark-gray pointer"
+              >
+                {showFullPrompt ? 'Hide Full Prompt' : 'Show Full Prompt'}
+              </button>
+            )}
+
+            {openAiKey && showFullPrompt && (
               <div className="silver h4X pre">{fullPrompt}</div>
-            </>
-          )}
+            )}
 
           <hr />
 
-          {openAiKey && (
-            <>
-              <div className="ba bg-white black pa4 pre">{questionKeep}</div>
-              <div className="ba bg-white black pa4 mt4">
-                <pre>
-                  {(() => {
-                    try {
-                      const parsed = JSON.parse(answerKeep)
-                      return JSON.stringify(parsed, null, 2)
-                    } catch (err: unknown) {
-                        if (err instanceof Error) {
-                          console.error('Failed to call OpenAI:', err.message)
-                        } else {
-                          console.error('Unexpected error', err)
+          <div>
+            {openAiKey && (
+                <button
+                  onClick={toggleQuestionKeep}
+                  className="mb3 pa2 br5 bn bg-light-blue dark-gray pointer"
+                >
+                  {showQuestionKeep ? 'Hide QuestionKeep' : 'Show QuestionKeep'}
+                </button>
+              )}
+
+            {openAiKey && showQuestionKeep && (
+              <>
+                <div className="ba bg-white black pa4 pre">{questionKeep}</div>
+              </>
+            )}
+          </div>
+
+          <div>
+            {openAiKey && (
+                <button
+                  onClick={toggleAnswerKeep}
+                  className="mb3 pa2 br5 bn bg-light-blue dark-gray pointer"
+                >
+                  {showAnswerKeep ? 'Hide AnswerKeep' : 'Show AnswerKeep'}
+                </button>
+              )}
+
+            {openAiKey && showAnswerKeep && (
+              <>
+                <div className="ba bg-white black pa4 mt4">
+                  <pre>
+                    {(() => {
+                      try {
+                        const parsed = JSON.parse(answerKeep)
+                        return JSON.stringify(parsed, null, 2)
+                      } catch (err: unknown) {
+                          if (err instanceof Error) {
+                            console.error('Failed to call OpenAI:', err.message)
+                          } else {
+                            console.error('Unexpected error', err)
+                          }
                         }
-                      }
-                  })()}
-                </pre>
-              </div>
-            </>
-          )}
+                    })()}
+                  </pre>
+                </div>
+              </>
+            )}
+          </div>
 
           </div>
       </div>
