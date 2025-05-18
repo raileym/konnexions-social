@@ -27,6 +27,10 @@ const PanelGenAIPro: React.FC = () => {
     setOpenAiUsage,
     answer,
     scenario,
+    answerKeep,
+    setAnswerKeep,
+    questionKeep,
+    setQuestionKeep
     // activePanel
   } = useAppContext()
 
@@ -40,7 +44,7 @@ const PanelGenAIPro: React.FC = () => {
 
   const handleAskOpenAI = async () => {
     if (!openAiKey || !question) return
-
+  
     try {
       const res = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -53,15 +57,23 @@ const PanelGenAIPro: React.FC = () => {
           messages: [{ role: 'user', content: question }],
         }),
       })
-
+  
       const data = await res.json()
       const reply = data.choices?.[0]?.message?.content || ''
       setAnswer(reply)
+
+      setQuestionKeep(question)
+      localStorage.setItem('questionKeep', question)
+      
+      setAnswerKeep(reply)
+      localStorage.setItem('answerKeep', reply)
+
       incrementOpenAiUsage()
     } catch (err) {
       console.error('Failed to call OpenAI:', err)
     }
   }
+  
 
   const {scenarioLabel, scenarioParticipants} = getScenarioDetails(scenario)
 
@@ -70,17 +82,24 @@ const PanelGenAIPro: React.FC = () => {
 2. verbs: For each verb in the dialog, extract the 4–5 word expression that contains it.
 3. verbConjugations: Choose four verbs. For each, return conjugated examples as follows:
   3a. VERB. PRONOUN VERB. PRONOUN VERB DIRECT_OBJECT.
-  3b. Let 1PP = 1st Person Plural, 1PS = 1st Person Singular, 3PS = 3rd Person Singular, 3PP = 3rd Person Plural, 2PS = 2nd Person Singular.
+  3b. Let 1PP = 1st Person Plural, 1PS = 1st Person Singular, 3PS = 3rd Person Singular,
+      3PP = 3rd Person Plural, 2PS = 2nd Person Singular.
   3c. Present these in order: 1PP, 1PS, 3PS, 3PP, 2PS. (Skip 2PP, used only in Spain.)
 4. nounUsage: Choose six nouns. For each, provide gendered examples:
   4a. Masculine: NOUN. EL NOUN. DEL NOUN.
   4b. Feminine: NOUN. LA NOUN. DE LA NOUN.
-  4c. Use a different preposition in the last example to vary usage.
+  4c. Use a different preposition in the last example to vary usage. Use common, idiomatic
+      prepositions that match how the noun would be used in real conversation.
+  4d. Please ensure correct grammatical gender and accurate noun meaning when
+      providing masculine and feminine forms.
+  4e. In part 4c above, use common, idiomatic prepositions that match how the noun
+      would be used in real conversation.
 `
 
 const fullPrompt = `
 Follow these instructions one-by-one in a multi-part response.
-Format the response as JSON with keys: dialog, nouns, verbs, verbConjugations, nounUsage.
+Format the response as JSON with keys: dialog, nouns, verbs,
+  verbConjugations, nounUsage.
 
 dialog: I am ${scenarioLabel}. Please create a dialog between me and two other people,
 randomly chosen from
@@ -170,9 +189,33 @@ ${extendedInstruction}
             <label className="db mb2 f6 gray">OpenAI Response</label>
             <div className="pa2 bg-near-white mb3" style={{ whiteSpace: 'pre-wrap' }}>{answer}</div>
 
-          {openAiKey && scenario !== 'custom' && (
+          {openAiKey && (
             <>
               <div className="silver h4X pre">{fullPrompt}</div>
+            </>
+          )}
+
+          <hr />
+
+          {openAiKey && (
+            <>
+              <div className="ba bg-white black pa4 pre">{questionKeep}</div>
+              <div className="ba bg-white black pa4 mt4">
+                <pre>
+                  {(() => {
+                    try {
+                      const parsed = JSON.parse(answerKeep)
+                      return JSON.stringify(parsed, null, 2)
+                    } catch (err: unknown) {
+                        if (err instanceof Error) {
+                          console.error('Failed to call OpenAI:', err.message)
+                        } else {
+                          console.error('Unexpected error', err)
+                        }
+                      }
+                  })()}
+                </pre>
+              </div>
             </>
           )}
 

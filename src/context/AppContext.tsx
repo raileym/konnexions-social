@@ -24,7 +24,9 @@ import type {
   UseCloudTTS,
   ScenarioValue,
   IsHelpOpen,
-  AppHomeValue
+  AppHomeValue,
+  AnswerKeep,
+  QuestionKeep
 } from '../cknTypes/types/types'
 import {
   APP_HOME,
@@ -39,6 +41,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeHome, setActiveHome] = useState<AppHomeValue>(APP_HOME.BASIC)
   const [helpPanel, setHelpPanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
   const [answer, setAnswer] = useState<Answer>('')
+  const [answerKeep, setAnswerKeep] = useState<AnswerKeep>('')
   const [apiKey, setApiKey] = useState<ApiKey>('')
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
   const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
@@ -54,6 +57,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [openAiUsage, setOpenAiUsage] = useState<OpenAiUsage>(0)
   const [question, setQuestion] = useState<Question>('')
   const [questionContext, setQuestionContext] = useState<QuestionContext>('')
+  const [questionKeep, setQuestionKeep] = useState<QuestionKeep>('')
   const [scenario, setScenario] = useState<ScenarioValue>(SCENARIO.RESTAURANT)
   const [ttsAvgChars, setTtsAvgChars] = useState<TtsAvgChars>(80)
   const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
@@ -64,6 +68,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     activePanel,
     activeHome,
     answer,
+    answerKeep,
     apiKey,
     audioUrl,
     cleanedText,
@@ -79,11 +84,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     openAiKey,
     openAiUsage,
     question,
+    questionKeep,
     questionContext,
     scenario,
     setActivePanel,
     setActiveHome,
     setAnswer,
+    setAnswerKeep,
     setApiKey,
     setAudioUrl,
     setCleanedText,
@@ -100,6 +107,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setOpenAiUsage,
     setQuestion,
     setQuestionContext,
+    setQuestionKeep,
     setScenario,
     setTtsAvgChars,
     setTtsBudget,

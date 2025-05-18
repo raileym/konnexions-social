@@ -23,7 +23,9 @@ const App: React.FC = () => {
     setOpenAiUsage,
     setScenario,
     setTtsCharUsage,
-    setUseCloudTTS
+    setUseCloudTTS,
+    setQuestionKeep,
+    setAnswerKeep
   } = useAppContext()
 
   const loadUsage = () => {
@@ -75,8 +77,15 @@ const App: React.FC = () => {
     } else {
       setUseCloudTTS(false)
     }
+
+    const questionKeep = localStorage.getItem('questionKeep')
+    if (questionKeep) setQuestionKeep(questionKeep)
     
+    const answerKeep = localStorage.getItem('answerKeep')
+    if (answerKeep) setAnswerKeep(answerKeep)
+
     loadUsage()
+    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

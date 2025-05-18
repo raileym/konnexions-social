@@ -2,6 +2,7 @@ export type AppContextType = {
   activePanel: ActivePanel
   activeHome: ActiveHome
   answer: Answer
+  answerKeep: AnswerKeep
   apiKey: ApiKey
   audioUrl: AudioUrl
   cleanedText: CleanedText
@@ -18,10 +19,12 @@ export type AppContextType = {
   openAiUsage: OpenAiUsage
   question: Question
   questionContext: QuestionContext
+  questionKeep: QuestionKeep
   scenario: ScenarioValue
   setActivePanel: SetActivePanel
   setActiveHome: SetActiveHome
   setAnswer: SetAnswer
+  setAnswerKeep: SetAnswerKeep
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
@@ -38,6 +41,7 @@ export type AppContextType = {
   setOpenAiUsage: SetOpenAiUsage
   setQuestion: SetQuestion
   setQuestionContext: SetQuestionContext
+  setQuestionKeep: SetQuestionKeep
   setScenario: SetScenario
   setTtsAvgChars: SetTtsAvgChars
   setTtsBudget: SetTtsBudget
@@ -62,6 +66,7 @@ export type ScenarioKey = keyof typeof SCENARIO
 
 export type ActivePanel = AppPanelValue
 export type ActiveHome = AppHomeValue
+export type AnswerKeep = string
 export type HelpPanel = AppPanelValue
 export type Answer = string
 export type ApiKey = string
@@ -78,11 +83,13 @@ export type OpenAiBudget = number
 export type OpenAiKey = string
 export type OpenAiUsage = number
 export type Question = string
+export type QuestionKeep = string
 export type QuestionContext = string
 export type Scenario = string
 export type SetActivePanel = (panel: AppPanelValue) => void
 export type SetActiveHome = (home: AppHomeValue) => void
 export type SetAnswer = (answer: Answer) => void
+export type SetAnswerKeep = (answerKeep: AnswerKeep) => void
 export type SetApiKey = (apiKey: ApiKey) => void
 export type SetAudioUrl = (audioUrl: AudioUrl) => void
 export type SetCleanedText = (cleanedText: CleanedText) => void
@@ -98,6 +105,7 @@ export type SetOpenAiBudget = (openAiBudget: OpenAiBudget) => void
 export type SetOpenAiKey = (openAiKey: OpenAiKey) => void
 export type SetOpenAiUsage = (openAiUsage: OpenAiUsage) => void
 export type SetQuestion = (question: Question) => void
+export type SetQuestionKeep = (questionKeep: QuestionKeep) => void
 export type SetQuestionContext = (questionContext: QuestionContext) => void
 export type SetScenario = (scenario: ScenarioValue) => void
 export type SetTtsAvgChars = (ttsAvgChars: TtsAvgChars) => void
