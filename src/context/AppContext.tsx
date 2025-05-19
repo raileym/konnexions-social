@@ -38,7 +38,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
-  const [activeHome, setActiveHome] = useState<AppHomeValue>(APP_HOME.BASIC)
+  const [activeHome, setActiveHome] = useState<AppHomeValue>(APP_HOME.GEN_AI_PRO)
   const [helpPanel, setHelpPanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
   const [answer, setAnswer] = useState<Answer>('')
   const [answerKeep, setAnswerKeep] = useState<AnswerKeep>('')

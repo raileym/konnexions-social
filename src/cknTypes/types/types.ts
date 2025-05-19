@@ -143,3 +143,7 @@ export const APP_HOME = APP_PANEL
 
 export type AppHomeValue = (typeof APP_HOME)[keyof typeof APP_HOME]
 export type AppHomeKey = keyof typeof APP_HOME
+
+export type Participant = string
+export type Participants = Participant[]
+export type UseMyself = boolean

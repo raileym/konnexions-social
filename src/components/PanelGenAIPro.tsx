@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useAppContext } from '../context/AppContext'
-import { APP_HOME } from '../cknTypes/types/types'
+import { APP_HOME, type Participants, type UseMyself } from '../cknTypes/types/types'
 // import Button from "./Button"
 // import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek } from './Util'
 import { getScenarioDetails } from './Util'
 import Scenario from './Scenario'
+import ParticipantToggle from './ParticipantToggle'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
 // import { usePanel } from '../hooks/usePanel'
@@ -16,10 +17,16 @@ const PanelGenAIPro: React.FC = () => {
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
   // const { switchPanel } = usePanel()
 
-  const [showFullPrompt, setShowFullPrompt] = useState(false)
+  const [showAskChatGPT, setShowAskChatGPT] = useState(true)
+  const [showFullPrompt, setShowFullPrompt] = useState(true)
   const [showQuestionKeep, setShowQuestionKeep] = useState(false)
   const [showAnswerKeep, setShowAnswerKeep] = useState(false)
+  const [useMyself, setUseMyself] = useState<UseMyself>(false)
   
+  const toggleAskChatGPT = () => {
+    setShowAskChatGPT(prev => !prev)
+  }
+    
   const toggleFullPrompt = () => {
     setShowFullPrompt(prev => !prev)
   }
@@ -31,6 +38,27 @@ const PanelGenAIPro: React.FC = () => {
   const toggleAnswerKeep = () => {
     setShowAnswerKeep(prev => !prev)
   }
+
+  type ChooseParticipantsProps = {
+    participants: Participants
+    n: number
+    useMyself: UseMyself
+  }
+  const chooseParticipants = ({participants, n, useMyself}: ChooseParticipantsProps): string => {
+    if (!participants || participants.length === 0 || n <= 0) return ''
+  
+    const count = useMyself ? n - 1 : n
+    const shuffled = [...participants].sort(() => Math.random() - 0.5)
+    const selected = shuffled.slice(0, Math.min(count, participants.length))
+  
+    if (useMyself) selected.unshift('myself')
+  
+    if (selected.length === 1) return selected[0]
+    if (selected.length === 2) return `${selected[0]} and ${selected[1]}`
+  
+    const last = selected.pop()
+    return `${selected.join(', ')}, and ${last}`
+  }  
     
   const {
     question,
@@ -58,6 +86,44 @@ const PanelGenAIPro: React.FC = () => {
     setOpenAiUsage(current)
   }
 
+  type ParsedAnswer = {
+    dialog: string[] // array of simple utterance strings
+  
+    nouns: Record<string, string> // noun → matching phrase
+  
+    verbs: Record<string, string> // verb → matching phrase
+  
+    verbConjugations: {
+      [verb: string]: {
+        nosotros: string
+        yo: string
+        'él/ella': string
+        'ellos/ellas': string
+        tú: string
+      }
+    }
+  
+    nounUsage: {
+      [noun: string]: {
+        masculine: string
+        feminine: string
+        preposition: string
+      }
+    }
+  }
+  
+  // const parsedAnswer = null
+  const parsedAnswer = useMemo(() => {
+    try {
+      return JSON.parse(answerKeep) // as ParsedAnswer
+    } catch (err) {
+      // console.error('Error parsing JSON:', err)
+      console.log('TRULLY A PROBLEM: Error parsing JSON:', err)
+      console.log(answerKeep)
+      return null
+    }
+  }, [answerKeep])
+  
   const handleAskOpenAI = async () => {
     if (!openAiKey || !question) return
   
@@ -83,6 +149,7 @@ const PanelGenAIPro: React.FC = () => {
       
       setAnswerKeep(reply)
       localStorage.setItem('answerKeep', reply)
+      console.log(reply)
 
       incrementOpenAiUsage()
     } catch (err) {
@@ -91,37 +158,124 @@ const PanelGenAIPro: React.FC = () => {
   }
   
 
-  const {scenarioLabel, scenarioParticipants} = getScenarioDetails(scenario)
+  const {scenarioLabel, scenarioParticipants, scenarioParticipantsUpgrade} = getScenarioDetails(scenario)
 
   const extendedInstruction = `
-1. nouns: For each noun in the dialog, extract the 4–5 word expression that contains it.
-2. verbs: For each verb in the dialog, extract the 4–5 word expression that contains it.
-3. verbConjugations: Choose four verbs. For each, return conjugated examples as follows:
-  3a. VERB. PRONOUN VERB. PRONOUN VERB DIRECT_OBJECT.
-  3b. Let 1PP = 1st Person Plural, 1PS = 1st Person Singular, 3PS = 3rd Person Singular,
+3. nouns: For each noun in the dialog, extract the 4–5 word expression that contains it.
+4. verbs: For each verb in the dialog, extract the 4–5 word expression that contains it.
+5. verbConjugations: Choose four verbs. For each, return conjugated examples as follows:
+  5a. VERB. PRONOUN VERB. PRONOUN VERB DIRECT_OBJECT.
+  5b. Let 1PP = 1st Person Plural, 1PS = 1st Person Singular, 3PS = 3rd Person Singular,
       3PP = 3rd Person Plural, 2PS = 2nd Person Singular.
-  3c. Present these in order: 1PP, 1PS, 3PS, 3PP, 2PS. (Skip 2PP, used only in Spain.)
-4. nounUsage: Choose six nouns. For each, provide gendered examples:
-  4a. Masculine: NOUN. EL NOUN. DEL NOUN.
-  4b. Feminine: NOUN. LA NOUN. DE LA NOUN.
-  4c. Use a different preposition in the last example to vary usage. Use common, idiomatic
+  5c. Present these in order: 1PP, 1PS, 3PS, 3PP, 2PS. (Skip 2PP, used only in Spain.)
+6. nounUsage: Choose six nouns. For each, provide gendered examples:
+  6a. Masculine: NOUN. EL NOUN. DEL NOUN.
+  6b. Feminine: NOUN. LA NOUN. DE LA NOUN.
+  6c. Use a different preposition in the last example to vary usage. Use common, idiomatic
       prepositions that match how the noun would be used in real conversation.
-  4d. Please ensure correct grammatical gender and accurate noun meaning when
+  6d. Please ensure correct grammatical gender and accurate noun meaning when
       providing masculine and feminine forms.
-  4e. In part 4c above, use common, idiomatic prepositions that match how the noun
+  6e. In part 4c above, use common, idiomatic prepositions that match how the noun
       would be used in real conversation.
 `
 
-const fullPrompt = `
-Follow these instructions one-by-one in a multi-part response.
-Format the response as JSON with keys: dialog, nouns, verbs,
-  verbConjugations, nounUsage.
+  const exampleForm = `
+{
+  "scenario": "restaurant",
+  "dialog": [
+    "Host: Welcome to our restaurant! How many in your party?",
+    "Waiter: Here are the menus. Can I start you off with some drinks?",
+    "Female diner: I'll have the salad, please."
+  ],
+  "nouns": ["restaurante", "anfitrión"],
+  "verbs": ["crear un diálogo", "elegir al azar"],
+  "verbConjugations": {
+    "crear": {
+      "1PP": "Nosotros creamos.",
+      "1PS": "Yo creo.",
+      "3PS": "Él/ella crea.",
+      "3PP": "Ellos/ellas crean.",
+      "2PS": "Tú creas."
+    }
+  },
+  "nounUsage": {
+    "restaurante": {
+      "Masculine": "El restaurante.",
+      "Feminine": "La mesa del restaurante.",
+      "FeminineDifferentPrep": "De la cocina al restaurante."
+    }
+  }
+}
+`
 
-dialog: I am ${scenarioLabel}. Please create a dialog between me and two other people,
-randomly chosen from
-${scenarioParticipants}.
-Use no more than six sentences for beginning language instruction.
-${extendedInstruction}
+  const participants = chooseParticipants({participants: scenarioParticipantsUpgrade, n: 4, useMyself: false})
+
+  const nounsPrompt = `
+Create a list of nouns from the dialog below
+`
+
+  const dialogPrompt = `
+Create a dialog appropriate for a beginning language
+instruction, where the dialog takes place ${scenarioLabel}
+between ${participants}. Use between 6 to 8 sentences
+for this dialog.
+
+Express your response using well-formed JSON only, with no trailing commas,
+no single quotes (use double quotes only), no Markdown wrappers, no comments,
+no explanatory text or prose or partial JSON blocks, and no headings or
+titles. The output must be a single valid JSON object or array, starting
+with { or [ and ending with } or ]. Do not prepend phrases like “Here is
+your JSON:”. Assume the consumer is a machine expecting strict JSON compliance.
+
+Note, a dialog response is an array of strings that take the form,
+
+"Participant: Line from the dialog"
+
+A complete example follows: 
+
+[
+  "Hostess: Welcome to our restaurant! How many in your party?",
+  "Waitress: Here are the menus. Can I start you off with some drinks?",
+  "Male diner: I'll have the steak, please."
+]
+`
+
+const fullPrompt = <div>
+  <div className="b f3">Nouns Prompt</div>
+  <div>{nounsPrompt}</div>
+  <hr style={{height: "4px"}}className="bn bg-black-20 h1X mv4"/>
+  <div className="b f3">Dialog Prompt</div>
+  <div>{dialogPrompt}</div>
+  <hr style={{height: "4px"}}className="bn bg-black-20 h1X mv4"/>
+</div>
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const fullPromptX = `
+
+  ${dialogPrompt}
+Follow these instructions one-by-one in a multi-part response.
+We begin with the scenario stated explicitly, e.g., in a restaurant.
+Next, we have the dialog, which serves as the basis for the
+remaining questions 3-6. For the dialog, use no more than 
+six sentences as appropriate for a beginning language instruction. 
+
+1. scenario: ${scenarioLabel}
+2. dialog: I am ${scenarioLabel}. Please create a dialog between me and two other people,
+randomly chosen from ${scenarioParticipants}. ${extendedInstruction}
+Format the response as JSON with keys: scenario, dialog, nouns, verbs,
+verbConjugations, nounUsage. Retain the keys in English, otherwise
+express your verbal responses in Spanish. This is content for
+a beginner's Spanish lesson.
+Please form your response according to the unit counts described above,
+i.e., (2) dialog: 6 sentences, (3) nouns: every noun, (4) verbs: every
+verb, (5) verbConjugations: choose 4 verbs, and (6) nounUsage: choose
+six nouns.
+And, please form your response using a well-formed JSON format. No dangling 
+commas. Object properties take the form { "name": "value" }. Arrays
+take the form [ "one", "two", "three" ].
+As illustration, use the following example to illustrate format only, not 
+unit counts.
+${exampleForm}
 `
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
@@ -133,22 +287,30 @@ ${extendedInstruction}
           <h2 className="f3 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
           <div className="f3 pv3 pt0 mt0">{headline}</div>
 
-          <Scenario custom={false} />
+          <div className="flex items-start flex-wrap">
+            <Scenario custom={false} />
+            <ParticipantToggle useMyself={useMyself} onClick={setUseMyself} />
+          </div>
 
-          {/* 
-            { !openAiKey && (
-                <div className="mt5">
-                  <div>*Set a <b>GenAI Key</b> to use a Generative AI technology</div>
-                  <div className="w-100 flex justify-center pa4">
-                    <div>
-                      <Button isActive={activePanel == "keys"} switchFn={switchPanel} panel="keys" icon={faKey} title="API Keys" />
-                    </div>
-                  </div>
-                </div>
+          {/* <Scenario custom={false} />
+          <>
+            <ParticipantToggle useMyself={useMyself} onClick={setUseMyself} />
+            <p>Selected: {useMyself ? 'Includes myself' : 'Excludes myself'}</p>
+          </>           */}
+
+          <div className="w-100">
+            {openAiKey && (
+              <button
+              onClick={toggleAskChatGPT}
+              className="mb3 pa2 br5 bn bg-light-blue dark-gray pointer"
+              >
+                {showAskChatGPT ? 'Hide Ask ChatGPT' : 'Show Ask ChatGPT'}
+              </button>
             )}
-          */}
+          </div>
 
-            { openAiKey && (
+          <div className="w-100">
+            { openAiKey && showAskChatGPT && (
               <>
                 <hr />
                 <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT</label>
@@ -163,48 +325,18 @@ ${extendedInstruction}
                   onClick={handleAskOpenAI}
                   className="o-100 bg-brand white pa2 br2 bn pointer db mb3 w-100"
                 >
-                  Ask OpenAI
+                  Create Spanish Lesson
                 </button>
+
+                <label className="db mb2 f6 gray">OpenAI Response</label>
+                <div className="pa2 bg-near-white mb3" style={{ whiteSpace: 'pre-wrap' }}>{answer}</div>
               </>
             )}
+          </div>
 
-          {/*
-            {openAiKey && scenario !== 'custom' && (
-              <>
-                <div className="silver h4">{fullPrompt}</div>
-                <hr />
-                <div className="flex items-center mv3">
-                  <FontAwesomeIcon icon={faLock} />
-                  <p className="ml2 pa0 ma0">
-                    This field is available when Custom Scenario is selected.
-                  </p>
-                </div>
-                <div className="relative">
-                    <label className="o-20 db mt0 mb2 f3 b">Ask ChatGPT</label>
-                    <textarea
-                      value={questionContext}
-                      onChange={(e) => setQuestionContext(e.target.value)}
-                      className="o-50 bg-white input-reset ba b--black-20 pa2 mb2 db w-100"
-                      rows={8}
-                      placeholder="Ask a question..."
-                      disabled
-                    />
-                    <button
-                      onClick={handleAskOpenAI}
-                      className="o-30 bg-brand white pa2 br2 bn db mb3 w-100"
-                      disabled
-                    >
-                      Ask OpenAI
-                    </button>
-                  </div>
-              </>
-            )}
-
-            */}
-
-            <label className="db mb2 f6 gray">OpenAI Response</label>
-            <div className="pa2 bg-near-white mb3" style={{ whiteSpace: 'pre-wrap' }}>{answer}</div>
-
+          {/* <div className="b f2">Hello, world</div> */}
+          
+          <div className="w-100">
             {openAiKey && (
               <button
                 onClick={toggleFullPrompt}
@@ -217,10 +349,11 @@ ${extendedInstruction}
             {openAiKey && showFullPrompt && (
               <div className="silver h4X pre">{fullPrompt}</div>
             )}
+          </div>
 
           <hr />
 
-          <div>
+          <div className="w-100">
             {openAiKey && (
                 <button
                   onClick={toggleQuestionKeep}
@@ -237,7 +370,7 @@ ${extendedInstruction}
             )}
           </div>
 
-          <div>
+          <div className="w-100">
             {openAiKey && (
                 <button
                   onClick={toggleAnswerKeep}
@@ -249,8 +382,12 @@ ${extendedInstruction}
 
             {openAiKey && showAnswerKeep && (
               <>
-                <div className="ba bg-white black pa4 mt4">
+                <div className="mv5">Example JSON Format = {exampleForm}</div>
+                <div className="ba bg-white red pa4 mt4">
                   <pre>
+{parsedAnswer}
+                  </pre>
+                  {/* <pre>
                     {(() => {
                       try {
                         const parsed = JSON.parse(answerKeep)
@@ -263,13 +400,44 @@ ${extendedInstruction}
                           }
                         }
                     })()}
-                  </pre>
+                  </pre> */}
                 </div>
               </>
             )}
           </div>
 
-          </div>
+          <div>{answerKeep}</div>
+
+          {/* {parsedAnswer && (
+            <>
+              <div>
+                <h3>Dialog Preview</h3>
+                <ul>
+                  {(parsedAnswer as ParsedAnswer).dialog?.map((line: string | { speaker: string, message?: string, utterance?: string, response?: string }, index: number) => (
+                    <li key={index}>
+                      {typeof line === 'string' ? line : `${line.speaker}: ${line.message ?? line.utterance} ${line.response ?? ''}`}
+                    </li>
+                  ))}
+                </ul>
+              </div>            
+
+              <div>
+                <h3>Nouns Preview</h3>
+                <div className="ba">
+                  {Object.entries((parsedAnswer as ParsedAnswer).nouns).map(([noun, expression]) => (
+                    <div key={noun} className="flex flex-row bb b--black-10">
+                      <div className="pa3 w-30 b">{noun}</div>
+                      <div className="pa3 w-70">{expression}</div>
+                    </div>
+                  ))}
+                </div>
+
+              </div>            
+
+            </>
+          )} */}
+
+        </div>
       </div>
     </div>
   )

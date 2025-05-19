@@ -1,4 +1,4 @@
-import type { ScenarioValue } from "../cknTypes/types/types"
+import type { Participants, ScenarioValue } from "../cknTypes/types/types"
 
 export const getCurrentWeek = () => {
   const now = new Date()
@@ -60,11 +60,64 @@ sharing the ride, or a tourist unfamiliar with the city`,
     'WHICH DIALOG PARTICIPANTS',
 }
 
+const scenarioParticipantsUpgrade: Record<ScenarioValue, { participants: Participants }> = {
+  restaurant: {
+    participants: [
+      'the host',
+      'the hostess',
+      'a waiter',
+      'a waitress',
+      'the bartender',
+      'the chef',
+      'a male diner',
+      'a female diner',
+      'a couple seated nearby',
+    ],
+  },
+  hotel: {
+    participants: [
+      'the front desk agent',
+      'concierge',
+      'bellhop',
+      'housekeeper',
+      'a male guest',
+      'a female guest',
+      'the hotel manager',
+    ],
+  },
+  airport: {
+    participants: [
+      'an airline agent',
+      'a gate attendant',
+      'a TSA officer',
+      'a baggage handler',
+      'a flight attendant',
+      'a male traveler',
+      'a female traveler',
+    ],
+  },
+  taxi: {
+    participants: [
+      'the driver',
+      'a rideshare driver',
+      'a dispatcher',
+      'a male passenger',
+      'a female passenger',
+      'a couple sharing the ride',
+      'a tourist unfamiliar with the city',
+    ],
+  },
+  custom: {
+    participants: ['WHICH DIALOG PARTICIPANTS'],
+  },
+}
+
 export function getScenarioDetails(scenario: ScenarioValue) {
   return {
     scenarioLabel: scenarioLabels[scenario],
     scenarioPrompt: scenarioPrompts[scenario],
     scenarioTitle: scenarioTitles[scenario],
     scenarioParticipants: scenarioParticipants[scenario],
+    scenarioParticipantsUpgrade: scenarioParticipantsUpgrade[scenario].participants,
   }
 }
