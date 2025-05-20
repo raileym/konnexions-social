@@ -1,4 +1,4 @@
-import type { Participants, ScenarioValue } from "../cknTypes/types/types"
+import type { Participants, ScenarioLabels, ScenarioTitles, ScenarioValue } from "../cknTypes/types/types"
 
 export const getCurrentWeek = () => {
   const now = new Date()
@@ -7,7 +7,7 @@ export const getCurrentWeek = () => {
   return Math.floor((diff + start.getDay() + 1) / 7)
 }
 
-const scenarioTitles: Record<ScenarioValue, string> = {
+const scenarioTitles: ScenarioTitles = {
   restaurant: 'Restaurant',
   hotel: 'Hotel',
   airport: 'Airport',
@@ -15,7 +15,7 @@ const scenarioTitles: Record<ScenarioValue, string> = {
   custom: 'Custom'
 }
 
-const scenarioLabels: Record<ScenarioValue, string> = {
+const scenarioLabels: ScenarioLabels = {
   restaurant: 'at the restaurant',
   hotel: 'at the hotel',
   airport: 'at the airport',
@@ -23,23 +23,7 @@ const scenarioLabels: Record<ScenarioValue, string> = {
   custom: 'Custom'
 }
 
-const scenarioPrompts: Record<ScenarioValue, string> = {
-  restaurant:
-    // 'For the dialog request below, respond in the context of a restaurant. Pick two people randomly among a waiter, waitress, a man customer, and a woman customer, or two men, or two women.',
-    'Express a dialog between a random combination of two people',
-    hotel:
-    // 'Respond in the context of a hotel. Choose two characters such as a guest and a front desk agent, or two travelers discussing hotel amenities.',
-    'Express a dialog between a random combination of two people',
-    airport:
-    // 'Respond in the context of an airport. Choose roles such as a traveler, airline agent, or TSA officer.',
-    'Express a dialog between a random combination of two people',
-    taxi:
-    'Express a dialog between a random combination of two people',
-    custom:
-    'Express a dialog between a random combination of two people',
-}
-
-const scenarioParticipants: Record<ScenarioValue, string> = {
+const scenarioParticipantsOld: Record<ScenarioValue, string> = {
   restaurant:
     `the host, hostess, waiter, waitress, bartender,
 chef, a male diner, a female diner, or a couple
@@ -60,7 +44,7 @@ sharing the ride, or a tourist unfamiliar with the city`,
     'WHICH DIALOG PARTICIPANTS',
 }
 
-const scenarioParticipantsUpgrade: Record<ScenarioValue, { participants: Participants }> = {
+const scenarioParticipants: Record<ScenarioValue, { participants: Participants }> = {
   restaurant: {
     participants: [
       'the host',
@@ -115,9 +99,8 @@ const scenarioParticipantsUpgrade: Record<ScenarioValue, { participants: Partici
 export function getScenarioDetails(scenario: ScenarioValue) {
   return {
     scenarioLabel: scenarioLabels[scenario],
-    scenarioPrompt: scenarioPrompts[scenario],
     scenarioTitle: scenarioTitles[scenario],
-    scenarioParticipants: scenarioParticipants[scenario],
-    scenarioParticipantsUpgrade: scenarioParticipantsUpgrade[scenario].participants,
+    scenarioParticipantsOld: scenarioParticipantsOld[scenario],
+    scenarioParticipants: scenarioParticipants[scenario].participants,
   }
 }
