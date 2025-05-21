@@ -6,6 +6,7 @@ export type AppContextType = {
   apiKey: ApiKey
   audioUrl: AudioUrl
   cleanedText: CleanedText
+  dialogKeep: DialogKeep
   gcpKey: GcpKey
   helpPanel: HelpPanel
   inputText: InputText
@@ -13,6 +14,7 @@ export type AppContextType = {
   isTransitioning: IsTransitioning
   maskKey: MaskKey
   maskOpenAiKey: MaskOpenAiKey
+  nounsKeep: NounsKeep
   openAiAvgTokens: OpenAiAvgTokens
   openAiBudget: OpenAiBudget
   openAiKey: OpenAiKey
@@ -28,6 +30,7 @@ export type AppContextType = {
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
+  setDialogKeep: SetDialogKeep
   setGcpKey: SetGcpKey
   setHelpPanel: SetHelpPanel
   setInputText: SetInputText
@@ -38,15 +41,18 @@ export type AppContextType = {
   setOpenAiAvgTokens: SetOpenAiAvgTokens
   setOpenAiBudget: SetOpenAiBudget
   setOpenAiKey: SetOpenAiKey
+  setNounsKeep: SetNounsKeep
   setOpenAiUsage: SetOpenAiUsage
   setQuestion: SetQuestion
   setQuestionContext: SetQuestionContext
   setQuestionKeep: SetQuestionKeep
   setScenario: SetScenario
+  setStepResult: SetStepResult
   setTtsAvgChars: SetTtsAvgChars
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
+  stepResult: StepResult
   ttsAvgChars: TtsAvgChars
   ttsBudget: TtsBudget
   ttsCharUsage: TtsCharUsage
@@ -63,50 +69,54 @@ export const SCENARIO = {
 export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]
 export type ScenarioKey = keyof typeof SCENARIO
 
-export type ActivePanel = AppPanelValue
 export type ActiveHome = AppHomeValue
-export type AnswerKeep = string
-export type HelpPanel = AppPanelValue
+export type ActivePanel = AppPanelValue
 export type Answer = string
+export type AnswerKeep = string
 export type ApiKey = string
 export type AudioUrl = string | null
 export type CleanedText = string
+export type DialogKeep = string
 export type GcpKey = string
+export type HelpPanel = AppPanelValue
 export type InputText = string
-export type IsTransitioning = boolean
 export type IsHelpOpen = boolean
+export type IsTransitioning = boolean
 export type MaskKey = boolean
 export type MaskOpenAiKey = boolean
+export type NounsKeep = string
 export type OpenAiAvgTokens = number
 export type OpenAiBudget = number
 export type OpenAiKey = string
 export type OpenAiUsage = number
 export type Question = string
-export type QuestionKeep = string
 export type QuestionContext = string
+export type QuestionKeep = string
 export type Scenario = string
 
-export type SetActivePanel = React.Dispatch<React.SetStateAction<AppPanelValue>>
 export type SetActiveHome = React.Dispatch<React.SetStateAction<AppHomeValue>>
+export type SetActivePanel = React.Dispatch<React.SetStateAction<AppPanelValue>>
 export type SetAnswer = React.Dispatch<React.SetStateAction<Answer>>
 export type SetAnswerKeep = React.Dispatch<React.SetStateAction<AnswerKeep>>
 export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
+export type SetDialogKeep = React.Dispatch<React.SetStateAction<DialogKeep>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
 export type SetHelpPanel = React.Dispatch<React.SetStateAction<HelpPanel>>
 export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
-export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
+export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
+export type SetNounsKeep = React.Dispatch<React.SetStateAction<NounsKeep>>
 export type SetOpenAiAvgTokens = React.Dispatch<React.SetStateAction<OpenAiAvgTokens>>
 export type SetOpenAiBudget = React.Dispatch<React.SetStateAction<OpenAiBudget>>
 export type SetOpenAiKey = React.Dispatch<React.SetStateAction<OpenAiKey>>
 export type SetOpenAiUsage = React.Dispatch<React.SetStateAction<OpenAiUsage>>
 export type SetQuestion = React.Dispatch<React.SetStateAction<Question>>
-export type SetQuestionKeep = React.Dispatch<React.SetStateAction<QuestionKeep>>
 export type SetQuestionContext = React.Dispatch<React.SetStateAction<QuestionContext>>
+export type SetQuestionKeep = React.Dispatch<React.SetStateAction<QuestionKeep>>
 export type SetScenario = React.Dispatch<React.SetStateAction<ScenarioValue>>
 export type SetTtsAvgChars = React.Dispatch<React.SetStateAction<TtsAvgChars>>
 export type SetTtsBudget = React.Dispatch<React.SetStateAction<TtsBudget>>
@@ -160,9 +170,9 @@ export type ScenarioTitle = string
 export type ScenarioTitles = Record<ScenarioValue, ScenarioTitle>
 
 export type StepResult = {
-  dialog: Dialog
-  nouns: string
-  verbs: string
+  dialog: Dialog[]
+  nouns: Noun[]
+  verbs: Verb[]
   // ...
 }
 
@@ -212,6 +222,7 @@ export type HandleDialogProps = {
 }
 
 export type DialogPromptProps = {
+  language: Language
   scenarioLabel: ScenarioLabel
   participant: Participant
 }
@@ -249,9 +260,9 @@ export const defaultVerbs: Verb[] = [
 ]
 
 export const defaultStepResult: StepResult = {
-  dialog: JSON.stringify(defaultDialog, null, 2),
-  nouns: JSON.stringify(defaultNouns, null, 2),
-  verbs: JSON.stringify(defaultVerbs, null, 2),
+  dialog: defaultDialog, // JSON.stringify(defaultDialog, null, 2),
+  nouns: defaultNouns, // JSON.stringify(defaultNouns, null, 2),
+  verbs: defaultVerbs, // JSON.stringify(defaultVerbs, null, 2),
 }
 
-
+export type Language = string

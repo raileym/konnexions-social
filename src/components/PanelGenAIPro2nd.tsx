@@ -86,31 +86,31 @@ const PanelGenAIPro: React.FC = () => {
     setOpenAiUsage(current)
   }
 
-  type ParsedAnswer = {
-    dialog: string[] // array of simple utterance strings
+  // type ParsedAnswer = {
+  //   dialog: string[] // array of simple utterance strings
   
-    nouns: Record<string, string> // noun → matching phrase
+  //   nouns: Record<string, string> // noun → matching phrase
   
-    verbs: Record<string, string> // verb → matching phrase
+  //   verbs: Record<string, string> // verb → matching phrase
   
-    verbConjugations: {
-      [verb: string]: {
-        nosotros: string
-        yo: string
-        'él/ella': string
-        'ellos/ellas': string
-        tú: string
-      }
-    }
+  //   verbConjugations: {
+  //     [verb: string]: {
+  //       nosotros: string
+  //       yo: string
+  //       'él/ella': string
+  //       'ellos/ellas': string
+  //       tú: string
+  //     }
+  //   }
   
-    nounUsage: {
-      [noun: string]: {
-        masculine: string
-        feminine: string
-        preposition: string
-      }
-    }
-  }
+  //   nounUsage: {
+  //     [noun: string]: {
+  //       masculine: string
+  //       feminine: string
+  //       preposition: string
+  //     }
+  //   }
+  // }
   
   // const parsedAnswer = null
   const parsedAnswer = useMemo(() => {
@@ -158,26 +158,26 @@ const PanelGenAIPro: React.FC = () => {
   }
   
 
-  const {scenarioLabel, scenarioParticipants, scenarioParticipants} = getScenarioDetails(scenario)
+  const {scenarioLabel, scenarioParticipants} = getScenarioDetails(scenario)
 
-  const extendedInstruction = `
-3. nouns: For each noun in the dialog, extract the 4–5 word expression that contains it.
-4. verbs: For each verb in the dialog, extract the 4–5 word expression that contains it.
-5. verbConjugations: Choose four verbs. For each, return conjugated examples as follows:
-  5a. VERB. PRONOUN VERB. PRONOUN VERB DIRECT_OBJECT.
-  5b. Let 1PP = 1st Person Plural, 1PS = 1st Person Singular, 3PS = 3rd Person Singular,
-      3PP = 3rd Person Plural, 2PS = 2nd Person Singular.
-  5c. Present these in order: 1PP, 1PS, 3PS, 3PP, 2PS. (Skip 2PP, used only in Spain.)
-6. nounUsage: Choose six nouns. For each, provide gendered examples:
-  6a. Masculine: NOUN. EL NOUN. DEL NOUN.
-  6b. Feminine: NOUN. LA NOUN. DE LA NOUN.
-  6c. Use a different preposition in the last example to vary usage. Use common, idiomatic
-      prepositions that match how the noun would be used in real conversation.
-  6d. Please ensure correct grammatical gender and accurate noun meaning when
-      providing masculine and feminine forms.
-  6e. In part 4c above, use common, idiomatic prepositions that match how the noun
-      would be used in real conversation.
-`
+//   const extendedInstruction = `
+// 3. nouns: For each noun in the dialog, extract the 4–5 word expression that contains it.
+// 4. verbs: For each verb in the dialog, extract the 4–5 word expression that contains it.
+// 5. verbConjugations: Choose four verbs. For each, return conjugated examples as follows:
+//   5a. VERB. PRONOUN VERB. PRONOUN VERB DIRECT_OBJECT.
+//   5b. Let 1PP = 1st Person Plural, 1PS = 1st Person Singular, 3PS = 3rd Person Singular,
+//       3PP = 3rd Person Plural, 2PS = 2nd Person Singular.
+//   5c. Present these in order: 1PP, 1PS, 3PS, 3PP, 2PS. (Skip 2PP, used only in Spain.)
+// 6. nounUsage: Choose six nouns. For each, provide gendered examples:
+//   6a. Masculine: NOUN. EL NOUN. DEL NOUN.
+//   6b. Feminine: NOUN. LA NOUN. DE LA NOUN.
+//   6c. Use a different preposition in the last example to vary usage. Use common, idiomatic
+//       prepositions that match how the noun would be used in real conversation.
+//   6d. Please ensure correct grammatical gender and accurate noun meaning when
+//       providing masculine and feminine forms.
+//   6e. In part 4c above, use common, idiomatic prepositions that match how the noun
+//       would be used in real conversation.
+// `
 
   const exampleForm = `
 {
@@ -249,34 +249,33 @@ const fullPrompt = <div>
   <hr style={{height: "4px"}}className="bn bg-black-20 h1X mv4"/>
 </div>
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const fullPromptX = `
+// const fullPromptX = `
 
-  ${dialogPrompt}
-Follow these instructions one-by-one in a multi-part response.
-We begin with the scenario stated explicitly, e.g., in a restaurant.
-Next, we have the dialog, which serves as the basis for the
-remaining questions 3-6. For the dialog, use no more than 
-six sentences as appropriate for a beginning language instruction. 
+//   ${dialogPrompt}
+// Follow these instructions one-by-one in a multi-part response.
+// We begin with the scenario stated explicitly, e.g., in a restaurant.
+// Next, we have the dialog, which serves as the basis for the
+// remaining questions 3-6. For the dialog, use no more than 
+// six sentences as appropriate for a beginning language instruction. 
 
-1. scenario: ${scenarioLabel}
-2. dialog: I am ${scenarioLabel}. Please create a dialog between me and two other people,
-randomly chosen from ${scenarioParticipants}. ${extendedInstruction}
-Format the response as JSON with keys: scenario, dialog, nouns, verbs,
-verbConjugations, nounUsage. Retain the keys in English, otherwise
-express your verbal responses in Spanish. This is content for
-a beginner's Spanish lesson.
-Please form your response according to the unit counts described above,
-i.e., (2) dialog: 6 sentences, (3) nouns: every noun, (4) verbs: every
-verb, (5) verbConjugations: choose 4 verbs, and (6) nounUsage: choose
-six nouns.
-And, please form your response using a well-formed JSON format. No dangling 
-commas. Object properties take the form { "name": "value" }. Arrays
-take the form [ "one", "two", "three" ].
-As illustration, use the following example to illustrate format only, not 
-unit counts.
-${exampleForm}
-`
+// 1. scenario: ${scenarioLabel}
+// 2. dialog: I am ${scenarioLabel}. Please create a dialog between me and two other people,
+// randomly chosen from ${scenarioParticipants}. ${extendedInstruction}
+// Format the response as JSON with keys: scenario, dialog, nouns, verbs,
+// verbConjugations, nounUsage. Retain the keys in English, otherwise
+// express your verbal responses in Spanish. This is content for
+// a beginner's Spanish lesson.
+// Please form your response according to the unit counts described above,
+// i.e., (2) dialog: 6 sentences, (3) nouns: every noun, (4) verbs: every
+// verb, (5) verbConjugations: choose 4 verbs, and (6) nounUsage: choose
+// six nouns.
+// And, please form your response using a well-formed JSON format. No dangling 
+// commas. Object properties take the form { "name": "value" }. Arrays
+// take the form [ "one", "two", "three" ].
+// As illustration, use the following example to illustrate format only, not 
+// unit counts.
+// ${exampleForm}
+// `
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
 

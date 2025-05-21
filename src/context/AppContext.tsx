@@ -26,11 +26,15 @@ import type {
   IsHelpOpen,
   AppHomeValue,
   AnswerKeep,
-  QuestionKeep
+  QuestionKeep,
+  DialogKeep,
+  StepResult,
+  NounsKeep
 } from '../cknTypes/types/types'
 import {
   APP_HOME,
   APP_PANEL,
+  defaultStepResult,
   SCENARIO
 } from '../cknTypes/types/types'
 
@@ -42,6 +46,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [helpPanel, setHelpPanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
   const [answer, setAnswer] = useState<Answer>('')
   const [answerKeep, setAnswerKeep] = useState<AnswerKeep>('')
+  const [stepResult, setStepResult] = useState<StepResult>(defaultStepResult)
+  const [dialogKeep, setDialogKeep] = useState<DialogKeep>('')
+  const [nounsKeep, setNounsKeep] = useState<NounsKeep>('')
   const [apiKey, setApiKey] = useState<ApiKey>('')
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
   const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
@@ -65,13 +72,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
   const AppContextValue = {
-    activePanel,
     activeHome,
+    activePanel,
     answer,
     answerKeep,
     apiKey,
     audioUrl,
     cleanedText,
+    dialogKeep,
     gcpKey,
     helpPanel,
     inputText,
@@ -79,21 +87,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     isTransitioning,
     maskKey,
     maskOpenAiKey,
+    nounsKeep,
     openAiAvgTokens,
     openAiBudget,
     openAiKey,
     openAiUsage,
     question,
-    questionKeep,
     questionContext,
+    questionKeep,
     scenario,
-    setActivePanel,
     setActiveHome,
+    setActivePanel,
     setAnswer,
     setAnswerKeep,
     setApiKey,
     setAudioUrl,
     setCleanedText,
+    setDialogKeep,
     setGcpKey,
     setHelpPanel,
     setInputText,
@@ -101,6 +111,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsTransitioning,
     setMaskKey,
     setMaskOpenAiKey,
+    setNounsKeep,
     setOpenAiAvgTokens,
     setOpenAiBudget,
     setOpenAiKey,
@@ -109,10 +120,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setQuestionContext,
     setQuestionKeep,
     setScenario,
+    setStepResult,
     setTtsAvgChars,
     setTtsBudget,
     setTtsCharUsage,
     setUseCloudTTS,
+    stepResult,
     ttsAvgChars,
     ttsBudget,
     ttsCharUsage,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // import React, { useMemo, useState } from 'react'
 import { useAppContext } from '../context/AppContext'
-import { APP_HOME, defaultStepResult, GEN_AI_STEP, type ChooseParticipantsProps, type DialogPrompt, type DialogPromptProps, type GeneratePromptSet, type HandleDialogProps, type JsonQualification, type NounsPrompt, type NounsPromptProps, type PromptSet, type StepResult, type UseMyself } from '../cknTypes/types/types'
+import { APP_HOME, GEN_AI_STEP, type ChooseParticipantsProps, type DialogPrompt, type DialogPromptProps, type GeneratePromptSet, type HandleDialogProps, type JsonQualification, type Language, type NounsPrompt, type NounsPromptProps, type PromptSet, type UseMyself } from '../cknTypes/types/types'
 // import Button from "./Button"
 // import { faKey } from '@fortawesome/free-solid-svg-icons'
 // import { getCurrentWeek } from './Util'
@@ -13,17 +13,24 @@ import ParticipantToggle from './ParticipantToggle'
 // import { usePanel } from '../hooks/usePanel'
 
 const PanelGenAIPro: React.FC = () => {
-  const { activeHome } = useAppContext()
+  const {
+    setDialogKeep,
+    setStepResult,
+    stepResult,
+    activeHome,
+    setNounsKeep
+  } = useAppContext()
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
   // const { switchPanel } = usePanel()
 
   const [useMyself, setUseMyself] = useState<UseMyself>(false)
-  const [stepResult, setStepResult] = useState<StepResult>(defaultStepResult)
+  // const [stepResult, setStepResult] = useState<StepResult>(defaultStepResult)
   const [, setStep] = useState<number>(0)
   // const [step, setStep] = useState<number>(0)
   const [showStepResult, setShowStepResult] = useState(true)
-  
+  const [language, ] = useState<Language>('Spanish')
+
   const toggleStepResult = () => {
     setShowStepResult(prev => !prev)
   }
@@ -56,16 +63,34 @@ const PanelGenAIPro: React.FC = () => {
   
   const generatePromptSet: GeneratePromptSet = (jsonQualification: JsonQualification): PromptSet => {
     const nounsPrompt: NounsPrompt = ({dialog}: NounsPromptProps) => `
-Extract the nouns from the dialog
-${dialog}
-Express
+REQUEST: Extract the nouns from the dialog below:
+
+DIALOG: ${dialog}
+${jsonQualification}
+Each string in the array must take the form:
+
+    "gender:noun(singular):noun(plural):article(singular):article(plural):use (singular) with a preposition:use (singular) with a preposition:use (plural) with a preposition:use (plural) with a preposition"
+
+where you may use the following prepositions when forming phrases,
+
+    a, con, de, desde, en, entre, hacia, hasta, para, por, sin, sobre.
+
+These prepositions are common in beginner Spanish and should be used to form natural, grammatically correct expressions.
+
+A complete example follows:
+
+    [
+      "masculino:restaurante:restaurantes:el:los:en el restaurante:desde el restaurante:en los restaurantes:desde los restaurantes",
+      "femenino:paella:paellas:la:las:con la paella:para la paella:con las paellas:para las paellas",
+      "masculino:camarero:camareros:el:los:con el camarero:para el camarero:con los camareros:para los camareros"
+    ]
 `
 
-    const dialogPrompt: DialogPrompt = ({scenarioLabel, participant}: DialogPromptProps) => `
-Create a dialog appropriate for a beginning language
+    const dialogPrompt: DialogPrompt = ({language, scenarioLabel, participant}: DialogPromptProps) => `
+Create a dialog in ${language} appropriate for a beginning language
 instruction, where the dialog takes place ${scenarioLabel}
-between ${participant}. Use between 6 to 8 sentences
-for this dialog.
+between ${participant}.
+Use between 6 to 8 sentences for this dialog.
 
 ${jsonQualification}
 
@@ -88,53 +113,126 @@ A complete example follows:
     }
   }
 
-  const jsonQualification = `
-Express your response using well-formed JSON only, with no trailing commas,
-no single quotes (use double quotes only), no Markdown wrappers, no comments,
-no explanatory text or prose or partial JSON blocks, and no headings or
-titles. The output must be a single valid JSON object or array, starting
-with { or [ and ending with } or ]. Do not prepend phrases like “Here is
+//   const jsonQualification = `
+// RESPONSE: Express your response using well-formed JSON only, with no trailing
+// commas, no single quotes (use double quotes only), no Markdown wrappers, no
+// comments, no explanatory text or prose or partial JSON blocks, and no headings
+// or titles. The output must be a single valid JSON object or array, starting
+// with { or [ and ending with } or ]. Do not prepend phrases like “Here is
+// your JSON:”. Assume the consumer is a machine expecting strict JSON compliance.
+// `
+
+const jsonQualification = `
+RESPONSE: Express your response using well-formed JSON only, with no trailing
+commas, no single quotes (use double quotes only), no Markdown wrappers, no
+comments, no explanatory text or prose or partial JSON blocks, and no headings
+or titles. The output must be a single valid JSON array, starting
+with [ and ending with ]. Do not prepend phrases like “Here is
 your JSON:”. Assume the consumer is a machine expecting strict JSON compliance.
 `
 
-  const handleDialog = async ({
-    prompt,
-    nextStep,
-    setStepResult
-  }: HandleDialogProps) => {
+const looksLikeStringArray = /^\s*\[\s*"(?:[^"\\]|\\.)*"(?:\s*,\s*"(?:[^"\\]|\\.)*")*\s*\]\s*$/s
 
-    console.log(prompt)
-    const alwaysTrue = true
-    if (alwaysTrue) {
-      return
-    }
+const handleDialog = async ({
+  prompt,
+  nextStep,
+  setStepResult
+}: HandleDialogProps) => {
+  console.log(prompt)
 
-    const response = await fetchFromOpenAI(prompt)
-    if (response) {
-      setStepResult(prev => ({ ...prev, dialog: response
-      }))
-      setStep(nextStep)
-    }
+  const alwaysTrue = true
+  if (alwaysTrue) {
+    return
   }
+
+  const response = await fetchFromOpenAI(prompt)
+
+  if (!response || !looksLikeStringArray.test(response)) {
+    console.log('Response from ChatGPT AI is not well-formed')
+    return
+  }
+
+  let parsed: string[]
+  try {
+    parsed = JSON.parse(response)
+  } catch (err) {
+    console.error('Failed to parse response as JSON:', err)
+    return
+  }
+
+  if (!Array.isArray(parsed) || !parsed.every(line => typeof line === 'string')) {
+    console.error('Parsed result is not a string[]')
+    return
+  }
+  
+  const stringified = JSON.stringify(parsed)
+  setDialogKeep(stringified)
+  localStorage.setItem('dialogKeep', stringified)
+
+  setStepResult(prev => {
+    const updated = { ...prev, dialog: parsed }
+    localStorage.setItem('stepResult', JSON.stringify(updated))
+    return updated
+  })
+
+  setStep(nextStep)
+}
+
+
   
   const handleNouns = async ({
     prompt,
     nextStep,
     setStepResult
   }: HandleDialogProps) => {
-
     console.log(prompt)
+
     const alwaysTrue = true
     if (alwaysTrue) {
       return
     }
 
     const response = await fetchFromOpenAI(prompt)
-    if (response) {
-      setStepResult(prev => ({ ...prev, nouns: response
-      }))
-      setStep(nextStep)
+
+    if (!response || !looksLikeStringArray.test(response)) {
+      console.log('Response from ChatGPT AI is not well-formed')
+      return
     }
+  
+    let parsed: string[]
+    try {
+      parsed = JSON.parse(response)
+    } catch (err) {
+      console.error('Failed to parse response as JSON:', err)
+      return
+    }
+
+    if (!Array.isArray(parsed)) {
+      console.error('Parsed response is not an array')
+      return
+    }
+    
+    if (!parsed.every(line => typeof line === 'string')) {
+      console.error('One or more items in the parsed array is not a string')
+      return
+    }
+    
+    if (!parsed.every(line => line.split(':').length === 9)) {
+      console.error('One or more items in the parsed array does not have 9 colon-separated fields')
+      return
+    }    
+    
+    const stringified = JSON.stringify(parsed)
+    setNounsKeep(stringified)
+    localStorage.setItem('nounsKeep', stringified)
+
+    setStepResult(prev => {
+      const updated = { ...prev, nouns: parsed }
+      localStorage.setItem('stepResult', JSON.stringify(updated))
+      return updated
+    })
+
+    setStep(nextStep)
   }
 
   const chooseParticipants = ({participants, n, useMyself}: ChooseParticipantsProps): string => {
@@ -160,12 +258,12 @@ your JSON:”. Assume the consumer is a machine expecting strict JSON compliance
 
   const {scenarioLabel, scenarioParticipants} = getScenarioDetails(scenario)
 
-  const participant = chooseParticipants({participants: scenarioParticipants, n: 4, useMyself: false})
+  const participant = chooseParticipants({participants: scenarioParticipants, n: 2, useMyself: false})
 
   const promptSet = generatePromptSet(jsonQualification)
 
-  const dialogPrompt = promptSet.dialogPrompt({scenarioLabel, participant})
-  const nounsPrompt = promptSet.nounsPrompt({dialog: stepResult.dialog})
+  const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, participant})
+  const nounsPrompt = promptSet.nounsPrompt({dialog: stepResult.dialog.join(' ')})
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
 
@@ -226,11 +324,28 @@ your JSON:”. Assume the consumer is a machine expecting strict JSON compliance
             )}
 
             {openAiKey && showStepResult && (
-              <>
-                <pre className="black">{stepResult.dialog}</pre>
-                <pre className="black">{stepResult.nouns}</pre>
-                <pre className="black">{stepResult.verbs}</pre>
-              </>
+              <div className="w-100 flex justify-center">
+                <div>
+                  <div className="mt4 b">Dialog</div>
+                  <ul className="mt0 pt0 black">
+                    {stepResult.dialog.map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                  </ul>
+                  <div className="mt4 b">Nouns</div>
+                  <ul className="mt0 pt0 black">
+                    {stepResult.nouns.map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                  </ul>
+                  <div className="mt4 b">Verbs</div>
+                  <ul className="mt0 pt0 black">
+                    {stepResult.verbs.map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+                </div>
             )}
           </div>
         </div>

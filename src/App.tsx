@@ -11,21 +11,23 @@ import NavbarBottom from './components/NavbarBottom'
 import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext'
 import { getCurrentWeek } from './components/Util'
-import { SCENARIO, type ScenarioValue } from './cknTypes/types/types'
+import { SCENARIO, type ScenarioValue, type StepResult } from './cknTypes/types/types'
 import PanelGenAIPro from './components/PanelGenAIPro'
 
 const App: React.FC = () => {
   const {
+    setAnswerKeep,
     setApiKey,
+    setDialogKeep,
     setMaskKey,
     setMaskOpenAiKey,    
     setOpenAiKey,
     setOpenAiUsage,
-    setScenario,
-    setTtsCharUsage,
-    setUseCloudTTS,
     setQuestionKeep,
-    setAnswerKeep
+    setScenario,
+    setStepResult,
+    setTtsCharUsage,
+    setUseCloudTTS
   } = useAppContext()
 
   const loadUsage = () => {
@@ -83,6 +85,22 @@ const App: React.FC = () => {
     
     const answerKeep = localStorage.getItem('answerKeep')
     if (answerKeep) setAnswerKeep(answerKeep)
+
+    const dialogKeep = localStorage.getItem('dialogKeep')
+    if (dialogKeep) setDialogKeep(dialogKeep)
+
+    const nounsKeep = localStorage.getItem('nounsKeep')
+    if (nounsKeep) setDialogKeep(nounsKeep)
+  
+    const saved = localStorage.getItem('stepResult')
+    if (saved) {
+      try {
+        const recovered: StepResult = JSON.parse(saved)
+        setStepResult(recovered)
+      } catch (err) {
+        console.error('Failed to load stepResult from localStorage:', err)
+      }
+    }
 
     loadUsage()
     
