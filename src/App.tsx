@@ -92,6 +92,9 @@ const App: React.FC = () => {
     const nounsKeep = localStorage.getItem('nounsKeep')
     if (nounsKeep) setDialogKeep(nounsKeep)
   
+    const verbsKeep = localStorage.getItem('verbsKeep')
+    if (verbsKeep) setDialogKeep(verbsKeep)
+  
     const saved = localStorage.getItem('stepResult')
     if (saved) {
       try {

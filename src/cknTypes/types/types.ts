@@ -8,6 +8,9 @@ export type AppContextType = {
   cleanedText: CleanedText
   dialogKeep: DialogKeep
   gcpKey: GcpKey
+  handleDialogErrors: HandleDialogErrors
+  handleNounsErrors: HandleNounsErrors
+  handleVerbsErrors: HandleVerbsErrors
   helpPanel: HelpPanel
   inputText: InputText
   isHelpOpen: IsHelpOpen
@@ -32,6 +35,9 @@ export type AppContextType = {
   setCleanedText: SetCleanedText
   setDialogKeep: SetDialogKeep
   setGcpKey: SetGcpKey
+  setHandleDialogErrors: SetHandleDialogErrors
+  setHandleNounsErrors: SetHandleNounsErrors
+  setHandleVerbsErrors: SetHandleVerbsErrors
   setHelpPanel: SetHelpPanel
   setInputText: SetInputText
   setIsHelpOpen: SetIsHelpOpen
@@ -52,11 +58,13 @@ export type AppContextType = {
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
+  setVerbsKeep: SetVerbsKeep
   stepResult: StepResult
   ttsAvgChars: TtsAvgChars
   ttsBudget: TtsBudget
   ttsCharUsage: TtsCharUsage
   useCloudTTS: UseCloudTTS
+  verbsKeep: VerbsKeep
 }
 
 export const SCENARIO = {
@@ -93,6 +101,7 @@ export type Question = string
 export type QuestionContext = string
 export type QuestionKeep = string
 export type Scenario = string
+export type VerbsKeep = string
 
 export type SetActiveHome = React.Dispatch<React.SetStateAction<AppHomeValue>>
 export type SetActivePanel = React.Dispatch<React.SetStateAction<AppPanelValue>>
@@ -103,6 +112,9 @@ export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetDialogKeep = React.Dispatch<React.SetStateAction<DialogKeep>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
+export type SetHandleDialogErrors = React.Dispatch<React.SetStateAction<HandleDialogErrors>>
+export type SetHandleNounsErrors = React.Dispatch<React.SetStateAction<HandleNounsErrors>>
+export type SetHandleVerbsErrors = React.Dispatch<React.SetStateAction<HandleVerbsErrors>>
 export type SetHelpPanel = React.Dispatch<React.SetStateAction<HelpPanel>>
 export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
@@ -122,6 +134,7 @@ export type SetTtsAvgChars = React.Dispatch<React.SetStateAction<TtsAvgChars>>
 export type SetTtsBudget = React.Dispatch<React.SetStateAction<TtsBudget>>
 export type SetTtsCharUsage = React.Dispatch<React.SetStateAction<TtsCharUsage>>
 export type SetUseCloudTTS = React.Dispatch<React.SetStateAction<UseCloudTTS>>
+export type SetVerbsKeep = React.Dispatch<React.SetStateAction<VerbsKeep>>
 
 export type SwitchPanel = (newPanel: AppPanelValue) => void
 
@@ -171,8 +184,8 @@ export type ScenarioTitles = Record<ScenarioValue, ScenarioTitle>
 
 export type StepResult = {
   dialog: Dialog[]
-  nouns: Noun[]
-  verbs: Verb[]
+  nouns: Nouns[]
+  verbs: Verbs[]
   // ...
 }
 
@@ -211,8 +224,8 @@ export type ParsedStepResult = {
 }
 
 export type Dialog = string
-export type Noun = string
-export type Verb = string
+export type Nouns = string
+export type Verbs = string
 export type JsonQualification = string
 export type Prompt = string
 export type HandleDialogProps = {
@@ -226,21 +239,26 @@ export type DialogPromptProps = {
   scenarioLabel: ScenarioLabel
   participant: Participant
 }
-export type DialogPrompt = (props: DialogPromptProps) => string
 
 export type NounsPromptProps = {
   dialog: Dialog
 }
+
+export type VerbsPromptProps = {
+  dialog: Dialog
+}
+
+export type DialogPrompt = (props: DialogPromptProps) => string
 export type NounsPrompt = (props: NounsPromptProps) => string
+export type VerbsPrompt = (props: VerbsPromptProps) => string
 
 export type PromptSet = {
   dialogPrompt: DialogPrompt
   nounsPrompt: NounsPrompt
+  verbsPrompt: VerbsPrompt
 }
 
-export type GeneratePromptSet = (jsonQualification: JsonQualification) => PromptSet
-
-
+export type GeneratePromptSet = () => PromptSet
 
 export const defaultDialog: Dialog[] = [
   "Mesero: Buenas tardes. ¿Qué desea tomar?",
@@ -248,13 +266,13 @@ export const defaultDialog: Dialog[] = [
   "Mesero: En seguida."
 ]
 
-export const defaultNouns: Noun[] = [
+export const defaultNouns: Nouns[] = [
   "mesero",
   "tardes",
   "limonada"
 ]
 
-export const defaultVerbs: Verb[] = [
+export const defaultVerbs: Verbs[] = [
   "desear",
   "tomar"
 ]
@@ -266,3 +284,80 @@ export const defaultStepResult: StepResult = {
 }
 
 export type Language = string
+
+// export type HandleNounsError = {
+//   message: string
+//   detail: string
+//   offendingData: string
+//   timestamp: string
+// }
+
+// export type HandleNounsErrors = HandleNounsError[]
+
+// export type HandleDialogError = {
+//   message: string
+//   detail: string
+//   offendingData: string
+//   timestamp: string
+// }
+
+// export type HandleDialogErrors = HandleDialogError[]
+
+// export type HandleVerbsError = {
+//   message: string
+//   detail: string
+//   offendingData: string
+//   timestamp: string
+// }
+
+// export type HandleVerbsErrors = HandleVerbsError[]
+
+export type HandleLLMError = {
+  message: string
+  detail: string
+  offendingData: string
+  timestamp: string
+}
+
+export type HandleDialogError = HandleLLMError
+export type HandleNounsError = HandleLLMError
+export type HandleVerbsError = HandleLLMError
+
+export type HandleDialogErrors = HandleDialogError[]
+export type HandleNounsErrors = HandleNounsError[]
+export type HandleVerbsErrors = HandleVerbsError[]
+
+export type ErrorLabel = string
+
+// 'handleDialogError' | 'handleNounsError' | 'handleVerbsError',
+
+export const ERROR_LABEL = {
+  DIALOG_ERROR: 'handleDialogError',
+  NOUNS_ERROR: 'handleNounsError',
+  VERBS_ERROR: 'handleVerbsError'
+} as const
+export type ErrorLabelValue = (typeof ERROR_LABEL)[keyof typeof ERROR_LABEL]
+export type ErrorLabelKey = keyof typeof ERROR_LABEL
+
+export type AddErrorProps = {
+  errorLabel: ErrorLabelValue
+  setErrors: React.Dispatch<React.SetStateAction<HandleLLMError[]>>
+  error: HandleLLMError
+}
+
+export type ValidateGenAIResponseProps = {
+  response: string | null,
+  errorLabel: ErrorLabelValue,
+  setErrors: React.Dispatch<React.SetStateAction<HandleLLMError[]>>,
+  expectedFieldCount: number
+}
+
+export type GenAIValidationResult<T> =
+  | {
+      success: true
+      parsed: T[]
+    }
+  | {
+      success: false
+      error: HandleLLMError
+    }

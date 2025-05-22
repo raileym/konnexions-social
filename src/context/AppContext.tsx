@@ -29,7 +29,11 @@ import type {
   QuestionKeep,
   DialogKeep,
   StepResult,
-  NounsKeep
+  NounsKeep,
+  HandleNounsErrors,
+  HandleDialogErrors,
+  HandleVerbsErrors,
+  VerbsKeep
 } from '../cknTypes/types/types'
 import {
   APP_HOME,
@@ -48,7 +52,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [answerKeep, setAnswerKeep] = useState<AnswerKeep>('')
   const [stepResult, setStepResult] = useState<StepResult>(defaultStepResult)
   const [dialogKeep, setDialogKeep] = useState<DialogKeep>('')
+  const [verbsKeep, setVerbsKeep] = useState<VerbsKeep>('')
   const [nounsKeep, setNounsKeep] = useState<NounsKeep>('')
+  const [handleDialogErrors, setHandleDialogErrors] = useState<HandleDialogErrors>([])
+  const [handleNounsErrors, setHandleNounsErrors] = useState<HandleNounsErrors>([])
+  const [handleVerbsErrors, setHandleVerbsErrors] = useState<HandleVerbsErrors>([])
   const [apiKey, setApiKey] = useState<ApiKey>('')
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
   const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
@@ -81,6 +89,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     cleanedText,
     dialogKeep,
     gcpKey,
+    handleDialogErrors,
+    handleNounsErrors,
+    handleVerbsErrors,
     helpPanel,
     inputText,
     isHelpOpen,
@@ -105,6 +116,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCleanedText,
     setDialogKeep,
     setGcpKey,
+    setHandleDialogErrors,
+    setHandleNounsErrors,
+    setHandleVerbsErrors,
     setHelpPanel,
     setInputText,
     setIsHelpOpen,
@@ -125,11 +139,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setTtsBudget,
     setTtsCharUsage,
     setUseCloudTTS,
+    setVerbsKeep,
     stepResult,
     ttsAvgChars,
     ttsBudget,
     ttsCharUsage,
-    useCloudTTS
+    useCloudTTS,
+    verbsKeep
   }
 
   return (

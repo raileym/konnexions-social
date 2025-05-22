@@ -1,25 +1,32 @@
 import React, { useState } from 'react'
 // import React, { useMemo, useState } from 'react'
 import { useAppContext } from '../context/AppContext'
-import { APP_HOME, GEN_AI_STEP, type ChooseParticipantsProps, type DialogPrompt, type DialogPromptProps, type GeneratePromptSet, type HandleDialogProps, type JsonQualification, type Language, type NounsPrompt, type NounsPromptProps, type PromptSet, type UseMyself } from '../cknTypes/types/types'
+import { APP_HOME, ERROR_LABEL, GEN_AI_STEP, type ChooseParticipantsProps, type Dialog, type DialogPrompt, type DialogPromptProps, type GeneratePromptSet, type HandleDialogProps, type JsonQualification, type Language, type Nouns, type NounsPrompt, type NounsPromptProps, type PromptSet, type UseMyself, type Verbs } from '../cknTypes/types/types'
 // import Button from "./Button"
 // import { faKey } from '@fortawesome/free-solid-svg-icons'
 // import { getCurrentWeek } from './Util'
 import { getScenarioDetails } from './Util'
 import Scenario from './Scenario'
 import ParticipantToggle from './ParticipantToggle'
+import { validateGenAIResponse } from './errorUtils'
+import { generatePromptSet } from './generatePromptSet'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
 // import { usePanel } from '../hooks/usePanel'
 
 const PanelGenAIPro: React.FC = () => {
   const {
+    activeHome,
     setDialogKeep,
+    setHandleDialogErrors,
+    setHandleNounsErrors,
+    setHandleVerbsErrors,
+    setNounsKeep,
     setStepResult,
     stepResult,
-    activeHome,
-    setNounsKeep
+    setVerbsKeep
   } = useAppContext()
+
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
   // const { switchPanel } = usePanel()
@@ -35,7 +42,6 @@ const PanelGenAIPro: React.FC = () => {
     setShowStepResult(prev => !prev)
   }
     
-
   const fetchFromOpenAI = async (prompt: string): Promise<string | null> => {
     if (!openAiKey) return null
   
@@ -60,125 +66,48 @@ const PanelGenAIPro: React.FC = () => {
       return null
     }
   }
-  
-  const generatePromptSet: GeneratePromptSet = (jsonQualification: JsonQualification): PromptSet => {
-    const nounsPrompt: NounsPrompt = ({dialog}: NounsPromptProps) => `
-REQUEST: Extract the nouns from the dialog below:
 
-DIALOG: ${dialog}
-${jsonQualification}
-Each string in the array must take the form:
+  const handleDialog = async ({
+    prompt,
+    nextStep,
+    setStepResult
+  }: HandleDialogProps) => {
+    console.log(prompt)
 
-    "gender:noun(singular):noun(plural):article(singular):article(plural):use (singular) with a preposition:use (singular) with a preposition:use (plural) with a preposition:use (plural) with a preposition"
+    // const alwaysTrue = true
+    // if (alwaysTrue) {
+    //   return
+    // }
 
-where you may use the following prepositions when forming phrases,
+    const response = await fetchFromOpenAI(prompt)
 
-    a, con, de, desde, en, entre, hacia, hasta, para, por, sin, sobre.
+    const result = validateGenAIResponse<Dialog>({
+      response,
+      errorLabel: ERROR_LABEL.DIALOG_ERROR,
+      setErrors: setHandleDialogErrors,
+      expectedFieldCount: 2
+    })
 
-These prepositions are common in beginner Spanish and should be used to form natural, grammatically correct expressions.
+    console.log(result)
 
-A complete example follows:
-
-    [
-      "masculino:restaurante:restaurantes:el:los:en el restaurante:desde el restaurante:en los restaurantes:desde los restaurantes",
-      "femenino:paella:paellas:la:las:con la paella:para la paella:con las paellas:para las paellas",
-      "masculino:camarero:camareros:el:los:con el camarero:para el camarero:con los camareros:para los camareros"
-    ]
-`
-
-    const dialogPrompt: DialogPrompt = ({language, scenarioLabel, participant}: DialogPromptProps) => `
-Create a dialog in ${language} appropriate for a beginning language
-instruction, where the dialog takes place ${scenarioLabel}
-between ${participant}.
-Use between 6 to 8 sentences for this dialog.
-
-${jsonQualification}
-
-Note, a dialog response is an array of strings that take the form,
-
-"Participant: Line from the dialog"
-
-A complete example follows: 
-
-[
-  "Hostess: Welcome to our restaurant! How many in your party?",
-  "Waitress: Here are the menus. Can I start you off with some drinks?",
-  "Male diner: I'll have the steak, please."
-]
-`
-
-    return {
-      dialogPrompt,
-      nounsPrompt
+    if (!result.success) {
+      console.log('Houston, we have a problem', result.error.message)
+      console.log(result.error)
+      return
     }
+
+    const stringified = JSON.stringify(result.parsed)
+    setDialogKeep(stringified)
+    localStorage.setItem('dialogKeep', stringified)
+
+    setStepResult(prev => {
+      const updated = { ...prev, dialog: result.parsed }
+      localStorage.setItem('stepResult', JSON.stringify(updated))
+      return updated
+    })
+
+    setStep(nextStep)
   }
-
-//   const jsonQualification = `
-// RESPONSE: Express your response using well-formed JSON only, with no trailing
-// commas, no single quotes (use double quotes only), no Markdown wrappers, no
-// comments, no explanatory text or prose or partial JSON blocks, and no headings
-// or titles. The output must be a single valid JSON object or array, starting
-// with { or [ and ending with } or ]. Do not prepend phrases like “Here is
-// your JSON:”. Assume the consumer is a machine expecting strict JSON compliance.
-// `
-
-const jsonQualification = `
-RESPONSE: Express your response using well-formed JSON only, with no trailing
-commas, no single quotes (use double quotes only), no Markdown wrappers, no
-comments, no explanatory text or prose or partial JSON blocks, and no headings
-or titles. The output must be a single valid JSON array, starting
-with [ and ending with ]. Do not prepend phrases like “Here is
-your JSON:”. Assume the consumer is a machine expecting strict JSON compliance.
-`
-
-const looksLikeStringArray = /^\s*\[\s*"(?:[^"\\]|\\.)*"(?:\s*,\s*"(?:[^"\\]|\\.)*")*\s*\]\s*$/s
-
-const handleDialog = async ({
-  prompt,
-  nextStep,
-  setStepResult
-}: HandleDialogProps) => {
-  console.log(prompt)
-
-  const alwaysTrue = true
-  if (alwaysTrue) {
-    return
-  }
-
-  const response = await fetchFromOpenAI(prompt)
-
-  if (!response || !looksLikeStringArray.test(response)) {
-    console.log('Response from ChatGPT AI is not well-formed')
-    return
-  }
-
-  let parsed: string[]
-  try {
-    parsed = JSON.parse(response)
-  } catch (err) {
-    console.error('Failed to parse response as JSON:', err)
-    return
-  }
-
-  if (!Array.isArray(parsed) || !parsed.every(line => typeof line === 'string')) {
-    console.error('Parsed result is not a string[]')
-    return
-  }
-  
-  const stringified = JSON.stringify(parsed)
-  setDialogKeep(stringified)
-  localStorage.setItem('dialogKeep', stringified)
-
-  setStepResult(prev => {
-    const updated = { ...prev, dialog: parsed }
-    localStorage.setItem('stepResult', JSON.stringify(updated))
-    return updated
-  })
-
-  setStep(nextStep)
-}
-
-
   
   const handleNouns = async ({
     prompt,
@@ -187,47 +116,76 @@ const handleDialog = async ({
   }: HandleDialogProps) => {
     console.log(prompt)
 
-    const alwaysTrue = true
-    if (alwaysTrue) {
-      return
-    }
+    // const alwaysTrue = true
+    // if (alwaysTrue) {
+    //   return
+    // }
 
     const response = await fetchFromOpenAI(prompt)
 
-    if (!response || !looksLikeStringArray.test(response)) {
-      console.log('Response from ChatGPT AI is not well-formed')
-      return
-    }
-  
-    let parsed: string[]
-    try {
-      parsed = JSON.parse(response)
-    } catch (err) {
-      console.error('Failed to parse response as JSON:', err)
-      return
-    }
+    const result = validateGenAIResponse<Nouns>({
+      response,
+      errorLabel: ERROR_LABEL.NOUNS_ERROR,
+      setErrors: setHandleNounsErrors,
+      expectedFieldCount: 9
+    })
 
-    if (!Array.isArray(parsed)) {
-      console.error('Parsed response is not an array')
+    console.log(result)
+
+    if (!result.success) {
+      console.log('Houston, we have a problem', result.error.message)
+      console.log(result.error)
       return
     }
     
-    if (!parsed.every(line => typeof line === 'string')) {
-      console.error('One or more items in the parsed array is not a string')
-      return
-    }
-    
-    if (!parsed.every(line => line.split(':').length === 9)) {
-      console.error('One or more items in the parsed array does not have 9 colon-separated fields')
-      return
-    }    
-    
-    const stringified = JSON.stringify(parsed)
+    const stringified = JSON.stringify(result.parsed)
     setNounsKeep(stringified)
     localStorage.setItem('nounsKeep', stringified)
 
     setStepResult(prev => {
-      const updated = { ...prev, nouns: parsed }
+      const updated = { ...prev, nouns: result.parsed }
+      localStorage.setItem('stepResult', JSON.stringify(updated))
+      return updated
+    })
+
+    setStep(nextStep)
+  }
+
+  const handleVerbs = async ({
+    prompt,
+    nextStep,
+    setStepResult
+  }: HandleDialogProps) => {
+    console.log(prompt)
+
+    // const alwaysTrue = true
+    // if ( alwaysTrue ) {
+    //   return
+    // }
+
+    const response = await fetchFromOpenAI(prompt)
+
+    const result = validateGenAIResponse<Verbs>({
+      response,
+      errorLabel: ERROR_LABEL.VERBS_ERROR,
+      setErrors: setHandleVerbsErrors,
+      expectedFieldCount: 9
+    })
+
+    console.log(result)
+
+    if (!result.success) {
+      console.log('Houston, we have a problem', result.error.message)
+      console.log(result.error)
+      return
+    }
+    
+    const stringified = JSON.stringify(result.parsed)
+    setVerbsKeep(stringified)
+    localStorage.setItem('verbsKeep', stringified)
+
+    setStepResult(prev => {
+      const updated = { ...prev, verbs: result.parsed }
       localStorage.setItem('stepResult', JSON.stringify(updated))
       return updated
     })
@@ -260,10 +218,11 @@ const handleDialog = async ({
 
   const participant = chooseParticipants({participants: scenarioParticipants, n: 2, useMyself: false})
 
-  const promptSet = generatePromptSet(jsonQualification)
+  const promptSet = generatePromptSet()
 
   const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, participant})
   const nounsPrompt = promptSet.nounsPrompt({dialog: stepResult.dialog.join(' ')})
+  const verbsPrompt = promptSet.verbsPrompt({dialog: stepResult.dialog.join(' ')})
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
 
@@ -310,6 +269,21 @@ const handleDialog = async ({
               className="pa2 br2 bn bg-brand white pointer"
             >
               Run Nouns Step
+            </button>
+          </div>
+
+          <div className="mv3">
+            <button
+              onClick={() =>
+                handleVerbs({
+                  prompt: verbsPrompt,
+                  nextStep: GEN_AI_STEP.VERB_CONJUGATIONS,
+                  setStepResult
+                })
+              }
+              className="pa2 br2 bn bg-brand white pointer"
+            >
+              Run Verbs Step
             </button>
           </div>
 
