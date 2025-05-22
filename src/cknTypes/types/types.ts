@@ -361,3 +361,10 @@ export type GenAIValidationResult<T> =
       success: false
       error: HandleLLMError
     }
+
+export type RichParsedLine = {
+  original: string
+  fields: string[]
+  isValid: boolean
+  reasons: string[]
+}

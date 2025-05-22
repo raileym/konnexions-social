@@ -1,4 +1,10 @@
-import type { AddErrorProps, GenAIValidationResult, HandleLLMError, ValidateGenAIResponseProps } from "../cknTypes/types/types"
+import type {
+  AddErrorProps,
+  GenAIValidationResult,
+  HandleLLMError,
+  ValidateGenAIResponseProps,
+  RichParsedLine
+} from "../cknTypes/types/types"
 
 export const addError = ({
   errorLabel,
@@ -30,11 +36,9 @@ export const validateGenAIResponse = <T extends string>({
       offendingData: JSON.stringify(response),
       timestamp: new Date().toISOString()
     }
-    
     addError({ errorLabel, setErrors, error })
-    
     return { success: false, error }    
-  }  
+  }
 
   if (!looksLikeStringArray.test(response)) {
     const error: HandleLLMError = {
@@ -43,14 +47,9 @@ export const validateGenAIResponse = <T extends string>({
       offendingData: JSON.stringify(response),
       timestamp: new Date().toISOString()
     }
-  
     addError({ errorLabel, setErrors, error })
-  
-    return {
-      success: false,
-      error
-    }
-  }  
+    return { success: false, error }
+  }
 
   let parsed: string[]
   try {
@@ -62,13 +61,8 @@ export const validateGenAIResponse = <T extends string>({
       offendingData: JSON.stringify(response),
       timestamp: new Date().toISOString()
     }
-  
     addError({ errorLabel, setErrors, error })
-  
-    return {
-      success: false,
-      error
-    }
+    return { success: false, error }
   }
 
   if (!Array.isArray(parsed)) {
@@ -78,14 +72,9 @@ export const validateGenAIResponse = <T extends string>({
       offendingData: JSON.stringify(parsed),
       timestamp: new Date().toISOString()
     }
-  
     addError({ errorLabel, setErrors, error })
-  
-    return {
-      success: false,
-      error
-    }
-  }  
+    return { success: false, error }
+  }
 
   if (!parsed.every(line => typeof line === 'string')) {
     const error: HandleLLMError = {
@@ -94,15 +83,43 @@ export const validateGenAIResponse = <T extends string>({
       offendingData: JSON.stringify(parsed),
       timestamp: new Date().toISOString()
     }
-  
     addError({ errorLabel, setErrors, error })
-  
-    return {
-      success: false,
-      error
-    }
-  }  
+    return { success: false, error }
+  }
 
+  const structured = parsed.map((original): RichParsedLine => {
+    const fields = original.split('|')
+    const reasons: string[] = []
+
+    if (fields.length !== expectedFieldCount) {
+      reasons.push(`Expected ${expectedFieldCount} fields, got ${fields.length}`)
+    }
+
+    if (fields.some(f => f.trim() === '')) {
+      reasons.push('One or more fields is blank')
+    }
+
+    return {
+      original,
+      fields,
+      isValid: reasons.length === 0,
+      reasons
+    }
+  })
+
+  const invalid = structured.filter(s => !s.isValid)
+  const valid = structured.filter(s => s.isValid).map(s => s.original as T)
+
+  if (invalid.length > 0) {
+    const error: HandleLLMError = {
+      message: 'Some entries failed basic field count validation',
+      detail: invalid.map(s => `${s.original} ❌ ${s.reasons.join('; ')}`).join('\n'),
+      offendingData: JSON.stringify(parsed),
+      timestamp: new Date().toISOString()
+    }
+    addError({ errorLabel, setErrors, error })
+  }
+  
   if (!parsed.every(line => line.split('|').length === expectedFieldCount)) {
     const error: HandleLLMError = {
       message: `One or more items does not have ${expectedFieldCount} vertical-bar-separated fields`,
