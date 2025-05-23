@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // import React, { useMemo, useState } from 'react'
 import { useAppContext } from '../context/AppContext'
-import { APP_HOME, ERROR_LABEL, GEN_AI_STEP, type ChooseParticipantsProps, type Dialog, type DialogPrompt, type DialogPromptProps, type GeneratePromptSet, type HandleDialogProps, type JsonQualification, type Language, type Nouns, type NounsPrompt, type NounsPromptProps, type PromptSet, type UseMyself, type Verbs } from '../cknTypes/types/types'
+import { APP_HOME, ERROR_LABEL, GEN_AI_STEP, type ChooseParticipantsProps, type Dialog, type HandleDialogProps, type Language, type Nouns, type UseMyself, type Verbs } from '../cknTypes/types/types'
 // import Button from "./Button"
 // import { faKey } from '@fortawesome/free-solid-svg-icons'
 // import { getCurrentWeek } from './Util'
@@ -74,10 +74,10 @@ const PanelGenAIPro: React.FC = () => {
   }: HandleDialogProps) => {
     console.log(prompt)
 
-    // const alwaysTrue = true
-    // if (alwaysTrue) {
-    //   return
-    // }
+    const alwaysTrue = true
+    if (alwaysTrue) {
+      return
+    }
 
     const response = await fetchFromOpenAI(prompt)
 
@@ -85,8 +85,9 @@ const PanelGenAIPro: React.FC = () => {
       response,
       errorLabel: ERROR_LABEL.DIALOG_ERROR,
       setErrors: setHandleDialogErrors,
-      expectedFieldCount: 2
-    })
+      expectedFieldCount: 2,
+      language: ''
+    })    
 
     console.log(result)
 
@@ -116,10 +117,10 @@ const PanelGenAIPro: React.FC = () => {
   }: HandleDialogProps) => {
     console.log(prompt)
 
-    // const alwaysTrue = true
-    // if (alwaysTrue) {
-    //   return
-    // }
+    const alwaysTrue = true
+    if (alwaysTrue) {
+      return
+    }
 
     const response = await fetchFromOpenAI(prompt)
 
@@ -127,9 +128,10 @@ const PanelGenAIPro: React.FC = () => {
       response,
       errorLabel: ERROR_LABEL.NOUNS_ERROR,
       setErrors: setHandleNounsErrors,
-      expectedFieldCount: 9
+      expectedFieldCount: 9,
+      language: ''
     })
-
+    
     console.log(result)
 
     if (!result.success) {
@@ -158,10 +160,10 @@ const PanelGenAIPro: React.FC = () => {
   }: HandleDialogProps) => {
     console.log(prompt)
 
-    // const alwaysTrue = true
-    // if ( alwaysTrue ) {
-    //   return
-    // }
+    const alwaysTrue = true
+    if ( alwaysTrue ) {
+      return
+    }
 
     const response = await fetchFromOpenAI(prompt)
 
@@ -169,9 +171,10 @@ const PanelGenAIPro: React.FC = () => {
       response,
       errorLabel: ERROR_LABEL.VERBS_ERROR,
       setErrors: setHandleVerbsErrors,
-      expectedFieldCount: 9
+      expectedFieldCount: 9,
+      language: ''
     })
-
+    
     console.log(result)
 
     if (!result.success) {

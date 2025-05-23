@@ -350,6 +350,7 @@ export type ValidateGenAIResponseProps = {
   errorLabel: ErrorLabelValue,
   setErrors: React.Dispatch<React.SetStateAction<HandleLLMError[]>>,
   expectedFieldCount: number
+  language: Language
 }
 
 export type GenAIValidationResult<T> =

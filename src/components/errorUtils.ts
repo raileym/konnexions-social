@@ -26,10 +26,11 @@ export const validateGenAIResponse = <T extends string>({
   response,
   errorLabel,
   setErrors,
-  expectedFieldCount
+  expectedFieldCount,
+  language
 }: ValidateGenAIResponseProps): GenAIValidationResult<T> => {
 
-  if (!response) {
+    if (!response) {
     const error: HandleLLMError = {
       message: 'Response from ChatGPT AI is empty or undefined',
       detail: '',
@@ -99,6 +100,65 @@ export const validateGenAIResponse = <T extends string>({
       reasons.push('One or more fields is blank')
     }
 
+    if (fields.length >= 3 && fields[1].trim() === fields[2].trim()) {
+      reasons.push('Singular and plural forms are identical')
+    }
+
+    if (language === 'Spanish' && fields.length >= 5) {
+      const gender = fields[0].trim().toLowerCase()
+      const articleSing = fields[3].trim().toLowerCase()
+      const articlePlur = fields[4].trim().toLowerCase()
+
+      const mascArticles = ['el', 'los']
+      const femArticles = ['la', 'las']
+
+      if (gender === 'masculino') {
+        if (!mascArticles.includes(articleSing)) {
+          reasons.push(`Masculine noun with unexpected singular article: ${articleSing}`)
+        }
+        if (!mascArticles.includes(articlePlur)) {
+          reasons.push(`Masculine noun with unexpected plural article: ${articlePlur}`)
+        }
+      } else if (gender === 'femenino') {
+        if (!femArticles.includes(articleSing)) {
+          reasons.push(`Feminine noun with unexpected singular article: ${articleSing}`)
+        }
+        if (!femArticles.includes(articlePlur)) {
+          reasons.push(`Feminine noun with unexpected plural article: ${articlePlur}`)
+        }
+      }
+    }
+
+    if (language === 'Spanish' && fields.length >= 7) {
+      const preSing1 = fields[5].trim().toLowerCase()
+      const preSing2 = fields[6].trim().toLowerCase()
+
+      const validPrepositions = ["a", "con", "de", "desde", "en", "entre", "hacia", "hasta", "para", "por", "sin", "sobre"]
+
+      if (!validPrepositions.some(p => preSing1.startsWith(p + ' '))) {
+        reasons.push(`Singular prep phrase 1 missing valid preposition: ${preSing1}`)
+      }
+
+      if (!validPrepositions.some(p => preSing2.startsWith(p + ' '))) {
+        reasons.push(`Singular prep phrase 2 missing valid preposition: ${preSing2}`)
+      }
+    }
+
+    if (language === 'Spanish' && fields.length >= 9) {
+      const prePlur1 = fields[7].trim().toLowerCase()
+      const prePlur2 = fields[8].trim().toLowerCase()
+
+      const validPrepositions = ["a", "con", "de", "desde", "en", "entre", "hacia", "hasta", "para", "por", "sin", "sobre"]
+
+      if (!validPrepositions.some(p => prePlur1.startsWith(p + ' '))) {
+        reasons.push(`Plural prep phrase 1 missing valid preposition: ${prePlur1}`)
+      }
+
+      if (!validPrepositions.some(p => prePlur2.startsWith(p + ' '))) {
+        reasons.push(`Plural prep phrase 2 missing valid preposition: ${prePlur2}`)
+      }
+    }
+
     return {
       original,
       fields,
@@ -112,32 +172,16 @@ export const validateGenAIResponse = <T extends string>({
 
   if (invalid.length > 0) {
     const error: HandleLLMError = {
-      message: 'Some entries failed basic field count validation',
+      message: 'Some entries failed validation checks',
       detail: invalid.map(s => `${s.original} ❌ ${s.reasons.join('; ')}`).join('\n'),
       offendingData: JSON.stringify(parsed),
       timestamp: new Date().toISOString()
     }
     addError({ errorLabel, setErrors, error })
   }
-  
-  if (!parsed.every(line => line.split('|').length === expectedFieldCount)) {
-    const error: HandleLLMError = {
-      message: `One or more items does not have ${expectedFieldCount} vertical-bar-separated fields`,
-      detail: '',
-      offendingData: JSON.stringify(parsed),
-      timestamp: new Date().toISOString()
-    }
-  
-    addError({ errorLabel, setErrors, error })
-  
-    return {
-      success: false,
-      error
-    }
-  }  
 
   return {
     success: true,
-    parsed: parsed as T[]
+    parsed: valid
   }
 }
