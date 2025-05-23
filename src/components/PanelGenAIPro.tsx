@@ -8,7 +8,7 @@ import { APP_HOME, ERROR_LABEL, GEN_AI_STEP, type ChooseParticipantsProps, type 
 import { getScenarioDetails } from './Util'
 import Scenario from './Scenario'
 import ParticipantToggle from './ParticipantToggle'
-import { validateGenAIResponse } from './errorUtils'
+import { resetErrors, validateGenAIResponse } from './errorUtils'
 import { generatePromptSet } from './generatePromptSet'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
@@ -17,14 +17,17 @@ import { generatePromptSet } from './generatePromptSet'
 const PanelGenAIPro: React.FC = () => {
   const {
     activeHome,
+    handleDialogErrors,
+    handleNounsErrors,
+    handleVerbsErrors,
     setDialogKeep,
     setHandleDialogErrors,
     setHandleNounsErrors,
     setHandleVerbsErrors,
     setNounsKeep,
     setStepResult,
-    stepResult,
-    setVerbsKeep
+    setVerbsKeep,
+    stepResult
   } = useAppContext()
 
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
@@ -74,10 +77,10 @@ const PanelGenAIPro: React.FC = () => {
   }: HandleDialogProps) => {
     console.log(prompt)
 
-    const alwaysTrue = true
-    if (alwaysTrue) {
-      return
-    }
+    // const alwaysTrue = true
+    // if (alwaysTrue) {
+    //   return
+    // }
 
     const response = await fetchFromOpenAI(prompt)
 
@@ -117,10 +120,10 @@ const PanelGenAIPro: React.FC = () => {
   }: HandleDialogProps) => {
     console.log(prompt)
 
-    const alwaysTrue = true
-    if (alwaysTrue) {
-      return
-    }
+    // const alwaysTrue = true
+    // if (alwaysTrue) {
+    //   return
+    // }
 
     const response = await fetchFromOpenAI(prompt)
 
@@ -128,7 +131,7 @@ const PanelGenAIPro: React.FC = () => {
       response,
       errorLabel: ERROR_LABEL.NOUNS_ERROR,
       setErrors: setHandleNounsErrors,
-      expectedFieldCount: 9,
+      expectedFieldCount: 4,
       language: ''
     })
     
@@ -160,10 +163,10 @@ const PanelGenAIPro: React.FC = () => {
   }: HandleDialogProps) => {
     console.log(prompt)
 
-    const alwaysTrue = true
-    if ( alwaysTrue ) {
-      return
-    }
+    // const alwaysTrue = true
+    // if ( alwaysTrue ) {
+    //   return
+    // }
 
     const response = await fetchFromOpenAI(prompt)
 
@@ -171,7 +174,7 @@ const PanelGenAIPro: React.FC = () => {
       response,
       errorLabel: ERROR_LABEL.VERBS_ERROR,
       setErrors: setHandleVerbsErrors,
-      expectedFieldCount: 9,
+      expectedFieldCount: 7,
       language: ''
     })
     
@@ -290,6 +293,18 @@ const PanelGenAIPro: React.FC = () => {
             </button>
           </div>
 
+          <div className="mv3">
+            <button
+              onClick={() => {
+                resetErrors(ERROR_LABEL.NOUNS_ERROR, setHandleNounsErrors)
+                resetErrors(ERROR_LABEL.VERBS_ERROR, setHandleVerbsErrors)
+              }}
+              className="pa2 br2 bn bg-brand white pointer"
+            >
+              Reset Errors
+            </button>
+          </div>
+
           <div className="w-100">
             {openAiKey && (
               <button
@@ -303,26 +318,80 @@ const PanelGenAIPro: React.FC = () => {
             {openAiKey && showStepResult && (
               <div className="w-100 flex justify-center">
                 <div>
-                  <div className="mt4 b">Dialog</div>
-                  <ul className="mt0 pt0 black">
-                    {stepResult.dialog.map((line, index) => (
-                      <li key={index}>{line}</li>
-                    ))}
-                  </ul>
-                  <div className="mt4 b">Nouns</div>
+
+
+
+
+                <div className="mt4 b">Dialog</div>
+                <ul className="mt0 pt0 black">
+                  {stepResult.dialog.map((line, index) => (
+                    <li key={index}>{line}</li>
+                  ))}
+                </ul>
+                {handleDialogErrors.length > 0 && (
+                  <div className="mt3 red">
+                    <div className="b">Dialog Errors</div>
+                    <ul className="f6">
+                      {handleDialogErrors.map((err, index) => (
+                        <li key={index}>
+                          <div className="mb2">
+                            <div><b>❌ {err.message}</b></div>
+                            <pre className="ml2 gray">{err.detail}</pre>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+
+                <div className="mt4 b">Nouns</div>
                   <ul className="mt0 pt0 black">
                     {stepResult.nouns.map((line, index) => (
                       <li key={index}>{line}</li>
                     ))}
                   </ul>
-                  <div className="mt4 b">Verbs</div>
-                  <ul className="mt0 pt0 black">
-                    {stepResult.verbs.map((line, index) => (
-                      <li key={index}>{line}</li>
-                    ))}
-                  </ul>
+                  {handleNounsErrors.length > 0 && (
+                    <div className="mt3 red">
+                      <div className="b">Noun Errors</div>
+                      <ul className="f6">
+                        {handleNounsErrors.map((err, index) => (
+                          <li key={index}>
+                            <div className="mb2">
+                              <div><b>❌ {err.message}</b></div>
+                              <pre className="ml2 gray">{err.detail}</pre>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+
+                <div className="mt4 b">Verbs</div>
+                <ul className="mt0 pt0 black">
+                  {stepResult.verbs.map((line, index) => (
+                    <li key={index}>{line}</li>
+                  ))}
+                </ul>
+                {handleVerbsErrors.length > 0 && (
+                  <div className="mt3 red">
+                    <div className="b">Verb Errors</div>
+                    <ul className="f6">
+                      {handleVerbsErrors.map((err, index) => (
+                        <li key={index}>
+                          <div className="mb2">
+                            <div><b>❌ {err.message}</b></div>
+                            <pre className="ml2 gray">{err.detail}</pre>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
                 </div>
-                </div>
+              </div>
             )}
           </div>
         </div>

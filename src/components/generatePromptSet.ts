@@ -49,22 +49,23 @@ DIALOG: ${dialog}
 ${jsonQualification}
 Each string in the array must take the form:
 
-    "gender|noun(singular)|noun(plural)|article(singular)|article(plural)|use (singular) with a preposition|use (singular) with a preposition|use (plural) with a preposition|use (plural) with a preposition"
+    "gender|noun(singular)|noun(plural)|common prepositions"
 
-where you may use the following prepositions when forming phrases,
+where common prepositions are those suitable for this noun in grammatically correct expressions, e.g.,
 
     a, con, de, desde, en, entre, hacia, hasta, para, por, sin, sobre.
 
-These prepositions are common in beginner Spanish and should be used to form natural, grammatically correct expressions.
+Each noun must include at least 3 common prepositions, separated by commas.
 
 A complete example follows:
 
     [
-      "masculino|restaurante|restaurantes|el|los|en el restaurante|desde el restaurante|en los restaurantes|desde los restaurantes",
-      "femenino|noche|noches|la|las|en la noche|desde la noche|en las noches|desde las noches",
-      "femenino|ensalada|ensaladas|la|las|con la ensalada|para la ensalada|con las ensaladas|para las ensaladas",
-      "masculino|pollo|pollos|el|los|con el pollo|para el pollo|con los pollos|para los pollos"
+      "masculino|restaurante|restaurantes|a, en, desde, sobre",
+      "femenino|noche|noches|en, durante, por",
+      "femenino|ensalada|ensaladas|con, sin, de, para",
+      "masculino|pollo|pollos|con, sin, de, para"
     ]
+
 `
     const dialogPrompt: DialogPrompt = ({language, scenarioLabel, participant}: DialogPromptProps) => `
 Create a dialog in ${language} appropriate for a beginning language

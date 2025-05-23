@@ -3,7 +3,8 @@ import type {
   GenAIValidationResult,
   HandleLLMError,
   ValidateGenAIResponseProps,
-  RichParsedLine
+  RichParsedLine,
+  ErrorLabelValue
 } from "../cknTypes/types/types"
 
 export const addError = ({
@@ -21,6 +22,11 @@ export const addError = ({
 }
 
 export const looksLikeStringArray = /^\s*\[\s*"(?:[^"\\]|\\.)*"(?:\s*,\s*"(?:[^"\\]|\\.)*")*\s*\]\s*$/s
+
+export const resetErrors = (label: ErrorLabelValue, setFn: React.Dispatch<React.SetStateAction<HandleLLMError[]>>) => {
+  setFn([])
+  localStorage.removeItem(label)
+}
 
 export const validateGenAIResponse = <T extends string>({
   response,

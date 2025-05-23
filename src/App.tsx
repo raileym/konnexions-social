@@ -27,7 +27,10 @@ const App: React.FC = () => {
     setScenario,
     setStepResult,
     setTtsCharUsage,
-    setUseCloudTTS
+    setUseCloudTTS,
+    setHandleDialogErrors,
+    setHandleNounsErrors,
+    setHandleVerbsErrors
   } = useAppContext()
 
   const loadUsage = () => {
@@ -103,6 +106,28 @@ const App: React.FC = () => {
       } catch (err) {
         console.error('Failed to load stepResult from localStorage:', err)
       }
+    }
+
+    try {
+      const dialogErrors = localStorage.getItem('handleDialogError')
+      if (dialogErrors) {
+        const parsed = JSON.parse(dialogErrors)
+        setHandleDialogErrors(parsed)
+      }
+
+      const nounErrors = localStorage.getItem('handleNounsError')
+      if (nounErrors) {
+        const parsed = JSON.parse(nounErrors)
+        setHandleNounsErrors(parsed)
+      }
+
+      const verbErrors = localStorage.getItem('handleVerbsError')
+      if (verbErrors) {
+        const parsed = JSON.parse(verbErrors)
+        setHandleVerbsErrors(parsed)
+      }
+    } catch (err) {
+      console.error('Failed to load error logs from localStorage:', err)
     }
 
     loadUsage()
