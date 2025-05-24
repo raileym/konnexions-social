@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // import React, { useMemo, useState } from 'react'
 import { useAppContext } from '../context/AppContext'
-import { APP_HOME, ERROR_LABEL, GEN_AI_STEP, type ChooseParticipantsProps, type Dialog, type HandleDialogProps, type Language, type Nouns, type UseMyself, type Verbs } from '../cknTypes/types/types'
+import { APP_HOME, ERROR_LABEL, GEN_AI_STEP, type ChooseParticipantsProps, type Dialog, type HandleDialogProps, type Language, type Nouns, type Participant, type ScenarioLabel, type UseMyself, type Verbs } from '../cknTypes/types/types'
 // import Button from "./Button"
 // import { faKey } from '@fortawesome/free-solid-svg-icons'
 // import { getCurrentWeek } from './Util'
@@ -46,6 +46,31 @@ const PanelGenAIPro: React.FC = () => {
     setShowStepResult(prev => !prev)
   }
     
+  const getDialog = async (language: Language, scenarioLabel: ScenarioLabel, participant: Participant): Promise<string | null> => {
+    try {
+      const res = await fetch('/.netlify/functions/genai-dialog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          language,
+          scenarioLabel,
+          participant
+        }),
+      })
+  
+      if (!res.ok) {
+        console.error('Function error:', res.status)
+        return null
+      }
+  
+      const data = await res.json()
+      return data.result as string
+    } catch (err) {
+      console.error('Network error:', err)
+      return null
+    }
+  }
+
   const fetchFromOpenAI = async (prompt: string): Promise<string | null> => {
     if (!openAiKey) return null
   
@@ -71,19 +96,30 @@ const PanelGenAIPro: React.FC = () => {
     }
   }
 
+  // prompt,
+  // nextStep,
+  // setStepResult
   const handleDialog = async ({
-    prompt,
-    nextStep,
-    setStepResult
+    language, 
+    scenarioLabel,
+    participant
   }: HandleDialogProps) => {
-    console.log(prompt)
+    // console.log(prompt)
 
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
       return
     }
 
-    const response = await fetchFromOpenAI(prompt)
+    const response = await getDialog(language, scenarioLabel, participant)
+
+    // const response = await fetchFromOpenAI(prompt)
+
+    // console.log(response)
+
+    // if (alwaysTrue) {
+    //   return
+    // }
 
     const result = validateGenAIResponse<Dialog>({
       response,
@@ -111,7 +147,8 @@ const PanelGenAIPro: React.FC = () => {
       return updated
     })
 
-    setStep(nextStep)
+    setStep(GEN_AI_STEP.DIALOG_REVIEW)
+    // setStep(nextStep)
   }
   
   const reviewDialog = async ({
@@ -317,9 +354,12 @@ const PanelGenAIPro: React.FC = () => {
             <button
               onClick={() =>
                 handleDialog({
-                  prompt: dialogPrompt,
-                  nextStep: GEN_AI_STEP.NOUNS,
-                  setStepResult
+                  language, 
+                  scenarioLabel,
+                  participant
+                  // prompt: dialogPrompt,
+                  // nextStep: GEN_AI_STEP.NOUNS,
+                  // setStepResult
                 })
               }
               className="pa2 br2 bn bg-brand white pointer"
@@ -395,7 +435,7 @@ const PanelGenAIPro: React.FC = () => {
               </button>
             )}
 
-            {openAiKey && showStepResult && (
+            {showStepResult && (
               <div className="w-100 flex justify-center">
                 <div>
 

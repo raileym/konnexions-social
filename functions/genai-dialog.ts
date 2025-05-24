@@ -37,6 +37,20 @@ Note, a dialog response is an array of strings that take the form,
 
 where the vertical bar "|" delineates the two fields.`
 
+    const alwaysTrue = true
+    if (alwaysTrue) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          result: JSON.stringify([
+            "Anfitriona| ¡Bienvenidos a nuestro restaurante! ¿Cuántos son en su grupo?",
+            "Mesera| Aquí están los menús. ¿Les traigo algo de beber para comenzar?",
+            "Comensal| Quisiera el filete, por favor."
+          ])
+        })
+      }            
+    }
+
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {

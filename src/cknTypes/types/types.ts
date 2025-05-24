@@ -234,9 +234,13 @@ export type Verbs = string
 export type JsonQualification = string
 export type Prompt = string
 export type HandleDialogProps = {
-  prompt: Prompt
-  nextStep: GenAIStepValue
-  setStepResult: SetStepResult
+  language: Language
+  scenarioLabel: ScenarioLabel
+  participant: Participant
+
+  // prompt: Prompt
+  // nextStep: GenAIStepValue
+  // setStepResult: SetStepResult
 }
 
 export type DialogPromptProps = {
