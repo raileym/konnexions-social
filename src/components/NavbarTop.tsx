@@ -3,8 +3,11 @@ import React from 'react'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import Button from './Button'
+import { usePanel } from '../hooks/usePanel'
 
 const NavbarTop: React.FC = () => {
+  const { switchPanel } = usePanel()
+
   return (
     <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph3 pv2 z-999">
       <div className="flex justify-start">
@@ -23,7 +26,7 @@ const NavbarTop: React.FC = () => {
       </div>
       <div>
 
-      <Button panel="help" icon={faCircleQuestion} title="Help" />
+      <Button isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
               
         {/*
         <button
