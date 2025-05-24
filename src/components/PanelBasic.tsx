@@ -239,7 +239,8 @@ export default function PanelBasic() {
                       This audio control is available only when audio file is present.
                     </p>
                   </div>
-                  <audio controls src={undefined} className="db w-100" />
+                  <div className="white bg-green h2 f3 w-100">No Audio</div>
+                  {/* <audio controls src={undefined} className="db w-100" /> */}
                 </>
               ) : (
                 <>
@@ -249,7 +250,8 @@ export default function PanelBasic() {
                       This audio control is available only when cloud-based voice is selected.
                     </p>
                   </div>
-                  <audio controls src="" className="o-50 db w-100 red" />
+                  {/* <audio controls src="" className="o-50 db w-100 red" /> */}
+                  <div className="white bg-green h2 f3 w-100">No Audio</div>
                 </>
               )}
             </div>

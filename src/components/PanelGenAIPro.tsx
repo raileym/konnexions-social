@@ -40,6 +40,7 @@ const PanelGenAIPro: React.FC = () => {
   // const [step, setStep] = useState<number>(0)
   const [showStepResult, setShowStepResult] = useState(true)
   const [language, ] = useState<Language>('Spanish')
+  const [ testMode, setTestMode] = useState<boolean>(true)
 
   const toggleStepResult = () => {
     setShowStepResult(prev => !prev)
@@ -77,10 +78,53 @@ const PanelGenAIPro: React.FC = () => {
   }: HandleDialogProps) => {
     console.log(prompt)
 
-    // const alwaysTrue = true
-    // if (alwaysTrue) {
-    //   return
-    // }
+    const alwaysTrue = true
+    if (alwaysTrue && testMode) {
+      return
+    }
+
+    const response = await fetchFromOpenAI(prompt)
+
+    const result = validateGenAIResponse<Dialog>({
+      response,
+      errorLabel: ERROR_LABEL.DIALOG_ERROR,
+      setErrors: setHandleDialogErrors,
+      expectedFieldCount: 2,
+      language: ''
+    })    
+
+    console.log(result)
+
+    if (!result.success) {
+      console.log('Houston, we have a problem', result.error.message)
+      console.log(result.error)
+      return
+    }
+
+    const stringified = JSON.stringify(result.parsed)
+    setDialogKeep(stringified)
+    localStorage.setItem('dialogKeep', stringified)
+
+    setStepResult(prev => {
+      const updated = { ...prev, dialog: result.parsed }
+      localStorage.setItem('stepResult', JSON.stringify(updated))
+      return updated
+    })
+
+    setStep(nextStep)
+  }
+  
+  const reviewDialog = async ({
+    prompt,
+    nextStep,
+    setStepResult
+  }: HandleDialogProps) => {
+    console.log(prompt)
+
+    const alwaysTrue = true
+    if (alwaysTrue && testMode) {
+      return
+    }
 
     const response = await fetchFromOpenAI(prompt)
 
@@ -120,10 +164,10 @@ const PanelGenAIPro: React.FC = () => {
   }: HandleDialogProps) => {
     console.log(prompt)
 
-    // const alwaysTrue = true
-    // if (alwaysTrue) {
-    //   return
-    // }
+    const alwaysTrue = true
+    if (alwaysTrue && testMode) {
+      return
+    }
 
     const response = await fetchFromOpenAI(prompt)
 
@@ -163,10 +207,10 @@ const PanelGenAIPro: React.FC = () => {
   }: HandleDialogProps) => {
     console.log(prompt)
 
-    // const alwaysTrue = true
-    // if ( alwaysTrue ) {
-    //   return
-    // }
+    const alwaysTrue = true
+    if ( alwaysTrue && testMode ) {
+      return
+    }
 
     const response = await fetchFromOpenAI(prompt)
 
@@ -227,6 +271,7 @@ const PanelGenAIPro: React.FC = () => {
   const promptSet = generatePromptSet()
 
   const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, participant})
+  const dialogReviewPrompt = promptSet.dialogReviewPrompt({language, dialog: stepResult.dialog.join(' ')})
   const nounsPrompt = promptSet.nounsPrompt({dialog: stepResult.dialog.join(' ')})
   const verbsPrompt = promptSet.verbsPrompt({dialog: stepResult.dialog.join(' ')})
 
@@ -248,6 +293,26 @@ const PanelGenAIPro: React.FC = () => {
             </div>
           </div>
 
+          <div className="mv3">
+            {testMode && (
+              <button
+                onClick={() => setTestMode(false)}
+                className="w-20 pa2 br2 bn bg-green white pointer"
+              >
+                Disable Test Mode
+              </button>
+            )}
+            {!testMode && (
+              <button
+                onClick={() => setTestMode(true)}
+                className="w-20 pa2 br2 bn bg-brand white pointer"
+              >
+                Enable Test Mode
+              </button>
+            )}
+
+          </div>
+
           <div>
             <button
               onClick={() =>
@@ -260,6 +325,21 @@ const PanelGenAIPro: React.FC = () => {
               className="pa2 br2 bn bg-brand white pointer"
             >
               Run Dialog Step
+            </button>
+          </div>
+
+          <div>
+            <button
+              onClick={() =>
+                reviewDialog({
+                  prompt: dialogReviewPrompt,
+                  nextStep: GEN_AI_STEP.DIALOG_REVIEW,
+                  setStepResult
+                })
+              }
+              className="mv3 pa2 br2 bn bg-purple white pointer"
+            >
+              Review Dialog Step
             </button>
           </div>
 

@@ -147,10 +147,15 @@ export type IsActive = boolean
 
 export const GEN_AI_STEP = {
   DIALOG: 0,
-  NOUNS: 1,
-  VERBS: 2,
-  VERB_CONJUGATIONS: 3,
-  NOUN_USAGE: 4
+  DIALOG_REVIEW: 1,
+  NOUNS: 2,
+  NOUNS_REVIEW: 3,
+  VERBS: 4,
+  VERBS_REVIEW: 5,
+  VERB_CONJUGATIONS: 6,
+  VERB_CONJUGATIONS_REVIEW: 7,
+  NOUN_USAGE: 8,
+  NOUN_USAGE_REVIEW: 9
 } as const
 export type GenAIStepValue = (typeof GEN_AI_STEP)[keyof typeof GEN_AI_STEP]
 export type GenAIStepKey = keyof typeof GEN_AI_STEP
@@ -240,6 +245,11 @@ export type DialogPromptProps = {
   participant: Participant
 }
 
+export type DialogReviewPromptProps = {
+  language: Language
+  dialog: Dialog
+}
+
 export type NounsPromptProps = {
   dialog: Dialog
 }
@@ -249,11 +259,13 @@ export type VerbsPromptProps = {
 }
 
 export type DialogPrompt = (props: DialogPromptProps) => string
+export type DialogReviewPrompt = (props: DialogReviewPromptProps) => string
 export type NounsPrompt = (props: NounsPromptProps) => string
 export type VerbsPrompt = (props: VerbsPromptProps) => string
 
 export type PromptSet = {
   dialogPrompt: DialogPrompt
+  dialogReviewPrompt: DialogReviewPrompt
   nounsPrompt: NounsPrompt
   verbsPrompt: VerbsPrompt
 }
