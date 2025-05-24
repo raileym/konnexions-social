@@ -1,0 +1,9 @@
+[build]
+  publish = "dist"
+  functions = "functions"
+
+[dev]
+  targetPort = 8081
+  port = 8888
+  functions = "functions"
+  command = ""

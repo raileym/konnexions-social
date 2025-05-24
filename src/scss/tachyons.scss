@@ -11,20 +11,20 @@
   *
   * https://www.12devs.co.uk/articles/handy-advanced-sass/
   */
-
+@use 'sass:list';
   
 $font-size-details: 4.5rem, 3rem, 2.25rem, 1.5rem, 1.25rem, 1rem, 0.875rem, 0.75rem, 0.65rem, 0.5rem, 0.45, 0.35;
 $padding-details: 0, 0.25rem, 0.5rem, 1rem, 2rem, 4rem, 8rem, 16rem;     
 $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
   
 @each $padding in $padding-details {
-    $i: index($padding-details, $padding)-1;
+    $i: list.index($padding-details, $padding)-1;
 
     .hanging-indent-#{$i} { padding-left: 1rem+$padding; text-indent: -1.5rem;}
 }
 
 @each $font-size in $font-size-details {
-    $i: index($font-size-details, $font-size)-1;
+    $i: list.index($font-size-details, $font-size)-1;
 
     .k-f#{$i} .katex-display>.katex { font-size: $font-size; }
 }
@@ -33,7 +33,7 @@ $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
     @media screen and (max-width: #{$break}px) {
         // Using this in cards
         @each $font-size in $font-size-details {
-            $i: index($font-size-details, $font-size)-1;
+            $i: list.index($font-size-details, $font-size)-1;
             
             .lh#{$i}-#{$break} { line-height: $font-size !important; }
             .f#{$i}-#{$break} { font-size: $font-size !important; }
@@ -44,7 +44,7 @@ $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
 
 $width-details: 1rem, 2rem, 4rem, 8rem, 16rem, 32rem, 64rem;
 @each $width in $width-details {
-    $i: index($width-details, $width)-1;
+    $i: list.index($width-details, $width)-1;
     .min-w#{$i} { min-width: $width; }
     .min-h#{$i} { min-height: $width; }
     .max-w#{$i} { max-width: $width; }
@@ -57,17 +57,17 @@ $width-details: 1rem, 2rem, 4rem, 8rem, 16rem, 32rem, 64rem;
 
 $shadows: black, white, red, yellow, cyan, orangered, green, grey, gray, lightgrey, silver;
 @each $shadow in $shadows {
-    .shadow-#{$shadow}        { box-shadow: 3px 3px 6px -3px $shadow; }
-    .shadow-#{$shadow}-medium { box-shadow: 3px 3px 6px -3px $shadow; }
-    .shadow-#{$shadow}-strong { box-shadow: 4px 4px 12px -3px $shadow; }
+    .shadow-#{"" + $shadow}        { box-shadow: 3px 3px 6px -3px $shadow; }
+    .shadow-#{"" + $shadow}-medium { box-shadow: 3px 3px 6px -3px $shadow; }
+    .shadow-#{"" + $shadow}-strong { box-shadow: 4px 4px 12px -3px $shadow; }
 
-    .text-shadow-#{$shadow}        { text-shadow: 2px 2px 6px $shadow; }
-    .text-shadow-#{$shadow}-medium { text-shadow: 2px 2px 6px $shadow; }
-    .text-shadow-#{$shadow}-strong { text-shadow: 2px 2px 6px $shadow; }
+    .text-shadow-#{"" + $shadow}        { text-shadow: 2px 2px 6px $shadow; }
+    .text-shadow-#{"" + $shadow}-medium { text-shadow: 2px 2px 6px $shadow; }
+    .text-shadow-#{"" + $shadow}-strong { text-shadow: 2px 2px 6px $shadow; }
 
-    .text-shadow-drop-#{$shadow}        { text-shadow: 2px 2px $shadow; }
-    .text-shadow-drop-#{$shadow}-medium { text-shadow: 2px 2px $shadow; }
-    .text-shadow-drop-#{$shadow}-strong { text-shadow: 2px 2px $shadow; }
+    .text-shadow-drop-#{"" + $shadow}        { text-shadow: 2px 2px $shadow; }
+    .text-shadow-drop-#{"" + $shadow}-medium { text-shadow: 2px 2px $shadow; }
+    .text-shadow-drop-#{"" + $shadow}-strong { text-shadow: 2px 2px $shadow; }
 }
   
   
@@ -198,7 +198,7 @@ $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
         .flex-row-#{$break} { flex-direction:row;}
 
         @each $padding in $padding-details {
-            $i: index($padding-details, $padding)-1;
+            $i: list.index($padding-details, $padding)-1;
             .mt#{$i}-#{$break} { margin-top:  $padding; }
             .mb#{$i}-#{$break} { margin-bottom:  $padding; }
             .mv#{$i}-#{$break} { margin-top:  $padding; margin-bottom:  $padding; }
@@ -239,14 +239,14 @@ $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
         .lh-0-25-#{$break} { line-height: 0.25rem; }
         
         @each $font-size in $font-size-details {
-            $i: index($font-size-details, $font-size)-1;
+            $i: list.index($font-size-details, $font-size)-1;
 
             .k-f#{$i}-#{$break} .katex-display>.katex { font-size: $font-size; }
         }
         
         @each $padding in $padding-details {
             
-            $i: index($padding-details, $padding)-1;
+            $i: list.index($padding-details, $padding)-1;
 
             .ph#{$i}-#{$break} { padding-left: $padding; padding-right: $padding; }
             .pl#{$i}-#{$break} { padding-left: $padding; }
@@ -256,7 +256,7 @@ $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
         }
         
         @each $padding in $padding-details {
-            $i: index($padding-details, $padding)-1;
+            $i: list.index($padding-details, $padding)-1;
             .pv#{$i}-#{$break} { padding-top: $padding; padding-bottom: $padding }
         }
 
@@ -271,7 +271,7 @@ $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
  
 
 @each $padding in $padding-details {
-    $i: index($padding-details, $padding)-1;
+    $i: list.index($padding-details, $padding)-1;
     .k-pt#{$i} .katex-display>.katex { padding-top: $padding; }
     .k-pb#{$i} .katex-display>.katex { padding-bottom: $padding; }
     .k-pv#{$i} .katex-display>.katex { padding-top: $padding; padding-bottom: $padding; }
@@ -280,14 +280,14 @@ $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
 $margin-details: 0, 0.25rem, 0.5rem, 1rem, 2rem, 4rem, 8rem, 16rem;     
 
 @each $margin in $margin-details {
-    $i: index($margin-details, $margin)-1;
+    $i: list.index($margin-details, $margin)-1;
     .hanging#{$i} {margin-left: $margin; text-indent: -1*$margin;}
     .ut#{$i} ul li { margin-top: $margin; }
     .ub#{$i} ul li { margin-bottom: $margin; }
 }
 
 @each $margin in $margin-details {
-    $i: index($margin-details, $margin)-1;
+    $i: list.index($margin-details, $margin)-1;
 
     .k-mt#{$i} .katex-display>.katex { margin-top: $margin; }
     .k-mb#{$i} .katex-display>.katex { margin-bottom: $margin; }
@@ -311,7 +311,7 @@ $corners: 'top-left', 'top-right', 'bottom-left', 'bottom-right';
 $radius-details: 0, 0.125rem, 0.25rem, 0.5rem, 1rem;
 
 @each $radius in $radius-details {
-    $i: index($radius-details, $radius)-1;
+    $i: list.index($radius-details, $radius)-1;
 
     .br-top-left-#{$i} { border-top-left-radius: $radius;}
     .br-top-right-#{$i} { border-top-right-radius: $radius;}
@@ -502,18 +502,18 @@ $radius-details: 0, 0.125rem, 0.25rem, 0.5rem, 1rem;
 .b–blue { border-color: blue; }
 
 // See https://pixelbrewco.com/index.php?step=blog&step2=post10
-// .shadow-#{$shadow}        { box-shadow: 3px 3px 6px -3px rgba(0, 0, 0, 0.6); }
-// .shadow-#{$shadow}-medium { box-shadow: 3px 3px 6px -3px rgba(0, 0, 0, 0.8); }
-// .shadow-#{$shadow}-strong { box-shadow: 4px 4px 12px -3px rgba(0, 0, 0, 1.0); }
+// .shadow-#{"" + $shadow}        { box-shadow: 3px 3px 6px -3px rgba(0, 0, 0, 0.6); }
+// .shadow-#{"" + $shadow}-medium { box-shadow: 3px 3px 6px -3px rgba(0, 0, 0, 0.8); }
+// .shadow-#{"" + $shadow}-strong { box-shadow: 4px 4px 12px -3px rgba(0, 0, 0, 1.0); }
 // $shadow: 'black', 'white', 'red', 'yellow', 'cyan';
 // @each $shadow in $breaks {
-//     .shadow-#{$shadow}        { box-shadow: 3px 3px 6px -3px $shadow; }
-//     .shadow-#{$shadow}-medium { box-shadow: 3px 3px 6px -3px $shadow; }
-//     .shadow-#{$shadow}-strong { box-shadow: 4px 4px 12px -3px $shadow; }
+//     .shadow-#{"" + $shadow}        { box-shadow: 3px 3px 6px -3px $shadow; }
+//     .shadow-#{"" + $shadow}-medium { box-shadow: 3px 3px 6px -3px $shadow; }
+//     .shadow-#{"" + $shadow}-strong { box-shadow: 4px 4px 12px -3px $shadow; }
 
-//     .text-shadow-#{$shadow}        { text-shadow: 2px 2px 6px $shadow; }
-//     .text-shadow-#{$shadow}-medium { text-shadow: 2px 2px 6px $shadow; }
-//     .text-shadow-#{$shadow}-strong { text-shadow: 2px 2px 6px $shadow; }
+//     .text-shadow-#{"" + $shadow}        { text-shadow: 2px 2px 6px $shadow; }
+//     .text-shadow-#{"" + $shadow}-medium { text-shadow: 2px 2px 6px $shadow; }
+//     .text-shadow-#{"" + $shadow}-strong { text-shadow: 2px 2px 6px $shadow; }
 // }
 
 .align-center {

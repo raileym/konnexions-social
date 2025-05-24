@@ -1,9 +1,9 @@
 /* src/App.css */
 // src/App.scss or src/styles/main.scss
-/* @import '../scss/globals'; */
-@import './scss/tachyons';
-@import './scss/color';
-/* @import '../scss/panel'; */
+/* @use '../scss/globals'; */
+@use './scss/tachyons';
+@use './scss/color';
+/* @use '../scss/panel'; */
 // Add more as needed
 
 *, *::before, *::after {
