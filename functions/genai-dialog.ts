@@ -54,41 +54,41 @@ const handler: Handler = async (event) => {
     //   }            
     // }
 
-    const replies = [
-      [
-        "Anfitriona| ¡Bienvenidos a nuestro restaurante! ¿Cuántos son en su grupo?",
-        "Mesera| Aquí están los menús. ¿Les traigo algo de beber para comenzar?",
-        "Comensal| Quisiera el filete, por favor."
-      ],
-      [
-        "Mesera| Buenas tardes, ¿qué desea tomar?",
-        "Comensal| Una limonada, por favor.",
-        "Mesera| En seguida."
-      ],
-      [
-        "Mesera| ¿Desea ver el menú del día?",
-        "Comensal| Sí, por favor.",
-        "Mesera| Tenemos sopa de verduras y pollo al horno."
-      ]
-    ]
+    // const replies = [
+    //   [
+    //     "Anfitriona| ¡Bienvenidos a nuestro restaurante! ¿Cuántos son en su grupo?",
+    //     "Mesera| Aquí están los menús. ¿Les traigo algo de beber para comenzar?",
+    //     "Comensal| Quisiera el filete, por favor."
+    //   ],
+    //   [
+    //     "Mesera| Buenas tardes, ¿qué desea tomar?",
+    //     "Comensal| Una limonada, por favor.",
+    //     "Mesera| En seguida."
+    //   ],
+    //   [
+    //     "Mesera| ¿Desea ver el menú del día?",
+    //     "Comensal| Sí, por favor.",
+    //     "Mesera| Tenemos sopa de verduras y pollo al horno."
+    //   ]
+    // ]
 
-    const randomIndex = Math.floor(Math.random() * replies.length)
-    const reply = JSON.stringify(replies[randomIndex])
+    // const randomIndex = Math.floor(Math.random() * replies.length)
+    // const reply = JSON.stringify(replies[randomIndex])
 
-    // const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Bearer ${apiKey}`,
-    //   },
-    //   body: JSON.stringify({
-    //     model: 'gpt-3.5-turbo',
-    //     messages: [{ role: 'user', content: dialogPrompt }]
-    //   })
-    // })
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: dialogPrompt }]
+      })
+    })
 
-    // const data = await response.json()
-    // const reply = data.choices?.[0]?.message?.content || ''
+    const data = await response.json()
+    const reply = data.choices?.[0]?.message?.content || ''
 
     console.log('Before validation')
     console.log(reply)

@@ -12,10 +12,10 @@ export const generateExample = ({
 
   const examples: Record<GenAIContext, string[]> = {
     dialog: [
-      "Camarera| ¡Bienvenidos al restaurante! ¿Cuántos son en su grupo?",
-      "Cliente| Somos cuatro. ¿Podemos sentarnos cerca de la ventana?",
-      "Camarera| Por supuesto. Síganme, por favor.",
-      "Cliente| Gracias."
+      "Camarera|¡Bienvenidos al restaurante! ¿Cuántos son en su grupo?",
+      "Cliente|Somos cuatro. ¿Podemos sentarnos cerca de la ventana?",
+      "Camarera|Por supuesto. Síganme, por favor.",
+      "Cliente|Gracias."
     ],
     nouns: [
       "masculino|restaurante|restaurantes|a, en, desde, sobre",

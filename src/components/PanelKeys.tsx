@@ -60,7 +60,6 @@ const PanelKeys: React.FC = () => {
               type={maskOpenAiKey ? 'password' : 'text'}
               value={openAiKey}
               onChange={(e) => {
-                console.log(e.target.value)
                 setOpenAiKey(e.target.value)
                 localStorage.setItem('openAiKey', e.target.value)
               }}

@@ -34,21 +34,23 @@ Assume the consumer is a machine expecting strict JSON compliance.
       const dialogExample = generateExample({language, context: 'dialog', options: { asString: true }  })
       
       return (`
-Create a dialog in ${language} appropriate for a beginning language
-instruction, where the dialog takes place ${scenarioLabel}
+DIALOG: Create a dialog in ${language} appropriate for a beginning
+language instruction, where the dialog takes place ${scenarioLabel}
 between participants, ${scenarioParticipantList}.
 Use between 6 to 8 sentences for this dialog.
 
 ${jsonQualification}
 
-Note, a dialog response is an array of strings that take the form,
+STRING ARRAY: A dialog response is an array of strings that takes the form,
 
-    "Participant| Line from the dialog"
+    [
+        "Participant|Line from the dialog",
+        "Participant|Line from the dialog",
+        "Participant|Line from the dialog",
+    ]
 
-where the vertical bar "|" delineates the two fields, and the
-Participant and Line from the dialog are expressed in ${language}.
-
-A complete example follows:
+where the vertical bar "|" delineates the two fields. A complete example
+follows:
 
 ${dialogExample}
 `
