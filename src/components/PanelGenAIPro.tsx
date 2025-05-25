@@ -35,19 +35,20 @@ import { generatePromptSet } from './generatePromptSet'
 
 const PanelGenAIPro: React.FC = () => {
   const {
+    // setNounsKeep,
+    // setVerbsKeep,
     activeHome,
+    dialogPrompt,
     handleDialogErrors,
     handleNounsErrors,
     handleVerbsErrors,
     setDialogKeep,
+    setDialogPrompt,
     setHandleDialogErrors,
     setHandleNounsErrors,
     setHandleVerbsErrors,
-    // setNounsKeep,
     setStepResult,
-    // setVerbsKeep,
-    stepResult,
-    setDialogPrompt
+    stepResult
   } = useAppContext()
 
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
@@ -155,9 +156,14 @@ const PanelGenAIPro: React.FC = () => {
     setDialogKeep(stringifiedDialogKeep)
     localStorage.setItem('dialogKeep', stringifiedDialogKeep)
 
-    const stringifiedPrompt = JSON.stringify(response.prompt)
-    setDialogPrompt(stringifiedPrompt)
-    localStorage.setItem('dialogPrompt', stringifiedPrompt)
+    console.log(response.prompt)
+
+    // const stringifiedPrompt = JSON.stringify(response.prompt)
+    // setDialogPrompt(stringifiedPrompt)
+    // localStorage.setItem('dialogPrompt', stringifiedPrompt)
+
+    setDialogPrompt(response.prompt)
+    localStorage.setItem('dialogPrompt', response.prompt)
 
     setHandleDialogErrors(prev => {
       const newErrors = response.result.errors ?? []
@@ -484,46 +490,42 @@ const PanelGenAIPro: React.FC = () => {
           </div>
 
           <div className="w-100">
-            {openAiKey && (
-              <button
-                onClick={toggleStepResult}
-                className="pa2 br2 bn bg-brand white pointer"
-              >
-                {showStepResult ? 'Hide Full Prompt' : 'Show Full Prompt'}
-              </button>
-            )}
+            <button
+              onClick={toggleStepResult}
+              className="pa2 br2 bn bg-brand white pointer"
+            >
+              {showStepResult ? 'Hide Full Prompt' : 'Show Full Prompt'}
+            </button>
 
             {showStepResult && (
-              <div className="w-100 flex justify-center">
+              <div className="w-100 flex justify-center flex-column">
+                <div className="mt4">
+                  <div className="mt4 b" style={{ whiteSpace: 'pre-wrap' }}>DialogPrompt</div>
+                  <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{dialogPrompt}</div>
+                </div>
                 <div>
-
-
-
-
-                <div className="mt4 b">Dialog</div>
-                <ul className="mt0 pt0 black">
-                  {stepResult.dialog.map((line, index) => (
-                    <li key={index}>{line}</li>
-                  ))}
-                </ul>
-                {handleDialogErrors.length > 0 && (
-                  <div className="mt3 red">
-                    <div className="b">Dialog Errors</div>
-                    <ul className="f6">
-                      {handleDialogErrors.map((err, index) => (
-                        <li key={index}>
-                          <div className="mb2">
-                            <div><b>❌ {err.message}</b></div>
-                            <pre className="ml2 gray">{err.detail}</pre>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-
-                <div className="mt4 b">Nouns</div>
+                  <div className="mt4 b">Dialog</div>
+                  <ul className="mt0 pt0 black">
+                    {stepResult.dialog.map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                  </ul>
+                  {handleDialogErrors.length > 0 && (
+                    <div className="mt3 red">
+                      <div className="b">Dialog Errors</div>
+                      <ul className="f6">
+                        {handleDialogErrors.map((err, index) => (
+                          <li key={index}>
+                            <div className="mb2">
+                              <div><b>❌ {err.message}</b></div>
+                              <pre className="ml2 gray">{err.detail}</pre>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  <div className="mt4 b">Nouns</div>
                   <ul className="mt0 pt0 black">
                     {stepResult.nouns.map((line, index) => (
                       <li key={index}>{line}</li>
@@ -544,30 +546,27 @@ const PanelGenAIPro: React.FC = () => {
                       </ul>
                     </div>
                   )}
-
-
-                <div className="mt4 b">Verbs</div>
-                <ul className="mt0 pt0 black">
-                  {stepResult.verbs.map((line, index) => (
-                    <li key={index}>{line}</li>
-                  ))}
-                </ul>
-                {handleVerbsErrors.length > 0 && (
-                  <div className="mt3 red">
-                    <div className="b">Verb Errors</div>
-                    <ul className="f6">
-                      {handleVerbsErrors.map((err, index) => (
-                        <li key={index}>
-                          <div className="mb2">
-                            <div><b>❌ {err.message}</b></div>
-                            <pre className="ml2 gray">{err.detail}</pre>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
+                  <div className="mt4 b">Verbs</div>
+                  <ul className="mt0 pt0 black">
+                    {stepResult.verbs.map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                  </ul>
+                  {handleVerbsErrors.length > 0 && (
+                    <div className="mt3 red">
+                      <div className="b">Verb Errors</div>
+                      <ul className="f6">
+                        {handleVerbsErrors.map((err, index) => (
+                          <li key={index}>
+                            <div className="mb2">
+                              <div><b>❌ {err.message}</b></div>
+                              <pre className="ml2 gray">{err.detail}</pre>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

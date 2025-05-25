@@ -44,26 +44,26 @@ Note, a dialog response is an array of strings that take the form,
 
 where the vertical bar "|" delineates the two fields.`
 
-    const alwaysTrue = true
-    if (alwaysTrue) {
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          prompt,
-          result: {
-            success: true,
-            parsed: [
-              "Anfitriona| ¡Bienvenidos a nuestro restaurante! ¿Cuántos son en su grupo?",
-              "Mesera| Aquí están los menús. ¿Les traigo algo de beber para comenzar?",
-              "Comensal| Quisiera el filete, por favor."
-            ],
-            errors:[]
-          }
-        })
-      }            
-    }
+    // const alwaysTrue = true
+    // if (alwaysTrue) {
+    //   return {
+    //     statusCode: 200,
+    //     body: JSON.stringify({
+    //       prompt,
+    //       result: {
+    //         success: true,
+    //         parsed: [
+    //           "Anfitriona| ¡Bienvenidos a nuestro restaurante! ¿Cuántos son en su grupo?",
+    //           "Mesera| Aquí están los menús. ¿Les traigo algo de beber para comenzar?",
+    //           "Comensal| Quisiera el filete, por favor."
+    //         ],
+    //         errors:[]
+    //       }
+    //     })
+    //   }            
+    // }
 
-    const reply2 = JSON.stringify(
+    const reply = JSON.stringify(
       [
         "Anfitriona| ¡Bienvenidos a nuestro restaurante! ¿Cuántos son en su grupo?",
         "Mesera| Aquí están los menús. ¿Les traigo algo de beber para comenzar?",
@@ -71,20 +71,20 @@ where the vertical bar "|" delineates the two fields.`
       ]
     )
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: prompt }]
-      })
-    })
+    // const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${apiKey}`,
+    //   },
+    //   body: JSON.stringify({
+    //     model: 'gpt-3.5-turbo',
+    //     messages: [{ role: 'user', content: prompt }]
+    //   })
+    // })
 
-    const data = await response.json()
-    const reply = data.choices?.[0]?.message?.content || ''
+    // const data = await response.json()
+    // const reply = data.choices?.[0]?.message?.content || ''
 
     const result = validateGenAIResponse<Dialog>({
       response: reply,
