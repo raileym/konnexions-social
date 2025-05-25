@@ -1,4 +1,4 @@
-import type { ChooseParticipantsProps, Participants, ScenarioLabels, ScenarioTitles, ScenarioValue } from "../../shared/types"
+import { type ChooseParticipantsProps, type GetScenarioDetailsProps, type ParticipantArrayByLanguage, type ParticipantList, type ParticipantsByLanguage, type ScenarioLabels, type ScenarioTitles, type ScenarioValue } from "../../shared/types"
 
 export const getCurrentWeek = () => {
   const now = new Date()
@@ -23,104 +23,142 @@ const scenarioLabels: ScenarioLabels = {
   custom: 'Custom'
 }
 
-// const scenarioParticipantsOld: Record<ScenarioValue, string> = {
-//   restaurant:
-//     `the host, hostess, waiter, waitress, bartender,
-// chef, a male diner, a female diner, or a couple
-// seated nearby`,
-//     hotel:
-//     `the front desk agent, concierge, bellhop, 
-// housekeeper, a male guest, a female guest, 
-// or the hotel manager`,
-//     airport:
-//     `an airline agent, a gate attendant, a TSA officer,
-//     a baggage handler, a flight attendant, a male traveler,
-//     or a female traveler`,
-//     taxi:
-//     `the driver, a rideshare driver, a dispatcher,
-// a male passenger, a female passenger, a couple
-// sharing the ride, or a tourist unfamiliar with the city`,
-//     custom:
-//     'WHICH DIALOG PARTICIPANTS',
-// }
-
-const scenarioParticipants: Record<ScenarioValue, { participants: Participants }> = {
+const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: ParticipantsByLanguage }> = {
   restaurant: {
-    participants: [
-      'the host',
-      'the hostess',
-      'a waiter',
-      'a waitress',
-      'the bartender',
-      'the chef',
-      'a male diner',
-      'a female diner',
-      'a couple seated nearby',
-    ],
+    participantsByLanguage: {
+      EN: [
+        'the host',
+        'the hostess',
+        'a waiter',
+        'a waitress',
+        'the bartender',
+        'the chef',
+        'a male diner',
+        'a female diner',
+        'a couple seated nearby'
+      ],
+      ES: [
+        'el anfitrión',
+        'la anfitriona',
+        'un camarero',
+        'una camarera',
+        'el barman',
+        'el chef',
+        'un comensal (hombre)',
+        'una comensal (mujer)',
+        'una pareja sentada cerca'
+      ]
+    }
   },
   hotel: {
-    participants: [
-      'the front desk agent',
-      'concierge',
-      'bellhop',
-      'housekeeper',
-      'a male guest',
-      'a female guest',
-      'the hotel manager',
-    ],
+    participantsByLanguage: {
+      EN: [
+        'the front desk agent',
+        'concierge',
+        'bellhop',
+        'housekeeper',
+        'a male guest',
+        'a female guest',
+        'the hotel manager'
+      ],
+      ES: [
+        'el recepcionista',
+        'el conserje',
+        'el botones',
+        'la camarera de piso',
+        'un huésped (hombre)',
+        'una huésped (mujer)',
+        'el gerente del hotel'
+      ]
+    }
   },
   airport: {
-    participants: [
-      'an airline agent',
-      'a gate attendant',
-      'a TSA officer',
-      'a baggage handler',
-      'a flight attendant',
-      'a male traveler',
-      'a female traveler',
-    ],
+    participantsByLanguage: {
+      EN: [
+        'an airline agent',
+        'a gate attendant',
+        'a TSA officer',
+        'a baggage handler',
+        'a flight attendant',
+        'a male traveler',
+        'a female traveler'
+      ],
+      ES: [
+        'un agente de aerolínea',
+        'un asistente de puerta',
+        'un oficial de seguridad (TSA)',
+        'un encargado de equipaje',
+        'un auxiliar de vuelo',
+        'un viajero',
+        'una viajera'
+      ]
+    }
   },
   taxi: {
-    participants: [
-      'the driver',
-      'a rideshare driver',
-      'a dispatcher',
-      'a male passenger',
-      'a female passenger',
-      'a couple sharing the ride',
-      'a tourist unfamiliar with the city',
-    ],
+    participantsByLanguage: {
+      EN: [
+        'the driver',
+        'a rideshare driver',
+        'a dispatcher',
+        'a male passenger',
+        'a female passenger',
+        'a couple sharing the ride',
+        'a tourist unfamiliar with the city'
+      ],
+      ES: [
+        'el conductor',
+        'un conductor de rideshare',
+        'el despachador',
+        'un pasajero',
+        'una pasajera',
+        'una pareja compartiendo el viaje',
+        'un turista que no conoce la ciudad'
+      ]
+    }
   },
   custom: {
-    participants: ['WHICH DIALOG PARTICIPANTS'],
-  },
+    participantsByLanguage: {
+      EN: ['WHICH DIALOG PARTICIPANTS'],
+      ES: ['¿QUÉ PARTICIPANTES EN EL DIÁLOGO?']
+    }
+  }
 }
 
-export function getScenarioDetails(scenario: ScenarioValue) {
+// export function getScenarioDetails(scenario: ScenarioValue) {
 
-  const chooseParticipants = ({participants, n, useMyself}: ChooseParticipantsProps): string => {
-    if (!participants || participants.length === 0 || n <= 0) return ''
-  
-    const count = useMyself ? n - 1 : n
-    const shuffled = [...participants].sort(() => Math.random() - 0.5)
-    const selected = shuffled.slice(0, Math.min(count, participants.length))
-  
-    if (useMyself) selected.unshift('myself')
-  
-    if (selected.length === 1) return selected[0]
-    if (selected.length === 2) return `${selected[0]} and ${selected[1]}`
-  
-    const last = selected.pop()
-    return `${selected.join(', ')}, and ${last}`
-  }
-    
-  const participant = chooseParticipants({participants: scenarioParticipants[scenario].participants, n: 2, useMyself: false})
+// const langKeyMap: Record<Language, LangValue> = {
+//   Spanish: LANG_KEYS.ES,
+//   English: LANG_KEYS.EN
+// }
+
+const chooseParticipants = ({ participantArrayByLanguage, language, n, useMyself }: ChooseParticipantsProps): ParticipantList => {
+  const participantArray = participantArrayByLanguage[language]
+
+  if (!participantArray || participantArray.length === 0 || n <= 0) return ''
+
+  const count = useMyself ? n - 1 : n
+  const shuffled = [...participantArray].sort(() => Math.random() - 0.5)
+  const selected = shuffled.slice(0, Math.min(count, participantArray.length))
+
+  if (useMyself) selected.unshift(language === 'Spanish' ? 'yo mismo' : 'myself')
+
+  if (selected.length === 1) return selected[0]
+  if (selected.length === 2) return `${selected[0]} y ${selected[1]}`
+
+  const last = selected.pop()
+  return `${selected.join(', ')}, y ${last}`
+}
+
+
+export function getScenarioDetails({scenario, language}: GetScenarioDetailsProps) {
+  console.log(`scenario: ${scenario}`)
+  const participantArrayByLanguage = scenarioParticipants[scenario].participantsByLanguage as ParticipantArrayByLanguage
+  const participantList = chooseParticipants({ participantArrayByLanguage, n: 2, useMyself: false, language })
 
   return {
     scenarioLabel: scenarioLabels[scenario],
     scenarioTitle: scenarioTitles[scenario],
-    // scenarioParticipantsOld: scenarioParticipantsOld[scenario],
-    // scenarioParticipants: scenarioParticipants[scenario].participants,
-    scenarioParticipant: participant
+    scenarioParticipantList: participantList
   }
 }
+

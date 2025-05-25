@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAppContext } from '../context/AppContext'
-import { APP_HOME } from '../../shared/types'
+import { APP_HOME, type Language } from '../../shared/types'
 import Button from "./Button"
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek, getScenarioDetails } from './Util'
@@ -10,6 +10,8 @@ import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { usePanel } from '../hooks/usePanel'
 
 const PanelGenAI: React.FC = () => {
+    const [language, ] = useState<Language>('Spanish')
+  
   const { activeHome } = useAppContext()
   const isActive = activeHome === APP_HOME.GEN_AI
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
@@ -62,7 +64,8 @@ const PanelGenAI: React.FC = () => {
     }
   }
 
-  const {scenarioLabel, scenarioParticipants} = getScenarioDetails(scenario)
+  const {scenarioLabel, scenarioParticipantList} = getScenarioDetails({scenario, language})
+
   const fullPrompt = (
     <div>
       Ask ChatGPT:{' '}
@@ -73,7 +76,7 @@ const PanelGenAI: React.FC = () => {
       )}
       I am <span className="b">{scenarioLabel}</span>.{' '}
       Please create a dialog between me and two other people, randomly chosen from{' '}
-      <span className="b">{scenarioParticipants}</span>.
+      <span className="b">{scenarioParticipantList}</span>.
       {scenario === 'custom' && (
         <>
           " Keep your question for ChatGPT clear, succinct, but brief. Every word costs($).

@@ -12,7 +12,9 @@ import type {
   VerbsPromptProps
 } from "./types"
 
-  export const generatePromptSet: GeneratePromptSet = (): PromptSet => {
+import { generateExample } from './generateExample'
+
+export const generatePromptSet: GeneratePromptSet = (): PromptSet => {
 
     const jsonQualification: JsonQualification = `
 RESPONSE: Express your response using well-formed JSON only, with no trailing
@@ -27,10 +29,14 @@ Assume the consumer is a machine expecting strict JSON compliance.
     // DIALOG PROMPT
     // *****************************************************************
 
-    const dialogPrompt: DialogPrompt = ({language, scenarioLabel, scenarioParticipant}: DialogPromptProps) => `
+    
+    const dialogPrompt: DialogPrompt = ({language, scenarioLabel, scenarioParticipantList}: DialogPromptProps) => {
+      const dialogExample = generateExample({language, context: 'dialog', options: { asString: true }  })
+      
+      return (`
 Create a dialog in ${language} appropriate for a beginning language
 instruction, where the dialog takes place ${scenarioLabel}
-between participants, ${scenarioParticipant}.
+between participants, ${scenarioParticipantList}.
 Use between 6 to 8 sentences for this dialog.
 
 ${jsonQualification}
@@ -42,14 +48,11 @@ Note, a dialog response is an array of strings that take the form,
 where the vertical bar "|" delineates the two fields, and the
 Participant and Line from the dialog are expressed in ${language}.
 
-A complete example (written in English) follows: 
+A complete example follows:
 
-    [
-      "Hostess| Welcome to our restaurant! How many in your party?",
-      "Waitress| Here are the menus. Can I start you off with some drinks?",
-      "Male diner| I'll have the steak, please."
-    ]
+${dialogExample}
 `
+)}
 
     // *****************************************************************
     // DIALOG REVIEW PROMPT

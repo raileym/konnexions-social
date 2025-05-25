@@ -185,7 +185,15 @@ export type AppHomeValue = (typeof APP_HOME)[keyof typeof APP_HOME]
 export type AppHomeKey = keyof typeof APP_HOME
 
 export type Participant = string
+export type ParticipantList = string
 export type Participants = Participant[]
+export type ParticipantArray = Participant[]
+export type ParticipantArrayByLanguage = Record<Language, ParticipantArray>
+
+export type ParticipantsByLanguage = {
+  [K in LangKey]?: Participants
+}
+
 export type UseMyself = boolean
 
 export type ScenarioLabel = string
@@ -210,9 +218,10 @@ export type StepResult = {
 export type SetStepResult = React.Dispatch<React.SetStateAction<StepResult>>
 
 export type ChooseParticipantsProps = {
-  participants: Participants
+  participantArrayByLanguage: ParticipantArrayByLanguage
   n: number
   useMyself: UseMyself
+  language: Language
 }
 
 export type ParsedStepResult = {
@@ -253,11 +262,7 @@ export type Prompt = string
 export type HandleDialogProps = {
   language: Language
   scenarioLabel: ScenarioLabel
-  scenarioParticipant: Participant
-
-  // prompt: Prompt
-  // nextStep: GenAIStepValue
-  // setStepResult: SetStepResult
+  scenarioParticipantList: ParticipantList
 }
 export type HandleNounsProps = {
   language: Language
@@ -274,7 +279,7 @@ export type HandleVerbsProps = {
 export type DialogPromptProps = {
   language: Language
   scenarioLabel: ScenarioLabel
-  scenarioParticipant: Participant
+  scenarioParticipantList: ParticipantList
 }
 
 export type DialogReviewPromptProps = {
@@ -333,7 +338,9 @@ export const defaultStepResult: StepResult = {
   verbsPrompt: ''
 }
 
-export type Language = string
+export type Language = 'Spanish' | 'English' 
+
+export type GenAIContext = 'dialog' | 'nouns' | 'verbs'
 
 // export type HandleNounsError = {
 //   message: string
@@ -429,3 +436,38 @@ export type RichParsedLine = {
   isValid: boolean
   reasons: string[]
 }
+
+export type GetGenAIExampleOptions = {
+  asString?: boolean
+}
+
+export type GenerateExampleProps = {
+  language: Language
+  context: GenAIContext
+  options: GetGenAIExampleOptions // = {}
+}
+
+// export type ParticipantsByLanguage = {
+//   en: string[]
+//   es: string[]
+// }
+
+export type GetScenarioDetailsProps = {
+  scenario: ScenarioValue,
+  language: Language
+}
+
+export const LANG_KEYS = {
+  EN: 'EN',
+  ES: 'ES',
+  ZH: 'ZH',
+  FR: 'FR',
+  DE: 'DE',
+  IT: 'IT',
+  PT: 'PT',
+  JA: 'JA',
+  KO: 'KO'
+} as const
+
+export type LangKey = keyof typeof LANG_KEYS
+export type LangValue = (typeof LANG_KEYS)[keyof typeof LANG_KEYS]

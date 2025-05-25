@@ -13,9 +13,9 @@ const handler: Handler = async (event) => {
   }
 
   try {
-    const { language, scenarioLabel, scenarioParticipant } = JSON.parse(event.body ?? '{}')
+    const { language, scenarioLabel, scenarioParticipantList } = JSON.parse(event.body ?? '{}')
 
-    if (!language || !scenarioLabel || !scenarioParticipant) {
+    if (!language || !scenarioLabel || !scenarioParticipantList) {
       console.log('Missing the big three')
       return {
         statusCode: 400,
@@ -25,11 +25,11 @@ const handler: Handler = async (event) => {
 
     console.log(`language: ${language}`)
     console.log(`scenarioLabel: ${scenarioLabel}`)
-    console.log(`scenarioParticipant: ${scenarioParticipant}`)
+    console.log(`scenarioParticipantList: ${scenarioParticipantList}`)
 
     const promptSet = generatePromptSet()
 
-    const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, scenarioParticipant})
+    const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, scenarioParticipantList})
 
     // const alwaysTrue = true
     // if (alwaysTrue) {
@@ -85,6 +85,7 @@ const handler: Handler = async (event) => {
 
     // const data = await response.json()
     // const reply = data.choices?.[0]?.message?.content || ''
+
     console.log('Before validation')
     console.log(reply)
 

@@ -16,7 +16,8 @@ import type {
   HandleVerbsProps,
   Language,
   // Nouns,
-  Participant,
+  // Participant,
+  ParticipantList,
   ScenarioLabel,
   UseMyself,
   // Verbs
@@ -73,7 +74,7 @@ const PanelGenAIPro: React.FC = () => {
   const getDialog = async (
     language: Language,
     scenarioLabel: ScenarioLabel,
-    scenarioParticipant: Participant
+    scenarioParticipantList: ParticipantList
   ): Promise<GetDialogResult | null> => {
     try {
       const res = await fetch('/.netlify/functions/genai-dialog', {
@@ -82,7 +83,7 @@ const PanelGenAIPro: React.FC = () => {
         body: JSON.stringify({
           language,
           scenarioLabel,
-          scenarioParticipant
+          scenarioParticipantList
         })
       })
   
@@ -128,19 +129,19 @@ const PanelGenAIPro: React.FC = () => {
   const handleDialog = async ({
     language, 
     scenarioLabel,
-    scenarioParticipant
+    scenarioParticipantList
   }: HandleDialogProps) => {
 
     console.log(`language: ${language}`)
     console.log(`scenarioLabel: ${scenarioLabel}`)
-    console.log(`scenarioParticipant: ${scenarioParticipant}`)
+    console.log(`scenarioParticipantList: ${scenarioParticipantList}`)
 
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
       return
     }
 
-    const response = await getDialog(language, scenarioLabel, scenarioParticipant)
+    const response = await getDialog(language, scenarioLabel, scenarioParticipantList)
 
     console.log(response)
 
@@ -195,11 +196,7 @@ const PanelGenAIPro: React.FC = () => {
   const reviewDialog = async ({
     language, 
     scenarioLabel,
-    scenarioParticipant
-
-    // prompt,
-    // nextStep,
-    // setStepResult
+    scenarioParticipantList
   }: HandleDialogProps) => {
     console.log(prompt)
 
@@ -215,7 +212,7 @@ const PanelGenAIPro: React.FC = () => {
 
     console.log(language)
     console.log(scenarioLabel)
-    console.log(scenarioParticipant)
+    console.log(scenarioParticipantList)
 
     // const response = await fetchFromOpenAI(prompt)
 
@@ -372,7 +369,7 @@ const PanelGenAIPro: React.FC = () => {
     scenario
   } = useAppContext()
 
-  const {scenarioLabel, scenarioParticipant} = getScenarioDetails(scenario)
+  const {scenarioLabel, scenarioParticipantList} = getScenarioDetails({scenario, language})
 
   // const participant = chooseParticipants({participants: scenarioParticipants, n: 2, useMyself: false})
 
@@ -427,7 +424,7 @@ const PanelGenAIPro: React.FC = () => {
                 handleDialog({
                   language, 
                   scenarioLabel,
-                  scenarioParticipant
+                  scenarioParticipantList
                 })
               }
               className="pa2 br2 bn bg-brand white pointer"
@@ -442,7 +439,7 @@ const PanelGenAIPro: React.FC = () => {
                 reviewDialog({
                   language, 
                   scenarioLabel,
-                  scenarioParticipant                  
+                  scenarioParticipantList              
                 })
               }
               className="mv3 pa2 br2 bn bg-purple white pointer"
