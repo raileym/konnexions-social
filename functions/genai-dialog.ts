@@ -17,6 +17,10 @@ const handler: Handler = async (event) => {
 
     if (!language || !scenarioLabel || !scenarioParticipantList) {
       console.log('Missing the big three')
+      console.log(`language: ${language}`)
+      console.log(`scenarioLabel: ${scenarioLabel}`)
+      console.log(`scenarioParticipantList: ${scenarioParticipantList}`)
+      
       return {
         statusCode: 400,
         body: 'Missing one or more required fields: language, scenarioLabel, participant'

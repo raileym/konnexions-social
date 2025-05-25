@@ -1,4 +1,4 @@
-import { type ChooseParticipantsProps, type GetScenarioDetailsProps, type ParticipantArrayByLanguage, type ParticipantList, type ParticipantsByLanguage, type ScenarioLabels, type ScenarioTitles, type ScenarioValue } from "../../shared/types"
+import { LANG_KEYS, type ChooseParticipantsProps, type GetScenarioDetailsProps, type Language, type LangValue, type ParticipantList, type ParticipantsByLanguage, type ScenarioLabels, type ScenarioTitles, type ScenarioValue } from "../../shared/types"
 
 export const getCurrentWeek = () => {
   const now = new Date()
@@ -126,15 +126,23 @@ const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: Part
 
 // export function getScenarioDetails(scenario: ScenarioValue) {
 
-// const langKeyMap: Record<Language, LangValue> = {
-//   Spanish: LANG_KEYS.ES,
-//   English: LANG_KEYS.EN
-// }
+const langKeyMap: Record<Language, LangValue> = {
+  Spanish: LANG_KEYS.ES,
+  English: LANG_KEYS.EN
+}
 
-const chooseParticipants = ({ participantArrayByLanguage, language, n, useMyself }: ChooseParticipantsProps): ParticipantList => {
-  const participantArray = participantArrayByLanguage[language]
+const chooseParticipants = ({ participantArray, language, n, useMyself }: ChooseParticipantsProps): ParticipantList => {
+  // const participantArray = participantArrayByLanguage[langKeyMap[language]]
+  // const participantArray = participantArrayByLanguage['ES']
 
-  if (!participantArray || participantArray.length === 0 || n <= 0) return ''
+  if (!participantArray || participantArray.length === 0 || n <= 0) {
+    console.log('error out too soon')
+    console.log(langKeyMap)
+    return ''
+  }
+
+  console.log('Made it this far')
+  console.log(participantArray)
 
   const count = useMyself ? n - 1 : n
   const shuffled = [...participantArray].sort(() => Math.random() - 0.5)
@@ -146,14 +154,23 @@ const chooseParticipants = ({ participantArrayByLanguage, language, n, useMyself
   if (selected.length === 2) return `${selected[0]} y ${selected[1]}`
 
   const last = selected.pop()
+  console.log(`${selected.join(', ')}, y ${last}`)
   return `${selected.join(', ')}, y ${last}`
 }
 
 
 export function getScenarioDetails({scenario, language}: GetScenarioDetailsProps) {
   console.log(`scenario: ${scenario}`)
-  const participantArrayByLanguage = scenarioParticipants[scenario].participantsByLanguage as ParticipantArrayByLanguage
-  const participantList = chooseParticipants({ participantArrayByLanguage, n: 2, useMyself: false, language })
+  // console.log(scenarioParticipants[scenario].participantsByLanguage.ES)
+  // const participantArrayByLanguage = scenarioParticipants[scenario].participantsByLanguage as ParticipantArrayByLanguage
+  const participantList = chooseParticipants({ participantArray: scenarioParticipants[scenario].participantsByLanguage.ES, n: 2, useMyself: false, language })
+
+  // console.log(`language: ${language}`)
+  // console.log(language)
+  // console.log('participantArrayByLanguage')
+  // console.log(participantArrayByLanguage)
+  console.log('participantList')
+  console.log(participantList)
 
   return {
     scenarioLabel: scenarioLabels[scenario],

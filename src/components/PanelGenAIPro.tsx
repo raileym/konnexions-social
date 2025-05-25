@@ -76,6 +76,7 @@ const PanelGenAIPro: React.FC = () => {
     scenarioLabel: ScenarioLabel,
     scenarioParticipantList: ParticipantList
   ): Promise<GetDialogResult | null> => {
+    // cXonsole.log(scenarioParticipantList)
     try {
       const res = await fetch('/.netlify/functions/genai-dialog', {
         method: 'POST',
@@ -93,7 +94,7 @@ const PanelGenAIPro: React.FC = () => {
       }
   
       const data = await res.json()
-      console.log(data.result)
+      // cXonsole.log(data.result)
       return data as GetDialogResult
     } catch (err) {
       console.error('Network error:', err)
@@ -132,9 +133,9 @@ const PanelGenAIPro: React.FC = () => {
     scenarioParticipantList
   }: HandleDialogProps) => {
 
-    console.log(`language: ${language}`)
-    console.log(`scenarioLabel: ${scenarioLabel}`)
-    console.log(`scenarioParticipantList: ${scenarioParticipantList}`)
+    // cXonsole.log(`language: ${language}`)
+    // cXonsole.log(`scenarioLabel: ${scenarioLabel}`)
+    // cXonsole.log(`scenarioParticipantList: ${scenarioParticipantList}`)
 
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
@@ -143,7 +144,7 @@ const PanelGenAIPro: React.FC = () => {
 
     const response = await getDialog(language, scenarioLabel, scenarioParticipantList)
 
-    console.log(response)
+    // cXonsole.log(response)
 
     if (response === null) {
       console.log('Houston, we DO have a problems')
@@ -161,7 +162,7 @@ const PanelGenAIPro: React.FC = () => {
 
     setDialogArray(response.result.parsed)
 
-    console.log(response.prompt)
+    // cXonsole.log(response.prompt)
 
     // const stringifiedPrompt = JSON.stringify(response.prompt)
     // setDialogPrompt(stringifiedPrompt)
@@ -198,7 +199,7 @@ const PanelGenAIPro: React.FC = () => {
     scenarioLabel,
     scenarioParticipantList
   }: HandleDialogProps) => {
-    console.log(prompt)
+    // cXonsole.log(prompt)
 
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
@@ -249,7 +250,7 @@ const PanelGenAIPro: React.FC = () => {
     language,
     dialogArray
   }: HandleNounsProps) => {
-    console.log(prompt)
+    // cXonsole.log(prompt)
 
     console.log(`language: ${language}`)
     console.log(dialogArray)
@@ -265,7 +266,7 @@ const PanelGenAIPro: React.FC = () => {
     }
 
     // console.log(nextStep)
-    console.log(setStepResult)
+    // cXonsole.log(setStepResult)
     
     // const response = await fetchFromOpenAI(prompt)
 

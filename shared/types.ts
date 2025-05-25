@@ -191,7 +191,7 @@ export type ParticipantArray = Participant[]
 export type ParticipantArrayByLanguage = Record<Language, ParticipantArray>
 
 export type ParticipantsByLanguage = {
-  [K in LangKey]?: Participants
+  [K in LangKey]: ParticipantArray
 }
 
 export type UseMyself = boolean
@@ -218,7 +218,7 @@ export type StepResult = {
 export type SetStepResult = React.Dispatch<React.SetStateAction<StepResult>>
 
 export type ChooseParticipantsProps = {
-  participantArrayByLanguage: ParticipantArrayByLanguage
+  participantArray: ParticipantArray // ByLanguage: ParticipantArrayByLanguage
   n: number
   useMyself: UseMyself
   language: Language
@@ -459,14 +459,14 @@ export type GetScenarioDetailsProps = {
 
 export const LANG_KEYS = {
   EN: 'EN',
-  ES: 'ES',
-  ZH: 'ZH',
-  FR: 'FR',
-  DE: 'DE',
-  IT: 'IT',
-  PT: 'PT',
-  JA: 'JA',
-  KO: 'KO'
+  ES: 'ES' //,
+  // ZH: 'ZH',
+  // FR: 'FR',
+  // DE: 'DE',
+  // IT: 'IT',
+  // PT: 'PT',
+  // JA: 'JA',
+  // KO: 'KO'
 } as const
 
 export type LangKey = keyof typeof LANG_KEYS
