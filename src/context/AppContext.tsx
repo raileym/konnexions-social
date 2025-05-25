@@ -34,7 +34,8 @@ import type {
   HandleDialogErrors,
   HandleVerbsErrors,
   VerbsKeep,
-  Prompt
+  Prompt,
+  DialogArray
 } from '../../shared/types'
 import {
   APP_HOME,
@@ -42,10 +43,13 @@ import {
   defaultStepResult,
   SCENARIO
 } from '../../shared/types'
+import { usePersistentState } from '../hooks/usePersistentState'
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [dialogArray, setDialogArray] = usePersistentState<DialogArray>('dialogArray', [])
+
   const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
   const [activeHome, setActiveHome] = useState<AppHomeValue>(APP_HOME.GEN_AI_PRO)
   const [helpPanel, setHelpPanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
@@ -82,6 +86,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
   const AppContextValue = {
+
+    dialogArray, setDialogArray,
+    
     activeHome,
     activePanel,
     answer,

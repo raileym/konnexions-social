@@ -1,4 +1,8 @@
 export type AppContextType = {
+  dialogArray: DialogArray
+  setDialogArray: SetDialogArray
+
+
   activePanel: ActivePanel
   activeHome: ActiveHome
   answer: Answer
@@ -237,6 +241,10 @@ export type ParsedStepResult = {
   }
 }
 
+export type DialogLine = string
+export type DialogArray = DialogLine[]
+export type SetDialogArray = React.Dispatch<React.SetStateAction<DialogArray>>
+
 export type Dialog = string
 export type Nouns = string
 export type Verbs = string
@@ -252,9 +260,8 @@ export type HandleDialogProps = {
   // setStepResult: SetStepResult
 }
 export type HandleNounsProps = {
-  prompt: Prompt
-  nextStep: GenAIStepValue
-  setStepResult: SetStepResult
+  language: Language
+  dialogArray: DialogArray
 }
 
 export type HandleVerbsProps = {

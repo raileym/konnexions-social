@@ -48,7 +48,10 @@ const PanelGenAIPro: React.FC = () => {
     setHandleNounsErrors,
     setHandleVerbsErrors,
     setStepResult,
-    stepResult
+    stepResult,
+
+    dialogArray,
+    setDialogArray
   } = useAppContext()
 
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
@@ -156,6 +159,8 @@ const PanelGenAIPro: React.FC = () => {
     setDialogKeep(stringifiedDialogKeep)
     localStorage.setItem('dialogKeep', stringifiedDialogKeep)
 
+    setDialogArray(response.result.parsed)
+
     console.log(response.prompt)
 
     // const stringifiedPrompt = JSON.stringify(response.prompt)
@@ -245,11 +250,13 @@ const PanelGenAIPro: React.FC = () => {
   }
   
   const handleNouns = async ({
-    prompt,
-    nextStep,
-    setStepResult
+    language,
+    dialogArray
   }: HandleNounsProps) => {
     console.log(prompt)
+
+    console.log(`language: ${language}`)
+    console.log(dialogArray)
 
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
@@ -261,7 +268,7 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    console.log(nextStep)
+    // console.log(nextStep)
     console.log(setStepResult)
     
     // const response = await fetchFromOpenAI(prompt)
@@ -363,7 +370,6 @@ const PanelGenAIPro: React.FC = () => {
   // }  
     
   const {
-    openAiKey,
     scenario
   } = useAppContext()
 
@@ -375,7 +381,7 @@ const PanelGenAIPro: React.FC = () => {
 
   // const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, participant})
   // const dialogReviewPrompt = promptSet.dialogReviewPrompt({language, dialog: stepResult.dialog.join(' ')})
-  const nounsPrompt = promptSet.nounsPrompt({dialog: stepResult.dialog.join(' ')})
+  // const nounsPrompt = promptSet.nounsPrompt({dialog: stepResult.dialog.join(' ')})
   const verbsPrompt = promptSet.verbsPrompt({dialog: stepResult.dialog.join(' ')})
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
@@ -447,12 +453,15 @@ const PanelGenAIPro: React.FC = () => {
           </div>
 
           <div className="mv3">
+            <div>{dialogArray}</div>
             <button
               onClick={() =>
                 handleNouns({
-                  prompt: nounsPrompt,
-                  nextStep: GEN_AI_STEP.VERBS,
-                  setStepResult
+                  language,
+                  dialogArray
+                  // prompt: nounsPrompt,
+                  // nextStep: GEN_AI_STEP.VERBS,
+                  // setStepResult
                 })
               }
               className="pa2 br2 bn bg-brand white pointer"
@@ -504,6 +513,12 @@ const PanelGenAIPro: React.FC = () => {
                   <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{dialogPrompt}</div>
                 </div>
                 <div>
+                  <div className="mt4 b">Dialog Array</div>
+                  <ul className="mt0 pt0 black">
+                    {dialogArray.map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                  </ul>
                   <div className="mt4 b">Dialog</div>
                   <ul className="mt0 pt0 black">
                     {stepResult.dialog.map((line, index) => (

@@ -31,24 +31,6 @@ const handler: Handler = async (event) => {
 
     const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, scenarioParticipant})
 
-//     const prompt = `Create a dialog in ${language} appropriate for a beginning language
-// instruction, where the dialog takes place ${scenarioLabel}
-// between participants, ${scenarioParticipant}.
-// Use between 6 to 8 sentences for this dialog.
-
-// RESPONSE: Express your response using well-formed JSON only, with no trailing
-// commas, no single quotes (use double quotes only), no Markdown wrappers, no
-// comments, no explanatory text or prose or partial JSON blocks, and no headings
-// or titles. The output must be a single valid JSON array, starting
-// with [ and ending with ]. Do not prepend phrases like \u201cHere is your JSON:\u201d.
-// Assume the consumer is a machine expecting strict JSON compliance.
-
-// Note, a dialog response is an array of strings that take the form,
-
-//     "Participant| Line from the dialog"
-
-// where the vertical bar "|" delineates the two fields.`
-
     // const alwaysTrue = true
     // if (alwaysTrue) {
     //   return {
