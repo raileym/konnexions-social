@@ -7,7 +7,7 @@ import {
   GEN_AI_STEP
 } from '../../shared/types'
 import type {
-  ChooseParticipantsProps,
+  // ChooseParticipantsProps,
   // Dialog,
   // GenAIValidationResult,
   GetDialogResult,
@@ -46,7 +46,8 @@ const PanelGenAIPro: React.FC = () => {
     // setNounsKeep,
     setStepResult,
     // setVerbsKeep,
-    stepResult
+    stepResult,
+    setDialogPrompt
   } = useAppContext()
 
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
@@ -68,7 +69,7 @@ const PanelGenAIPro: React.FC = () => {
   const getDialog = async (
     language: Language,
     scenarioLabel: ScenarioLabel,
-    participant: Participant
+    scenarioParticipant: Participant
   ): Promise<GetDialogResult | null> => {
     try {
       const res = await fetch('/.netlify/functions/genai-dialog', {
@@ -77,7 +78,7 @@ const PanelGenAIPro: React.FC = () => {
         body: JSON.stringify({
           language,
           scenarioLabel,
-          participant
+          scenarioParticipant
         })
       })
   
@@ -87,7 +88,9 @@ const PanelGenAIPro: React.FC = () => {
       }
   
       const data = await res.json()
-      return data.result as GetDialogResult
+      console.log(data.result)
+      // return data.result as GetDialogResult
+      return data as GetDialogResult
     } catch (err) {
       console.error('Network error:', err)
       return null
@@ -122,15 +125,19 @@ const PanelGenAIPro: React.FC = () => {
   const handleDialog = async ({
     language, 
     scenarioLabel,
-    participant
+    scenarioParticipant
   }: HandleDialogProps) => {
+
+    console.log(`language: ${language}`)
+    console.log(`scenarioLabel: ${scenarioLabel}`)
+    console.log(`scenarioParticipant: ${scenarioParticipant}`)
 
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
       return
     }
 
-    const response = await getDialog(language, scenarioLabel, participant)
+    const response = await getDialog(language, scenarioLabel, scenarioParticipant)
 
     console.log(response)
 
@@ -144,9 +151,13 @@ const PanelGenAIPro: React.FC = () => {
       console.log(response.result.errors)
     }
 
-    const stringified = JSON.stringify(response.result.parsed)
-    setDialogKeep(stringified)
-    localStorage.setItem('dialogKeep', stringified)
+    const stringifiedDialogKeep = JSON.stringify(response.result.parsed)
+    setDialogKeep(stringifiedDialogKeep)
+    localStorage.setItem('dialogKeep', stringifiedDialogKeep)
+
+    const stringifiedPrompt = JSON.stringify(response.prompt)
+    setDialogPrompt(stringifiedPrompt)
+    localStorage.setItem('dialogPrompt', stringifiedPrompt)
 
     setHandleDialogErrors(prev => {
       const newErrors = response.result.errors ?? []
@@ -174,7 +185,7 @@ const PanelGenAIPro: React.FC = () => {
   const reviewDialog = async ({
     language, 
     scenarioLabel,
-    participant
+    scenarioParticipant
 
     // prompt,
     // nextStep,
@@ -194,7 +205,7 @@ const PanelGenAIPro: React.FC = () => {
 
     console.log(language)
     console.log(scenarioLabel)
-    console.log(participant)
+    console.log(scenarioParticipant)
 
     // const response = await fetchFromOpenAI(prompt)
 
@@ -329,30 +340,30 @@ const PanelGenAIPro: React.FC = () => {
     // setStep(nextStep)
   }
 
-  const chooseParticipants = ({participants, n, useMyself}: ChooseParticipantsProps): string => {
-    if (!participants || participants.length === 0 || n <= 0) return ''
+  // const chooseParticipants = ({participants, n, useMyself}: ChooseParticipantsProps): string => {
+  //   if (!participants || participants.length === 0 || n <= 0) return ''
   
-    const count = useMyself ? n - 1 : n
-    const shuffled = [...participants].sort(() => Math.random() - 0.5)
-    const selected = shuffled.slice(0, Math.min(count, participants.length))
+  //   const count = useMyself ? n - 1 : n
+  //   const shuffled = [...participants].sort(() => Math.random() - 0.5)
+  //   const selected = shuffled.slice(0, Math.min(count, participants.length))
   
-    if (useMyself) selected.unshift('myself')
+  //   if (useMyself) selected.unshift('myself')
   
-    if (selected.length === 1) return selected[0]
-    if (selected.length === 2) return `${selected[0]} and ${selected[1]}`
+  //   if (selected.length === 1) return selected[0]
+  //   if (selected.length === 2) return `${selected[0]} and ${selected[1]}`
   
-    const last = selected.pop()
-    return `${selected.join(', ')}, and ${last}`
-  }  
+  //   const last = selected.pop()
+  //   return `${selected.join(', ')}, and ${last}`
+  // }  
     
   const {
     openAiKey,
     scenario
   } = useAppContext()
 
-  const {scenarioLabel, scenarioParticipants} = getScenarioDetails(scenario)
+  const {scenarioLabel, scenarioParticipant} = getScenarioDetails(scenario)
 
-  const participant = chooseParticipants({participants: scenarioParticipants, n: 2, useMyself: false})
+  // const participant = chooseParticipants({participants: scenarioParticipants, n: 2, useMyself: false})
 
   const promptSet = generatePromptSet()
 
@@ -405,10 +416,7 @@ const PanelGenAIPro: React.FC = () => {
                 handleDialog({
                   language, 
                   scenarioLabel,
-                  participant
-                  // prompt: dialogPrompt,
-                  // nextStep: GEN_AI_STEP.NOUNS,
-                  // setStepResult
+                  scenarioParticipant
                 })
               }
               className="pa2 br2 bn bg-brand white pointer"
@@ -423,10 +431,7 @@ const PanelGenAIPro: React.FC = () => {
                 reviewDialog({
                   language, 
                   scenarioLabel,
-                  participant                  
-                  // prompt: dialogReviewPrompt,
-                  // nextStep: GEN_AI_STEP.DIALOG_REVIEW,
-                  // setStepResult
+                  scenarioParticipant                  
                 })
               }
               className="mv3 pa2 br2 bn bg-purple white pointer"

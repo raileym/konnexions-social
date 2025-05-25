@@ -7,6 +7,7 @@ export type AppContextType = {
   audioUrl: AudioUrl
   cleanedText: CleanedText
   dialogKeep: DialogKeep
+  dialogPrompt: Prompt
   gcpKey: GcpKey
   handleDialogErrors: HandleDialogErrors
   handleNounsErrors: HandleNounsErrors
@@ -34,6 +35,7 @@ export type AppContextType = {
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
   setDialogKeep: SetDialogKeep
+  setDialogPrompt: SetDialogPrompt
   setGcpKey: SetGcpKey
   setHandleDialogErrors: SetHandleDialogErrors
   setHandleNounsErrors: SetHandleNounsErrors
@@ -111,6 +113,7 @@ export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetDialogKeep = React.Dispatch<React.SetStateAction<DialogKeep>>
+export type SetDialogPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
 export type SetHandleDialogErrors = React.Dispatch<React.SetStateAction<HandleDialogErrors>>
 export type SetHandleNounsErrors = React.Dispatch<React.SetStateAction<HandleNounsErrors>>
@@ -242,7 +245,7 @@ export type Prompt = string
 export type HandleDialogProps = {
   language: Language
   scenarioLabel: ScenarioLabel
-  participant: Participant
+  scenarioParticipant: Participant
 
   // prompt: Prompt
   // nextStep: GenAIStepValue

@@ -1,4 +1,4 @@
-import type { Participants, ScenarioLabels, ScenarioTitles, ScenarioValue } from "../../shared/types"
+import type { ChooseParticipantsProps, Participants, ScenarioLabels, ScenarioTitles, ScenarioValue } from "../../shared/types"
 
 export const getCurrentWeek = () => {
   const now = new Date()
@@ -23,26 +23,26 @@ const scenarioLabels: ScenarioLabels = {
   custom: 'Custom'
 }
 
-const scenarioParticipantsOld: Record<ScenarioValue, string> = {
-  restaurant:
-    `the host, hostess, waiter, waitress, bartender,
-chef, a male diner, a female diner, or a couple
-seated nearby`,
-    hotel:
-    `the front desk agent, concierge, bellhop, 
-housekeeper, a male guest, a female guest, 
-or the hotel manager`,
-    airport:
-    `an airline agent, a gate attendant, a TSA officer,
-    a baggage handler, a flight attendant, a male traveler,
-    or a female traveler`,
-    taxi:
-    `the driver, a rideshare driver, a dispatcher,
-a male passenger, a female passenger, a couple
-sharing the ride, or a tourist unfamiliar with the city`,
-    custom:
-    'WHICH DIALOG PARTICIPANTS',
-}
+// const scenarioParticipantsOld: Record<ScenarioValue, string> = {
+//   restaurant:
+//     `the host, hostess, waiter, waitress, bartender,
+// chef, a male diner, a female diner, or a couple
+// seated nearby`,
+//     hotel:
+//     `the front desk agent, concierge, bellhop, 
+// housekeeper, a male guest, a female guest, 
+// or the hotel manager`,
+//     airport:
+//     `an airline agent, a gate attendant, a TSA officer,
+//     a baggage handler, a flight attendant, a male traveler,
+//     or a female traveler`,
+//     taxi:
+//     `the driver, a rideshare driver, a dispatcher,
+// a male passenger, a female passenger, a couple
+// sharing the ride, or a tourist unfamiliar with the city`,
+//     custom:
+//     'WHICH DIALOG PARTICIPANTS',
+// }
 
 const scenarioParticipants: Record<ScenarioValue, { participants: Participants }> = {
   restaurant: {
@@ -97,10 +97,30 @@ const scenarioParticipants: Record<ScenarioValue, { participants: Participants }
 }
 
 export function getScenarioDetails(scenario: ScenarioValue) {
+
+  const chooseParticipants = ({participants, n, useMyself}: ChooseParticipantsProps): string => {
+    if (!participants || participants.length === 0 || n <= 0) return ''
+  
+    const count = useMyself ? n - 1 : n
+    const shuffled = [...participants].sort(() => Math.random() - 0.5)
+    const selected = shuffled.slice(0, Math.min(count, participants.length))
+  
+    if (useMyself) selected.unshift('myself')
+  
+    if (selected.length === 1) return selected[0]
+    if (selected.length === 2) return `${selected[0]} and ${selected[1]}`
+  
+    const last = selected.pop()
+    return `${selected.join(', ')}, and ${last}`
+  }
+    
+  const participant = chooseParticipants({participants: scenarioParticipants[scenario].participants, n: 2, useMyself: false})
+
   return {
     scenarioLabel: scenarioLabels[scenario],
     scenarioTitle: scenarioTitles[scenario],
-    scenarioParticipantsOld: scenarioParticipantsOld[scenario],
-    scenarioParticipants: scenarioParticipants[scenario].participants,
+    // scenarioParticipantsOld: scenarioParticipantsOld[scenario],
+    // scenarioParticipants: scenarioParticipants[scenario].participants,
+    scenarioParticipant: participant
   }
 }

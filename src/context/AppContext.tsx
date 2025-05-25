@@ -33,7 +33,8 @@ import type {
   HandleNounsErrors,
   HandleDialogErrors,
   HandleVerbsErrors,
-  VerbsKeep
+  VerbsKeep,
+  Prompt
 } from '../../shared/types'
 import {
   APP_HOME,
@@ -52,6 +53,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [answerKeep, setAnswerKeep] = useState<AnswerKeep>('')
   const [stepResult, setStepResult] = useState<StepResult>(defaultStepResult)
   const [dialogKeep, setDialogKeep] = useState<DialogKeep>('')
+  const [dialogPrompt, setDialogPrompt] = useState<Prompt>('')
   const [verbsKeep, setVerbsKeep] = useState<VerbsKeep>('')
   const [nounsKeep, setNounsKeep] = useState<NounsKeep>('')
   const [handleDialogErrors, setHandleDialogErrors] = useState<HandleDialogErrors>([])
@@ -88,6 +90,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     audioUrl,
     cleanedText,
     dialogKeep,
+    dialogPrompt,
     gcpKey,
     handleDialogErrors,
     handleNounsErrors,
@@ -115,6 +118,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setAudioUrl,
     setCleanedText,
     setDialogKeep,
+    setDialogPrompt,    
     setGcpKey,
     setHandleDialogErrors,
     setHandleNounsErrors,
