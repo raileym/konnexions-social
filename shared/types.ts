@@ -267,7 +267,7 @@ export type HandleVerbsProps = {
 export type DialogPromptProps = {
   language: Language
   scenarioLabel: ScenarioLabel
-  participant: Participant
+  scenarioParticipant: Participant
 }
 
 export type DialogReviewPromptProps = {

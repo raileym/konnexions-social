@@ -1,6 +1,7 @@
 import { Handler } from '@netlify/functions'
 import { validateGenAIResponse } from '../shared/errorUtils'
 import { Dialog, ERROR_LABEL } from '../shared/types'
+import { generatePromptSet } from '../shared/generatePromptSet'
 
 const handler: Handler = async (event) => {
   const apiKey = process.env.OPENAI_API_KEY
@@ -26,23 +27,27 @@ const handler: Handler = async (event) => {
     console.log(`scenarioLabel: ${scenarioLabel}`)
     console.log(`scenarioParticipant: ${scenarioParticipant}`)
 
-    const prompt = `Create a dialog in ${language} appropriate for a beginning language
-instruction, where the dialog takes place ${scenarioLabel}
-between participants, ${scenarioParticipant}.
-Use between 6 to 8 sentences for this dialog.
+    const promptSet = generatePromptSet()
 
-RESPONSE: Express your response using well-formed JSON only, with no trailing
-commas, no single quotes (use double quotes only), no Markdown wrappers, no
-comments, no explanatory text or prose or partial JSON blocks, and no headings
-or titles. The output must be a single valid JSON array, starting
-with [ and ending with ]. Do not prepend phrases like \u201cHere is your JSON:\u201d.
-Assume the consumer is a machine expecting strict JSON compliance.
+    const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, scenarioParticipant})
 
-Note, a dialog response is an array of strings that take the form,
+//     const prompt = `Create a dialog in ${language} appropriate for a beginning language
+// instruction, where the dialog takes place ${scenarioLabel}
+// between participants, ${scenarioParticipant}.
+// Use between 6 to 8 sentences for this dialog.
 
-    "Participant| Line from the dialog"
+// RESPONSE: Express your response using well-formed JSON only, with no trailing
+// commas, no single quotes (use double quotes only), no Markdown wrappers, no
+// comments, no explanatory text or prose or partial JSON blocks, and no headings
+// or titles. The output must be a single valid JSON array, starting
+// with [ and ending with ]. Do not prepend phrases like \u201cHere is your JSON:\u201d.
+// Assume the consumer is a machine expecting strict JSON compliance.
 
-where the vertical bar "|" delineates the two fields.`
+// Note, a dialog response is an array of strings that take the form,
+
+//     "Participant| Line from the dialog"
+
+// where the vertical bar "|" delineates the two fields.`
 
     // const alwaysTrue = true
     // if (alwaysTrue) {
@@ -79,7 +84,7 @@ where the vertical bar "|" delineates the two fields.`
       },
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: prompt }]
+        messages: [{ role: 'user', content: dialogPrompt }]
       })
     })
 
@@ -96,7 +101,7 @@ where the vertical bar "|" delineates the two fields.`
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ prompt, result })
+      body: JSON.stringify({ prompt: dialogPrompt, result })
     }
   } catch (err) {
     return {

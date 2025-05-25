@@ -10,7 +10,7 @@ import type {
   PromptSet,
   VerbsPrompt,
   VerbsPromptProps
-} from "../../shared/types"
+} from "./types"
 
   export const generatePromptSet: GeneratePromptSet = (): PromptSet => {
 
@@ -27,10 +27,10 @@ Assume the consumer is a machine expecting strict JSON compliance.
     // DIALOG PROMPT
     // *****************************************************************
 
-    const dialogPrompt: DialogPrompt = ({language, scenarioLabel, participant}: DialogPromptProps) => `
+    const dialogPrompt: DialogPrompt = ({language, scenarioLabel, scenarioParticipant}: DialogPromptProps) => `
 Create a dialog in ${language} appropriate for a beginning language
 instruction, where the dialog takes place ${scenarioLabel}
-between participants, ${participant}.
+between participants, ${scenarioParticipant}.
 Use between 6 to 8 sentences for this dialog.
 
 ${jsonQualification}
@@ -39,7 +39,8 @@ Note, a dialog response is an array of strings that take the form,
 
     "Participant| Line from the dialog"
 
-where the vertical bar "|" delineates the two fields.
+where the vertical bar "|" delineates the two fields, and the
+Participant and Line from the dialog are expressed in ${language}.
 
 A complete example (written in English) follows: 
 
