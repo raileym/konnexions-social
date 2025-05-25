@@ -2,10 +2,10 @@ import type {
   AddErrorProps,
   GenAIValidationResult,
   HandleLLMError,
-  RichParsedLine,
-  ErrorLabelValue,
-  ValidateGenAIResponsePropsOLD
-} from "../../shared/types"
+  ValidateGenAIResponseProps,
+  RichParsedLine //,
+  // ErrorLabelValue
+} from "./types"
 
 export const addError = ({
   errorLabel,
@@ -23,20 +23,15 @@ export const addError = ({
 
 export const looksLikeStringArray = /^\s*\[\s*"(?:[^"\\]|\\.)*"(?:\s*,\s*"(?:[^"\\]|\\.)*")*\s*\]\s*$/s
 
-export const resetErrors = (label: ErrorLabelValue, setFn: React.Dispatch<React.SetStateAction<HandleLLMError[]>>) => {
-  setFn([])
-  localStorage.removeItem(label)
-}
-
 export const validateGenAIResponse = <T extends string>({
   response,
-  errorLabel,
-  setErrors,
   expectedFieldCount,
+  errorLabel,
   language
-}: ValidateGenAIResponsePropsOLD): GenAIValidationResult<T> => {
+}: ValidateGenAIResponseProps): GenAIValidationResult<T> => {
+  const errors: HandleLLMError[] = []
 
-    if (!response) {
+  if (!response) {
     const error: HandleLLMError = {
       message: 'Response from ChatGPT AI is empty or undefined',
       detail: '',
@@ -44,20 +39,20 @@ export const validateGenAIResponse = <T extends string>({
       errorLabel,
       timestamp: new Date().toISOString()
     }
-    addError({ errorLabel, setErrors, error })
-    return { success: false, error }    
+    errors.push(error)
+    return { success: false, parsed: [], errors }
   }
 
   if (!looksLikeStringArray.test(response)) {
     const error: HandleLLMError = {
       message: 'Response from ChatGPT AI does not match expected JSON array format',
       detail: '',
-      errorLabel,
       offendingData: JSON.stringify(response),
+      errorLabel,
       timestamp: new Date().toISOString()
     }
-    addError({ errorLabel, setErrors, error })
-    return { success: false, error }
+    errors.push(error)
+    return { success: false, parsed: [], errors }
   }
 
   let parsed: string[]
@@ -67,36 +62,36 @@ export const validateGenAIResponse = <T extends string>({
     const error: HandleLLMError = {
       message: 'Failed to parse response as JSON',
       detail: err instanceof Error ? err.message : 'Unknown JSON parse error',
-      errorLabel,
       offendingData: JSON.stringify(response),
+      errorLabel,
       timestamp: new Date().toISOString()
     }
-    addError({ errorLabel, setErrors, error })
-    return { success: false, error }
+    errors.push(error)
+    return { success: false, parsed: [], errors }
   }
 
   if (!Array.isArray(parsed)) {
     const error: HandleLLMError = {
       message: 'Parsed response is not an array',
       detail: '',
-      errorLabel,
       offendingData: JSON.stringify(parsed),
+      errorLabel,
       timestamp: new Date().toISOString()
     }
-    addError({ errorLabel, setErrors, error })
-    return { success: false, error }
+    errors.push(error)
+    return { success: false, parsed: [], errors }
   }
 
   if (!parsed.every(line => typeof line === 'string')) {
     const error: HandleLLMError = {
       message: 'One or more items in the parsed array is not a string',
       detail: '',
-      errorLabel,
       offendingData: JSON.stringify(parsed),
+      errorLabel,
       timestamp: new Date().toISOString()
     }
-    addError({ errorLabel, setErrors, error })
-    return { success: false, error }
+    errors.push(error)
+    return { success: false, parsed: [], errors }
   }
 
   const structured = parsed.map((original): RichParsedLine => {
@@ -186,13 +181,15 @@ export const validateGenAIResponse = <T extends string>({
       message: 'Some entries failed validation checks',
       detail: invalid.map(s => `${s.original} ❌ ${s.reasons.join('; ')}`).join('\n'),
       offendingData: JSON.stringify(parsed),
+      errorLabel,
       timestamp: new Date().toISOString()
     }
-    addError({ errorLabel, setErrors, error })
+    errors.push(error)
   }
 
   return {
-    success: true,
-    parsed: valid
+    success: errors.length === 0,
+    parsed: valid,
+    errors
   }
-}
+} 

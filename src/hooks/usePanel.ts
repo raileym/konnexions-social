@@ -1,6 +1,6 @@
 // src/hooks/usePanel.ts
 import { useAppContext } from '../context/AppContext'
-import { type AppPanelValue, type AppHomeValue } from '../cknTypes/types/types'
+import { type AppPanelValue, type AppHomeValue } from '../../shared/types'
 import { useHelpPanel } from './useHelpPanel'
 
 export const usePanel = () => {

@@ -11,7 +11,7 @@ import NavbarBottom from './components/NavbarBottom'
 import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext'
 import { getCurrentWeek } from './components/Util'
-import { SCENARIO, type ScenarioValue, type StepResult } from './cknTypes/types/types'
+import { SCENARIO, type ScenarioValue, type StepResult } from '../shared/types'
 import PanelGenAIPro from './components/PanelGenAIPro'
 
 const App: React.FC = () => {

@@ -1,14 +1,33 @@
 import React, { useState } from 'react'
 // import React, { useMemo, useState } from 'react'
 import { useAppContext } from '../context/AppContext'
-import { APP_HOME, ERROR_LABEL, GEN_AI_STEP, type ChooseParticipantsProps, type Dialog, type HandleDialogProps, type Language, type Nouns, type Participant, type ScenarioLabel, type UseMyself, type Verbs } from '../cknTypes/types/types'
+import {
+  APP_HOME,
+  ERROR_LABEL,
+  GEN_AI_STEP
+} from '../../shared/types'
+import type {
+  ChooseParticipantsProps,
+  // Dialog,
+  // GenAIValidationResult,
+  GetDialogResult,
+  HandleDialogProps,
+  HandleNounsProps,
+  HandleVerbsProps,
+  Language,
+  // Nouns,
+  Participant,
+  ScenarioLabel,
+  UseMyself,
+  // Verbs
+} from '../../shared/types'
 // import Button from "./Button"
 // import { faKey } from '@fortawesome/free-solid-svg-icons'
 // import { getCurrentWeek } from './Util'
 import { getScenarioDetails } from './Util'
 import Scenario from './Scenario'
 import ParticipantToggle from './ParticipantToggle'
-import { resetErrors, validateGenAIResponse } from './errorUtils'
+import { resetErrors } from './errorUtils'
 import { generatePromptSet } from './generatePromptSet'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
@@ -24,9 +43,9 @@ const PanelGenAIPro: React.FC = () => {
     setHandleDialogErrors,
     setHandleNounsErrors,
     setHandleVerbsErrors,
-    setNounsKeep,
+    // setNounsKeep,
     setStepResult,
-    setVerbsKeep,
+    // setVerbsKeep,
     stepResult
   } = useAppContext()
 
@@ -46,7 +65,11 @@ const PanelGenAIPro: React.FC = () => {
     setShowStepResult(prev => !prev)
   }
     
-  const getDialog = async (language: Language, scenarioLabel: ScenarioLabel, participant: Participant): Promise<string | null> => {
+  const getDialog = async (
+    language: Language,
+    scenarioLabel: ScenarioLabel,
+    participant: Participant
+  ): Promise<GetDialogResult | null> => {
     try {
       const res = await fetch('/.netlify/functions/genai-dialog', {
         method: 'POST',
@@ -55,7 +78,7 @@ const PanelGenAIPro: React.FC = () => {
           language,
           scenarioLabel,
           participant
-        }),
+        })
       })
   
       if (!res.ok) {
@@ -64,47 +87,43 @@ const PanelGenAIPro: React.FC = () => {
       }
   
       const data = await res.json()
-      return data.result as string
+      return data.result as GetDialogResult
     } catch (err) {
       console.error('Network error:', err)
       return null
     }
-  }
+  }  
 
-  const fetchFromOpenAI = async (prompt: string): Promise<string | null> => {
-    if (!openAiKey) return null
+  // const fetchFromOpenAI = async (prompt: string): Promise<string | null> => {
+  //   if (!openAiKey) return null
   
-    try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${openAiKey}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
-          messages: [{ role: 'user', content: prompt }],
-        }),
-      })
+  //   try {
+  //     const res = await fetch('https://api.openai.com/v1/chat/completions', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${openAiKey}`,
+  //       },
+  //       body: JSON.stringify({
+  //         model: 'gpt-3.5-turbo',
+  //         messages: [{ role: 'user', content: prompt }],
+  //       }),
+  //     })
   
-      const data = await res.json()
-      const reply = data.choices?.[0]?.message?.content || ''
-      return reply
-    } catch (err) {
-      console.error('OpenAI error:', err)
-      return null
-    }
-  }
+  //     const data = await res.json()
+  //     const reply = data.choices?.[0]?.message?.content || ''
+  //     return reply
+  //   } catch (err) {
+  //     console.error('OpenAI error:', err)
+  //     return null
+  //   }
+  // }
 
-  // prompt,
-  // nextStep,
-  // setStepResult
   const handleDialog = async ({
     language, 
     scenarioLabel,
     participant
   }: HandleDialogProps) => {
-    // console.log(prompt)
 
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
@@ -113,48 +132,53 @@ const PanelGenAIPro: React.FC = () => {
 
     const response = await getDialog(language, scenarioLabel, participant)
 
-    // const response = await fetchFromOpenAI(prompt)
+    console.log(response)
 
-    // console.log(response)
-
-    // if (alwaysTrue) {
-    //   return
-    // }
-
-    const result = validateGenAIResponse<Dialog>({
-      response,
-      errorLabel: ERROR_LABEL.DIALOG_ERROR,
-      setErrors: setHandleDialogErrors,
-      expectedFieldCount: 2,
-      language: ''
-    })    
-
-    console.log(result)
-
-    if (!result.success) {
-      console.log('Houston, we have a problem', result.error.message)
-      console.log(result.error)
+    if (response === null) {
+      console.log('Houston, we DO have a problems')
       return
     }
 
-    const stringified = JSON.stringify(result.parsed)
+    if (!response.result.success) {
+      console.log('Houston, we have SOME problems')
+      console.log(response.result.errors)
+    }
+
+    const stringified = JSON.stringify(response.result.parsed)
     setDialogKeep(stringified)
     localStorage.setItem('dialogKeep', stringified)
 
+    setHandleDialogErrors(prev => {
+      const newErrors = response.result.errors ?? []
+      const updated = [...prev, ...newErrors]
+      localStorage.setItem(ERROR_LABEL.DIALOG_ERROR, JSON.stringify(updated))
+      return updated
+    })
+
     setStepResult(prev => {
-      const updated = { ...prev, dialog: result.parsed }
+      const updated = {
+        ...prev,
+        dialog: response.result.parsed,
+        dialogErrors: response.result.errors ?? [],
+        dialogPrompt: response.prompt
+      }
       localStorage.setItem('stepResult', JSON.stringify(updated))
       return updated
     })
+    
 
     setStep(GEN_AI_STEP.DIALOG_REVIEW)
     // setStep(nextStep)
   }
   
   const reviewDialog = async ({
-    prompt,
-    nextStep,
-    setStepResult
+    language, 
+    scenarioLabel,
+    participant
+
+    // prompt,
+    // nextStep,
+    // setStepResult
   }: HandleDialogProps) => {
     console.log(prompt)
 
@@ -163,42 +187,51 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    const response = await fetchFromOpenAI(prompt)
-
-    const result = validateGenAIResponse<Dialog>({
-      response,
-      errorLabel: ERROR_LABEL.DIALOG_ERROR,
-      setErrors: setHandleDialogErrors,
-      expectedFieldCount: 2,
-      language: ''
-    })    
-
-    console.log(result)
-
-    if (!result.success) {
-      console.log('Houston, we have a problem', result.error.message)
-      console.log(result.error)
+    const alwaysTrue2 = true
+    if (alwaysTrue2) {
       return
     }
 
-    const stringified = JSON.stringify(result.parsed)
-    setDialogKeep(stringified)
-    localStorage.setItem('dialogKeep', stringified)
+    console.log(language)
+    console.log(scenarioLabel)
+    console.log(participant)
 
-    setStepResult(prev => {
-      const updated = { ...prev, dialog: result.parsed }
-      localStorage.setItem('stepResult', JSON.stringify(updated))
-      return updated
-    })
+    // const response = await fetchFromOpenAI(prompt)
 
-    setStep(nextStep)
+    // const result = validateGenAIResponse<Dialog>({
+    //   response,
+    //   errorLabel: ERROR_LABEL.DIALOG_ERROR,
+    //   setErrors: setHandleDialogErrors,
+    //   expectedFieldCount: 2,
+    //   language: ''
+    // })    
+
+    // console.log(result)
+
+    // if (!result.success) {
+    //   console.log('Houston, we have a problem', result.error.message)
+    //   console.log(result.error)
+    //   return
+    // }
+
+    // const stringified = JSON.stringify(result.parsed)
+    // setDialogKeep(stringified)
+    // localStorage.setItem('dialogKeep', stringified)
+
+    // setStepResult(prev => {
+    //   const updated = { ...prev, dialog: result.parsed }
+    //   localStorage.setItem('stepResult', JSON.stringify(updated))
+    //   return updated
+    // })
+
+    // setStep(nextStep)
   }
   
   const handleNouns = async ({
     prompt,
     nextStep,
     setStepResult
-  }: HandleDialogProps) => {
+  }: HandleNounsProps) => {
     console.log(prompt)
 
     const alwaysTrue = true
@@ -206,42 +239,50 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    const response = await fetchFromOpenAI(prompt)
-
-    const result = validateGenAIResponse<Nouns>({
-      response,
-      errorLabel: ERROR_LABEL.NOUNS_ERROR,
-      setErrors: setHandleNounsErrors,
-      expectedFieldCount: 4,
-      language: ''
-    })
-    
-    console.log(result)
-
-    if (!result.success) {
-      console.log('Houston, we have a problem', result.error.message)
-      console.log(result.error)
+    const alwaysTrue2 = true
+    if (alwaysTrue2) {
       return
     }
+
+    console.log(nextStep)
+    console.log(setStepResult)
     
-    const stringified = JSON.stringify(result.parsed)
-    setNounsKeep(stringified)
-    localStorage.setItem('nounsKeep', stringified)
+    // const response = await fetchFromOpenAI(prompt)
 
-    setStepResult(prev => {
-      const updated = { ...prev, nouns: result.parsed }
-      localStorage.setItem('stepResult', JSON.stringify(updated))
-      return updated
-    })
+    // const result = validateGenAIResponse<Nouns>({
+    //   response,
+    //   errorLabel: ERROR_LABEL.NOUNS_ERROR,
+    //   setErrors: setHandleNounsErrors,
+    //   expectedFieldCount: 4,
+    //   language: ''
+    // })
+    
+    // console.log(result)
 
-    setStep(nextStep)
+    // if (!result.success) {
+    //   console.log('Houston, we have a problem', result.error.message)
+    //   console.log(result.error)
+    //   return
+    // }
+    
+    // const stringified = JSON.stringify(result.parsed)
+    // setNounsKeep(stringified)
+    // localStorage.setItem('nounsKeep', stringified)
+
+    // setStepResult(prev => {
+    //   const updated = { ...prev, nouns: result.parsed }
+    //   localStorage.setItem('stepResult', JSON.stringify(updated))
+    //   return updated
+    // })
+
+    // setStep(nextStep)
   }
 
   const handleVerbs = async ({
     prompt,
     nextStep,
     setStepResult
-  }: HandleDialogProps) => {
+  }: HandleVerbsProps) => {
     console.log(prompt)
 
     const alwaysTrue = true
@@ -249,35 +290,43 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    const response = await fetchFromOpenAI(prompt)
-
-    const result = validateGenAIResponse<Verbs>({
-      response,
-      errorLabel: ERROR_LABEL.VERBS_ERROR,
-      setErrors: setHandleVerbsErrors,
-      expectedFieldCount: 7,
-      language: ''
-    })
-    
-    console.log(result)
-
-    if (!result.success) {
-      console.log('Houston, we have a problem', result.error.message)
-      console.log(result.error)
+    const alwaysTrue2 = true
+    if (alwaysTrue2) {
       return
     }
+
+    console.log(nextStep)
+    console.log(setStepResult)
+
+    // const response = await fetchFromOpenAI(prompt)
+
+    // const result = validateGenAIResponse<Verbs>({
+    //   response,
+    //   errorLabel: ERROR_LABEL.VERBS_ERROR,
+    //   setErrors: setHandleVerbsErrors,
+    //   expectedFieldCount: 7,
+    //   language: ''
+    // })
     
-    const stringified = JSON.stringify(result.parsed)
-    setVerbsKeep(stringified)
-    localStorage.setItem('verbsKeep', stringified)
+    // console.log(result)
 
-    setStepResult(prev => {
-      const updated = { ...prev, verbs: result.parsed }
-      localStorage.setItem('stepResult', JSON.stringify(updated))
-      return updated
-    })
+    // if (!result.success) {
+    //   console.log('Houston, we have a problem', result.error.message)
+    //   console.log(result.error)
+    //   return
+    // }
+    
+    // const stringified = JSON.stringify(result.parsed)
+    // setVerbsKeep(stringified)
+    // localStorage.setItem('verbsKeep', stringified)
 
-    setStep(nextStep)
+    // setStepResult(prev => {
+    //   const updated = { ...prev, verbs: result.parsed }
+    //   localStorage.setItem('stepResult', JSON.stringify(updated))
+    //   return updated
+    // })
+
+    // setStep(nextStep)
   }
 
   const chooseParticipants = ({participants, n, useMyself}: ChooseParticipantsProps): string => {
@@ -307,8 +356,8 @@ const PanelGenAIPro: React.FC = () => {
 
   const promptSet = generatePromptSet()
 
-  const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, participant})
-  const dialogReviewPrompt = promptSet.dialogReviewPrompt({language, dialog: stepResult.dialog.join(' ')})
+  // const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, participant})
+  // const dialogReviewPrompt = promptSet.dialogReviewPrompt({language, dialog: stepResult.dialog.join(' ')})
   const nounsPrompt = promptSet.nounsPrompt({dialog: stepResult.dialog.join(' ')})
   const verbsPrompt = promptSet.verbsPrompt({dialog: stepResult.dialog.join(' ')})
 
@@ -372,9 +421,12 @@ const PanelGenAIPro: React.FC = () => {
             <button
               onClick={() =>
                 reviewDialog({
-                  prompt: dialogReviewPrompt,
-                  nextStep: GEN_AI_STEP.DIALOG_REVIEW,
-                  setStepResult
+                  language, 
+                  scenarioLabel,
+                  participant                  
+                  // prompt: dialogReviewPrompt,
+                  // nextStep: GEN_AI_STEP.DIALOG_REVIEW,
+                  // setStepResult
                 })
               }
               className="mv3 pa2 br2 bn bg-purple white pointer"

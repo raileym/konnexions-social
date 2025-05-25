@@ -34,13 +34,13 @@ import type {
   HandleDialogErrors,
   HandleVerbsErrors,
   VerbsKeep
-} from '../cknTypes/types/types'
+} from '../../shared/types'
 import {
   APP_HOME,
   APP_PANEL,
   defaultStepResult,
   SCENARIO
-} from '../cknTypes/types/types'
+} from '../../shared/types'
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 

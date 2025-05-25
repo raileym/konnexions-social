@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppContext } from '../context/AppContext'
-import { SCENARIO, type ScenarioValue } from '../cknTypes/types/types'
+import { SCENARIO, type ScenarioValue } from '../../shared/types'
 
 type ScenarioProps = {
   custom: boolean

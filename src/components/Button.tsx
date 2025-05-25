@@ -3,10 +3,10 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppContext } from '../context/AppContext'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { APP_PANEL, type AppHomeValue, type AppPanelValue, type IsActive } from '../cknTypes/types/types'
+import { APP_PANEL, type AppHomeValue, type AppPanelValue, type IsActive } from '../../shared/types'
 // import { usePanel } from '../hooks/usePanel'
 import { useHelpPanel } from '../hooks/useHelpPanel'
-// import type { AppPanel } from '../cknTypes/types/types'
+// import type { AppPanel } from '../../shared/types'
 
 // type ButtonProps = {
 //   panel: AppPanelValue

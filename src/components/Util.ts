@@ -1,4 +1,4 @@
-import type { Participants, ScenarioLabels, ScenarioTitles, ScenarioValue } from "../cknTypes/types/types"
+import type { Participants, ScenarioLabels, ScenarioTitles, ScenarioValue } from "../../shared/types"
 
 export const getCurrentWeek = () => {
   const now = new Date()

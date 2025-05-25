@@ -10,7 +10,7 @@ import type {
   PromptSet,
   VerbsPrompt,
   VerbsPromptProps
-} from "../cknTypes/types/types"
+} from "../../shared/types"
 
   export const generatePromptSet: GeneratePromptSet = (): PromptSet => {
 

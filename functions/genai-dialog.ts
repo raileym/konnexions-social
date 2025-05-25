@@ -1,4 +1,6 @@
 import { Handler } from '@netlify/functions'
+import { validateGenAIResponse } from '../shared/errorUtils'
+import { Dialog, ERROR_LABEL } from '../shared/types'
 
 const handler: Handler = async (event) => {
   const apiKey = process.env.OPENAI_API_KEY
@@ -66,9 +68,17 @@ where the vertical bar "|" delineates the two fields.`
     const data = await response.json()
     const reply = data.choices?.[0]?.message?.content || ''
 
+    const result = validateGenAIResponse<Dialog>({
+      response: reply,
+      errorLabel: ERROR_LABEL.DIALOG_ERROR,
+      expectedFieldCount: 2,
+      language
+      // prompt
+    })    
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ prompt, reply })
+      body: JSON.stringify({ prompt, result })
     }
   } catch (err) {
     return {
