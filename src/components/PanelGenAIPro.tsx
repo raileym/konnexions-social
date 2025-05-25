@@ -62,12 +62,12 @@ const PanelGenAIPro: React.FC = () => {
   // const [stepResult, setStepResult] = useState<StepResult>(defaultStepResult)
   const [, setStep] = useState<number>(0)
   // const [step, setStep] = useState<number>(0)
-  const [showStepResult, setShowStepResult] = useState(true)
+  const [showDialogPrompt, setShowDialogPrompt] = useState(false)
   const [language, ] = useState<Language>('Spanish')
   const [ testMode, setTestMode] = useState<boolean>(true)
 
-  const toggleStepResult = () => {
-    setShowStepResult(prev => !prev)
+  const toggleShowDialogPrompt = () => {
+    setShowDialogPrompt(prev => !prev)
   }
     
   const getDialog = async (
@@ -93,7 +93,6 @@ const PanelGenAIPro: React.FC = () => {
   
       const data = await res.json()
       console.log(data.result)
-      // return data.result as GetDialogResult
       return data as GetDialogResult
     } catch (err) {
       console.error('Network error:', err)
@@ -453,7 +452,6 @@ const PanelGenAIPro: React.FC = () => {
           </div>
 
           <div className="mv3">
-            <div>{dialogArray}</div>
             <button
               onClick={() =>
                 handleNouns({
@@ -500,91 +498,93 @@ const PanelGenAIPro: React.FC = () => {
 
           <div className="w-100">
             <button
-              onClick={toggleStepResult}
+              onClick={toggleShowDialogPrompt}
               className="pa2 br2 bn bg-brand white pointer"
             >
-              {showStepResult ? 'Hide Full Prompt' : 'Show Full Prompt'}
+              {showDialogPrompt ? 'Hide Full Prompt' : 'Show Full Prompt'}
             </button>
+          </div>
 
-            {showStepResult && (
-              <div className="w-100 flex justify-center flex-column">
-                <div className="mt4">
-                  <div className="mt4 b" style={{ whiteSpace: 'pre-wrap' }}>DialogPrompt</div>
-                  <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{dialogPrompt}</div>
-                </div>
-                <div>
-                  <div className="mt4 b">Dialog Array</div>
-                  <ul className="mt0 pt0 black">
-                    {dialogArray.map((line, index) => (
-                      <li key={index}>{line}</li>
-                    ))}
-                  </ul>
-                  <div className="mt4 b">Dialog</div>
-                  <ul className="mt0 pt0 black">
-                    {stepResult.dialog.map((line, index) => (
-                      <li key={index}>{line}</li>
-                    ))}
-                  </ul>
-                  {handleDialogErrors.length > 0 && (
-                    <div className="mt3 red">
-                      <div className="b">Dialog Errors</div>
-                      <ul className="f6">
-                        {handleDialogErrors.map((err, index) => (
-                          <li key={index}>
-                            <div className="mb2">
-                              <div><b>❌ {err.message}</b></div>
-                              <pre className="ml2 gray">{err.detail}</pre>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  <div className="mt4 b">Nouns</div>
-                  <ul className="mt0 pt0 black">
-                    {stepResult.nouns.map((line, index) => (
-                      <li key={index}>{line}</li>
-                    ))}
-                  </ul>
-                  {handleNounsErrors.length > 0 && (
-                    <div className="mt3 red">
-                      <div className="b">Noun Errors</div>
-                      <ul className="f6">
-                        {handleNounsErrors.map((err, index) => (
-                          <li key={index}>
-                            <div className="mb2">
-                              <div><b>❌ {err.message}</b></div>
-                              <pre className="ml2 gray">{err.detail}</pre>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  <div className="mt4 b">Verbs</div>
-                  <ul className="mt0 pt0 black">
-                    {stepResult.verbs.map((line, index) => (
-                      <li key={index}>{line}</li>
-                    ))}
-                  </ul>
-                  {handleVerbsErrors.length > 0 && (
-                    <div className="mt3 red">
-                      <div className="b">Verb Errors</div>
-                      <ul className="f6">
-                        {handleVerbsErrors.map((err, index) => (
-                          <li key={index}>
-                            <div className="mb2">
-                              <div><b>❌ {err.message}</b></div>
-                              <pre className="ml2 gray">{err.detail}</pre>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
+          {showDialogPrompt && (
+            <div className="w-100 flex justify-center flex-column">
+              <div className="mt4">
+                <div className="mt4 b" style={{ whiteSpace: 'pre-wrap' }}>DialogPrompt</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{dialogPrompt}</div>
               </div>
-            )}
+            </div>
+          )}
+          <div className="w-100 flex justify-center flex-column">
+            <div>
+              <div className="mt4 b">Dialog Array</div>
+              <ul className="mt0 pt0 black">
+                {dialogArray.map((line, index) => (
+                  <li key={index}>{line}</li>
+                ))}
+              </ul>
+              <div className="mt4 b">Dialog</div>
+              <ul className="mt0 pt0 black">
+                {stepResult.dialog.map((line, index) => (
+                  <li key={index}>{line}</li>
+                ))}
+              </ul>
+              {handleDialogErrors.length > 0 && (
+                <div className="mt3 red">
+                  <div className="b">Dialog Errors</div>
+                  <ul className="f6">
+                    {handleDialogErrors.map((err, index) => (
+                      <li key={index}>
+                        <div className="mb2">
+                          <div><b>❌ {err.message}</b></div>
+                          <pre className="ml2 gray">{err.detail}</pre>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <div className="mt4 b">Nouns</div>
+              <ul className="mt0 pt0 black">
+                {stepResult.nouns.map((line, index) => (
+                  <li key={index}>{line}</li>
+                ))}
+              </ul>
+              {handleNounsErrors.length > 0 && (
+                <div className="mt3 red">
+                  <div className="b">Noun Errors</div>
+                  <ul className="f6">
+                    {handleNounsErrors.map((err, index) => (
+                      <li key={index}>
+                        <div className="mb2">
+                          <div><b>❌ {err.message}</b></div>
+                          <pre className="ml2 gray">{err.detail}</pre>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <div className="mt4 b">Verbs</div>
+              <ul className="mt0 pt0 black">
+                {stepResult.verbs.map((line, index) => (
+                  <li key={index}>{line}</li>
+                ))}
+              </ul>
+              {handleVerbsErrors.length > 0 && (
+                <div className="mt3 red">
+                  <div className="b">Verb Errors</div>
+                  <ul className="f6">
+                    {handleVerbsErrors.map((err, index) => (
+                      <li key={index}>
+                        <div className="mb2">
+                          <div><b>❌ {err.message}</b></div>
+                          <pre className="ml2 gray">{err.detail}</pre>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
