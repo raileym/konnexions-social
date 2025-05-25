@@ -473,6 +473,7 @@ const PanelGenAIPro: React.FC = () => {
           <div className="mv3">
             <button
               onClick={() => {
+                resetErrors(ERROR_LABEL.DIALOG_ERROR, setHandleDialogErrors)
                 resetErrors(ERROR_LABEL.NOUNS_ERROR, setHandleNounsErrors)
                 resetErrors(ERROR_LABEL.VERBS_ERROR, setHandleVerbsErrors)
               }}
