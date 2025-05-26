@@ -7,39 +7,25 @@ import {
   GEN_AI_STEP
 } from '../../shared/types'
 import type {
-  DialogArray,
-  // ChooseParticipantsProps,
-  // Dialog,
-  // GenAIValidationResult,
+  GetDialogProps,
   GetDialogResult,
+  GetNounsProps,
   GetNounsResult,
   HandleDialogProps,
   HandleNounsProps,
+  HandleReviewDialogProps,
   HandleVerbsProps,
   Language,
-  // Nouns,
-  // Participant,
-  ParticipantList,
-  ScenarioLabel,
   UseMyself,
-  // Verbs
 } from '../../shared/types'
-// import Button from "./Button"
-// import { faKey } from '@fortawesome/free-solid-svg-icons'
-// import { getCurrentWeek } from './Util'
 import { getScenarioDetails } from './Util'
 import Scenario from './Scenario'
 import ParticipantToggle from './ParticipantToggle'
 import { resetErrors } from './errorUtils'
 import { generatePromptSet } from '../../shared/generatePromptSet'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
-// import { usePanel } from '../hooks/usePanel'
 
 const PanelGenAIPro: React.FC = () => {
   const {
-    // setNounsKeep,
-    // setVerbsKeep,
     activeHome,
     handleDialogErrors,
     handleNounsErrors,
@@ -48,27 +34,18 @@ const PanelGenAIPro: React.FC = () => {
     setHandleNounsErrors,
     setHandleVerbsErrors,
     setStepResult,
-    stepResult,
-    
-    // dialogPrompt, setDialogPrompt,
-    // nounsPrompt, setNounsPrompt,
-
-    // dialogArray, setDialogArray,
-    // nounsArray, setNounsArray
+    stepResult
   } = useAppContext()
 
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
-  // const { switchPanel } = usePanel()
 
   const [useMyself, setUseMyself] = useState<UseMyself>(false)
-  // const [stepResult, setStepResult] = useState<StepResult>(defaultStepResult)
   const [, setStep] = useState<number>(0)
-  // const [step, setStep] = useState<number>(0)
   const [showDialogPrompt, setShowDialogPrompt] = useState(false)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [language, ] = useState<Language>('Spanish')
-  const [ testMode, setTestMode] = useState<boolean>(true)
+  const [testMode, setTestMode] = useState<boolean>(true)
 
   const toggleShowDialogPrompt = () => {
     setShowDialogPrompt(prev => !prev)
@@ -77,12 +54,12 @@ const PanelGenAIPro: React.FC = () => {
   const toggleShowNounsPrompt = () => {
     setShowNounsPrompt(prev => !prev)
   }
-    
-  const getDialog = async (
-    language: Language,
-    scenarioLabel: ScenarioLabel,
-    scenarioParticipantList: ParticipantList
-  ): Promise<GetDialogResult | null> => {
+
+  const getDialog = async ({
+    language,
+    scenarioLabel,
+    scenarioParticipantList
+  }: GetDialogProps): Promise<GetDialogResult | null> => {
     // cXonsole.log(scenarioParticipantList)
     try {
       const res = await fetch('/.netlify/functions/genai-dialog', {
@@ -108,13 +85,15 @@ const PanelGenAIPro: React.FC = () => {
     }
   }  
 
-  const getNouns = async (
-    language: Language,
-    dialogArray: DialogArray
-  ): Promise<GetNounsResult | null> => {
-    const dialog = dialogArray.join(' ')
+  const getNouns = async ({
+    language,
+    dialog,
+    dialogSignature
+  }: GetNounsProps): Promise<GetNounsResult | null> => {
 
-    console.log(dialog)
+    console.log(`getNouns: language: ${language}`)
+    console.log(`getNouns: dialog: ${dialog}`)
+    console.log(`getNouns: dialogSignature: ${dialogSignature}`)
 
     try {
       const res = await fetch('/.netlify/functions/genai-nouns', {
@@ -122,7 +101,8 @@ const PanelGenAIPro: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           language,
-          dialog
+          dialog,
+          dialogSignature
         })
       })
   
@@ -172,6 +152,10 @@ const PanelGenAIPro: React.FC = () => {
 
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
+      console.log(`language: ${language}`)
+      console.log(`scenarioLabel: ${scenarioLabel}`)
+      console.log(`scenarioParticipantList: ${scenarioParticipantList}`)
+
       return
     }
 
@@ -205,14 +189,15 @@ const PanelGenAIPro: React.FC = () => {
   }
   
   const reviewDialog = async ({
-    language, 
-    scenarioLabel,
-    scenarioParticipantList
-  }: HandleDialogProps) => {
+    language,
+    dialogArray
+  }: HandleReviewDialogProps) => {
     // cXonsole.log(prompt)
 
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
+      console.log(`language: ${language}`)
+      console.log(JSON.stringify(dialogArray, null, 2))
       return
     }
 
@@ -222,8 +207,7 @@ const PanelGenAIPro: React.FC = () => {
     }
 
     console.log(language)
-    console.log(scenarioLabel)
-    console.log(scenarioParticipantList)
+    console.log(JSON.stringify(dialogArray, null, 2))
 
     // const response = await fetchFromOpenAI(prompt)
 
@@ -254,17 +238,20 @@ const PanelGenAIPro: React.FC = () => {
   
   const handleNouns = async ({
     language,
-    dialogArray
+    dialog,
+    dialogSignature
   }: HandleNounsProps) => {
-    console.log(`language: ${language}`)
-    console.log(dialogArray)
-
+    
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
+      console.log(`language: ${language}`)
+      console.log(`dialog: ${dialog}`)
+      console.log(`dialogSignature: ${dialogSignature}`)
+
       return
     }
 
-    const response = await getNouns(language, dialogArray)
+    const response = await getNouns({language, dialog, dialogSignature})
 
     if (response === null) {
       console.log('Houston, we DO have a problems')
@@ -284,7 +271,6 @@ const PanelGenAIPro: React.FC = () => {
         nounsPrompt: response.nounsPrompt,
         nounsSignature: response.nounsSignature
       }
-      localStorage.setItem('stepResult', JSON.stringify(updated))
       return updated
     })
     
@@ -362,20 +348,15 @@ const PanelGenAIPro: React.FC = () => {
     scenario
   } = useAppContext()
 
-  const {scenarioLabel, scenarioParticipantList} = getScenarioDetails({scenario, language})
+  // const {scenarioLabel, scenarioParticipantList} = getScenarioDetails({scenario, language})
 
   // const participant = chooseParticipants({participants: scenarioParticipants, n: 2, useMyself: false})
 
   const promptSet = generatePromptSet()
 
-  // const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, participant})
-  // const dialogReviewPrompt = promptSet.dialogReviewPrompt({language, dialog: stepResult.dialog.join(' ')})
-  // const nounsPrompt = promptSet.nounsPrompt({dialog: stepResult.dialog.join(' ')})
   const verbsPrompt = promptSet.getVerbsPrompt({dialog: stepResult.dialog})
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
-
-  console.log(stepResult)
 
   return (
     <div className={`gen-ai-pro-panel z-2 absolute top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
@@ -415,13 +396,18 @@ const PanelGenAIPro: React.FC = () => {
 
           <div>
             <button
-              onClick={() =>
+              onClick={() => {
+                const {
+                  scenarioLabel,
+                  scenarioParticipantList
+                } = getScenarioDetails({scenario, language})
+
                 handleDialog({
                   language, 
                   scenarioLabel,
                   scenarioParticipantList
                 })
-              }
+              }}
               className="pa2 br2 bn bg-brand white pointer"
             >
               Run Dialog Step
@@ -432,9 +418,10 @@ const PanelGenAIPro: React.FC = () => {
             <button
               onClick={() =>
                 reviewDialog({
-                  language, 
-                  scenarioLabel,
-                  scenarioParticipantList              
+                  language,
+                  dialogArray: stepResult.dialogArray
+                  // scenarioLabel,
+                  // scenarioParticipantList              
                 })
               }
               className="mv3 pa2 br2 bn bg-purple white pointer"
@@ -448,7 +435,8 @@ const PanelGenAIPro: React.FC = () => {
               onClick={() =>
                 handleNouns({
                   language,
-                  dialogArray: stepResult.dialogArray
+                  dialog: stepResult.dialog,
+                  dialogSignature: stepResult.dialogSignature
                   // prompt: nounsPrompt,
                   // nextStep: GEN_AI_STEP.VERBS,
                   // setStepResult

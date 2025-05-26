@@ -8,7 +8,10 @@ export const generateExample = ({
   context,
   options = {}
 }: GenerateExampleProps): string | string[] => {
-  if (language !== 'Spanish') return options.asString ? '[]' : []
+  if (language !== 'Spanish') {
+    console.log(`Not Spanish: ${language}`)
+    return options.asString ? '[]' : []
+  }
 
   const examples: Record<GenAIContext, string[]> = {
     dialog: [

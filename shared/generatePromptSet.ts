@@ -88,31 +88,37 @@ A complete example of a sample response follows:
     // NOUNS PROMPT
     // *****************************************************************
 
-    const getNounsPrompt: GetNounsPrompt = ({dialog}: GetNounsPromptProps) => `
-REQUEST: Extract the nouns from the dialog below:
+    const getNounsPrompt: GetNounsPrompt = ({language, dialog}: GetNounsPromptProps) => {
+        const nounsExample = generateExample({language, context: 'nouns', options: { asString: true }  })
+        
+        return (`
+REQUEST: Extract the ${language} nouns from the dialog below:
 
 DIALOG: ${dialog}
+
 ${jsonQualification}
-Each string in the array must take the form:
 
-    "gender|noun(singular)|noun(plural)|common prepositions"
-
-where common prepositions are those suitable for this noun in grammatically correct expressions, e.g.,
-
-    a, con, de, desde, en, entre, hacia, hasta, para, por, sin, sobre.
-
-Each noun must include at least 3 common prepositions, separated by commas.
-
-A complete example follows:
+STRING ARRAY: A nouns response is an array of strings that takes the form,
 
     [
-      "masculino|restaurante|restaurantes|a, en, desde, sobre",
-      "femenino|noche|noches|en, durante, por",
-      "femenino|ensalada|ensaladas|con, sin, de, para",
-      "masculino|pollo|pollos|con, sin, de, para"
+        "gender|noun(singular)|noun(plural)|common prepositions",
+        "gender|noun(singular)|noun(plural)|common prepositions",
+        "gender|noun(singular)|noun(plural)|common prepositions"
     ]
 
+where
+
+- the vertical bar "|" delineates the four fields
+- Use a single vertical bar ("|") with no extra spaces to separate your fields
+- gender must be "masculino" or "femenino"
+- common prepositions must be at least 3 valid Spanish prepositions, separated by commas
+- use lowercase throughout
+- all content must be in lowercase, including nouns and prepositions
+
+EXAMPLE:
+${nounsExample}
 `
+)}
 
     // *****************************************************************
     // VERBS PROMPT

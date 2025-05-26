@@ -274,6 +274,12 @@ export type HandleDialogProps = {
 }
 export type HandleNounsProps = {
   language: Language
+  dialog: Dialog
+  dialogSignature: Signature
+}
+
+export type HandleReviewDialogProps = {
+  language: Language
   dialogArray: DialogArray
 }
 
@@ -296,6 +302,7 @@ export type GetDialogReviewPromptProps = {
 }
 
 export type GetNounsPromptProps = {
+  language: Language
   dialog: Dialog
 }
 
@@ -510,3 +517,17 @@ export const LANG_KEYS = {
 
 export type LangKey = keyof typeof LANG_KEYS
 export type LangValue = (typeof LANG_KEYS)[keyof typeof LANG_KEYS]
+
+export type GetDialogProps = {
+  language: Language,
+  scenarioLabel: ScenarioLabel,
+  scenarioParticipantList: ParticipantList
+}
+  
+export type GetNounsProps = {
+  language: Language,
+  dialog: Dialog,
+  dialogSignature: Signature
+}
+  
+

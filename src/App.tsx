@@ -53,7 +53,6 @@ const App: React.FC = () => {
     }
 
     const stored = localStorage.getItem('scenario') as ScenarioValue | null
-
     if (stored && Object.values(SCENARIO).includes(stored)) {
       setScenario(stored as ScenarioValue)
     } else {
