@@ -1,16 +1,13 @@
+// import { generateSignature } from '../shared/generateSignature'
+
 export type AppContextType = {
-  dialogArray: DialogArray
-  setDialogArray: SetDialogArray
-
-
-  activePanel: ActivePanel
   activeHome: ActiveHome
+  activePanel: ActivePanel
   answer: Answer
   answerKeep: AnswerKeep
   apiKey: ApiKey
   audioUrl: AudioUrl
   cleanedText: CleanedText
-  dialogPrompt: Prompt
   gcpKey: GcpKey
   handleDialogErrors: HandleDialogErrors
   handleNounsErrors: HandleNounsErrors
@@ -30,14 +27,13 @@ export type AppContextType = {
   questionContext: QuestionContext
   questionKeep: QuestionKeep
   scenario: ScenarioValue
-  setActivePanel: SetActivePanel
   setActiveHome: SetActiveHome
+  setActivePanel: SetActivePanel
   setAnswer: SetAnswer
   setAnswerKeep: SetAnswerKeep
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
-  setDialogPrompt: SetDialogPrompt
   setGcpKey: SetGcpKey
   setHandleDialogErrors: SetHandleDialogErrors
   setHandleNounsErrors: SetHandleNounsErrors
@@ -48,10 +44,10 @@ export type AppContextType = {
   setIsTransitioning: SetIsTransitioning
   setMaskKey: SetMaskKey
   setMaskOpenAiKey: SetMaskOpenAiKey
+  setNounsKeep: SetNounsKeep
   setOpenAiAvgTokens: SetOpenAiAvgTokens
   setOpenAiBudget: SetOpenAiBudget
   setOpenAiKey: SetOpenAiKey
-  setNounsKeep: SetNounsKeep
   setOpenAiUsage: SetOpenAiUsage
   setQuestion: SetQuestion
   setQuestionContext: SetQuestionContext
@@ -114,6 +110,7 @@ export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetDialogPrompt = React.Dispatch<React.SetStateAction<Prompt>>
+export type SetNounsPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
 export type SetHandleDialogErrors = React.Dispatch<React.SetStateAction<HandleDialogErrors>>
 export type SetHandleNounsErrors = React.Dispatch<React.SetStateAction<HandleNounsErrors>>
@@ -199,14 +196,21 @@ export type ScenarioTitle = string
 export type ScenarioTitles = Record<ScenarioValue, ScenarioTitle>
 
 export type StepResult = {
-  dialog: Dialog[]
-  nouns: Nouns[]
-  verbs: Verbs[]
-  dialogErrors: HandleLLMError[]
-  nounsErrors: HandleLLMError[]
-  verbsErrors: HandleLLMError[]
+  verbsArray: VerbsArray
+  
+  dialog: Dialog
+  dialogArray: DialogArray
   dialogPrompt: Prompt
+  dialogSignature: Signature
+  dialogErrors: HandleLLMError[]
+
+  nounsArray: NounsArray
   nounsPrompt: Prompt
+  nounsSignature: Signature
+  nounsErrors: HandleLLMError[]
+
+  verbs: Verbs[]
+  verbsErrors: HandleLLMError[]
   verbsPrompt: Prompt
   // ...
 }
@@ -250,6 +254,14 @@ export type DialogLine = string
 export type DialogArray = DialogLine[]
 export type SetDialogArray = React.Dispatch<React.SetStateAction<DialogArray>>
 
+export type NounsLine = string
+export type NounsArray = NounsLine[]
+export type SetNounsArray = React.Dispatch<React.SetStateAction<NounsArray>>
+
+export type VerbsLine = string
+export type VerbsArray = VerbsLine[]
+export type SetVerbsArray = React.Dispatch<React.SetStateAction<VerbsArray>>
+
 export type Dialog = string
 export type Nouns = string
 export type Verbs = string
@@ -272,44 +284,48 @@ export type HandleVerbsProps = {
 }
 
 
-export type DialogPromptProps = {
+export type GetDialogPromptProps = {
   language: Language
   scenarioLabel: ScenarioLabel
   scenarioParticipantList: ParticipantList
 }
 
-export type DialogReviewPromptProps = {
+export type GetDialogReviewPromptProps = {
   language: Language
   dialog: Dialog
 }
 
-export type NounsPromptProps = {
+export type GetNounsPromptProps = {
   dialog: Dialog
 }
 
-export type VerbsPromptProps = {
+export type GetVerbsPromptProps = {
   dialog: Dialog
 }
 
-export type DialogPrompt = (props: DialogPromptProps) => string
-export type DialogReviewPrompt = (props: DialogReviewPromptProps) => string
-export type NounsPrompt = (props: NounsPromptProps) => string
-export type VerbsPrompt = (props: VerbsPromptProps) => string
+export type GetDialogPrompt = (props: GetDialogPromptProps) => string
+export type GetDialogReviewPrompt = (props: GetDialogReviewPromptProps) => string
+export type GetNounsPrompt = (props: GetNounsPromptProps) => string
+export type GetVerbsPrompt = (props: GetVerbsPromptProps) => string
 
 export type PromptSet = {
-  dialogPrompt: DialogPrompt
-  dialogReviewPrompt: DialogReviewPrompt
-  nounsPrompt: NounsPrompt
-  verbsPrompt: VerbsPrompt
+  getDialogPrompt: GetDialogPrompt
+  getDialogReviewPrompt: GetDialogReviewPrompt
+  getNounsPrompt: GetNounsPrompt
+  getVerbsPrompt: GetVerbsPrompt
 }
 
 export type GeneratePromptSet = () => PromptSet
 
-export const defaultDialog: Dialog[] = [
+export const defaultDialogArray: DialogArray = [
   "Mesero: Buenas tardes. ¿Qué desea tomar?",
   "Cliente: Una limonada, por favor.",
   "Mesero: En seguida."
 ]
+
+export const defaultDialog: Dialog = defaultDialogArray.join(' ')
+export const defaultDialogSignature: Signature = 'xyz' // generateSignature(defaultDialog)
+export const defaultNounsSignature: Signature = 'xyz' // generateSignature(defaultDialog)
 
 export const defaultNouns: Nouns[] = [
   "mesero",
@@ -317,20 +333,39 @@ export const defaultNouns: Nouns[] = [
   "limonada"
 ]
 
+export const defaultNounsArray: NounsArray = [
+    "masculino|restaurante|restaurantes|a, en, desde, sobre",
+    "femenino|noche|noches|en, durante, por",
+    "femenino|ensalada|ensaladas|con, sin, de, para",
+    "masculino|pollo|pollos|con, sin, de, para"
+  ]
+
 export const defaultVerbs: Verbs[] = [
   "desear",
   "tomar"
 ]
 
+export const defaultVerbsArray: VerbsArray = [
+  "gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta",
+  "ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan",
+  "pedir|pido|pides|pide|pedimos|pedís|piden",
+]
+
 export const defaultStepResult: StepResult = {
-  dialog: defaultDialog, // JSON.stringify(defaultDialog, null, 2),
-  nouns: defaultNouns, // JSON.stringify(defaultNouns, null, 2),
-  verbs: defaultVerbs, // JSON.stringify(defaultVerbs, null, 2),
-  dialogErrors: [],
-  nounsErrors: [],
-  verbsErrors: [],
+  dialog: defaultDialog,
   dialogPrompt: '',
+  dialogArray: defaultDialogArray,
+  dialogErrors: [],
+  dialogSignature: defaultDialogSignature,
+
   nounsPrompt: '',
+  nounsArray: defaultNounsArray,
+  nounsErrors: [],
+  nounsSignature: defaultNounsSignature,
+
+  verbs: defaultVerbs, // JSON.stringify(defaultVerbs, null, 2),
+  verbsArray: defaultVerbsArray,
+  verbsErrors: [],
   verbsPrompt: ''
 }
 
@@ -383,8 +418,6 @@ export type HandleVerbsErrors = HandleVerbsError[]
 
 export type ErrorLabel = string
 
-// 'handleDialogError' | 'handleNounsError' | 'handleVerbsError',
-
 export const ERROR_LABEL = {
   DIALOG_ERROR: 'handleDialogError',
   NOUNS_ERROR: 'handleNounsError',
@@ -421,9 +454,19 @@ export type GenAIValidationResult<T> = {
   errors?: HandleLLMError[]
 }
 
+export type Signature = string
+
 export type GetDialogResult = {
-  prompt: Prompt
-  result: GenAIValidationResult<Dialog>
+  dialog: Dialog
+  dialogPrompt: Prompt
+  dialogResult: GenAIValidationResult<Dialog>
+  dialogSignature: Signature
+}
+
+export type GetNounsResult = {
+  nounsPrompt: Prompt
+  nounsResult: GenAIValidationResult<Nouns>
+  nounsSignature: Signature
 }
 
 export type RichParsedLine = {

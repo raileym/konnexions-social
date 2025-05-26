@@ -32,9 +32,7 @@ import type {
   HandleNounsErrors,
   HandleDialogErrors,
   HandleVerbsErrors,
-  VerbsKeep,
-  Prompt,
-  DialogArray
+  VerbsKeep
 } from '../../shared/types'
 import {
   APP_HOME,
@@ -47,15 +45,19 @@ import { usePersistentState } from '../hooks/usePersistentState'
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [dialogArray, setDialogArray] = usePersistentState<DialogArray>('dialogArray', [])
+  // const [dialogArray, setDialogArray] = usePersistentState<DialogArray>('dialogArray', [])
+  // const [nounsArray, setNounsArray] = usePersistentState<NounsArray>('nounsArray', [])
+
+  // const [dialogPrompt, setDialogPrompt] = usePersistentState<Prompt>('dialogPrompt', '')
+  // const [nounsPrompt, setNounsPrompt] = usePersistentState<Prompt>('nounsPrompt', '')
+
+  const [stepResult, setStepResult] = usePersistentState<StepResult>('stepResult', defaultStepResult)
 
   const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
   const [activeHome, setActiveHome] = useState<AppHomeValue>(APP_HOME.GEN_AI_PRO)
   const [helpPanel, setHelpPanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
   const [answer, setAnswer] = useState<Answer>('')
   const [answerKeep, setAnswerKeep] = useState<AnswerKeep>('')
-  const [stepResult, setStepResult] = useState<StepResult>(defaultStepResult)
-  const [dialogPrompt, setDialogPrompt] = useState<Prompt>('')
   const [verbsKeep, setVerbsKeep] = useState<VerbsKeep>('')
   const [nounsKeep, setNounsKeep] = useState<NounsKeep>('')
   const [handleDialogErrors, setHandleDialogErrors] = useState<HandleDialogErrors>([])
@@ -84,9 +86,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
   const AppContextValue = {
-
-    dialogArray, setDialogArray,
-    
     activeHome,
     activePanel,
     answer,
@@ -94,7 +93,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     apiKey,
     audioUrl,
     cleanedText,
-    dialogPrompt,
     gcpKey,
     handleDialogErrors,
     handleNounsErrors,
@@ -121,7 +119,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setApiKey,
     setAudioUrl,
     setCleanedText,
-    setDialogPrompt,    
     setGcpKey,
     setHandleDialogErrors,
     setHandleNounsErrors,

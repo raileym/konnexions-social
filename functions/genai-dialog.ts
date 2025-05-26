@@ -2,6 +2,7 @@ import { Handler } from '@netlify/functions'
 import { validateGenAIResponse } from '../shared/errorUtils'
 import { Dialog, ERROR_LABEL } from '../shared/types'
 import { generatePromptSet } from '../shared/generatePromptSet'
+import { generateSignature } from '../shared/generateSignature'
 
 const handler: Handler = async (event) => {
   const apiKey = process.env.OPENAI_API_KEY
@@ -33,7 +34,7 @@ const handler: Handler = async (event) => {
 
     const promptSet = generatePromptSet()
 
-    const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, scenarioParticipantList})
+    const dialogPrompt = promptSet.getDialogPrompt({language, scenarioLabel, scenarioParticipantList})
 
     // const alwaysTrue = true
     // if (alwaysTrue) {
@@ -93,7 +94,7 @@ const handler: Handler = async (event) => {
     console.log('Before validation')
     console.log(reply)
 
-    const result = validateGenAIResponse<Dialog>({
+    const dialogResult = validateGenAIResponse<Dialog>({
       response: reply,
       errorLabel: ERROR_LABEL.DIALOG_ERROR,
       expectedFieldCount: 2,
@@ -104,9 +105,12 @@ const handler: Handler = async (event) => {
     console.log('After validation')
     console.log(reply)
 
+    const dialog = dialogResult.parsed.join(' ')
+    const dialogSignature = generateSignature(dialog)
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ prompt: dialogPrompt, result })
+      body: JSON.stringify({ dialogPrompt, dialog, dialogSignature, dialogResult })
     }
   } catch (err) {
     console.log('Whoop! We have a problem here server-side.')

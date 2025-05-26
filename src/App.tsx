@@ -11,7 +11,7 @@ import NavbarBottom from './components/NavbarBottom'
 import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext'
 import { getCurrentWeek } from './components/Util'
-import { SCENARIO, type ScenarioValue, type StepResult } from '../shared/types'
+import { SCENARIO, type ScenarioValue } from '../shared/types'
 import PanelGenAIPro from './components/PanelGenAIPro'
 
 const App: React.FC = () => {
@@ -24,7 +24,6 @@ const App: React.FC = () => {
     setOpenAiUsage,
     setQuestionKeep,
     setScenario,
-    setStepResult,
     setTtsCharUsage,
     setUseCloudTTS,
     setHandleDialogErrors,
@@ -95,15 +94,15 @@ const App: React.FC = () => {
     const verbsKeep = localStorage.getItem('verbsKeep')
     if (verbsKeep) setNounsKeep(verbsKeep)
   
-    const saved = localStorage.getItem('stepResult')
-    if (saved) {
-      try {
-        const recovered: StepResult = JSON.parse(saved)
-        setStepResult(recovered)
-      } catch (err) {
-        console.error('Failed to load stepResult from localStorage:', err)
-      }
-    }
+    // const saved = localStorage.getItem('stepResult')
+    // if (saved) {
+    //   try {
+    //     const recovered: StepResult = JSON.parse(saved)
+    //     setStepResult(recovered)
+    //   } catch (err) {
+    //     console.error('Failed to load stepResult from localStorage:', err)
+    //   }
+    // }
 
     try {
       const dialogErrors = localStorage.getItem('handleDialogError')

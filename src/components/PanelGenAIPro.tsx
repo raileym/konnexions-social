@@ -7,10 +7,12 @@ import {
   GEN_AI_STEP
 } from '../../shared/types'
 import type {
+  DialogArray,
   // ChooseParticipantsProps,
   // Dialog,
   // GenAIValidationResult,
   GetDialogResult,
+  GetNounsResult,
   HandleDialogProps,
   HandleNounsProps,
   HandleVerbsProps,
@@ -39,19 +41,20 @@ const PanelGenAIPro: React.FC = () => {
     // setNounsKeep,
     // setVerbsKeep,
     activeHome,
-    dialogPrompt,
     handleDialogErrors,
     handleNounsErrors,
     handleVerbsErrors,
-    setDialogPrompt,
     setHandleDialogErrors,
     setHandleNounsErrors,
     setHandleVerbsErrors,
     setStepResult,
     stepResult,
+    
+    // dialogPrompt, setDialogPrompt,
+    // nounsPrompt, setNounsPrompt,
 
-    dialogArray,
-    setDialogArray
+    // dialogArray, setDialogArray,
+    // nounsArray, setNounsArray
   } = useAppContext()
 
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
@@ -63,11 +66,16 @@ const PanelGenAIPro: React.FC = () => {
   const [, setStep] = useState<number>(0)
   // const [step, setStep] = useState<number>(0)
   const [showDialogPrompt, setShowDialogPrompt] = useState(false)
+  const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [language, ] = useState<Language>('Spanish')
   const [ testMode, setTestMode] = useState<boolean>(true)
 
   const toggleShowDialogPrompt = () => {
     setShowDialogPrompt(prev => !prev)
+  }
+    
+  const toggleShowNounsPrompt = () => {
+    setShowNounsPrompt(prev => !prev)
   }
     
   const getDialog = async (
@@ -93,7 +101,6 @@ const PanelGenAIPro: React.FC = () => {
       }
   
       const data = await res.json()
-      // cXonsole.log(data.result)
       return data as GetDialogResult
     } catch (err) {
       console.error('Network error:', err)
@@ -101,6 +108,37 @@ const PanelGenAIPro: React.FC = () => {
     }
   }  
 
+  const getNouns = async (
+    language: Language,
+    dialogArray: DialogArray
+  ): Promise<GetNounsResult | null> => {
+    const dialog = dialogArray.join(' ')
+
+    console.log(dialog)
+
+    try {
+      const res = await fetch('/.netlify/functions/genai-nouns', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          language,
+          dialog
+        })
+      })
+  
+      if (!res.ok) {
+        console.error('Function error:', res.status)
+        return null
+      }
+  
+      const data = await res.json()
+      return data as GetNounsResult
+    } catch (err) {
+      console.error('Network error:', err)
+      return null
+    }
+  }  
+  
   // const fetchFromOpenAI = async (prompt: string): Promise<string | null> => {
   //   if (!openAiKey) return null
   
@@ -139,50 +177,31 @@ const PanelGenAIPro: React.FC = () => {
 
     const response = await getDialog(language, scenarioLabel, scenarioParticipantList)
 
-    // cXonsole.log(response)
-
     if (response === null) {
       console.log('Houston, we DO have a problems')
       return
     }
 
-    if (!response.result.success) {
+    if (!response.dialogResult.success) {
       console.log('Houston, we have SOME problems')
-      console.log(response.result.errors)
+      console.log(response.dialogResult.errors)
     }
-
-    setDialogArray(response.result.parsed)
-
-    // cXonsole.log(response.prompt)
-
-    // const stringifiedPrompt = JSON.stringify(response.prompt)
-    // setDialogPrompt(stringifiedPrompt)
-    // localStorage.setItem('dialogPrompt', stringifiedPrompt)
-
-    setDialogPrompt(response.prompt)
-    localStorage.setItem('dialogPrompt', response.prompt)
-
-    setHandleDialogErrors(prev => {
-      const newErrors = response.result.errors ?? []
-      const updated = [...prev, ...newErrors]
-      localStorage.setItem(ERROR_LABEL.DIALOG_ERROR, JSON.stringify(updated))
-      return updated
-    })
 
     setStepResult(prev => {
       const updated = {
         ...prev,
-        dialog: response.result.parsed,
-        dialogErrors: response.result.errors ?? [],
-        dialogPrompt: response.prompt
+        dialog: response.dialog,
+        dialogSignature: response.dialogSignature,
+        dialogArray: response.dialogResult.parsed,
+        dialogErrors: response.dialogResult.errors ?? [],
+        dialogPrompt: response.dialogPrompt
       }
-      localStorage.setItem('stepResult', JSON.stringify(updated))
+      // localStorage.setItem('stepResult', JSON.stringify(updated))
       return updated
     })
     
 
     setStep(GEN_AI_STEP.DIALOG_REVIEW)
-    // setStep(nextStep)
   }
   
   const reviewDialog = async ({
@@ -252,46 +271,24 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    if (!response.result.success) {
+    if (!response.nounsResult.success) {
       console.log('Houston, we have SOME problems')
-      console.log(response.result.errors)
+      console.log(response.nounsResult.errors)
     }
 
-        setDialogArray(response.result.parsed)
-
-
-    // console.log(nextStep)
-    // cXonsole.log(setStepResult)
+    setStepResult(prev => {
+      const updated = {
+        ...prev,
+        nounsArray: response.nounsResult.parsed,
+        nounsErrors: response.nounsResult.errors ?? [],
+        nounsPrompt: response.nounsPrompt,
+        nounsSignature: response.nounsSignature
+      }
+      localStorage.setItem('stepResult', JSON.stringify(updated))
+      return updated
+    })
     
-    // const response = await fetchFromOpenAI(prompt)
-
-    // const result = validateGenAIResponse<Nouns>({
-    //   response,
-    //   errorLabel: ERROR_LABEL.NOUNS_ERROR,
-    //   setErrors: setHandleNounsErrors,
-    //   expectedFieldCount: 4,
-    //   language: ''
-    // })
-    
-    // console.log(result)
-
-    // if (!result.success) {
-    //   console.log('Houston, we have a problem', result.error.message)
-    //   console.log(result.error)
-    //   return
-    // }
-    
-    // const stringified = JSON.stringify(result.parsed)
-    // setNounsKeep(stringified)
-    // localStorage.setItem('nounsKeep', stringified)
-
-    // setStepResult(prev => {
-    //   const updated = { ...prev, nouns: result.parsed }
-    //   localStorage.setItem('stepResult', JSON.stringify(updated))
-    //   return updated
-    // })
-
-    // setStep(nextStep)
+    setStep(GEN_AI_STEP.NOUNS_REVIEW)
   }
 
   const handleVerbs = async ({
@@ -374,9 +371,11 @@ const PanelGenAIPro: React.FC = () => {
   // const dialogPrompt = promptSet.dialogPrompt({language, scenarioLabel, participant})
   // const dialogReviewPrompt = promptSet.dialogReviewPrompt({language, dialog: stepResult.dialog.join(' ')})
   // const nounsPrompt = promptSet.nounsPrompt({dialog: stepResult.dialog.join(' ')})
-  const verbsPrompt = promptSet.verbsPrompt({dialog: stepResult.dialog.join(' ')})
+  const verbsPrompt = promptSet.getVerbsPrompt({dialog: stepResult.dialog})
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
+
+  console.log(stepResult)
 
   return (
     <div className={`gen-ai-pro-panel z-2 absolute top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
@@ -449,7 +448,7 @@ const PanelGenAIPro: React.FC = () => {
               onClick={() =>
                 handleNouns({
                   language,
-                  dialogArray
+                  dialogArray: stepResult.dialogArray
                   // prompt: nounsPrompt,
                   // nextStep: GEN_AI_STEP.VERBS,
                   // setStepResult
@@ -494,29 +493,42 @@ const PanelGenAIPro: React.FC = () => {
               onClick={toggleShowDialogPrompt}
               className="pa2 br2 bn bg-brand white pointer"
             >
-              {showDialogPrompt ? 'Hide Full Prompt' : 'Show Full Prompt'}
+              {showDialogPrompt ? 'Hide Dialog Prompt' : 'Show Dialog Prompt'}
             </button>
           </div>
 
           {showDialogPrompt && (
             <div className="w-100 flex justify-center flex-column">
-              <div className="mt4">
-                <div className="mt4 b" style={{ whiteSpace: 'pre-wrap' }}>DialogPrompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{dialogPrompt}</div>
+              <div className="mt4 ba pa3 bg-white">
+                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Prompt</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.dialogPrompt}</div>
               </div>
             </div>
           )}
+
+          <div className="w-100">
+            <button
+              onClick={toggleShowNounsPrompt}
+              className="mt3 pa2 br2 bn bg-brand white pointer"
+            >
+              {showNounsPrompt ? 'Hide Nouns Prompt' : 'Show Nouns Prompt'}
+            </button>
+          </div>
+
+          {showNounsPrompt && (
+            <div className="w-100 flex justify-center flex-column">
+              <div className="mt4 ba pa3 bg-white">
+                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Prompt</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.nounsPrompt}</div>
+              </div>
+            </div>
+          )}
+          
           <div className="w-100 flex justify-center flex-column">
             <div>
               <div className="mt4 b">Dialog Array</div>
               <ul className="mt0 pt0 black">
-                {dialogArray.map((line, index) => (
-                  <li key={index}>{line}</li>
-                ))}
-              </ul>
-              <div className="mt4 b">Dialog</div>
-              <ul className="mt0 pt0 black">
-                {stepResult.dialog.map((line, index) => (
+                {stepResult.dialogArray.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>
@@ -535,12 +547,13 @@ const PanelGenAIPro: React.FC = () => {
                   </ul>
                 </div>
               )}
-              <div className="mt4 b">Nouns</div>
+              <div className="mt4 b">Nouns Array</div>
               <ul className="mt0 pt0 black">
-                {stepResult.nouns.map((line, index) => (
+                {stepResult.nounsArray.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>
+             
               {handleNounsErrors.length > 0 && (
                 <div className="mt3 red">
                   <div className="b">Noun Errors</div>
@@ -557,11 +570,14 @@ const PanelGenAIPro: React.FC = () => {
                 </div>
               )}
               <div className="mt4 b">Verbs</div>
+              <div>Wait for Verbs Array</div>
+              {/*
               <ul className="mt0 pt0 black">
-                {stepResult.verbs.map((line, index) => (
+                {stepResult.verbsArray.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>
+              */}
               {handleVerbsErrors.length > 0 && (
                 <div className="mt3 red">
                   <div className="b">Verb Errors</div>

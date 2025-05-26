@@ -17,24 +17,28 @@ const handler: Handler = async (event) => {
 
     if (!dialog || !language) {
       console.log('Missing the big two')
+      console.log(`language: ${language}`)
+      console.log(`dialog: ${dialog}`)
+
       return {
         statusCode: 400,
-        body: 'Missing one or more required fields: language, scenarioLabel, participant'
+        body: 'Missing one or more required fields: language, dialog'
       }
     }
 
+    console.log(`language: ${language}`)
     console.log(`dialog: ${dialog}`)
 
     const promptSet = generatePromptSet()
 
-    const dialogPrompt = promptSet.nounsPrompt({dialog})
+    const nounsPrompt = promptSet.getNounsPrompt({dialog})
 
     const alwaysTrue = true
     if (alwaysTrue) {
       return {
         statusCode: 200,
         body: JSON.stringify({
-          prompt,
+          prompt: nounsPrompt,
           result: {
             success: true,
             parsed: [
@@ -79,7 +83,7 @@ const handler: Handler = async (event) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ prompt: dialogPrompt, result })
+      body: JSON.stringify({ prompt: nounsPrompt, result })
     }
   } catch (err) {
     return {

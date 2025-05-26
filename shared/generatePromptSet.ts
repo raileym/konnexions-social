@@ -1,15 +1,15 @@
 import type {
-  DialogPrompt,
-  DialogPromptProps,
-  DialogReviewPrompt,
-  DialogReviewPromptProps,
+  GetDialogPrompt,
+  GetDialogPromptProps,
+  GetDialogReviewPrompt,
+  GetDialogReviewPromptProps,
   GeneratePromptSet,
   JsonQualification,
-  NounsPrompt,
-  NounsPromptProps,
+  GetNounsPrompt,
+  GetNounsPromptProps,
   PromptSet,
-  VerbsPrompt,
-  VerbsPromptProps
+  GetVerbsPrompt,
+  GetVerbsPromptProps
 } from "./types"
 
 import { generateExample } from './generateExample'
@@ -30,7 +30,7 @@ Assume the consumer is a machine expecting strict JSON compliance.
     // *****************************************************************
 
     
-    const dialogPrompt: DialogPrompt = ({language, scenarioLabel, scenarioParticipantList}: DialogPromptProps) => {
+    const getDialogPrompt: GetDialogPrompt = ({language, scenarioLabel, scenarioParticipantList}: GetDialogPromptProps) => {
       const dialogExample = generateExample({language, context: 'dialog', options: { asString: true }  })
       
       return (`
@@ -60,7 +60,7 @@ ${dialogExample}
     // DIALOG REVIEW PROMPT
     // *****************************************************************
 
-    const dialogReviewPrompt: DialogReviewPrompt = ({dialog, language}: DialogReviewPromptProps) => `
+    const getDialogReviewPrompt: GetDialogReviewPrompt = ({dialog, language}: GetDialogReviewPromptProps) => `
 REQUEST: Review the following ${language}-language dialog for grammatical correctness and
          natural usage appropriate for beginning Spanish learners.
 
@@ -88,7 +88,7 @@ A complete example of a sample response follows:
     // NOUNS PROMPT
     // *****************************************************************
 
-    const nounsPrompt: NounsPrompt = ({dialog}: NounsPromptProps) => `
+    const getNounsPrompt: GetNounsPrompt = ({dialog}: GetNounsPromptProps) => `
 REQUEST: Extract the nouns from the dialog below:
 
 DIALOG: ${dialog}
@@ -118,7 +118,7 @@ A complete example follows:
     // VERBS PROMPT
     // *****************************************************************
 
-    const verbsPrompt: VerbsPrompt = ({dialog}: VerbsPromptProps) => `
+    const getVerbsPrompt: GetVerbsPrompt = ({dialog}: GetVerbsPromptProps) => `
 REQUEST: Extract the verbs from the dialog below:
 
 DIALOG: ${dialog}
@@ -140,9 +140,9 @@ A complete example follows:
 `
 
     return {
-      dialogPrompt,
-      dialogReviewPrompt,
-      nounsPrompt,
-      verbsPrompt
+      getDialogPrompt,
+      getDialogReviewPrompt,
+      getNounsPrompt,
+      getVerbsPrompt
     }
   }
