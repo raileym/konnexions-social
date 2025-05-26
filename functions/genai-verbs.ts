@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { validateGenAIResponse } from '../shared/errorUtils'
-import { ERROR_LABEL, Language, Nouns } from '../shared/types'
+import { ERROR_LABEL, Language, Verbs } from '../shared/types'
 import { generatePromptSet } from '../shared/generatePromptSet'
 
 const handler: Handler = async (event) => {
@@ -33,14 +33,14 @@ const handler: Handler = async (event) => {
 
     const promptSet = generatePromptSet()
 
-    const nounsPrompt = promptSet.getNounsPrompt({language, dialog})
+    const verbsPrompt = promptSet.getVerbsPrompt({language, dialog})
 
     // const alwaysTrue = true
     // if (alwaysTrue) {
     //   return {
     //     statusCode: 200,
     //     body: JSON.stringify({
-    //       prompt: nounsPrompt,
+    //       prompt: verbsPrompt,
     //       result: {
     //         success: true,
     //         parsed: [
@@ -55,9 +55,9 @@ const handler: Handler = async (event) => {
     // }
 
     // const reply = JSON.stringify([
-    //   "masculino|restaurante|restaurantes|a, en, desde",
-    //   "femenino|mesera|meseras|con, de, para",
-    //   "masculino|grupo|grupos|en, con, para"
+    //   "gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta",
+    //   "ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan",
+    //   "pedir|pido|pides|pide|pedimos|pedís|piden"
     // ])
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -68,34 +68,34 @@ const handler: Handler = async (event) => {
       },
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: nounsPrompt }]
+        messages: [{ role: 'user', content: verbsPrompt }]
       })
     })
 
     const data = await response.json()
     const reply = data.choices?.[0]?.message?.content || ''
 
-    const nounsResult = validateGenAIResponse<Nouns>({
+    const verbsResult = validateGenAIResponse<Verbs>({
       response: reply,
-      errorLabel: ERROR_LABEL.NOUNS_ERROR,
-      expectedFieldCount: 4,
+      errorLabel: ERROR_LABEL.VERBS_ERROR,
+      expectedFieldCount: 7,
       language: '' as Language
       // prompt
     })    
 
     // In short, I am carrying along the signature
     // for the dialog, lining up this response
-    // about nouns with the incoming dialog.
-    const nounsSignature = dialogSignature
+    // about verbs with the incoming dialog.
+    const verbsSignature = dialogSignature
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ nounsPrompt, nounsResult, nounsSignature })
+      body: JSON.stringify({ verbsPrompt, verbsResult, verbsSignature })
     }
   } catch (err) {
     return {
       statusCode: 500,
-      body: `Error generating nouns: ${(err as Error).message}`
+      body: `Error generating verbs: ${(err as Error).message}`
     }
   }
 }

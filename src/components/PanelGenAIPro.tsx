@@ -11,6 +11,8 @@ import type {
   GetDialogResult,
   GetNounsProps,
   GetNounsResult,
+  GetVerbsProps,
+  GetVerbsResult,
   HandleDialogProps,
   HandleNounsProps,
   HandleReviewDialogProps,
@@ -22,7 +24,6 @@ import { getScenarioDetails } from './Util'
 import Scenario from './Scenario'
 import ParticipantToggle from './ParticipantToggle'
 import { resetErrors } from './errorUtils'
-import { generatePromptSet } from '../../shared/generatePromptSet'
 
 const PanelGenAIPro: React.FC = () => {
   const {
@@ -44,6 +45,7 @@ const PanelGenAIPro: React.FC = () => {
   const [, setStep] = useState<number>(0)
   const [showDialogPrompt, setShowDialogPrompt] = useState(false)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
+  const [showVerbsPrompt, setShowVerbsPrompt] = useState(false)
   const [language, ] = useState<Language>('Spanish')
   const [testMode, setTestMode] = useState<boolean>(true)
 
@@ -53,6 +55,10 @@ const PanelGenAIPro: React.FC = () => {
     
   const toggleShowNounsPrompt = () => {
     setShowNounsPrompt(prev => !prev)
+  }
+
+  const toggleShowVerbsPrompt = () => {
+    setShowVerbsPrompt(prev => !prev)
   }
 
   const getDialog = async ({
@@ -119,6 +125,40 @@ const PanelGenAIPro: React.FC = () => {
     }
   }  
   
+  const getVerbs = async ({
+    language,
+    dialog,
+    dialogSignature
+  }: GetVerbsProps): Promise<GetVerbsResult | null> => {
+
+    console.log(`getVerbs: language: ${language}`)
+    console.log(`getVerbs: dialog: ${dialog}`)
+    console.log(`getVerbs: dialogSignature: ${dialogSignature}`)
+
+    try {
+      const res = await fetch('/.netlify/functions/genai-verbs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          language,
+          dialog,
+          dialogSignature
+        })
+      })
+  
+      if (!res.ok) {
+        console.error('Function error:', res.status)
+        return null
+      }
+  
+      const data = await res.json()
+      return data as GetVerbsResult
+    } catch (err) {
+      console.error('Network error:', err)
+      return null
+    }
+  }  
+  
   // const fetchFromOpenAI = async (prompt: string): Promise<string | null> => {
   //   if (!openAiKey) return null
   
@@ -159,7 +199,7 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    const response = await getDialog(language, scenarioLabel, scenarioParticipantList)
+    const response = await getDialog({language, scenarioLabel, scenarioParticipantList})
 
     if (response === null) {
       console.log('Houston, we DO have a problems')
@@ -278,54 +318,51 @@ const PanelGenAIPro: React.FC = () => {
   }
 
   const handleVerbs = async ({
-    prompt,
-    nextStep,
-    setStepResult
+    language,
+    dialog,
+    dialogSignature
   }: HandleVerbsProps) => {
     console.log(prompt)
 
     const alwaysTrue = true
     if ( alwaysTrue && testMode ) {
+      console.log(`language: ${language}`)
+      console.log(`dialog: ${dialog}`)
+      console.log(`dialogSignature: ${dialogSignature}`)
+
       return
     }
 
-    const alwaysTrue2 = true
-    if (alwaysTrue2) {
+    const response = await getVerbs({language, dialog, dialogSignature})
+
+    if (response === null) {
+      console.log('Houston, we DO have a problems')
       return
     }
 
-    console.log(nextStep)
-    console.log(setStepResult)
+    console.log(response.verbsResult)
 
-    // const response = await fetchFromOpenAI(prompt)
+    if (!response.verbsResult.success) {
+      console.log('Houston, we have SOME problems')
+      console.log(response.verbsResult.errors)
+    }
 
-    // const result = validateGenAIResponse<Verbs>({
-    //   response,
-    //   errorLabel: ERROR_LABEL.VERBS_ERROR,
-    //   setErrors: setHandleVerbsErrors,
-    //   expectedFieldCount: 7,
-    //   language: ''
-    // })
+    console.log(response.verbsPrompt)
+    console.log(JSON.stringify(response, null, 2))
+
+    setStepResult(prev => {
+      const updated = {
+        ...prev,
+        verbsArray: response.verbsResult.parsed,
+        verbsErrors: response.verbsResult.errors ?? [],
+        verbsPrompt: response.verbsPrompt,
+        verbsSignature: response.verbsSignature
+      }
+      return updated
+    })
     
-    // console.log(result)
+    setStep(GEN_AI_STEP.VERBS_REVIEW)
 
-    // if (!result.success) {
-    //   console.log('Houston, we have a problem', result.error.message)
-    //   console.log(result.error)
-    //   return
-    // }
-    
-    // const stringified = JSON.stringify(result.parsed)
-    // setVerbsKeep(stringified)
-    // localStorage.setItem('verbsKeep', stringified)
-
-    // setStepResult(prev => {
-    //   const updated = { ...prev, verbs: result.parsed }
-    //   localStorage.setItem('stepResult', JSON.stringify(updated))
-    //   return updated
-    // })
-
-    // setStep(nextStep)
   }
 
   // const chooseParticipants = ({participants, n, useMyself}: ChooseParticipantsProps): string => {
@@ -347,14 +384,6 @@ const PanelGenAIPro: React.FC = () => {
   const {
     scenario
   } = useAppContext()
-
-  // const {scenarioLabel, scenarioParticipantList} = getScenarioDetails({scenario, language})
-
-  // const participant = chooseParticipants({participants: scenarioParticipants, n: 2, useMyself: false})
-
-  const promptSet = generatePromptSet()
-
-  const verbsPrompt = promptSet.getVerbsPrompt({dialog: stepResult.dialog})
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
 
@@ -437,9 +466,6 @@ const PanelGenAIPro: React.FC = () => {
                   language,
                   dialog: stepResult.dialog,
                   dialogSignature: stepResult.dialogSignature
-                  // prompt: nounsPrompt,
-                  // nextStep: GEN_AI_STEP.VERBS,
-                  // setStepResult
                 })
               }
               className="pa2 br2 bn bg-brand white pointer"
@@ -452,9 +478,9 @@ const PanelGenAIPro: React.FC = () => {
             <button
               onClick={() =>
                 handleVerbs({
-                  prompt: verbsPrompt,
-                  nextStep: GEN_AI_STEP.VERB_CONJUGATIONS,
-                  setStepResult
+                  language,
+                  dialog: stepResult.dialog,
+                  dialogSignature: stepResult.dialogSignature
                 })
               }
               className="pa2 br2 bn bg-brand white pointer"
@@ -512,6 +538,24 @@ const PanelGenAIPro: React.FC = () => {
             </div>
           )}
           
+          <div className="w-100">
+            <button
+              onClick={toggleShowVerbsPrompt}
+              className="mt3 pa2 br2 bn bg-brand white pointer"
+            >
+              {showVerbsPrompt ? 'Hide Verbs Prompt' : 'Show Verbs Prompt'}
+            </button>
+          </div>
+
+          {showVerbsPrompt && (
+            <div className="w-100 flex justify-center flex-column">
+              <div className="mt4 ba pa3 bg-white">
+                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Prompt</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.verbsPrompt}</div>
+              </div>
+            </div>
+          )}
+          
           <div className="w-100 flex justify-center flex-column">
             <div>
               <div className="mt4 b">Dialog Array</div>
@@ -558,14 +602,11 @@ const PanelGenAIPro: React.FC = () => {
                 </div>
               )}
               <div className="mt4 b">Verbs</div>
-              <div>Wait for Verbs Array</div>
-              {/*
               <ul className="mt0 pt0 black">
                 {stepResult.verbsArray.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>
-              */}
               {handleVerbsErrors.length > 0 && (
                 <div className="mt3 red">
                   <div className="b">Verb Errors</div>

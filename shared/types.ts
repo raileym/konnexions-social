@@ -272,6 +272,7 @@ export type HandleDialogProps = {
   scenarioLabel: ScenarioLabel
   scenarioParticipantList: ParticipantList
 }
+
 export type HandleNounsProps = {
   language: Language
   dialog: Dialog
@@ -284,9 +285,9 @@ export type HandleReviewDialogProps = {
 }
 
 export type HandleVerbsProps = {
-  prompt: Prompt
-  nextStep: GenAIStepValue
-  setStepResult: SetStepResult
+  language: Language
+  dialog: Dialog
+  dialogSignature: Signature
 }
 
 
@@ -307,6 +308,7 @@ export type GetNounsPromptProps = {
 }
 
 export type GetVerbsPromptProps = {
+  language: Language
   dialog: Dialog
 }
 
@@ -476,6 +478,12 @@ export type GetNounsResult = {
   nounsSignature: Signature
 }
 
+export type GetVerbsResult = {
+  verbsPrompt: Prompt
+  verbsResult: GenAIValidationResult<Verbs>
+  verbsSignature: Signature
+}
+
 export type RichParsedLine = {
   original: string
   fields: string[]
@@ -525,6 +533,12 @@ export type GetDialogProps = {
 }
   
 export type GetNounsProps = {
+  language: Language,
+  dialog: Dialog,
+  dialogSignature: Signature
+}
+  
+export type GetVerbsProps = {
   language: Language,
   dialog: Dialog,
   dialogSignature: Signature
