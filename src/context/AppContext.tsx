@@ -27,7 +27,6 @@ import type {
   AppHomeValue,
   AnswerKeep,
   QuestionKeep,
-  DialogKeep,
   StepResult,
   NounsKeep,
   HandleNounsErrors,
@@ -56,7 +55,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [answer, setAnswer] = useState<Answer>('')
   const [answerKeep, setAnswerKeep] = useState<AnswerKeep>('')
   const [stepResult, setStepResult] = useState<StepResult>(defaultStepResult)
-  const [dialogKeep, setDialogKeep] = useState<DialogKeep>('')
   const [dialogPrompt, setDialogPrompt] = useState<Prompt>('')
   const [verbsKeep, setVerbsKeep] = useState<VerbsKeep>('')
   const [nounsKeep, setNounsKeep] = useState<NounsKeep>('')
@@ -96,7 +94,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     apiKey,
     audioUrl,
     cleanedText,
-    dialogKeep,
     dialogPrompt,
     gcpKey,
     handleDialogErrors,
@@ -124,7 +121,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setApiKey,
     setAudioUrl,
     setCleanedText,
-    setDialogKeep,
     setDialogPrompt,    
     setGcpKey,
     setHandleDialogErrors,

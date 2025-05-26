@@ -43,7 +43,6 @@ const PanelGenAIPro: React.FC = () => {
     handleDialogErrors,
     handleNounsErrors,
     handleVerbsErrors,
-    setDialogKeep,
     setDialogPrompt,
     setHandleDialogErrors,
     setHandleNounsErrors,
@@ -133,10 +132,6 @@ const PanelGenAIPro: React.FC = () => {
     scenarioParticipantList
   }: HandleDialogProps) => {
 
-    // cXonsole.log(`language: ${language}`)
-    // cXonsole.log(`scenarioLabel: ${scenarioLabel}`)
-    // cXonsole.log(`scenarioParticipantList: ${scenarioParticipantList}`)
-
     const alwaysTrue = true
     if (alwaysTrue && testMode) {
       return
@@ -155,10 +150,6 @@ const PanelGenAIPro: React.FC = () => {
       console.log('Houston, we have SOME problems')
       console.log(response.result.errors)
     }
-
-    const stringifiedDialogKeep = JSON.stringify(response.result.parsed)
-    setDialogKeep(stringifiedDialogKeep)
-    localStorage.setItem('dialogKeep', stringifiedDialogKeep)
 
     setDialogArray(response.result.parsed)
 
@@ -233,10 +224,6 @@ const PanelGenAIPro: React.FC = () => {
     //   return
     // }
 
-    // const stringified = JSON.stringify(result.parsed)
-    // setDialogKeep(stringified)
-    // localStorage.setItem('dialogKeep', stringified)
-
     // setStepResult(prev => {
     //   const updated = { ...prev, dialog: result.parsed }
     //   localStorage.setItem('stepResult', JSON.stringify(updated))
@@ -250,8 +237,6 @@ const PanelGenAIPro: React.FC = () => {
     language,
     dialogArray
   }: HandleNounsProps) => {
-    // cXonsole.log(prompt)
-
     console.log(`language: ${language}`)
     console.log(dialogArray)
 
@@ -260,10 +245,20 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    const alwaysTrue2 = true
-    if (alwaysTrue2) {
+    const response = await getNouns(language, dialogArray)
+
+    if (response === null) {
+      console.log('Houston, we DO have a problems')
       return
     }
+
+    if (!response.result.success) {
+      console.log('Houston, we have SOME problems')
+      console.log(response.result.errors)
+    }
+
+        setDialogArray(response.result.parsed)
+
 
     // console.log(nextStep)
     // cXonsole.log(setStepResult)

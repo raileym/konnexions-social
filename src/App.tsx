@@ -18,7 +18,6 @@ const App: React.FC = () => {
   const {
     setAnswerKeep,
     setApiKey,
-    setDialogKeep,
     setMaskKey,
     setMaskOpenAiKey,    
     setOpenAiKey,
@@ -30,7 +29,8 @@ const App: React.FC = () => {
     setUseCloudTTS,
     setHandleDialogErrors,
     setHandleNounsErrors,
-    setHandleVerbsErrors
+    setHandleVerbsErrors,
+    setNounsKeep
   } = useAppContext()
 
   const loadUsage = () => {
@@ -89,14 +89,11 @@ const App: React.FC = () => {
     const answerKeep = localStorage.getItem('answerKeep')
     if (answerKeep) setAnswerKeep(answerKeep)
 
-    const dialogKeep = localStorage.getItem('dialogKeep')
-    if (dialogKeep) setDialogKeep(dialogKeep)
-
     const nounsKeep = localStorage.getItem('nounsKeep')
-    if (nounsKeep) setDialogKeep(nounsKeep)
+    if (nounsKeep) setNounsKeep(nounsKeep)
   
     const verbsKeep = localStorage.getItem('verbsKeep')
-    if (verbsKeep) setDialogKeep(verbsKeep)
+    if (verbsKeep) setNounsKeep(verbsKeep)
   
     const saved = localStorage.getItem('stepResult')
     if (saved) {

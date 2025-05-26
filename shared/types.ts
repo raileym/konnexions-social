@@ -10,7 +10,6 @@ export type AppContextType = {
   apiKey: ApiKey
   audioUrl: AudioUrl
   cleanedText: CleanedText
-  dialogKeep: DialogKeep
   dialogPrompt: Prompt
   gcpKey: GcpKey
   handleDialogErrors: HandleDialogErrors
@@ -38,7 +37,6 @@ export type AppContextType = {
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
-  setDialogKeep: SetDialogKeep
   setDialogPrompt: SetDialogPrompt
   setGcpKey: SetGcpKey
   setHandleDialogErrors: SetHandleDialogErrors
@@ -90,7 +88,6 @@ export type AnswerKeep = string
 export type ApiKey = string
 export type AudioUrl = string | null
 export type CleanedText = string
-export type DialogKeep = string
 export type GcpKey = string
 export type HelpPanel = AppPanelValue
 export type InputText = string
@@ -116,7 +113,6 @@ export type SetAnswerKeep = React.Dispatch<React.SetStateAction<AnswerKeep>>
 export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
-export type SetDialogKeep = React.Dispatch<React.SetStateAction<DialogKeep>>
 export type SetDialogPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
 export type SetHandleDialogErrors = React.Dispatch<React.SetStateAction<HandleDialogErrors>>
