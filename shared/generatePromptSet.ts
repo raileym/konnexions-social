@@ -16,11 +16,25 @@ import { generateExample } from './generateExample'
 
 export const generatePromptSet: GeneratePromptSet = (): PromptSet => {
 
+//     const jsonQualification: JsonQualification = `
+// RESPONSE: Express your response using well-formed JSON only, with no trailing
+// commas, no single quotes (use double quotes only), no Markdown wrappers, no
+// comments, no explanatory text or prose or partial JSON blocks, and no headings
+// or titles. The output must be a single valid JSON array, starting
+// with [ and ending with ]. Do not prepend phrases like “Here is your JSON:”.
+// Assume the consumer is a machine expecting strict JSON compliance.
+// `
     const jsonQualification: JsonQualification = `
-RESPONSE: Express your response using well-formed JSON only, with no trailing
-commas, no single quotes (use double quotes only), no Markdown wrappers, no
-comments, no explanatory text or prose or partial JSON blocks, and no headings
-or titles. The output must be a single valid JSON array, starting
+RESPONSE: Express your response using well-formed JSON only, with:
+
+  - no trailing commas,
+  - no single quotes (use double quotes only),
+  - no Markdown wrappers,
+  - no comments,
+  - no explanatory text or prose or partial JSON blocks, and
+  - no headings, titles, or labels
+
+The output must be a single valid JSON array, starting
 with [ and ending with ]. Do not prepend phrases like “Here is your JSON:”.
 Assume the consumer is a machine expecting strict JSON compliance.
 `
@@ -60,29 +74,36 @@ ${dialogExample}
     // DIALOG REVIEW PROMPT
     // *****************************************************************
 
-    const getDialogReviewPrompt: GetDialogReviewPrompt = ({dialog, language}: GetDialogReviewPromptProps) => `
-REQUEST: Review the following ${language}-language dialog for grammatical correctness and
-         natural usage appropriate for beginning Spanish learners.
+    const getDialogReviewPrompt: GetDialogReviewPrompt = ({dialogArray, language}: GetDialogReviewPromptProps) => {
+        const dialogReviewExample = generateExample({language, context: 'dialogReview', options: { asString: true }  })
+        
+        return (`
+REQUEST: Review the following Spanish-language dialog array for grammatical correctness and natural usage, making minor corrections only when necessary. This dialog is intended for beginning Spanish learners.
 
+DIALOG ARRAY:
+
+${JSON.stringify(dialogArray, null, 2)}         
 ${jsonQualification}
 Only include lines from the dialog that require corrections. Do not include the participant's
-name in your response. Each string in the array must take the form:
-
-    "Original line|Updated line"
-
-Do not include unchanged lines. If no lines require corrections, return an empty array: []
-
-DIALOG: ${dialog}
-
-A complete example of a sample response follows:
+name in your response. The Design Review Array must take the form:
 
     [
-      "Hola, estoy bien. Quisiera ver el menú, por favor.|Hola, estoy bien. ¿Puedo ver el menú, por favor?",
-      "Perfecto, ¿ya decidiste qué vas a comer?|Perfecto, ¿ya decidiste lo que vas a comer?"
+        "Original line|Updated line",
+        "Original line|Updated line",
+        "Original line|Updated line"
     ]
 
+Do not include unchanged lines. Exclude the speaker's name. State only the original line and
+the updated line. If no lines require corrections or updates, return a JSON array with one entry,
 
-`
+    [ "No corrections needed" ]
+ 
+A complete example of a sample response follows:
+
+EXAMPLE RESPONSE:
+
+${dialogReviewExample}
+`)}
 
     // *****************************************************************
     // NOUNS PROMPT
@@ -115,7 +136,7 @@ where
 - use lowercase throughout
 - all content must be in lowercase, including nouns and prepositions
 
-EXAMPLE:
+EXAMPLE RESPONSE:
 ${nounsExample}
 `
 )}
@@ -154,7 +175,7 @@ where
 - Do not include pronouns
 - For reflexive verbs, conjugate them as appropriate in beginning ${language} class.
 
-EXAMPLE:
+EXAMPLE RESPONSE:
 
 ${verbsExample}
 `

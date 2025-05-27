@@ -40,7 +40,7 @@ export const validateGenAIResponse = <T extends string>({
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, parsed: [], errors }
+    return { success: false, parsed: [], errors, sentinel: '' }
   }
 
   if (!looksLikeStringArray.test(response)) {
@@ -52,7 +52,7 @@ export const validateGenAIResponse = <T extends string>({
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, parsed: [], errors }
+    return { success: false, parsed: [], errors, sentinel: '' }
   }
 
   let parsed: string[]
@@ -67,7 +67,7 @@ export const validateGenAIResponse = <T extends string>({
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, parsed: [], errors }
+    return { success: false, parsed: [], errors, sentinel: '' }
   }
 
   if (!Array.isArray(parsed)) {
@@ -79,7 +79,7 @@ export const validateGenAIResponse = <T extends string>({
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, parsed: [], errors }
+    return { success: false, parsed: [], errors, sentinel: '' }
   }
 
   if (!parsed.every(line => typeof line === 'string')) {
@@ -91,7 +91,18 @@ export const validateGenAIResponse = <T extends string>({
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, parsed: [], errors }
+    return { success: false, parsed: [], errors, sentinel: '' }
+  }
+
+  if (
+    parsed.length === 1 &&
+    parsed[0].trim().toLowerCase() === 'no corrections needed'
+  ) {
+    return {
+      success: true,
+      parsed: [],
+      sentinel: 'No corrections needed'
+    }
   }
 
   const structured = parsed.map((original): RichParsedLine => {
@@ -190,6 +201,7 @@ export const validateGenAIResponse = <T extends string>({
   return {
     success: errors.length === 0,
     parsed: valid,
-    errors
+    errors,
+    sentinel: ''
   }
 } 

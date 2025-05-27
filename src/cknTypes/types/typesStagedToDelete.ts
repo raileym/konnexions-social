@@ -237,10 +237,6 @@ export type HandleDialogProps = {
   language: Language
   scenarioLabel: ScenarioLabel
   participant: Participant
-
-  // prompt: Prompt
-  // nextStep: GenAIStepValue
-  // setStepResult: SetStepResult
 }
 
 export type DialogPromptProps = {

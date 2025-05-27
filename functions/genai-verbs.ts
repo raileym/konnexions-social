@@ -80,7 +80,6 @@ const handler: Handler = async (event) => {
       errorLabel: ERROR_LABEL.VERBS_ERROR,
       expectedFieldCount: 7,
       language: '' as Language
-      // prompt
     })    
 
     // In short, I am carrying along the signature

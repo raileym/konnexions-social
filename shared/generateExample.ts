@@ -30,7 +30,14 @@ export const generateExample = ({
       "gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta",
       "ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan",
       "pedir|pido|pides|pide|pedimos|pedís|piden"
-    ]
+    ],
+    dialogReview: [
+      "Buenas tardes. ¿Qué desea tomar?|Buenas tardes, ¿qué le gustaría tomar?",
+      "Una limonada, por favor.|Me gustaría una limonada, por favor.",
+      "En seguida.|En un momento le traigo su bebida."
+    ],
+    nounsReview: [],
+    verbsReview: []
   }
 
   const raw = examples[context]

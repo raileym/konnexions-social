@@ -99,7 +99,6 @@ const handler: Handler = async (event) => {
       errorLabel: ERROR_LABEL.DIALOG_ERROR,
       expectedFieldCount: 2,
       language
-      // prompt
     })    
 
     console.log('After validation')

@@ -196,8 +196,6 @@ export type ScenarioTitle = string
 export type ScenarioTitles = Record<ScenarioValue, ScenarioTitle>
 
 export type StepResult = {
-  verbsArray: VerbsArray
-  
   dialog: Dialog
   dialogArray: DialogArray
   dialogPrompt: Prompt
@@ -209,10 +207,26 @@ export type StepResult = {
   nounsSignature: Signature
   nounsErrors: HandleLLMError[]
 
-  verbs: Verbs[]
+  verbsArray: VerbsArray
   verbsErrors: HandleLLMError[]
   verbsPrompt: Prompt
-  // ...
+  verbsSignature: Signature
+
+  dialogReviewArray: DialogReviewArray
+  dialogReviewErrors: HandleLLMError[]
+  dialogReviewPrompt: Prompt
+  dialogReviewSignature: Signature
+  dialogReviewSentinel: Sentinel
+
+  nounsReviewArray: DialogReviewArray
+  nounsReviewErrors: HandleLLMError[]
+  nounsReviewPrompt: Prompt
+  nounsReviewSignature: Signature
+
+  verbsReviewArray: DialogReviewArray
+  verbsReviewErrors: HandleLLMError[]
+  verbsReviewPrompt: Prompt
+  verbsReviewSignature: Signature
 }
 
 export type SetStepResult = React.Dispatch<React.SetStateAction<StepResult>>
@@ -262,9 +276,26 @@ export type VerbsLine = string
 export type VerbsArray = VerbsLine[]
 export type SetVerbsArray = React.Dispatch<React.SetStateAction<VerbsArray>>
 
+export type DialogReviewLine = string
+export type DialogReviewArray = DialogReviewLine[]
+export type SetDialogReviewArray = React.Dispatch<React.SetStateAction<DialogReviewArray>>
+
+export type NounsReviewLine = string
+export type NounsReviewArray = NounsReviewLine[]
+export type SetNounsReviewArray = React.Dispatch<React.SetStateAction<NounsReviewArray>>
+
+export type VerbsReviewLine = string
+export type VerbsReviewArray = VerbsReviewLine[]
+export type SetVerbsReviewArray = React.Dispatch<React.SetStateAction<VerbsReviewArray>>
+
 export type Dialog = string
 export type Nouns = string
 export type Verbs = string
+
+export type DialogReview = string
+export type NounsReview = string
+export type VerbsReview = string
+
 export type JsonQualification = string
 export type Prompt = string
 export type HandleDialogProps = {
@@ -282,6 +313,7 @@ export type HandleNounsProps = {
 export type HandleReviewDialogProps = {
   language: Language
   dialogArray: DialogArray
+  dialogSignature: Signature
 }
 
 export type HandleVerbsProps = {
@@ -299,7 +331,7 @@ export type GetDialogPromptProps = {
 
 export type GetDialogReviewPromptProps = {
   language: Language
-  dialog: Dialog
+  dialogArray: DialogArray
 }
 
 export type GetNounsPromptProps = {
@@ -332,9 +364,17 @@ export const defaultDialogArray: DialogArray = [
   "Mesero: En seguida."
 ]
 
+export const defaultDialogReviewArray: DialogArray = [
+  "Mesero: Buenas tardes. ¿Qué desea tomar?|Mesero: Buenas tardes, ¿qué le gustaría tomar?",
+  "Cliente: Una limonada, por favor.|Cliente: Me gustaría una limonada, por favor.",
+  "Mesero: En seguida.|Mesero: En un momento le traigo su bebida."
+]
+
 export const defaultDialog: Dialog = defaultDialogArray.join(' ')
-export const defaultDialogSignature: Signature = 'xyz' // generateSignature(defaultDialog)
-export const defaultNounsSignature: Signature = 'xyz' // generateSignature(defaultDialog)
+
+export const defaultSignature = 'xyz'
+
+export const defaultSentinel = ''
 
 export const defaultNouns: Nouns[] = [
   "mesero",
@@ -365,22 +405,38 @@ export const defaultStepResult: StepResult = {
   dialogPrompt: '',
   dialogArray: defaultDialogArray,
   dialogErrors: [],
-  dialogSignature: defaultDialogSignature,
+  dialogSignature: defaultSignature,
+
+  dialogReviewPrompt: '',
+  dialogReviewArray: defaultDialogReviewArray,
+  dialogReviewErrors: [],
+  dialogReviewSignature: defaultSignature,
+  dialogReviewSentinel: defaultSentinel,
 
   nounsPrompt: '',
   nounsArray: defaultNounsArray,
   nounsErrors: [],
-  nounsSignature: defaultNounsSignature,
+  nounsSignature: defaultSignature,
 
-  verbs: defaultVerbs, // JSON.stringify(defaultVerbs, null, 2),
+  nounsReviewPrompt: '',
+  nounsReviewArray: [],
+  nounsReviewErrors: [],
+  nounsReviewSignature: defaultSignature,
+
+  verbsSignature: defaultSignature, // JSON.stringify(defaultVerbs, null, 2),
   verbsArray: defaultVerbsArray,
   verbsErrors: [],
-  verbsPrompt: ''
+  verbsPrompt: '',
+
+  verbsReviewPrompt: '',
+  verbsReviewArray: [],
+  verbsReviewErrors: [],
+  verbsReviewSignature: defaultSignature,
 }
 
 export type Language = 'Spanish' | 'English' 
 
-export type GenAIContext = 'dialog' | 'nouns' | 'verbs'
+export type GenAIContext = 'dialog' | 'nouns' | 'verbs' | 'dialogReview' | 'nounsReview' | 'verbsReview'
 
 // export type HandleNounsError = {
 //   message: string
@@ -456,11 +512,13 @@ export type ValidateGenAIResponsePropsOLD = {
   language: Language
 }
 
+export type Sentinel = string
+
 export type GenAIValidationResult<T> = {
   success: boolean
   parsed: T[]
-  // prompt: Prompt
   errors?: HandleLLMError[]
+  sentinel: Sentinel
 }
 
 export type Signature = string
@@ -484,6 +542,12 @@ export type GetVerbsResult = {
   verbsSignature: Signature
 }
 
+export type GetDialogReviewResult = {
+  dialogReviewPrompt: Prompt
+  dialogReviewResult: GenAIValidationResult<Verbs>
+  dialogReviewSignature: Signature
+}
+
 export type RichParsedLine = {
   original: string
   fields: string[]
@@ -505,6 +569,12 @@ export type GenerateExampleProps = {
 //   en: string[]
 //   es: string[]
 // }
+
+export type GetDialogReviewProps = {
+  language: Language
+  dialogArray: DialogArray
+  dialogSignature: Signature
+}
 
 export type GetScenarioDetailsProps = {
   scenario: ScenarioValue,

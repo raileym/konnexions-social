@@ -9,6 +9,8 @@ import {
 import type {
   GetDialogProps,
   GetDialogResult,
+  GetDialogReviewProps,
+  GetDialogReviewResult,
   GetNounsProps,
   GetNounsResult,
   GetVerbsProps,
@@ -46,6 +48,7 @@ const PanelGenAIPro: React.FC = () => {
   const [showDialogPrompt, setShowDialogPrompt] = useState(false)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [showVerbsPrompt, setShowVerbsPrompt] = useState(false)
+  const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)
   const [language, ] = useState<Language>('Spanish')
   const [testMode, setTestMode] = useState<boolean>(true)
 
@@ -59,6 +62,10 @@ const PanelGenAIPro: React.FC = () => {
 
   const toggleShowVerbsPrompt = () => {
     setShowVerbsPrompt(prev => !prev)
+  }
+
+  const toggleShowDialogReviewPrompt = () => {
+    setShowDialogReviewPrompt(prev => !prev)
   }
 
   const getDialog = async ({
@@ -90,6 +97,40 @@ const PanelGenAIPro: React.FC = () => {
       return null
     }
   }  
+
+  const getDialogReview = async ({
+    language,
+    dialogArray,
+    dialogSignature
+  }: GetDialogReviewProps): Promise<GetDialogReviewResult | null> => {
+
+    console.log(`getDialogReview: language: ${language}`)
+    console.log(`getDialogReview: dialogArray: ${JSON.stringify(dialogArray, null, 2)}`)
+    console.log(`getDialogReview: dialogSignature: ${dialogSignature}`)
+
+    try {
+      const res = await fetch('/.netlify/functions/genai-dialog-review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          language,
+          dialogArray,
+          dialogSignature
+        })
+      })
+  
+      if (!res.ok) {
+        console.error('Function error:', res.status)
+        return null
+      }
+  
+      const data = await res.json()
+      return data as GetDialogReviewResult
+    } catch (err) {
+      console.error('Network error:', err)
+      return null
+    }
+  }
 
   const getNouns = async ({
     language,
@@ -190,8 +231,7 @@ const PanelGenAIPro: React.FC = () => {
     scenarioParticipantList
   }: HandleDialogProps) => {
 
-    const alwaysTrue = true
-    if (alwaysTrue && testMode) {
+    if (testMode) {
       console.log(`language: ${language}`)
       console.log(`scenarioLabel: ${scenarioLabel}`)
       console.log(`scenarioParticipantList: ${scenarioParticipantList}`)
@@ -228,52 +268,45 @@ const PanelGenAIPro: React.FC = () => {
     setStep(GEN_AI_STEP.DIALOG_REVIEW)
   }
   
-  const reviewDialog = async ({
+  const handleReviewDialog = async ({
     language,
-    dialogArray
+    dialogArray,
+    dialogSignature
   }: HandleReviewDialogProps) => {
-    // cXonsole.log(prompt)
 
-    const alwaysTrue = true
-    if (alwaysTrue && testMode) {
+    if (testMode) {
       console.log(`language: ${language}`)
+      console.log(`dialogSignature: ${dialogSignature}`)
       console.log(JSON.stringify(dialogArray, null, 2))
       return
     }
 
-    const alwaysTrue2 = true
-    if (alwaysTrue2) {
+    const response = await getDialogReview({language, dialogArray, dialogSignature})
+
+    if (response === null) {
+      console.log('Houston, we DO have a problems')
       return
     }
 
-    console.log(language)
-    console.log(JSON.stringify(dialogArray, null, 2))
+    if (!response.dialogReviewResult.success) {
+      console.log('Houston, we have SOME problems')
+      console.log(response.dialogReviewResult.errors)
+    }
 
-    // const response = await fetchFromOpenAI(prompt)
+    setStepResult(prev => {
+      const updated = {
+        ...prev,
+        dialogReviewArray: response.dialogReviewResult.parsed,
+        dialogReviewErrors: response.dialogReviewResult.errors ?? [],
+        dialogReviewPrompt: response.dialogReviewPrompt,
+        dialogReviewSignature: response.dialogReviewSignature,
+        dialogReviewSentinel: response.dialogReviewResult.sentinel
+      }
+      return updated
+    })
+    
+    setStep(GEN_AI_STEP.NOUNS_REVIEW)
 
-    // const result = validateGenAIResponse<Dialog>({
-    //   response,
-    //   errorLabel: ERROR_LABEL.DIALOG_ERROR,
-    //   setErrors: setHandleDialogErrors,
-    //   expectedFieldCount: 2,
-    //   language: ''
-    // })    
-
-    // console.log(result)
-
-    // if (!result.success) {
-    //   console.log('Houston, we have a problem', result.error.message)
-    //   console.log(result.error)
-    //   return
-    // }
-
-    // setStepResult(prev => {
-    //   const updated = { ...prev, dialog: result.parsed }
-    //   localStorage.setItem('stepResult', JSON.stringify(updated))
-    //   return updated
-    // })
-
-    // setStep(nextStep)
   }
   
   const handleNouns = async ({
@@ -282,8 +315,7 @@ const PanelGenAIPro: React.FC = () => {
     dialogSignature
   }: HandleNounsProps) => {
     
-    const alwaysTrue = true
-    if (alwaysTrue && testMode) {
+    if (testMode) {
       console.log(`language: ${language}`)
       console.log(`dialog: ${dialog}`)
       console.log(`dialogSignature: ${dialogSignature}`)
@@ -324,8 +356,7 @@ const PanelGenAIPro: React.FC = () => {
   }: HandleVerbsProps) => {
     console.log(prompt)
 
-    const alwaysTrue = true
-    if ( alwaysTrue && testMode ) {
+    if ( testMode ) {
       console.log(`language: ${language}`)
       console.log(`dialog: ${dialog}`)
       console.log(`dialogSignature: ${dialogSignature}`)
@@ -446,11 +477,10 @@ const PanelGenAIPro: React.FC = () => {
           <div>
             <button
               onClick={() =>
-                reviewDialog({
+                handleReviewDialog({
                   language,
-                  dialogArray: stepResult.dialogArray
-                  // scenarioLabel,
-                  // scenarioParticipantList              
+                  dialogArray: stepResult.dialogArray,
+                  dialogSignature: stepResult.dialogSignature
                 })
               }
               className="mv3 pa2 br2 bn bg-purple white pointer"
@@ -552,6 +582,24 @@ const PanelGenAIPro: React.FC = () => {
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.verbsPrompt}</div>
+              </div>
+            </div>
+          )}
+          
+          <div className="w-100">
+            <button
+              onClick={toggleShowDialogReviewPrompt}
+              className="mt3 pa2 br2 bn bg-brand white pointer"
+            >
+              {showDialogReviewPrompt ? 'Hide Dialog Review Prompt' : 'Show Dialog Review Prompt'}
+            </button>
+          </div>
+
+          {showDialogReviewPrompt && (
+            <div className="w-100 flex justify-center flex-column">
+              <div className="mt4 ba pa3 bg-white">
+                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Review Prompt</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.dialogReviewPrompt}</div>
               </div>
             </div>
           )}

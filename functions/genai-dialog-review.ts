@@ -1,0 +1,136 @@
+import { Handler } from '@netlify/functions'
+import { validateGenAIResponse } from '../shared/errorUtils'
+import { ERROR_LABEL, Language, DialogReview } from '../shared/types'
+import { generatePromptSet } from '../shared/generatePromptSet'
+
+const handler: Handler = async (event) => {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    return {
+      statusCode: 500,
+      body: 'Missing OpenAI API key in environment'
+    }
+  }
+
+  try {
+    const { dialogArray, language, dialogSignature } = JSON.parse(event.body ?? '{}')
+
+    if (!dialogArray || !language || !dialogSignature) {
+      console.log('Missing the big three')
+      console.log(`language: ${language}`)
+      console.log(`dialogArray: ${JSON.stringify(dialogArray, null, 2)}`)
+      console.log(`dialogSignature: ${dialogSignature}`)
+
+      return {
+        statusCode: 400,
+        body: 'Missing one or more required fields: language, dialog'
+      }
+    }
+
+    console.log(`language: ${language}`)
+      console.log(`dialogArray: ${JSON.stringify(dialogArray, null, 2)}`)
+    console.log(`dialogSignature: ${dialogSignature}`)
+
+    const promptSet = generatePromptSet()
+
+    const dialogReviewPrompt = promptSet.getDialogReviewPrompt({language, dialogArray})
+
+    // const alwaysTrue = true
+    // if (alwaysTrue) {
+    //   return {
+    //     statusCode: 200,
+    //     body: JSON.stringify({
+    //       prompt: nounsPrompt,
+    //       result: {
+    //         success: true,
+    //         parsed: [
+    //           "masculino|restaurante|restaurantes|a, en, desde",
+    //           "femenino|mesera|meseras|con, de, para",
+    //           "masculino|grupo|grupos|en, con, para"
+    //         ],
+    //         errors: []
+    //       }
+    //     })
+    //   }
+    // }
+
+    // const reply = JSON.stringify([
+    //   "Buenas tardes. ¿Qué desea tomar?|Buenas tardes, ¿qué le gustaría tomar?",
+    //   "Una limonada, por favor.|Me gustaría una limonada, por favor.",
+    //   "En seguida.|En un momento le traigo su bebida."
+    // ])
+
+    // const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${apiKey}`,
+    //   },
+    //   body: JSON.stringify({
+    //     model: 'gpt-3.5-turbo',
+    //     messages: [{ role: 'user', content: nounsPrompt }]
+    //   })
+    // })
+
+    // const data = await response.json()
+    // const reply = data.choices?.[0]?.message?.content || ''
+
+    const claudeKey = process.env.CLAUDE_API_KEY
+
+    if (!claudeKey) {
+      return {
+        statusCode: 500,
+        body: 'Missing Claude API key in environment'
+      }
+    }
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': claudeKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 1024,
+        messages: [{ role: 'user', content: dialogReviewPrompt }]
+      })
+    })
+
+    const data = await response.json()
+    const reply = data.content?.[0]?.text?.trim() || ''
+
+    console.log("***********************************************")
+    console.log(dialogReviewPrompt)
+    console.log("***********************************************")
+    console.log(JSON.stringify(reply, null, 2))
+    console.log("***********************************************")
+
+    const dialogReviewResult = validateGenAIResponse<DialogReview>({
+      response: reply,
+      errorLabel: ERROR_LABEL.NOUNS_ERROR,
+      expectedFieldCount: 2,
+      language: '' as Language
+    })    
+
+    // In short, I am carrying along the signature
+    // for the dialog, lining up this response
+    // about nouns with the incoming dialog.
+    const dialogReviewSignature = dialogSignature
+
+    console.log(JSON.stringify(dialogReviewResult, null, 2))
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ dialogReviewPrompt, dialogReviewResult, dialogReviewSignature })
+    }
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: `Error generating nouns: ${(err as Error).message}`
+    }
+  }
+}
+
+export { handler }

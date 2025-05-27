@@ -43,8 +43,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const handleVoiceLoad = () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const voices = window.speechSynthesis.getVoices()
+      void window.speechSynthesis.getVoices()
+
       // console.log('[Chrome] Voices loaded:', voices.map(v => v.lang + ' - ' + v.name))
     }
 
