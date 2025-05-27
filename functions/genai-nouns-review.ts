@@ -55,7 +55,7 @@ const handler: Handler = async (event) => {
     //   }
     // }
 
-    const reply = generateExample({language, context: 'nounsReview', options: { asString: true }  })
+    // const reply = generateExample({language, context: 'nounsReview', options: { asString: true }  })
     // const reply = JSON.stringify([ "No corrections needed" ], null, 2)
     
     // const reply = JSON.stringify([
@@ -88,22 +88,22 @@ const handler: Handler = async (event) => {
       }
     }
 
-    // const response = await fetch('https://api.anthropic.com/v1/messages', {
-    //   method: 'POST',
-    //   headers: {
-    //     'x-api-key': claudeKey,
-    //     'anthropic-version': '2023-06-01',
-    //     'content-type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     model: 'claude-3-5-sonnet-20241022',
-    //     max_tokens: 1024,
-    //     messages: [{ role: 'user', content: nounsReviewPrompt }]
-    //   })
-    // })
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': claudeKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 1024,
+        messages: [{ role: 'user', content: nounsReviewPrompt }]
+      })
+    })
 
-    // const data = await response.json()
-    // const reply = data.content?.[0]?.text?.trim() || ''
+    const data = await response.json()
+    const reply = data.content?.[0]?.text?.trim() || ''
 
     console.log("***********************************************")
     console.log(nounsReviewPrompt)
