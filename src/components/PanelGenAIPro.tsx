@@ -17,10 +17,13 @@ import type {
   GetVerbsResult,
   HandleDialogProps,
   HandleNounsProps,
-  HandleReviewDialogProps,
+  HandleDialogReviewProps,
   HandleVerbsProps,
   Language,
   UseMyself,
+  HandleNounsReviewProps,
+  GetNounsReviewProps,
+  GetNounsReviewResult,
 } from '../../shared/types'
 import { getScenarioDetails } from './Util'
 import Scenario from './Scenario'
@@ -49,6 +52,7 @@ const PanelGenAIPro: React.FC = () => {
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [showVerbsPrompt, setShowVerbsPrompt] = useState(false)
   const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)
+  const [showNounsReviewPrompt, setShowNounsReviewPrompt] = useState(false)
   const [language, ] = useState<Language>('Spanish')
   const [testMode, setTestMode] = useState<boolean>(true)
 
@@ -66,6 +70,10 @@ const PanelGenAIPro: React.FC = () => {
 
   const toggleShowDialogReviewPrompt = () => {
     setShowDialogReviewPrompt(prev => !prev)
+  }
+
+  const toggleShowNounsReviewPrompt = () => {
+    setShowNounsReviewPrompt(prev => !prev)
   }
 
   const getDialog = async ({
@@ -98,6 +106,40 @@ const PanelGenAIPro: React.FC = () => {
     }
   }  
 
+  const getNounsReview = async ({
+    language,
+    nounsArray,
+    dialogSignature
+  }: GetNounsReviewProps): Promise<GetNounsReviewResult | null> => {
+
+    console.log(`getNounsReview: language: ${language}`)
+    console.log(`getNounsReview: nounsArray: ${JSON.stringify(nounsArray, null, 2)}`)
+    console.log(`getNounsReview: dialogSignature: ${dialogSignature}`)
+
+    try {
+      const res = await fetch('/.netlify/functions/genai-nouns-review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          language,
+          nounsArray,
+          dialogSignature
+        })
+      })
+  
+      if (!res.ok) {
+        console.error('Function error:', res.status)
+        return null
+      }
+  
+      const data = await res.json()
+      return data as GetNounsReviewResult
+    } catch (err) {
+      console.error('Network error:', err)
+      return null
+    }
+  }
+  
   const getDialogReview = async ({
     language,
     dialogArray,
@@ -268,11 +310,11 @@ const PanelGenAIPro: React.FC = () => {
     setStep(GEN_AI_STEP.DIALOG_REVIEW)
   }
   
-  const handleReviewDialog = async ({
+  const handleDialogReview = async ({
     language,
     dialogArray,
     dialogSignature
-  }: HandleReviewDialogProps) => {
+  }: HandleDialogReviewProps) => {
 
     if (testMode) {
       console.log(`language: ${language}`)
@@ -300,7 +342,48 @@ const PanelGenAIPro: React.FC = () => {
         dialogReviewErrors: response.dialogReviewResult.errors ?? [],
         dialogReviewPrompt: response.dialogReviewPrompt,
         dialogReviewSignature: response.dialogReviewSignature,
-        dialogReviewSentinel: response.dialogReviewResult.sentinel
+        dialogReviewSentinel: response.dialogReviewResult.sentinel ?? ''
+      }
+      return updated
+    })
+    
+    setStep(GEN_AI_STEP.NOUNS_REVIEW)
+
+  }
+  
+  const handleNounsReview = async ({
+    language,
+    nounsArray,
+    dialogSignature
+  }: HandleNounsReviewProps) => {
+
+    if (testMode) {
+      console.log(`language: ${language}`)
+      console.log(`dialogSignature: ${dialogSignature}`)
+      console.log(JSON.stringify(nounsArray, null, 2))
+      return
+    }
+
+    const response = await getNounsReview({language, nounsArray, dialogSignature})
+
+    if (response === null) {
+      console.log('Houston, we DO have a problems')
+      return
+    }
+
+    if (!response.nounsReviewResult.success) {
+      console.log('Houston, we have SOME problems')
+      console.log(response.nounsReviewResult.errors)
+    }
+
+    setStepResult(prev => {
+      const updated = {
+        ...prev,
+        nounsReviewArray: response.nounsReviewResult.parsed,
+        nounsReviewErrors: response.nounsReviewResult.errors ?? [],
+        nounsReviewPrompt: response.nounsReviewPrompt,
+        nounsReviewSignature: response.nounsReviewSignature,
+        nounsReviewSentinel: response.nounsReviewResult.sentinel ?? ''
       }
       return updated
     })
@@ -477,7 +560,7 @@ const PanelGenAIPro: React.FC = () => {
           <div>
             <button
               onClick={() =>
-                handleReviewDialog({
+                handleDialogReview({
                   language,
                   dialogArray: stepResult.dialogArray,
                   dialogSignature: stepResult.dialogSignature
@@ -485,7 +568,22 @@ const PanelGenAIPro: React.FC = () => {
               }
               className="mv3 pa2 br2 bn bg-purple white pointer"
             >
-              Review Dialog Step
+              Review Dialog
+            </button>
+          </div>
+
+          <div>
+            <button
+              onClick={() =>
+                handleNounsReview({
+                  language,
+                  nounsArray: stepResult.nounsArray,
+                  dialogSignature: stepResult.dialogSignature
+                })
+              }
+              className="mv3 pa2 br2 bn bg-purple white pointer"
+            >
+              Review Nouns
             </button>
           </div>
 
@@ -603,7 +701,25 @@ const PanelGenAIPro: React.FC = () => {
               </div>
             </div>
           )}
-          
+
+          <div className="w-100">
+            <button
+              onClick={toggleShowNounsReviewPrompt}
+              className="mt3 pa2 br2 bn bg-brand white pointer"
+            >
+              {showNounsReviewPrompt ? 'Hide Nouns Review Prompt' : 'Show Nouns Review Prompt'}
+            </button>
+          </div>
+
+          {showNounsReviewPrompt && (
+            <div className="w-100 flex justify-center flex-column">
+              <div className="mt4 ba pa3 bg-white">
+                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Review Prompt</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.nounsReviewPrompt}</div>
+              </div>
+            </div>
+          )}
+
           <div className="w-100 flex justify-center flex-column">
             <div>
               <div className="mt4 b">Dialog Array</div>

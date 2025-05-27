@@ -3,11 +3,16 @@ import type {
   GenerateExampleProps
 } from "./types"
 
-export const generateExample = ({
+// ✅ Overload declarations — DO NOT use 'const' or 'export'
+export function generateExample(props: GenerateExampleProps & { options: { asString: true } }): string
+export function generateExample(props: GenerateExampleProps & { options?: { asString?: false } }): string[]
+
+// ✅ Implementation (this one is exported)
+export function generateExample({
   language,
   context,
   options = {}
-}: GenerateExampleProps): string | string[] => {
+}: GenerateExampleProps): string | string[] {
   if (language !== 'Spanish') {
     console.log(`Not Spanish: ${language}`)
     return options.asString ? '[]' : []
@@ -36,8 +41,17 @@ export const generateExample = ({
       "Una limonada, por favor.|Me gustaría una limonada, por favor.",
       "En seguida.|En un momento le traigo su bebida."
     ],
-    nounsReview: [],
-    verbsReview: []
+    nounsReview: [
+      "masculino|restaurante|restaurantes|a, en, desde, sobre",
+      "femenino|noche|noches|en, durante, por",
+      "femenino|ensalada|ensaladas|con, sin, de, para",
+      "masculino|pollo|pollos|con, sin, de, para"
+    ],
+    verbsReview: [
+      "gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta",
+      "ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan",
+      "pedir|pido|pides|pide|pedimos|pedís|piden"
+    ]
   }
 
   const raw = examples[context]

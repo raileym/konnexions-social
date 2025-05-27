@@ -218,15 +218,17 @@ export type StepResult = {
   dialogReviewSignature: Signature
   dialogReviewSentinel: Sentinel
 
-  nounsReviewArray: DialogReviewArray
+  nounsReviewArray: NounsReviewArray
   nounsReviewErrors: HandleLLMError[]
   nounsReviewPrompt: Prompt
   nounsReviewSignature: Signature
+  nounsReviewSentinel: Sentinel
 
-  verbsReviewArray: DialogReviewArray
+  verbsReviewArray: VerbsReviewArray
   verbsReviewErrors: HandleLLMError[]
   verbsReviewPrompt: Prompt
   verbsReviewSignature: Signature
+  verbsReviewSentinel: Sentinel
 }
 
 export type SetStepResult = React.Dispatch<React.SetStateAction<StepResult>>
@@ -310,9 +312,15 @@ export type HandleNounsProps = {
   dialogSignature: Signature
 }
 
-export type HandleReviewDialogProps = {
+export type HandleDialogReviewProps = {
   language: Language
   dialogArray: DialogArray
+  dialogSignature: Signature
+}
+
+export type HandleNounsReviewProps = {
+  language: Language
+  nounsArray: NounsArray
   dialogSignature: Signature
 }
 
@@ -334,6 +342,16 @@ export type GetDialogReviewPromptProps = {
   dialogArray: DialogArray
 }
 
+export type GetNounsReviewPromptProps = {
+  language: Language
+  nounsArray: NounsArray
+}
+
+export type GetVerbsReviewPromptProps = {
+  language: Language
+  verbsArray: VerbsArray
+}
+
 export type GetNounsPromptProps = {
   language: Language
   dialog: Dialog
@@ -347,13 +365,17 @@ export type GetVerbsPromptProps = {
 export type GetDialogPrompt = (props: GetDialogPromptProps) => string
 export type GetDialogReviewPrompt = (props: GetDialogReviewPromptProps) => string
 export type GetNounsPrompt = (props: GetNounsPromptProps) => string
+export type GetNounsReviewPrompt = (props: GetNounsReviewPromptProps) => string
 export type GetVerbsPrompt = (props: GetVerbsPromptProps) => string
+export type GetVerbsReviewPrompt = (props: GetVerbsReviewPromptProps) => string
 
 export type PromptSet = {
   getDialogPrompt: GetDialogPrompt
-  getDialogReviewPrompt: GetDialogReviewPrompt
   getNounsPrompt: GetNounsPrompt
   getVerbsPrompt: GetVerbsPrompt
+  getDialogReviewPrompt: GetDialogReviewPrompt
+  getNounsReviewPrompt: GetNounsReviewPrompt
+  getVerbsReviewPrompt: GetVerbsReviewPrompt
 }
 
 export type GeneratePromptSet = () => PromptSet
@@ -417,11 +439,12 @@ export const defaultStepResult: StepResult = {
   nounsArray: defaultNounsArray,
   nounsErrors: [],
   nounsSignature: defaultSignature,
-
+  
   nounsReviewPrompt: '',
   nounsReviewArray: [],
   nounsReviewErrors: [],
   nounsReviewSignature: defaultSignature,
+  nounsReviewSentinel: defaultSentinel,
 
   verbsSignature: defaultSignature, // JSON.stringify(defaultVerbs, null, 2),
   verbsArray: defaultVerbsArray,
@@ -432,6 +455,8 @@ export const defaultStepResult: StepResult = {
   verbsReviewArray: [],
   verbsReviewErrors: [],
   verbsReviewSignature: defaultSignature,
+  verbsReviewSentinel: defaultSentinel,
+
 }
 
 export type Language = 'Spanish' | 'English' 
@@ -486,7 +511,10 @@ export type ErrorLabel = string
 export const ERROR_LABEL = {
   DIALOG_ERROR: 'handleDialogError',
   NOUNS_ERROR: 'handleNounsError',
-  VERBS_ERROR: 'handleVerbsError'
+  VERBS_ERROR: 'handleVerbsError',
+  DIALOG_REVIEW_ERROR: 'handleDialogReviewError',
+  NOUNS_REVIEW_ERROR: 'handleNounsReviewError',
+  VERBS_REVIEW_ERROR: 'handleVerbsReviewError'
 } as const
 export type ErrorLabelValue = (typeof ERROR_LABEL)[keyof typeof ERROR_LABEL]
 export type ErrorLabelKey = keyof typeof ERROR_LABEL
@@ -518,7 +546,7 @@ export type GenAIValidationResult<T> = {
   success: boolean
   parsed: T[]
   errors?: HandleLLMError[]
-  sentinel: Sentinel
+  sentinel?: Sentinel
 }
 
 export type Signature = string
@@ -548,6 +576,12 @@ export type GetDialogReviewResult = {
   dialogReviewSignature: Signature
 }
 
+export type GetNounsReviewResult = {
+  nounsReviewPrompt: Prompt
+  nounsReviewResult: GenAIValidationResult<NounsReviewLine>
+  nounsReviewSignature: Signature
+}
+
 export type RichParsedLine = {
   original: string
   fields: string[]
@@ -573,6 +607,12 @@ export type GenerateExampleProps = {
 export type GetDialogReviewProps = {
   language: Language
   dialogArray: DialogArray
+  dialogSignature: Signature
+}
+
+export type GetNounsReviewProps = {
+  language: Language
+  nounsArray: NounsArray
   dialogSignature: Signature
 }
 
