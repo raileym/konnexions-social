@@ -24,11 +24,14 @@ import type {
   HandleNounsReviewProps,
   GetNounsReviewProps,
   GetNounsReviewResult,
+  TestMode,
 } from '../../shared/types'
 import { getScenarioDetails } from './Util'
 import Scenario from './Scenario'
 import ParticipantToggle from './ParticipantToggle'
 import { resetErrors } from './errorUtils'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 
 const PanelGenAIPro: React.FC = () => {
   const {
@@ -54,7 +57,7 @@ const PanelGenAIPro: React.FC = () => {
   const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)
   const [showNounsReviewPrompt, setShowNounsReviewPrompt] = useState(false)
   const [language, ] = useState<Language>('Spanish')
-  const [testMode, setTestMode] = useState<boolean>(true)
+  const [testMode, setTestMode] = useState<TestMode>(true)
 
   const toggleShowDialogPrompt = () => {
     setShowDialogPrompt(prev => !prev)
@@ -77,6 +80,7 @@ const PanelGenAIPro: React.FC = () => {
   }
 
   const getDialog = async ({
+    testMode,
     language,
     scenarioLabel,
     scenarioParticipantList
@@ -87,6 +91,7 @@ const PanelGenAIPro: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          testMode,
           language,
           scenarioLabel,
           scenarioParticipantList
@@ -107,6 +112,7 @@ const PanelGenAIPro: React.FC = () => {
   }  
 
   const getNounsReview = async ({
+    testMode,
     language,
     nounsArray,
     dialogSignature
@@ -121,6 +127,7 @@ const PanelGenAIPro: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          testMode,
           language,
           nounsArray,
           dialogSignature
@@ -141,6 +148,7 @@ const PanelGenAIPro: React.FC = () => {
   }
   
   const getDialogReview = async ({
+    testMode,
     language,
     dialogArray,
     dialogSignature
@@ -155,6 +163,7 @@ const PanelGenAIPro: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          testMode,
           language,
           dialogArray,
           dialogSignature
@@ -175,6 +184,7 @@ const PanelGenAIPro: React.FC = () => {
   }
 
   const getNouns = async ({
+    testMode,
     language,
     dialog,
     dialogSignature
@@ -189,6 +199,7 @@ const PanelGenAIPro: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          testMode,
           language,
           dialog,
           dialogSignature
@@ -209,6 +220,7 @@ const PanelGenAIPro: React.FC = () => {
   }  
   
   const getVerbs = async ({
+    testMode,
     language,
     dialog,
     dialogSignature
@@ -223,6 +235,7 @@ const PanelGenAIPro: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          testMode,
           language,
           dialog,
           dialogSignature
@@ -268,6 +281,7 @@ const PanelGenAIPro: React.FC = () => {
   // }
 
   const handleDialog = async ({
+    testMode,
     language, 
     scenarioLabel,
     scenarioParticipantList
@@ -277,11 +291,9 @@ const PanelGenAIPro: React.FC = () => {
       console.log(`language: ${language}`)
       console.log(`scenarioLabel: ${scenarioLabel}`)
       console.log(`scenarioParticipantList: ${scenarioParticipantList}`)
-
-      return
     }
 
-    const response = await getDialog({language, scenarioLabel, scenarioParticipantList})
+    const response = await getDialog({testMode, language, scenarioLabel, scenarioParticipantList})
 
     if (response === null) {
       console.log('Houston, we DO have a problems')
@@ -311,6 +323,7 @@ const PanelGenAIPro: React.FC = () => {
   }
   
   const handleDialogReview = async ({
+    testMode,
     language,
     dialogArray,
     dialogSignature
@@ -323,7 +336,7 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    const response = await getDialogReview({language, dialogArray, dialogSignature})
+    const response = await getDialogReview({testMode, language, dialogArray, dialogSignature})
 
     if (response === null) {
       console.log('Houston, we DO have a problems')
@@ -352,6 +365,7 @@ const PanelGenAIPro: React.FC = () => {
   }
   
   const handleNounsReview = async ({
+    testMode,
     language,
     nounsArray,
     dialogSignature
@@ -364,7 +378,7 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    const response = await getNounsReview({language, nounsArray, dialogSignature})
+    const response = await getNounsReview({testMode, language, nounsArray, dialogSignature})
 
     if (response === null) {
       console.log('Houston, we DO have a problems')
@@ -393,6 +407,7 @@ const PanelGenAIPro: React.FC = () => {
   }
   
   const handleNouns = async ({
+    testMode,
     language,
     dialog,
     dialogSignature
@@ -406,7 +421,7 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    const response = await getNouns({language, dialog, dialogSignature})
+    const response = await getNouns({testMode, language, dialog, dialogSignature})
 
     if (response === null) {
       console.log('Houston, we DO have a problems')
@@ -433,6 +448,7 @@ const PanelGenAIPro: React.FC = () => {
   }
 
   const handleVerbs = async ({
+    testMode,
     language,
     dialog,
     dialogSignature
@@ -447,7 +463,7 @@ const PanelGenAIPro: React.FC = () => {
       return
     }
 
-    const response = await getVerbs({language, dialog, dialogSignature})
+    const response = await getVerbs({testMode, language, dialog, dialogSignature})
 
     if (response === null) {
       console.log('Houston, we DO have a problems')
@@ -518,23 +534,15 @@ const PanelGenAIPro: React.FC = () => {
           </div>
 
           <div className="mv3">
-            {testMode && (
-              <button
-                onClick={() => setTestMode(false)}
-                className="w-20 pa2 br2 bn bg-green white pointer"
-              >
-                Disable Test Mode
-              </button>
-            )}
-            {!testMode && (
-              <button
-                onClick={() => setTestMode(true)}
-                className="w-20 pa2 br2 bn bg-brand white pointer"
-              >
-                Enable Test Mode
-              </button>
-            )}
-
+            <button
+              onClick={() => setTestMode(prev => !prev)}
+              className={`w-30 pa3 br2 bn ${testMode ? 'bg-red' : 'bg-black'} white pointer`}
+            >
+              <div className="pa5X flex items-center" >
+                <div className="ph1 bg-redX"><FontAwesomeIcon icon={testMode ? faLock : faLockOpen} /></div>
+                <div className="ml2">{testMode ? 'Disable' : 'Enable'} Test Mode</div>
+              </div>
+            </button>
           </div>
 
           <div>
@@ -546,6 +554,7 @@ const PanelGenAIPro: React.FC = () => {
                 } = getScenarioDetails({scenario, language})
 
                 handleDialog({
+                  testMode,
                   language, 
                   scenarioLabel,
                   scenarioParticipantList
@@ -553,7 +562,7 @@ const PanelGenAIPro: React.FC = () => {
               }}
               className="pa2 br2 bn bg-brand white pointer"
             >
-              Run Dialog Step
+              Run Dialog Step {testMode ? '(Test Mode)' : ''}
             </button>
           </div>
 
@@ -561,6 +570,7 @@ const PanelGenAIPro: React.FC = () => {
             <button
               onClick={() =>
                 handleDialogReview({
+                  testMode,
                   language,
                   dialogArray: stepResult.dialogArray,
                   dialogSignature: stepResult.dialogSignature
@@ -568,7 +578,7 @@ const PanelGenAIPro: React.FC = () => {
               }
               className="mv3 pa2 br2 bn bg-purple white pointer"
             >
-              Review Dialog
+              Review Dialog  {testMode ? '(Test Mode)' : ''}
             </button>
           </div>
 
@@ -576,6 +586,7 @@ const PanelGenAIPro: React.FC = () => {
             <button
               onClick={() =>
                 handleNounsReview({
+                  testMode,
                   language,
                   nounsArray: stepResult.nounsArray,
                   dialogSignature: stepResult.dialogSignature
@@ -583,7 +594,7 @@ const PanelGenAIPro: React.FC = () => {
               }
               className="mv3 pa2 br2 bn bg-purple white pointer"
             >
-              Review Nouns
+              Review Nouns {testMode ? '(Test Mode)' : ''}
             </button>
           </div>
 
@@ -591,6 +602,7 @@ const PanelGenAIPro: React.FC = () => {
             <button
               onClick={() =>
                 handleNouns({
+                  testMode,
                   language,
                   dialog: stepResult.dialog,
                   dialogSignature: stepResult.dialogSignature
@@ -598,7 +610,7 @@ const PanelGenAIPro: React.FC = () => {
               }
               className="pa2 br2 bn bg-brand white pointer"
             >
-              Run Nouns Step
+              Run Nouns Step {testMode ? '(Test Mode)' : ''}
             </button>
           </div>
 
@@ -606,6 +618,7 @@ const PanelGenAIPro: React.FC = () => {
             <button
               onClick={() =>
                 handleVerbs({
+                  testMode,
                   language,
                   dialog: stepResult.dialog,
                   dialogSignature: stepResult.dialogSignature
@@ -613,7 +626,7 @@ const PanelGenAIPro: React.FC = () => {
               }
               className="pa2 br2 bn bg-brand white pointer"
             >
-              Run Verbs Step
+              Run Verbs Step {testMode ? '(Test Mode)' : ''}
             </button>
           </div>
 
@@ -626,7 +639,7 @@ const PanelGenAIPro: React.FC = () => {
               }}
               className="pa2 br2 bn bg-brand white pointer"
             >
-              Reset Errors
+              Reset Errors {testMode ? '(Test Mode)' : ''}
             </button>
           </div>
 

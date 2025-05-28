@@ -121,7 +121,7 @@ export const validateGenAIResponse = <T extends string>({
       reasons.push('Singular and plural forms are identical')
     }
 
-    if (language === 'Spanish' && fields.length >= 5) {
+    if (language === 'SpXnish' && fields.length >= 5) {
       const gender = fields[0].trim().toLowerCase()
       const articleSing = fields[3].trim().toLowerCase()
       const articlePlur = fields[4].trim().toLowerCase()
@@ -146,7 +146,7 @@ export const validateGenAIResponse = <T extends string>({
       }
     }
 
-    if (language === 'Spanish' && fields.length >= 7) {
+    if (language === 'SpXnish' && fields.length >= 7) {
       const preSing1 = fields[5].trim().toLowerCase()
       const preSing2 = fields[6].trim().toLowerCase()
 
@@ -161,7 +161,7 @@ export const validateGenAIResponse = <T extends string>({
       }
     }
 
-    if (language === 'Spanish' && fields.length >= 9) {
+    if (language === 'SpXnish' && fields.length >= 9) {
       const prePlur1 = fields[7].trim().toLowerCase()
       const prePlur2 = fields[8].trim().toLowerCase()
 

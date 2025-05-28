@@ -298,33 +298,39 @@ export type DialogReview = string
 export type NounsReview = string
 export type VerbsReview = string
 
+export type TestMode = boolean
 export type JsonQualification = string
 export type Prompt = string
 export type HandleDialogProps = {
+  testMode: TestMode
   language: Language
   scenarioLabel: ScenarioLabel
   scenarioParticipantList: ParticipantList
 }
 
 export type HandleNounsProps = {
+  testMode: TestMode
   language: Language
   dialog: Dialog
   dialogSignature: Signature
 }
 
 export type HandleDialogReviewProps = {
+  testMode: TestMode
   language: Language
   dialogArray: DialogArray
   dialogSignature: Signature
 }
 
 export type HandleNounsReviewProps = {
+  testMode: TestMode
   language: Language
   nounsArray: NounsArray
   dialogSignature: Signature
 }
 
 export type HandleVerbsProps = {
+  testMode: TestMode
   language: Language
   dialog: Dialog
   dialogSignature: Signature
@@ -459,7 +465,7 @@ export const defaultStepResult: StepResult = {
 
 }
 
-export type Language = 'Spanish' | 'English' 
+export type Language = 'Spanish' | 'English' | 'SpXnish'
 
 export type GenAIContext = 'dialog' | 'nouns' | 'verbs' | 'dialogReview' | 'nounsReview' | 'verbsReview'
 
@@ -605,14 +611,23 @@ export type GenerateExampleProps = {
 // }
 
 export type GetDialogReviewProps = {
+  testMode: TestMode,
   language: Language
   dialogArray: DialogArray
   dialogSignature: Signature
 }
 
 export type GetNounsReviewProps = {
+  testMode: TestMode,
   language: Language
   nounsArray: NounsArray
+  dialogSignature: Signature
+}
+
+export type GetVerbsReviewProps = {
+  testMode: TestMode,
+  language: Language
+  verbsArray: VerbsArray
   dialogSignature: Signature
 }
 
@@ -637,18 +652,21 @@ export type LangKey = keyof typeof LANG_KEYS
 export type LangValue = (typeof LANG_KEYS)[keyof typeof LANG_KEYS]
 
 export type GetDialogProps = {
+  testMode: TestMode,
   language: Language,
   scenarioLabel: ScenarioLabel,
   scenarioParticipantList: ParticipantList
 }
   
 export type GetNounsProps = {
+  testMode: TestMode,
   language: Language,
   dialog: Dialog,
   dialogSignature: Signature
 }
   
 export type GetVerbsProps = {
+  testMode: TestMode,
   language: Language,
   dialog: Dialog,
   dialogSignature: Signature

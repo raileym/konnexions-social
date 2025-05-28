@@ -1,97 +1,54 @@
 import { Handler } from '@netlify/functions'
 import { validateGenAIResponse } from '../shared/errorUtils'
-import { ERROR_LABEL, Language, Nouns } from '../shared/types'
+import { ERROR_LABEL, Nouns } from '../shared/types'
 import { generatePromptSet } from '../shared/generatePromptSet'
+import { generateExample } from '../shared/generateExample'
+import { fetchOpenAI } from '../shared/fetchLLM'
 
 const handler: Handler = async (event) => {
-  const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey) {
-    return {
-      statusCode: 500,
-      body: 'Missing OpenAI API key in environment'
-    }
-  }
-
   try {
-    const { dialog, language, dialogSignature } = JSON.parse(event.body ?? '{}')
+    const { testMode, dialog, language, dialogSignature } = JSON.parse(event.body ?? '{}')
 
     if (!dialog || !language || !dialogSignature) {
       console.log('Missing the big three')
-      console.log(`language: ${language}`)
-      console.log(`dialog: ${dialog}`)
-      console.log(`dialogSignature: ${dialogSignature}`)
-
       return {
         statusCode: 400,
         body: 'Missing one or more required fields: language, dialog'
       }
     }
 
-    console.log(`language: ${language}`)
-    console.log(`dialog: ${dialog}`)
-    console.log(`dialogSignature: ${dialogSignature}`)
-
     const promptSet = generatePromptSet()
+    const prompt = promptSet.getNounsPrompt({language, dialog})
 
-    const nounsPrompt = promptSet.getNounsPrompt({language, dialog})
 
-    // const alwaysTrue = true
-    // if (alwaysTrue) {
-    //   return {
-    //     statusCode: 200,
-    //     body: JSON.stringify({
-    //       prompt: nounsPrompt,
-    //       result: {
-    //         success: true,
-    //         parsed: [
-    //           "masculino|restaurante|restaurantes|a, en, desde",
-    //           "femenino|mesera|meseras|con, de, para",
-    //           "masculino|grupo|grupos|en, con, para"
-    //         ],
-    //         errors: []
-    //       }
-    //     })
-    //   }
-    // }
+    let response: string
 
-    // const reply = JSON.stringify([
-    //   "masculino|restaurante|restaurantes|a, en, desde",
-    //   "femenino|mesera|meseras|con, de, para",
-    //   "masculino|grupo|grupos|en, con, para"
-    // ])
-
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: nounsPrompt }]
+    if (testMode) {
+      response = generateExample({language, context: 'nouns', options: { asString: true }
       })
-    })
+    } else {
+      response = await fetchOpenAI({ prompt })
+    }
 
-    const data = await response.json()
-    const reply = data.choices?.[0]?.message?.content || ''
-
-    const nounsResult = validateGenAIResponse<Nouns>({
-      response: reply,
+    const validatedResult = validateGenAIResponse<Nouns>({
+      response,
       errorLabel: ERROR_LABEL.NOUNS_ERROR,
       expectedFieldCount: 4,
-      language: '' as Language
+      language
     })    
 
-    // In short, I am carrying along the signature
-    // for the dialog, lining up this response
-    // about nouns with the incoming dialog.
     const nounsSignature = dialogSignature
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ nounsPrompt, nounsResult, nounsSignature })
+      body: JSON.stringify({
+        nounsPrompt: prompt,
+        nounsResult: validatedResult,
+        nounsSignature
+      })
     }
   } catch (err) {
+    console.log('Whoop! We have a problem here server-side.')
     return {
       statusCode: 500,
       body: `Error generating nouns: ${(err as Error).message}`
