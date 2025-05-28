@@ -42,8 +42,8 @@ const PanelGenAIPro: React.FC = () => {
     setHandleDialogErrors,
     setHandleNounsErrors,
     setHandleVerbsErrors,
-    setStepResult,
-    stepResult
+    setLesson,
+    lesson
   } = useAppContext()
 
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
@@ -83,9 +83,9 @@ const PanelGenAIPro: React.FC = () => {
     testMode,
     language,
     scenarioLabel,
-    scenarioParticipantList
+    participantList
   }: GetDialogProps): Promise<GetDialogResult | null> => {
-    // cXonsole.log(scenarioParticipantList)
+    // cXonsole.log(participantList)
     try {
       const res = await fetch('/.netlify/functions/genai-dialog', {
         method: 'POST',
@@ -94,7 +94,7 @@ const PanelGenAIPro: React.FC = () => {
           testMode,
           language,
           scenarioLabel,
-          scenarioParticipantList
+          participantList
         })
       })
   
@@ -284,16 +284,16 @@ const PanelGenAIPro: React.FC = () => {
     testMode,
     language, 
     scenarioLabel,
-    scenarioParticipantList
+    participantList
   }: HandleDialogProps) => {
 
     if (testMode) {
       console.log(`language: ${language}`)
       console.log(`scenarioLabel: ${scenarioLabel}`)
-      console.log(`scenarioParticipantList: ${scenarioParticipantList}`)
+      console.log(`participantList: ${participantList}`)
     }
 
-    const response = await getDialog({testMode, language, scenarioLabel, scenarioParticipantList})
+    const response = await getDialog({testMode, language, scenarioLabel, participantList})
 
     if (response === null) {
       console.log('Houston, we DO have a problems')
@@ -305,7 +305,7 @@ const PanelGenAIPro: React.FC = () => {
       console.log(response.dialogResult.errors)
     }
 
-    setStepResult(prev => {
+    setLesson(prev => {
       const updated = {
         ...prev,
         dialog: response.dialog,
@@ -314,7 +314,7 @@ const PanelGenAIPro: React.FC = () => {
         dialogErrors: response.dialogResult.errors ?? [],
         dialogPrompt: response.dialogPrompt
       }
-      // localStorage.setItem('stepResult', JSON.stringify(updated))
+      // localStorage.setItem('lesson', JSON.stringify(updated))
       return updated
     })
     
@@ -348,7 +348,7 @@ const PanelGenAIPro: React.FC = () => {
       console.log(response.dialogReviewResult.errors)
     }
 
-    setStepResult(prev => {
+    setLesson(prev => {
       const updated = {
         ...prev,
         dialogReviewArray: response.dialogReviewResult.parsed,
@@ -390,7 +390,7 @@ const PanelGenAIPro: React.FC = () => {
       console.log(response.nounsReviewResult.errors)
     }
 
-    setStepResult(prev => {
+    setLesson(prev => {
       const updated = {
         ...prev,
         nounsReviewArray: response.nounsReviewResult.parsed,
@@ -433,7 +433,7 @@ const PanelGenAIPro: React.FC = () => {
       console.log(response.nounsResult.errors)
     }
 
-    setStepResult(prev => {
+    setLesson(prev => {
       const updated = {
         ...prev,
         nounsArray: response.nounsResult.parsed,
@@ -480,7 +480,7 @@ const PanelGenAIPro: React.FC = () => {
     console.log(response.verbsPrompt)
     console.log(JSON.stringify(response, null, 2))
 
-    setStepResult(prev => {
+    setLesson(prev => {
       const updated = {
         ...prev,
         verbsArray: response.verbsResult.parsed,
@@ -550,14 +550,14 @@ const PanelGenAIPro: React.FC = () => {
               onClick={() => {
                 const {
                   scenarioLabel,
-                  scenarioParticipantList
+                  participantList
                 } = getScenarioDetails({scenario, language})
 
                 handleDialog({
                   testMode,
                   language, 
                   scenarioLabel,
-                  scenarioParticipantList
+                  participantList
                 })
               }}
               className="pa2 br2 bn bg-brand white pointer"
@@ -572,8 +572,8 @@ const PanelGenAIPro: React.FC = () => {
                 handleDialogReview({
                   testMode,
                   language,
-                  dialogArray: stepResult.dialogArray,
-                  dialogSignature: stepResult.dialogSignature
+                  dialogArray: lesson.dialogArray,
+                  dialogSignature: lesson.dialogSignature
                 })
               }
               className="mv3 pa2 br2 bn bg-purple white pointer"
@@ -588,8 +588,8 @@ const PanelGenAIPro: React.FC = () => {
                 handleNounsReview({
                   testMode,
                   language,
-                  nounsArray: stepResult.nounsArray,
-                  dialogSignature: stepResult.dialogSignature
+                  nounsArray: lesson.nounsArray,
+                  dialogSignature: lesson.dialogSignature
                 })
               }
               className="mv3 pa2 br2 bn bg-purple white pointer"
@@ -604,8 +604,8 @@ const PanelGenAIPro: React.FC = () => {
                 handleNouns({
                   testMode,
                   language,
-                  dialog: stepResult.dialog,
-                  dialogSignature: stepResult.dialogSignature
+                  dialog: lesson.dialog,
+                  dialogSignature: lesson.dialogSignature
                 })
               }
               className="pa2 br2 bn bg-brand white pointer"
@@ -620,8 +620,8 @@ const PanelGenAIPro: React.FC = () => {
                 handleVerbs({
                   testMode,
                   language,
-                  dialog: stepResult.dialog,
-                  dialogSignature: stepResult.dialogSignature
+                  dialog: lesson.dialog,
+                  dialogSignature: lesson.dialogSignature
                 })
               }
               className="pa2 br2 bn bg-brand white pointer"
@@ -656,7 +656,7 @@ const PanelGenAIPro: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.dialogPrompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialogPrompt}</div>
               </div>
             </div>
           )}
@@ -674,7 +674,7 @@ const PanelGenAIPro: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.nounsPrompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.nounsPrompt}</div>
               </div>
             </div>
           )}
@@ -692,7 +692,7 @@ const PanelGenAIPro: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.verbsPrompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.verbsPrompt}</div>
               </div>
             </div>
           )}
@@ -710,7 +710,7 @@ const PanelGenAIPro: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Review Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.dialogReviewPrompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialogReviewPrompt}</div>
               </div>
             </div>
           )}
@@ -728,7 +728,7 @@ const PanelGenAIPro: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Review Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{stepResult.nounsReviewPrompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.nounsReviewPrompt}</div>
               </div>
             </div>
           )}
@@ -737,7 +737,7 @@ const PanelGenAIPro: React.FC = () => {
             <div>
               <div className="mt4 b">Dialog Array</div>
               <ul className="mt0 pt0 black">
-                {stepResult.dialogArray.map((line, index) => (
+                {lesson.dialogArray.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>
@@ -758,7 +758,7 @@ const PanelGenAIPro: React.FC = () => {
               )}
               <div className="mt4 b">Nouns Array</div>
               <ul className="mt0 pt0 black">
-                {stepResult.nounsArray.map((line, index) => (
+                {lesson.nounsArray.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>
@@ -780,7 +780,7 @@ const PanelGenAIPro: React.FC = () => {
               )}
               <div className="mt4 b">Verbs</div>
               <ul className="mt0 pt0 black">
-                {stepResult.verbsArray.map((line, index) => (
+                {lesson.verbsArray.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>

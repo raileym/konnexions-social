@@ -163,7 +163,7 @@ export function getScenarioDetails({scenario, language}: GetScenarioDetailsProps
   return {
     scenarioLabel: scenarioLabels[scenario],
     scenarioTitle: scenarioTitles[scenario],
-    scenarioParticipantList: participantList
+    participantList: participantList
   }
 }
 

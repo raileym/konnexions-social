@@ -27,7 +27,7 @@ import type {
   AppHomeValue,
   AnswerKeep,
   QuestionKeep,
-  StepResult,
+  Lesson,
   NounsKeep,
   HandleNounsErrors,
   HandleDialogErrors,
@@ -37,7 +37,7 @@ import type {
 import {
   APP_HOME,
   APP_PANEL,
-  defaultStepResult,
+  defaultLesson,
   SCENARIO
 } from '../../shared/types'
 import { usePersistentState } from '../hooks/usePersistentState'
@@ -51,7 +51,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // const [dialogPrompt, setDialogPrompt] = usePersistentState<Prompt>('dialogPrompt', '')
   // const [nounsPrompt, setNounsPrompt] = usePersistentState<Prompt>('nounsPrompt', '')
 
-  const [stepResult, setStepResult] = usePersistentState<StepResult>('stepResult', defaultStepResult)
+  const [lesson, setLesson] = usePersistentState<Lesson>('lesson', defaultLesson)
 
   const [activePanel, setActivePanel] = useState<AppPanelValue>(APP_PANEL.BASIC)
   const [activeHome, setActiveHome] = useState<AppHomeValue>(APP_HOME.GEN_AI_PRO)
@@ -138,13 +138,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setQuestionContext,
     setQuestionKeep,
     setScenario,
-    setStepResult,
+    setLesson,
     setTtsAvgChars,
     setTtsBudget,
     setTtsCharUsage,
     setUseCloudTTS,
     setVerbsKeep,
-    stepResult,
+    lesson,
     ttsAvgChars,
     ttsBudget,
     ttsCharUsage,

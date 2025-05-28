@@ -8,9 +8,9 @@ import { fetchOpenAI } from '../shared/fetchLLM'
 
 const handler: Handler = async (event) => {
   try {
-    const { testMode, language, scenarioLabel, scenarioParticipantList } = JSON.parse(event.body ?? '{}')
+    const { testMode, language, scenarioLabel, participantList } = JSON.parse(event.body ?? '{}')
 
-    if (!language || !scenarioLabel || !scenarioParticipantList) {
+    if (!language || !scenarioLabel || !participantList) {
       console.log('Missing the big three')
       return {
         statusCode: 400,
@@ -19,7 +19,7 @@ const handler: Handler = async (event) => {
     }
 
     const promptSet = generatePromptSet()
-    const prompt = promptSet.getDialogPrompt({language, scenarioLabel, scenarioParticipantList})
+    const prompt = promptSet.getDialogPrompt({language, scenarioLabel, participantList})
 
     let response: string
 

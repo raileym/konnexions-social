@@ -53,13 +53,13 @@ export type AppContextType = {
   setQuestionContext: SetQuestionContext
   setQuestionKeep: SetQuestionKeep
   setScenario: SetScenario
-  setStepResult: SetStepResult
+  setLesson: SetLesson
   setTtsAvgChars: SetTtsAvgChars
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
   setVerbsKeep: SetVerbsKeep
-  stepResult: StepResult
+  lesson: Lesson
   ttsAvgChars: TtsAvgChars
   ttsBudget: TtsBudget
   ttsCharUsage: TtsCharUsage
@@ -187,14 +187,14 @@ export type ScenarioLabels = Record<ScenarioValue, ScenarioLabel>
 export type ScenarioTitle = string
 export type ScenarioTitles = Record<ScenarioValue, ScenarioTitle>
 
-export type StepResult = {
+export type Lesson = {
   dialog: Dialog[]
   nouns: Nouns[]
   verbs: Verbs[]
   // ...
 }
 
-export type SetStepResult = React.Dispatch<React.SetStateAction<StepResult>>
+export type SetLesson = React.Dispatch<React.SetStateAction<Lesson>>
 
 export type ChooseParticipantsProps = {
   participants: Participants
@@ -202,7 +202,7 @@ export type ChooseParticipantsProps = {
   useMyself: UseMyself
 }
 
-export type ParsedStepResult = {
+export type ParsedLesson = {
   dialog: string[] // array of simple utterance strings
 
   nouns: Record<string, string> // noun → matching phrase
@@ -289,7 +289,7 @@ export const defaultVerbs: Verbs[] = [
   "tomar"
 ]
 
-export const defaultStepResult: StepResult = {
+export const defaultLesson: Lesson = {
   dialog: defaultDialog, // JSON.stringify(defaultDialog, null, 2),
   nouns: defaultNouns, // JSON.stringify(defaultNouns, null, 2),
   verbs: defaultVerbs, // JSON.stringify(defaultVerbs, null, 2),

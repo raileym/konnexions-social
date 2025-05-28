@@ -49,13 +49,13 @@ Assume the consumer is a machine expecting strict JSON compliance.
     // *****************************************************************
 
     
-    const getDialogPrompt: GetDialogPrompt = ({language, scenarioLabel, scenarioParticipantList}: GetDialogPromptProps) => {
+    const getDialogPrompt: GetDialogPrompt = ({language, scenarioLabel, participantList}: GetDialogPromptProps) => {
       const dialogExample = generateExample({language, context: 'dialog', options: { asString: true }  })
       
       return (`
 DIALOG: Create a dialog in ${language} appropriate for a beginning
 language instruction, where the dialog takes place ${scenarioLabel}
-between participants, ${scenarioParticipantList}.
+between participants, ${participantList}.
 Use between 6 to 8 sentences for this dialog.
 
 ${jsonQualification}

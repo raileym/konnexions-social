@@ -64,7 +64,7 @@ const PanelGenAI: React.FC = () => {
     }
   }
 
-  const {scenarioLabel, scenarioParticipantList} = getScenarioDetails({scenario, language})
+  const {scenarioLabel, participantList} = getScenarioDetails({scenario, language})
 
   const fullPrompt = (
     <div>
@@ -76,7 +76,7 @@ const PanelGenAI: React.FC = () => {
       )}
       I am <span className="b">{scenarioLabel}</span>.{' '}
       Please create a dialog between me and two other people, randomly chosen from{' '}
-      <span className="b">{scenarioParticipantList}</span>.
+      <span className="b">{participantList}</span>.
       {scenario === 'custom' && (
         <>
           " Keep your question for ChatGPT clear, succinct, but brief. Every word costs($).

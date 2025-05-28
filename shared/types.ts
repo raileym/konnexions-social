@@ -53,13 +53,13 @@ export type AppContextType = {
   setQuestionContext: SetQuestionContext
   setQuestionKeep: SetQuestionKeep
   setScenario: SetScenario
-  setStepResult: SetStepResult
+  setLesson: SetLesson
   setTtsAvgChars: SetTtsAvgChars
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
   setVerbsKeep: SetVerbsKeep
-  stepResult: StepResult
+  lesson: Lesson
   ttsAvgChars: TtsAvgChars
   ttsBudget: TtsBudget
   ttsCharUsage: TtsCharUsage
@@ -195,7 +195,9 @@ export type ScenarioLabels = Record<ScenarioValue, ScenarioLabel>
 export type ScenarioTitle = string
 export type ScenarioTitles = Record<ScenarioValue, ScenarioTitle>
 
-export type StepResult = {
+export type Lesson = {
+  scenarioLabel: ScenarioLabel
+  participantList: ParticipantList
   dialog: Dialog
   dialogArray: DialogArray
   dialogPrompt: Prompt
@@ -231,7 +233,7 @@ export type StepResult = {
   verbsReviewSentinel: Sentinel
 }
 
-export type SetStepResult = React.Dispatch<React.SetStateAction<StepResult>>
+export type SetLesson = React.Dispatch<React.SetStateAction<Lesson>>
 
 export type ChooseParticipantsProps = {
   participantArray: ParticipantArray // ByLanguage: ParticipantArrayByLanguage
@@ -240,7 +242,7 @@ export type ChooseParticipantsProps = {
   language: Language
 }
 
-export type ParsedStepResult = {
+export type ParsedLesson = {
   dialog: string[] // array of simple utterance strings
 
   nouns: Record<string, string> // noun → matching phrase
@@ -305,7 +307,7 @@ export type HandleDialogProps = {
   testMode: TestMode
   language: Language
   scenarioLabel: ScenarioLabel
-  scenarioParticipantList: ParticipantList
+  participantList: ParticipantList
 }
 
 export type HandleNounsProps = {
@@ -340,7 +342,7 @@ export type HandleVerbsProps = {
 export type GetDialogPromptProps = {
   language: Language
   scenarioLabel: ScenarioLabel
-  scenarioParticipantList: ParticipantList
+  participantList: ParticipantList
 }
 
 export type GetDialogReviewPromptProps = {
@@ -428,7 +430,7 @@ export const defaultVerbsArray: VerbsArray = [
   "pedir|pido|pides|pide|pedimos|pedís|piden",
 ]
 
-export const defaultStepResult: StepResult = {
+export const defaultLesson: Lesson = {
   dialog: defaultDialog,
   dialogPrompt: '',
   dialogArray: defaultDialogArray,
@@ -655,7 +657,7 @@ export type GetDialogProps = {
   testMode: TestMode,
   language: Language,
   scenarioLabel: ScenarioLabel,
-  scenarioParticipantList: ParticipantList
+  participantList: ParticipantList
 }
   
 export type GetNounsProps = {

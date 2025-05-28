@@ -94,13 +94,13 @@ const App: React.FC = () => {
     const verbsKeep = localStorage.getItem('verbsKeep')
     if (verbsKeep) setNounsKeep(verbsKeep)
   
-    // const saved = localStorage.getItem('stepResult')
+    // const saved = localStorage.getItem('lesson')
     // if (saved) {
     //   try {
-    //     const recovered: StepResult = JSON.parse(saved)
-    //     setStepResult(recovered)
+    //     const recovered: Lesson = JSON.parse(saved)
+    //     setLesson(recovered)
     //   } catch (err) {
-    //     console.error('Failed to load stepResult from localStorage:', err)
+    //     console.error('Failed to load lesson from localStorage:', err)
     //   }
     // }
 
