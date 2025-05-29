@@ -195,42 +195,52 @@ export type ScenarioLabels = Record<ScenarioValue, ScenarioLabel>
 export type ScenarioTitle = string
 export type ScenarioTitles = Record<ScenarioValue, ScenarioTitle>
 
+export type Success = boolean
+
 export type Lesson = {
+  language: Language
   scenarioLabel: ScenarioLabel
   participantList: ParticipantList
+
   dialog: Dialog
   dialogArray: DialogArray
   dialogPrompt: Prompt
   dialogSignature: Signature
   dialogErrors: HandleLLMError[]
+  dialogSuccess: Success
 
   nounsArray: NounsArray
   nounsPrompt: Prompt
   nounsSignature: Signature
   nounsErrors: HandleLLMError[]
+  nounsSuccess: Success
 
   verbsArray: VerbsArray
   verbsErrors: HandleLLMError[]
   verbsPrompt: Prompt
   verbsSignature: Signature
+  verbsSuccess: Success
 
   dialogReviewArray: DialogReviewArray
   dialogReviewErrors: HandleLLMError[]
   dialogReviewPrompt: Prompt
   dialogReviewSignature: Signature
   dialogReviewSentinel: Sentinel
+  dialogReviewSuccess: Success
 
   nounsReviewArray: NounsReviewArray
   nounsReviewErrors: HandleLLMError[]
   nounsReviewPrompt: Prompt
   nounsReviewSignature: Signature
   nounsReviewSentinel: Sentinel
+  nounsReviewSuccess: Success
 
   verbsReviewArray: VerbsReviewArray
   verbsReviewErrors: HandleLLMError[]
   verbsReviewPrompt: Prompt
   verbsReviewSignature: Signature
   verbsReviewSentinel: Sentinel
+  verbsReviewSuccess: Success
 }
 
 export type SetLesson = React.Dispatch<React.SetStateAction<Lesson>>
@@ -305,16 +315,14 @@ export type JsonQualification = string
 export type Prompt = string
 export type HandleDialogProps = {
   testMode: TestMode
-  language: Language
-  scenarioLabel: ScenarioLabel
-  participantList: ParticipantList
+  lesson: Lesson
+  setLesson: SetLesson
 }
 
 export type HandleNounsProps = {
   testMode: TestMode
-  language: Language
-  dialog: Dialog
-  dialogSignature: Signature
+  lesson: Lesson
+  setLesson: SetLesson
 }
 
 export type HandleDialogReviewProps = {
@@ -333,41 +341,33 @@ export type HandleNounsReviewProps = {
 
 export type HandleVerbsProps = {
   testMode: TestMode
-  language: Language
-  dialog: Dialog
-  dialogSignature: Signature
+  lesson: Lesson
+  setLesson: SetLesson
 }
 
 
 export type GetDialogPromptProps = {
-  language: Language
-  scenarioLabel: ScenarioLabel
-  participantList: ParticipantList
+  lesson: Lesson
 }
 
 export type GetDialogReviewPromptProps = {
-  language: Language
-  dialogArray: DialogArray
+  lesson: Lesson
 }
 
 export type GetNounsReviewPromptProps = {
-  language: Language
-  nounsArray: NounsArray
+  lesson: Lesson
 }
 
 export type GetVerbsReviewPromptProps = {
-  language: Language
-  verbsArray: VerbsArray
+  lesson: Lesson
 }
 
 export type GetNounsPromptProps = {
-  language: Language
-  dialog: Dialog
+  lesson: Lesson
 }
 
 export type GetVerbsPromptProps = {
-  language: Language
-  dialog: Dialog
+  lesson: Lesson
 }
 
 export type GetDialogPrompt = (props: GetDialogPromptProps) => string
@@ -430,41 +430,66 @@ export const defaultVerbsArray: VerbsArray = [
   "pedir|pido|pides|pide|pedimos|pedís|piden",
 ]
 
+export const scenarioTitles: ScenarioTitles = {
+  restaurant: 'Restaurant',
+  hotel: 'Hotel',
+  airport: 'Airport',
+  taxi: 'Taxi',
+  custom: 'Custom'
+}
+
+export const scenarioLabels: ScenarioLabels = {
+  restaurant: 'at the restaurant',
+  hotel: 'at the hotel',
+  airport: 'at the airport',
+  taxi: 'in a taxi',
+  custom: 'Custom'
+}
+
 export const defaultLesson: Lesson = {
+  language: 'Spanish',
+  scenarioLabel: scenarioLabels[SCENARIO.RESTAURANT],
+  participantList: '',
+
   dialog: defaultDialog,
   dialogPrompt: '',
   dialogArray: defaultDialogArray,
   dialogErrors: [],
   dialogSignature: defaultSignature,
+  dialogSuccess: false,
 
   dialogReviewPrompt: '',
   dialogReviewArray: defaultDialogReviewArray,
   dialogReviewErrors: [],
   dialogReviewSignature: defaultSignature,
   dialogReviewSentinel: defaultSentinel,
+  dialogReviewSuccess: false,
 
   nounsPrompt: '',
   nounsArray: defaultNounsArray,
   nounsErrors: [],
   nounsSignature: defaultSignature,
+  nounsSuccess: false,
   
   nounsReviewPrompt: '',
   nounsReviewArray: [],
   nounsReviewErrors: [],
   nounsReviewSignature: defaultSignature,
   nounsReviewSentinel: defaultSentinel,
+  nounsReviewSuccess: false,
 
   verbsSignature: defaultSignature, // JSON.stringify(defaultVerbs, null, 2),
   verbsArray: defaultVerbsArray,
   verbsErrors: [],
   verbsPrompt: '',
+  verbsSuccess: false,
 
   verbsReviewPrompt: '',
   verbsReviewArray: [],
   verbsReviewErrors: [],
   verbsReviewSignature: defaultSignature,
   verbsReviewSentinel: defaultSentinel,
-
+  verbsReviewSuccess: false
 }
 
 export type Language = 'Spanish' | 'English' | 'SpXnish'
@@ -560,16 +585,18 @@ export type GenAIValidationResult<T> = {
 export type Signature = string
 
 export type GetDialogResult = {
-  dialog: Dialog
-  dialogPrompt: Prompt
-  dialogResult: GenAIValidationResult<Dialog>
-  dialogSignature: Signature
+  lesson: Partial<Lesson>
 }
 
+// export type GetDialogResult = {
+//   dialog: Dialog
+//   dialogPrompt: Prompt
+//   dialogResult: GenAIValidationResult<Dialog>
+//   dialogSignature: Signature
+// }
+
 export type GetNounsResult = {
-  nounsPrompt: Prompt
-  nounsResult: GenAIValidationResult<Nouns>
-  nounsSignature: Signature
+  lesson: Partial<Lesson>
 }
 
 export type GetVerbsResult = {
@@ -655,23 +682,17 @@ export type LangValue = (typeof LANG_KEYS)[keyof typeof LANG_KEYS]
 
 export type GetDialogProps = {
   testMode: TestMode,
-  language: Language,
-  scenarioLabel: ScenarioLabel,
-  participantList: ParticipantList
+  lesson: Lesson,
 }
   
 export type GetNounsProps = {
   testMode: TestMode,
-  language: Language,
-  dialog: Dialog,
-  dialogSignature: Signature
+  lesson: Lesson
 }
   
 export type GetVerbsProps = {
   testMode: TestMode,
-  language: Language,
-  dialog: Dialog,
-  dialogSignature: Signature
+  lesson: Lesson
 }
   
 

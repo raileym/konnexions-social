@@ -8,23 +8,33 @@ import { fetchOpenAI } from '../shared/fetchLLM'
 
 const handler: Handler = async (event) => {
   try {
-    const { testMode, language, scenarioLabel, participantList } = JSON.parse(event.body ?? '{}')
+    const { testMode, lesson } = JSON.parse(event.body ?? '{}')
 
-    if (!language || !scenarioLabel || !participantList) {
-      console.log('Missing the big three')
+    if (!lesson) {
+      console.log('Missing the big one')
       return {
         statusCode: 400,
-        body: 'Missing one or more required fields: language, scenarioLabel, participant'
+        body: 'Missing one required fields: lesson'
+      }
+    }
+
+    if (!lesson.language || !lesson.scenarioLabel || !lesson.participantList) {
+      return {
+        statusCode: 400,
+        body: 'Lesson is missing required fields'
       }
     }
 
     const promptSet = generatePromptSet()
-    const prompt = promptSet.getDialogPrompt({language, scenarioLabel, participantList})
+    const prompt = promptSet.getDialogPrompt({lesson})
 
     let response: string
 
     if (testMode) {
-      response = generateExample({language, context: 'dialog', options: { asString: true }
+      response = generateExample({
+        language: lesson.language,
+        context: 'dialog',
+        options: { asString: true }
       })
     } else {
       response = await fetchOpenAI({ prompt })
@@ -34,7 +44,7 @@ const handler: Handler = async (event) => {
       response,
       errorLabel: ERROR_LABEL.DIALOG_ERROR,
       expectedFieldCount: 2,
-      language
+      language: lesson.language
     })
 
     const dialog = validatedResult.parsed.join(' ')
@@ -43,10 +53,14 @@ const handler: Handler = async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        dialogPrompt: prompt,
-        dialog,
-        dialogSignature,
-        dialogResult: validatedResult
+        lesson: {
+          dialog,
+          dialogSignature,
+          dialogPrompt: prompt,
+          dialogArray: validatedResult.parsed,
+          dialogErrors: validatedResult.errors,
+          dialogSuccess: validatedResult.success
+        }
       })
     }
   } catch (err) {

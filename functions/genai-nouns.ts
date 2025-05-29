@@ -7,9 +7,17 @@ import { fetchOpenAI } from '../shared/fetchLLM'
 
 const handler: Handler = async (event) => {
   try {
-    const { testMode, dialog, language, dialogSignature } = JSON.parse(event.body ?? '{}')
+    const { testMode, lesson } = JSON.parse(event.body ?? '{}')
 
-    if (!dialog || !language || !dialogSignature) {
+    if (!lesson) {
+      console.log('Missing the big one')
+      return {
+        statusCode: 400,
+        body: 'Missing one required fields: lesson'
+      }
+    }
+
+    if (!lesson.dialog || !lesson.language || !lesson.dialogSignature) {
       console.log('Missing the big three')
       return {
         statusCode: 400,
@@ -18,13 +26,15 @@ const handler: Handler = async (event) => {
     }
 
     const promptSet = generatePromptSet()
-    const prompt = promptSet.getNounsPrompt({language, dialog})
-
+    const prompt = promptSet.getNounsPrompt({lesson})
 
     let response: string
 
     if (testMode) {
-      response = generateExample({language, context: 'nouns', options: { asString: true }
+      response = generateExample({
+        language: lesson.language,
+        context: 'nouns',
+        options: { asString: true }
       })
     } else {
       response = await fetchOpenAI({ prompt })
@@ -34,17 +44,21 @@ const handler: Handler = async (event) => {
       response,
       errorLabel: ERROR_LABEL.NOUNS_ERROR,
       expectedFieldCount: 4,
-      language
+      language: lesson.language
     })    
-
-    const nounsSignature = dialogSignature
 
     return {
       statusCode: 200,
       body: JSON.stringify({
-        nounsPrompt: prompt,
-        nounsResult: validatedResult,
-        nounsSignature
+        lesson: {
+          nouns: {
+            prompt,
+            array: validatedResult.parsed,
+            errors: validatedResult.errors,
+            success: validatedResult.success,
+            signature: lesson.dialogSignature
+          }
+        }
       })
     }
   } catch (err) {

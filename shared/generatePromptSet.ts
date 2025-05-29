@@ -49,13 +49,13 @@ Assume the consumer is a machine expecting strict JSON compliance.
     // *****************************************************************
 
     
-    const getDialogPrompt: GetDialogPrompt = ({language, scenarioLabel, participantList}: GetDialogPromptProps) => {
-      const dialogExample = generateExample({language, context: 'dialog', options: { asString: true }  })
+    const getDialogPrompt: GetDialogPrompt = ({lesson}: GetDialogPromptProps) => {
+      const dialogExample = generateExample({language: lesson.language, context: 'dialog', options: { asString: true }  })
       
       return (`
-DIALOG: Create a dialog in ${language} appropriate for a beginning
-language instruction, where the dialog takes place ${scenarioLabel}
-between participants, ${participantList}.
+DIALOG: Create a dialog in ${lesson.language} appropriate for a beginning
+language instruction, where the dialog takes place ${lesson.scenarioLabel}
+between participants, ${lesson.participantList}.
 Use between 6 to 8 sentences for this dialog.
 
 ${jsonQualification}
@@ -169,15 +169,15 @@ ${nounsReviewExample}
     // VERBS REVIEW PROMPT
     // *****************************************************************
 
-    const getVerbsReviewPrompt: GetVerbsReviewPrompt = ({verbsArray, language}: GetVerbsReviewPromptProps) => {
-        const verbsReviewExample = generateExample({language, context: 'verbsReview', options: { asString: true }  })
+    const getVerbsReviewPrompt: GetVerbsReviewPrompt = ({lesson}: GetVerbsReviewPromptProps) => {
+        const verbsReviewExample = generateExample({language: lesson.language, context: 'verbsReview', options: { asString: true }  })
         
         return (`
 REQUEST: Review the following Spanish-language verbs array for grammatical correctness and natural usage, making minor corrections only when necessary. These verbs are intended for beginning Spanish learners.
 
 VERBS REVIEW ARRAY:
 
-${JSON.stringify(verbsArray, null, 2)}         
+${JSON.stringify(lesson.verbsArray, null, 2)}         
 ${jsonQualification}
 Only include lines from the verbs that require corrections. Do not include the participant's
 name in your response. The Verbs Review Array must take the form:
@@ -204,13 +204,13 @@ ${verbsReviewExample}
     // NOUNS PROMPT
     // *****************************************************************
 
-    const getNounsPrompt: GetNounsPrompt = ({language, dialog}: GetNounsPromptProps) => {
-        const nounsExample = generateExample({language, context: 'nouns', options: { asString: true }  })
+    const getNounsPrompt: GetNounsPrompt = ({lesson}: GetNounsPromptProps) => {
+        const nounsExample = generateExample({language: lesson.language, context: 'nouns', options: { asString: true }  })
         
         return (`
-REQUEST: Extract the ${language} nouns from the dialog below:
+REQUEST: Extract the ${lesson.language} nouns from the dialog below:
 
-DIALOG: ${dialog}
+DIALOG: ${lesson.dialog}
 
 ${jsonQualification}
 

@@ -1,37 +1,31 @@
 import React, { useState } from 'react'
 // import React, { useMemo, useState } from 'react'
-import { useAppContext } from '../context/AppContext'
+import { useAppContext } from '../../context/AppContext'
 import {
   APP_HOME,
   ERROR_LABEL,
   GEN_AI_STEP
-} from '../../shared/types'
+} from '../../../shared/types'
 import type {
-  GetDialogProps,
-  GetDialogResult,
   GetDialogReviewProps,
   GetDialogReviewResult,
-  GetNounsProps,
-  GetNounsResult,
-  GetVerbsProps,
-  GetVerbsResult,
-  HandleDialogProps,
-  HandleNounsProps,
   HandleDialogReviewProps,
-  HandleVerbsProps,
   Language,
   UseMyself,
   HandleNounsReviewProps,
   GetNounsReviewProps,
   GetNounsReviewResult,
   TestMode,
-} from '../../shared/types'
-import { getScenarioDetails } from './Util'
-import Scenario from './Scenario'
-import ParticipantToggle from './ParticipantToggle'
-import { resetErrors } from './errorUtils'
+} from '../../../shared/types'
+import { getScenarioDetails } from '../Util'
+import Scenario from '../Scenario'
+import ParticipantToggle from '../ParticipantToggle'
+import { resetErrors } from '../errorUtils'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+import handleDialog from './PanelGenAIProComponents/handleDialog/handleDialog'
+import handleNouns from './PanelGenAIProComponents/handleNouns/handleNouns'
+import handleVerbs from './PanelGenAIProComponents/handleVerbs/handleVerbs'
 
 const PanelGenAIPro: React.FC = () => {
   const {
@@ -78,38 +72,6 @@ const PanelGenAIPro: React.FC = () => {
   const toggleShowNounsReviewPrompt = () => {
     setShowNounsReviewPrompt(prev => !prev)
   }
-
-  const getDialog = async ({
-    testMode,
-    language,
-    scenarioLabel,
-    participantList
-  }: GetDialogProps): Promise<GetDialogResult | null> => {
-    // cXonsole.log(participantList)
-    try {
-      const res = await fetch('/.netlify/functions/genai-dialog', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          testMode,
-          language,
-          scenarioLabel,
-          participantList
-        })
-      })
-  
-      if (!res.ok) {
-        console.error('Function error:', res.status)
-        return null
-      }
-  
-      const data = await res.json()
-      return data as GetDialogResult
-    } catch (err) {
-      console.error('Network error:', err)
-      return null
-    }
-  }  
 
   const getNounsReview = async ({
     testMode,
@@ -181,145 +143,6 @@ const PanelGenAIPro: React.FC = () => {
       console.error('Network error:', err)
       return null
     }
-  }
-
-  const getNouns = async ({
-    testMode,
-    language,
-    dialog,
-    dialogSignature
-  }: GetNounsProps): Promise<GetNounsResult | null> => {
-
-    console.log(`getNouns: language: ${language}`)
-    console.log(`getNouns: dialog: ${dialog}`)
-    console.log(`getNouns: dialogSignature: ${dialogSignature}`)
-
-    try {
-      const res = await fetch('/.netlify/functions/genai-nouns', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          testMode,
-          language,
-          dialog,
-          dialogSignature
-        })
-      })
-  
-      if (!res.ok) {
-        console.error('Function error:', res.status)
-        return null
-      }
-  
-      const data = await res.json()
-      return data as GetNounsResult
-    } catch (err) {
-      console.error('Network error:', err)
-      return null
-    }
-  }  
-  
-  const getVerbs = async ({
-    testMode,
-    language,
-    dialog,
-    dialogSignature
-  }: GetVerbsProps): Promise<GetVerbsResult | null> => {
-
-    console.log(`getVerbs: language: ${language}`)
-    console.log(`getVerbs: dialog: ${dialog}`)
-    console.log(`getVerbs: dialogSignature: ${dialogSignature}`)
-
-    try {
-      const res = await fetch('/.netlify/functions/genai-verbs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          testMode,
-          language,
-          dialog,
-          dialogSignature
-        })
-      })
-  
-      if (!res.ok) {
-        console.error('Function error:', res.status)
-        return null
-      }
-  
-      const data = await res.json()
-      return data as GetVerbsResult
-    } catch (err) {
-      console.error('Network error:', err)
-      return null
-    }
-  }  
-  
-  // const fetchFromOpenAI = async (prompt: string): Promise<string | null> => {
-  //   if (!openAiKey) return null
-  
-  //   try {
-  //     const res = await fetch('https://api.openai.com/v1/chat/completions', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${openAiKey}`,
-  //       },
-  //       body: JSON.stringify({
-  //         model: 'gpt-3.5-turbo',
-  //         messages: [{ role: 'user', content: prompt }],
-  //       }),
-  //     })
-  
-  //     const data = await res.json()
-  //     const reply = data.choices?.[0]?.message?.content || ''
-  //     return reply
-  //   } catch (err) {
-  //     console.error('OpenAI error:', err)
-  //     return null
-  //   }
-  // }
-
-  const handleDialog = async ({
-    testMode,
-    language, 
-    scenarioLabel,
-    participantList
-  }: HandleDialogProps) => {
-
-    if (testMode) {
-      console.log(`language: ${language}`)
-      console.log(`scenarioLabel: ${scenarioLabel}`)
-      console.log(`participantList: ${participantList}`)
-    }
-
-    const response = await getDialog({testMode, language, scenarioLabel, participantList})
-
-    if (response === null) {
-      console.log('Houston, we DO have a problems')
-      return
-    }
-
-    if (!response.dialogResult.success) {
-      console.log('Houston, we have SOME problems')
-      console.log(response.dialogResult.errors)
-    }
-
-    setLesson(prev => {
-      const updated = {
-        ...prev,
-        dialog: response.dialog,
-        dialogSignature: response.dialogSignature,
-        dialogArray: response.dialogResult.parsed,
-        dialogErrors: response.dialogResult.errors ?? [],
-        dialogPrompt: response.dialogPrompt
-      }
-      // localStorage.setItem('lesson', JSON.stringify(updated))
-      return updated
-    })
-    
-
-    setStep(GEN_AI_STEP.DIALOG_REVIEW)
   }
   
   const handleDialogReview = async ({
@@ -405,111 +228,6 @@ const PanelGenAIPro: React.FC = () => {
     setStep(GEN_AI_STEP.NOUNS_REVIEW)
 
   }
-  
-  const handleNouns = async ({
-    testMode,
-    language,
-    dialog,
-    dialogSignature
-  }: HandleNounsProps) => {
-    
-    if (testMode) {
-      console.log(`language: ${language}`)
-      console.log(`dialog: ${dialog}`)
-      console.log(`dialogSignature: ${dialogSignature}`)
-
-      return
-    }
-
-    const response = await getNouns({testMode, language, dialog, dialogSignature})
-
-    if (response === null) {
-      console.log('Houston, we DO have a problems')
-      return
-    }
-
-    if (!response.nounsResult.success) {
-      console.log('Houston, we have SOME problems')
-      console.log(response.nounsResult.errors)
-    }
-
-    setLesson(prev => {
-      const updated = {
-        ...prev,
-        nounsArray: response.nounsResult.parsed,
-        nounsErrors: response.nounsResult.errors ?? [],
-        nounsPrompt: response.nounsPrompt,
-        nounsSignature: response.nounsSignature
-      }
-      return updated
-    })
-    
-    setStep(GEN_AI_STEP.NOUNS_REVIEW)
-  }
-
-  const handleVerbs = async ({
-    testMode,
-    language,
-    dialog,
-    dialogSignature
-  }: HandleVerbsProps) => {
-    console.log(prompt)
-
-    if ( testMode ) {
-      console.log(`language: ${language}`)
-      console.log(`dialog: ${dialog}`)
-      console.log(`dialogSignature: ${dialogSignature}`)
-
-      return
-    }
-
-    const response = await getVerbs({testMode, language, dialog, dialogSignature})
-
-    if (response === null) {
-      console.log('Houston, we DO have a problems')
-      return
-    }
-
-    console.log(response.verbsResult)
-
-    if (!response.verbsResult.success) {
-      console.log('Houston, we have SOME problems')
-      console.log(response.verbsResult.errors)
-    }
-
-    console.log(response.verbsPrompt)
-    console.log(JSON.stringify(response, null, 2))
-
-    setLesson(prev => {
-      const updated = {
-        ...prev,
-        verbsArray: response.verbsResult.parsed,
-        verbsErrors: response.verbsResult.errors ?? [],
-        verbsPrompt: response.verbsPrompt,
-        verbsSignature: response.verbsSignature
-      }
-      return updated
-    })
-    
-    setStep(GEN_AI_STEP.VERBS_REVIEW)
-
-  }
-
-  // const chooseParticipants = ({participants, n, useMyself}: ChooseParticipantsProps): string => {
-  //   if (!participants || participants.length === 0 || n <= 0) return ''
-  
-  //   const count = useMyself ? n - 1 : n
-  //   const shuffled = [...participants].sort(() => Math.random() - 0.5)
-  //   const selected = shuffled.slice(0, Math.min(count, participants.length))
-  
-  //   if (useMyself) selected.unshift('myself')
-  
-  //   if (selected.length === 1) return selected[0]
-  //   if (selected.length === 2) return `${selected[0]} and ${selected[1]}`
-  
-  //   const last = selected.pop()
-  //   return `${selected.join(', ')}, and ${last}`
-  // }  
     
   const {
     scenario
@@ -536,7 +254,7 @@ const PanelGenAIPro: React.FC = () => {
           <div className="mv3">
             <button
               onClick={() => setTestMode(prev => !prev)}
-              className={`w-30 pa3 br2 bn ${testMode ? 'bg-red' : 'bg-black'} white pointer`}
+              className={`w-30 pa3 br2 bn ${testMode ? 'bg-brand' : 'bg-black'} white pointer`}
             >
               <div className="pa5X flex items-center" >
                 <div className="ph1 bg-redX"><FontAwesomeIcon icon={testMode ? faLock : faLockOpen} /></div>
@@ -545,89 +263,109 @@ const PanelGenAIPro: React.FC = () => {
             </button>
           </div>
 
-          <div>
-            <button
-              onClick={() => {
-                const {
-                  scenarioLabel,
-                  participantList
-                } = getScenarioDetails({scenario, language})
+          <div className={`ba bw2 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
+            <div>
+              <button
+                onClick={() => {
+                  const {
+                    scenarioLabel,
+                    participantList
+                  } = getScenarioDetails({scenario, language})
 
-                handleDialog({
-                  testMode,
-                  language, 
-                  scenarioLabel,
-                  participantList
-                })
-              }}
-              className="pa2 br2 bn bg-brand white pointer"
-            >
-              Run Dialog Step {testMode ? '(Test Mode)' : ''}
-            </button>
+                  const updatedLesson = {
+                    ...lesson,
+                    language,
+                    scenarioLabel,
+                    participantList
+                  }
+
+                  handleDialog({
+                    testMode,
+                    lesson: updatedLesson,
+                    setLesson
+                  })
+                }}
+                className="pa2 br2 bn mb4 bg-brand white pointer"
+              >
+                Get Dialog {testMode ? '(Test Mode)' : ''}
+              </button>
+            </div>
+
+            <div>
+              <button
+                onClick={() =>
+                  handleDialogReview({
+                    testMode,
+                    language,
+                    dialogArray: lesson.dialogArray,
+                    dialogSignature: lesson.dialogSignature
+                  })
+                }
+                className="mv3X pa2 br2 bn bg-purple white pointer"
+              >
+                Review Dialog {testMode ? '(Test Mode)' : ''}
+              </button>
+            </div>
           </div>
 
-          <div>
-            <button
-              onClick={() =>
-                handleDialogReview({
-                  testMode,
-                  language,
-                  dialogArray: lesson.dialogArray,
-                  dialogSignature: lesson.dialogSignature
-                })
-              }
-              className="mv3 pa2 br2 bn bg-purple white pointer"
-            >
-              Review Dialog  {testMode ? '(Test Mode)' : ''}
-            </button>
+          <div className={`ba bw2 mv3 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
+            <div className="mv3">
+              <button
+                onClick={() =>
+                  handleNouns({
+                    testMode,
+                    lesson,
+                    setLesson
+                  })
+                }
+                className="pa2 br2 bn bg-brand white pointer"
+              >
+                Get Nouns {testMode ? '(Test Mode)' : ''}
+              </button>
+            </div>
+
+            <div>
+              <button
+                onClick={() =>
+                  handleNounsReview({
+                    testMode,
+                    language,
+                    nounsArray: lesson.nounsArray,
+                    dialogSignature: lesson.dialogSignature
+                  })
+                }
+                className="mv3 pa2 br2 bn bg-purple white pointer"
+              >
+                Review Nouns {testMode ? '(Test Mode)' : ''}
+              </button>
+            </div>
           </div>
 
-          <div>
-            <button
-              onClick={() =>
-                handleNounsReview({
-                  testMode,
-                  language,
-                  nounsArray: lesson.nounsArray,
-                  dialogSignature: lesson.dialogSignature
-                })
-              }
-              className="mv3 pa2 br2 bn bg-purple white pointer"
-            >
-              Review Nouns {testMode ? '(Test Mode)' : ''}
-            </button>
-          </div>
+          <div className={`ba bw2 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
+            <div className="mv3">
+              <button
+                onClick={() =>
+                  handleVerbs({
+                    testMode,
+                    lesson,
+                    setLesson
+                  })
+                }
+                className="pa2 br2 bn bg-brand white pointer"
+              >
+                Get Verbs {testMode ? '(Test Mode)' : ''}
+              </button>
+            </div>
 
-          <div className="mv3">
-            <button
-              onClick={() =>
-                handleNouns({
-                  testMode,
-                  language,
-                  dialog: lesson.dialog,
-                  dialogSignature: lesson.dialogSignature
-                })
-              }
-              className="pa2 br2 bn bg-brand white pointer"
-            >
-              Run Nouns Step {testMode ? '(Test Mode)' : ''}
-            </button>
-          </div>
+            <div>
+              <button
+                onClick={() => {}}
+                className="mv3 pa2 br2 bn bg-purple white pointer"
+              >
+                Review Verbs {testMode ? '(Test Mode)' : ''}
+              </button>
+            </div>
 
-          <div className="mv3">
-            <button
-              onClick={() =>
-                handleVerbs({
-                  testMode,
-                  language,
-                  dialog: lesson.dialog,
-                  dialogSignature: lesson.dialogSignature
-                })
-              }
-              className="pa2 br2 bn bg-brand white pointer"
-            >
-              Run Verbs Step {testMode ? '(Test Mode)' : ''}
-            </button>
           </div>
 
           <div className="mv3">

@@ -12,7 +12,7 @@ import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext'
 import { getCurrentWeek } from './components/Util'
 import { SCENARIO, type ScenarioValue } from '../shared/types'
-import PanelGenAIPro from './components/PanelGenAIPro'
+import PanelGenAIPro from './components/PanelGenAIPro/PanelGenAIPro'
 
 const App: React.FC = () => {
   const {

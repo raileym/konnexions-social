@@ -1,26 +1,10 @@
-import { LANG_KEYS, type ChooseParticipantsProps, type GetScenarioDetailsProps, type Language, type LangValue, type ParticipantList, type ParticipantsByLanguage, type ScenarioLabels, type ScenarioTitles, type ScenarioValue } from "../../shared/types"
+import { LANG_KEYS, scenarioLabels, scenarioTitles, type ChooseParticipantsProps, type GetScenarioDetailsProps, type Language, type LangValue, type ParticipantList, type ParticipantsByLanguage, type ScenarioValue } from "../../shared/types"
 
 export const getCurrentWeek = () => {
   const now = new Date()
   const start = new Date(now.getFullYear(), 0, 1)
   const diff = (now.getTime() - start.getTime()) / 86400000
   return Math.floor((diff + start.getDay() + 1) / 7)
-}
-
-const scenarioTitles: ScenarioTitles = {
-  restaurant: 'Restaurant',
-  hotel: 'Hotel',
-  airport: 'Airport',
-  taxi: 'Taxi',
-  custom: 'Custom'
-}
-
-const scenarioLabels: ScenarioLabels = {
-  restaurant: 'at the restaurant',
-  hotel: 'at the hotel',
-  airport: 'at the airport',
-  taxi: 'in a taxi',
-  custom: 'Custom'
 }
 
 const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: ParticipantsByLanguage }> = {
@@ -128,7 +112,8 @@ const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: Part
 
 const langKeyMap: Record<Language, LangValue> = {
   Spanish: LANG_KEYS.ES,
-  English: LANG_KEYS.EN
+  English: LANG_KEYS.EN,
+  SpXnish: LANG_KEYS.ES
 }
 
 const chooseParticipants = ({ participantArray, language, n, useMyself }: ChooseParticipantsProps): ParticipantList => {
