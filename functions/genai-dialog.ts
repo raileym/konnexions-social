@@ -1,7 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { validateGenAIResponse } from '../shared/errorUtils'
-import { DialogLine, ERROR_LABEL, LESSON_TITLE } from '../shared/types'
-import { generatePromptSet } from '../shared/generatePromptSet'
+import { DialogLine } from '../shared/types'
 import { generateSignature } from '../shared/generateSignature'
 import { generateExample } from '../shared/generateExample'
 import { fetchOpenAI } from '../shared/fetchLLM'
@@ -26,14 +25,14 @@ const handler: Handler = async (event) => {
       }
     }
 
-    const prompt = getPrompt({lessonTitle: LESSON_TITLE.DIALOG, lesson })
+    const { prompt, fieldCount, errorLabel } = getPrompt({lessonTitle, lesson })
 
     let response: string
 
     if (testMode) {
       response = generateExample({
-        language: lesson.language,
-        lessonTitle: LESSON_TITLE.DIALOG,
+        lesson,
+        lessonTitle,
         options: { asString: true }
       })
     } else {
@@ -42,9 +41,9 @@ const handler: Handler = async (event) => {
 
     const validatedResult = validateGenAIResponse<DialogLine>({
       response,
-      errorLabel: ERROR_LABEL.DIALOG_ERROR,
-      expectedFieldCount: 2,
-      language: lesson.language
+      errorLabel,
+      fieldCount,
+      lesson
     })
 
     const dialogProse = validatedResult.lines.join(' ')

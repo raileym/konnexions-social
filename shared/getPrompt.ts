@@ -1,10 +1,15 @@
 import {
-  type GetPrompt,
-  type GetPromptProps,
+  ERROR_LABEL,
   type Lesson
 } from './types'
 
-import type { LessonTitle } from './types'
+type PromptWithMeta = {
+  prompt: string
+  fieldCount: number
+  errorLabel: ErrorLabel
+}
+
+import type { ErrorLabel, LessonTitle } from './types'
 import { getDialogPrompt } from './getDialogPrompt'
 import { getNounsPrompt } from './getNounsPrompt'
 import { getVerbsPrompt } from './getVerbsPrompt'
@@ -12,14 +17,39 @@ import { getDialogReviewPrompt } from './getDialogReviewPrompt'
 import { getNounsReviewPrompt } from './getNounsReviewPrompt'
 import { getVerbsReviewPrompt } from './getVerbsReviewPrompt'
 
-const promptGenerators: Record<LessonTitle, (args: { lesson: Lesson }) => string> = {
-  dialog: getDialogPrompt,
-  nouns: getNounsPrompt,
-  verbs: getVerbsPrompt,
-  dialogReview: getDialogReviewPrompt,
-  nounsReview: getNounsReviewPrompt,
-  verbsReview: getVerbsReviewPrompt
+const promptGenerators: Record<LessonTitle, (args: { lesson: Lesson }) => PromptWithMeta> = {
+  dialog: ({ lesson }) => ({
+    prompt: getDialogPrompt({ lesson }),
+    fieldCount: 2,
+    errorLabel: ERROR_LABEL.DIALOG_ERROR
+  }),
+  nouns: ({ lesson }) => ({
+    prompt: getNounsPrompt({ lesson }),
+    fieldCount: 4,
+    errorLabel: ERROR_LABEL.NOUNS_ERROR
+  }),
+  verbs: ({ lesson }) => ({
+    prompt: getVerbsPrompt({ lesson }),
+    fieldCount: 7,
+    errorLabel: ERROR_LABEL.VERBS_ERROR
+  }),
+  dialogReview: ({ lesson }) => ({
+    prompt: getDialogReviewPrompt({ lesson }),
+    fieldCount: 2,
+    errorLabel: ERROR_LABEL.DIALOG_REVIEW_ERROR
+  }),
+  nounsReview: ({ lesson }) => ({
+    prompt: getNounsReviewPrompt({ lesson }),
+    fieldCount: 4,
+    errorLabel: ERROR_LABEL.NOUNS_REVIEW_ERROR
+  }),
+  verbsReview: ({ lesson }) => ({
+    prompt: getVerbsReviewPrompt({ lesson }),
+    fieldCount: 7,
+    errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
+  })
 }
 
-export const getPrompt: GetPrompt = ({ lessonTitle, lesson }: GetPromptProps) =>
+
+export const getPrompt = ({ lessonTitle, lesson }: { lessonTitle: LessonTitle, lesson: Lesson }): PromptWithMeta =>
   promptGenerators[lessonTitle]({ lesson })

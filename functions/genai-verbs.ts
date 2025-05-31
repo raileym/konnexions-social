@@ -1,13 +1,13 @@
 import { Handler } from '@netlify/functions'
 import { validateGenAIResponse } from '../shared/errorUtils'
-import { ERROR_LABEL, Language, Verbs } from '../shared/types'
-import { generatePromptSet } from '../shared/generatePromptSet'
+import { Verbs } from '../shared/types'
 import { generateExample } from '../shared/generateExample'
 import { fetchOpenAI } from '../shared/fetchLLM'
+import { getPrompt } from '../shared/getPrompt'
 
 const handler: Handler = async (event) => {
   try {
-    const { testMode, lesson } = JSON.parse(event.body ?? '{}')
+    const { testMode, lesson, lessonTitle } = JSON.parse(event.body ?? '{}')
 
     if (!lesson) {
       console.log('Missing the big one')
@@ -25,15 +25,14 @@ const handler: Handler = async (event) => {
       }
     }
 
-    const promptSet = generatePromptSet()
-    const prompt = promptSet.getVerbsPrompt({lesson})
+    const { prompt, fieldCount, errorLabel } = getPrompt({lessonTitle, lesson })
 
     let response: string
 
     if (testMode) {
       response = generateExample({
-        language: lesson.language,
-        context: 'verbs',
+        lesson,
+        lessonTitle,
         options: { asString: true }
       })
     } else {
@@ -42,9 +41,9 @@ const handler: Handler = async (event) => {
 
     const validatedResult = validateGenAIResponse<Verbs>({
       response,
-      errorLabel: ERROR_LABEL.VERBS_ERROR,
-      expectedFieldCount: 7,
-      language: '' as Language
+      errorLabel,
+      fieldCount,
+      lesson
     })    
 
     return {

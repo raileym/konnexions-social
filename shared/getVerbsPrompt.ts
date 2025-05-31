@@ -4,7 +4,7 @@ import { GetVerbsPrompt, GetVerbsPromptProps, LESSON_TITLE } from "./types"
 
 export const getVerbsPrompt: GetVerbsPrompt = ({lesson}: GetVerbsPromptProps) => {
         
-        const verbsExample = generateExample({language: lesson.language, lessonTitle: LESSON_TITLE.VERBS, options: { asString: true }  })
+        const verbsExample = generateExample({lesson, lessonTitle: LESSON_TITLE.VERBS, options: { asString: true }  })
 
         return (`
 REQUEST: Extract the ${lesson.language} verbs from the dialog below:

@@ -25,9 +25,9 @@ export const looksLikeStringArray = /^\s*\[\s*"(?:[^"\\]|\\.)*"(?:\s*,\s*"(?:[^"
 
 export const validateGenAIResponse = <T extends string>({
   response,
-  expectedFieldCount,
+  fieldCount,
   errorLabel,
-  language
+  lesson
 }: ValidateGenAIResponseProps): GenAIValidationResult<T> => {
   const errors: HandleLLMError[] = []
 
@@ -109,8 +109,8 @@ export const validateGenAIResponse = <T extends string>({
     const fields = original.split('|')
     const reasons: string[] = []
 
-    if (fields.length !== expectedFieldCount) {
-      reasons.push(`Expected ${expectedFieldCount} fields, got ${fields.length}`)
+    if (fields.length !== fieldCount) {
+      reasons.push(`Expected ${fieldCount} fields, got ${fields.length}`)
     }
 
     if (fields.some(f => f.trim() === '')) {
@@ -121,7 +121,7 @@ export const validateGenAIResponse = <T extends string>({
       reasons.push('Singular and plural forms are identical')
     }
 
-    if (language === 'SpXnish' && fields.length >= 5) {
+    if (lesson.language === 'SpXnish' && fields.length >= 5) {
       const gender = fields[0].trim().toLowerCase()
       const articleSing = fields[3].trim().toLowerCase()
       const articlePlur = fields[4].trim().toLowerCase()
@@ -146,7 +146,7 @@ export const validateGenAIResponse = <T extends string>({
       }
     }
 
-    if (language === 'SpXnish' && fields.length >= 7) {
+    if (lesson.language === 'SpXnish' && fields.length >= 7) {
       const preSing1 = fields[5].trim().toLowerCase()
       const preSing2 = fields[6].trim().toLowerCase()
 
@@ -161,7 +161,7 @@ export const validateGenAIResponse = <T extends string>({
       }
     }
 
-    if (language === 'SpXnish' && fields.length >= 9) {
+    if (lesson.language === 'SpXnish' && fields.length >= 9) {
       const prePlur1 = fields[7].trim().toLowerCase()
       const prePlur2 = fields[8].trim().toLowerCase()
 

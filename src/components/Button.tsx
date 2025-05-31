@@ -3,13 +3,13 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppContext } from '../context/AppContext'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { APP_PANEL, type AppHomeValue, type AppPanelValue, type IsActive } from '../../shared/types'
+import { APP_PANEL, type AppHome, type AppPanel, type IsActive } from '../../shared/types'
 // import { usePanel } from '../hooks/usePanel'
 import { useHelpPanel } from '../hooks/useHelpPanel'
 // import type { AppPanel } from '../../shared/types'
 
 // type ButtonProps = {
-//   panel: AppPanelValue
+//   panel: AppPanel
 //   // panel: AppPanel
 //   icon: IconProp
 //   title?: string
@@ -17,11 +17,11 @@ import { useHelpPanel } from '../hooks/useHelpPanel'
 // }
 
 type ButtonProps = {
-  panel: AppPanelValue | AppHomeValue
+  panel: AppPanel | AppHome
   icon: IconProp // IconDefinition
   title?: string
   buttonClass?: string
-  switchFn: (target: AppPanelValue | AppHomeValue) => void
+  switchFn: (target: AppPanel | AppHome) => void
   isActive: IsActive
 }
 

@@ -10,12 +10,12 @@ export function generateExample(props: GenerateExampleProps & { options?: { asSt
 
 // ✅ Implementation (this one is exported)
 export function generateExample({
-  language,
+  lesson,
   lessonTitle,
   options = {}
 }: GenerateExampleProps): string | string[] {
-  if (language !== LANGUAGE.SPANISH) {
-    console.log(`Not Spanish: ${language}`)
+  if (lesson.language !== LANGUAGE.SPANISH) {
+    console.log(`Not Spanish: ${lesson.language}`)
     return options.asString ? '[]' : []
   }
 

@@ -86,12 +86,9 @@ export const LESSON_TITLE = {
   NOUNS_REVIEW: 'nounsReview',
   VERBS_REVIEW: 'verbsReview'
 }
-
 export type LessonTitleValue = (typeof LESSON_TITLE)[keyof typeof LESSON_TITLE]
 export type LessonTitleKey = keyof typeof LESSON_TITLE
 export type LessonTitle = LessonTitleValue
-
-
 
 export const SCENARIO = {
   RESTAURANT: 'restaurant',
@@ -104,15 +101,13 @@ export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]
 export type ScenarioKey = keyof typeof SCENARIO
 export type Scenario = ScenarioValue
 
-export type ActiveHome = AppHomeValue
-export type ActivePanel = AppPanelValue
 export type Answer = string
 export type AnswerKeep = string
 export type ApiKey = string
 export type AudioUrl = string | null
 export type CleanedText = string
 export type GcpKey = string
-export type HelpPanel = AppPanelValue
+export type HelpPanel = AppPanel
 export type InputText = string
 export type IsHelpOpen = boolean
 export type IsTransitioning = boolean
@@ -128,8 +123,8 @@ export type QuestionContext = string
 export type QuestionKeep = string
 export type VerbsKeep = string
 
-export type SetActiveHome = React.Dispatch<React.SetStateAction<AppHomeValue>>
-export type SetActivePanel = React.Dispatch<React.SetStateAction<AppPanelValue>>
+export type SetActiveHome = React.Dispatch<React.SetStateAction<AppHome>>
+export type SetActivePanel = React.Dispatch<React.SetStateAction<AppPanel>>
 export type SetAnswer = React.Dispatch<React.SetStateAction<Answer>>
 export type SetAnswerKeep = React.Dispatch<React.SetStateAction<AnswerKeep>>
 export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
@@ -162,7 +157,7 @@ export type SetTtsCharUsage = React.Dispatch<React.SetStateAction<TtsCharUsage>>
 export type SetUseCloudTTS = React.Dispatch<React.SetStateAction<UseCloudTTS>>
 export type SetVerbsKeep = React.Dispatch<React.SetStateAction<VerbsKeep>>
 
-export type SwitchPanel = (newPanel: AppPanelValue) => void
+export type SwitchPanel = (newPanel: AppPanel) => void
 
 export type TtsAvgChars = number
 export type TtsBudget = number
@@ -185,6 +180,7 @@ export const GEN_AI_STEP = {
 } as const
 export type GenAIStepValue = (typeof GEN_AI_STEP)[keyof typeof GEN_AI_STEP]
 export type GenAIStepKey = keyof typeof GEN_AI_STEP
+export type GenAIStep = GenAIStepValue
 
 export const APP_PANEL = {
   // HOME: 'home',
@@ -198,10 +194,12 @@ export const APP_PANEL = {
 } as const
 export type AppPanelValue = (typeof APP_PANEL)[keyof typeof APP_PANEL]
 export type AppPanelKey = keyof typeof APP_PANEL
-export const APP_HOME = APP_PANEL
+export type AppPanel = AppPanelValue
 
+export const APP_HOME = APP_PANEL
 export type AppHomeValue = (typeof APP_HOME)[keyof typeof APP_HOME]
 export type AppHomeKey = keyof typeof APP_HOME
+export type AppHome = AppHomeValue
 
 export type Participant = string
 export type ParticipantProse = string
@@ -575,7 +573,7 @@ export type HandleLLMError = {
   message: string
   detail: string
   offendingData: string
-  errorLabel: ErrorLabelValue
+  errorLabel: ErrorLabel
   timestamp: string
 }
 
@@ -587,8 +585,6 @@ export type HandleDialogErrors = HandleDialogError[]
 export type HandleNounsErrors = HandleNounsError[]
 export type HandleVerbsErrors = HandleVerbsError[]
 
-export type ErrorLabel = string
-
 export const ERROR_LABEL = {
   DIALOG_ERROR: 'handleDialogError',
   NOUNS_ERROR: 'handleNounsError',
@@ -599,23 +595,24 @@ export const ERROR_LABEL = {
 } as const
 export type ErrorLabelValue = (typeof ERROR_LABEL)[keyof typeof ERROR_LABEL]
 export type ErrorLabelKey = keyof typeof ERROR_LABEL
+export type ErrorLabel = ErrorLabelValue
 
 export type AddErrorProps = {
-  errorLabel: ErrorLabelValue
+  errorLabel: ErrorLabel
   setErrors: React.Dispatch<React.SetStateAction<HandleLLMError[]>>
   error: HandleLLMError
 }
 
 export type ValidateGenAIResponseProps = {
   response: string | null,
-  errorLabel: ErrorLabelValue,
-  expectedFieldCount: number
-  language: Language
+  errorLabel: ErrorLabel,
+  fieldCount: number
+  lesson: Lesson
 }
 
 export type ValidateGenAIResponsePropsOLD = {
   response: string | null,
-  errorLabel: ErrorLabelValue,
+  errorLabel: ErrorLabel,
   setErrors: React.Dispatch<React.SetStateAction<HandleLLMError[]>>,
   expectedFieldCount: number
   language: Language
@@ -681,7 +678,7 @@ export type GetGenAIExampleOptions = {
 }
 
 export type GenerateExampleProps = {
-  language: Language
+  lesson: Lesson
   lessonTitle: LessonTitle
   options: GetGenAIExampleOptions // = {}
 }
@@ -711,21 +708,6 @@ export type GetScenarioDetailsProps = {
   scenario: Scenario,
   language: Language
 }
-
-export const LANG_KEYS = {
-  EN: 'EN',
-  ES: 'ES' //,
-  // ZH: 'ZH',
-  // FR: 'FR',
-  // DE: 'DE',
-  // IT: 'IT',
-  // PT: 'PT',
-  // JA: 'JA',
-  // KO: 'KO'
-} as const
-
-export type LangKey = keyof typeof LANG_KEYS
-export type LangValue = (typeof LANG_KEYS)[keyof typeof LANG_KEYS]
 
 export type GetDialogProps = {
   testMode: TestMode,

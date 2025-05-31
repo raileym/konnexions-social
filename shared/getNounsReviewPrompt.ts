@@ -3,7 +3,7 @@ import { jsonQualification } from "./jsonQualification"
 import { GetNounsReviewPrompt, GetNounsReviewPromptProps, LESSON_TITLE } from "./types"
 
 export const getNounsReviewPrompt: GetNounsReviewPrompt = ({lesson}: GetNounsReviewPromptProps) => {
-    const nounsReviewExample = generateExample({language: lesson.language, lessonTitle: LESSON_TITLE.NOUNS_REVIEW, options: { asString: true }  })
+    const nounsReviewExample = generateExample({lesson, lessonTitle: LESSON_TITLE.NOUNS_REVIEW, options: { asString: true }  })
     
     return (`
 GIVEN:

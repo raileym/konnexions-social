@@ -3,7 +3,7 @@ import { jsonQualification } from "./jsonQualification"
 import { GetDialogReviewPrompt, GetDialogReviewPromptProps, LESSON_TITLE } from "./types"
 
 export const getDialogReviewPrompt: GetDialogReviewPrompt = ({lesson}: GetDialogReviewPromptProps) => {
-    const dialogReviewExample = generateExample({language: lesson.language, lessonTitle: LESSON_TITLE.DIALOG_REVIEW, options: { asString: true }  })
+    const dialogReviewExample = generateExample({lesson, lessonTitle: LESSON_TITLE.DIALOG_REVIEW, options: { asString: true }  })
     
     return (`
 REQUEST: Review the following Spanish-language dialog array for grammatical correctness and natural usage, making minor corrections only when necessary. This dialog is intended for beginning Spanish learners.
