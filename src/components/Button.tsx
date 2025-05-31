@@ -3,25 +3,25 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppContext } from '../context/AppContext'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { APP_PANEL, type AppHome, type AppPanel, type IsActive } from '../../shared/types'
+import { APP_PANEL, type ActiveHome, type ActivePanel, type IsActive } from '../../shared/types'
 // import { usePanel } from '../hooks/usePanel'
 import { useHelpPanel } from '../hooks/useHelpPanel'
-// import type { AppPanel } from '../../shared/types'
+// import type { ActivePanel } from '../../shared/types'
 
 // type ButtonProps = {
-//   panel: AppPanel
-//   // panel: AppPanel
+//   panel: ActivePanel
+//   // panel: ActivePanel
 //   icon: IconProp
 //   title?: string
 //   buttonClass?: string
 // }
 
 type ButtonProps = {
-  panel: AppPanel | AppHome
+  panel: ActivePanel | ActiveHome
   icon: IconProp // IconDefinition
   title?: string
   buttonClass?: string
-  switchFn: (target: AppPanel | AppHome) => void
+  switchFn: (target: ActivePanel | ActiveHome) => void
   isActive: IsActive
 }
 

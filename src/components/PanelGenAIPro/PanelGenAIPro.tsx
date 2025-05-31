@@ -4,28 +4,31 @@ import { useAppContext } from '../../context/AppContext'
 import {
   APP_HOME,
   ERROR_LABEL,
-  GEN_AI_STEP
+  // GEN_AI_STEP,
+  LANGUAGE,
+  MODULE_NAME
 } from '../../../shared/types'
 import type {
-  GetDialogReviewProps,
-  GetDialogReviewResult,
-  HandleDialogReviewProps,
+  // GetDialogReviewProps,
+  // GetDialogReviewResult,
+  // HandleDialogReviewProps,
   Language,
   UseMyself,
-  HandleNounsReviewProps,
-  GetNounsReviewProps,
-  GetNounsReviewResult,
+  // HandleNounsReviewProps,
+  // GetNounsReviewProps,
+  // GetNounsReviewResult,
   TestMode,
+  Lesson,
 } from '../../../shared/types'
 import { getScenarioDetails } from '../Util'
-import Scenario from '../Scenario'
+import ScenarioSelector from '../ScenarioSelector'
 import ParticipantToggle from '../ParticipantToggle'
 import { resetErrors } from '../errorUtils'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
-import handleDialog from './PanelGenAIProComponents/handleDialog/handleDialog'
-import handleNouns from './PanelGenAIProComponents/handleNouns/handleNouns'
-import handleVerbs from './PanelGenAIProComponents/handleVerbs/handleVerbs'
+import handleModule from './PanelGenAIProComponents/handleModule/handleModule'
+// import handleNouns from './PanelGenAIProComponents/handleNouns/handleNouns'
+// import handleVerbs from './PanelGenAIProComponents/handleVerbs/handleVerbs'
 
 const PanelGenAIPro: React.FC = () => {
   const {
@@ -44,13 +47,15 @@ const PanelGenAIPro: React.FC = () => {
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
   const [useMyself, setUseMyself] = useState<UseMyself>(false)
-  const [, setStep] = useState<number>(0)
+  // const [, setStep] = useState<number>(0)
   const [showDialogPrompt, setShowDialogPrompt] = useState(false)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [showVerbsPrompt, setShowVerbsPrompt] = useState(false)
   const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)
   const [showNounsReviewPrompt, setShowNounsReviewPrompt] = useState(false)
-  const [language, ] = useState<Language>('Spanish')
+  const [showVerbsReviewPrompt, setShowVerbsReviewPrompt] = useState(false)
+
+  const [language, ] = useState<Language>(LANGUAGE.SPANISH)
   const [testMode, setTestMode] = useState<TestMode>(true)
 
   const toggleShowDialogPrompt = () => {
@@ -73,161 +78,171 @@ const PanelGenAIPro: React.FC = () => {
     setShowNounsReviewPrompt(prev => !prev)
   }
 
-  const getNounsReview = async ({
-    testMode,
-    language,
-    nounsArray,
-    dialogSignature
-  }: GetNounsReviewProps): Promise<GetNounsReviewResult | null> => {
-
-    console.log(`getNounsReview: language: ${language}`)
-    console.log(`getNounsReview: nounsArray: ${JSON.stringify(nounsArray, null, 2)}`)
-    console.log(`getNounsReview: dialogSignature: ${dialogSignature}`)
-
-    try {
-      const res = await fetch('/.netlify/functions/genai-nouns-review', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          testMode,
-          language,
-          nounsArray,
-          dialogSignature
-        })
-      })
-  
-      if (!res.ok) {
-        console.error('Function error:', res.status)
-        return null
-      }
-  
-      const data = await res.json()
-      return data as GetNounsReviewResult
-    } catch (err) {
-      console.error('Network error:', err)
-      return null
-    }
+  const toggleShowVerbsReviewPrompt = () => {
+    setShowVerbsReviewPrompt(prev => !prev)
   }
+
+  // const getNounsReview = async ({
+  //   testMode,
+  //   language,
+  //   nounsArray,
+  //   dialogSignature
+  // }: GetNounsReviewProps): Promise<GetNounsReviewResult | null> => {
+
+  //   console.log(`getNounsReview: language: ${language}`)
+  //   console.log(`getNounsReview: nounsArray: ${JSON.stringify(nounsArray, null, 2)}`)
+  //   console.log(`getNounsReview: dialogSignature: ${dialogSignature}`)
+
+  //   try {
+  //     const res = await fetch('/.netlify/functions/genai-nouns-review', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({
+  //         testMode,
+  //         language,
+  //         nounsArray,
+  //         dialogSignature
+  //       })
+  //     })
   
-  const getDialogReview = async ({
-    testMode,
-    language,
-    dialogLines,
-    dialogSignature
-  }: GetDialogReviewProps): Promise<GetDialogReviewResult | null> => {
-
-    console.log(`getDialogReview: language: ${language}`)
-    console.log(`getDialogReview: dialogLines: ${JSON.stringify(dialogLines, null, 2)}`)
-    console.log(`getDialogReview: dialogSignature: ${dialogSignature}`)
-
-    try {
-      const res = await fetch('/.netlify/functions/genai-dialog-review', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          testMode,
-          language,
-          dialogLines,
-          dialogSignature
-        })
-      })
+  //     if (!res.ok) {
+  //       console.error('Function error:', res.status)
+  //       return null
+  //     }
   
-      if (!res.ok) {
-        console.error('Function error:', res.status)
-        return null
-      }
+  //     const data = await res.json()
+  //     return data as GetNounsReviewResult
+  //   } catch (err) {
+  //     console.error('Network error:', err)
+  //     return null
+  //   }
+  // }
   
-      const data = await res.json()
-      return data as GetDialogReviewResult
-    } catch (err) {
-      console.error('Network error:', err)
-      return null
-    }
-  }
+  // const getDialogReview = async ({
+  //   testMode,
+  //   language,
+  //   dialogLines,
+  //   dialogSignature
+  // }: GetDialogReviewProps): Promise<GetDialogReviewResult | null> => {
+
+  //   console.log(`getDialogReview: language: ${language}`)
+  //   console.log(`getDialogReview: dialogLines: ${JSON.stringify(dialogLines, null, 2)}`)
+  //   console.log(`getDialogReview: dialogSignature: ${dialogSignature}`)
+
+  //   try {
+  //     const res = await fetch('/.netlify/functions/genai-dialog-review', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({
+  //         testMode,
+  //         language,
+  //         dialogLines,
+  //         dialogSignature
+  //       })
+  //     })
   
-  const handleDialogReview = async ({
-    testMode,
-    language,
-    dialogLines,
-    dialogSignature
-  }: HandleDialogReviewProps) => {
+  //     if (!res.ok) {
+  //       console.error('Function error:', res.status)
+  //       return null
+  //     }
+  
+  //     const data = await res.json()
+  //     return data as GetDialogReviewResult
+  //   } catch (err) {
+  //     console.error('Network error:', err)
+  //     return null
+  //   }
+  // }
+  
+  // const handleDialogReview = async ({
+  //   testMode,
+  //   language,
+  //   dialogLines,
+  //   dialogSignature
+  // }: HandleDialogReviewProps) => {
 
-    if (testMode) {
-      console.log(`language: ${language}`)
-      console.log(`dialogSignature: ${dialogSignature}`)
-      console.log(JSON.stringify(dialogLines, null, 2))
-      return
-    }
+  //   if (testMode) {
+  //     console.log(`language: ${language}`)
+  //     console.log(`dialogSignature: ${dialogSignature}`)
+  //     console.log(JSON.stringify(dialogLines, null, 2))
+  //     return
+  //   }
 
-    const response = await getDialogReview({testMode, language, dialogLines, dialogSignature})
+  //   const response = await getDialogReview({testMode, language, dialogLines, dialogSignature})
 
-    if (response === null) {
-      console.log('Houston, we DO have a problems')
-      return
-    }
+  //   if (response === null) {
+  //     console.log('Houston, we DO have a problems')
+  //     return
+  //   }
 
-    if (!response.dialogReviewResult.success) {
-      console.log('Houston, we have SOME problems')
-      console.log(response.dialogReviewResult.errors)
-    }
+  //   if (!response.dialogReviewResult.success) {
+  //     console.log('Houston, we have SOME problems')
+  //     console.log(response.dialogReviewResult.errors)
+  //   }
 
-    setLesson(prev => {
-      const updated = {
-        ...prev,
-        dialogReviewArray: response.dialogReviewResult.parsed,
-        dialogReviewErrors: response.dialogReviewResult.errors ?? [],
-        dialogReviewPrompt: response.dialogReviewPrompt,
-        dialogReviewSignature: response.dialogReviewSignature,
-        dialogReviewSentinel: response.dialogReviewResult.sentinel ?? ''
-      }
-      return updated
-    })
+  //   setLesson(prev => {
+  //     const updated = {
+  //       ...prev,
+  //       dialogReview: {
+  //         dialogReviewLines: response.dialogReviewResult.lines,
+  //         dialogReviewErrors: response.dialogReviewResult.errors ?? [],
+  //         dialogReviewPrompt: response.dialogReviewPrompt,
+  //         dialogReviewSignature: response.dialogReviewSignature,
+  //         dialogReviewSentinel: response.dialogReviewResult.sentinel ?? '',
+  //         dialogReviewSuccess: response.dialogReviewResult.success
+  //       }
+  //     }
+  //     return updated
+  //   })
     
-    setStep(GEN_AI_STEP.NOUNS_REVIEW)
+  //   setStep(GEN_AI_STEP.NOUNS_REVIEW)
 
-  }
+  // }
   
-  const handleNounsReview = async ({
-    testMode,
-    language,
-    nounsArray,
-    dialogSignature
-  }: HandleNounsReviewProps) => {
+  // const handleNounsReview = async ({
+  //   testMode,
+  //   language,
+  //   nounsArray,
+  //   dialogSignature
+  // }: HandleNounsReviewProps) => {
 
-    if (testMode) {
-      console.log(`language: ${language}`)
-      console.log(`dialogSignature: ${dialogSignature}`)
-      console.log(JSON.stringify(nounsArray, null, 2))
-      return
-    }
+  //   if (testMode) {
+  //     console.log(`language: ${language}`)
+  //     console.log(`dialogSignature: ${dialogSignature}`)
+  //     console.log(JSON.stringify(nounsArray, null, 2))
+  //     return
+  //   }
 
-    const response = await getNounsReview({testMode, language, nounsArray, dialogSignature})
+  //   const response = await getNounsReview({testMode, language, nounsArray, dialogSignature})
 
-    if (response === null) {
-      console.log('Houston, we DO have a problems')
-      return
-    }
+  //   if (response === null) {
+  //     console.log('Houston, we DO have a problems')
+  //     return
+  //   }
 
-    if (!response.nounsReviewResult.success) {
-      console.log('Houston, we have SOME problems')
-      console.log(response.nounsReviewResult.errors)
-    }
+  //   if (!response.nounsReviewResult.success) {
+  //     console.log('Houston, we have SOME problems')
+  //     console.log(response.nounsReviewResult.errors)
+  //   }
 
-    setLesson(prev => {
-      const updated = {
-        ...prev,
-        nounsReviewArray: response.nounsReviewResult.parsed,
-        nounsReviewErrors: response.nounsReviewResult.errors ?? [],
-        nounsReviewPrompt: response.nounsReviewPrompt,
-        nounsReviewSignature: response.nounsReviewSignature,
-        nounsReviewSentinel: response.nounsReviewResult.sentinel ?? ''
-      }
-      return updated
-    })
+  //   setLesson(prev => {
+  //     const updated = {
+  //       ...prev,
+  //       nounsReview: {
+  //         nounsReviewLines: response.nounsReviewResult.lines,
+  //         nounsReviewErrors: response.nounsReviewResult.errors ?? [],
+  //         nounsReviewPrompt: response.nounsReviewPrompt,
+  //         nounsReviewSignature: response.nounsReviewSignature,
+  //         nounsReviewSentinel: response.nounsReviewResult.sentinel ?? '',
+  //         nounsReviewSuccess: response.nounsReviewResult.success
+  //       }
+  //     }
+  //     return updated
+  //   })
     
-    setStep(GEN_AI_STEP.NOUNS_REVIEW)
+  //   setStep(GEN_AI_STEP.NOUNS_REVIEW)
 
-  }
+  // }
     
   const {
     scenario
@@ -244,7 +259,7 @@ const PanelGenAIPro: React.FC = () => {
 
           <div className="flex flex-column items-center justify-centerX w-100 items-startX flex-wrapX">
             <div className="mt3 mb1">
-              <Scenario custom={false} />
+              <ScenarioSelector custom={false} />
             </div>
             <div className="mt1 mb3">
               <ParticipantToggle useMyself={useMyself} onClick={setUseMyself} />
@@ -272,17 +287,19 @@ const PanelGenAIPro: React.FC = () => {
                     participantList
                   } = getScenarioDetails({scenario, language})
 
-                  const updatedLesson = {
+                  const updatedLesson: Lesson = {
                     ...lesson,
+
                     language,
                     scenarioLabel,
                     participantList
                   }
 
-                  handleDialog({
-                    testMode,
-                    lesson: updatedLesson,
-                    setLesson
+                  handleModule({
+                    lesson: updatedLesson, // keeping it slightly more general
+                    moduleName: MODULE_NAME.DIALOG,
+                    setLesson,
+                    testMode
                   })
                 }}
                 className="pa2 br2 bn mb4 bg-brand white pointer"
@@ -294,11 +311,18 @@ const PanelGenAIPro: React.FC = () => {
             <div>
               <button
                 onClick={() =>
-                  handleDialogReview({
-                    testMode,
-                    language,
-                    dialogLines: lesson.dialogLines,
-                    dialogSignature: lesson.dialogSignature
+                  // handleDialogReview({
+                  //   testMode,
+                  //   language,
+                  //   dialogLines: lesson.dialogLines,
+                  //   dialogSignature: lesson.dialogSignature
+                  // })
+
+                  handleModule({
+                    lesson, // keeping it slightly more general
+                    moduleName: MODULE_NAME.DIALOG_REVIEW,
+                    setLesson,
+                    testMode
                   })
                 }
                 className="mv3X pa2 br2 bn bg-purple white pointer"
@@ -312,10 +336,17 @@ const PanelGenAIPro: React.FC = () => {
             <div className="mv3">
               <button
                 onClick={() =>
-                  handleNouns({
-                    testMode,
-                    lesson,
-                    setLesson
+                  // handleNouns({
+                  //   testMode,
+                  //   lesson,
+                  //   setLesson
+                  // })
+
+                  handleModule({
+                    lesson, // keeping it slightly more general
+                    moduleName: MODULE_NAME.NOUNS,
+                    setLesson,
+                    testMode
                   })
                 }
                 className="pa2 br2 bn bg-brand white pointer"
@@ -327,12 +358,20 @@ const PanelGenAIPro: React.FC = () => {
             <div>
               <button
                 onClick={() =>
-                  handleNounsReview({
-                    testMode,
-                    language,
-                    nounsArray: lesson.nounsArray,
-                    dialogSignature: lesson.dialogSignature
+                  // handleNounsReview({
+                  //   testMode,
+                  //   language,
+                  //   nounsArray: lesson.nounsArray,
+                  //   dialogSignature: lesson.dialogSignature
+                  // })
+
+                  handleModule({
+                    lesson, // keeping it slightly more general
+                    moduleName: MODULE_NAME.NOUNS_REVIEW,
+                    setLesson,
+                    testMode
                   })
+
                 }
                 className="mv3 pa2 br2 bn bg-purple white pointer"
               >
@@ -345,10 +384,16 @@ const PanelGenAIPro: React.FC = () => {
             <div className="mv3">
               <button
                 onClick={() =>
-                  handleVerbs({
-                    testMode,
-                    lesson,
-                    setLesson
+                  // handleVerbs({
+                  //   testMode,
+                  //   lesson,
+                  //   setLesson
+                  // })
+                  handleModule({
+                    lesson, // keeping it slightly more general
+                    moduleName: MODULE_NAME.VERBS,
+                    setLesson,
+                    testMode
                   })
                 }
                 className="pa2 br2 bn bg-brand white pointer"
@@ -359,7 +404,21 @@ const PanelGenAIPro: React.FC = () => {
 
             <div>
               <button
-                onClick={() => {}}
+                onClick={() =>
+                  // handleNounsReview({
+                  //   testMode,
+                  //   language,
+                  //   nounsArray: lesson.nounsArray,
+                  //   dialogSignature: lesson.dialogSignature
+                  // })
+
+                  handleModule({
+                    lesson, // keeping it slightly more general
+                    moduleName: MODULE_NAME.VERBS_REVIEW,
+                    setLesson,
+                    testMode
+                  })
+                }
                 className="mv3 pa2 br2 bn bg-purple white pointer"
               >
                 Review Verbs {testMode ? '(Test Mode)' : ''}
@@ -394,7 +453,7 @@ const PanelGenAIPro: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialogPrompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialog.prompt}</div>
               </div>
             </div>
           )}
@@ -412,7 +471,7 @@ const PanelGenAIPro: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.nounsPrompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.nouns.prompt}</div>
               </div>
             </div>
           )}
@@ -430,7 +489,7 @@ const PanelGenAIPro: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.verbsPrompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.verbs.prompt}</div>
               </div>
             </div>
           )}
@@ -448,7 +507,7 @@ const PanelGenAIPro: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Review Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialogReviewPrompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialogReview.prompt}</div>
               </div>
             </div>
           )}
@@ -466,16 +525,34 @@ const PanelGenAIPro: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Review Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.nounsReviewPrompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.nounsReview.prompt}</div>
               </div>
             </div>
           )}
 
+          <div className="w-100">
+            <button
+              onClick={toggleShowVerbsReviewPrompt}
+              className="mt3 pa2 br2 bn bg-brand white pointer"
+            >
+              {showVerbsReviewPrompt ? 'Hide Verbs Review Prompt' : 'Show Verbs Review Prompt'}
+            </button>
+          </div>
+
+          {showVerbsReviewPrompt && (
+            <div className="w-100 flex justify-center flex-column">
+              <div className="mt4 ba pa3 bg-white">
+                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Review Prompt</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.verbsReview.prompt}</div>
+              </div>
+            </div>
+          )}
+          
           <div className="w-100 flex justify-center flex-column">
             <div>
               <div className="mt4 b">Dialog Array</div>
               <ul className="mt0 pt0 black">
-                {lesson.dialogLines.map((line, index) => (
+                {lesson.dialog.lines.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>
@@ -496,7 +573,7 @@ const PanelGenAIPro: React.FC = () => {
               )}
               <div className="mt4 b">Nouns Array</div>
               <ul className="mt0 pt0 black">
-                {lesson.nounsArray.map((line, index) => (
+                {lesson.nouns.lines.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>
@@ -518,7 +595,7 @@ const PanelGenAIPro: React.FC = () => {
               )}
               <div className="mt4 b">Verbs</div>
               <ul className="mt0 pt0 black">
-                {lesson.verbsArray.map((line, index) => (
+                {lesson.verbs.lines.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>

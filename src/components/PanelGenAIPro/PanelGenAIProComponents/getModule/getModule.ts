@@ -1,19 +1,21 @@
 import type {
   GetModuleProps,
-  Lesson
+  Module
 } from "../../../../../shared/types"
 
-export const getDialog = async ({
+export const getModule = async ({
   testMode,
-  lesson
-}: GetModuleProps): Promise<Lesson | null> => {
+  lesson,
+  moduleName
+}: GetModuleProps): Promise<Module | null> => {
   try {
-    const res = await fetch('/.netlify/functions/genai-dialog', {
+    const res = await fetch('/.netlify/functions/genai-module', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         testMode,
-        lesson
+        lesson,
+        moduleName
       })
     })
 
@@ -23,11 +25,11 @@ export const getDialog = async ({
     }
 
     const data = await res.json()
-    return data as Lesson
+    return data as Module
   } catch (err) {
     console.error('Network error:', err)
     return null
   }
 }
 
-export default getDialog
+export default getModule

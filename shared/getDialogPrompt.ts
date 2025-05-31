@@ -3,7 +3,7 @@ import { jsonQualification } from "./jsonQualification"
 import { GetDialogPrompt, GetDialogPromptProps } from "./types"
 
 export const getDialogPrompt: GetDialogPrompt = ({lesson}: GetDialogPromptProps) => {
-    const dialogExample = generateExample({lesson, lessonTitle: 'dialog', options: { asString: true }  })
+    const dialogExample = generateExample({lesson, moduleName: 'dialog', options: { asString: true }  })
     
     return (`
 DIALOG: Create a dialog in ${lesson.language} appropriate for a beginning

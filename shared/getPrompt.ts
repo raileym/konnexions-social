@@ -9,7 +9,7 @@ type PromptWithMeta = {
   errorLabel: ErrorLabel
 }
 
-import type { ErrorLabel, LessonTitle } from './types'
+import type { ErrorLabel, ModuleName } from './types'
 import { getDialogPrompt } from './getDialogPrompt'
 import { getNounsPrompt } from './getNounsPrompt'
 import { getVerbsPrompt } from './getVerbsPrompt'
@@ -17,7 +17,7 @@ import { getDialogReviewPrompt } from './getDialogReviewPrompt'
 import { getNounsReviewPrompt } from './getNounsReviewPrompt'
 import { getVerbsReviewPrompt } from './getVerbsReviewPrompt'
 
-const promptGenerators: Record<LessonTitle, (args: { lesson: Lesson }) => PromptWithMeta> = {
+const promptGenerators: Record<ModuleName, (args: { lesson: Lesson }) => PromptWithMeta> = {
   dialog: ({ lesson }) => ({
     prompt: getDialogPrompt({ lesson }),
     fieldCount: 2,
@@ -51,5 +51,5 @@ const promptGenerators: Record<LessonTitle, (args: { lesson: Lesson }) => Prompt
 }
 
 
-export const getPrompt = ({ lessonTitle, lesson }: { lessonTitle: LessonTitle, lesson: Lesson }): PromptWithMeta =>
-  promptGenerators[lessonTitle]({ lesson })
+export const getPrompt = ({ moduleName, lesson }: { moduleName: ModuleName, lesson: Lesson }): PromptWithMeta =>
+  promptGenerators[moduleName]({ lesson })

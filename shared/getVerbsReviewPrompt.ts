@@ -1,9 +1,9 @@
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
-import { GetVerbsReviewPrompt, GetVerbsReviewPromptProps, LESSON_TITLE } from "./types"
+import { GetVerbsReviewPrompt, GetVerbsReviewPromptProps, MODULE_NAME } from "./types"
 
 export const getVerbsReviewPrompt: GetVerbsReviewPrompt = ({lesson}: GetVerbsReviewPromptProps) => {
-    const verbsReviewExample = generateExample({lesson, lessonTitle: LESSON_TITLE.VERBS_REVIEW, options: { asString: true }  })
+    const verbsReviewExample = generateExample({lesson, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: true }  })
     
     return (`
 REQUEST: Review the following Spanish-language verbs for grammatical correctness and natural usage, making minor corrections only when necessary. These verbs are intended for beginning Spanish learners.

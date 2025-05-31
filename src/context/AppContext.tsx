@@ -4,7 +4,7 @@ import type {
   Answer,
   ApiKey,
   AppContextType,
-  AppPanel,
+  ActivePanel,
   AudioUrl,
   CleanedText,
   GcpKey,
@@ -24,7 +24,7 @@ import type {
   UseCloudTTS,
   Scenario,
   IsHelpOpen,
-  AppHome,
+  ActiveHome,
   AnswerKeep,
   QuestionKeep,
   Lesson,
@@ -37,12 +37,52 @@ import type {
 import {
   APP_HOME,
   APP_PANEL,
+  defaultLanguage,
   defaultLesson,
+  MODULE_NAME,
   SCENARIO
 } from '../../shared/types'
 import { usePersistentState } from '../hooks/usePersistentState'
+import { generateExample } from '../../shared/generateExample'
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
+
+const defaultExample = {
+  dialog: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.DIALOG, options: { asString: false }}),
+  nouns: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.NOUNS, options: { asString: false }}),
+  verbs: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}),
+  dialogReview: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: false }}),
+  nounsReview: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: false }}),
+  verbsReview: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: false }})
+}
+
+const updatedDefaultLesson = {
+  ...defaultLesson,
+  dialog: {
+    ...defaultLesson.dialog,
+    lines: defaultExample.dialog
+  },
+  nouns: {
+    ...defaultLesson.nouns,
+    lines: defaultExample.nouns
+  },
+  verbs: {
+    ...defaultLesson.nouns,
+    lines: defaultExample.verbs
+  },
+  dialogReview: {
+    ...defaultLesson.nouns,
+    lines: defaultExample.dialogReview
+  },
+  nounsReview: {
+    ...defaultLesson.nouns,
+    lines: defaultExample.nounsReview
+  },
+  verbsReview: {
+    ...defaultLesson.nouns,
+    lines: defaultExample.verbsReview
+  }
+}
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // const [dialogLines, setDialogArray] = usePersistentState<DialogArray>('dialogLines', [])
@@ -51,11 +91,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // const [dialogPrompt, setDialogPrompt] = usePersistentState<Prompt>('dialogPrompt', '')
   // const [nounsPrompt, setNounsPrompt] = usePersistentState<Prompt>('nounsPrompt', '')
 
-  const [lesson, setLesson] = usePersistentState<Lesson>('lesson', defaultLesson)
+  const [lesson, setLesson] = usePersistentState<Lesson>('lesson', updatedDefaultLesson)
 
-  const [activePanel, setActivePanel] = useState<AppPanel>(APP_PANEL.BASIC)
-  const [activeHome, setActiveHome] = useState<AppHome>(APP_HOME.GEN_AI_PRO)
-  const [helpPanel, setHelpPanel] = useState<AppPanel>(APP_PANEL.BASIC)
+  const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
+  const [activeHome, setActiveHome] = useState<ActiveHome>(APP_HOME.GEN_AI_PRO)
+  const [helpPanel, setHelpPanel] = useState<ActivePanel>(APP_PANEL.BASIC)
   const [answer, setAnswer] = useState<Answer>('')
   const [answerKeep, setAnswerKeep] = useState<AnswerKeep>('')
   const [verbsKeep, setVerbsKeep] = useState<VerbsKeep>('')

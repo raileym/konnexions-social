@@ -6,16 +6,16 @@ import type {
 export const getPartialLesson = async ({
   testMode,
   lesson,
-  lessonTitle
+  moduleName
 }: GetPartialLessonProps): Promise<PartialLesson | null> => {
   try {
-    const res = await fetch(`/.netlify/functions/genai-${lessonTitle}`, {
+    const res = await fetch(`/.netlify/functions/genai-${moduleName}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         testMode,
         lesson,
-        lessonTitle
+        moduleName
       })
     })
 

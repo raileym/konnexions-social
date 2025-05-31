@@ -1,9 +1,9 @@
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
-import { GetNounsReviewPrompt, GetNounsReviewPromptProps, LESSON_TITLE } from "./types"
+import { GetNounsReviewPrompt, GetNounsReviewPromptProps, MODULE_NAME } from "./types"
 
 export const getNounsReviewPrompt: GetNounsReviewPrompt = ({lesson}: GetNounsReviewPromptProps) => {
-    const nounsReviewExample = generateExample({lesson, lessonTitle: LESSON_TITLE.NOUNS_REVIEW, options: { asString: true }  })
+    const nounsReviewExample = generateExample({lesson, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
     
     return (`
 GIVEN:

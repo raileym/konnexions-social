@@ -1,7 +1,9 @@
 import {
   LANGUAGE,
   type GenerateExampleProps,
-  type LessonTitle
+  type Line,
+  type Lines,
+  type ModuleName
 } from "./types"
 
 // ✅ Overload declarations — DO NOT use 'const' or 'export'
@@ -10,16 +12,16 @@ export function generateExample(props: GenerateExampleProps & { options?: { asSt
 
 // ✅ Implementation (this one is exported)
 export function generateExample({
-  lesson,
-  lessonTitle,
+  language,
+  moduleName,
   options = {}
-}: GenerateExampleProps): string | string[] {
-  if (lesson.language !== LANGUAGE.SPANISH) {
-    console.log(`Not Spanish: ${lesson.language}`)
+}: GenerateExampleProps): Line | Lines {
+  if (language !== LANGUAGE.SPANISH) {
+    console.log(`Not Spanish: ${language}`)
     return options.asString ? '[]' : []
   }
 
-  const examples: Record<LessonTitle, string[]> = {
+  const examples: Record<ModuleName, string[]> = {
     dialog: [
       "Camarera|¡Bienvenidos al restaurante! ¿Cuántos son en su grupo?",
       "Cliente|Somos cuatro. ¿Podemos sentarnos cerca de la ventana?",
@@ -55,6 +57,6 @@ export function generateExample({
     ]
   }
 
-  const raw = examples[lessonTitle]
+  const raw = examples[moduleName]
   return options.asString ? JSON.stringify(raw, null, 2) : raw
 }

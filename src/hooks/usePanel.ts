@@ -1,6 +1,6 @@
 // src/hooks/usePanel.ts
 import { useAppContext } from '../context/AppContext'
-import { type AppPanel, type AppHome } from '../../shared/types'
+import { type ActivePanel, type ActiveHome } from '../../shared/types'
 import { useHelpPanel } from './useHelpPanel'
 
 export const usePanel = () => {
@@ -17,7 +17,7 @@ export const usePanel = () => {
 
   const { closeHelp } = useHelpPanel()
 
-  const switchPanel = (newPanel: AppPanel) => {
+  const switchPanel = (newPanel: ActivePanel) => {
     if (isTransitioning) return
 
     setIsTransitioning(true)
@@ -59,7 +59,7 @@ export const usePanel = () => {
     }
   }
 
-  const switchHome = (newHome: AppHome) => {
+  const switchHome = (newHome: ActiveHome) => {
     if (isTransitioning) return
 
     setIsTransitioning(true)

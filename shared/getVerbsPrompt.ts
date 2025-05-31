@@ -1,10 +1,10 @@
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
-import { GetVerbsPrompt, GetVerbsPromptProps, LESSON_TITLE } from "./types"
+import { GetVerbsPrompt, GetVerbsPromptProps, MODULE_NAME } from "./types"
 
 export const getVerbsPrompt: GetVerbsPrompt = ({lesson}: GetVerbsPromptProps) => {
         
-        const verbsExample = generateExample({lesson, lessonTitle: LESSON_TITLE.VERBS, options: { asString: true }  })
+        const verbsExample = generateExample({lesson, moduleName: MODULE_NAME.VERBS, options: { asString: true }  })
 
         return (`
 REQUEST: Extract the ${lesson.language} verbs from the dialog below:

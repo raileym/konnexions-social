@@ -1,27 +1,26 @@
 import { Handler } from '@netlify/functions'
-import { validateGenAIResponse } from '../shared/errorUtils'
-import { Verbs } from '../shared/types'
+import { generateSignature } from '../shared/generateSignature'
 import { generateExample } from '../shared/generateExample'
 import { fetchOpenAI } from '../shared/fetchLLM'
 import { getPrompt } from '../shared/getPrompt'
+import { validateModule } from '../shared/validateModule'
 
 const handler: Handler = async (event) => {
   try {
     const { testMode, lesson, moduleName } = JSON.parse(event.body ?? '{}')
 
-    if (!lesson) {
-      console.log('Missing the big one')
+    if (!lesson || !moduleName) {
+      console.log('Missing the big two')
       return {
         statusCode: 400,
-        body: 'Missing one required fields: lesson'
+        body: 'Missing a required field: lesson or moduleName'
       }
     }
 
-    if (!lesson.dialog || !lesson.language || !lesson.dialogSignature) {
-      console.log('Missing the big three')
+    if (!lesson.language || !lesson.scenarioLabel || !lesson.participantList) {
       return {
         statusCode: 400,
-        body: 'Missing one or more required fields: language, dialog'
+        body: 'Lesson is missing required fields'
       }
     }
 
@@ -31,7 +30,7 @@ const handler: Handler = async (event) => {
 
     if (testMode) {
       response = generateExample({
-        lesson,
+        language: lesson.language,
         moduleName,
         options: { asString: true }
       })
@@ -39,29 +38,37 @@ const handler: Handler = async (event) => {
       response = await fetchOpenAI({ prompt })
     }
 
-    const validatedResult = validateGenAIResponse<Verbs>({
+    const validModule = validateModule({
       response,
       errorLabel,
       fieldCount,
       lesson
-    })    
+    })
+
+    const prose = validModule.lines?.join(' ') ?? ''
+    const signature = generateSignature(prose)
+    const updatedLesson = {
+      [moduleName]: {
+        ...validModule,
+        prompt,
+        signature,
+      },
+      prose
+    }
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         lesson: {
-          verbsPrompt: prompt,
-          verbsArray: validatedResult.lines,
-          verbsSignature: lesson.dialogSignature,
-          verbsSuccess: validatedResult.success,
-          verbsErrors: validatedResult.errors
+          ...updatedLesson
         }
       })
     }
   } catch (err) {
+    console.log('Whoop! We have a problem here server-side.')
     return {
       statusCode: 500,
-      body: `Error generating verbs: ${(err as Error).message}`
+      body: `Error generating dialog: ${(err as Error).message}`
     }
   }
 }

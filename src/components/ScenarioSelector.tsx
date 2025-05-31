@@ -2,11 +2,11 @@ import React from 'react'
 import { useAppContext } from '../context/AppContext'
 import { SCENARIO, type Scenario } from '../../shared/types'
 
-type ScenarioProps = {
+type ScenarioSelectorProps = {
   custom: boolean
 }
 
-const Scenario: React.FC<ScenarioProps> = ({ custom }) => {
+const ScenarioSelector: React.FC<ScenarioSelectorProps> = ({ custom }) => {
   const { scenario, setScenario } = useAppContext()
 
   const scenarios: Scenario[] = [
@@ -44,4 +44,4 @@ const Scenario: React.FC<ScenarioProps> = ({ custom }) => {
   )
 }
 
-export default Scenario
+export default ScenarioSelector

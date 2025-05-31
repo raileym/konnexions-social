@@ -1,18 +1,19 @@
 import type { HandleDialogProps } from "../../../../../shared/types"
-import getDialog from "../getDialog/getDialog"
+import getModule from "../getModule/getModule"
 
-export const handleDialog = async ({
-  testMode,
+export const handleModule = async ({
   lesson,
+  moduleName,
   setLesson,
-  moduleName
+  testMode
 }: HandleDialogProps) => {
 
   if (testMode) {
     console.log(`lesson: ${JSON.stringify(lesson, null, 2)}`)
+    console.log(`moduleName: ${moduleName}`)
   }
 
-  const response = await getLesson({testMode, lesson, })
+  const response = await getModule({testMode, lesson, moduleName })
 
   if (response === null) {
     console.log('Houston, we DO have a problems')
@@ -38,4 +39,4 @@ export const handleDialog = async ({
   })
 }
 
-export default handleDialog
+export default handleModule

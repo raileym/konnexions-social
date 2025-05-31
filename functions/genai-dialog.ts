@@ -8,9 +8,9 @@ import { getPrompt } from '../shared/getPrompt'
 
 const handler: Handler = async (event) => {
   try {
-    const { testMode, lesson, lessonTitle } = JSON.parse(event.body ?? '{}')
+    const { testMode, lesson, moduleName } = JSON.parse(event.body ?? '{}')
 
-    if (!lesson || !lessonTitle) {
+    if (!lesson || !moduleName) {
       console.log('Missing the big two')
       return {
         statusCode: 400,
@@ -25,14 +25,14 @@ const handler: Handler = async (event) => {
       }
     }
 
-    const { prompt, fieldCount, errorLabel } = getPrompt({lessonTitle, lesson })
+    const { prompt, fieldCount, errorLabel } = getPrompt({moduleName, lesson })
 
     let response: string
 
     if (testMode) {
       response = generateExample({
         lesson,
-        lessonTitle,
+        moduleName,
         options: { asString: true }
       })
     } else {
