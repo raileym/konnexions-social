@@ -112,12 +112,12 @@ const PanelGenAIPro: React.FC = () => {
   const getDialogReview = async ({
     testMode,
     language,
-    dialogArray,
+    dialogLines,
     dialogSignature
   }: GetDialogReviewProps): Promise<GetDialogReviewResult | null> => {
 
     console.log(`getDialogReview: language: ${language}`)
-    console.log(`getDialogReview: dialogArray: ${JSON.stringify(dialogArray, null, 2)}`)
+    console.log(`getDialogReview: dialogLines: ${JSON.stringify(dialogLines, null, 2)}`)
     console.log(`getDialogReview: dialogSignature: ${dialogSignature}`)
 
     try {
@@ -127,7 +127,7 @@ const PanelGenAIPro: React.FC = () => {
         body: JSON.stringify({
           testMode,
           language,
-          dialogArray,
+          dialogLines,
           dialogSignature
         })
       })
@@ -148,18 +148,18 @@ const PanelGenAIPro: React.FC = () => {
   const handleDialogReview = async ({
     testMode,
     language,
-    dialogArray,
+    dialogLines,
     dialogSignature
   }: HandleDialogReviewProps) => {
 
     if (testMode) {
       console.log(`language: ${language}`)
       console.log(`dialogSignature: ${dialogSignature}`)
-      console.log(JSON.stringify(dialogArray, null, 2))
+      console.log(JSON.stringify(dialogLines, null, 2))
       return
     }
 
-    const response = await getDialogReview({testMode, language, dialogArray, dialogSignature})
+    const response = await getDialogReview({testMode, language, dialogLines, dialogSignature})
 
     if (response === null) {
       console.log('Houston, we DO have a problems')
@@ -297,7 +297,7 @@ const PanelGenAIPro: React.FC = () => {
                   handleDialogReview({
                     testMode,
                     language,
-                    dialogArray: lesson.dialogArray,
+                    dialogLines: lesson.dialogLines,
                     dialogSignature: lesson.dialogSignature
                   })
                 }
@@ -475,7 +475,7 @@ const PanelGenAIPro: React.FC = () => {
             <div>
               <div className="mt4 b">Dialog Array</div>
               <ul className="mt0 pt0 black">
-                {lesson.dialogArray.map((line, index) => (
+                {lesson.dialogLines.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>

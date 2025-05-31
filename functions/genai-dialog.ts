@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { validateGenAIResponse } from '../shared/errorUtils'
-import { Dialog, ERROR_LABEL } from '../shared/types'
+import { DialogLine, ERROR_LABEL, LESSON_TITLE } from '../shared/types'
 import { generatePromptSet } from '../shared/generatePromptSet'
 import { generateSignature } from '../shared/generateSignature'
 import { generateExample } from '../shared/generateExample'
@@ -8,10 +8,10 @@ import { fetchOpenAI } from '../shared/fetchLLM'
 
 const handler: Handler = async (event) => {
   try {
-    const { testMode, lesson } = JSON.parse(event.body ?? '{}')
+    const { testMode, lesson, lessonTitle } = JSON.parse(event.body ?? '{}')
 
-    if (!lesson) {
-      console.log('Missing the big one')
+    if (!lesson || !lessonTitle) {
+      console.log('Missing the big two')
       return {
         statusCode: 400,
         body: 'Missing one required fields: lesson'
@@ -25,41 +25,45 @@ const handler: Handler = async (event) => {
       }
     }
 
-    const promptSet = generatePromptSet()
-    const prompt = promptSet.getDialogPrompt({lesson})
+    // const promptSet = generatePromptSet()
+    // const prompt = promptSet.getDialogPrompt({lesson})
+    const { getPrompt } = generatePromptSet()
+    const prompt = getPrompt({lessonTitle: LESSON_TITLE.DIALOG, lesson })
 
     let response: string
 
     if (testMode) {
       response = generateExample({
         language: lesson.language,
-        context: 'dialog',
+        lessonTitle: LESSON_TITLE.DIALOG,
         options: { asString: true }
       })
     } else {
       response = await fetchOpenAI({ prompt })
     }
 
-    const validatedResult = validateGenAIResponse<Dialog>({
+    const validatedResult = validateGenAIResponse<DialogLine>({
       response,
       errorLabel: ERROR_LABEL.DIALOG_ERROR,
       expectedFieldCount: 2,
       language: lesson.language
     })
 
-    const dialog = validatedResult.parsed.join(' ')
-    const dialogSignature = generateSignature(dialog)
+    const dialogProse = validatedResult.lines.join(' ')
+    const dialogSignature = generateSignature(dialogProse)
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         lesson: {
-          dialog,
-          dialogSignature,
-          dialogPrompt: prompt,
-          dialogArray: validatedResult.parsed,
-          dialogErrors: validatedResult.errors,
-          dialogSuccess: validatedResult.success
+          dialog: {
+            dialogSignature,
+            dialogPrompt: prompt,
+            dialogLines: validatedResult.lines,
+            dialogErrors: validatedResult.errors,
+            dialogSuccess: validatedResult.success
+          },
+          dialogProse,
         }
       })
     }

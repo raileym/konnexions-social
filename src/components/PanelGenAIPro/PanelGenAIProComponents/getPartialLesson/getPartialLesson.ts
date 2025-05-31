@@ -3,17 +3,19 @@ import type {
   PartialLesson
 } from "../../../../../shared/types"
 
-export const getDialog = async ({
+export const getPartialLesson = async ({
   testMode,
-  lesson
+  lesson,
+  lessonTitle
 }: GetPartialLessonProps): Promise<PartialLesson | null> => {
   try {
-    const res = await fetch('/.netlify/functions/genai-dialog', {
+    const res = await fetch(`/.netlify/functions/genai-${lessonTitle}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         testMode,
-        lesson
+        lesson,
+        lessonTitle
       })
     })
 
@@ -30,4 +32,4 @@ export const getDialog = async ({
   }
 }
 
-export default getDialog
+export default getPartialLesson

@@ -11,7 +11,7 @@ import NavbarBottom from './components/NavbarBottom'
 import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext'
 import { getCurrentWeek } from './components/Util'
-import { SCENARIO, type ScenarioValue } from '../shared/types'
+import { SCENARIO, type Scenario } from '../shared/types'
 import PanelGenAIPro from './components/PanelGenAIPro/PanelGenAIPro'
 
 const App: React.FC = () => {
@@ -53,9 +53,9 @@ const App: React.FC = () => {
       handleVoiceLoad()
     }
 
-    const stored = localStorage.getItem('scenario') as ScenarioValue | null
+    const stored = localStorage.getItem('scenario') as Scenario | null
     if (stored && Object.values(SCENARIO).includes(stored)) {
-      setScenario(stored as ScenarioValue)
+      setScenario(stored as Scenario)
     } else {
       setScenario(SCENARIO.RESTAURANT)
       localStorage.setItem('scenario', SCENARIO.RESTAURANT)

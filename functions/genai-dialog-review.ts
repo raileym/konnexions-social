@@ -13,12 +13,12 @@ const handler: Handler = async (event) => {
   }
 
   try {
-    const { dialogArray, language, dialogSignature } = JSON.parse(event.body ?? '{}')
+    const { dialogLines, language, dialogSignature } = JSON.parse(event.body ?? '{}')
 
-    if (!dialogArray || !language || !dialogSignature) {
+    if (!dialogLines || !language || !dialogSignature) {
       console.log('Missing the big three')
       console.log(`language: ${language}`)
-      console.log(`dialogArray: ${JSON.stringify(dialogArray, null, 2)}`)
+      console.log(`dialogLines: ${JSON.stringify(dialogLines, null, 2)}`)
       console.log(`dialogSignature: ${dialogSignature}`)
 
       return {
@@ -28,12 +28,12 @@ const handler: Handler = async (event) => {
     }
 
     console.log(`language: ${language}`)
-      console.log(`dialogArray: ${JSON.stringify(dialogArray, null, 2)}`)
+      console.log(`dialogLines: ${JSON.stringify(dialogLines, null, 2)}`)
     console.log(`dialogSignature: ${dialogSignature}`)
 
     const promptSet = generatePromptSet()
 
-    const dialogReviewPrompt = promptSet.getDialogReviewPrompt({language, dialogArray})
+    const dialogReviewPrompt = promptSet.getDialogReviewPrompt({language, dialogLines})
 
     // const alwaysTrue = true
     // if (alwaysTrue) {

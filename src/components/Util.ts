@@ -1,4 +1,13 @@
-import { LANG_KEYS, scenarioLabels, scenarioTitles, type ChooseParticipantsProps, type GetScenarioDetailsProps, type Language, type LangValue, type ParticipantList, type ParticipantsByLanguage, type ScenarioValue } from "../../shared/types"
+import {
+  LANGUAGE,
+  scenarioLabels,
+  scenarioTitles,
+  type ChooseParticipantLinesProps,
+  type GetScenarioDetailsProps,
+  type ParticipantProse,
+  type ParticipantLinesByLanguage,
+  type Scenario
+} from "../../shared/types"
 
 export const getCurrentWeek = () => {
   const now = new Date()
@@ -7,10 +16,10 @@ export const getCurrentWeek = () => {
   return Math.floor((diff + start.getDay() + 1) / 7)
 }
 
-const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: ParticipantsByLanguage }> = {
+const scenarioParticipants: Record<Scenario, { participantLinesByLanguage: ParticipantLinesByLanguage }> = {
   restaurant: {
-    participantsByLanguage: {
-      EN: [
+    participantLinesByLanguage: {
+      [LANGUAGE.ENGLISH]: [
         'the host',
         'the hostess',
         'a waiter',
@@ -21,7 +30,18 @@ const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: Part
         'a female diner',
         'a couple seated nearby'
       ],
-      ES: [
+      [LANGUAGE.SPANISH]: [
+        'el anfitrión',
+        'la anfitriona',
+        'un camarero',
+        'una camarera',
+        'el barman',
+        'el chef',
+        'un comensal (hombre)',
+        'una comensal (mujer)',
+        'una pareja sentada cerca'
+      ],
+      [LANGUAGE.SPXNISH]: [
         'el anfitrión',
         'la anfitriona',
         'un camarero',
@@ -35,8 +55,8 @@ const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: Part
     }
   },
   hotel: {
-    participantsByLanguage: {
-      EN: [
+    participantLinesByLanguage: {
+      [LANGUAGE.ENGLISH]: [
         'the front desk agent',
         'concierge',
         'bellhop',
@@ -45,7 +65,16 @@ const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: Part
         'a female guest',
         'the hotel manager'
       ],
-      ES: [
+      [LANGUAGE.SPANISH]: [
+        'el recepcionista',
+        'el conserje',
+        'el botones',
+        'la camarera de piso',
+        'un huésped (hombre)',
+        'una huésped (mujer)',
+        'el gerente del hotel'
+      ],
+      [LANGUAGE.SPXNISH]: [
         'el recepcionista',
         'el conserje',
         'el botones',
@@ -57,8 +86,8 @@ const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: Part
     }
   },
   airport: {
-    participantsByLanguage: {
-      EN: [
+    participantLinesByLanguage: {
+      [LANGUAGE.ENGLISH]: [
         'an airline agent',
         'a gate attendant',
         'a TSA officer',
@@ -67,7 +96,16 @@ const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: Part
         'a male traveler',
         'a female traveler'
       ],
-      ES: [
+      [LANGUAGE.SPANISH]: [
+        'un agente de aerolínea',
+        'un asistente de puerta',
+        'un oficial de seguridad (TSA)',
+        'un encargado de equipaje',
+        'un auxiliar de vuelo',
+        'un viajero',
+        'una viajera'
+      ],
+      [LANGUAGE.SPXNISH]: [
         'un agente de aerolínea',
         'un asistente de puerta',
         'un oficial de seguridad (TSA)',
@@ -79,8 +117,8 @@ const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: Part
     }
   },
   taxi: {
-    participantsByLanguage: {
-      EN: [
+    participantLinesByLanguage: {
+      [LANGUAGE.ENGLISH]: [
         'the driver',
         'a rideshare driver',
         'a dispatcher',
@@ -89,7 +127,16 @@ const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: Part
         'a couple sharing the ride',
         'a tourist unfamiliar with the city'
       ],
-      ES: [
+      [LANGUAGE.SPANISH]: [
+        'el conductor',
+        'un conductor de rideshare',
+        'el despachador',
+        'un pasajero',
+        'una pasajera',
+        'una pareja compartiendo el viaje',
+        'un turista que no conoce la ciudad'
+      ],
+      [LANGUAGE.SPXNISH]: [
         'el conductor',
         'un conductor de rideshare',
         'el despachador',
@@ -101,33 +148,25 @@ const scenarioParticipants: Record<ScenarioValue, { participantsByLanguage: Part
     }
   },
   custom: {
-    participantsByLanguage: {
-      EN: ['WHICH DIALOG PARTICIPANTS'],
-      ES: ['¿QUÉ PARTICIPANTES EN EL DIÁLOGO?']
+    participantLinesByLanguage: {
+      [LANGUAGE.ENGLISH]: ['WHICH DIALOG PARTICIPANTS'],
+      [LANGUAGE.SPANISH]: ['¿QUÉ PARTICIPANTES EN EL DIÁLOGO?'],
+      [LANGUAGE.SPXNISH]: ['¿QUÉ PARTICIPANTES EN EL DIÁLOGO?']
     }
   }
 }
 
-// export function getScenarioDetails(scenario: ScenarioValue) {
-
-const langKeyMap: Record<Language, LangValue> = {
-  Spanish: LANG_KEYS.ES,
-  English: LANG_KEYS.EN,
-  SpXnish: LANG_KEYS.ES
-}
-
-const chooseParticipants = ({ participantArray, language, n, useMyself }: ChooseParticipantsProps): ParticipantList => {
-  if (!participantArray || participantArray.length === 0 || n <= 0) {
+const chooseParticipantLines = ({ participantLines, language, n, useMyself }: ChooseParticipantLinesProps): ParticipantProse => {
+  if (!participantLines || participantLines.length === 0 || n <= 0) {
     console.log('error out too soon')
-    console.log(langKeyMap)
     return ''
   }
 
   const count = useMyself ? n - 1 : n
-  const shuffled = [...participantArray].sort(() => Math.random() - 0.5)
-  const selected = shuffled.slice(0, Math.min(count, participantArray.length))
+  const shuffled = [...participantLines].sort(() => Math.random() - 0.5)
+  const selected = shuffled.slice(0, Math.min(count, participantLines.length))
 
-  if (useMyself) selected.unshift(language === 'Spanish' ? 'yo mismo' : 'myself')
+  if (useMyself) selected.unshift(language === LANGUAGE.SPANISH ? 'yo mismo' : 'myself')
 
   const quoted = selected.map(p => `"${p}"`)
 
@@ -143,7 +182,7 @@ const chooseParticipants = ({ participantArray, language, n, useMyself }: Choose
 
 
 export function getScenarioDetails({scenario, language}: GetScenarioDetailsProps) {
-  const participantList = chooseParticipants({ participantArray: scenarioParticipants[scenario].participantsByLanguage.ES, n: 2, useMyself: false, language })
+  const participantList = chooseParticipantLines({ participantLines: scenarioParticipants[scenario].participantLinesByLanguage[LANGUAGE.SPANISH], n: 2, useMyself: false, language })
 
   return {
     scenarioLabel: scenarioLabels[scenario],

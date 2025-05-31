@@ -1,6 +1,7 @@
-import type {
-  GenAIContext,
-  GenerateExampleProps
+import {
+  LANGUAGE,
+  type GenerateExampleProps,
+  type LessonTitle
 } from "./types"
 
 // ✅ Overload declarations — DO NOT use 'const' or 'export'
@@ -10,15 +11,15 @@ export function generateExample(props: GenerateExampleProps & { options?: { asSt
 // ✅ Implementation (this one is exported)
 export function generateExample({
   language,
-  context,
+  lessonTitle,
   options = {}
 }: GenerateExampleProps): string | string[] {
-  if (language !== 'Spanish') {
+  if (language !== LANGUAGE.SPANISH) {
     console.log(`Not Spanish: ${language}`)
     return options.asString ? '[]' : []
   }
 
-  const examples: Record<GenAIContext, string[]> = {
+  const examples: Record<LessonTitle, string[]> = {
     dialog: [
       "Camarera|¡Bienvenidos al restaurante! ¿Cuántos son en su grupo?",
       "Cliente|Somos cuatro. ¿Podemos sentarnos cerca de la ventana?",
@@ -54,6 +55,6 @@ export function generateExample({
     ]
   }
 
-  const raw = examples[context]
+  const raw = examples[lessonTitle]
   return options.asString ? JSON.stringify(raw, null, 2) : raw
 }

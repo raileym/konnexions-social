@@ -26,6 +26,10 @@ export const handleNouns = async ({
   setLesson(prev => {
     const updated = {
       ...prev,
+      nouns: {
+        ...prev.nouns,
+        ...response.lesson.nouns
+      }
       ...lesson
     }
     return updated

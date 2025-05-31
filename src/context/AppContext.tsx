@@ -22,7 +22,7 @@ import type {
   TtsBudget,
   TtsCharUsage,
   UseCloudTTS,
-  ScenarioValue,
+  Scenario,
   IsHelpOpen,
   AppHomeValue,
   AnswerKeep,
@@ -45,7 +45,7 @@ import { usePersistentState } from '../hooks/usePersistentState'
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // const [dialogArray, setDialogArray] = usePersistentState<DialogArray>('dialogArray', [])
+  // const [dialogLines, setDialogArray] = usePersistentState<DialogArray>('dialogLines', [])
   // const [nounsArray, setNounsArray] = usePersistentState<NounsArray>('nounsArray', [])
 
   // const [dialogPrompt, setDialogPrompt] = usePersistentState<Prompt>('dialogPrompt', '')
@@ -79,7 +79,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [question, setQuestion] = useState<Question>('')
   const [questionContext, setQuestionContext] = useState<QuestionContext>('')
   const [questionKeep, setQuestionKeep] = useState<QuestionKeep>('')
-  const [scenario, setScenario] = useState<ScenarioValue>(SCENARIO.RESTAURANT)
+  const [scenario, setScenario] = useState<Scenario>(SCENARIO.RESTAURANT)
   const [ttsAvgChars, setTtsAvgChars] = useState<TtsAvgChars>(80)
   const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)

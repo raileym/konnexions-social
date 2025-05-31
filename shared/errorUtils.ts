@@ -40,7 +40,7 @@ export const validateGenAIResponse = <T extends string>({
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, parsed: [], errors, sentinel: '' }
+    return { success: false, lines: [], errors, sentinel: '' }
   }
 
   if (!looksLikeStringArray.test(response)) {
@@ -52,12 +52,12 @@ export const validateGenAIResponse = <T extends string>({
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, parsed: [], errors, sentinel: '' }
+    return { success: false, lines: [], errors, sentinel: '' }
   }
 
-  let parsed: string[]
+  let lines: string[]
   try {
-    parsed = JSON.parse(response) as T[]
+    lines = JSON.parse(response) as T[]
   } catch (err: unknown) {
     const error: HandleLLMError = {
       message: 'Failed to parse response as JSON',
@@ -67,45 +67,45 @@ export const validateGenAIResponse = <T extends string>({
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, parsed: [], errors, sentinel: '' }
+    return { success: false, lines: [], errors, sentinel: '' }
   }
 
-  if (!Array.isArray(parsed)) {
+  if (!Array.isArray(lines)) {
     const error: HandleLLMError = {
       message: 'Parsed response is not an array',
       detail: '',
-      offendingData: JSON.stringify(parsed),
+      offendingData: JSON.stringify(lines),
       errorLabel,
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, parsed: [], errors, sentinel: '' }
+    return { success: false, lines: [], errors, sentinel: '' }
   }
 
-  if (!parsed.every(line => typeof line === 'string')) {
+  if (!lines.every(line => typeof line === 'string')) {
     const error: HandleLLMError = {
-      message: 'One or more items in the parsed array is not a string',
+      message: 'One or more items in the lines array is not a string',
       detail: '',
-      offendingData: JSON.stringify(parsed),
+      offendingData: JSON.stringify(lines),
       errorLabel,
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, parsed: [], errors, sentinel: '' }
+    return { success: false, lines: [], errors, sentinel: '' }
   }
 
   if (
-    parsed.length === 1 &&
-    parsed[0].trim().toLowerCase() === 'no corrections needed'
+    lines.length === 1 &&
+    lines[0].trim().toLowerCase() === 'no corrections needed'
   ) {
     return {
       success: true,
-      parsed: [],
+      lines: [],
       sentinel: 'No corrections needed'
     }
   }
 
-  const structured = parsed.map((original): RichParsedLine => {
+  const structured = lines.map((original): RichParsedLine => {
     const fields = original.split('|')
     const reasons: string[] = []
 
@@ -191,7 +191,7 @@ export const validateGenAIResponse = <T extends string>({
     const error: HandleLLMError = {
       message: 'Some entries failed validation checks',
       detail: invalid.map(s => `${s.original} ❌ ${s.reasons.join('; ')}`).join('\n'),
-      offendingData: JSON.stringify(parsed),
+      offendingData: JSON.stringify(lines),
       errorLabel,
       timestamp: new Date().toISOString()
     }
@@ -200,7 +200,7 @@ export const validateGenAIResponse = <T extends string>({
 
   return {
     success: errors.length === 0,
-    parsed: valid,
+    lines: valid,
     errors,
     sentinel: ''
   }

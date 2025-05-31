@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppContext } from '../context/AppContext'
-import { SCENARIO, type ScenarioValue } from '../../shared/types'
+import { SCENARIO, type Scenario } from '../../shared/types'
 
 type ScenarioProps = {
   custom: boolean
@@ -9,7 +9,7 @@ type ScenarioProps = {
 const Scenario: React.FC<ScenarioProps> = ({ custom }) => {
   const { scenario, setScenario } = useAppContext()
 
-  const scenarios: ScenarioValue[] = [
+  const scenarios: Scenario[] = [
     SCENARIO.RESTAURANT,
     SCENARIO.HOTEL,
     SCENARIO.AIRPORT,
@@ -17,7 +17,7 @@ const Scenario: React.FC<ScenarioProps> = ({ custom }) => {
     ...(custom ? [SCENARIO.CUSTOM] : [])
   ]
 
-  const updateScenario = (value: ScenarioValue) => {
+  const updateScenario = (value: Scenario) => {
     localStorage.setItem('scenario', value)
     setScenario(value)
   }
