@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { useAppContext } from '../context/AppContext'
-import { APP_HOME, type Language } from '../../shared/types'
+import { APP_HOME, LANGUAGE, type Language } from '../../shared/types'
 import Button from "./Button"
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek, getScenarioDetails } from './Util'
-import Scenario from './Scenario'
+import ScenarioSelector from './ScenarioSelector'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { usePanel } from '../hooks/usePanel'
 
 const PanelGenAI: React.FC = () => {
-    const [language, ] = useState<Language>('Spanish')
+    const [language, ] = useState<Language>(LANGUAGE.SPANISH)
   
   const { activeHome } = useAppContext()
   const isActive = activeHome === APP_HOME.GEN_AI
@@ -94,7 +94,7 @@ const PanelGenAI: React.FC = () => {
           <h2 className="f3 pa3 pb0 mt5 w-100 tc">Spanish: Scenarios</h2>
           <div className="f3 pv3 pt0 mt0">{headline}</div>
 
-          <Scenario custom={true} />
+          <ScenarioSelector custom={true} />
           
           { !openAiKey && (
               <div className="mt5">

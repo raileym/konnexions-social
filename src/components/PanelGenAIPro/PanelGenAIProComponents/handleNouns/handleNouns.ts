@@ -1,36 +1,41 @@
-import type { HandleNounsProps } from "../../../../../shared/types"
-import getNouns from "../getNouns/getNouns"
+import type { HandleModuleProps } from "../../../../../shared/types"
+import getModule from "../getModule/getModule"
 
 export const handleNouns = async ({
-  testMode,
   lesson,
-  setLesson
-}: HandleNounsProps) => {
+  moduleName,
+  setLesson,
+  testMode
+}: HandleModuleProps) => {
   
   if (testMode) {
       console.log(`lesson: ${JSON.stringify(lesson, null, 2)}`)
+    console.log(`moduleName: ${moduleName}`)
   }
 
-  const response = await getNouns({testMode, lesson})
+  const response = await getModule({testMode, lesson, moduleName })
 
   if (response === null) {
     console.log('Houston, we DO have a problems')
     return
   }
 
-  if (!response.lesson.nounsSuccess) {
+  if (!response.success) {
     console.log('Houston, we have SOME problems')
-    console.log(response.lesson.nounsErrors)
+    console.log(response.errors)
   }
 
   setLesson(prev => {
     const updated = {
       ...prev,
-      nouns: {
-        ...prev.nouns,
-        ...response.lesson.nouns
+
+      // language: lesson.language,
+      // scenarioLabel: lesson.scenarioLabel,
+      // participantList: lesson.participantList,
+
+      [moduleName]: {
+        ...response
       }
-      ...lesson
     }
     return updated
   })

@@ -1,4 +1,4 @@
-import type { HandleDialogProps } from "../../../../../shared/types"
+import type { HandleModuleProps } from "../../../../../shared/types"
 import getModule from "../getModule/getModule"
 
 export const handleModule = async ({
@@ -6,7 +6,7 @@ export const handleModule = async ({
   moduleName,
   setLesson,
   testMode
-}: HandleDialogProps) => {
+}: HandleModuleProps) => {
 
   if (testMode) {
     console.log(`lesson: ${JSON.stringify(lesson, null, 2)}`)
@@ -20,20 +20,22 @@ export const handleModule = async ({
     return
   }
 
-  if (!response. .lesson.dialogSuccess) {
+  if (!response.success) {
     console.log('Houston, we have SOME problems')
-    console.log(response.lesson.dialogErrors)
+    console.log(response.errors)
   }
 
   setLesson(prev => {
     const updated = {
       ...prev,
 
-      language: lesson.language,
-      scenarioLabel: lesson.scenarioLabel,
-      participantList: lesson.participantList,
+      // language: lesson.language,
+      // scenarioLabel: lesson.scenarioLabel,
+      // participantList: lesson.participantList,
 
-      ...response.lesson
+      [moduleName]: {
+        ...response
+      }
     }
     return updated
   })

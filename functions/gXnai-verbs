@@ -1,7 +1,7 @@
 import { Handler } from '@netlify/functions'
 import { validateGenAIResponse } from '../shared/errorUtils'
 import { Verbs } from '../shared/types'
-import { generateExample } from '../shared/generateExample'
+// import { generateExample } from '../shared/generateExample'
 import { fetchOpenAI } from '../shared/fetchLLM'
 import { getPrompt } from '../shared/getPrompt'
 
@@ -9,11 +9,11 @@ const handler: Handler = async (event) => {
   try {
     const { testMode, lesson, moduleName } = JSON.parse(event.body ?? '{}')
 
-    if (!lesson) {
-      console.log('Missing the big one')
+    if (!lesson || !moduleName) {
+      console.log('Missing the big two')
       return {
         statusCode: 400,
-        body: 'Missing one required fields: lesson'
+        body: 'Missing a required field: lesson or moduleName'
       }
     }
 
@@ -30,11 +30,12 @@ const handler: Handler = async (event) => {
     let response: string
 
     if (testMode) {
-      response = generateExample({
-        lesson,
-        moduleName,
-        options: { asString: true }
-      })
+      response= ''
+      // response = generateExample({
+      //   lesson,
+      //   moduleName,
+      //   options: { asString: true }
+      // })
     } else {
       response = await fetchOpenAI({ prompt })
     }

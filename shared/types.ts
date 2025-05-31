@@ -316,6 +316,13 @@ export type TestMode = boolean
 export type JsonQualification = string
 export type Prompt = string
 
+export type HandleModuleProps = {
+  testMode: TestMode
+  lesson: Lesson
+  setLesson: SetLesson
+  moduleName: ModuleName
+}
+
 export type HandleDialogProps = {
   testMode: TestMode
   lesson: Lesson

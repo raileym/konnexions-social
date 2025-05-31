@@ -1,6 +1,5 @@
 import type { HandleDialogProps } from "../../../../../shared/types"
-import getDialog from "../getDialog/getDialog"
-
+import getModule from "../getModule/getModule"
 export const handleDialog = async ({
   testMode,
   lesson,
@@ -12,27 +11,29 @@ export const handleDialog = async ({
     console.log(`lesson: ${JSON.stringify(lesson, null, 2)}`)
   }
 
-  const response = await getLesson({testMode, lesson, })
+  const response = await getModule({testMode, lesson, moduleName })
 
   if (response === null) {
     console.log('Houston, we DO have a problems')
     return
   }
 
-  if (!response. .lesson.dialogSuccess) {
+  if (!response.success) {
     console.log('Houston, we have SOME problems')
-    console.log(response.lesson.dialogErrors)
+    console.log(response.errors)
   }
 
   setLesson(prev => {
     const updated = {
       ...prev,
 
-      language: lesson.language,
-      scenarioLabel: lesson.scenarioLabel,
-      participantList: lesson.participantList,
+      // language: lesson.language,
+      // scenarioLabel: lesson.scenarioLabel,
+      // participantList: lesson.participantList,
 
-      ...response.lesson
+      [moduleName]: {
+        ...response
+      }
     }
     return updated
   })
