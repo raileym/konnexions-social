@@ -5,6 +5,7 @@ import { generatePromptSet } from '../shared/generatePromptSet'
 import { generateSignature } from '../shared/generateSignature'
 import { generateExample } from '../shared/generateExample'
 import { fetchOpenAI } from '../shared/fetchLLM'
+import { getPrompt } from '../shared/getPrompt'
 
 const handler: Handler = async (event) => {
   try {
@@ -25,9 +26,6 @@ const handler: Handler = async (event) => {
       }
     }
 
-    // const promptSet = generatePromptSet()
-    // const prompt = promptSet.getDialogPrompt({lesson})
-    const { getPrompt } = generatePromptSet()
     const prompt = getPrompt({lessonTitle: LESSON_TITLE.DIALOG, lesson })
 
     let response: string
