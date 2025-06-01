@@ -319,7 +319,6 @@ export type Prompt = string
 export type HandleModuleProps = {
   testMode: TestMode
   lesson: Lesson
-  setLesson: SetLesson
   moduleName: ModuleName
 }
 

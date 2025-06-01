@@ -19,6 +19,8 @@ import type {
   // GetNounsReviewResult,
   TestMode,
   Lesson,
+  Module,
+  ModuleName,
 } from '../../../shared/types'
 import { getScenarioDetails } from '../Util'
 import ScenarioSelector from '../ScenarioSelector'
@@ -86,6 +88,20 @@ const PanelGenAIPro: React.FC = () => {
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
 
+  type RunModuleProps = {
+    moduleName: ModuleName
+    lesson: Lesson
+  }
+
+  const runModule = async ({moduleName, lesson}: RunModuleProps): Promise<Lesson | null> => {
+    const result = await handleModule({ lesson, moduleName, testMode })
+    if (!result) return null
+    return {
+      ...lesson,
+      [moduleName]: result      
+    }
+  }
+
   return (
     <div className={`gen-ai-pro-panel z-2 absolute top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
       <div className="h-100 w-100 overflow-y-auto">
@@ -114,6 +130,56 @@ const PanelGenAIPro: React.FC = () => {
             </button>
           </div>
 
+          <div className={`ba bw2 mv3 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
+            <div>
+              <button
+                onClick={async () => {
+                  const {
+                    scenarioLabel,
+                    participantList
+                  } = getScenarioDetails({ scenario, language })
+
+                  const initialLesson = { 
+                    ...lesson,
+                    language,
+                    scenarioLabel,
+                    participantList
+                  }
+
+                  const dialogLesson = await runModule({moduleName: MODULE_NAME.DIALOG, lesson: initialLesson})
+                  if (!dialogLesson) return
+
+                  const prose = dialogLesson.dialog.lines?.join(' ') ?? ''
+                  const dialogLessonUpdated = {
+                    ...dialogLesson,
+                    prose
+                  }
+
+                  const dialogReviewLesson = await runModule({moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLessonUpdated})
+                  if (!dialogReviewLesson) return
+
+                  const nounsLesson = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: dialogReviewLesson})
+                  if (!nounsLesson) return
+
+                  const nounsReviewLesson = await runModule({moduleName: MODULE_NAME.NOUNS_REVIEW, lesson: nounsLesson})
+                  if (!nounsReviewLesson) return
+
+                  const verbsLesson = await runModule({moduleName: MODULE_NAME.VERBS, lesson: nounsReviewLesson})
+                  if (!verbsLesson) return
+
+                  const verbsReviewLesson = await runModule({moduleName: MODULE_NAME.VERBS_REVIEW, lesson: verbsLesson})
+                  if (!verbsReviewLesson) return
+
+                  setLesson(verbsReviewLesson)
+                }}
+                className="pa2 br2 bn mb4 bg-brand white pointer"
+              >
+                Master Button {testMode ? '(Test Mode)' : ''}
+              </button>
+
+            </div>
+          </div>
+
           <div className={`ba bw2 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
             <div>
               <button
@@ -133,7 +199,6 @@ const PanelGenAIPro: React.FC = () => {
                   handleModule({
                     lesson: updatedLesson,
                     moduleName: MODULE_NAME.DIALOG,
-                    setLesson,
                     testMode
                   })
                 }}
@@ -156,7 +221,6 @@ const PanelGenAIPro: React.FC = () => {
                   handleModule({
                     lesson: updatedLesson,
                     moduleName: MODULE_NAME.DIALOG_REVIEW,
-                    setLesson,
                     testMode
                   })
                 }}
@@ -181,7 +245,6 @@ const PanelGenAIPro: React.FC = () => {
                   handleModule({
                     lesson: updatedLesson,
                     moduleName: MODULE_NAME.NOUNS,
-                    setLesson,
                     testMode
                   })
                 }}
@@ -197,7 +260,6 @@ const PanelGenAIPro: React.FC = () => {
                   handleModule({
                     lesson,
                     moduleName: MODULE_NAME.NOUNS_REVIEW,
-                    setLesson,
                     testMode
                   })
 
@@ -216,7 +278,6 @@ const PanelGenAIPro: React.FC = () => {
                   handleModule({
                     lesson,
                     moduleName: MODULE_NAME.VERBS,
-                    setLesson,
                     testMode
                   })
                 }}
@@ -232,7 +293,6 @@ const PanelGenAIPro: React.FC = () => {
                   handleModule({
                     lesson,
                     moduleName: MODULE_NAME.VERBS_REVIEW,
-                    setLesson,
                     testMode
                   })
                 }}
@@ -476,7 +536,7 @@ const PanelGenAIPro: React.FC = () => {
                 <div className="mt3 red">
                   <div className="b">Verbs Review</div>
                   <ul className="f6">
-                    {lesson?.verbsReview?.lines?.map((line, index) => {
+                    {lesson?.nounsReview?.lines?.map((line, index) => {
                       // const [first, second] = lines.split('|')
 
                       return (
