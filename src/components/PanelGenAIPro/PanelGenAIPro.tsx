@@ -29,7 +29,6 @@ import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import handleModule from './PanelGenAIProComponents/handleModule/handleModule'
 // import handleNouns from './PanelGenAIProComponents/handleNouns/handleNouns'
 // import handleVerbs from './PanelGenAIProComponents/handleVerbs/handleVerbs'
-
 const PanelGenAIPro: React.FC = () => {
   const {
     activeHome,
@@ -127,14 +126,17 @@ const PanelGenAIPro: React.FC = () => {
 
                   const updatedLesson: Lesson = {
                     ...lesson,
-
                     language,
                     scenarioLabel,
                     participantList
                   }
 
+                  console.log(`Handle dialog (participantList): ${updatedLesson.participantList}`)
+                  console.log(`Handle dialog (scenarioLabel): ${updatedLesson.scenarioLabel}`)
+                  console.log(`Handle dialog (language): ${updatedLesson.language}`)
+
                   handleModule({
-                    lesson: updatedLesson, // keeping it slightly more general
+                    lesson: updatedLesson,
                     moduleName: MODULE_NAME.DIALOG,
                     setLesson,
                     testMode
@@ -157,7 +159,7 @@ const PanelGenAIPro: React.FC = () => {
                   // })
 
                   handleModule({
-                    lesson, // keeping it slightly more general
+                    lesson,
                     moduleName: MODULE_NAME.DIALOG_REVIEW,
                     setLesson,
                     testMode
@@ -173,20 +175,25 @@ const PanelGenAIPro: React.FC = () => {
           <div className={`ba bw2 mv3 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
             <div className="mv3">
               <button
-                onClick={() =>
-                  // handleNouns({
-                  //   testMode,
-                  //   lesson,
-                  //   setLesson
-                  // })
+                onClick={() =>{
+                  const prose = lesson.dialog.lines.join(' ')
+
+                  const updatedLesson: Lesson = {
+                    ...lesson,
+                    prose
+                  }
+
+                  console.log(`Handle nouns (participantList): ${updatedLesson.participantList}`)
+                  console.log(`Handle nouns (scenarioLabel): ${updatedLesson.scenarioLabel}`)
+                  console.log(`Handle nouns (language): ${updatedLesson.language}`)
 
                   handleModule({
-                    lesson, // keeping it slightly more general
+                    lesson: updatedLesson,
                     moduleName: MODULE_NAME.NOUNS,
                     setLesson,
                     testMode
                   })
-                }
+                }}
                 className="pa2 br2 bn bg-brand white pointer"
               >
                 Get Nouns {testMode ? '(Test Mode)' : ''}
@@ -204,7 +211,7 @@ const PanelGenAIPro: React.FC = () => {
                   // })
 
                   handleModule({
-                    lesson, // keeping it slightly more general
+                    lesson,
                     moduleName: MODULE_NAME.NOUNS_REVIEW,
                     setLesson,
                     testMode
@@ -228,7 +235,7 @@ const PanelGenAIPro: React.FC = () => {
                   //   setLesson
                   // })
                   handleModule({
-                    lesson, // keeping it slightly more general
+                    lesson,
                     moduleName: MODULE_NAME.VERBS,
                     setLesson,
                     testMode
@@ -251,7 +258,7 @@ const PanelGenAIPro: React.FC = () => {
                   // })
 
                   handleModule({
-                    lesson, // keeping it slightly more general
+                    lesson,
                     moduleName: MODULE_NAME.VERBS_REVIEW,
                     setLesson,
                     testMode
@@ -390,7 +397,7 @@ const PanelGenAIPro: React.FC = () => {
             <div>
               <div className="mt4 b">Dialog Array</div>
               <ul className="mt0 pt0 black">
-                {lesson.dialog.lines.map((line, index) => (
+                {lesson?.dialog?.lines?.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>

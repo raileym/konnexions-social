@@ -8,22 +8,22 @@ export const handleVerbs = async ({
   lesson,
   setLesson
 }: HandleVerbsProps) => {
-  console.log(prompt)
+  // cXnsole.log(prompt)
 
   if ( testMode ) {
-    console.log(`lesson: ${JSON.stringify(lesson, null, 2)}`)
+    // cXnsole.log(`lesson: ${JSON.stringify(lesson, null, 2)}`)
   }
 
   const response = await getVerbs({testMode, lesson})
 
   if (response === null) {
-    console.log('Houston, we DO have a problems')
+    // cXnsole.log('Houston, we DO have a problems')
     return
   }
 
   if (!response.verbsResult.success) {
-    console.log('Houston, we have SOME problems')
-    console.log(response.verbsResult.errors)
+    // cXnsole.log('Houston, we have SOME problems')
+    // cXnsole.log(response.verbsResult.errors)
   }
 
   setLesson(prev => {

@@ -158,7 +158,7 @@ const scenarioParticipants: Record<Scenario, { participantLinesByLanguage: Parti
 
 const chooseParticipantLines = ({ participantLines, language, n, useMyself }: ChooseParticipantLinesProps): ParticipantProse => {
   if (!participantLines || participantLines.length === 0 || n <= 0) {
-    console.log('error out too soon')
+    // cXnsole.log('error out too soon')
     return ''
   }
 

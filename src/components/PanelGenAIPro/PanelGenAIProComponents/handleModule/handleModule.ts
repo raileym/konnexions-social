@@ -1,4 +1,4 @@
-import type { HandleModuleProps } from "../../../../../shared/types"
+import type { HandleModuleProps, Lesson } from "../../../../../shared/types"
 import getModule from "../getModule/getModule"
 
 export const handleModule = async ({
@@ -9,35 +9,44 @@ export const handleModule = async ({
 }: HandleModuleProps) => {
 
   if (testMode) {
-    console.log(`lesson: ${JSON.stringify(lesson, null, 2)}`)
-    console.log(`moduleName: ${moduleName}`)
+    console.log(`"${moduleName}": ${JSON.stringify(lesson[moduleName as keyof Lesson], null, 2)}`)
+    return
   }
 
-  const response = await getModule({testMode, lesson, moduleName })
+  const module = await getModule({testMode, lesson, moduleName })
 
-  if (response === null) {
+  if (module === null) {
     console.log('Houston, we DO have a problems')
     return
   }
 
-  if (!response.success) {
+  if (!module.success) {
     console.log('Houston, we have SOME problems')
-    console.log(response.errors)
+    console.log(module)
   }
 
-  setLesson(prev => {
-    const updated = {
-      ...prev,
+  // setLesson(prev => {
+  //   const updatedLesson = {
+  //     ...prev,
 
-      // language: lesson.language,
-      // scenarioLabel: lesson.scenarioLabel,
-      // participantList: lesson.participantList,
+  //     [moduleName]: {
+  //       ...module
+  //     }
+  //   }
 
+  setLesson(() => {
+    const updatedLesson = {
+      ...lesson, // use the fresher `lesson` passed into handleModule
       [moduleName]: {
-        ...response
+        ...module
       }
     }
-    return updated
+
+    console.log(`Handle ${moduleName} (participantList): ${updatedLesson.participantList}`)
+    console.log(`Handle ${moduleName} (scenarioLabel): ${updatedLesson.scenarioLabel}`)
+    console.log(`Handle ${moduleName} (language): ${updatedLesson.language}`)
+
+    return updatedLesson
   })
 }
 

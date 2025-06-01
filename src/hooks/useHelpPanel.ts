@@ -11,7 +11,7 @@ export const useHelpPanel = () => {
   const openHelp = () => {
     if (isTransitioning) return
 
-    console.log('Inside openHelp')
+    // cXnsole.log('Inside openHelp')
 
     setIsTransitioning(true)
     setIsHelpOpen(true)
@@ -24,7 +24,7 @@ export const useHelpPanel = () => {
   const closeHelp = () => {
     if (isTransitioning) return
 
-    console.log('Inside closeHelp')
+    // cXnsole.log('Inside closeHelp')
     
     setIsTransitioning(true)
     setIsHelpOpen(false)

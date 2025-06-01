@@ -67,22 +67,25 @@ const updatedDefaultLesson = {
     lines: defaultExample.nouns
   },
   verbs: {
-    ...defaultLesson.nouns,
+    ...defaultLesson.verbs,
     lines: defaultExample.verbs
   },
   dialogReview: {
-    ...defaultLesson.nouns,
+    ...defaultLesson.dialogReview,
     lines: defaultExample.dialogReview
   },
   nounsReview: {
-    ...defaultLesson.nouns,
+    ...defaultLesson.nounsReview,
     lines: defaultExample.nounsReview
   },
   verbsReview: {
-    ...defaultLesson.nouns,
+    ...defaultLesson.verbsReview,
     lines: defaultExample.verbsReview
   }
 }
+
+// // cXnsole.log(generateExample({language: defaultLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}))
+// cXnsole.log(updatedDefaultLesson)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // const [dialogLines, setDialogArray] = usePersistentState<DialogArray>('dialogLines', [])

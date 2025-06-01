@@ -11,7 +11,7 @@ const handler: Handler = async (event) => {
     const { testMode, lesson, moduleName } = JSON.parse(event.body ?? '{}')
 
     if (!lesson || !moduleName) {
-      console.log('Missing the big two')
+      // cXnsole.log('Missing the big two')
       return {
         statusCode: 400,
         body: 'Missing one required fields: lesson'
@@ -65,7 +65,7 @@ const handler: Handler = async (event) => {
       })
     }
   } catch (err) {
-    console.log('Whoop! We have a problem here server-side.')
+    // cXnsole.log('Whoop! We have a problem here server-side.')
     return {
       statusCode: 500,
       body: `Error generating dialog: ${(err as Error).message}`

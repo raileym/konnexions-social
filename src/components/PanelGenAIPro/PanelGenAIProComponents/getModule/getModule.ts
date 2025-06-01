@@ -4,9 +4,9 @@ import type {
 } from "../../../../../shared/types"
 
 export const getModule = async ({
-  testMode,
   lesson,
-  moduleName
+  moduleName,
+  testMode
 }: GetModuleProps): Promise<Module | null> => {
   try {
     const res = await fetch('/.netlify/functions/genai-module', {
@@ -25,7 +25,7 @@ export const getModule = async ({
     }
 
     const data = await res.json()
-    return data as Module
+    return data[moduleName] as Module
   } catch (err) {
     console.error('Network error:', err)
     return null

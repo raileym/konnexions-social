@@ -3,12 +3,12 @@ import { jsonQualification } from "./jsonQualification"
 import { GetNounsReviewPrompt, GetNounsReviewPromptProps, MODULE_NAME } from "./types"
 
 export const getNounsReviewPrompt: GetNounsReviewPrompt = ({lesson}: GetNounsReviewPromptProps) => {
-    const nounsReviewExample = generateExample({lesson, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
+    const nounsReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
     
     return (`
 GIVEN:
 
-nounsArray = ${JSON.stringify(lesson.nouns.nounsLines, null, 2)}
+nounsArray = ${JSON.stringify(lesson.nouns.lines, null, 2)}
 
 where the nounsArray takes the form:
 

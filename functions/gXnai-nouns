@@ -10,7 +10,7 @@ const handler: Handler = async (event) => {
     const { testMode, lesson } = JSON.parse(event.body ?? '{}')
 
     if (!lesson) {
-      console.log('Missing the big one')
+      // cXnsole.log('Missing the big one')
       return {
         statusCode: 400,
         body: 'Missing one required fields: lesson'
@@ -18,7 +18,7 @@ const handler: Handler = async (event) => {
     }
 
     if (!lesson.dialog || !lesson.language || !lesson.dialogSignature) {
-      console.log('Missing the big three')
+      // cXnsole.log('Missing the big three')
       return {
         statusCode: 400,
         body: 'Missing one or more required fields: language, dialog'
@@ -62,7 +62,7 @@ const handler: Handler = async (event) => {
       })
     }
   } catch (err) {
-    console.log('Whoop! We have a problem here server-side.')
+    // cXnsole.log('Whoop! We have a problem here server-side.')
     return {
       statusCode: 500,
       body: `Error generating nouns: ${(err as Error).message}`

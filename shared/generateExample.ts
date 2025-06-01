@@ -17,7 +17,7 @@ export function generateExample({
   options = {}
 }: GenerateExampleProps): Line | Lines {
   if (language !== LANGUAGE.SPANISH) {
-    console.log(`Not Spanish: ${language}`)
+    // cXnsole.log(`Not Spanish: ${language}`)
     return options.asString ? '[]' : []
   }
 

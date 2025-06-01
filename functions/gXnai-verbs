@@ -10,7 +10,7 @@ const handler: Handler = async (event) => {
     const { testMode, lesson, moduleName } = JSON.parse(event.body ?? '{}')
 
     if (!lesson || !moduleName) {
-      console.log('Missing the big two')
+      // cXnsole.log('Missing the big two')
       return {
         statusCode: 400,
         body: 'Missing a required field: lesson or moduleName'
@@ -18,7 +18,7 @@ const handler: Handler = async (event) => {
     }
 
     if (!lesson.dialog || !lesson.language || !lesson.dialogSignature) {
-      console.log('Missing the big three')
+      // cXnsole.log('Missing the big three')
       return {
         statusCode: 400,
         body: 'Missing one or more required fields: language, dialog'

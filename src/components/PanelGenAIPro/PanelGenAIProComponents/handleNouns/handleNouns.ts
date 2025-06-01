@@ -9,20 +9,20 @@ export const handleNouns = async ({
 }: HandleModuleProps) => {
   
   if (testMode) {
-      console.log(`lesson: ${JSON.stringify(lesson, null, 2)}`)
-    console.log(`moduleName: ${moduleName}`)
+      // cXnsole.log(`lesson: ${JSON.stringify(lesson, null, 2)}`)
+    // cXnsole.log(`moduleName: ${moduleName}`)
   }
 
   const response = await getModule({testMode, lesson, moduleName })
 
   if (response === null) {
-    console.log('Houston, we DO have a problems')
+    // cXnsole.log('Houston, we DO have a problems')
     return
   }
 
   if (!response.success) {
-    console.log('Houston, we have SOME problems')
-    console.log(response.errors)
+    // cXnsole.log('Houston, we have SOME problems')
+    // cXnsole.log(response.errors)
   }
 
   setLesson(prev => {

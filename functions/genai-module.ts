@@ -4,11 +4,13 @@ import { generateExample } from '../shared/generateExample'
 import { fetchOpenAI } from '../shared/fetchLLM'
 import { getPrompt } from '../shared/getPrompt'
 import { validateModule } from '../shared/validateModule'
+import { Lesson } from '../shared/types'
 
 const handler: Handler = async (event) => {
   try {
     const { testMode, lesson, moduleName } = JSON.parse(event.body ?? '{}')
 
+    
     if (!lesson || !moduleName) {
       console.log('Missing the big two')
       return {
@@ -16,10 +18,14 @@ const handler: Handler = async (event) => {
         body: 'Missing a required field: lesson or moduleName'
       }
     }
-
+    
     if (!lesson.language || !lesson.scenarioLabel || !lesson.participantList) {
+      console.log('Missing one or more of the smaller three')
+      console.log(`language: ${lesson.language}`)
+      console.log(`scenarioLabel: ${lesson.scenarioLabel}`)
+      console.log(`participantList: ${lesson.participantList}`)
       return {
-        statusCode: 400,
+        statusCode: 401,
         body: 'Lesson is missing required fields'
       }
     }
@@ -42,25 +48,38 @@ const handler: Handler = async (event) => {
       response,
       errorLabel,
       fieldCount,
-      lesson
+      language: lesson.language
     })
 
-    const prose = validModule.lines?.join(' ') ?? ''
-    const signature = generateSignature(prose)
-    const updatedLesson = {
+    // First, I add my validModule to the incoming Lesson. Our goal is not
+    // only add the validModule, but also add the Dialog's validModule, if
+    // we happen to be dealing with that module here. Following this
+    // assignment, we create prose for the dialog and (most important) 
+    // the signature for this prose. All modules proceed similarly. This
+    // logic applies to all modules (Yay! Including the dialog module).
+
+    const updatedLesson: Lesson = {
+      ...lesson,
       [moduleName]: {
         ...validModule,
-        prompt,
-        signature,
-      },
-      prose
+        prompt
+      }      
     }
+
+    // We capture the signature, but don't bother
+    // with the prose. Post handleModule in the vacinity
+    // of the nouns logic is where we assign prose.
+
+    const prose = updatedLesson.dialog.lines.join(' ')
+    const signature = generateSignature(prose)
 
     return {
       statusCode: 200,
       body: JSON.stringify({
-        lesson: {
-          ...updatedLesson
+        [moduleName]: {
+          ...validModule,
+          prompt,
+          signature
         }
       })
     }

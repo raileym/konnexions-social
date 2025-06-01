@@ -3,12 +3,12 @@ import { jsonQualification } from "./jsonQualification"
 import { GetNounsPrompt, GetNounsPromptProps, MODULE_NAME } from "./types"
 
 export const getNounsPrompt: GetNounsPrompt = ({lesson}: GetNounsPromptProps) => {
-        const nounsExample = generateExample({lesson, moduleName: MODULE_NAME.NOUNS, options: { asString: true }  })
+        const nounsExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS, options: { asString: true }  })
         
         return (`
 REQUEST: Extract the ${lesson.language} nouns from the dialog below:
 
-DIALOG: ${lesson.dialogProse}
+DIALOG: ${lesson.prose}
 
 ${jsonQualification}
 

@@ -18,10 +18,10 @@ const handler: Handler = async (event) => {
     const { nounsArray, language, dialogSignature } = JSON.parse(event.body ?? '{}')
 
     if (!nounsArray || !language || !dialogSignature) {
-      console.log('Missing the big three')
-      console.log(`language: ${language}`)
-      console.log(`nounsArray: ${JSON.stringify(nounsArray, null, 2)}`)
-      console.log(`dialogSignature: ${dialogSignature}`)
+      // cXnsole.log('Missing the big three')
+      // cXnsole.log(`language: ${language}`)
+      // cXnsole.log(`nounsArray: ${JSON.stringify(nounsArray, null, 2)}`)
+      // cXnsole.log(`dialogSignature: ${dialogSignature}`)
 
       return {
         statusCode: 400,
@@ -29,9 +29,9 @@ const handler: Handler = async (event) => {
       }
     }
 
-    console.log(`language: ${language}`)
-    console.log(`nounsArray: ${JSON.stringify(nounsArray, null, 2)}`)
-    console.log(`dialogSignature: ${dialogSignature}`)
+    // cXnsole.log(`language: ${language}`)
+    // cXnsole.log(`nounsArray: ${JSON.stringify(nounsArray, null, 2)}`)
+    // cXnsole.log(`dialogSignature: ${dialogSignature}`)
 
     const { prompt, fieldCount, errorLabel } = getPrompt({moduleName, lesson })
 
@@ -61,11 +61,11 @@ const handler: Handler = async (event) => {
     const data = await response.json()
     const reply = data.content?.[0]?.text?.trim() || ''
 
-    console.log("***********************************************")
-    console.log(prompt)
-    console.log("***********************************************")
-    console.log(JSON.stringify(reply, null, 2))
-    console.log("***********************************************")
+    // cXnsole.log("***********************************************")
+    // cXnsole.log(prompt)
+    // cXnsole.log("***********************************************")
+    // cXnsole.log(JSON.stringify(reply, null, 2))
+    // cXnsole.log("***********************************************")
 
     const nounsReviewResult = validateGenAIResponse<NounsReview>({
       response: reply,
@@ -79,7 +79,7 @@ const handler: Handler = async (event) => {
     // about nouns with the incoming nouns.
     const nounsReviewSignature = dialogSignature
 
-    console.log(JSON.stringify(nounsReviewResult, null, 2))
+    // cXnsole.log(JSON.stringify(nounsReviewResult, null, 2))
 
     return {
       statusCode: 200,

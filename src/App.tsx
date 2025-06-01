@@ -45,7 +45,7 @@ const App: React.FC = () => {
     const handleVoiceLoad = () => {
       void window.speechSynthesis.getVoices()
 
-      // console.log('[Chrome] Voices loaded:', voices.map(v => v.lang + ' - ' + v.name))
+      // // cXnsole.log('[Chrome] Voices loaded:', voices.map(v => v.lang + ' - ' + v.name))
     }
 
     if (typeof window !== 'undefined' && window.speechSynthesis) {

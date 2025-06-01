@@ -19,7 +19,7 @@ export const addError = ({
     return updated
   })
 
-  console.log(`${error.message}: ${error.offendingData}`)
+  // cXnsole.log(`${error.message}: ${error.offendingData}`)
 }
 
 export const looksLikeStringArray = /^\s*\[\s*"(?:[^"\\]|\\.)*"(?:\s*,\s*"(?:[^"\\]|\\.)*")*\s*\]\s*$/s
@@ -28,7 +28,7 @@ export const validateModule = ({
   response,
   fieldCount,
   errorLabel,
-  lesson
+  language
 }: ValidateModuleProps): Partial<Module> => {
   const errors: HandleLLMError[] = []
 
@@ -122,7 +122,7 @@ export const validateModule = ({
       reasons.push('Singular and plural forms are identical')
     }
 
-    if (lesson.language === 'SpXnish' && fields.length >= 5) {
+    if (language === 'SpXnish' && fields.length >= 5) {
       const gender = fields[0].trim().toLowerCase()
       const articleSing = fields[3].trim().toLowerCase()
       const articlePlur = fields[4].trim().toLowerCase()
@@ -147,7 +147,7 @@ export const validateModule = ({
       }
     }
 
-    if (lesson.language === 'SpXnish' && fields.length >= 7) {
+    if (language === 'SpXnish' && fields.length >= 7) {
       const preSing1 = fields[5].trim().toLowerCase()
       const preSing2 = fields[6].trim().toLowerCase()
 
@@ -162,7 +162,7 @@ export const validateModule = ({
       }
     }
 
-    if (lesson.language === 'SpXnish' && fields.length >= 9) {
+    if (language === 'SpXnish' && fields.length >= 9) {
       const prePlur1 = fields[7].trim().toLowerCase()
       const prePlur2 = fields[8].trim().toLowerCase()
 

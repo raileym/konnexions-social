@@ -3,14 +3,14 @@ import { jsonQualification } from "./jsonQualification"
 import { GetVerbsReviewPrompt, GetVerbsReviewPromptProps, MODULE_NAME } from "./types"
 
 export const getVerbsReviewPrompt: GetVerbsReviewPrompt = ({lesson}: GetVerbsReviewPromptProps) => {
-    const verbsReviewExample = generateExample({lesson, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: true }  })
+    const verbsReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: true }  })
     
     return (`
 REQUEST: Review the following Spanish-language verbs for grammatical correctness and natural usage, making minor corrections only when necessary. These verbs are intended for beginning Spanish learners.
 
 VERBS REVIEW ARRAY:
 
-${JSON.stringify(lesson.verbs.verbsLines, null, 2)}         
+${JSON.stringify(lesson.verbs.lines, null, 2)}         
 ${jsonQualification}
 Only include lines from the verbs that require corrections. Do not include the participant's
 name in your response. The Verbs Review Array must take the form:

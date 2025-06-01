@@ -560,7 +560,7 @@ export type ValidateModuleProps = {
   response: string | null,
   errorLabel: ErrorLabel,
   fieldCount: number
-  lesson: Lesson
+  language: Language
 }
 
 export type ValidateGenAIResponsePropsOLD = {
