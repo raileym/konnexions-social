@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useAppContext } from '../../context/AppContext'
 import {
   APP_HOME,
-  ERROR_LABEL,
   // GEN_AI_STEP,
   LANGUAGE,
   MODULE_NAME
@@ -19,13 +18,11 @@ import type {
   // GetNounsReviewResult,
   TestMode,
   Lesson,
-  Module,
   ModuleName,
 } from '../../../shared/types'
 import { getScenarioDetails } from '../Util'
 import ScenarioSelector from '../ScenarioSelector'
 import ParticipantToggle from '../ParticipantToggle'
-import { resetErrors } from '../errorUtils'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import handleModule from './PanelGenAIProComponents/handleModule/handleModule'
@@ -34,11 +31,6 @@ import handleModule from './PanelGenAIProComponents/handleModule/handleModule'
 const PanelGenAIPro: React.FC = () => {
   const {
     activeHome,
-    handleNounsErrors,
-    handleVerbsErrors,
-    setHandleDialogErrors,
-    setHandleNounsErrors,
-    setHandleVerbsErrors,
     setLesson,
     lesson
   } = useAppContext()
@@ -172,149 +164,12 @@ const PanelGenAIPro: React.FC = () => {
 
                   setLesson(verbsReviewLesson)
                 }}
-                className="pa2 br2 bn mb4 bg-brand white pointer"
+                className="pa2 br2 bn mb4X bg-brand white pointer"
               >
                 Master Button {testMode ? '(Test Mode)' : ''}
               </button>
 
             </div>
-          </div>
-
-          <div className={`ba bw2 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
-            <div>
-              <button
-                onClick={() => {
-                  const {
-                    scenarioLabel,
-                    participantList
-                  } = getScenarioDetails({scenario, language})
-
-                  const updatedLesson: Lesson = {
-                    ...lesson,
-                    language,
-                    scenarioLabel,
-                    participantList
-                  }
-
-                  handleModule({
-                    lesson: updatedLesson,
-                    moduleName: MODULE_NAME.DIALOG,
-                    testMode
-                  })
-                }}
-                className="pa2 br2 bn mb4 bg-brand white pointer"
-              >
-                Get Dialog {testMode ? '(Test Mode)' : ''}
-              </button>
-            </div>
-
-            <div>
-              <button
-                onClick={() => {
-                  const prose = lesson.dialog.lines.join(' ')
-
-                  const updatedLesson: Lesson = {
-                    ...lesson,
-                    prose
-                  }
-
-                  handleModule({
-                    lesson: updatedLesson,
-                    moduleName: MODULE_NAME.DIALOG_REVIEW,
-                    testMode
-                  })
-                }}
-                className="mv3X pa2 br2 bn bg-purple white pointer"
-              >
-                Review Dialog {testMode ? '(Test Mode)' : ''}
-              </button>
-            </div>
-          </div>
-
-          <div className={`ba bw2 mv3 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
-            <div className="mv3">
-              <button
-                onClick={() => {
-                  const prose = lesson.dialog.lines.join(' ')
-
-                  const updatedLesson: Lesson = {
-                    ...lesson,
-                    prose
-                  }
-
-                  handleModule({
-                    lesson: updatedLesson,
-                    moduleName: MODULE_NAME.NOUNS,
-                    testMode
-                  })
-                }}
-                className="pa2 br2 bn bg-brand white pointer"
-              >
-                Get Nouns {testMode ? '(Test Mode)' : ''}
-              </button>
-            </div>
-
-            <div>
-              <button
-                onClick={() => {
-                  handleModule({
-                    lesson,
-                    moduleName: MODULE_NAME.NOUNS_REVIEW,
-                    testMode
-                  })
-
-                }}
-                className="mv3 pa2 br2 bn bg-purple white pointer"
-              >
-                Review Nouns {testMode ? '(Test Mode)' : ''}
-              </button>
-            </div>
-          </div>
-
-          <div className={`ba bw2 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
-            <div className="mv3">
-              <button
-                onClick={() => {
-                  handleModule({
-                    lesson,
-                    moduleName: MODULE_NAME.VERBS,
-                    testMode
-                  })
-                }}
-                className="pa2 br2 bn bg-brand white pointer"
-              >
-                Get Verbs {testMode ? '(Test Mode)' : ''}
-              </button>
-            </div>
-
-            <div>
-              <button
-                onClick={() => {
-                  handleModule({
-                    lesson,
-                    moduleName: MODULE_NAME.VERBS_REVIEW,
-                    testMode
-                  })
-                }}
-                className="mv3 pa2 br2 bn bg-purple white pointer"
-              >
-                Review Verbs {testMode ? '(Test Mode)' : ''}
-              </button>
-            </div>
-
-          </div>
-
-          <div className="mv3">
-            <button
-              onClick={() => {
-                resetErrors(ERROR_LABEL.DIALOG_ERROR, setHandleDialogErrors)
-                resetErrors(ERROR_LABEL.NOUNS_ERROR, setHandleNounsErrors)
-                resetErrors(ERROR_LABEL.VERBS_ERROR, setHandleVerbsErrors)
-              }}
-              className="pa2 br2 bn bg-brand white pointer"
-            >
-              Reset Errors {testMode ? '(Test Mode)' : ''}
-            </button>
           </div>
 
           <div className="w-100">
