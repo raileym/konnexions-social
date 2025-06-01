@@ -32,7 +32,6 @@ import handleModule from './PanelGenAIProComponents/handleModule/handleModule'
 const PanelGenAIPro: React.FC = () => {
   const {
     activeHome,
-    handleDialogErrors,
     handleNounsErrors,
     handleVerbsErrors,
     setHandleDialogErrors,
@@ -131,10 +130,6 @@ const PanelGenAIPro: React.FC = () => {
                     participantList
                   }
 
-                  console.log(`Handle dialog (participantList): ${updatedLesson.participantList}`)
-                  console.log(`Handle dialog (scenarioLabel): ${updatedLesson.scenarioLabel}`)
-                  console.log(`Handle dialog (language): ${updatedLesson.language}`)
-
                   handleModule({
                     lesson: updatedLesson,
                     moduleName: MODULE_NAME.DIALOG,
@@ -150,21 +145,21 @@ const PanelGenAIPro: React.FC = () => {
 
             <div>
               <button
-                onClick={() =>
-                  // handleDialogReview({
-                  //   testMode,
-                  //   language,
-                  //   dialogLines: lesson.dialogLines,
-                  //   dialogSignature: lesson.dialogSignature
-                  // })
+                onClick={() => {
+                  const prose = lesson.dialog.lines.join(' ')
+
+                  const updatedLesson: Lesson = {
+                    ...lesson,
+                    prose
+                  }
 
                   handleModule({
-                    lesson,
+                    lesson: updatedLesson,
                     moduleName: MODULE_NAME.DIALOG_REVIEW,
                     setLesson,
                     testMode
                   })
-                }
+                }}
                 className="mv3X pa2 br2 bn bg-purple white pointer"
               >
                 Review Dialog {testMode ? '(Test Mode)' : ''}
@@ -175,17 +170,13 @@ const PanelGenAIPro: React.FC = () => {
           <div className={`ba bw2 mv3 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
             <div className="mv3">
               <button
-                onClick={() =>{
+                onClick={() => {
                   const prose = lesson.dialog.lines.join(' ')
 
                   const updatedLesson: Lesson = {
                     ...lesson,
                     prose
                   }
-
-                  console.log(`Handle nouns (participantList): ${updatedLesson.participantList}`)
-                  console.log(`Handle nouns (scenarioLabel): ${updatedLesson.scenarioLabel}`)
-                  console.log(`Handle nouns (language): ${updatedLesson.language}`)
 
                   handleModule({
                     lesson: updatedLesson,
@@ -202,14 +193,7 @@ const PanelGenAIPro: React.FC = () => {
 
             <div>
               <button
-                onClick={() =>
-                  // handleNounsReview({
-                  //   testMode,
-                  //   language,
-                  //   nounsArray: lesson.nounsArray,
-                  //   dialogSignature: lesson.dialogSignature
-                  // })
-
+                onClick={() => {
                   handleModule({
                     lesson,
                     moduleName: MODULE_NAME.NOUNS_REVIEW,
@@ -217,7 +201,7 @@ const PanelGenAIPro: React.FC = () => {
                     testMode
                   })
 
-                }
+                }}
                 className="mv3 pa2 br2 bn bg-purple white pointer"
               >
                 Review Nouns {testMode ? '(Test Mode)' : ''}
@@ -228,19 +212,14 @@ const PanelGenAIPro: React.FC = () => {
           <div className={`ba bw2 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
             <div className="mv3">
               <button
-                onClick={() =>
-                  // handleVerbs({
-                  //   testMode,
-                  //   lesson,
-                  //   setLesson
-                  // })
+                onClick={() => {
                   handleModule({
                     lesson,
                     moduleName: MODULE_NAME.VERBS,
                     setLesson,
                     testMode
                   })
-                }
+                }}
                 className="pa2 br2 bn bg-brand white pointer"
               >
                 Get Verbs {testMode ? '(Test Mode)' : ''}
@@ -249,21 +228,14 @@ const PanelGenAIPro: React.FC = () => {
 
             <div>
               <button
-                onClick={() =>
-                  // handleNounsReview({
-                  //   testMode,
-                  //   language,
-                  //   nounsArray: lesson.nounsArray,
-                  //   dialogSignature: lesson.dialogSignature
-                  // })
-
+                onClick={() => {
                   handleModule({
                     lesson,
                     moduleName: MODULE_NAME.VERBS_REVIEW,
                     setLesson,
                     testMode
                   })
-                }
+                }}
                 className="mv3 pa2 br2 bn bg-purple white pointer"
               >
                 Review Verbs {testMode ? '(Test Mode)' : ''}
@@ -395,17 +367,17 @@ const PanelGenAIPro: React.FC = () => {
           
           <div className="w-100 flex justify-center flex-column">
             <div>
-              <div className="mt4 b">Dialog Array</div>
+              <div className="mt4 b">Dialog</div>
               <ul className="mt0 pt0 black">
                 {lesson?.dialog?.lines?.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>
-              {handleDialogErrors.length > 0 && (
+              {lesson?.dialog?.errors?.length > 0 && (
                 <div className="mt3 red">
                   <div className="b">Dialog Errors</div>
                   <ul className="f6">
-                    {handleDialogErrors.map((err, index) => (
+                    {lesson?.dialog?.errors?.map((err, index) => (
                       <li key={index}>
                         <div className="mb2">
                           <div><b>❌ {err.message}</b></div>
@@ -416,18 +388,38 @@ const PanelGenAIPro: React.FC = () => {
                   </ul>
                 </div>
               )}
-              <div className="mt4 b">Nouns Array</div>
+              {lesson?.dialog?.signature === lesson?.dialogReview?.signature && lesson?.dialogReview?.lines?.length > 0 && (
+                <div className="mt3 red">
+                  <div className="b">Dialog Review</div>
+                  <ul className="f6">
+                    {lesson?.dialogReview?.lines?.map((line, index) => {
+                      const [first, second] = line.split('|')
+
+                      return (
+                        <li key={index}>
+                          <div className="mb2">
+                            <div><b>⚠️ {first}</b></div>
+                            <div><b>ℹ️ {second}</b></div>
+                            <div><b>✅ {second}</b></div>
+                          </div>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              )}
+              <div className="mt4 b">Nouns</div>
               <ul className="mt0 pt0 black">
                 {lesson.nouns.lines.map((line, index) => (
                   <li key={index}>{line}</li>
                 ))}
               </ul>
              
-              {handleNounsErrors.length > 0 && (
+              {lesson?.nouns?.errors?.length > 0 && (
                 <div className="mt3 red">
                   <div className="b">Noun Errors</div>
                   <ul className="f6">
-                    {handleNounsErrors.map((err, index) => (
+                    {lesson?.nouns?.errors?.map((err, index) => (
                       <li key={index}>
                         <div className="mb2">
                           <div><b>❌ {err.message}</b></div>
@@ -435,6 +427,27 @@ const PanelGenAIPro: React.FC = () => {
                         </div>
                       </li>
                     ))}
+                  </ul>
+                </div>
+              )}
+              {lesson?.nouns?.signature === lesson?.nounsReview?.signature && lesson?.nounsReview?.lines?.length > 0 && (
+                <div className="mt3 red">
+                  <div className="b">Nouns Review</div>
+                  <ul className="f6">
+                    {lesson?.nounsReview?.lines?.map((line, index) => {
+                      // const [first, second] = lines.split('|')
+
+                      return (
+                        <li key={index}>
+                          <div className="mb2">
+                            <div><b>⚠️ {line}</b></div>
+                            {/* <div><b>⚠️ {first}</b></div> */}
+                            {/* <div><b>ℹ️ {second}</b></div> */}
+                            {/* <div><b>✅ {second}</b></div> */}
+                          </div>
+                        </li>
+                      )
+                    })}
                   </ul>
                 </div>
               )}
@@ -444,11 +457,11 @@ const PanelGenAIPro: React.FC = () => {
                   <li key={index}>{line}</li>
                 ))}
               </ul>
-              {handleVerbsErrors.length > 0 && (
+              {lesson?.verbs?.errors?.length > 0 && (
                 <div className="mt3 red">
                   <div className="b">Verb Errors</div>
                   <ul className="f6">
-                    {handleVerbsErrors.map((err, index) => (
+                    {lesson?.verbs?.errors?.map((err, index) => (
                       <li key={index}>
                         <div className="mb2">
                           <div><b>❌ {err.message}</b></div>
@@ -456,6 +469,27 @@ const PanelGenAIPro: React.FC = () => {
                         </div>
                       </li>
                     ))}
+                  </ul>
+                </div>
+              )}
+              {lesson?.verbs?.signature === lesson?.verbsReview?.signature && lesson?.verbsReview?.lines?.length > 0 && (
+                <div className="mt3 red">
+                  <div className="b">Verbs Review</div>
+                  <ul className="f6">
+                    {lesson?.verbsReview?.lines?.map((line, index) => {
+                      // const [first, second] = lines.split('|')
+
+                      return (
+                        <li key={index}>
+                          <div className="mb2">
+                            <div><b>⚠️ {line}</b></div>
+                            {/* <div><b>⚠️ {first}</b></div> */}
+                            {/* <div><b>ℹ️ {second}</b></div> */}
+                            {/* <div><b>✅ {second}</b></div> */}
+                          </div>
+                        </li>
+                      )
+                    })}
                   </ul>
                 </div>
               )}

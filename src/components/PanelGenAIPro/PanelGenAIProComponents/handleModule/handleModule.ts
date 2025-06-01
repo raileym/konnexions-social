@@ -42,10 +42,6 @@ export const handleModule = async ({
       }
     }
 
-    console.log(`Handle ${moduleName} (participantList): ${updatedLesson.participantList}`)
-    console.log(`Handle ${moduleName} (scenarioLabel): ${updatedLesson.scenarioLabel}`)
-    console.log(`Handle ${moduleName} (language): ${updatedLesson.language}`)
-
     return updatedLesson
   })
 }
