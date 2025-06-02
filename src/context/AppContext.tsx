@@ -90,10 +90,10 @@ const updatedDefaultLesson = {
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // const [dialogLines, setDialogArray] = usePersistentState<DialogArray>('dialogLines', [])
   // const [nounsArray, setNounsArray] = usePersistentState<NounsArray>('nounsArray', [])
-
+  
   // const [dialogPrompt, setDialogPrompt] = usePersistentState<Prompt>('dialogPrompt', '')
   // const [nounsPrompt, setNounsPrompt] = usePersistentState<Prompt>('nounsPrompt', '')
-
+  const [scenario, setScenario] = usePersistentState<Scenario>('scenario', SCENARIO.RESTAURANT)
   const [lesson, setLesson] = usePersistentState<Lesson>('lesson', updatedDefaultLesson)
 
   const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
@@ -122,7 +122,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [question, setQuestion] = useState<Question>('')
   const [questionContext, setQuestionContext] = useState<QuestionContext>('')
   const [questionKeep, setQuestionKeep] = useState<QuestionKeep>('')
-  const [scenario, setScenario] = useState<Scenario>(SCENARIO.RESTAURANT)
   const [ttsAvgChars, setTtsAvgChars] = useState<TtsAvgChars>(80)
   const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
