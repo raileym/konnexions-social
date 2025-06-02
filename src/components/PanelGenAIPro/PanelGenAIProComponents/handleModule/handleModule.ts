@@ -1,4 +1,5 @@
-import type { HandleModuleProps, Lesson, Module } from "../../../../../shared/types"
+// import type { HandleModuleProps, Lesson, Module } from "../../../../../shared/types"
+import type { HandleModuleProps, Module } from "../../../../../shared/types"
 import getModule from "../getModule/getModule"
 
 export const handleModule = async ({
@@ -24,8 +25,6 @@ export const handleModule = async ({
     return null
   }
 
-  console.log(`handleModule: ${module.signature}`)
-  
   return module
 }
 

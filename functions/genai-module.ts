@@ -5,6 +5,7 @@ import { fetchOpenAI } from '../shared/fetchLLM'
 import { getPrompt } from '../shared/getPrompt'
 import { validateModule } from '../shared/validateModule'
 import { Lesson } from '../shared/types'
+import { streamlineModule } from '../shared/streamlineModule'
 
 const handler: Handler = async (event) => {
   try {
@@ -51,6 +52,12 @@ const handler: Handler = async (event) => {
       language: lesson.language
     })
 
+    console.log('validModule', JSON.stringify(validModule.lines))
+
+    const streamlinedModule = streamlineModule({moduleName, module: validModule})
+
+    console.log('streamlinedModule', JSON.stringify(streamlinedModule.lines))
+
     // First, I add my validModule to the incoming Lesson. Our goal is not
     // only add the validModule, but also add the Dialog's validModule, if
     // we happen to be dealing with that module here. Following this
@@ -61,10 +68,12 @@ const handler: Handler = async (event) => {
     const updatedLesson: Lesson = {
       ...lesson,
       [moduleName]: {
-        ...validModule,
+        ...streamlinedModule,
         prompt
       }      
     }
+
+    console.log('updatedLesson', JSON.stringify(updatedLesson, null, 2))
 
     // We capture the signature, but don't bother
     // with the prose. Post handleModule in the vacinity
@@ -79,7 +88,7 @@ const handler: Handler = async (event) => {
       statusCode: 200,
       body: JSON.stringify({
         [moduleName]: {
-          ...validModule,
+          ...streamlinedModule,
           prompt,
           signature,
           moduleProse: prose

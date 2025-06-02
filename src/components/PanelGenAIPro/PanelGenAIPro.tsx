@@ -93,7 +93,7 @@ const PanelGenAIPro: React.FC = () => {
   const runModule = async ({moduleName, lesson}: RunModuleProps): Promise<Lesson | null> => {
     const result = await handleModule({ lesson, moduleName, testMode })
     if (!result) return null
-    console.log(`runModule (${moduleName}): ${result.signature}`)
+    console.log(`runModule (${moduleName})`)
     return {
       ...lesson,
       [moduleName]: result      
@@ -156,9 +156,6 @@ const PanelGenAIPro: React.FC = () => {
                   const dialogReviewLesson = await runModule({moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson})
                   if (!dialogReviewLesson) return
 
-                  const firstProse = dialogLesson.dialog.moduleProse
-                  const secondProse = dialogReviewLesson.dialog.moduleProse
-                  
                   const { dialogLinesResolved } = resolveDialog({
                     dialogReviewLines: dialogReviewLesson.dialog.lines, 
                     dialogLines: dialogLesson.dialog.lines
@@ -174,33 +171,6 @@ const PanelGenAIPro: React.FC = () => {
                     prose
                   }
                   
-                  const thirdProse = dialogLinesResolved?.join(' ') ?? ''
-
-                  const alwaysTrue = true
-                  if (alwaysTrue) {
-                    console.log(firstProse)
-                    console.log(secondProse)
-                    console.log(thirdProse)
-                    console.log(`firstProse === secondProse: ${firstProse === secondProse ? 'Match': 'No match'}`)
-                    console.log(`firstProse === thirdProse: ${firstProse === thirdProse ? 'Match': 'No match'}`)
-                    console.log(dialogReviewLesson.dialog)
-                    console.log(dialogReviewLesson.dialogReview)
-                    console.log('dialogLinesResolved', JSON.stringify(dialogLinesResolved, null, 2))
-                    console.log('dialogLessonUpdated.dialog', dialogLessonUpdated.dialog)
-                    console.log('dialogLessonUpdated.dialogReview', dialogLessonUpdated.dialogReview)
-                    return
-                  }
-
-                  console.log(firstProse)
-                  console.log(prose)
-
-                  // const alwaysTrue = true
-                  // if (alwaysTrue) {
-                  //   console.log(dialogLesson.dialog)
-                  //   console.log(dialogReviewLesson.dialogReview)
-                  //   return
-                  // }
-
                   const nounsLesson = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: dialogLessonUpdated})
                   if (!nounsLesson) return
 
@@ -382,22 +352,17 @@ const PanelGenAIPro: React.FC = () => {
                   </ul>
                 </div>
               )}
+              {/*
               {lesson?.dialog?.signature === lesson?.dialogReview?.signature && lesson?.dialogReview?.lines?.length > 0 && (
                 <div className="mt3 red">
                   <div className="b">Dialog Review</div>
                   <ul className="f6">
                     {lesson?.dialogReview?.lines?.map((line, index) => {
-                      // const [first, second] = line.split('|')
 
                       return (
                         <li key={index}>
                           <div className="mb2">
                             <div><b>⚠️ {line}</b></div>
-                            {/*
-                            <div><b>⚠️ {first}</b></div>
-                            <div><b>ℹ️ {second}</b></div>
-                            <div><b>✅ {second}</b></div>
-                            */}
                           </div>
                         </li>
                       )
@@ -405,6 +370,7 @@ const PanelGenAIPro: React.FC = () => {
                   </ul>
                 </div>
               )}
+              */}
               <div className="mt4 b">Nouns</div>
               <ul className="mt0 pt0 black">
                 {lesson.nouns.lines.map((line, index) => (
