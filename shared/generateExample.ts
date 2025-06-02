@@ -29,10 +29,10 @@ export function generateExample({
       "Cliente|Gracias."
     ],
     nouns: [
-      "masculino|restaurante|restaurantes|a, en, desde, sobre",
-      "femenino|noche|noches|en, durante, por",
-      "femenino|ensalada|ensaladas|con, sin, de, para",
-      "masculino|pollo|pollos|con, sin, de, para"
+      "restaurante|restaurantes|masculino|a, en, desde, sobre",
+      "noche|noches|femenino|en, durante, por",
+      "ensalada|ensaladas|femenino|con, sin, de, para",
+      "pollo|pollos|masculino|con, sin, de, para"
     ],
     verbs: [
       "gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta",

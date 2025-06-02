@@ -8,7 +8,7 @@ export const handleModule = async ({
 }: HandleModuleProps): Promise<Module | null> => {
 
   if (testMode) {
-    console.log(`"${moduleName}": ${JSON.stringify(lesson[moduleName as keyof Lesson], null, 2)}`)
+    // console.log(`"${moduleName}": ${JSON.stringify(lesson[moduleName as keyof Lesson], null, 2)}`)
   }
 
   const module = await getModule({testMode, lesson, moduleName })
@@ -24,6 +24,8 @@ export const handleModule = async ({
     return null
   }
 
+  console.log(`handleModule: ${module.signature}`)
+  
   return module
 }
 

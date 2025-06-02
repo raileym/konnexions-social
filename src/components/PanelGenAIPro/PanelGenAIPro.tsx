@@ -19,6 +19,8 @@ import type {
   TestMode,
   Lesson,
   ModuleName,
+  Module,
+  LessonComplete,
 } from '../../../shared/types'
 import { getScenarioDetails } from '../Util'
 import ScenarioSelector from '../ScenarioSelector'
@@ -26,6 +28,9 @@ import ParticipantToggle from '../ParticipantToggle'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import handleModule from './PanelGenAIProComponents/handleModule/handleModule'
+import { resolveDialog } from './PanelGenAIProComponents/resolveDialog/resolveDialog'
+import { resolveNouns } from './PanelGenAIProComponents/resolveNouns/resolveNouns'
+import { resolveVerbs } from './PanelGenAIProComponents/resolveVerbs/resolveVerbs'
 // import handleNouns from './PanelGenAIProComponents/handleNouns/handleNouns'
 // import handleVerbs from './PanelGenAIProComponents/handleVerbs/handleVerbs'
 const PanelGenAIPro: React.FC = () => {
@@ -46,7 +51,7 @@ const PanelGenAIPro: React.FC = () => {
   const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)
   const [showNounsReviewPrompt, setShowNounsReviewPrompt] = useState(false)
   const [showVerbsReviewPrompt, setShowVerbsReviewPrompt] = useState(false)
-
+  const [lessonComplete, setLessonComplete] = useState<LessonComplete>(false)
   const [language, ] = useState<Language>(LANGUAGE.SPANISH)
   const [testMode, setTestMode] = useState<TestMode>(true)
 
@@ -88,6 +93,7 @@ const PanelGenAIPro: React.FC = () => {
   const runModule = async ({moduleName, lesson}: RunModuleProps): Promise<Lesson | null> => {
     const result = await handleModule({ lesson, moduleName, testMode })
     if (!result) return null
+    console.log(`runModule (${moduleName}): ${result.signature}`)
     return {
       ...lesson,
       [moduleName]: result      
@@ -101,7 +107,7 @@ const PanelGenAIPro: React.FC = () => {
           <h2 className="f3 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
           <div className="f3 pv3 pt0 mt0">{headline}</div>
 
-          <div className="flex flex-column items-center justify-centerX w-100 items-startX flex-wrapX">
+          <div className="flex flex-column items-center w-100">
             <div className="mt3 mb1">
               <ScenarioSelector custom={false} />
             </div>
@@ -110,12 +116,18 @@ const PanelGenAIPro: React.FC = () => {
             </div>
           </div>
 
+          <div className="flex flex-column items-center w-100">
+            <div className={`f3 mt3 mb1 ${lessonComplete ? 'o-100' : 'o-20'}`}>
+              Lesson Complete
+            </div>
+          </div>
+
           <div className="mv3">
             <button
               onClick={() => setTestMode(prev => !prev)}
               className={`w-30 pa3 br2 bn ${testMode ? 'bg-brand' : 'bg-black'} white pointer`}
             >
-              <div className="pa5X flex items-center" >
+              <div className="flex items-center" >
                 <div className="ph1 bg-redX"><FontAwesomeIcon icon={testMode ? faLock : faLockOpen} /></div>
                 <div className="ml2">{testMode ? 'Disable' : 'Enable'} Test Mode</div>
               </div>
@@ -141,30 +153,97 @@ const PanelGenAIPro: React.FC = () => {
                   const dialogLesson = await runModule({moduleName: MODULE_NAME.DIALOG, lesson: initialLesson})
                   if (!dialogLesson) return
 
-                  const prose = dialogLesson.dialog.lines?.join(' ') ?? ''
-                  const dialogLessonUpdated = {
-                    ...dialogLesson,
-                    prose
-                  }
-
-                  const dialogReviewLesson = await runModule({moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLessonUpdated})
+                  const dialogReviewLesson = await runModule({moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson})
                   if (!dialogReviewLesson) return
 
-                  const nounsLesson = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: dialogReviewLesson})
+                  const firstProse = dialogLesson.dialog.moduleProse
+                  const secondProse = dialogReviewLesson.dialog.moduleProse
+                  
+                  const { dialogLinesResolved } = resolveDialog({
+                    dialogReviewLines: dialogReviewLesson.dialog.lines, 
+                    dialogLines: dialogLesson.dialog.lines
+                  })
+                  
+                  const prose = dialogLinesResolved?.join(' ') ?? ''
+                  const dialogLessonUpdated = {
+                    ...dialogReviewLesson,
+                    [MODULE_NAME.DIALOG]: {
+                      ...(dialogReviewLesson[MODULE_NAME.DIALOG as keyof Lesson] as Module),
+                      lines: dialogLinesResolved
+                    },
+                    prose
+                  }
+                  
+                  const thirdProse = dialogLinesResolved?.join(' ') ?? ''
+
+                  const alwaysTrue = true
+                  if (alwaysTrue) {
+                    console.log(firstProse)
+                    console.log(secondProse)
+                    console.log(thirdProse)
+                    console.log(`firstProse === secondProse: ${firstProse === secondProse ? 'Match': 'No match'}`)
+                    console.log(`firstProse === thirdProse: ${firstProse === thirdProse ? 'Match': 'No match'}`)
+                    console.log(dialogReviewLesson.dialog)
+                    console.log(dialogReviewLesson.dialogReview)
+                    console.log('dialogLinesResolved', JSON.stringify(dialogLinesResolved, null, 2))
+                    console.log('dialogLessonUpdated.dialog', dialogLessonUpdated.dialog)
+                    console.log('dialogLessonUpdated.dialogReview', dialogLessonUpdated.dialogReview)
+                    return
+                  }
+
+                  console.log(firstProse)
+                  console.log(prose)
+
+                  // const alwaysTrue = true
+                  // if (alwaysTrue) {
+                  //   console.log(dialogLesson.dialog)
+                  //   console.log(dialogReviewLesson.dialogReview)
+                  //   return
+                  // }
+
+                  const nounsLesson = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: dialogLessonUpdated})
                   if (!nounsLesson) return
 
                   const nounsReviewLesson = await runModule({moduleName: MODULE_NAME.NOUNS_REVIEW, lesson: nounsLesson})
                   if (!nounsReviewLesson) return
 
-                  const verbsLesson = await runModule({moduleName: MODULE_NAME.VERBS, lesson: nounsReviewLesson})
+                  const { nounsLinesResolved } = resolveNouns({
+                    nounsReviewLines: nounsReviewLesson.nouns.lines, 
+                    nounsLines: nounsLesson.nouns.lines
+                  })
+
+                  const nounsLessonUpdated = {
+                    ...nounsLesson,
+                    [MODULE_NAME.NOUNS]: {
+                      ...(nounsLesson[MODULE_NAME.NOUNS as keyof Lesson] as Module),
+                      lines: nounsLinesResolved
+                    }
+                  }
+
+                  const verbsLesson = await runModule({moduleName: MODULE_NAME.VERBS, lesson: nounsLessonUpdated})
                   if (!verbsLesson) return
 
                   const verbsReviewLesson = await runModule({moduleName: MODULE_NAME.VERBS_REVIEW, lesson: verbsLesson})
                   if (!verbsReviewLesson) return
 
-                  setLesson(verbsReviewLesson)
+                  const { verbsLinesResolved } = resolveVerbs({
+                    verbsReviewLines: verbsReviewLesson.verbs.lines, 
+                    verbsLines: verbsLesson.verbs.lines
+                  })
+
+                  const verbsLessonUpdated = {
+                    ...verbsLesson,
+                    [MODULE_NAME.VERBS]: {
+                      ...(verbsLesson[MODULE_NAME.VERBS as keyof Lesson] as Module),
+                      lines: verbsLinesResolved
+                    }
+                  }
+
+                  setLesson(verbsLessonUpdated)
+
+                  setLessonComplete(true)
                 }}
-                className="pa2 br2 bn mb4X bg-brand white pointer"
+                className="pa2 br2 bn bg-brand white pointer"
               >
                 Master Button {testMode ? '(Test Mode)' : ''}
               </button>
@@ -184,7 +263,7 @@ const PanelGenAIPro: React.FC = () => {
           {showDialogPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
-                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Prompt</div>
+                <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialog.prompt}</div>
               </div>
             </div>
@@ -202,7 +281,7 @@ const PanelGenAIPro: React.FC = () => {
           {showNounsPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
-                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Prompt</div>
+                <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.nouns.prompt}</div>
               </div>
             </div>
@@ -220,7 +299,7 @@ const PanelGenAIPro: React.FC = () => {
           {showVerbsPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
-                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Prompt</div>
+                <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.verbs.prompt}</div>
               </div>
             </div>
@@ -238,7 +317,7 @@ const PanelGenAIPro: React.FC = () => {
           {showDialogReviewPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
-                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Review Prompt</div>
+                <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Review Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialogReview.prompt}</div>
               </div>
             </div>
@@ -256,7 +335,7 @@ const PanelGenAIPro: React.FC = () => {
           {showNounsReviewPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
-                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Review Prompt</div>
+                <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Review Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.nounsReview.prompt}</div>
               </div>
             </div>
@@ -274,7 +353,7 @@ const PanelGenAIPro: React.FC = () => {
           {showVerbsReviewPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
-                <div className="mt4X b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Review Prompt</div>
+                <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Review Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.verbsReview.prompt}</div>
               </div>
             </div>
@@ -308,14 +387,17 @@ const PanelGenAIPro: React.FC = () => {
                   <div className="b">Dialog Review</div>
                   <ul className="f6">
                     {lesson?.dialogReview?.lines?.map((line, index) => {
-                      const [first, second] = line.split('|')
+                      // const [first, second] = line.split('|')
 
                       return (
                         <li key={index}>
                           <div className="mb2">
+                            <div><b>⚠️ {line}</b></div>
+                            {/*
                             <div><b>⚠️ {first}</b></div>
                             <div><b>ℹ️ {second}</b></div>
                             <div><b>✅ {second}</b></div>
+                            */}
                           </div>
                         </li>
                       )

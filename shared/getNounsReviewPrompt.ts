@@ -3,9 +3,9 @@ import { jsonQualification } from "./jsonQualification"
 import { GetNounsReviewPrompt, GetNounsReviewPromptProps, MODULE_NAME } from "./types"
 
 export const getNounsReviewPrompt: GetNounsReviewPrompt = ({lesson}: GetNounsReviewPromptProps) => {
-    const nounsReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
-    
-    return (`
+  const nounsReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
+  
+  return (`
 GIVEN:
 
 nounsArray = ${JSON.stringify(lesson.nouns.lines, null, 2)}
@@ -13,9 +13,9 @@ nounsArray = ${JSON.stringify(lesson.nouns.lines, null, 2)}
 where the nounsArray takes the form:
 
   [
-    "gender|noun(singular)|noun(plural)|common prepositions",
-    "gender|noun(singular)|noun(plural)|common prepositions",
-    "gender|noun(singular)|noun(plural)|common prepositions"
+    "noun(singular)|noun(plural)|gender|common prepositions",
+    "noun(singular)|noun(plural)|gender|common prepositions",
+    "noun(singular)|noun(plural)|gender|common prepositions"
   ]
 
 with

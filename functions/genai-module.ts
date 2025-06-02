@@ -73,13 +73,16 @@ const handler: Handler = async (event) => {
     const prose = updatedLesson.dialog.lines.join(' ')
     const signature = generateSignature(prose)
 
+    console.log(`${moduleName}: ${signature}`)
+
     return {
       statusCode: 200,
       body: JSON.stringify({
         [moduleName]: {
           ...validModule,
           prompt,
-          signature
+          signature,
+          moduleProse: prose
         }
       })
     }

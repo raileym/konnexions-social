@@ -67,6 +67,8 @@ export type AppContextType = {
   verbsKeep: VerbsKeep
 }
 
+export type LessonComplete = boolean
+
 export const LANGUAGE = {
   SPANISH: 'Latin American Spanish',
   ENGLISH: 'English',
@@ -224,6 +226,7 @@ export type Module = {
     errors: HandleLLMError[]
     success: Success
     sentinel: Sentinel
+    moduleProse: Prose
 }
 
 export type Lesson = {
@@ -435,7 +438,8 @@ export const defaultModule: Module = {
   errors: defaultErrors,
   signature: defaultSignature,
   success: false,
-  sentinel: defaultSentinel
+  sentinel: defaultSentinel,
+  moduleProse: defaultProse
 }
 
 export const defaultLesson: Lesson = {
@@ -588,8 +592,6 @@ export type GenAIValidationResult<T> = {
   errors?: HandleLLMError[]
   sentinel?: Sentinel
 }
-
-// export type GenAIValidationModule = Partial<Module>
 
 export type Signature = string
 
