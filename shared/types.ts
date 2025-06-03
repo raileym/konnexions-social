@@ -565,6 +565,7 @@ export type ValidateModuleProps = {
   errorLabel: ErrorLabel,
   fieldCount: number
   language: Language
+  moduleName: ModuleName
 }
 
 export type ValidateGenAIResponsePropsOLD = {

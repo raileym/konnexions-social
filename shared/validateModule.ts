@@ -28,7 +28,8 @@ export const validateModule = ({
   response,
   fieldCount,
   errorLabel,
-  language
+  language,
+  moduleName
 }: ValidateModuleProps): Partial<Module> => {
   const errors: HandleLLMError[] = []
 
@@ -118,11 +119,29 @@ export const validateModule = ({
       reasons.push('One or more fields is blank')
     }
 
-    if (fields.length >= 3 && fields[1].trim() === fields[2].trim()) {
-      reasons.push('Singular and plural forms are identical')
+    if (moduleName === 'verbs') {
+      const specialCases = ['gustar', 'encantar', 'faltar', 'interesar']
+      const infinitive = fields[0].trim().toLowerCase()
+
+      if (!specialCases.includes(infinitive) && fields[1].trim() === fields[2].trim()) {
+        reasons.push('Singular and plural forms are identical')
+      }
     }
 
-    if (language === 'SpXnish' && fields.length >= 5) {
+    if (moduleName === 'nouns') {
+      const invariableNouns = ['lunes', 'análisis', 'paraguas', 'virus', 'tórax']
+      
+      const noun = fields[0].trim().toLowerCase()
+      if (
+        fields.length >= 3 &&
+        fields[1].trim() === fields[2].trim() &&
+        !invariableNouns.includes(noun)
+      ) {
+        reasons.push('Singular and plural noun forms are identical (and not in exception list)')
+      }
+    }
+
+    if (moduleName === 'nouns' && language === 'SpXnish' && fields.length >= 5) {
       const gender = fields[0].trim().toLowerCase()
       const articleSing = fields[3].trim().toLowerCase()
       const articlePlur = fields[4].trim().toLowerCase()
@@ -147,7 +166,7 @@ export const validateModule = ({
       }
     }
 
-    if (language === 'SpXnish' && fields.length >= 7) {
+    if (moduleName === 'nouns' && language === 'SpXnish' && fields.length >= 7) {
       const preSing1 = fields[5].trim().toLowerCase()
       const preSing2 = fields[6].trim().toLowerCase()
 
@@ -162,7 +181,7 @@ export const validateModule = ({
       }
     }
 
-    if (language === 'SpXnish' && fields.length >= 9) {
+    if (moduleName === 'nouns' && language === 'SpXnish' && fields.length >= 9) {
       const prePlur1 = fields[7].trim().toLowerCase()
       const prePlur2 = fields[8].trim().toLowerCase()
 
