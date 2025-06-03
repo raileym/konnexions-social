@@ -16,20 +16,9 @@ import PanelGenAIPro from './components/PanelGenAIPro/PanelGenAIPro'
 
 const App: React.FC = () => {
   const {
-    setAnswerKeep,
-    setApiKey,
-    setMaskKey,
-    setMaskOpenAiKey,    
-    setOpenAiKey,
     setOpenAiUsage,
-    setQuestionKeep,
     setScenario,
-    setTtsCharUsage,
-    setUseCloudTTS,
-    setHandleDialogErrors,
-    setHandleNounsErrors,
-    setHandleVerbsErrors,
-    setNounsKeep
+    setTtsCharUsage
   } = useAppContext()
 
   const loadUsage = () => {

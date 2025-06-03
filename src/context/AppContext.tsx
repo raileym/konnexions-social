@@ -25,14 +25,9 @@ import type {
   Scenario,
   IsHelpOpen,
   ActiveHome,
-  AnswerKeep,
-  QuestionKeep,
   Lesson,
-  NounsKeep,
-  HandleNounsErrors,
-  HandleDialogErrors,
-  HandleVerbsErrors,
-  VerbsKeep
+  Lessons,
+  LessonId
 } from '../../shared/types'
 import {
   APP_HOME,
@@ -88,24 +83,16 @@ const updatedDefaultLesson = {
 // cXnsole.log(updatedDefaultLesson)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // const [dialogLines, setDialogArray] = usePersistentState<DialogArray>('dialogLines', [])
-  // const [nounsArray, setNounsArray] = usePersistentState<NounsArray>('nounsArray', [])
-  
-  // const [dialogPrompt, setDialogPrompt] = usePersistentState<Prompt>('dialogPrompt', '')
-  // const [nounsPrompt, setNounsPrompt] = usePersistentState<Prompt>('nounsPrompt', '')
   const [scenario, setScenario] = usePersistentState<Scenario>('scenario', SCENARIO.RESTAURANT)
   const [lesson, setLesson] = usePersistentState<Lesson>('lesson', updatedDefaultLesson)
+
+  const [lessons, setLessons] = usePersistentState<Lessons>('lessons', [])
+  const [selectedLessonId, setSelectedLessonId] = usePersistentState<LessonId>('lessonCount', 1)
 
   const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
   const [activeHome, setActiveHome] = useState<ActiveHome>(APP_HOME.GEN_AI_PRO)
   const [helpPanel, setHelpPanel] = useState<ActivePanel>(APP_PANEL.BASIC)
   const [answer, setAnswer] = useState<Answer>('')
-  const [answerKeep, setAnswerKeep] = useState<AnswerKeep>('')
-  const [verbsKeep, setVerbsKeep] = useState<VerbsKeep>('')
-  const [nounsKeep, setNounsKeep] = useState<NounsKeep>('')
-  const [handleDialogErrors, setHandleDialogErrors] = useState<HandleDialogErrors>([])
-  const [handleNounsErrors, setHandleNounsErrors] = useState<HandleNounsErrors>([])
-  const [handleVerbsErrors, setHandleVerbsErrors] = useState<HandleVerbsErrors>([])
   const [apiKey, setApiKey] = useState<ApiKey>('')
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
   const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
@@ -121,77 +108,66 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [openAiUsage, setOpenAiUsage] = useState<OpenAiUsage>(0)
   const [question, setQuestion] = useState<Question>('')
   const [questionContext, setQuestionContext] = useState<QuestionContext>('')
-  const [questionKeep, setQuestionKeep] = useState<QuestionKeep>('')
   const [ttsAvgChars, setTtsAvgChars] = useState<TtsAvgChars>(80)
   const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
   const AppContextValue = {
+
+    lessons, setLessons,
+    selectedLessonId, setSelectedLessonId,
+
     activeHome,
     activePanel,
     answer,
-    answerKeep,
     apiKey,
     audioUrl,
     cleanedText,
     gcpKey,
-    handleDialogErrors,
-    handleNounsErrors,
-    handleVerbsErrors,
     helpPanel,
     inputText,
     isHelpOpen,
     isTransitioning,
     maskKey,
     maskOpenAiKey,
-    nounsKeep,
     openAiAvgTokens,
     openAiBudget,
     openAiKey,
     openAiUsage,
     question,
     questionContext,
-    questionKeep,
     scenario,
     setActiveHome,
     setActivePanel,
     setAnswer,
-    setAnswerKeep,
     setApiKey,
     setAudioUrl,
     setCleanedText,
     setGcpKey,
-    setHandleDialogErrors,
-    setHandleNounsErrors,
-    setHandleVerbsErrors,
     setHelpPanel,
     setInputText,
     setIsHelpOpen,
     setIsTransitioning,
     setMaskKey,
     setMaskOpenAiKey,
-    setNounsKeep,
     setOpenAiAvgTokens,
     setOpenAiBudget,
     setOpenAiKey,
     setOpenAiUsage,
     setQuestion,
     setQuestionContext,
-    setQuestionKeep,
     setScenario,
     setLesson,
     setTtsAvgChars,
     setTtsBudget,
     setTtsCharUsage,
     setUseCloudTTS,
-    setVerbsKeep,
     lesson,
     ttsAvgChars,
     ttsBudget,
     ttsCharUsage,
-    useCloudTTS,
-    verbsKeep
+    useCloudTTS
   }
 
   return (

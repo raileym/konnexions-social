@@ -1,70 +1,62 @@
 // import { generateSignature } from '../shared/generateSignature'
 
 export type AppContextType = {
+  answer: Answer
+  setAnswer: SetAnswer
+
+  lessons: Lessons
+  setLessons: SetLessons
+  selectedLessonId: LessonId
+  setSelectedLessonId: SetLessonId
+
   activeHome: ActiveHome
   activePanel: ActivePanel
-  answer: Answer
-  answerKeep: AnswerKeep
   apiKey: ApiKey
   audioUrl: AudioUrl
   cleanedText: CleanedText
   gcpKey: GcpKey
-  handleDialogErrors: HandleDialogErrors
-  handleNounsErrors: HandleNounsErrors
-  handleVerbsErrors: HandleVerbsErrors
   helpPanel: HelpPanel
   inputText: InputText
   isHelpOpen: IsHelpOpen
   isTransitioning: IsTransitioning
   maskKey: MaskKey
   maskOpenAiKey: MaskOpenAiKey
-  nounsKeep: NounsKeep
   openAiAvgTokens: OpenAiAvgTokens
   openAiBudget: OpenAiBudget
   openAiKey: OpenAiKey
   openAiUsage: OpenAiUsage
   question: Question
   questionContext: QuestionContext
-  questionKeep: QuestionKeep
   scenario: Scenario
   setActiveHome: SetActiveHome
   setActivePanel: SetActivePanel
-  setAnswer: SetAnswer
-  setAnswerKeep: SetAnswerKeep
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
   setGcpKey: SetGcpKey
-  setHandleDialogErrors: SetHandleDialogErrors
-  setHandleNounsErrors: SetHandleNounsErrors
-  setHandleVerbsErrors: SetHandleVerbsErrors
   setHelpPanel: SetHelpPanel
   setInputText: SetInputText
   setIsHelpOpen: SetIsHelpOpen
   setIsTransitioning: SetIsTransitioning
   setMaskKey: SetMaskKey
   setMaskOpenAiKey: SetMaskOpenAiKey
-  setNounsKeep: SetNounsKeep
   setOpenAiAvgTokens: SetOpenAiAvgTokens
   setOpenAiBudget: SetOpenAiBudget
   setOpenAiKey: SetOpenAiKey
   setOpenAiUsage: SetOpenAiUsage
   setQuestion: SetQuestion
   setQuestionContext: SetQuestionContext
-  setQuestionKeep: SetQuestionKeep
   setScenario: SetScenario
   setLesson: SetLesson
   setTtsAvgChars: SetTtsAvgChars
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
-  setVerbsKeep: SetVerbsKeep
   lesson: Lesson
   ttsAvgChars: TtsAvgChars
   ttsBudget: TtsBudget
   ttsCharUsage: TtsCharUsage
   useCloudTTS: UseCloudTTS
-  verbsKeep: VerbsKeep
 }
 
 export type LessonComplete = boolean
@@ -104,7 +96,6 @@ export type ScenarioKey = keyof typeof SCENARIO
 export type Scenario = ScenarioValue
 
 export type Answer = string
-export type AnswerKeep = string
 export type ApiKey = string
 export type AudioUrl = string | null
 export type CleanedText = string
@@ -115,20 +106,16 @@ export type IsHelpOpen = boolean
 export type IsTransitioning = boolean
 export type MaskKey = boolean
 export type MaskOpenAiKey = boolean
-export type NounsKeep = string
 export type OpenAiAvgTokens = number
 export type OpenAiBudget = number
 export type OpenAiKey = string
 export type OpenAiUsage = number
 export type Question = string
 export type QuestionContext = string
-export type QuestionKeep = string
-export type VerbsKeep = string
 
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
 export type SetActivePanel = React.Dispatch<React.SetStateAction<ActivePanel>>
 export type SetAnswer = React.Dispatch<React.SetStateAction<Answer>>
-export type SetAnswerKeep = React.Dispatch<React.SetStateAction<AnswerKeep>>
 export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
@@ -142,22 +129,21 @@ export type SetHelpPanel = React.Dispatch<React.SetStateAction<HelpPanel>>
 export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
 export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
+export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
+export type SetLessonId = React.Dispatch<React.SetStateAction<LessonId>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
-export type SetNounsKeep = React.Dispatch<React.SetStateAction<NounsKeep>>
 export type SetOpenAiAvgTokens = React.Dispatch<React.SetStateAction<OpenAiAvgTokens>>
 export type SetOpenAiBudget = React.Dispatch<React.SetStateAction<OpenAiBudget>>
 export type SetOpenAiKey = React.Dispatch<React.SetStateAction<OpenAiKey>>
 export type SetOpenAiUsage = React.Dispatch<React.SetStateAction<OpenAiUsage>>
 export type SetQuestion = React.Dispatch<React.SetStateAction<Question>>
 export type SetQuestionContext = React.Dispatch<React.SetStateAction<QuestionContext>>
-export type SetQuestionKeep = React.Dispatch<React.SetStateAction<QuestionKeep>>
 export type SetScenario = React.Dispatch<React.SetStateAction<Scenario>>
 export type SetTtsAvgChars = React.Dispatch<React.SetStateAction<TtsAvgChars>>
 export type SetTtsBudget = React.Dispatch<React.SetStateAction<TtsBudget>>
 export type SetTtsCharUsage = React.Dispatch<React.SetStateAction<TtsCharUsage>>
 export type SetUseCloudTTS = React.Dispatch<React.SetStateAction<UseCloudTTS>>
-export type SetVerbsKeep = React.Dispatch<React.SetStateAction<VerbsKeep>>
 
 export type SwitchPanel = (newPanel: ActivePanel) => void
 
@@ -229,7 +215,14 @@ export type Module = {
     moduleProse: Prose
 }
 
+export type Name = string
+export type Description = string
+
 export type Lesson = {
+  id: LessonId
+  name: Name
+  description: Description
+
   language: Language
   scenarioLabel: ScenarioLabel
   participantList: ParticipantProse
@@ -243,6 +236,11 @@ export type Lesson = {
   nounsReview: Module
   verbsReview: Module
 }
+
+export type LessonId = number
+export type SelectedLessonId = LessonId
+
+export type Lessons = Lesson[]
 
 export type SetLesson = React.Dispatch<React.SetStateAction<Lesson>>
 
@@ -454,7 +452,10 @@ export const defaultLesson: Lesson = {
   dialogReview: defaultModule,
   nounsReview: defaultModule,
   verbsReview: defaultModule,
-  signature: defaultSignature
+  signature: defaultSignature,
+  id: 1,
+  name: "Default Lesson",
+  description: "Default Lesson - Starter Details"
 }
 
 export const dXfaultNouns: Nouns[] = [
@@ -700,3 +701,5 @@ export type GetVerbsProps = {
 }
   
 
+export type LessonBank = Record<string, Lesson> // key = unique ID or label
+export type StoredLessons = Record<string, Lesson>
