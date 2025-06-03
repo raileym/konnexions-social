@@ -16,13 +16,14 @@ ${jsonQualification}
 STRING ARRAY: A dialog response is an array of strings that takes the form,
 
   [
-    "Participant|Line from the dialog",
-    "Participant|Line from the dialog",
-    "Participant|Line from the dialog",
+    "G|Participant|Line from the dialog",
+    "G|Participant|Line from the dialog",
+    "G|Participant|Line from the dialog",
   ]
 
-where the vertical bar "|" delineates the two fields. A complete example
-follows:
+where the vertical bar "|" delineates the three fields. The first field, G,
+denotes the gender of the participant, M for Male and F for Female. 
+A complete example follows:
 
 ${dialogExample}
 `

@@ -119,6 +119,19 @@ export const validateModule = ({
       reasons.push('One or more fields is blank')
     }
 
+    if (moduleName === 'dialog') {
+      const [gender, speaker, utterance] = fields.map(f => f.trim())
+      if (!['m', 'f'].includes(gender.toLowerCase())) {
+        reasons.push(`Unrecognized gender tag: ${gender}`)
+      }
+      if (speaker.length === 0) {
+        reasons.push('Speaker name is missing')
+      }
+      if (utterance.length < 2) {
+        reasons.push('Utterance too short')
+      }
+    }
+
     if (moduleName === 'verbs') {
       const specialCases = ['gustar', 'encantar', 'faltar', 'interesar']
       const infinitive = fields[0].trim().toLowerCase()
@@ -130,7 +143,7 @@ export const validateModule = ({
 
     if (moduleName === 'nouns') {
       const invariableNouns = ['lunes', 'análisis', 'paraguas', 'virus', 'tórax']
-      
+
       const noun = fields[0].trim().toLowerCase()
       if (
         fields.length >= 3 &&

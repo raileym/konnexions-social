@@ -13,26 +13,28 @@ export function streamlineModule({
   const expandedLines: string[] = []
 
   for (const line of module.lines) {
-    const [speaker, dialog] = line.split('|')
+    const fields = line.split('|')
 
-    if (!speaker || !dialog) {
-      expandedLines.push(line)
+    if (fields.length !== 3) {
+      expandedLines.push(line) // Preserve malformed lines
       continue
     }
 
-    // Match sentences ending in ., ?, or ! followed by space or end of string
+    const [gender, speaker, dialog] = fields
+
+    // Match sentences ending in ., ?, or ! — preserving ¡¿
     const sentenceRegex = /[^.!?¡¿]+[.!?]+/g
     const matches = dialog.match(sentenceRegex)
 
     if (!matches) {
-      expandedLines.push(line) // Fallback: no sentence break detected
+      expandedLines.push(line) // No sentence breaks found
       continue
     }
 
     for (const sentence of matches) {
       const trimmed = sentence.trim()
       if (trimmed.length > 0) {
-        expandedLines.push(`${speaker}|${trimmed}`)
+        expandedLines.push(`${gender}|${speaker}|${trimmed}`)
       }
     }
   }

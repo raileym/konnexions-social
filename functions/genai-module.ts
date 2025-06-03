@@ -49,7 +49,8 @@ const handler: Handler = async (event) => {
       response,
       errorLabel,
       fieldCount,
-      language: lesson.language
+      language: lesson.language,
+      moduleName
     })
 
     console.log('validModule', JSON.stringify(validModule.lines))

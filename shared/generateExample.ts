@@ -23,10 +23,10 @@ export function generateExample({
 
   const examples: Record<ModuleName, string[]> = {
     dialog: [
-      "Camarera|¡Bienvenidos al restaurante! ¿Cuántos son en su grupo?",
-      "Cliente|Somos cuatro. ¿Podemos sentarnos cerca de la ventana?",
-      "Camarera|Por supuesto. Síganme, por favor.",
-      "Cliente|Gracias."
+      "F|Camarera|¡Bienvenidos al restaurante! ¿Cuántos son en su grupo?",
+      "M|Cliente|Somos cuatro. ¿Podemos sentarnos cerca de la ventana?",
+      "F|Camarera|Por supuesto. Síganme, por favor.",
+      "M|Cliente|Gracias."
     ],
     nouns: [
       "restaurante|restaurantes|masculino|a, en, desde, sobre",

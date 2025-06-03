@@ -20,7 +20,7 @@ import { getVerbsReviewPrompt } from './getVerbsReviewPrompt'
 const promptGenerators: Record<ModuleName, (args: { lesson: Lesson }) => PromptWithMeta> = {
   dialog: ({ lesson }) => ({
     prompt: getDialogPrompt({ lesson }),
-    fieldCount: 2,
+    fieldCount: 3,
     errorLabel: ERROR_LABEL.DIALOG_ERROR
   }),
   nouns: ({ lesson }) => ({

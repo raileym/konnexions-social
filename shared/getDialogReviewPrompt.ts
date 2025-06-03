@@ -13,7 +13,7 @@ DIALOG REVIEW ARRAY:
 ${JSON.stringify(lesson.dialog.lines, null, 2)}         
 ${jsonQualification}
 Only include lines from the dialog that require corrections. Do not include the participant's
-name in your response. The Dialog Review Array must take the form:
+name or gender in your response. The Dialog Review Array must take the form:
 
   [
     "Original line|Updated line",

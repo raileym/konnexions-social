@@ -10,6 +10,7 @@ import handleModule from '../handleModule/handleModule'
 import { resolveDialog } from '../resolveDialog/resolveDialog'
 import { resolveNouns } from '../resolveNouns/resolveNouns'
 import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
+import { DialogList } from '../DialogList/DialogList'
 
 const RightPane: React.FC = () => {
   const [useMyself, setUseMyself] = useState<UseMyself>(false)
@@ -334,11 +335,7 @@ const RightPane: React.FC = () => {
               )}
 
               <div className="mt4 b">Dialog</div>
-              <ul className="mt0 pt0 black">
-                {lesson?.dialog?.lines?.map((line, index) => (
-                  <li key={index}>{line}</li>
-                ))}
-              </ul>
+              <DialogList lines={lesson?.dialog?.lines ?? []} />
 
               <div className="mt4 b">Nouns</div>
               <ul className="mt0 pt0 black">
