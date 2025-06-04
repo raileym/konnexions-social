@@ -76,8 +76,8 @@ export function DialogList({ lines }: { lines: string[] }) {
 
   return (
     <div>
-      <div className="flex flex-row items-center">
-        <div className="mt4 b">Dialog</div>
+      <div className="flex flex-row items-center mt4">
+        <div className="mt4X b">Dialog</div>
         <button
           onClick={playAll}
           className="ml3 f6 link dim br2 ph2 pv1 white bg-dark-blue"
@@ -104,7 +104,7 @@ export function DialogList({ lines }: { lines: string[] }) {
             key={i}
             line={line}
             index={i}
-            useCloudTTS={false}
+            useCloudTTS={true}
             storeAudioOrLine={storeAudioOrLine}
           />
         ))}

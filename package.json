@@ -21,6 +21,7 @@
     "@mui/material": "^7.1.0",
     "@netlify/functions": "^3.1.9",
     "@reduxjs/toolkit": "^2.8.1",
+    "@supabase/supabase-js": "^2.49.10",
     "@types/react-transition-group": "^4.4.12",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

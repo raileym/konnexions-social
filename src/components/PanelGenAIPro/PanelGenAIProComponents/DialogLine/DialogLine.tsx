@@ -17,7 +17,7 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
     let cancelled = false
 
     if (useCloudTTS) {
-      const fetchAudiXo = async () => {
+      const fetchAudio = async () => {
         try {
           const res = await fetch('/.netlify/functions/generate-tts', {
             method: 'POST',
@@ -36,7 +36,7 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
         }
       }
 
-      // fetchAudio()
+      fetchAudio()
     } else {
       storeAudioOrLine(index, sentence)
     }
