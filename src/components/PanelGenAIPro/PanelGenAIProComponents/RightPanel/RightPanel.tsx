@@ -334,7 +334,6 @@ const RightPane: React.FC = () => {
                 </div>
               )}
 
-              <div className="mt4 b">Dialog</div>
               <DialogList lines={lesson?.dialog?.lines ?? []} />
 
               <div className="mt4 b">Nouns</div>

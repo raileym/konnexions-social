@@ -21,7 +21,10 @@ STRING ARRAY: A nouns response is an array of strings that takes the form,
     "verb(infinitive)|verb(1st Person Singular)|verb(2nd Person Singular)|verb(3rd Person Singular)|verb(1st Person Plural)|verb(2nd Person Plural)|verb(3rd Person Plural)"
   ]
 
-where
+where there are seven fields total beginning with the infinitive followed
+by the six forms of conjugation in common order.
+
+Also,
 
   - The vertical bar "|" delineates the seven fields
   - Use a single vertical bar ("|") with no extra spaces to separate your fields

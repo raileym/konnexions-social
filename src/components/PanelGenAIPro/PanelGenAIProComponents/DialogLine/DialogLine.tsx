@@ -1,38 +1,71 @@
 import { useEffect, useState } from 'react'
-import { faPlay } from '@fortawesome/free-solid-svg-icons'   
+import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type DialogLineProps = {
-  line: string  // Format: G|Speaker|Sentence
+  line: string // Format: G|Speaker|Sentence
   index: number
-  storeAudioUrl: (index: number, url: string) => void
+  useCloudTTS: boolean
+  storeAudioOrLine: (index: number, value: string) => void
 }
 
-export function DialogLine({ line, index, storeAudioUrl }: DialogLineProps) {
+export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: DialogLineProps) {
   const [gender, speaker, sentence] = line.split('|')
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchAudio = async () => {
-      const res = await fetch('/.netlify/functions/generate-tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: sentence, gender })
-      })
+    let cancelled = false
 
-      const { audioContent } = await res.json()
-      const url = `data:audio/mp3;base64,${audioContent}`
-      setAudioUrl(url)
-      storeAudioUrl(index, url)
+    if (useCloudTTS) {
+      const fetchAudiXo = async () => {
+        try {
+          const res = await fetch('/.netlify/functions/generate-tts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: sentence, gender })
+          })
+
+          const { audioContent } = await res.json()
+          if (!cancelled) {
+            const url = `data:audio/mp3;base64,${audioContent}`
+            setAudioUrl(url)
+            storeAudioOrLine(index, url)
+          }
+        } catch (err) {
+          console.error('TTS fetch failed:', err)
+        }
+      }
+
+      // fetchAudio()
+    } else {
+      storeAudioOrLine(index, sentence)
     }
 
-    fetchAudio()
-  }, [sentence, gender, index, storeAudioUrl])
+    return () => {
+      cancelled = true
+    }
+  }, [sentence, gender, index, useCloudTTS, storeAudioOrLine])
 
   const handlePlay = () => {
-    if (!audioUrl) return
-    const audio = new Audio(audioUrl)
-    audio.play()
+    if (useCloudTTS && audioUrl) {
+      const audio = new Audio(audioUrl)
+      audio.play()
+    } else {
+      const utterance = new SpeechSynthesisUtterance(sentence)
+      const voices = window.speechSynthesis.getVoices()
+
+      const match = voices.find(v =>
+        gender === 'F'
+          ? v.lang.startsWith('es') && v.name.toLowerCase().includes('female')
+          : v.lang.startsWith('es') && v.name.toLowerCase().includes('male')
+      )
+
+      utterance.voice = match || voices.find(v => v.lang.startsWith('es')) || null
+      utterance.lang = 'es-ES'
+      utterance.rate = 0.9
+
+      window.speechSynthesis.speak(utterance)
+    }
   }
 
   return (
@@ -43,7 +76,7 @@ export function DialogLine({ line, index, storeAudioUrl }: DialogLineProps) {
       <button
         className="ml3 f6 link dim br2 ph2 pv1 dib white bg-dark-blue"
         onClick={handlePlay}
-        disabled={!audioUrl}
+        disabled={useCloudTTS && !audioUrl}
       >
         <FontAwesomeIcon icon={faPlay} />
       </button>
