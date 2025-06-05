@@ -220,25 +220,31 @@ const RightPane: React.FC = () => {
                   // Verbs Expanded
                   //
                   // const verbsExpanded = generateConjugatedLines({verbsLines: verbsLessonUpdated.verbs.lines, inCompleteOnly: true} )
+                  const verbsExpanded= generateConjugatedLines({language: lesson.language, verbsLines: verbsLessonUpdated.verbs.lines})
+                  
+                  console.log('verbsExpanded', verbsExpanded)
 
-                  // const verbsExpandedLesson = {
-                  //   ...verbsLessonUpdated,
-                  //   [MODULE_NAME.VERBS_EXPANDED]: {
-                  //     ...(verbsLessonUpdated[MODULE_NAME.VERBS_EXPANDED as keyof Lesson] as Module),
-                  //     lines: verbsExpanded
-                  //   }
-                  // }
+                  const verbsExpandedLesson = {
+                    ...lesson,
+                    [MODULE_NAME.VERBS_EXPANDED]: {
+                      ...(lesson[MODULE_NAME.VERBS_EXPANDED as keyof Lesson] as Module),
+                      lines: verbsExpanded
+                    }
+                  }
+                  // console.log('verbsExpandedLesson', verbsExpandedLesson)
 
-                  // const verbsExpandedFullLesson = await runModule({moduleName: MODULE_NAME.VERBS_EXPANDED_FULL, lesson: verbsExpandedLesson})
-                  // if (!verbsExpandedFullLesson) return
+                  const verbsExpandedFullLesson = await runModule({moduleName: MODULE_NAME.VERBS_EXPANDED_FULL, lesson: verbsExpandedLesson})
+                  if (!verbsExpandedFullLesson) return
+
+                  // console.log('verbsExpandedFullLesson', verbsExpandedFullLesson)
 
                   setLessons(prev => {
                     console.log('🔄 Updating lesson list...')
-                    console.log('▶️ verbsLessonUpdated:', verbsLessonUpdated)
+                    console.log('▶️ verbsExpandedFullLesson:', verbsExpandedFullLesson)
                     const next = prev.map(lsn => {
                       if (lsn.id === selectedLessonId) {
                         console.log(`✅ Match found: lesson.id = ${lsn.id}`)
-                        const updated = { ...verbsLessonUpdated, id: lsn.id, name: lsn.name }
+                        const updated = { ...verbsExpandedFullLesson, id: lsn.id, name: lsn.name }
                         console.log('🆕 Updated lesson:', updated)
                         return updated
                       }

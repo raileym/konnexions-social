@@ -1,13 +1,15 @@
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
-import { GetVerbsPrompt, GetVerbsPromptProps, MODULE_NAME } from "./types"
+import { type GetVerbsPrompt, type GetVerbsPromptProps, MODULE_NAME } from "./types"
 
 export const getVerbsPrompt: GetVerbsPrompt = ({lesson}: GetVerbsPromptProps) => {
         
   const verbsExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS, options: { asString: true }  })
 
   return (`
-REQUEST: Extract the ${lesson.language} verbs from the dialog below:
+REQUEST: Extract the ${lesson.language} verbs from the dialog below. Only include present-tense verbs, 
+not greetings (e.g., “buenos días”), nouns, or fixed expressions. Do not include repeated phrases
+unless they are valid present-tense conjugations of the same verb.
 
 DIALOG: ${lesson.prose}
 

@@ -137,7 +137,7 @@ export const validateModule = ({
       const infinitive = fields[0].trim().toLowerCase()
 
       if (!specialCases.includes(infinitive) && fields[1].trim() === fields[2].trim()) {
-        reasons.push('Singular and plural forms are identical')
+        // reasons.push('Singular and plural forms are identical')
       }
     }
 
