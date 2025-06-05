@@ -16,7 +16,7 @@ import { getVerbsPrompt } from './getVerbsPrompt'
 import { getDialogReviewPrompt } from './getDialogReviewPrompt'
 import { getNounsReviewPrompt } from './getNounsReviewPrompt'
 import { getVerbsReviewPrompt } from './getVerbsReviewPrompt'
-import { getVerbsExpandedFullPrompt } from './getVerbsExpandedFullPrompt'
+import { getVerbsExpandedCompletePrompt } from './getVerbsExpandedCompletePrompt'
 
 const promptGenerators: Record<ModuleName, (args: { lesson: Lesson }) => PromptWithMeta> = {
   dialog: ({ lesson }) => ({
@@ -54,8 +54,8 @@ const promptGenerators: Record<ModuleName, (args: { lesson: Lesson }) => PromptW
     fieldCount: 7,
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
   }),
-  verbsExpandedFull: ({ lesson }) => ({
-    prompt: getVerbsExpandedFullPrompt({ lesson }),
+  verbsExpandedComplete: ({ lesson }) => ({
+    prompt: getVerbsExpandedCompletePrompt({ lesson }),
     fieldCount: 1,
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
   })

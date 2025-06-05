@@ -11,9 +11,9 @@ import { resolveDialog } from '../resolveDialog/resolveDialog'
 import { resolveNouns } from '../resolveNouns/resolveNouns'
 import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
 import { DialogList } from '../DialogList/DialogList'
-import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
+// import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
 import { generateConjugatedLines } from '../generateConjugatedList/generatedConjugatedList'
-import { getPrompt } from '../../../../../shared/getPrompt'
+// import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPane: React.FC = () => {
   const [useMyself, setUseMyself] = useState<UseMyself>(false)
@@ -220,31 +220,38 @@ const RightPane: React.FC = () => {
                   // Verbs Expanded
                   //
                   // const verbsExpanded = generateConjugatedLines({verbsLines: verbsLessonUpdated.verbs.lines, inCompleteOnly: true} )
-                  const verbsExpanded= generateConjugatedLines({language: lesson.language, verbsLines: verbsLessonUpdated.verbs.lines})
+                  const verbsExpanded= generateConjugatedLines({inCompleteOnly: false, language: lesson.language, verbsLines: verbsLessonUpdated.verbs.lines})
+                  const verbsExpandedInComplete= generateConjugatedLines({inCompleteOnly: true, language: lesson.language, verbsLines: verbsLessonUpdated.verbs.lines})
                   
                   console.log('verbsExpanded', verbsExpanded)
 
                   const verbsExpandedLesson = {
                     ...lesson,
+
                     [MODULE_NAME.VERBS_EXPANDED]: {
                       ...(lesson[MODULE_NAME.VERBS_EXPANDED as keyof Lesson] as Module),
                       lines: verbsExpanded
+                    },
+
+                    [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: {
+                      ...(lesson[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
+                      lines: verbsExpandedInComplete
                     }
                   }
                   // console.log('verbsExpandedLesson', verbsExpandedLesson)
 
-                  const verbsExpandedFullLesson = await runModule({moduleName: MODULE_NAME.VERBS_EXPANDED_FULL, lesson: verbsExpandedLesson})
-                  if (!verbsExpandedFullLesson) return
+                  const verbsExpandedCompleteLesson = await runModule({moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson})
+                  if (!verbsExpandedCompleteLesson) return
 
-                  // console.log('verbsExpandedFullLesson', verbsExpandedFullLesson)
+                  // console.log('verbsExpandedCompleteLesson', verbsExpandedCompleteLesson)
 
                   setLessons(prev => {
                     console.log('🔄 Updating lesson list...')
-                    console.log('▶️ verbsExpandedFullLesson:', verbsExpandedFullLesson)
+                    console.log('▶️ verbsExpandedCompleteLesson:', verbsExpandedCompleteLesson)
                     const next = prev.map(lsn => {
                       if (lsn.id === selectedLessonId) {
                         console.log(`✅ Match found: lesson.id = ${lsn.id}`)
-                        const updated = { ...verbsExpandedFullLesson, id: lsn.id, name: lsn.name }
+                        const updated = { ...verbsExpandedCompleteLesson, id: lsn.id, name: lsn.name }
                         console.log('🆕 Updated lesson:', updated)
                         return updated
                       }
@@ -388,38 +395,30 @@ const RightPane: React.FC = () => {
 
           <DialogList lines={lesson?.dialog?.lines ?? []} />
 
-          <ExpandedVerbListWithPronouns language={lesson.language} verbsLines={lesson?.verbs?.lines} />
           {(() => {
             if (!Array.isArray(lesson?.verbs?.lines)) {
               return <></>
             }
 
-            const exampleLines= generateConjugatedLines({language: lesson.language, verbsLines: lesson.verbs.lines})
-
-            const exampleLesson = {
-              ...lesson,
-              [MODULE_NAME.VERBS_EXPANDED]: {
-                ...(lesson[MODULE_NAME.VERBS_EXPANDED as keyof Lesson] as Module),
-                lines: exampleLines
-              }
-            }
-
-            const prompt = getPrompt({moduleName: MODULE_NAME.VERBS_EXPANDED_FULL, lesson: exampleLesson})
+            // const exampleLines= generateConjugatedLines({language: lesson.language, verbsLines: lesson.verbs.lines, inCompleteOnly: false})
 
             const exampleListJSX = 
               <>
                 <h3 className="mt4 mb2">[DEBUG] Expanded Verb Lines</h3>
                 <ul className="debug-list">
-                  {exampleLines.map((line, idx) => (
+                  {Array.isArray(lesson?.verbsExpanded?.lines) && lesson.verbsExpanded.lines.map((line, idx) => (
                     <li key={idx}>{line}</li>
                   ))}
                 </ul>
-                <div className="bg-white black pa3 pre">
-                  {prompt.prompt}
-                </div>
-                <div>Verbs</div>
+                <h3 className="mt4 mb2">[DEBUG] In-Complete sentences</h3>
                 <ul className="debug-list">
-                  {exampleLesson.verbs.lines.map((line, idx) => (
+                  {Array.isArray(lesson?.verbsExpandedInComplete?.lines) && lesson.verbsExpandedInComplete.lines.map((line, idx) => (
+                    <li key={idx}>{line}</li>
+                  ))}
+                </ul>
+                <h3 className="mt4 mb2">[DEBUG] Complete sentences</h3>
+                <ul className="debug-list">
+                  {Array.isArray(lesson?.verbsExpandedComplete?.lines) && lesson.verbsExpandedComplete.lines.map((line, idx) => (
                     <li key={idx}>{line}</li>
                   ))}
                 </ul>

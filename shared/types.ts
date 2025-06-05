@@ -81,7 +81,8 @@ export const MODULE_NAME = {
   NOUNS_REVIEW: 'nounsReview',
   VERBS_REVIEW: 'verbsReview',
   VERBS_EXPANDED: 'verbsExpanded',
-  VERBS_EXPANDED_FULL: 'verbsExpandedFull'
+  VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
+  VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete'
 } as const
 export type ModuleNameValue = (typeof MODULE_NAME)[keyof typeof MODULE_NAME]
 export type ModuleNameKey = keyof typeof MODULE_NAME
@@ -240,7 +241,8 @@ export type Lesson = {
   nounsReview: Module
   verbsReview: Module
   verbsExpanded: Module
-  verbsExpandedFull: Module
+  verbsExpandedComplete: Module
+  verbsExpandedInComplete: Module
 }
 
 export type LessonId = number
@@ -374,7 +376,7 @@ export type GetDialogPromptProps = GetPromptProps
 export type GetDialogReviewPromptProps = GetPromptProps
 export type GetNounsPromptProps = GetPromptProps
 export type GetNounsReviewPromptProps = GetPromptProps
-export type GetVerbsExpandedFullPromptProps = GetPromptProps
+export type GetVerbsExpandedCompletePromptProps = GetPromptProps
 export type GetVerbsPromptProps = GetPromptProps
 export type GetVerbsReviewPromptProps = GetPromptProps
 
@@ -382,7 +384,7 @@ export type GetDialogPrompt = (props: GetDialogPromptProps) => string
 export type GetDialogReviewPrompt = (props: GetDialogReviewPromptProps) => string
 export type GetNounsPrompt = (props: GetNounsPromptProps) => string
 export type GetNounsReviewPrompt = (props: GetNounsReviewPromptProps) => string
-export type GetVerbsExpandedFullPrompt = (props: GetVerbsExpandedFullPromptProps) => string
+export type GetVerbsExpandedCompletePrompt = (props: GetVerbsExpandedCompletePromptProps) => string
 export type GetVerbsPrompt = (props: GetVerbsPromptProps) => string
 export type GetVerbsReviewPrompt = (props: GetVerbsReviewPromptProps) => string
 
@@ -444,8 +446,8 @@ export const defaultLesson: Lesson = {
   nounsReview: defaultModule,
   verbsReview: defaultModule,
   verbsExpanded: defaultModule,
-  verbsExpandedFull: defaultModule
-  
+  verbsExpandedComplete: defaultModule,
+  verbsExpandedInComplete: defaultModule
 }
 
 export const dXfaultNouns: Nouns[] = [
@@ -533,7 +535,8 @@ export const ERROR_LABEL = {
   NOUNS_REVIEW_ERROR: 'handleNounsReviewError',
   VERBS_REVIEW_ERROR: 'handleVerbsReviewError',
   VERBS_EXPANDED_ERROR: 'handleVerbsExpandedError',
-  VERBS_EXPANDED_FULL_ERROR: 'handleVerbsExpandedFullError'
+  VERBS_EXPANDED_INCOMPLETE_ERROR: 'handleVerbsExpandedInCompleteError',
+  VERBS_EXPANDED_COMPLETE_ERROR: 'handleVerbsExpandedCompleteError'
 } as const
 export type ErrorLabelValue = (typeof ERROR_LABEL)[keyof typeof ERROR_LABEL]
 export type ErrorLabelKey = keyof typeof ERROR_LABEL

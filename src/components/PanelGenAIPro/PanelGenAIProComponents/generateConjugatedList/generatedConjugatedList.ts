@@ -31,7 +31,7 @@ export function generateConjugatedLines({
       if (inCompleteOnly) {
         output.push(`${lineIndex++}. ${pronoun} ${conj} ...`)
       } else {
-        output.push(`${lineIndex++}. ${conj}. ${pronoun} ${conj}. ${pronoun} ${conj} ...`)
+        output.push(`${lineIndex++}. ${conj}. ${pronoun} ${conj}. `)
       }
     })
   }

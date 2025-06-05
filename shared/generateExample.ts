@@ -56,7 +56,7 @@ export function generateExample({
       "pedir|pido|pides|pide|pedimos|pedís|piden"
     ],
     verbsExpanded: [],
-    verbsExpandedFull: [
+    verbsExpandedComplete: [
       " 1. yo estoy en casa.",
       " 2. tú estás en la escuela.",
       " 3. él/ella/usted está en el restaurante.",
