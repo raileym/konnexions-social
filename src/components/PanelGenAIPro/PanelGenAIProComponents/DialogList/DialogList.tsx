@@ -104,7 +104,7 @@ export function DialogList({ lines }: { lines: string[] }) {
             key={i}
             line={line}
             index={i}
-            useCloudTTS={true}
+            useCloudTTS={false}
             storeAudioOrLine={storeAudioOrLine}
           />
         ))}

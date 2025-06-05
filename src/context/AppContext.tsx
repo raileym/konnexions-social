@@ -27,7 +27,8 @@ import type {
   ActiveHome,
   Lesson,
   Lessons,
-  LessonId
+  LessonId,
+  GenerateTTSCount
 } from '../../shared/types'
 import {
   APP_HOME,
@@ -86,7 +87,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [scenario, setScenario] = usePersistentState<Scenario>('scenario', SCENARIO.RESTAURANT)
   const [lesson, setLesson] = usePersistentState<Lesson>('lesson', updatedDefaultLesson)
 
-  const [lessons, setLessons] = usePersistentState<Lessons>('lessons', [])
+  const [generateTTSCount, setGenerateTTSCount] = usePersistentState<GenerateTTSCount>('lessons', 0)
+  // const [lessons, setLessons] = usePersistentState<Lessons>('lessons', [])
+  const [lessons, setLessons] = usePersistentState<Lessons>(
+    'lessons',
+    [],
+    (val): val is Lessons =>
+      Array.isArray(val) &&
+      val.every(
+        l =>
+          typeof l === 'object' &&
+          l !== null &&
+          typeof l.id === 'number' &&
+          typeof l.name === 'string'
+      )
+  )  
   const [selectedLessonId, setSelectedLessonId] = usePersistentState<LessonId>('lessonCount', 1)
 
   const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
@@ -114,6 +129,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
   const AppContextValue = {
+
+    generateTTSCount, setGenerateTTSCount,
 
     lessons, setLessons,
     selectedLessonId, setSelectedLessonId,

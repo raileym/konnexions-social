@@ -40,9 +40,9 @@ export function generateExample({
       "pedir|pido|pides|pide|pedimos|pedís|piden"
     ],
     dialogReview: [
-      "Buenas tardes. ¿Qué desea tomar?|Buenas tardes, ¿qué le gustaría tomar?",
-      "Una limonada, por favor.|Me gustaría una limonada, por favor.",
-      "En seguida.|En un momento le traigo su bebida."
+      "1. Buenas tardes, ¿qué le gustaría tomar?",
+      "2. Me gustaría una limonada, por favor.",
+      "3. En un momento le traigo su bebida."
     ],
     nounsReview: [
       "masculino|restaurante|restaurantes|a, en, desde, sobre",

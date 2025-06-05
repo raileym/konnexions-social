@@ -15,7 +15,7 @@ export const handleModule = async ({
   const module = await getModule({testMode, lesson, moduleName })
 
   if (module === null) {
-    console.log('Houston, we DO have a problems')
+    console.log(`Houston, we DO have a problems on ${moduleName}`)
     return null
   }
 

@@ -19,7 +19,14 @@ const handler: Handler = async (event) => {
     const { text, gender = 'M', languageCode = 'es-US' } = JSON.parse(event.body || '{}')
 
     if (!text) {
-      return { statusCode: 400, body: 'Missing text' }
+      console.log(`Issue No 1 with generate-tts-cache: ${text}, ${gender}, ${languageCode}`)
+
+      return {
+        statusCode: 400, 
+        body: JSON.stringify({ 
+          error: 'Missing text'
+        })
+      }
     }
 
     const normalized = text.trim().toLowerCase()
@@ -60,7 +67,14 @@ const handler: Handler = async (event) => {
 
     if (!res.ok) {
       const error = await res.text()
-      return { statusCode: res.status, body: `TTS API error: ${error}` }
+      console.log(`Issue No 2 with generate-tts-cache: ${error}`)
+
+      return { 
+        statusCode: res.status, 
+        body: JSON.stringify({
+          error: `TTS API error: ${error}`
+        })
+      }
     }
 
     const { audioContent } = await res.json()
@@ -76,7 +90,14 @@ const handler: Handler = async (event) => {
       })
 
     if (uploadError) {
-      return { statusCode: 500, body: `Storage error: ${uploadError.message}` }
+      console.log(`Issue No 3 with generate-tts-cache: ${uploadError.message}`)
+
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          error: `Storage error: ${uploadError.message}`
+        })
+      }
     }
 
     // 4. Insert metadata
@@ -89,6 +110,8 @@ const handler: Handler = async (event) => {
 
     // 5. Return MP3 URL
     const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)
+    console.log(`Cache HIT with generate-tts-cache: ${data?.publicUrl}`)
+
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -98,10 +121,14 @@ const handler: Handler = async (event) => {
     }
 
   } catch (err) {
-    return {
-      statusCode: 500,
-      body: `TTS Server error: ${err instanceof Error ? err.message : 'Unknown error'}`
-    }
+      console.log(`Issue No 4 with generate-tts-cache: ${err instanceof Error ? err.message : 'Unknown error'}`)
+
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          error: `TTS Server error: ${err instanceof Error ? err.message : 'Unknown error'}`
+        })
+      }
   }
 }
 

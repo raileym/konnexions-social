@@ -35,7 +35,7 @@ const promptGenerators: Record<ModuleName, (args: { lesson: Lesson }) => PromptW
   }),
   dialogReview: ({ lesson }) => ({
     prompt: getDialogReviewPrompt({ lesson }),
-    fieldCount: 2,
+    fieldCount: 1,
     errorLabel: ERROR_LABEL.DIALOG_REVIEW_ERROR
   }),
   nounsReview: ({ lesson }) => ({

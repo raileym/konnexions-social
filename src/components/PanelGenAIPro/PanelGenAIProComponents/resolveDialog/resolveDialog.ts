@@ -28,36 +28,41 @@ export function resolveDialog({
     }
   }
 
-  // Build a lookup map for review corrections
-  const reviewMap = new Map<string, string>()
+  // Build a Map<number, string> for review lines
+  const reviewMap = new Map<number, string>()
+
   for (const entry of dialogReviewLines) {
-    const [original, updated] = entry.split('|')
-    if (original && updated) {
-      reviewMap.set(original.trim(), updated.trim())
-    }
-  }
-
-  for (const line of dialogLines) {
-    const [speaker, sentence] = line.split('|')
-    const trimmedSentence = sentence?.trim() ?? ''
-
-    if (!speaker || !trimmedSentence) {
-      dialogLinesResolved.push(line)
-      dialogLinesResolutions.push(`⚠️ Malformed line: kept as-is -> "${line}"`)
+    const match = entry.match(/^(\d+)\.\s*(.+)$/)
+    if (!match) {
+      dialogLinesResolutions.push(`⚠️ Unrecognized format in review line: "${entry}"`)
       continue
     }
 
-    const reviewed = reviewMap.get(trimmedSentence)
+    const lineIndex = parseInt(match[1], 10) - 1 // zero-based index
+    const updatedText = match[2].trim()
+    if (!isNaN(lineIndex)) {
+      reviewMap.set(lineIndex, updatedText)
+    }
+  }
 
-    if (!reviewed) {
-      dialogLinesResolved.push(line)
-      dialogLinesResolutions.push(`✅ No correction for: "${trimmedSentence}"`)
-    } else if (reviewed === trimmedSentence) {
-      dialogLinesResolved.push(line)
-      dialogLinesResolutions.push(`🔁 Same in review: kept original -> "${trimmedSentence}"`)
+  for (let i = 0; i < dialogLines.length; i++) {
+    const originalLine = dialogLines[i]
+    const parts = originalLine.split('|')
+    if (parts.length < 3) {
+      dialogLinesResolved.push(originalLine)
+      dialogLinesResolutions.push(`⚠️ Malformed line (expected 3 parts): "${originalLine}"`)
+      continue
+    }
+
+    const [gender, participant, sentence] = parts
+    const updatedSentence = reviewMap.get(i)
+
+    if (!updatedSentence) {
+      dialogLinesResolved.push(originalLine)
+      dialogLinesResolutions.push(`✅ No correction for line ${i + 1}: "${sentence.trim()}"`)
     } else {
-      dialogLinesResolved.push(`${speaker}|${reviewed}`)
-      dialogLinesResolutions.push(`✏️ Corrected: "${trimmedSentence}" → "${reviewed}"`)
+      dialogLinesResolved.push(`${gender}|${participant}|${updatedSentence}`)
+      dialogLinesResolutions.push(`✏️ Line ${i + 1} corrected: "${sentence.trim()}" → "${updatedSentence}"`)
     }
   }
 
@@ -66,3 +71,4 @@ export function resolveDialog({
     dialogLinesResolutions
   }
 }
+

@@ -11,7 +11,8 @@ import { resolveDialog } from '../resolveDialog/resolveDialog'
 import { resolveNouns } from '../resolveNouns/resolveNouns'
 import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
 import { DialogList } from '../DialogList/DialogList'
-
+import { ExpandedVerbList } from '../ExpandedVerbList/ExpandedVerbList'
+import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
 const RightPane: React.FC = () => {
   const [useMyself, setUseMyself] = useState<UseMyself>(false)
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(false)
@@ -52,7 +53,8 @@ const RightPane: React.FC = () => {
     lessons,
     setLessons,
     selectedLessonId,
-    scenario
+    scenario //,
+    // generateTTSCount
   } = useAppContext()
   
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
@@ -73,8 +75,8 @@ const RightPane: React.FC = () => {
   }
 
   return (
-    <div className="w-80 vh-100 overflow-y-auto pa3 bg-light-gray">
-      {selectedLessonId != null ? (
+    <div className="w-80 vh-100 overflow-y-auto pa3 bg-light-gray" style={{paddingTop: '7em'}}>
+      {selectedLessonId != null && Array.isArray(lessons) ? (
         (() => {
           const lesson = lessons.find(l => l.id === selectedLessonId)
 
@@ -84,6 +86,8 @@ const RightPane: React.FC = () => {
             <>
               <h2 className="f3 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
               <div className="f3 pv3 pt0 mt0">{headline}</div>
+
+              {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
 
               <div className="flex flex-column items-center w-100">
                 <div className="mt3 mb1">
@@ -131,6 +135,7 @@ const RightPane: React.FC = () => {
                       const dialogLesson = await runModule({moduleName: MODULE_NAME.DIALOG, lesson: initialLesson})
                       if (!dialogLesson) return
 
+                      
                       const dialogReviewLesson = await runModule({moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson})
                       if (!dialogReviewLesson) return
                       
@@ -196,11 +201,27 @@ const RightPane: React.FC = () => {
                       }
 
                       // setLesson(verbsLessonUpdated)
-                      setLessons(prev =>
-                        prev.map(lsn =>
-                          lsn.id === selectedLessonId ? { ...verbsLessonUpdated, id: lsn.id, name: lsn.name } : lsn
-                        )
-                      )
+                      // setLessons(prev =>
+                      //   prev.map(lsn =>
+                      //     lsn.id === selectedLessonId ? { ...verbsLessonUpdated, id: lsn.id, name: lsn.name } : lsn
+                      //   )
+                      // )
+
+                      setLessons(prev => {
+                        console.log('🔄 Updating lesson list...')
+                        console.log('▶️ verbsLessonUpdated:', verbsLessonUpdated)
+                        const next = prev.map(lsn => {
+                          if (lsn.id === selectedLessonId) {
+                            console.log(`✅ Match found: lesson.id = ${lsn.id}`)
+                            const updated = { ...verbsLessonUpdated, id: lsn.id, name: lsn.name }
+                            console.log('🆕 Updated lesson:', updated)
+                            return updated
+                          }
+                          return lsn
+                        })
+                        console.log('📦 New lessons array:', next)
+                        return next
+                      })
 
                       setLessonComplete(true)
                     }}
@@ -336,6 +357,10 @@ const RightPane: React.FC = () => {
 
               <DialogList lines={lesson?.dialog?.lines ?? []} />
 
+              <ExpandedVerbList verbs={lesson?.verbs?.lines} />
+              
+              <ExpandedVerbListWithPronouns verbs={lesson?.verbs?.lines} />
+              
               <div className="mt4 b">Nouns</div>
               <ul className="mt0 pt0 black">
                 {lesson.nouns.lines.map((line, index) => (
@@ -362,7 +387,10 @@ const RightPane: React.FC = () => {
           )
         })()
       ) : (
-        <p>Select a lesson to view details.</p>
+        <>
+          <p>No lessons loaded.</p>
+          <p>Select a lesson to view details.</p>
+        </>
       )}
     </div>
   )

@@ -37,17 +37,22 @@ const handleAddLesson = () => {
       >
         + Add Lesson
       </button>
-
       <ul className="list pa0">
-        {lessons.map((lesson) => (
-          <li
-            key={lesson.id}
-            onClick={() => setSelectedLessonId(lesson.id)}
-            className={`pa2 pointer br2 ${selectedLessonId === lesson.id ? 'bg-light-green b' : 'hover-bg-light-gray'}`}
-          >
-            {lesson.name}
-          </li>
-        ))}
+        {Array.isArray(lessons) && lessons.length > 0 ? (
+          lessons.map((lesson) => (
+            <li
+              key={lesson.id}
+              onClick={() => setSelectedLessonId(lesson.id)}
+              className={`pa2 pointer br2 ${
+                selectedLessonId === lesson.id ? 'bg-light-green b' : 'hover-bg-light-gray'
+              }`}
+            >
+              {lesson.name}
+            </li>
+          ))
+        ) : (
+          <li className="pa2 gray">No saved lessons yet.</li>
+        )}
       </ul>
     </div>
   )

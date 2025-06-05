@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useAppContext } from '../../../../context/AppContext'
 
 type DialogLineProps = {
   line: string // Format: G|Speaker|Sentence
@@ -13,19 +14,28 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
   const [gender, speaker, sentence] = line.split('|')
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
 
+  const { setGenerateTTSCount } = useAppContext()
+  
   useEffect(() => {
     let cancelled = false
 
     if (useCloudTTS) {
       const fetchAudio = async () => {
         try {
-          const res = await fetch('/.netlify/functions/generate-tts', {
+          setGenerateTTSCount(prev => prev+1)
+          console.log('Calling Google TTS')
+
+          const res = await fetch('/.netlify/functions/generate-tts-cache', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: sentence, gender })
+            body: JSON.stringify({
+              text: sentence,
+              gender
+            })
           })
 
           const { audioContent } = await res.json()
+          console.log(JSON.stringify(audioContent, null, 2))
           if (!cancelled) {
             const url = `data:audio/mp3;base64,${audioContent}`
             setAudioUrl(url)
@@ -44,7 +54,7 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
     return () => {
       cancelled = true
     }
-  }, [sentence, gender, index, useCloudTTS, storeAudioOrLine])
+  }, [sentence, gender, index, useCloudTTS, storeAudioOrLine, setGenerateTTSCount])
 
   const handlePlay = () => {
     if (useCloudTTS && audioUrl) {

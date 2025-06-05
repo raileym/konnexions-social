@@ -1,28 +1,30 @@
+import { formatDialogLinesForReview } from "./formatDialogLinesForReview"
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
 import { GetDialogReviewPrompt, GetDialogReviewPromptProps, MODULE_NAME } from "./types"
 
 export const getDialogReviewPrompt: GetDialogReviewPrompt = ({lesson}: GetDialogReviewPromptProps) => {
   const dialogReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: true }  })
+
+const dialogReviewLines = formatDialogLinesForReview(lesson.dialog.lines)  
   
   return (`
 REQUEST: Review the following Spanish-language dialog array for grammatical correctness and natural usage, making minor corrections only when necessary. This dialog is intended for beginning Spanish learners.
 
 DIALOG REVIEW ARRAY:
 
-${JSON.stringify(lesson.dialog.lines, null, 2)}         
+${JSON.stringify(dialogReviewLines, null, 2)}         
 ${jsonQualification}
-Only include lines from the dialog that require corrections. Do not include the participant's
-name or gender in your response. The Dialog Review Array must take the form:
+In your response, only include corrections for each numbered line as noted above, retaining the same numbering scheme
+matching a corrected line with the original line that it will replace. The Dialog Review Array must take the form:
 
   [
-    "Original line|Updated line",
-    "Original line|Updated line",
-    "Original line|Updated line"
+    "1. Corrected line",
+    "2. Corrected line",
+    "3. Corrected line"
   ]
 
-Do not include unchanged lines. Exclude the speaker's name. State only the original line and
-the updated line. If no lines require corrections or updates, return a JSON array with one entry,
+If no lines require corrections or updates, return a JSON array with one entry,
 
   [ "No corrections needed" ]
  

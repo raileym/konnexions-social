@@ -1,16 +1,25 @@
 import { useState } from 'react'
 
+type IsValid<T> = (value: unknown) => value is T
+
 export const usePersistentState = <T>(
   key: string,
-  defaultValue: T
+  defaultValue: T,
+  isValid?: IsValid<T>
 ): [T, React.Dispatch<React.SetStateAction<T>>] => {
   const [value, setValueInternal] = useState<T>(() => {
     if (typeof window === 'undefined') return defaultValue
     try {
-      const stored = localStorage.getItem(key)
-      return stored ? JSON.parse(stored) as T : defaultValue
-    } catch (err) {
-      console.error(`Failed to load ${key} from localStorage:`, err)
+      const raw = localStorage.getItem(key)
+      const parsed = raw ? JSON.parse(raw) : null
+
+      if (isValid && !isValid(parsed)) {
+        console.warn(`Invalid localStorage value for key "${key}"`)
+        return defaultValue
+      }
+
+      return parsed as T
+    } catch {
       return defaultValue
     }
   })

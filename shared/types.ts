@@ -4,6 +4,9 @@ export type AppContextType = {
   answer: Answer
   setAnswer: SetAnswer
 
+  generateTTSCount: GenerateTTSCount
+  setGenerateTTSCount: SetGenerateTTSCount
+
   lessons: Lessons
   setLessons: SetLessons
   selectedLessonId: LessonId
@@ -122,6 +125,7 @@ export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetDialogPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetNounsPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
+export type SetGenerateTTSCount = React.Dispatch<React.SetStateAction<GenerateTTSCount>>
 export type SetHandleDialogErrors = React.Dispatch<React.SetStateAction<HandleDialogErrors>>
 export type SetHandleNounsErrors = React.Dispatch<React.SetStateAction<HandleNounsErrors>>
 export type SetHandleVerbsErrors = React.Dispatch<React.SetStateAction<HandleVerbsErrors>>
@@ -241,6 +245,8 @@ export type LessonId = number
 export type SelectedLessonId = LessonId
 
 export type Lessons = Lesson[]
+
+export type GenerateTTSCount = number
 
 export type SetLesson = React.Dispatch<React.SetStateAction<Lesson>>
 
