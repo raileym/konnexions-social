@@ -54,6 +54,16 @@ export function generateExample({
       "gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta",
       "ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan",
       "pedir|pido|pides|pide|pedimos|pedís|piden"
+    ],
+    verbsExpanded: [],
+    verbsExpandedFull: [
+      " 1. yo estoy en casa.",
+      " 2. tú estás en la escuela.",
+      " 3. él/ella/usted está en el restaurante.",
+      " 4. nosotros/nosotras estamos en el parque.",
+      " 5. vosotros/vosotras estáis en la clase.",
+      " 6. ellos/ellas/ustedes están en el hotel.",
+      " 7. yo tomo un café por la mañana.",
     ]
   }
 

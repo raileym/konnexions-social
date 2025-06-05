@@ -73,16 +73,16 @@ export type LanguageValue = (typeof LANGUAGE)[keyof typeof LANGUAGE]
 export type LanguageKey = keyof typeof LANGUAGE
 export type Language = LanguageValue
 
-export type GenAIContext = 'dialog' | 'nouns' | 'verbs' | 'dialogReview' | 'nounsReview' | 'verbsReview'
-
 export const MODULE_NAME = {
   DIALOG: 'dialog',
   NOUNS: 'nouns',
   VERBS: 'verbs',
   DIALOG_REVIEW: 'dialogReview',
   NOUNS_REVIEW: 'nounsReview',
-  VERBS_REVIEW: 'verbsReview'
-}
+  VERBS_REVIEW: 'verbsReview',
+  VERBS_EXPANDED: 'verbsExpanded',
+  VERBS_EXPANDED_FULL: 'verbsExpandedFull'
+} as const
 export type ModuleNameValue = (typeof MODULE_NAME)[keyof typeof MODULE_NAME]
 export type ModuleNameKey = keyof typeof MODULE_NAME
 export type ModuleName = ModuleNameValue
@@ -239,6 +239,8 @@ export type Lesson = {
   dialogReview: Module
   nounsReview: Module
   verbsReview: Module
+  verbsExpanded: Module
+  verbsExpandedFull: Module
 }
 
 export type LessonId = number
@@ -298,6 +300,9 @@ export type VerbsLine = string
 export type VerbsLines = VerbsLine[]
 export type SetVerbsLines = React.Dispatch<React.SetStateAction<VerbsLines>>
 
+export type Verb = string
+export type Verbs = Verb[]
+
 export type DialogReviewLine = string
 export type DialogReviewLines = DialogReviewLine[]
 export type SetDialogReviewLines = React.Dispatch<React.SetStateAction<DialogReviewLines>>
@@ -313,7 +318,6 @@ export type SetVerbsReviewLines = React.Dispatch<React.SetStateAction<VerbsRevie
 export type DialogProse = string
 export type Prose = string
 export type Nouns = string
-export type Verbs = string
 
 export type DialogReview = string
 export type NounsReview = string
@@ -364,46 +368,23 @@ export type HandleNounsReviewProps = {
 
 export type GetPromptProps = {
   lesson: Lesson
-  moduleName: ModuleName
 }
 
-export type GetDialogPromptProps = {
-  lesson: Lesson
-}
+export type GetDialogPromptProps = GetPromptProps
+export type GetDialogReviewPromptProps = GetPromptProps
+export type GetNounsPromptProps = GetPromptProps
+export type GetNounsReviewPromptProps = GetPromptProps
+export type GetVerbsExpandedFullPromptProps = GetPromptProps
+export type GetVerbsPromptProps = GetPromptProps
+export type GetVerbsReviewPromptProps = GetPromptProps
 
-export type GetDialogReviewPromptProps = {
-  lesson: Lesson
-}
-
-export type GetNounsReviewPromptProps = {
-  lesson: Lesson
-}
-
-export type GetVerbsReviewPromptProps = {
-  lesson: Lesson
-}
-
-export type GetNounsPromptProps = {
-  lesson: Lesson
-}
-
-export type GetVerbsPromptProps = {
-  lesson: Lesson
-}
-
-export type GetPrompt = (props: GetPromptProps) => string
 export type GetDialogPrompt = (props: GetDialogPromptProps) => string
 export type GetDialogReviewPrompt = (props: GetDialogReviewPromptProps) => string
 export type GetNounsPrompt = (props: GetNounsPromptProps) => string
 export type GetNounsReviewPrompt = (props: GetNounsReviewPromptProps) => string
+export type GetVerbsExpandedFullPrompt = (props: GetVerbsExpandedFullPromptProps) => string
 export type GetVerbsPrompt = (props: GetVerbsPromptProps) => string
 export type GetVerbsReviewPrompt = (props: GetVerbsReviewPromptProps) => string
-
-export type PromptSet = {
-  getPrompt: GetPrompt
-}
-
-export type GeneratePromptSet = () => PromptSet
 
 export const defaultDialogLines: DialogLines = [
   "Mesero: Buenas tardes. ¿Qué desea tomar?",
@@ -448,6 +429,10 @@ export const defaultModule: Module = {
 
 export const defaultLesson: Lesson = {
   language: defaultLanguage,
+  signature: defaultSignature,
+  id: 1,
+  name: "Default Lesson",
+  description: "Default Lesson - Starter Details",
   scenarioLabel: defaultScenarioLabel,
   participantList: defaultParticipantList,
   prose: defaultProse,
@@ -458,10 +443,9 @@ export const defaultLesson: Lesson = {
   dialogReview: defaultModule,
   nounsReview: defaultModule,
   verbsReview: defaultModule,
-  signature: defaultSignature,
-  id: 1,
-  name: "Default Lesson",
-  description: "Default Lesson - Starter Details"
+  verbsExpanded: defaultModule,
+  verbsExpandedFull: defaultModule
+  
 }
 
 export const dXfaultNouns: Nouns[] = [
@@ -477,10 +461,10 @@ export const dXfaultNounsLines: NounsLines = [
     "masculino|pollo|pollos|con, sin, de, para"
   ]
 
-export const dXfaultVerbs: Verbs[] = [
-  "desear",
-  "tomar"
-]
+// export const dXfaultVerbs: Verbs[] = [
+//   "desear",
+//   "tomar"
+// ]
 
 export const dXfaultVerbsLines: VerbsLines = [
   "gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta",
@@ -547,7 +531,9 @@ export const ERROR_LABEL = {
   VERBS_ERROR: 'handleVerbsError',
   DIALOG_REVIEW_ERROR: 'handleDialogReviewError',
   NOUNS_REVIEW_ERROR: 'handleNounsReviewError',
-  VERBS_REVIEW_ERROR: 'handleVerbsReviewError'
+  VERBS_REVIEW_ERROR: 'handleVerbsReviewError',
+  VERBS_EXPANDED_ERROR: 'handleVerbsExpandedError',
+  VERBS_EXPANDED_FULL_ERROR: 'handleVerbsExpandedFullError'
 } as const
 export type ErrorLabelValue = (typeof ERROR_LABEL)[keyof typeof ERROR_LABEL]
 export type ErrorLabelKey = keyof typeof ERROR_LABEL
@@ -710,3 +696,13 @@ export type GetVerbsProps = {
 
 export type LessonBank = Record<string, Lesson> // key = unique ID or label
 export type StoredLessons = Record<string, Lesson>
+
+export const pronouns = [
+  'yo',
+  'tú',
+  'él/ella/usted',
+  'nosotros/nosotras',
+  'vosotros/vosotras',
+  'ellos/ellas/ustedes'
+]
+
