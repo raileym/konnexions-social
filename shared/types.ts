@@ -80,7 +80,6 @@ export const MODULE_NAME = {
   DIALOG_REVIEW: 'dialogReview',
   NOUNS_REVIEW: 'nounsReview',
   VERBS_REVIEW: 'verbsReview',
-  VERBS_EXPANDED: 'verbsExpanded',
   VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
   VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete',
   VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple'
@@ -241,7 +240,6 @@ export type Lesson = {
   dialogReview: Module
   nounsReview: Module
   verbsReview: Module
-  verbsExpanded: Module
   verbsExpandedComplete: Module
   verbsExpandedInComplete: Module
   verbsExpandedTriple: Module
@@ -466,7 +464,6 @@ export const defaultLesson: Lesson = {
   dialogReview: defaultModule,
   nounsReview: defaultModule,
   verbsReview: defaultModule,
-  verbsExpanded: defaultModule,
   verbsExpandedComplete: defaultModule,
   verbsExpandedInComplete: defaultModule,
   verbsExpandedTriple: defaultModule
@@ -714,3 +711,17 @@ export const pronounsUpperCase: string[][] = [
   ['Vosotros', 'Vosotras'],
   ['Ellos', 'Ellas', 'Ustedes']
 ]
+
+export const VERB_FORMATS = {
+  INFINITE: "infinitive",
+  CONJUGATION: "conjugation",
+  PRONOUN: "pronoun",
+  PRONOUN_AND_CONJUGATION: "pronounAndConjugation",
+  INCOMPLETE: "incomplete",
+  COMPLETE: "complete",
+  TRIPLE: "triple"
+ } as const
+export type VerbFormatsValue = (typeof VERB_FORMATS)[keyof typeof VERB_FORMATS]
+export type VerbFormatsKey = keyof typeof VERB_FORMATS
+export type VerbFormats = VerbFormatsValue
+

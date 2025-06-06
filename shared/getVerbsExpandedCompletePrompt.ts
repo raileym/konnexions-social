@@ -10,7 +10,7 @@ REQUEST: Complete the sentences below as appropriate for a beginner's lesson in 
 
 IN-COMPLETE SENTENCES:
 
-${lesson.verbsExpanded.lines.map(line => `    ${line}`).join('\n')}
+${lesson.verbsExpandedInComplete.lines.map(line => `    ${line}`).join('\n')}
 ${jsonQualification}
 Align numbered in-complete sentences with numbered complete sentences. The Numbered Complete Sentences Array must take the form:
 

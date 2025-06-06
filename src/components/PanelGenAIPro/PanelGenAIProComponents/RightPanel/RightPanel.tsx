@@ -12,9 +12,9 @@ import { resolveNouns } from '../resolveNouns/resolveNouns'
 import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
 // import { DialogList } from '../DialogList/DialogList'
 // import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
-import { generateConjugatedLines } from '../generateConjugatedLines/generatedConjugatedLines'
-import { zipVerbsExpandedWithComplete } from '../zipVerbsExpandedWithComplete/zipVerbsExpandedWithComplete'
-import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
+// import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
+import { DebugVerbLists } from '../DebugVerbLists/DebugVerbLists'
+import { generateVerbLists } from '../generateVerbLists/generateVerbLists'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPane: React.FC = () => {
@@ -221,22 +221,16 @@ const RightPane: React.FC = () => {
                   //
                   // Verbs Expanded and Verbs Expanded In-Complete (Sentences)
                   //
-                  const verbsExpanded_13= generateConjugatedLines({inCompleteOnly: false, language: lesson.language, verbsLines: verbsLessonUpdated_12.verbs.lines})
-                  const verbsExpandedInComplete_14= generateConjugatedLines({inCompleteOnly: true, language: lesson.language, verbsLines: verbsLessonUpdated_12.verbs.lines})
+                  const verbsLists_13 = generateVerbLists(verbsLessonUpdated_12)
                   
                   // console.log('verbsExpanded', verbsExpanded_13)
 
                   const verbsExpandedLesson_15 = {
                     ...verbsLessonUpdated_12,
 
-                    [MODULE_NAME.VERBS_EXPANDED]: {
-                      ...(verbsLessonUpdated_12[MODULE_NAME.VERBS_EXPANDED as keyof Lesson] as Module),
-                      lines: verbsExpanded_13
-                    },
-
                     [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: {
                       ...(verbsLessonUpdated_12[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
-                      lines: verbsExpandedInComplete_14
+                      lines: verbsLists_13.incomplete
                     }
                   }
 
@@ -246,24 +240,24 @@ const RightPane: React.FC = () => {
                   //
                   // Verbs Expanded Triple
                   //
-                  const verbsExpandedTriple = zipVerbsExpandedWithComplete({expandedLines: verbsExpandedCompleteLesson_16?.verbsExpanded?.lines, completeLines: verbsExpandedCompleteLesson_16?.verbsExpandedComplete?.lines })
+                  const verbsLists_17 = generateVerbLists(verbsExpandedCompleteLesson_16)
 
-                  const verbsExpandedTripleLesson_17 = {
+                  const verbsExpandedTripleLesson_18 = {
                     ...verbsExpandedCompleteLesson_16,
 
                     [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: {
                       ...(verbsExpandedCompleteLesson_16[MODULE_NAME.VERBS_EXPANDED_TRIPLE as keyof Lesson] as Module),
-                      lines: verbsExpandedTriple
+                      lines: verbsLists_17.triple
                     }
                   }
 
                   setLessons(prev => {
                     console.log('🔄 Updating lesson list...')
-                    console.log('▶️ verbsExpandedTripleLesson_17:', verbsExpandedTripleLesson_17)
+                    console.log('▶️ verbsExpandedTripleLesson_18:', verbsExpandedTripleLesson_18)
                     const next = prev.map(lsn => {
                       if (lsn.id === selectedLessonId) {
                         console.log(`✅ Match found: lesson.id = ${lsn.id}`)
-                        const updated = { ...verbsExpandedTripleLesson_17, id: lsn.id, name: lsn.name }
+                        const updated = { ...verbsExpandedTripleLesson_18, id: lsn.id, name: lsn.name }
                         console.log('🆕 Updated lesson:', updated)
                         return updated
                       }
@@ -405,77 +399,9 @@ const RightPane: React.FC = () => {
             </div>
           )}
 
-          {(() => {
-            if (!Array.isArray(lesson?.verbs?.lines)) {
-              return <></>
-            }
-            
-            // const exampleLines= generateConjugatedLines({language: lesson.language, verbsLines: lesson.verbs.lines, inCompleteOnly: false})
-            const verbsInfinitives= generateConjugatedLines({inCompleteOnly: false, language: lesson.language, verbsLines: lesson?.verbs.lines})
-            const zipVerbs = zipVerbsExpandedWithComplete({expandedLines: lesson?.verbsExpanded?.lines, completeLines: lesson?.verbsExpandedComplete?.lines })
-            
-            const exampleListJSX = 
-              <>
-                <FlashcardModal
-                  fronts={verbsInfinitives}
-                  backs={zipVerbs}
-                  // fronts={["yo tengo", "tú tienes", "él tiene"]}
-                  // backs={["I have", "you have", "he has"]}
-                />
-                {/* <DialogList lines={lesson?.dialog?.lines ?? []} /> */}
+          <DebugVerbLists lesson={lesson} />
 
-                <h3 className="mt4 mb2">[DEBUG] Verb Lines</h3>
-                <ul className="debug-list">
-                  {Array.isArray(lesson?.verbs?.lines) && lesson.verbs.lines.map((line, idx) => (
-                    <li key={idx}>{line}</li>
-                  ))}
-                </ul>
-                <h3 className="mt4 mb2">[DEBUG] Expanded Verb Lines</h3>
-                <ul className="debug-list">
-                  {Array.isArray(lesson?.verbsExpanded?.lines) && lesson.verbsExpanded.lines.map((line, idx) => (
-                    <li key={idx}>{line}</li>
-                  ))}
-                </ul>
-                <h3 className="mt4 mb2">[DEBUG] In-Complete sentences</h3>
-                <ul className="debug-list">
-                  {Array.isArray(lesson?.verbsExpandedInComplete?.lines) && lesson.verbsExpandedInComplete.lines.map((line, idx) => (
-                    <li key={idx}>{line}</li>
-                  ))}
-                </ul>
-                <h3 className="mt4 mb2">[DEBUG] Complete sentences</h3>
-                <ul className="debug-list">
-                  {Array.isArray(lesson?.verbsExpandedComplete?.lines) && lesson.verbsExpandedComplete.lines.map((line, idx) => (
-                    <li key={idx}>{line}</li>
-                  ))}
-                </ul>
-                <h3 className="mt4 mb2">[DEBUG] Triple</h3>
-                <ul className="debug-list">
-                  {Array.isArray(lesson?.verbsExpandedTriple?.lines) && lesson.verbsExpandedTriple.lines.map((line, idx) => (
-                    <li key={idx}>{line}</li>
-                  ))}
-                </ul>
-                {/* <h3 className="mt4 mb2">[DEBUG] ZIPPED Complete sentences</h3>
-                <ul className="debug-list">
-                  {Array.isArray(zipVerbs) && zipVerbs.map((line, idx) => (
-                    <li key={idx}>{line}</li>
-                  ))}
-                </ul> */}
-              </>
-            
-            return exampleListJSX
-          })()}
-
-          {/* {Array.isArray(lesson?.verbs?.lines) && (
-            <>
-              <h3 className="mt4 mb2">[DEBUG] Expanded Verb Lines</h3>
-              <ul className="debug-list">
-                {generateConjugatedLines({language: lesson.language, verbsLines: lesson.verbs.lines}).map((line, idx) => (
-                  <li key={idx}>{line}</li>
-                ))}
-              </ul>
-            </>
-          )} */}
-
+          {/* <DialogList lines={lesson?.dialog?.lines ?? []} /> */}
           
           <div className="mt4 b">Nouns</div>
           <ul className="mt0 pt0 black">

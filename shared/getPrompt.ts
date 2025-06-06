@@ -52,11 +52,6 @@ const promptGenerators: Record<ModuleName, (args: { lesson: Lesson, errors: Hand
     fieldCount: 7,
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
   }),
-  verbsExpanded: ({ lesson, errors }) => ({
-    prompt: getVerbsReviewPrompt({ lesson, errors }),
-    fieldCount: 7,
-    errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
-  }),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   verbsExpandedInComplete: ({ lesson, errors }) => ({
     prompt: defaultPrompt,

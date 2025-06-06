@@ -2,27 +2,32 @@ import {
   type VerbsLines,
   LANGUAGE,
   type Language,
-  pronounsUpperCase
+  pronounsUpperCase,
+  type Lines,
+  type VerbFormats
 } from "../../../../../shared/types"
 
 type GenerateConjugatedLinesProps = {
   verbsLines: VerbsLines
-  inCompleteOnly?: boolean
   language: Language
+  returnFormat: VerbFormats
   noIndex?: boolean
+  noPeriod?: boolean
 }
 
 export function generateConjugatedLines({
   verbsLines,
-  inCompleteOnly = true,
   language,
-  noIndex = false
-}: GenerateConjugatedLinesProps): string[] {
-  const output: string[] = []
+  returnFormat,
+  noIndex = false,
+  noPeriod = false
+}: GenerateConjugatedLinesProps): Lines {
+  const output: Lines = []
   let lineIndex = 1
 
   for (const line of verbsLines) {
     const parts = line.split('|')
+    const infinitive = parts[0]
     const conjugations = parts.slice(1)
 
     conjugations.forEach((conj, idx) => {
@@ -31,17 +36,40 @@ export function generateConjugatedLines({
 
       const pronounSet = pronounsUpperCase[idx]
       const conjUC = conj.charAt(0).toUpperCase() + conj.slice(1)
+      const infinitiveUC = infinitive.charAt(0).toUpperCase() + infinitive.slice(1)
 
       pronounSet.forEach(pronoun => {
-        const capitalizedLine = inCompleteOnly
-          ? `${lineIndex}. ${pronoun} ${conj} ...`
-          : `${lineIndex}. ${conjUC}. ${pronoun} ${conj}.`
-        output.push(capitalizedLine)
-        lineIndex++
+        let line: string
+
+        switch (returnFormat) {
+          case "infinitive":
+            line = infinitiveUC
+            break
+          case "conjugation":
+            line = conjUC
+            break
+          case "pronoun":
+            line = pronoun
+            break
+          case "incomplete":
+            line = `${pronoun} ${conj} ...`
+            break
+          case "complete":
+            // Placeholders since actual complete lines come from CAI
+            line = `${pronoun} ${conj} ___`
+            break
+          case "triple":
+            line = `${conjUC}. ${pronoun} ${conj}. ${pronoun} ${conj} ___`
+            break
+          default:
+            line = `${pronoun} ${conj}`
+        }
+
+        if (!noIndex) line = `${lineIndex++}. ${line}`
+        output.push(`${line}${noPeriod ? '' : '.'}`)
       })
     })
   }
 
   return output
 }
-

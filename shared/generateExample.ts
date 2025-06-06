@@ -55,7 +55,6 @@ export function generateExample({
       "ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan",
       "pedir|pido|pides|pide|pedimos|pedís|piden"
     ],
-    verbsExpanded: [],
     verbsExpandedComplete: [
       " 1. yo estoy en casa.",
       " 2. tú estás en la escuela.",
@@ -65,7 +64,8 @@ export function generateExample({
       " 6. ellos/ellas/ustedes están en el hotel.",
       " 7. yo tomo un café por la mañana.",
     ],
-    verbsExpandedTriple: []
+    verbsExpandedTriple: [],
+    verbsExpandedInComplete: []  
   }
 
   const raw = examples[moduleName]
