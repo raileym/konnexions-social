@@ -13,6 +13,7 @@ import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
 import { DialogList } from '../DialogList/DialogList'
 // import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
 import { generateConjugatedLines } from '../generateConjugatedList/generatedConjugatedList'
+import { zipVerbsExpandedWithComplete } from '../zipVerbsExpandedWithComplete/zipVerbsExpandedWithComplete'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPane: React.FC = () => {
@@ -399,6 +400,8 @@ const RightPane: React.FC = () => {
 
             // const exampleLines= generateConjugatedLines({language: lesson.language, verbsLines: lesson.verbs.lines, inCompleteOnly: false})
 
+            const zipVerbs = zipVerbsExpandedWithComplete({expandedLines: lesson?.verbsExpanded?.lines, completeLines: lesson?.verbsExpandedComplete?.lines })
+
             const exampleListJSX = 
               <>
                 <h3 className="mt4 mb2">[DEBUG] Expanded Verb Lines</h3>
@@ -416,6 +419,12 @@ const RightPane: React.FC = () => {
                 <h3 className="mt4 mb2">[DEBUG] Complete sentences</h3>
                 <ul className="debug-list">
                   {Array.isArray(lesson?.verbsExpandedComplete?.lines) && lesson.verbsExpandedComplete.lines.map((line, idx) => (
+                    <li key={idx}>{line}</li>
+                  ))}
+                </ul>
+                <h3 className="mt4 mb2">[DEBUG] ZIPPED Complete sentences</h3>
+                <ul className="debug-list">
+                  {Array.isArray(zipVerbs) && zipVerbs.map((line, idx) => (
                     <li key={idx}>{line}</li>
                   ))}
                 </ul>
