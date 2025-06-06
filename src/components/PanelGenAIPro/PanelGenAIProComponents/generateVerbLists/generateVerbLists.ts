@@ -19,13 +19,15 @@ export function generateVerbLists(lesson: Lesson): Record<VerbFormats, Lines> {
         verbsLines: lesson.verbs.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: "pronoun",
-        noIndex: true
+        noIndex: true,
+        noPeriod: true
       })
       const conjugations = generateConjugatedLines({
         verbsLines: lesson.verbs.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: "conjugation",
-        noIndex: true
+        noIndex: true,
+        noPeriod: true
       })
       lines = zipLines({ left: pronouns, right: conjugations, noIndex: false, noPeriod: false})
     } else if (format === "triple") {
@@ -33,17 +35,35 @@ export function generateVerbLists(lesson: Lesson): Record<VerbFormats, Lines> {
         verbsLines: lesson.verbs.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: "conjugation",
-        noIndex: true
+        noIndex: true,
+        noPeriod: true
+      })
+      const conjugationsWithPeriod = generateConjugatedLines({
+        verbsLines: lesson.verbs.lines,
+        language: LANGUAGE.SPANISH,
+        returnFormat: "conjugation",
+        noIndex: true,
+        noPeriod: false
       })
       const pronouns = generateConjugatedLines({
         verbsLines: lesson.verbs.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: "pronoun",
-        noIndex: true
+        noIndex: true,
+        noPeriod: true
       })
-      const pronounConj = zipLines({ left: pronouns, right: conjugations, noIndex: true, noPeriod: false})
+      const pronounConj = zipLines({ left: pronouns, right: conjugationsWithPeriod, noIndex: true, noPeriod: true})
       const complete = lesson.verbsExpandedComplete?.lines ?? []
-      lines = zipLines({left: pronounConj, right: complete, noIndex: false, noPeriod: false})
+      const linesPre = zipLines({left: conjugationsWithPeriod, right: pronounConj, noIndex: false, noPeriod: true})
+      lines = zipLines({left: linesPre, right: complete, noIndex: false, noPeriod: true})
+    } else if (format === "incomplete") {
+      lines = generateConjugatedLines({
+        verbsLines: lesson.verbs.lines,
+        language: LANGUAGE.SPANISH,
+        returnFormat: format,
+        noIndex: false,
+        noPeriod: true
+      })
     } else {
       lines = generateConjugatedLines({
         verbsLines: lesson.verbs.lines,
