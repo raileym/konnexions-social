@@ -86,7 +86,7 @@ const RightPane: React.FC = () => {
       content = <p>Lesson not found.</p>
     } else {
 
-      const verbLists = generateVerbLists(lesson, true)
+      const verbListsNoIndex = generateVerbLists(lesson, true)
 
       content = (
         <>
@@ -403,8 +403,13 @@ const RightPane: React.FC = () => {
           )}
 
           <FlashcardModal
-            fronts={verbLists[VERB_FORMATS.CONJUGATION]}
-            backs={verbLists[VERB_FORMATS.PRONOUN_AND_CONJUGATION]}
+            fronts={verbListsNoIndex[VERB_FORMATS.CONJUGATION]}
+            backs={verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION]}
+          />
+
+          <FlashcardModal
+            fronts={verbListsNoIndex[VERB_FORMATS.INCOMPLETE]}
+            backs={verbListsNoIndex[VERB_FORMATS.COMPLETE]}
           />
 
           <DebugVerbLists lesson={lesson} />

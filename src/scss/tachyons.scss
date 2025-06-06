@@ -357,7 +357,14 @@ $radius-details: 0, 0.125rem, 0.25rem, 0.5rem, 1rem;
     .top-#{$i}em { top: 24px*$i; }
     .top--#{$i}em { top: -24px*$i; }
 }    
-    
+
+.top-1\/2 { top: 50%} 
+.top-1\/4 { top: 25%}
+.top-3\/4 { top: 75%}
+.left-1\/2 { left: 50%}
+.left-1\/4 { left: 25%}
+.left-3\/4 { left: 75%}
+
 .top-vh25 { top: 25vh; }
 .top-vh50 { top: 50vh; }
 .top-vh75 { top: 75vh; }
@@ -577,4 +584,10 @@ $word-to-number: one 1, two 2, three 3, four 4, five 5, six 6, seven 7, eight 8,
 
 .fa-regular.lh-4 {
     line-height: 4rem;
+}
+
+.no-focus-outline:focus {
+  outline: none;
+  box-shadow: none;
+  border: none;
 }

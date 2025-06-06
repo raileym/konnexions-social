@@ -13,7 +13,7 @@ export function generateVerbLists(lesson: Lesson, noIndex: boolean = false): Rec
     let lines: Lines = []
 
     if (format === "complete") {
-      lines = lesson.verbsExpandedComplete?.lines ?? []
+      lines = (lesson.verbsExpandedComplete?.lines ?? []).map(line => line.replace(/^\s*\d+\.\s*/, ""))
     } else if (format === "pronounAndConjugation") {
       const pronouns = generateConjugatedLines({
         verbsLines: lesson.verbs.lines,
@@ -55,7 +55,7 @@ export function generateVerbLists(lesson: Lesson, noIndex: boolean = false): Rec
         verbsLines: lesson.verbs.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: format,
-        noIndex: false,
+        noIndex,
         noPeriod: true
       })
     } else if (format === "conjugation") {
@@ -71,7 +71,7 @@ export function generateVerbLists(lesson: Lesson, noIndex: boolean = false): Rec
         verbsLines: lesson.verbs.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: format,
-        noIndex: false
+        noIndex
       })
     }
 
