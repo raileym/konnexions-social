@@ -82,7 +82,8 @@ export const MODULE_NAME = {
   VERBS_REVIEW: 'verbsReview',
   VERBS_EXPANDED: 'verbsExpanded',
   VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
-  VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete'
+  VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete',
+  VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple'
 } as const
 export type ModuleNameValue = (typeof MODULE_NAME)[keyof typeof MODULE_NAME]
 export type ModuleNameKey = keyof typeof MODULE_NAME
@@ -243,6 +244,7 @@ export type Lesson = {
   verbsExpanded: Module
   verbsExpandedComplete: Module
   verbsExpandedInComplete: Module
+  verbsExpandedTriple: Module
 }
 
 export type LessonId = number
@@ -466,7 +468,8 @@ export const defaultLesson: Lesson = {
   verbsReview: defaultModule,
   verbsExpanded: defaultModule,
   verbsExpandedComplete: defaultModule,
-  verbsExpandedInComplete: defaultModule
+  verbsExpandedInComplete: defaultModule,
+  verbsExpandedTriple: defaultModule
 }
 
 export const dXfaultNouns: Nouns[] = [

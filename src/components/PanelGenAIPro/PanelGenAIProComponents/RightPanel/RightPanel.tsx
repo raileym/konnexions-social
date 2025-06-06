@@ -10,10 +10,11 @@ import handleModule from '../handleModule/handleModule'
 import { resolveDialog } from '../resolveDialog/resolveDialog'
 import { resolveNouns } from '../resolveNouns/resolveNouns'
 import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
-import { DialogList } from '../DialogList/DialogList'
+// import { DialogList } from '../DialogList/DialogList'
 // import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
-import { generateConjugatedLines } from '../generateConjugatedList/generatedConjugatedList'
+import { generateConjugatedLines } from '../generateConjugatedLines/generatedConjugatedLines'
 import { zipVerbsExpandedWithComplete } from '../zipVerbsExpandedWithComplete/zipVerbsExpandedWithComplete'
+import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPane: React.FC = () => {
@@ -127,7 +128,7 @@ const RightPane: React.FC = () => {
                     participantList
                   } = getScenarioDetails({ scenario, language })
 
-                  const initialLesson = { 
+                  const initialLesson_0 = { 
                     ...lesson,
                     language,
                     scenarioLabel,
@@ -137,29 +138,29 @@ const RightPane: React.FC = () => {
                   //
                   // Dialog
                   //
-                  const dialogLesson = await runModule({moduleName: MODULE_NAME.DIALOG, lesson: initialLesson})
-                  if (!dialogLesson) return
+                  const dialogLesson_1 = await runModule({moduleName: MODULE_NAME.DIALOG, lesson: initialLesson_0})
+                  if (!dialogLesson_1) return
 
                   //
                   // Dialog Review
                   //
-                  const dialogReviewLesson = await runModule({moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson})
-                  if (!dialogReviewLesson) return
+                  const dialogReviewLesson_2 = await runModule({moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson_1})
+                  if (!dialogReviewLesson_2) return
                   
                   //
                   // Dialog Resolve
                   //
-                  const { dialogLinesResolved } = resolveDialog({
-                    dialogReviewLines: dialogReviewLesson.dialog.lines, 
-                    dialogLines: dialogLesson.dialog.lines
+                  const { dialogLinesResolved: dialogLinesResolved_3 } = resolveDialog({
+                    dialogReviewLines: dialogReviewLesson_2.dialog.lines, 
+                    dialogLines: dialogLesson_1.dialog.lines
                   })
                   
-                  const prose = dialogLinesResolved?.join(' ') ?? ''
-                  const dialogLessonUpdated = {
-                    ...dialogReviewLesson,
+                  const prose = dialogLinesResolved_3?.join(' ') ?? ''
+                  const dialogLessonUpdated_4 = {
+                    ...dialogReviewLesson_2,
                     [MODULE_NAME.DIALOG]: {
-                      ...(dialogReviewLesson[MODULE_NAME.DIALOG as keyof Lesson] as Module),
-                      lines: dialogLinesResolved
+                      ...(dialogReviewLesson_2[MODULE_NAME.DIALOG as keyof Lesson] as Module),
+                      lines: dialogLinesResolved_3
                     },
                     prose
                   }
@@ -167,89 +168,102 @@ const RightPane: React.FC = () => {
                   //
                   // Nouns
                   //
-                  const nounsLesson = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: dialogLessonUpdated})
-                  if (!nounsLesson) return
+                  const nounsLesson_5 = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: dialogLessonUpdated_4})
+                  if (!nounsLesson_5) return
 
                   //
                   // Nouns Review
                   //
-                  const nounsReviewLesson = await runModule({moduleName: MODULE_NAME.NOUNS_REVIEW, lesson: nounsLesson})
-                  if (!nounsReviewLesson) return
+                  const nounsReviewLesson_6 = await runModule({moduleName: MODULE_NAME.NOUNS_REVIEW, lesson: nounsLesson_5})
+                  if (!nounsReviewLesson_6) return
 
                   //
                   // Nouns Resolve
                   //
-                  const { nounsLinesResolved } = resolveNouns({
-                    nounsReviewLines: nounsReviewLesson.nouns.lines, 
-                    nounsLines: nounsLesson.nouns.lines
+                  const { nounsLinesResolved: nounsLinesResolved_7 } = resolveNouns({
+                    nounsReviewLines: nounsReviewLesson_6.nouns.lines, 
+                    nounsLines: nounsLesson_5.nouns.lines
                   })
 
-                  const nounsLessonUpdated = {
-                    ...nounsLesson,
+                  const nounsLessonUpdated_8 = {
+                    ...nounsReviewLesson_6,
                     [MODULE_NAME.NOUNS]: {
-                      ...(nounsLesson[MODULE_NAME.NOUNS as keyof Lesson] as Module),
-                      lines: nounsLinesResolved
+                      ...(nounsReviewLesson_6[MODULE_NAME.NOUNS as keyof Lesson] as Module),
+                      lines: nounsLinesResolved_7
                     }
                   }
 
                   //
                   // Verbs
                   //
-                  const verbsLesson = await runModule({moduleName: MODULE_NAME.VERBS, lesson: nounsLessonUpdated})
-                  if (!verbsLesson) return
+                  const verbsLesson_9 = await runModule({moduleName: MODULE_NAME.VERBS, lesson: nounsLessonUpdated_8})
+                  if (!verbsLesson_9) return
 
                   //
                   // Verbs Review
                   //
-                  const verbsReviewLesson = await runModule({moduleName: MODULE_NAME.VERBS_REVIEW, lesson: verbsLesson})
-                  if (!verbsReviewLesson) return
+                  const verbsReviewLesson_10 = await runModule({moduleName: MODULE_NAME.VERBS_REVIEW, lesson: verbsLesson_9})
+                  if (!verbsReviewLesson_10) return
 
-                  const { verbsLinesResolved } = resolveVerbs({
-                    verbsReviewLines: verbsReviewLesson.verbs.lines, 
-                    verbsLines: verbsLesson.verbs.lines
+                  const { verbsLinesResolved: verbsLinesResolved_11 } = resolveVerbs({
+                    verbsReviewLines: verbsReviewLesson_10.verbs.lines, 
+                    verbsLines: verbsLesson_9.verbs.lines
                   })
 
-                  const verbsLessonUpdated = {
-                    ...verbsLesson,
+                  const verbsLessonUpdated_12 = {
+                    ...verbsReviewLesson_10,
                     [MODULE_NAME.VERBS]: {
-                      ...(verbsLesson[MODULE_NAME.VERBS as keyof Lesson] as Module),
-                      lines: verbsLinesResolved
+                      ...(verbsReviewLesson_10[MODULE_NAME.VERBS as keyof Lesson] as Module),
+                      lines: verbsLinesResolved_11
                     }
                   }
 
                   //
-                  // Verbs Expanded
+                  // Verbs Expanded and Verbs Expanded In-Complete (Sentences)
                   //
-                  // const verbsExpanded = generateConjugatedLines({verbsLines: verbsLessonUpdated.verbs.lines, inCompleteOnly: true} )
-                  const verbsExpanded= generateConjugatedLines({inCompleteOnly: false, language: lesson.language, verbsLines: verbsLessonUpdated.verbs.lines})
-                  const verbsExpandedInComplete= generateConjugatedLines({inCompleteOnly: true, language: lesson.language, verbsLines: verbsLessonUpdated.verbs.lines})
+                  const verbsExpanded_13= generateConjugatedLines({inCompleteOnly: false, language: lesson.language, verbsLines: verbsLessonUpdated_12.verbs.lines})
+                  const verbsExpandedInComplete_14= generateConjugatedLines({inCompleteOnly: true, language: lesson.language, verbsLines: verbsLessonUpdated_12.verbs.lines})
                   
-                  console.log('verbsExpanded', verbsExpanded)
+                  // console.log('verbsExpanded', verbsExpanded_13)
 
-                  const verbsExpandedLesson = {
-                    ...verbsLessonUpdated,
+                  const verbsExpandedLesson_15 = {
+                    ...verbsLessonUpdated_12,
 
                     [MODULE_NAME.VERBS_EXPANDED]: {
-                      ...(verbsLessonUpdated[MODULE_NAME.VERBS_EXPANDED as keyof Lesson] as Module),
-                      lines: verbsExpanded
+                      ...(verbsLessonUpdated_12[MODULE_NAME.VERBS_EXPANDED as keyof Lesson] as Module),
+                      lines: verbsExpanded_13
                     },
 
                     [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: {
-                      ...(verbsLessonUpdated[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
-                      lines: verbsExpandedInComplete
+                      ...(verbsLessonUpdated_12[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
+                      lines: verbsExpandedInComplete_14
                     }
                   }
 
-                  const verbsExpandedCompleteLesson = await runModule({moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson})
-                  if (!verbsExpandedCompleteLesson) return
+                  const verbsExpandedCompleteLesson_16 = await runModule({moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson_15})
+                  if (!verbsExpandedCompleteLesson_16) return
+
+                  //
+                  // Verbs Expanded Triple
+                  //
+                  const verbsExpandedTriple = zipVerbsExpandedWithComplete({expandedLines: verbsExpandedCompleteLesson_16?.verbsExpanded?.lines, completeLines: verbsExpandedCompleteLesson_16?.verbsExpandedComplete?.lines })
+
+                  const verbsExpandedTripleLesson_17 = {
+                    ...verbsExpandedCompleteLesson_16,
+
+                    [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: {
+                      ...(verbsExpandedCompleteLesson_16[MODULE_NAME.VERBS_EXPANDED_TRIPLE as keyof Lesson] as Module),
+                      lines: verbsExpandedTriple
+                    }
+                  }
 
                   setLessons(prev => {
                     console.log('🔄 Updating lesson list...')
-                    console.log('▶️ verbsExpandedCompleteLesson:', verbsExpandedCompleteLesson)
+                    console.log('▶️ verbsExpandedTripleLesson_17:', verbsExpandedTripleLesson_17)
                     const next = prev.map(lsn => {
                       if (lsn.id === selectedLessonId) {
                         console.log(`✅ Match found: lesson.id = ${lsn.id}`)
-                        const updated = { ...verbsExpandedCompleteLesson, id: lsn.id, name: lsn.name }
+                        const updated = { ...verbsExpandedTripleLesson_17, id: lsn.id, name: lsn.name }
                         console.log('🆕 Updated lesson:', updated)
                         return updated
                       }
@@ -391,19 +405,31 @@ const RightPane: React.FC = () => {
             </div>
           )}
 
-          <DialogList lines={lesson?.dialog?.lines ?? []} />
-
           {(() => {
             if (!Array.isArray(lesson?.verbs?.lines)) {
               return <></>
             }
-
+            
             // const exampleLines= generateConjugatedLines({language: lesson.language, verbsLines: lesson.verbs.lines, inCompleteOnly: false})
-
+            const verbsInfinitives= generateConjugatedLines({inCompleteOnly: false, language: lesson.language, verbsLines: lesson?.verbs.lines})
             const zipVerbs = zipVerbsExpandedWithComplete({expandedLines: lesson?.verbsExpanded?.lines, completeLines: lesson?.verbsExpandedComplete?.lines })
-
+            
             const exampleListJSX = 
               <>
+                <FlashcardModal
+                  fronts={verbsInfinitives}
+                  backs={zipVerbs}
+                  // fronts={["yo tengo", "tú tienes", "él tiene"]}
+                  // backs={["I have", "you have", "he has"]}
+                />
+                {/* <DialogList lines={lesson?.dialog?.lines ?? []} /> */}
+
+                <h3 className="mt4 mb2">[DEBUG] Verb Lines</h3>
+                <ul className="debug-list">
+                  {Array.isArray(lesson?.verbs?.lines) && lesson.verbs.lines.map((line, idx) => (
+                    <li key={idx}>{line}</li>
+                  ))}
+                </ul>
                 <h3 className="mt4 mb2">[DEBUG] Expanded Verb Lines</h3>
                 <ul className="debug-list">
                   {Array.isArray(lesson?.verbsExpanded?.lines) && lesson.verbsExpanded.lines.map((line, idx) => (
@@ -422,16 +448,23 @@ const RightPane: React.FC = () => {
                     <li key={idx}>{line}</li>
                   ))}
                 </ul>
-                <h3 className="mt4 mb2">[DEBUG] ZIPPED Complete sentences</h3>
+                <h3 className="mt4 mb2">[DEBUG] Triple</h3>
+                <ul className="debug-list">
+                  {Array.isArray(lesson?.verbsExpandedTriple?.lines) && lesson.verbsExpandedTriple.lines.map((line, idx) => (
+                    <li key={idx}>{line}</li>
+                  ))}
+                </ul>
+                {/* <h3 className="mt4 mb2">[DEBUG] ZIPPED Complete sentences</h3>
                 <ul className="debug-list">
                   {Array.isArray(zipVerbs) && zipVerbs.map((line, idx) => (
                     <li key={idx}>{line}</li>
                   ))}
-                </ul>
+                </ul> */}
               </>
             
             return exampleListJSX
           })()}
+
           {/* {Array.isArray(lesson?.verbs?.lines) && (
             <>
               <h3 className="mt4 mb2">[DEBUG] Expanded Verb Lines</h3>

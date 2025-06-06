@@ -67,7 +67,13 @@ const promptGenerators: Record<ModuleName, (args: { lesson: Lesson, errors: Hand
     prompt: getVerbsExpandedCompletePrompt({ lesson, errors }),
     fieldCount: 1,
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
-  })
+  }),
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  verbsExpandedTriple: ({ lesson, errors }) => ({
+    prompt: defaultPrompt,
+    fieldCount: defaultFieldCount,
+    errorLabel: defaultErrorLabel
+  }),
 }
 
 export const getPrompt = ({ moduleName, lesson, errors }: GetPromptProps & { moduleName: ModuleName }): PromptWithMeta =>

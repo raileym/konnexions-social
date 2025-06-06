@@ -1,5 +1,4 @@
 import {
-  pronouns,
   type VerbsLines,
   LANGUAGE,
   type Language,
@@ -10,12 +9,14 @@ type GenerateConjugatedLinesProps = {
   verbsLines: VerbsLines
   inCompleteOnly?: boolean
   language: Language
+  noIndex?: boolean
 }
 
 export function generateConjugatedLines({
   verbsLines,
   inCompleteOnly = true,
-  language
+  language,
+  noIndex = false
 }: GenerateConjugatedLinesProps): string[] {
   const output: string[] = []
   let lineIndex = 1

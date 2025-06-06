@@ -64,7 +64,8 @@ export function generateExample({
       " 5. vosotros/vosotras estáis en la clase.",
       " 6. ellos/ellas/ustedes están en el hotel.",
       " 7. yo tomo un café por la mañana.",
-    ]
+    ],
+    verbsExpandedTriple: []
   }
 
   const raw = examples[moduleName]
