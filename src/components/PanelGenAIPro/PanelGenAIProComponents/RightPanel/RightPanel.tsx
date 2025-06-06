@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useAppContext } from '../../../../context/AppContext'
 import ScenarioSelector from '../../../ScenarioSelector'
 import ParticipantToggle from '../../../ParticipantToggle'
-import { LANGUAGE, MODULE_NAME, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
+import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { getScenarioDetails } from '../../../Util'
@@ -12,7 +12,7 @@ import { resolveNouns } from '../resolveNouns/resolveNouns'
 import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
 // import { DialogList } from '../DialogList/DialogList'
 // import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
-// import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
+import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
 import { DebugVerbLists } from '../DebugVerbLists/DebugVerbLists'
 import { generateVerbLists } from '../generateVerbLists/generateVerbLists'
 // import { getPrompt } from '../../../../../shared/getPrompt'
@@ -85,6 +85,9 @@ const RightPane: React.FC = () => {
     if (!lesson) {
       content = <p>Lesson not found.</p>
     } else {
+
+      const verbLists = generateVerbLists(lesson, true)
+
       content = (
         <>
           <h2 className="f3 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
@@ -398,6 +401,11 @@ const RightPane: React.FC = () => {
               </div>
             </div>
           )}
+
+          <FlashcardModal
+            fronts={verbLists[VERB_FORMATS.CONJUGATION]}
+            backs={verbLists[VERB_FORMATS.PRONOUN_AND_CONJUGATION]}
+          />
 
           <DebugVerbLists lesson={lesson} />
 

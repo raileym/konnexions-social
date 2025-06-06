@@ -4,7 +4,7 @@ import { zipLines } from "../zipLines/zipLines"
 
 const formats: VerbFormats[] = Object.values(VERB_FORMATS)
 
-export function generateVerbLists(lesson: Lesson): Record<VerbFormats, Lines> {
+export function generateVerbLists(lesson: Lesson, noIndex: boolean = false): Record<VerbFormats, Lines> {
   if (!Array.isArray(lesson?.verbs?.lines)) return {} as Record<VerbFormats, Lines>
 
   const result = {} as Record<VerbFormats, Lines>
@@ -27,18 +27,12 @@ export function generateVerbLists(lesson: Lesson): Record<VerbFormats, Lines> {
         language: LANGUAGE.SPANISH,
         returnFormat: "conjugation",
         noIndex: true,
-        noPeriod: true
+        noPeriod: true,
+        noCap: true
       })
-      lines = zipLines({ left: pronouns, right: conjugations, noIndex: false, noPeriod: false})
+      lines = zipLines({ left: pronouns, right: conjugations, noIndex, noPeriod: false})
     } else if (format === "triple") {
       const conjugations = generateConjugatedLines({
-        verbsLines: lesson.verbs.lines,
-        language: LANGUAGE.SPANISH,
-        returnFormat: "conjugation",
-        noIndex: true,
-        noPeriod: true
-      })
-      const conjugationsWithPeriod = generateConjugatedLines({
         verbsLines: lesson.verbs.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: "conjugation",
@@ -52,16 +46,24 @@ export function generateVerbLists(lesson: Lesson): Record<VerbFormats, Lines> {
         noIndex: true,
         noPeriod: true
       })
-      const pronounConj = zipLines({ left: pronouns, right: conjugationsWithPeriod, noIndex: true, noPeriod: true})
+      const pronounConj = zipLines({ left: pronouns, right: conjugations, noIndex: true, noPeriod: true})
       const complete = lesson.verbsExpandedComplete?.lines ?? []
-      const linesPre = zipLines({left: conjugationsWithPeriod, right: pronounConj, noIndex: false, noPeriod: true})
-      lines = zipLines({left: linesPre, right: complete, noIndex: false, noPeriod: true})
+      const linesPre = zipLines({left: conjugations, right: pronounConj, noIndex: false, noPeriod: true})
+      lines = zipLines({left: linesPre, right: complete, noIndex, noPeriod: true})
     } else if (format === "incomplete") {
       lines = generateConjugatedLines({
         verbsLines: lesson.verbs.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: format,
         noIndex: false,
+        noPeriod: true
+      })
+    } else if (format === "conjugation") {
+      lines = generateConjugatedLines({
+        verbsLines: lesson.verbs.lines,
+        language: LANGUAGE.SPANISH,
+        returnFormat: format,
+        noIndex,
         noPeriod: true
       })
     } else {

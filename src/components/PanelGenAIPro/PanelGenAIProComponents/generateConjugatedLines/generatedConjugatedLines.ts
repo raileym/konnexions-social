@@ -13,6 +13,7 @@ type GenerateConjugatedLinesProps = {
   returnFormat: VerbFormats
   noIndex?: boolean
   noPeriod?: boolean
+  noCap?: boolean
 }
 
 export function generateConjugatedLines({
@@ -20,7 +21,8 @@ export function generateConjugatedLines({
   language,
   returnFormat,
   noIndex = false,
-  noPeriod = false
+  noPeriod = false,
+  noCap = false
 }: GenerateConjugatedLinesProps): Lines {
   const output: Lines = []
   let lineIndex = 1
@@ -46,7 +48,7 @@ export function generateConjugatedLines({
             line = infinitiveUC
             break
           case "conjugation":
-            line = conjUC
+            line = noCap ? conj : conjUC
             break
           case "pronoun":
             line = pronoun
