@@ -2,7 +2,7 @@ import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
 import { type GetVerbsReviewPrompt, type GetVerbsReviewPromptProps, MODULE_NAME } from "./types"
 
-export const getVerbsReviewPrompt: GetVerbsReviewPrompt = ({lesson}: GetVerbsReviewPromptProps) => {
+export const getVerbsReviewPrompt: GetVerbsReviewPrompt = ({lesson, errors}: GetVerbsReviewPromptProps) => {
   const verbsReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: true }  })
   
   return (`
@@ -31,4 +31,6 @@ A complete example of a sample response follows:
 EXAMPLE RESPONSE:
 
 ${verbsReviewExample}
+
+${errors.length > 0 ? `AVOID THESE ERRORS:\n\n${errors.map(error => `    - ${error.detail}`).join('\n')}` : ''}
 `)}

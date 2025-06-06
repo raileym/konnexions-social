@@ -226,24 +226,21 @@ const RightPane: React.FC = () => {
                   console.log('verbsExpanded', verbsExpanded)
 
                   const verbsExpandedLesson = {
-                    ...lesson,
+                    ...verbsLessonUpdated,
 
                     [MODULE_NAME.VERBS_EXPANDED]: {
-                      ...(lesson[MODULE_NAME.VERBS_EXPANDED as keyof Lesson] as Module),
+                      ...(verbsLessonUpdated[MODULE_NAME.VERBS_EXPANDED as keyof Lesson] as Module),
                       lines: verbsExpanded
                     },
 
                     [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: {
-                      ...(lesson[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
+                      ...(verbsLessonUpdated[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
                       lines: verbsExpandedInComplete
                     }
                   }
-                  // console.log('verbsExpandedLesson', verbsExpandedLesson)
 
                   const verbsExpandedCompleteLesson = await runModule({moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson})
                   if (!verbsExpandedCompleteLesson) return
-
-                  // console.log('verbsExpandedCompleteLesson', verbsExpandedCompleteLesson)
 
                   setLessons(prev => {
                     console.log('🔄 Updating lesson list...')

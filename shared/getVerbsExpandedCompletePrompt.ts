@@ -2,7 +2,7 @@ import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
 import { type GetVerbsExpandedCompletePrompt, type GetVerbsExpandedCompletePromptProps, MODULE_NAME } from "./types"
 
-export const getVerbsExpandedCompletePrompt: GetVerbsExpandedCompletePrompt = ({lesson}: GetVerbsExpandedCompletePromptProps) => {
+export const getVerbsExpandedCompletePrompt: GetVerbsExpandedCompletePrompt = ({lesson, errors}: GetVerbsExpandedCompletePromptProps) => {
   const verbsExpandedCompleteExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, options: { asString: true }  })
   
   return (`
@@ -26,4 +26,6 @@ A complete example of a sample response follows:
 EXAMPLE RESPONSE (SAMPLE COMPLETED SENTENCES):
 
 ${verbsExpandedCompleteExample}
+
+${errors.length > 0 ? `AVOID THESE ERRORS:\n\n${errors.map(error => `    - ${error.detail}`).join('\n')}` : ''}
 `)}

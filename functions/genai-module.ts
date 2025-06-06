@@ -4,7 +4,7 @@ import { generateExample } from '../shared/generateExample'
 import { fetchOpenAI } from '../shared/fetchLLM'
 import { getPrompt } from '../shared/getPrompt'
 import { validateModule } from '../shared/validateModule'
-import { Lesson } from '../shared/types'
+import { defaultErrorLabel, defaultFieldCount, defaultModule, defaultPrompt, ErrorLabel, Lesson, Module, Prompt } from '../shared/types'
 import { streamlineModule } from '../shared/streamlineModule'
 
 const handler: Handler = async (event) => {
@@ -22,16 +22,21 @@ const handler: Handler = async (event) => {
     
     if (!lesson.language || !lesson.scenarioLabel || !lesson.participantList) {
       console.log('Missing one or more of the smaller three')
-      console.log(`language: ${lesson.language}`)
-      console.log(`scenarioLabel: ${lesson.scenarioLabel}`)
-      console.log(`participantList: ${lesson.participantList}`)
+      // console.log(`language: ${lesson.language}`)
+      // console.log(`scenarioLabel: ${lesson.scenarioLabel}`)
+      // console.log(`participantList: ${lesson.participantList}`)
+      console.log('lesson', JSON.stringify(lesson, null, 2))
       return {
         statusCode: 401,
         body: 'Lesson is missing required fields'
       }
     }
 
-    const { prompt, fieldCount, errorLabel } = getPrompt({moduleName, lesson })
+    let prompt: Prompt = defaultPrompt
+    let fieldCount: number = defaultFieldCount
+    let errorLabel: ErrorLabel = defaultErrorLabel
+
+    ;({ prompt, fieldCount, errorLabel } = getPrompt({moduleName, lesson, errors: [] }))
 
     let response: string
 
@@ -45,7 +50,9 @@ const handler: Handler = async (event) => {
       response = await fetchOpenAI({ prompt })
     }
 
-    const validModule = validateModule({
+    let validModule: Partial<Module> = defaultModule
+
+    validModule = validateModule({
       response,
       errorLabel,
       fieldCount,
@@ -53,11 +60,36 @@ const handler: Handler = async (event) => {
       moduleName
     })
 
-    console.log('validModule', JSON.stringify(validModule.lines))
+    if (!validModule.success) {
+
+      ;({ prompt, fieldCount, errorLabel } = getPrompt({moduleName, lesson, errors: validModule.errors ?? []}))
+
+      if (testMode) {
+        response = generateExample({
+          language: lesson.language,
+          moduleName,
+          options: { asString: true }
+        })
+      } else {
+        response = await fetchOpenAI({ prompt })
+      }
+
+      validModule = validateModule({
+        response,
+        errorLabel,
+        fieldCount,
+        language: lesson.language,
+        moduleName
+      })
+    }
+
+    if (!validModule.success) {
+      console.log('validModule', JSON.stringify(validModule, null, 2))
+    }
 
     const streamlinedModule = streamlineModule({moduleName, module: validModule})
 
-    console.log('streamlinedModule', JSON.stringify(streamlinedModule.lines))
+    // console.log('streamlinedModule', JSON.stringify(streamlinedModule.lines))
 
     // First, I add my validModule to the incoming Lesson. Our goal is not
     // only add the validModule, but also add the Dialog's validModule, if
@@ -74,7 +106,9 @@ const handler: Handler = async (event) => {
       }      
     }
 
-    console.log('updatedLesson', JSON.stringify(updatedLesson, null, 2))
+    if (!validModule.success) {
+      console.log('updatedLesson', JSON.stringify(updatedLesson, null, 2))
+    }
 
     // We capture the signature, but don't bother
     // with the prose. Post handleModule in the vacinity

@@ -3,7 +3,7 @@ import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
 import { GetDialogReviewPrompt, GetDialogReviewPromptProps, MODULE_NAME } from "./types"
 
-export const getDialogReviewPrompt: GetDialogReviewPrompt = ({lesson}: GetDialogReviewPromptProps) => {
+export const getDialogReviewPrompt: GetDialogReviewPrompt = ({lesson, errors}: GetDialogReviewPromptProps) => {
   const dialogReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: true }  })
 
 const dialogReviewLines = formatDialogLinesForReview(lesson.dialog.lines)  
@@ -33,4 +33,6 @@ A complete example of a sample response follows:
 EXAMPLE RESPONSE:
 
 ${dialogReviewExample}
+
+${errors.length > 0 ? `AVOID THESE ERRORS:\n\n${errors.map(error => `    - ${error.detail}`).join('\n')}` : ''}
 `)}

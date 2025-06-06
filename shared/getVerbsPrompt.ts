@@ -2,7 +2,7 @@ import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
 import { type GetVerbsPrompt, type GetVerbsPromptProps, MODULE_NAME } from "./types"
 
-export const getVerbsPrompt: GetVerbsPrompt = ({lesson}: GetVerbsPromptProps) => {
+export const getVerbsPrompt: GetVerbsPrompt = ({lesson, errors}: GetVerbsPromptProps) => {
         
   const verbsExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS, options: { asString: true }  })
 
@@ -40,5 +40,7 @@ Also,
 EXAMPLE RESPONSE:
 
 ${verbsExample}
+
+${errors.length > 0 ? `AVOID THESE ERRORS:\n\n${errors.map(error => `    - ${error.detail}`).join('\n')}` : ''}
 `
 )}

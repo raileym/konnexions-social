@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppContext } from '../../../../context/AppContext'
 
 type DialogLineProps = {
-  line: string // Format: G|Speaker|Sentence
+  line: string
   index: number
   useCloudTTS: boolean
   storeAudioOrLine: (index: number, value: string) => void

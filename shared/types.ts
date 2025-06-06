@@ -370,6 +370,7 @@ export type HandleNounsReviewProps = {
 
 export type GetPromptProps = {
   lesson: Lesson
+  errors: HandleLLMError[]
 }
 
 export type GetDialogPromptProps = GetPromptProps
@@ -408,6 +409,24 @@ export const scenarioLabels: ScenarioLabels = {
   custom: 'Custom'
 }
 
+export const ERROR_LABEL = {
+  NO_ERROR: 'noError',
+  DIALOG_ERROR: 'handleDialogError',
+  NOUNS_ERROR: 'handleNounsError',
+  VERBS_ERROR: 'handleVerbsError',
+  DIALOG_REVIEW_ERROR: 'handleDialogReviewError',
+  NOUNS_REVIEW_ERROR: 'handleNounsReviewError',
+  VERBS_REVIEW_ERROR: 'handleVerbsReviewError',
+  VERBS_EXPANDED_ERROR: 'handleVerbsExpandedError',
+  VERBS_EXPANDED_INCOMPLETE_ERROR: 'handleVerbsExpandedInCompleteError',
+  VERBS_EXPANDED_COMPLETE_ERROR: 'handleVerbsExpandedCompleteError'
+} as const
+export type ErrorLabelValue = (typeof ERROR_LABEL)[keyof typeof ERROR_LABEL]
+export type ErrorLabelKey = keyof typeof ERROR_LABEL
+export type ErrorLabel = ErrorLabelValue
+
+export const defaultErrorLabel = ERROR_LABEL.NO_ERROR
+export const defaultFieldCount = 0
 export const defaultLines = []
 export const defaultPrompt = ''
 export const defaultSignature = ''
@@ -527,21 +546,6 @@ export type HandleDialogErrors = HandleDialogError[]
 export type HandleNounsErrors = HandleNounsError[]
 export type HandleVerbsErrors = HandleVerbsError[]
 
-export const ERROR_LABEL = {
-  DIALOG_ERROR: 'handleDialogError',
-  NOUNS_ERROR: 'handleNounsError',
-  VERBS_ERROR: 'handleVerbsError',
-  DIALOG_REVIEW_ERROR: 'handleDialogReviewError',
-  NOUNS_REVIEW_ERROR: 'handleNounsReviewError',
-  VERBS_REVIEW_ERROR: 'handleVerbsReviewError',
-  VERBS_EXPANDED_ERROR: 'handleVerbsExpandedError',
-  VERBS_EXPANDED_INCOMPLETE_ERROR: 'handleVerbsExpandedInCompleteError',
-  VERBS_EXPANDED_COMPLETE_ERROR: 'handleVerbsExpandedCompleteError'
-} as const
-export type ErrorLabelValue = (typeof ERROR_LABEL)[keyof typeof ERROR_LABEL]
-export type ErrorLabelKey = keyof typeof ERROR_LABEL
-export type ErrorLabel = ErrorLabelValue
-
 export type AddErrorProps = {
   errorLabel: ErrorLabel
   setErrors: React.Dispatch<React.SetStateAction<HandleLLMError[]>>
@@ -572,16 +576,6 @@ export type ValidateGenAIResponsePropsOLD = {
 }
 
 export type Sentinel = string
-
-// export type Module = {
-//        lines: Lines
-//     prompt: Prompt
-//     signature: Signature
-//        errors: HandleLLMError[]
-//        success: Success
-//        sentinel: Sentinel
-// }
-
 
 export type GenAIValidationResult<T> = {
   success: boolean
