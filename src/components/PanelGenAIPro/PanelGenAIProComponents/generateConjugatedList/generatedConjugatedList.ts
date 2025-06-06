@@ -2,7 +2,8 @@ import {
   pronouns,
   type VerbsLines,
   LANGUAGE,
-  type Language
+  type Language,
+  pronounsUpperCase
 } from "../../../../../shared/types"
 
 type GenerateConjugatedLinesProps = {
@@ -24,17 +25,22 @@ export function generateConjugatedLines({
     const conjugations = parts.slice(1)
 
     conjugations.forEach((conj, idx) => {
-      // Skip vosotros/vosotras (index 4) in Latin American Spanish
+      // Skip vosotros/vosotras in Latin American Spanish
       if (language === LANGUAGE.SPANISH && idx === 4) return
 
-      const pronoun = pronouns[idx]
-      if (inCompleteOnly) {
-        output.push(`${lineIndex++}. ${pronoun} ${conj} ...`)
-      } else {
-        output.push(`${lineIndex++}. ${conj}. ${pronoun} ${conj}. `)
-      }
+      const pronounSet = pronounsUpperCase[idx]
+      const conjUC = conj.charAt(0).toUpperCase() + conj.slice(1)
+
+      pronounSet.forEach(pronoun => {
+        const capitalizedLine = inCompleteOnly
+          ? `${lineIndex}. ${pronoun} ${conj} ...`
+          : `${lineIndex}. ${conjUC}. ${pronoun} ${conj}.`
+        output.push(capitalizedLine)
+        lineIndex++
+      })
     })
   }
 
   return output
 }
+

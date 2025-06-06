@@ -703,3 +703,11 @@ export const pronouns = [
   'ellos/ellas/ustedes'
 ]
 
+export const pronounsUpperCase: string[][] = [
+  ['Yo'],
+  ['Tú'],
+  ['Él', 'Ella', 'Usted'],
+  ['Nosotros', 'Nosotras'],
+  ['Vosotros', 'Vosotras'],
+  ['Ellos', 'Ellas', 'Ustedes']
+]

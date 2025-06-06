@@ -21,6 +21,13 @@ Align numbered in-complete sentences with numbered complete sentences. The Numbe
     ...
   ]
 
+Each complete sentence must show a realistic use of the verb, appropriate for a beginner learning Latin American Spanish.
+
+- Include a clear object, place, or time expression (e.g., un libro, al parque, cada mañana).
+- Avoid one-word or two-word sentences like “Yo voy.” or “Tú tienes.”
+- Do not use nouns like “gracias” as verbs.
+- Stay in present tense, use friendly and useful vocabulary.
+
 A complete example of a sample response follows:
 
 EXAMPLE RESPONSE (SAMPLE COMPLETED SENTENCES):
