@@ -28,13 +28,16 @@ import type {
   Lesson,
   Lessons,
   LessonId,
-  GenerateTTSCount
+  GenerateTTSCount,
+  MaxCount,
+  Cutoff
 } from '../../shared/types'
 import {
   APP_HOME,
   APP_PANEL,
   defaultLanguage,
   defaultLesson,
+  defaultMaxCount,
   MODULE_NAME,
   SCENARIO
 } from '../../shared/types'
@@ -104,6 +107,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   )  
   const [selectedLessonId, setSelectedLessonId] = usePersistentState<LessonId>('lessonCount', 1)
 
+  const [maxCount, setMaxCount] = usePersistentState<MaxCount>('maxCount', defaultMaxCount, (v): v is number => typeof v === 'number')
+
+  const [cutoff, setCutoff] = usePersistentState<Cutoff>('cutoff', false)
+
   const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
   const [activeHome, setActiveHome] = useState<ActiveHome>(APP_HOME.GEN_AI_PRO)
   const [helpPanel, setHelpPanel] = useState<ActivePanel>(APP_PANEL.BASIC)
@@ -129,6 +136,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
   const AppContextValue = {
+
+    maxCount, setMaxCount,
+    cutoff, setCutoff,
 
     generateTTSCount, setGenerateTTSCount,
 

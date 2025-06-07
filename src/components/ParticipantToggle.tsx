@@ -19,7 +19,7 @@ const ParticipantToggle: FC<Props> = ({ useMyself, onClick }) => {
         onClick={() => onClick(!useMyself)}
         className="flex items-center gap-2 bg-transparent bn pointer f5"
       >
-        <FontAwesomeIcon icon={icon} className="f4" />
+        <FontAwesomeIcon icon={icon} className="f2 mh3" />
         <span dangerouslySetInnerHTML={{ __html: label }} />
       </button>
     </div>

@@ -1,6 +1,12 @@
 // import { generateSignature } from '../shared/generateSignature'
 
 export type AppContextType = {
+  maxCount: MaxCount
+  setMaxCount: SetMaxCount
+
+  cutoff: Cutoff
+  setCutoff: SetCutoff
+
   answer: Answer
   setAnswer: SetAnswer
 
@@ -123,6 +129,7 @@ export type SetAnswer = React.Dispatch<React.SetStateAction<Answer>>
 export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
+export type SetCutoff = React.Dispatch<React.SetStateAction<Cutoff>>
 export type SetDialogPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetNounsPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
@@ -137,6 +144,7 @@ export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitio
 export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
 export type SetLessonId = React.Dispatch<React.SetStateAction<LessonId>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
+export type SetMaxCount = React.Dispatch<React.SetStateAction<MaxCount>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
 export type SetOpenAiAvgTokens = React.Dispatch<React.SetStateAction<OpenAiAvgTokens>>
 export type SetOpenAiBudget = React.Dispatch<React.SetStateAction<OpenAiBudget>>
@@ -437,6 +445,7 @@ export const defaultModuleName = MODULE_NAME.DIALOG
 export const defaultScenarioLabel = scenarioLabels[SCENARIO.RESTAURANT]
 export const defaultLanguage = LANGUAGE.SPANISH
 export const defaultParticipantList = ''
+export const defaultMaxCount = 20
 
 export const defaultModule: Module = {
   lines: defaultLines,
@@ -725,3 +734,5 @@ export type VerbFormatsValue = (typeof VERB_FORMATS)[keyof typeof VERB_FORMATS]
 export type VerbFormatsKey = keyof typeof VERB_FORMATS
 export type VerbFormats = VerbFormatsValue
 
+export type MaxCount = number
+export type Cutoff = boolean

@@ -15,6 +15,8 @@ import { DialogList } from '../DialogList/DialogList'
 import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
 // import { DebugVerbLists } from '../DebugVerbLists/DebugVerbLists'
 import { generateVerbLists } from '../generateVerbLists/generateVerbLists'
+import CutoffToggle from '../../../CutoffToggle'
+import ShowMaxCount from '../../../ShowMaxCount'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPane: React.FC = () => {
@@ -57,7 +59,8 @@ const RightPane: React.FC = () => {
     lessons,
     setLessons,
     selectedLessonId,
-    scenario //,
+    scenario,
+    cutoff
     // generateTTSCount
   } = useAppContext()
   
@@ -90,6 +93,8 @@ const RightPane: React.FC = () => {
 
       content = (
         <>
+          <CutoffToggle />
+          <ShowMaxCount />
           <h2 className="f2 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
           <div className="w-100 flex justify-center pt3 pb4">
             <div className="f3 pv3 pt0 mt0 w-60">{headline}</div>
@@ -461,7 +466,7 @@ const RightPane: React.FC = () => {
   }
 
   return (
-    <div className="w-80 vh-100 overflow-y-auto pa3 bg-light-gray" style={{ paddingTop: '7em' }}>
+    <div className={`w-80 vh-100 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )

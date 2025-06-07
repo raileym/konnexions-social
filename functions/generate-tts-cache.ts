@@ -16,13 +16,38 @@ const bucketName = 'tts-cache'
 
 const handler: Handler = async (event) => {
   try {
-    const { text, gender = 'M', languageCode = 'es-US' } = JSON.parse(event.body || '{}')
+    const { text, gender = 'M', languageCode = 'es-US', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
 
-    if (!text) {
-      console.log(`Issue No 1 with generate-tts-cache: ${text}, ${gender}, ${languageCode}`)
+    if (cutoff) {
+
+      console.log(`Issue No 1, Cut-off engaged.`)
 
       return {
         statusCode: 400, 
+        body: JSON.stringify({ 
+          error: 'Cut-off engaged.'
+        })
+      }
+    }
+
+    if (maxCount <= 0) {
+
+      console.log(`Issue No 2, maxCount exceeded.`)
+
+      return {
+        statusCode: 401, 
+        body: JSON.stringify({ 
+          error: 'maxCount exceeded'
+        })
+      }
+    }
+
+    if (!text) {
+
+      console.log(`Issue No 3 with generate-tts-cache: ${text}, ${gender}, ${languageCode}`)
+
+      return {
+        statusCode: 402, 
         body: JSON.stringify({ 
           error: 'Missing text'
         })
@@ -33,6 +58,9 @@ const handler: Handler = async (event) => {
     const signature = crypto.createHash('sha256').update(normalized).digest('hex')
     const voice = voiceMap[gender] || voiceMap.M
     const filePath = `${signature}.mp3`
+
+    // 0. Introduce a short randomized delay to spread load
+    await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 200)) // 200–400ms jitter
 
     // 1. Try cache hit
     const { data: cachedData, error: lookupError } = await supabase
@@ -80,6 +108,9 @@ const handler: Handler = async (event) => {
     const { audioContent } = await res.json()
     const audioBuffer = Buffer.from(audioContent, 'base64')
 
+    // 2+. Introduce a short randomized delay to spread load
+    await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
+
     // 3. Upload MP3 to Supabase
     const { error: uploadError } = await supabase
       .storage
@@ -99,6 +130,9 @@ const handler: Handler = async (event) => {
         })
       }
     }
+
+    // 3+. Introduce a short randomized delay to spread load
+    await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
 
     // 4. Insert metadata
     await supabase.rpc('ckn_insert_tts_cache', {

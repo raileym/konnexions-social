@@ -9,6 +9,7 @@ import {
   faVolumeHigh
 } from '@fortawesome/free-solid-svg-icons'
 import { useTTS } from "../useTTS/useTTS"
+import { useAppContext } from "../../../../context/AppContext"
 
 type FlashcardProps = {
   fronts: string[]
@@ -27,6 +28,11 @@ export function FlashcardModal({
 }: FlashcardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
 
+  const { cutoff,
+    maxCount,
+    setMaxCount
+  } = useAppContext()
+  
   const [shuffled] = useState(() =>
     fronts.map((front, i) => ({ front, back: backs[i] }))
       .sort(() => Math.random() - 0.5)
@@ -34,10 +40,16 @@ export function FlashcardModal({
   const [current, setCurrent] = useState(0)
   const [showBack, setShowBack] = useState(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [soundEnabled, setSoundEnabled] = useState(true)
+  const [soundEnabled, setSoundEnabled] = useState(false)
 
   const currentText = showBack ? shuffled[current].back : shuffled[current].front
-  const { speak, audioUrl, stop } = useTTS({ text: currentText, useCloudTTS })
+  const { speak, audioUrl, stop } = useTTS({
+    text: currentText,
+    useCloudTTS,
+    cutoff,
+    maxCount,
+    setMaxCount
+  })
 
   const handleNext = useCallback(() => {
     stop()

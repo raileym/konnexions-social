@@ -11,14 +11,15 @@ import NavbarBottom from './components/NavbarBottom'
 import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext'
 import { getCurrentWeek } from './components/Util'
-import { SCENARIO, type Scenario } from '../shared/types'
+import { defaultMaxCount, SCENARIO, type Scenario } from '../shared/types'
 import PanelGenAIPro from './components/PanelGenAIPro/PanelGenAIPro'
 
 const App: React.FC = () => {
   const {
     setOpenAiUsage,
     setScenario,
-    setTtsCharUsage
+    setTtsCharUsage,
+    setMaxCount
   } = useAppContext()
 
   const loadUsage = () => {
@@ -50,6 +51,15 @@ const App: React.FC = () => {
       localStorage.setItem('scenario', SCENARIO.RESTAURANT)
     }    
     
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('maxCount')
+      const parsed = stored ? JSON.parse(stored) : null
+
+      if (typeof parsed !== 'number') {
+        setMaxCount(defaultMaxCount)
+      }
+    }
+
     loadUsage()
     
   // eslint-disable-next-line react-hooks/exhaustive-deps

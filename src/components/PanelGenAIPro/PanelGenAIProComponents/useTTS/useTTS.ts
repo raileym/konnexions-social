@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import type { MaxCount, SetMaxCount } from "../../../../../shared/types"
 
 type UseTTSOptions = {
   text: string
   gender?: string
   index?: number
   useCloudTTS: boolean
+  maxCount: MaxCount
+  setMaxCount: SetMaxCount
+  cutoff: boolean
   store?: (index: number, value: string) => void
 }
 
@@ -13,21 +17,37 @@ export function useTTS({
   gender = "M",
   index = 0,
   useCloudTTS,
+  maxCount,
+  setMaxCount,
+  cutoff,
   store
 }: UseTTSOptions) {
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
+  const decrementMaxCount = useCallback(() => {
+    setMaxCount(prev => prev - 1)
+  }, [setMaxCount])
+
+
   useEffect(() => {
     let cancelled = false
 
-    if (useCloudTTS) {
+    if (useCloudTTS && !cutoff) {
+
+      decrementMaxCount()
+
       const fetchAudio = async () => {
         try {
           const res = await fetch("/.netlify/functions/generate-tts-cache", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text, gender })
+            body: JSON.stringify({
+              text,
+              gender,
+              maxCount,
+              cutoff
+            })
           })
 
           const { audioContent } = await res.json()
@@ -50,7 +70,7 @@ export function useTTS({
       cancelled = true
       stop() // Ensure playback is cancelled when input changes
     }
-  }, [text, gender, useCloudTTS, index, store])
+  }, [text, gender, useCloudTTS, index, store, cutoff, maxCount, decrementMaxCount])
 
   const speak = () => {
     stop()
