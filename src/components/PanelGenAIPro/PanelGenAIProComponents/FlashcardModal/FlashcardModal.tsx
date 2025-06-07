@@ -5,7 +5,6 @@ import {
   faGreaterThan,
   faLessThan,
   faTimes,
-  faVolumeUp,
   faVolumeXmark,
   faVolumeHigh
 } from '@fortawesome/free-solid-svg-icons'
@@ -99,7 +98,7 @@ export function FlashcardModal({
       <Dialog.Portal>
         <Dialog.Overlay className="fixed top-0 left-0 right-0 bottom-0 bg-black-50" style={{ zIndex: 99999 }} />
         <Dialog.Content
-          className="fixed top-1/2 left-1/2 bg-white pa4 br3 shadow-5 w-60 w-60-m w-60-l no-focus-outline"
+          className="fixed top-1/2 left-1/2 bg-white pa4 br3 shadow-5 w-60 w-60-m w-40-l no-focus-outline"
           style={{ zIndex: 999999, transform: "translate(-50%, -50%)" }}
         >
           <Dialog.Title className="f4 b mb0 mt0 pt0">Flashcard {current + 1} / {shuffled.length}</Dialog.Title>
@@ -111,7 +110,7 @@ export function FlashcardModal({
 
           <div className="tc">
             <div
-              className="pa4 pointer no-focus-outline"
+              className="pa4 baX pointer no-focus-outline mv5"
               onClick={() => setShowBack(s => !s)}
               ref={cardRef}
               tabIndex={-1}
@@ -128,25 +127,25 @@ export function FlashcardModal({
               <span className="f1">{currentText}</span>
             </div>
 
-            <div className="mt4 flex justify-between items-center">
+            <div className="ba mt4 flex justify-between items-center">
               <button className="f3 link dim ph3 pv1 bn bg-transparent" onClick={handlePrev}>
                 <FontAwesomeIcon icon={faLessThan} />
               </button>
 
-              <button
+              {/* <button
                 className="f5 link dim ph3 pv1 bn bg-transparent"
                 onClick={speak}
                 disabled={useCloudTTS && !audioUrl}
                 aria-label="Play pronunciation"
               >
                 <FontAwesomeIcon icon={faVolumeUp} />
-              </button>
+              </button> */}
 
+              <div className="mt2X gray f6">tap space bar (flip)</div>
               <button className="f3 link dim ph3 pv1 bn bg-transparent" onClick={handleNext}>
                 <FontAwesomeIcon icon={faGreaterThan} />
               </button>
             </div>
-            <div className="mt2 gray f6">tap space bar (flip)</div>
           </div>
 
           <div className="absolute top-1 right-1 flex items-center gap-2">

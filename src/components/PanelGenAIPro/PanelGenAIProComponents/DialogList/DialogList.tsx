@@ -3,7 +3,12 @@ import { DialogLine } from '../DialogLine/DialogLine'
 import { faPlay, faPause, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export function DialogList({ lines }: { lines: string[] }) {
+type DialogListProps = {
+  lines: string[]
+  useCloudTTS: boolean
+}
+
+export function DialogList({ lines, useCloudTTS }: DialogListProps) {
   const [audioItems, setAudioItems] = useState<string[]>([])
   const [, setCurrentIndex] = useState<number | null>(null)
   const synthRef = useRef(window.speechSynthesis)
@@ -13,12 +18,11 @@ export function DialogList({ lines }: { lines: string[] }) {
   const storeAudioOrLine = useCallback((index: number, value: string) => {
     setAudioItems(prev => {
       const updated = [...prev]
-      if (updated[index] === value) return prev // prevent re-renders
+      if (updated[index] === value) return prev
       updated[index] = value
       return updated
     })
-  }, [setAudioItems])
-
+  }, [])
 
   const playAll = () => {
     if (audioItems.length !== lines.length || isPlayingRef.current) return
@@ -104,7 +108,7 @@ export function DialogList({ lines }: { lines: string[] }) {
             key={i}
             line={line}
             index={i}
-            useCloudTTS={false}
+            useCloudTTS={useCloudTTS}
             storeAudioOrLine={storeAudioOrLine}
           />
         ))}

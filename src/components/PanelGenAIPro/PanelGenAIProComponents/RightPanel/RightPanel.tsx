@@ -61,7 +61,7 @@ const RightPane: React.FC = () => {
     // generateTTSCount
   } = useAppContext()
   
-  const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
+  const headline = 'Create a custom dialog for a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
 
   type RunModuleProps = {
     moduleName: ModuleName
@@ -90,8 +90,10 @@ const RightPane: React.FC = () => {
 
       content = (
         <>
-          <h2 className="f3 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
-          <div className="f3 pv3 pt0 mt0">{headline}</div>
+          <h2 className="f2 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
+          <div className="w-100 flex justify-center pt3 pb4">
+            <div className="f3 pv3 pt0 mt0 w-60">{headline}</div>
+          </div>
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
 
@@ -422,7 +424,7 @@ const RightPane: React.FC = () => {
 
           {/* <DebugVerbLists lesson={lesson} /> */}
 
-          <DialogList lines={lesson?.dialog?.lines ?? []} />
+          <DialogList lines={lesson?.dialog?.lines ?? []} useCloudTTS={false} />
           
           <div className="mt4 b">Nouns</div>
           <ul className="mt0 pt0 black">
