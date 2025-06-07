@@ -13,6 +13,10 @@ export const usePersistentState = <T>(
       const raw = localStorage.getItem(key)
       const parsed = raw ? JSON.parse(raw) : null
 
+      if (raw === null) {
+        return defaultValue
+      }
+
       if (isValid && !isValid(parsed)) {
         console.warn(`Invalid localStorage value for key "${key}"`)
         return defaultValue

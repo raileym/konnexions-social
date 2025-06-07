@@ -54,6 +54,8 @@ const handler: Handler = async (event) => {
       }
     }
 
+    console.log(`Preparing to hit Supabase (${maxCount}): ${text}`)
+
     const normalized = text.trim().toLowerCase()
     const signature = crypto.createHash('sha256').update(normalized).digest('hex')
     const voice = voiceMap[gender] || voiceMap.M
@@ -72,6 +74,8 @@ const handler: Handler = async (event) => {
       .list('', { search: filePath })
 
     if (!lookupError && cachedData && existingFile?.length) {
+      console.log(`Supabase cache HIT (${maxCount}): ${text}`)
+
       const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)
       return {
         statusCode: 200,
@@ -81,6 +85,9 @@ const handler: Handler = async (event) => {
         })
       }
     }
+
+    console.log(`Supabase cache MISS (${maxCount}): ${text}`)
+    console.log(`Google TTS (${maxCount}): ${text}`)
 
     // 2. Call Google TTS
     const res = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${process.env.GOOGLE_TTS_KEY}`, {
@@ -105,11 +112,15 @@ const handler: Handler = async (event) => {
       }
     }
 
+    console.log(`Google TTS WIN (${maxCount}): ${text}`)
+
     const { audioContent } = await res.json()
     const audioBuffer = Buffer.from(audioContent, 'base64')
 
     // 2+. Introduce a short randomized delay to spread load
     await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
+
+    console.log(`Supabase cache STORE MPEG (${maxCount}): ${text}`)
 
     // 3. Upload MP3 to Supabase
     const { error: uploadError } = await supabase
@@ -133,6 +144,8 @@ const handler: Handler = async (event) => {
 
     // 3+. Introduce a short randomized delay to spread load
     await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
+
+    console.log(`Supabase cache STORE META (${maxCount}): ${text}`)
 
     // 4. Insert metadata
     await supabase.rpc('ckn_insert_tts_cache', {

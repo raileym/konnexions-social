@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAppContext } from '../../../../context/AppContext'
 import ScenarioSelector from '../../../ScenarioSelector'
 import ParticipantToggle from '../../../ParticipantToggle'
@@ -409,27 +409,33 @@ const RightPane: React.FC = () => {
             </div>
           )}
 
-          <div className="flex justify-start w-100">
-            <FlashcardModal
-              fronts={verbListsNoIndex[VERB_FORMATS.CONJUGATION]}
-              backs={verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION]}
-              useCloudTTS={false}
-              buttonClassName="mh2"
-              title=<div>Open Flashcard</div>
-            />
-            <FlashcardModal
-              fronts={verbListsNoIndex[VERB_FORMATS.INCOMPLETE]}
-              backs={verbListsNoIndex[VERB_FORMATS.COMPLETE]}
-              useCloudTTS={false}
-              buttonClassName="mh2"
-              title=<div>Open Flashcard</div>
-            />
-          </div>
-
+          { verbListsNoIndex && 
+            Array.isArray(verbListsNoIndex[VERB_FORMATS.CONJUGATION]) && verbListsNoIndex[VERB_FORMATS.CONJUGATION].length > 0 &&
+            Array.isArray(verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION]) && verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION].length > 0 &&
+            Array.isArray(verbListsNoIndex[VERB_FORMATS.INCOMPLETE]) && verbListsNoIndex[VERB_FORMATS.INCOMPLETE].length > 0 &&
+            Array.isArray(verbListsNoIndex[VERB_FORMATS.COMPLETE]) && verbListsNoIndex[VERB_FORMATS.COMPLETE].length > 0 && (
+              <div className="flex justify-start w-100">
+                <FlashcardModal
+                  fronts={verbListsNoIndex[VERB_FORMATS.CONJUGATION]}
+                  backs={verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION]}
+                  useCloudTTS={true}
+                  buttonClassName="mh2"
+                  title=<div>Open Flashcard</div>
+                />
+                <FlashcardModal
+                  fronts={verbListsNoIndex[VERB_FORMATS.INCOMPLETE]}
+                  backs={verbListsNoIndex[VERB_FORMATS.COMPLETE]}
+                  useCloudTTS={true}
+                  buttonClassName="mh2"
+                  title=<div>Open Flashcard</div>
+                />
+              </div>
+            )
+          }
 
           {/* <DebugVerbLists lesson={lesson} /> */}
 
-          <DialogList lines={lesson?.dialog?.lines ?? []} useCloudTTS={false} />
+          <DialogList lines={lesson?.dialog?.lines ?? []} useCloudTTS={true} />
           
           <div className="mt4 b">Nouns</div>
           <ul className="mt0 pt0 black">

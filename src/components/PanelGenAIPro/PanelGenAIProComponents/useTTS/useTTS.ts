@@ -75,7 +75,9 @@ export function useTTS({
   const speak = () => {
     stop()
 
-    if (useCloudTTS && audioUrl) {
+    console.log('SPEAK')
+    
+    if (useCloudTTS && audioUrl && !cutoff) {
       const audio = new Audio(audioUrl)
       audioRef.current = audio
       audio.play()
