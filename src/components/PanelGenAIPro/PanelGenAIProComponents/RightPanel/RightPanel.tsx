@@ -10,10 +10,10 @@ import handleModule from '../handleModule/handleModule'
 import { resolveDialog } from '../resolveDialog/resolveDialog'
 import { resolveNouns } from '../resolveNouns/resolveNouns'
 import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
-// import { DialogList } from '../DialogList/DialogList'
+import { DialogList } from '../DialogList/DialogList'
 // import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
 import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
-import { DebugVerbLists } from '../DebugVerbLists/DebugVerbLists'
+// import { DebugVerbLists } from '../DebugVerbLists/DebugVerbLists'
 import { generateVerbLists } from '../generateVerbLists/generateVerbLists'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
@@ -402,19 +402,27 @@ const RightPane: React.FC = () => {
             </div>
           )}
 
-          <FlashcardModal
-            fronts={verbListsNoIndex[VERB_FORMATS.CONJUGATION]}
-            backs={verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION]}
-          />
+          <div className="flex justify-start w-100">
+            <FlashcardModal
+              fronts={verbListsNoIndex[VERB_FORMATS.CONJUGATION]}
+              backs={verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION]}
+              useCloudTTS={false}
+              buttonClassName="mh2"
+              title=<div>Open Flashcard</div>
+            />
+            <FlashcardModal
+              fronts={verbListsNoIndex[VERB_FORMATS.INCOMPLETE]}
+              backs={verbListsNoIndex[VERB_FORMATS.COMPLETE]}
+              useCloudTTS={false}
+              buttonClassName="mh2"
+              title=<div>Open Flashcard</div>
+            />
+          </div>
 
-          <FlashcardModal
-            fronts={verbListsNoIndex[VERB_FORMATS.INCOMPLETE]}
-            backs={verbListsNoIndex[VERB_FORMATS.COMPLETE]}
-          />
 
-          <DebugVerbLists lesson={lesson} />
+          {/* <DebugVerbLists lesson={lesson} /> */}
 
-          {/* <DialogList lines={lesson?.dialog?.lines ?? []} /> */}
+          <DialogList lines={lesson?.dialog?.lines ?? []} />
           
           <div className="mt4 b">Nouns</div>
           <ul className="mt0 pt0 black">

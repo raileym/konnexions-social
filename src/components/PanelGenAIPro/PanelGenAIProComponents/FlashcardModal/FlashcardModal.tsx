@@ -1,14 +1,31 @@
 import * as Dialog from "@radix-ui/react-dialog"
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useState, useEffect, useCallback, useRef, type ReactNode } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGreaterThan, faLessThan, faTimes } from '@fortawesome/free-solid-svg-icons'   
+import {
+  faGreaterThan,
+  faLessThan,
+  faTimes,
+  faVolumeUp,
+  faVolumeXmark,
+  faVolumeHigh
+} from '@fortawesome/free-solid-svg-icons'
+import { useTTS } from "../useTTS/useTTS"
 
 type FlashcardProps = {
   fronts: string[]
   backs: string[]
+  useCloudTTS: boolean
+  buttonClassName?: string
+  title?: string | ReactNode
 }
 
-export function FlashcardModal({ fronts, backs }: FlashcardProps) {
+export function FlashcardModal({
+  fronts,
+  backs,
+  useCloudTTS,
+  title = '',
+  buttonClassName = ''
+}: FlashcardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
 
   const [shuffled] = useState(() =>
@@ -18,123 +35,133 @@ export function FlashcardModal({ fronts, backs }: FlashcardProps) {
   const [current, setCurrent] = useState(0)
   const [showBack, setShowBack] = useState(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [soundEnabled, setSoundEnabled] = useState(true)
+
+  const currentText = showBack ? shuffled[current].back : shuffled[current].front
+  const { speak, audioUrl, stop } = useTTS({ text: currentText, useCloudTTS })
 
   const handleNext = useCallback(() => {
+    stop()
     setCurrent((c) => (c + 1) % shuffled.length)
     setShowBack(false)
-
     requestAnimationFrame(() => {
       cardRef.current?.focus()
     })
-  }, [shuffled.length])
+  }, [shuffled.length, stop])
 
   const handlePrev = useCallback(() => {
+    stop()
     setCurrent((c) => (c - 1 + shuffled.length) % shuffled.length)
     setShowBack(false)
-
     requestAnimationFrame(() => {
       cardRef.current?.focus()
     })
-  }, [shuffled.length])
+  }, [shuffled.length, stop])
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    stop()
     if (event.key === "ArrowRight") {
       event.preventDefault()
       handleNext()
     } else if (event.key === "ArrowLeft") {
       event.preventDefault()
-      setCurrent((c) => (c - 1 + shuffled.length) % shuffled.length)
-      setShowBack(false)
+      handlePrev()
     } else if (event.key === " " || event.key === "Enter") {
       event.preventDefault()
       setShowBack((s) => !s)
     }
-  }, [handleNext, shuffled.length])
-
+  }, [handleNext, handlePrev, stop])
 
   useEffect(() => {
     if (!isOpen) return
-
     window.addEventListener("keydown", handleKeyDown)
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown)
-    }
+    return () => window.removeEventListener("keydown", handleKeyDown)
   }, [isOpen, handleKeyDown])
 
+  useEffect(() => {
+    if (soundEnabled) {
+      speak()
+    }
+  }, [current, showBack, speak, soundEnabled])
+
   return (
-    <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog.Root 
+      open={isOpen}
+      onOpenChange={(open) => {
+        setSoundEnabled(open) // instant toggle
+        setIsOpen(open)
+      }}
+    >
       <Dialog.Trigger asChild>
-        <button>Open Flashcard</button>
+        <button className={`bg-brand pa2 mh3X black ${buttonClassName}`}>{title || 'Open Flashcard'}</button>
       </Dialog.Trigger>
 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed top-0 left-0 right-0 bottom-0 bg-black-50" style={{ zIndex: 99999 }} />
-          <Dialog.Content
-            className="ba bw4X b--redX fixed top-1/2 left-1/2 transform bg-white pa4 br3 shadow-5 w-60 w-60-m w-60-l"
-            style={{
-              zIndex: 999999,
-              transform: "translate(-50%, -50%)",
-              // top: '50%',
-              // left: '50%'
-            }}
-          >
-            <Dialog.Title className="f4 b mb0 baX mt0 pt0">
-              Flashcard {current + 1} / {shuffled.length}
-            </Dialog.Title>
+        <Dialog.Content
+          className="fixed top-1/2 left-1/2 bg-white pa4 br3 shadow-5 w-60 w-60-m w-60-l no-focus-outline"
+          style={{ zIndex: 999999, transform: "translate(-50%, -50%)" }}
+        >
+          <Dialog.Title className="f4 b mb0 mt0 pt0">Flashcard {current + 1} / {shuffled.length}</Dialog.Title>
 
-            <Dialog.Description className="baX mb5 gray f6">
-                Use the left ( <FontAwesomeIcon icon={faLessThan} /> ) or 
-                right ( <FontAwesomeIcon icon={faGreaterThan} /> ) arrow keys 
-                to navigate between cards. Press the space bar to reveal the back of the card.
-            </Dialog.Description>
+          <Dialog.Description className="mb4 gray f6">
+            Use the left (<FontAwesomeIcon icon={faLessThan} />) or right (<FontAwesomeIcon icon={faGreaterThan} />)
+            arrow keys to navigate between cards. Press the space bar to reveal the back of the card.
+          </Dialog.Description>
 
-            <div className="tc">
-              <div
-                className="no-focus-outline baX bn b--grayX pa4 pb5 br2X bg-light-yellowX pointer"
-                onClick={() => setShowBack(s => !s)}
-                ref={cardRef}
-                tabIndex={-1}
-                style={{
-                    width: "100%",
-                    height: "8rem", // adjust this as needed
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "1rem",
-                    textAlign: "center"
-                  }}                
-              >
-                <span className="f1">
-                  {showBack ? shuffled[current].back : shuffled[current].front}
-                </span>
-              </div>
-              <div className="baX mt5 flex justify-between items-center">
-                <button
-                  className="mt3X f3 link dim ph3 pv1X dib black bg-transparent bn"
-                  onClick={(e) => {
-                    handlePrev()
-                    e.currentTarget.blur()
-                  }}
-                >
-                  <FontAwesomeIcon icon={faLessThan} />
-                </button>
-                <div>tap space bar (flip) </div>
-                <button
-                  className="mt3X f3 link dim ph3 pv0 dib black bg-transparent bn"
-                  onClick={(e) => {
-                    handleNext()
-                    e.currentTarget.blur()
-                  }}
-                >
-                  <FontAwesomeIcon icon={faGreaterThan} />
-                </button>
-              </div>
+          <div className="tc">
+            <div
+              className="pa4 pointer no-focus-outline"
+              onClick={() => setShowBack(s => !s)}
+              ref={cardRef}
+              tabIndex={-1}
+              style={{
+                width: "100%",
+                height: "8rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "1rem",
+                textAlign: "center"
+              }}
+            >
+              <span className="f1">{currentText}</span>
             </div>
 
-            <Dialog.Close className="absolute top-1 right-1 f3 dim pointer bg-transparent bn dark-red">
+            <div className="mt4 flex justify-between items-center">
+              <button className="f3 link dim ph3 pv1 bn bg-transparent" onClick={handlePrev}>
+                <FontAwesomeIcon icon={faLessThan} />
+              </button>
+
+              <button
+                className="f5 link dim ph3 pv1 bn bg-transparent"
+                onClick={speak}
+                disabled={useCloudTTS && !audioUrl}
+                aria-label="Play pronunciation"
+              >
+                <FontAwesomeIcon icon={faVolumeUp} />
+              </button>
+
+              <button className="f3 link dim ph3 pv1 bn bg-transparent" onClick={handleNext}>
+                <FontAwesomeIcon icon={faGreaterThan} />
+              </button>
+            </div>
+            <div className="mt2 gray f6">tap space bar (flip)</div>
+          </div>
+
+          <div className="absolute top-1 right-1 flex items-center gap-2">
+            <button
+              className="f4 dim pointer bg-transparent bn dark-gray mr4"
+              onClick={() => setSoundEnabled(prev => !prev)}
+              aria-label="Toggle sound"
+            >
+              <FontAwesomeIcon icon={soundEnabled ? faVolumeHigh : faVolumeXmark} />
+            </button>
+            <Dialog.Close className="f4 dim pointer bg-transparent bn dark-red">
               <FontAwesomeIcon icon={faTimes} />
             </Dialog.Close>
-          </Dialog.Content>
+          </div>
+        </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
   )
