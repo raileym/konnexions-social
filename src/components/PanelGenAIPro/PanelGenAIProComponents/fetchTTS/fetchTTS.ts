@@ -22,7 +22,9 @@ export async function fetchTTS({
       body: JSON.stringify({ text, gender, maxCount, cutoff })
     })
 
-    const { audioUrl } = await res.json()
+    const { audioUrl, cacheStatus } = await res.json()
+    console.log(`Generate-tts-cache: ${cacheStatus}`)
+
     return audioUrl ?? null
   } catch (err) {
     console.error('TTS fetch failed:', err)

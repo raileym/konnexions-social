@@ -97,7 +97,7 @@ const RightPane: React.FC = () => {
           <ShowMaxCount />
 
           <div className="pa3 mt3 ba bg-white w-100">
-            <DialogList lines={(lesson?.dialog?.lines ?? [])} useCloudTTS={true} />
+            <DialogList lines={(lesson?.dialog?.lines ?? []).slice(0, 3)} useCloudTTS={true} />
           </div>
 
           <h2 className="f2 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>

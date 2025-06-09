@@ -18,8 +18,6 @@ const handler: Handler = async (event) => {
   try {
     const { text, gender = 'M', languageCode = 'es-US', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
 
-    // console.log('Hitting generate-tts-cache ... good or bad')
-
     if (cutoff) {
 
       console.log(`Issue No 1, Cut-off engaged.`)
@@ -56,27 +54,39 @@ const handler: Handler = async (event) => {
       }
     }
 
-    console.log(`Preparing to hit Supabase (${maxCount}): ${text}`)
-
     const normalized = text.trim().toLowerCase()
     const signature = crypto.createHash('sha256').update(normalized).digest('hex')
     const voice = voiceMap[gender] || voiceMap.M
     const filePath = `${signature}.mp3`
 
-    // 0. Introduce a short randomized delay to spread load
-    // await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 200)) // 200–400ms jitter
-
-    // 1. Try cache hit
     const { data: cachedData, error: lookupError } = await supabase
       .rpc('ckn_lookup_tts_cache', { arg_tts_cache_signature: signature })
 
-    const { data: existingFile } = await supabase
+    const { data: existingFile, error: fileError } = await supabase
       .storage
       .from(bucketName)
       .list('', { search: filePath })
 
-    if (!lookupError && cachedData && existingFile?.length) {
-      console.log(`Supabase cache HIT (${maxCount}): ${text}`)
+    const isCacheMetaHit = (cachedData?.length ?? 0) > 0
+    const isAudioFileHit = (existingFile?.length ?? 0) > 0
+
+    if (!lookupError) {
+      if (!isCacheMetaHit) {
+        console.warn(`🔍 No metadata row found in ckn_tts_cache for: ${text} (${signature})`)
+      }
+    } else {
+      console.error(`🧨 Supabase RPC error from ckn_lookup_tts_cache:`, lookupError)
+    }
+
+    if (fileError) {
+      console.error(`🧨 Supabase Storage error:`, fileError)
+    } else if (!isAudioFileHit) {
+      console.warn(`🔍 No audio file found in bucket for: ${filePath}`)
+    }
+
+    if (!lookupError && isCacheMetaHit && isAudioFileHit) {
+
+      console.log(`Cache HIT (${maxCount}): ${text}`)
 
       const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)
       return {
@@ -88,8 +98,6 @@ const handler: Handler = async (event) => {
       }
     }
 
-    console.log(`Supabase cache MISS (${maxCount}): ${text}`)
-    console.log(`Google TTS (${maxCount}): ${text}`)
 
     // 2. Call Google TTS
     const res = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${process.env.GOOGLE_TTS_KEY}`, {
@@ -114,15 +122,13 @@ const handler: Handler = async (event) => {
       }
     }
 
-    console.log(`Google TTS WIN (${maxCount}): ${text}`)
-
     const { audioContent } = await res.json()
     const audioBuffer = Buffer.from(audioContent, 'base64')
 
     // 2+. Introduce a short randomized delay to spread load
     // await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
 
-    console.log(`Supabase cache STORE MPEG (${maxCount}): ${text}`)
+    console.log(`Cache STORE: ${text}`)
 
     // 3. Upload MP3 to Supabase
     const { error: uploadError } = await supabase
@@ -147,19 +153,32 @@ const handler: Handler = async (event) => {
     // 3+. Introduce a short randomized delay to spread load
     // await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
 
-    // console.log(`Supabase cache STORE META (${maxCount}): ${text}`)
+    console.log(`Supabase cache STORE META: ${text}`)
 
     // 4. Insert metadata
-    // await supabase.rpc('ckn_insert_tts_cache', {
-    //   arg_tts_cache_signature: signature,
-    //   arg_tts_cache_text: normalized,
-    //   arg_tts_cache_voice: voice,
-    //   arg_tts_cache_language: languageCode
-    // })
+    await supabase.rpc('ckn_insert_tts_cache', {
+      arg_tts_cache_signature: signature,
+      arg_tts_cache_text: normalized,
+      arg_tts_cache_voice: voice,
+      arg_tts_cache_language: languageCode
+    })
+
+    const { error: insertError } = await supabase.rpc('ckn_insert_tts_cache', {
+      arg_tts_cache_signature: signature,
+      arg_tts_cache_text: normalized,
+      arg_tts_cache_voice: voice,
+      arg_tts_cache_language: languageCode
+    })
+
+    if (insertError) {
+      console.log(`Issue No 5: Insert failed for ${text}: ${insertError.message}`)
+    } else {
+      console.log(`Supabase cache INSERT META success: ${text}`)
+    }
 
     // 5. Return MP3 URL
     const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)
-    console.log(`Cache HIT with generate-tts-cache: ${data?.publicUrl}`)
+    console.log(`Cache MISS: ${text}`)
 
     return {
       statusCode: 200,

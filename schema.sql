@@ -1,9 +1,10 @@
 -- ************************************************************************
--- DROP TABLES
+-- DROP EXISTING ENTITIES
 -- ************************************************************************
 
-DROP TABLE IF EXISTS public.ckn_tts_cache;
-
+DROP FUNCTION IF EXISTS public.ckn_lookup_tts_cache(TEXT);
+DROP FUNCTION IF EXISTS public.ckn_insert_tts_cache(TEXT, TEXT, TEXT, TEXT);
+DROP TABLE IF EXISTS public.ckn_tts_cache CASCADE;
 
 -- ************************************************************************
 -- CREATE TABLES
@@ -11,13 +12,13 @@ DROP TABLE IF EXISTS public.ckn_tts_cache;
 
 CREATE TABLE public.ckn_tts_cache (
   tts_cache_key SERIAL PRIMARY KEY,
-  tts_cache_signature TEXT UNIQUE NOT NULL,                           -- SHA256 or similar
-  tts_cache_text TEXT NOT NULL,                                       -- Original normalized input
-  tts_cache_voice TEXT NOT NULL,                                      -- Which Google voice used
-  tts_cache_language TEXT NOT NULL DEFAULT 'es-US',                   -- Language code
-  tts_cache_usage_count INTEGER NOT NULL DEFAULT 1,                   -- How many times reused
-  tts_cache_last_used TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
-  tts_cache_created TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+  tts_cache_signature TEXT UNIQUE NOT NULL,
+  tts_cache_text TEXT NOT NULL,
+  tts_cache_voice TEXT NOT NULL,
+  tts_cache_language TEXT NOT NULL DEFAULT 'es-US',
+  tts_cache_usage_count INTEGER NOT NULL DEFAULT 1,
+  tts_cache_last_used TIMESTAMPTZ NOT NULL DEFAULT timezone('utc', now()),
+  tts_cache_created TIMESTAMPTZ NOT NULL DEFAULT timezone('utc', now())
 );
 
 COMMENT ON TABLE public.ckn_tts_cache IS 'CKN: Caches results from Google TTS service to avoid repeat synthesis.';
@@ -35,79 +36,90 @@ COMMENT ON COLUMN public.ckn_tts_cache.tts_cache_created IS 'Time this cache ent
 
 ALTER TABLE public.ckn_tts_cache ENABLE ROW LEVEL SECURITY;
 
+-- Admins
 CREATE POLICY "Supabase Admin can manage ckn_tts_cache" ON public.ckn_tts_cache
-  FOR ALL USING (current_user = 'supabase_auth_admin')
-  WITH CHECK (current_user = 'supabase_auth_admin');
+  FOR ALL TO supabase_auth_admin
+  USING (true)
+  WITH CHECK (true);
 
+-- Authenticated users (read-only)
 CREATE POLICY "Authenticated users can view ckn_tts_cache" ON public.ckn_tts_cache
   FOR SELECT TO authenticated
   USING (auth.uid() IS NOT NULL);
 
+-- Service role (read/write)
+CREATE POLICY "Service role can select ckn_tts_cache" ON public.ckn_tts_cache
+  FOR SELECT TO service_role
+  USING (true);
+
+CREATE POLICY "Service role can insert ckn_tts_cache" ON public.ckn_tts_cache
+  FOR INSERT TO service_role
+  WITH CHECK (true);
+
 -- ************************************************************************
--- INDEXES (Optional)
+-- INDEXES
 -- ************************************************************************
 
 CREATE INDEX idx_ckn_tts_cache_signature ON public.ckn_tts_cache(tts_cache_signature);
 CREATE INDEX idx_ckn_tts_cache_last_used ON public.ckn_tts_cache(tts_cache_last_used);
 
 -- ************************************************************************
--- FUNCTION: public.ckn_lookup_tts_cache
+-- FUNCTION: ckn_lookup_tts_cache
 -- ************************************************************************
 
-CREATE FUNCTION public.ckn_lookup_tts_cache(
-    arg_tts_cache_signature TEXT
-)
+CREATE FUNCTION public.ckn_lookup_tts_cache(arg_tts_cache_signature TEXT)
 RETURNS TABLE (
-    tts_cache_key INTEGER,
-    tts_cache_signature TEXT,
-    tts_cache_text TEXT,
-    tts_cache_voice TEXT,
-    tts_cache_language TEXT,
-    tts_cache_usage_count INTEGER,
-    tts_cache_last_used TIMESTAMP WITH TIME ZONE,
-    tts_cache_created TIMESTAMP WITH TIME ZONE
+  tts_cache_key INTEGER,
+  tts_cache_signature TEXT,
+  tts_cache_text TEXT,
+  tts_cache_voice TEXT,
+  tts_cache_language TEXT,
+  tts_cache_usage_count INTEGER,
+  tts_cache_last_used TIMESTAMPTZ,
+  tts_cache_created TIMESTAMPTZ
 )
 LANGUAGE plpgsql
 SECURITY INVOKER
 AS $$
 BEGIN
   RETURN QUERY
-  UPDATE public.ckn_tts_cache
+  UPDATE public.ckn_tts_cache AS tts
   SET 
-    tts_cache_usage_count = tts_cache_usage_count + 1,
+    tts_cache_usage_count = tts.tts_cache_usage_count + 1,
     tts_cache_last_used = timezone('utc', now())
-  WHERE tts_cache_signature = arg_tts_cache_signature
+  WHERE tts.tts_cache_signature = arg_tts_cache_signature
   RETURNING 
-    tts_cache_key,
-    tts_cache_signature,
-    tts_cache_text,
-    tts_cache_voice,
-    tts_cache_language,
-    tts_cache_usage_count,
-    tts_cache_last_used,
-    tts_cache_created;
+    tts.tts_cache_key,
+    tts.tts_cache_signature,
+    tts.tts_cache_text,
+    tts.tts_cache_voice,
+    tts.tts_cache_language,
+    tts.tts_cache_usage_count,
+    tts.tts_cache_last_used,
+    tts.tts_cache_created;
 END;
 $$;
 
+
 -- ************************************************************************
--- FUNCTION: public.ckn_insert_tts_cache
+-- FUNCTION: ckn_insert_tts_cache
 -- ************************************************************************
 
 CREATE FUNCTION public.ckn_insert_tts_cache(
-    arg_tts_cache_signature TEXT,
-    arg_tts_cache_text TEXT,
-    arg_tts_cache_voice TEXT,
-    arg_tts_cache_language TEXT DEFAULT 'es-US'
+  arg_tts_cache_signature TEXT,
+  arg_tts_cache_text TEXT,
+  arg_tts_cache_voice TEXT,
+  arg_tts_cache_language TEXT DEFAULT 'es-US'
 )
 RETURNS TABLE (
-    tts_cache_key INTEGER,
-    tts_cache_signature TEXT,
-    tts_cache_text TEXT,
-    tts_cache_voice TEXT,
-    tts_cache_language TEXT,
-    tts_cache_usage_count INTEGER,
-    tts_cache_last_used TIMESTAMP WITH TIME ZONE,
-    tts_cache_created TIMESTAMP WITH TIME ZONE
+  tts_cache_key INTEGER,
+  tts_cache_signature TEXT,
+  tts_cache_text TEXT,
+  tts_cache_voice TEXT,
+  tts_cache_language TEXT,
+  tts_cache_usage_count INTEGER,
+  tts_cache_last_used TIMESTAMPTZ,
+  tts_cache_created TIMESTAMPTZ
 )
 LANGUAGE plpgsql
 SECURITY INVOKER
@@ -133,7 +145,7 @@ END;
 $$;
 
 -- ************************************************************************
--- GRANT FUNCTION EXECUTION PRIVILEGES
+-- FUNCTION EXECUTION PRIVILEGES
 -- ************************************************************************
 
 GRANT EXECUTE ON FUNCTION public.ckn_lookup_tts_cache(TEXT) TO authenticated;

@@ -45,7 +45,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
           continue
         }
 
-        console.log(`audio line not found, no. ${i}`)
+        // console.log(`audio line not found, no. ${i}`)
 
         const [gender, , sentence] = lines[i].split('|')
 

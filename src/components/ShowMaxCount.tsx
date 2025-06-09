@@ -10,11 +10,11 @@ const ShowMaxCount: FC = () => {
   } = useAppContext()
 
   const handleIncrease = () => {
-    setMaxCount(prev => prev+1)
+    setMaxCount(prev => prev+20)
   }
 
   const handleDecrease = () => {
-    setMaxCount(prev => prev-1)
+    setMaxCount(prev => prev-10)
   }
 
   return (
