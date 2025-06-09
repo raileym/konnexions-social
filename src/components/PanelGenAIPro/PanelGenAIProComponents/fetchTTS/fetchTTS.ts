@@ -13,9 +13,9 @@ export async function fetchTTS({
   if (!text || cutoff || maxCount <= 0) return null
 
   try {
-    console.log(`Pause before ask generate-tts-cache: ${text}`)
+    // console.log(`Pause before ask generate-tts-cache: ${text}`)
     // await new Promise(resolve => setTimeout(resolve, 2000)) // 200–400ms jitter
-    console.log(`Now ask ask generate-tts-cache: ${text}`)
+    console.log(`Ask generate-tts-cache: ${text}`)
 
     const res = await fetch('/.netlify/functions/generate-tts-cache', {
       method: 'POST',

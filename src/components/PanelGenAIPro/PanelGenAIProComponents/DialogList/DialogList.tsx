@@ -18,7 +18,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
   const isPlayingRef = useRef(false)
   const iRef = useRef(0) // controls current index across calls
 
-  const { maxCount, cutoff } = useAppContext()
+  const { maxCount, cutoff, selectedLessonId } = useAppContext()
 
   const storeAudioOrLine = useCallback((index: number, value: string) => {
     setAudioItems(prev => {
@@ -28,6 +28,10 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
       return updated
     })
   }, [])
+
+  useEffect(() => {
+    setAudioItems([])
+  },[selectedLessonId])
 
   useEffect(() => {
     console.log('Invoking useEffect in DialogList')
@@ -63,7 +67,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
     }
 
     preloadSequentially()
-  }, [])
+  }, [lines])
 
   const resetPlayback = () => {
     console.log('Resetting playback')
