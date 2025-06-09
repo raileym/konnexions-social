@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { DialogLine } from '../DialogLine/DialogLine'
-import { faPlay, faPause, faStop } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchTTS } from '../fetchTTS/fetchTTS'
 import { useAppContext } from '../../../../context/AppContext'
@@ -20,7 +20,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
   const isPlayingRef = useRef(false)
   const iRef = useRef(0) // controls current index across calls
 
-  const { maxCount, cutoff, selectedLessonId } = useAppContext()
+  const { maxCount, setMaxCount, cutoff, selectedLessonId } = useAppContext()
 
   const storeAudioOrLine = useCallback((index: number, value: string) => {
     const arr = audioItemsRef.current
@@ -54,6 +54,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
             text: sentence,
             gender,
             maxCount,
+            setMaxCount,
             cutoff
           })
 
@@ -67,6 +68,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
     }
 
     preloadSequentially()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLessonId, cutoff])
 
   const resetPlayback = () => {
@@ -110,7 +112,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
 
         try {
           value = (useCloudTTS && !cutoff && maxCount > 0)
-            ? await fetchTTS({ text: sentence, gender, maxCount, cutoff }) ?? ''
+            ? await fetchTTS({ text: sentence, gender, maxCount, setMaxCount, cutoff }) ?? ''
             : sentence
 
           storeAudioOrLine(i, value)
@@ -142,10 +144,10 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
   }
 
 
-  const pauseAll = () => {
-    if (audioRef.current) audioRef.current.pause()
-    else synthRef.current.pause()
-  }
+  // const pauseAll = () => {
+  //   if (audioRef.current) audioRef.current.pause()
+  //   else synthRef.current.pause()
+  // }
 
   const stopAll = () => {
     isPlayingRef.current = false
@@ -169,12 +171,14 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
           <FontAwesomeIcon icon={faPlay} /> Play All
         </button>
 
-        {/* <button
+        {/*
+        <button
           onClick={pauseAll}
           className="ml2 f6 br2 ph2 pv1 white bg-gold hover:bg-yellow no-outline"
         >
           <FontAwesomeIcon icon={faPause} /> Pause
-        </button> */}
+        </button>
+        */}
 
         <button
           onClick={stopAll}

@@ -53,8 +53,7 @@ export function useTTS({
       fetchingRef.current = true
 
       try {
-        setMaxCount(prev => prev - 1)
-        const url = await fetchTTS({ text, gender, maxCount, cutoff })
+        const url = await fetchTTS({ text, gender, maxCount, setMaxCount, cutoff })
         if (url) {
           setAudioUrl(url)
           if (store) store(index, url)

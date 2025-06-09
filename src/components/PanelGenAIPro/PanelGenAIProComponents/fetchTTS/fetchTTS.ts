@@ -1,16 +1,15 @@
-// shared/tts/fetchTTS.ts
+import type { FetchTTSProps, FetchTTSResult } from "../../../../../shared/types"
+
 export async function fetchTTS({
   text,
   gender = 'M',
   maxCount,
+  setMaxCount,
   cutoff
-}: {
-  text: string
-  gender?: string
-  maxCount: number
-  cutoff: boolean
-}): Promise<string | null> {
+}: FetchTTSProps): Promise<FetchTTSResult> {
   if (!text || cutoff || maxCount <= 0) return null
+
+  setMaxCount(prev => prev-1)
 
   try {
     // console.log(`Pause before ask generate-tts-cache: ${text}`)

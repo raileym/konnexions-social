@@ -41,7 +41,7 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
       <button
         onClick={handleSpeak}
         // onClick={speak}
-        className="ml3 f6 link dim br2 ph2 pv1 dib white bg-dark-blue"
+        className="ml3 f6 br2 ph2 pv1 dib white bg-dark-blue hover:bg-blue no-outline"
       >
         <FontAwesomeIcon icon={faPlay} />
       </button>

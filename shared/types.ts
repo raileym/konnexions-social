@@ -736,3 +736,12 @@ export type VerbFormats = VerbFormatsValue
 
 export type MaxCount = number
 export type Cutoff = boolean
+
+export type FetchTTSProps = {
+  text: string
+  gender?: string
+  maxCount: number
+  setMaxCount: SetMaxCount
+  cutoff: boolean
+}
+export type FetchTTSResult = string | null

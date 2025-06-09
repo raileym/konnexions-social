@@ -18,7 +18,7 @@ const handler: Handler = async (event) => {
   try {
     const { text, gender = 'M', languageCode = 'es-US', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
 
-    console.log('Hitting generate-tts-cache ... good or bad')
+    // console.log('Hitting generate-tts-cache ... good or bad')
 
     if (cutoff) {
 
