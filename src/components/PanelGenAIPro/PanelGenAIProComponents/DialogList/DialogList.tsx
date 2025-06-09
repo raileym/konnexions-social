@@ -11,7 +11,9 @@ type DialogListProps = {
 }
 
 export function DialogList({ lines, useCloudTTS }: DialogListProps) {
-  const [audioItems, setAudioItems] = useState<string[]>([])
+  // const [audioItems, setAudioItems] = useState<string[]>([])
+  const audioItemsRef = useRef<string[]>([])
+
   const [, setCurrentIndex] = useState<number | null>(null)
   const synthRef = useRef(window.speechSynthesis)
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -21,17 +23,15 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
   const { maxCount, cutoff, selectedLessonId } = useAppContext()
 
   const storeAudioOrLine = useCallback((index: number, value: string) => {
-    setAudioItems(prev => {
-      const updated = [...prev]
-      if (updated[index] === value) return prev
-      updated[index] = value
-      return updated
-    })
+    const arr = audioItemsRef.current
+    if (arr[index] === value) return
+    arr[index] = value
   }, [])
 
+
   useEffect(() => {
-    setAudioItems([])
-  },[selectedLessonId])
+    audioItemsRef.current = []
+  }, [selectedLessonId])
 
   useEffect(() => {
     console.log('Invoking useEffect in DialogList')
@@ -40,7 +40,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
 
     const preloadSequentially = async () => {
       for (let i = 0; i < lines.length; i++) {
-        if (audioItems[i]) {
+        if (audioItemsRef.current[i]) {
           console.log(`audio line found, no. ${i}`)
           continue
         }
@@ -67,7 +67,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
     }
 
     preloadSequentially()
-  }, [lines])
+  }, [selectedLessonId])
 
   const resetPlayback = () => {
     console.log('Resetting playback')
@@ -102,11 +102,11 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
       const line = lines[i]
       setCurrentIndex(i)
 
-      let value = audioItems[i]
+      let value = audioItemsRef.current[i]
 
       if (!value) {
         const [gender, , sentence] = line.split('|')
-        console.log(`playAll: audioItems[${i}] is empty. Fetch: ${sentence}`)
+        console.log(`playAll: audioItemsRef.current[${i}] is empty. Fetch: ${sentence}`)
 
         try {
           value = (useCloudTTS && !cutoff && maxCount > 0)
@@ -119,7 +119,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
           return safeNext()
         }
       } else {
-        console.log(`playAll: audioItems[${i}] is NOT empty.`)
+        console.log(`playAll: audioItemsRef.current[${i}] is NOT empty.`)
       }
 
       console.log('value', value)
