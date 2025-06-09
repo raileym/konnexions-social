@@ -1,7 +1,9 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { DialogLine } from '../DialogLine/DialogLine'
 import { faPlay, faPause, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { fetchTTS } from '../fetchTTS/fetchTTS'
+import { useAppContext } from '../../../../context/AppContext'
 
 type DialogListProps = {
   lines: string[]
@@ -15,6 +17,8 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const isPlayingRef = useRef(false)
 
+  const { maxCount, cutoff } = useAppContext()
+
   const storeAudioOrLine = useCallback((index: number, value: string) => {
     setAudioItems(prev => {
       const updated = [...prev]
@@ -24,23 +28,76 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
     })
   }, [])
 
+useEffect(() => {
+  console.log('Invoking useEffect in DialogList')
+  if (!useCloudTTS || cutoff) return
+  console.log('Passing through useEffect in DialogList')
+
+  const preloadSequentially = async () => {
+    for (let i = 0; i < lines.length; i++) {
+      if (audioItems[i]) {
+        console.log(`audio line found, no. ${i}`)
+        continue
+      }
+
+      console.log(`audio line not found, no. ${i}`)
+
+      const [gender, , sentence] = lines[i].split('|')
+
+      try {
+        const maybeAudio = await fetchTTS({
+          text: sentence,
+          gender,
+          maxCount,
+          cutoff
+        })
+
+        if (maybeAudio !== null) {
+          storeAudioOrLine(i, maybeAudio)
+        }
+      } catch (err) {
+        console.error(`Failed to preload TTS for line ${i}:`, err)
+      }
+    }
+  }
+
+  preloadSequentially()
+}, [lines])
+
+
   const playAll = () => {
-    if (audioItems.length !== lines.length || isPlayingRef.current) return
+    if (isPlayingRef.current) return
 
     let i = 0
     isPlayingRef.current = true
 
-    const playNext = () => {
-      if (!isPlayingRef.current || i >= audioItems.length) {
+    const playNext = async () => {
+      if (!isPlayingRef.current || i >= lines.length) {
         setCurrentIndex(null)
         return
       }
 
-      const item = audioItems[i]
+      const line = lines[i]
       setCurrentIndex(i)
 
-      if (item.startsWith('data:audio/mp3')) {
-        const audio = new Audio(item)
+      let value = audioItems[i]
+
+      if (!value) {
+        const [gender, , sentence] = line.split('|')
+        try {
+          value = useCloudTTS
+            ? await fetchTTS({ text: sentence, gender, maxCount, cutoff }) ?? ''
+            : sentence
+          storeAudioOrLine(i, value)
+        } catch (err) {
+          console.error('TTS fetch failed:', err)
+          i++
+          return playNext()
+        }
+      }
+
+      if (value.startsWith('data:audio/mp3')) {
+        const audio = new Audio(value)
         audioRef.current = audio
         audio.onended = () => {
           i++
@@ -48,7 +105,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
         }
         audio.play()
       } else {
-        const utterance = new SpeechSynthesisUtterance(item)
+        const utterance = new SpeechSynthesisUtterance(value)
         utterance.lang = 'es-ES'
         utterance.rate = 0.9
         utterance.onend = () => {
@@ -72,11 +129,11 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
     if (audioRef.current) {
       audioRef.current.pause()
       audioRef.current.currentTime = 0
-    } else synthRef.current.cancel()
+    } else {
+      synthRef.current.cancel()
+    }
     setCurrentIndex(null)
   }
-
-  const hasStored = audioItems.length === lines.length
 
   return (
     <div>
@@ -85,7 +142,6 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
         <button
           onClick={playAll}
           className="ml3 f6 link dim br2 ph2 pv1 white bg-dark-blue"
-          disabled={!hasStored}
         >
           <FontAwesomeIcon icon={faPlay} /> Play All
         </button>

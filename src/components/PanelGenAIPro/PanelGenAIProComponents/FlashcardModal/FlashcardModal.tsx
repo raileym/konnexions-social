@@ -43,7 +43,7 @@ export function FlashcardModal({
   const [soundEnabled, setSoundEnabled] = useState(false)
 
   const currentText = showBack ? shuffled[current].back : shuffled[current].front
-  const { speak, audioUrl, stop } = useTTS({
+  const { speak, stop } = useTTS({
     text: currentText,
     useCloudTTS,
     cutoff,
@@ -143,16 +143,6 @@ export function FlashcardModal({
               <button className="f3 link dim ph3 pv1 bn bg-transparent" onClick={handlePrev}>
                 <FontAwesomeIcon icon={faLessThan} />
               </button>
-
-              {/* <button
-                className="f5 link dim ph3 pv1 bn bg-transparent"
-                onClick={speak}
-                disabled={useCloudTTS && !audioUrl}
-                aria-label="Play pronunciation"
-              >
-                <FontAwesomeIcon icon={faVolumeUp} />
-              </button> */}
-
               <div className="mt2X gray f6">tap space bar (flip)</div>
               <button className="f3 link dim ph3 pv1 bn bg-transparent" onClick={handleNext}>
                 <FontAwesomeIcon icon={faGreaterThan} />

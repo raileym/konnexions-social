@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import type { MaxCount, SetMaxCount } from "../../../../../shared/types"
+import { fetchTTS } from "../fetchTTS/fetchTTS"
 
 type UseTTSOptions = {
   text: string
@@ -24,63 +25,46 @@ export function useTTS({
 }: UseTTSOptions) {
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const fetchingRef = useRef(false)
 
-  const decrementMaxCount = useCallback(() => {
-    setMaxCount(prev => prev - 1)
-  }, [setMaxCount])
-
-
-  useEffect(() => {
-    let cancelled = false
-
-    if (useCloudTTS && !cutoff) {
-
-      decrementMaxCount()
-
-      const fetchAudio = async () => {
-        try {
-          const res = await fetch("/.netlify/functions/generate-tts-cache", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              text,
-              gender,
-              maxCount,
-              cutoff
-            })
-          })
-
-          const { audioContent } = await res.json()
-          if (!cancelled) {
-            const url = `data:audio/mp3;base64,${audioContent}`
-            setAudioUrl(url)
-            if (store) store(index, url)
-          }
-        } catch (err) {
-          console.error("TTS fetch failed:", err)
-        }
-      }
-
-      fetchAudio()
-    } else {
-      if (store) store(index, text)
+  const stop = () => {
+    window.speechSynthesis.cancel()
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+      audioRef.current = null
     }
+  }
 
-    return () => {
-      cancelled = true
-      stop() // Ensure playback is cancelled when input changes
-    }
-  }, [text, gender, useCloudTTS, index, store, cutoff, maxCount, decrementMaxCount])
-
-  const speak = () => {
+  const speak = async () => {
     stop()
 
-    console.log('SPEAK')
-    
-    if (useCloudTTS && audioUrl && !cutoff) {
-      const audio = new Audio(audioUrl)
-      audioRef.current = audio
-      audio.play()
+    // if (cutoff || maxCount <= 0) return
+
+    if (useCloudTTS && !cutoff && maxCount > 0) {
+      if (audioUrl) {
+        const audio = new Audio(audioUrl)
+        audioRef.current = audio
+        audio.play()
+        return
+      }
+
+      if (fetchingRef.current) return
+      fetchingRef.current = true
+
+      try {
+        setMaxCount(prev => prev - 1)
+        const url = await fetchTTS({ text, gender, maxCount, cutoff })
+        if (url) {
+          setAudioUrl(url)
+          if (store) store(index, url)
+          const audio = new Audio(url)
+          audioRef.current = audio
+          audio.play()
+        }
+      } finally {
+        fetchingRef.current = false
+      }
     } else {
       const utterance = new SpeechSynthesisUtterance(text)
       const voices = window.speechSynthesis.getVoices()
@@ -94,18 +78,6 @@ export function useTTS({
       utterance.lang = "es-ES"
       utterance.rate = 0.9
       window.speechSynthesis.speak(utterance)
-    }
-  }
-
-  const stop = () => {
-    // Cancel browser TTS
-    window.speechSynthesis.cancel()
-
-    // Stop HTMLAudioElement if playing
-    if (audioRef.current) {
-      audioRef.current.pause()
-      audioRef.current.currentTime = 0
-      audioRef.current = null
     }
   }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useAppContext } from '../../../../context/AppContext'
 import ScenarioSelector from '../../../ScenarioSelector'
 import ParticipantToggle from '../../../ParticipantToggle'
@@ -95,6 +95,11 @@ const RightPane: React.FC = () => {
         <>
           <CutoffToggle />
           <ShowMaxCount />
+
+          <div className="pa3 mt3 ba bg-white w-100">
+            <DialogList lines={(lesson?.dialog?.lines ?? []).slice(0, 3)} useCloudTTS={true} />
+          </div>
+
           <h2 className="f2 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
           <div className="w-100 flex justify-center pt3 pb4">
             <div className="f3 pv3 pt0 mt0 w-60">{headline}</div>
@@ -435,7 +440,8 @@ const RightPane: React.FC = () => {
 
           {/* <DebugVerbLists lesson={lesson} /> */}
 
-          <DialogList lines={lesson?.dialog?.lines ?? []} useCloudTTS={true} />
+          {/* <DialogList lines={(lesson?.dialog?.lines ?? []).slice(0, 3)} useCloudTTS={true} /> */}
+          {/* <DialogList lines={lesson?.dialog?.lines ?? []} useCloudTTS={true} /> */}
           
           <div className="mt4 b">Nouns</div>
           <ul className="mt0 pt0 black">

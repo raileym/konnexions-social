@@ -18,6 +18,8 @@ const handler: Handler = async (event) => {
   try {
     const { text, gender = 'M', languageCode = 'es-US', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
 
+    console.log('Hitting generate-tts-cache ... good or bad')
+
     if (cutoff) {
 
       console.log(`Issue No 1, Cut-off engaged.`)
@@ -62,7 +64,7 @@ const handler: Handler = async (event) => {
     const filePath = `${signature}.mp3`
 
     // 0. Introduce a short randomized delay to spread load
-    await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 200)) // 200–400ms jitter
+    // await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 200)) // 200–400ms jitter
 
     // 1. Try cache hit
     const { data: cachedData, error: lookupError } = await supabase
@@ -118,7 +120,7 @@ const handler: Handler = async (event) => {
     const audioBuffer = Buffer.from(audioContent, 'base64')
 
     // 2+. Introduce a short randomized delay to spread load
-    await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
+    // await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
 
     console.log(`Supabase cache STORE MPEG (${maxCount}): ${text}`)
 
@@ -143,17 +145,17 @@ const handler: Handler = async (event) => {
     }
 
     // 3+. Introduce a short randomized delay to spread load
-    await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
+    // await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
 
-    console.log(`Supabase cache STORE META (${maxCount}): ${text}`)
+    // console.log(`Supabase cache STORE META (${maxCount}): ${text}`)
 
     // 4. Insert metadata
-    await supabase.rpc('ckn_insert_tts_cache', {
-      arg_tts_cache_signature: signature,
-      arg_tts_cache_text: normalized,
-      arg_tts_cache_voice: voice,
-      arg_tts_cache_language: languageCode
-    })
+    // await supabase.rpc('ckn_insert_tts_cache', {
+    //   arg_tts_cache_signature: signature,
+    //   arg_tts_cache_text: normalized,
+    //   arg_tts_cache_voice: voice,
+    //   arg_tts_cache_language: languageCode
+    // })
 
     // 5. Return MP3 URL
     const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)

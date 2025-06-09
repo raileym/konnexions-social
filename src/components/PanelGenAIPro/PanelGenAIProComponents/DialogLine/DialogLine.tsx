@@ -15,7 +15,12 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
 
   const { cutoff, maxCount, setMaxCount } = useAppContext()
   
-  const { speak, audioUrl } = useTTS({
+  const handleSpeak = () => {
+    console.log('handleSpeak')
+    speak()
+  }
+
+  const { speak } = useTTS({
     text: sentence,
     gender,
     index,
@@ -26,7 +31,7 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
     setMaxCount
   })
 
-  console.log('useCloudTTS', useCloudTTS, index, line)
+  // console.log('useCloudTTS', useCloudTTS, index, line)
 
   return (
     <li className="mb2 flex items-center">
@@ -34,7 +39,8 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
         <strong>{speaker}</strong>: {sentence}
       </div>
       <button
-        onClick={speak}
+        onClick={handleSpeak}
+        // onClick={speak}
         className="ml3 f6 link dim br2 ph2 pv1 dib white bg-dark-blue"
       >
         <FontAwesomeIcon icon={faPlay} />
