@@ -31,7 +31,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
 
   useEffect(() => {
     audioItemsRef.current = []
-  }, [selectedLessonId])
+  }, [selectedLessonId, cutoff])
 
   useEffect(() => {
     console.log('Invoking useEffect in DialogList')
@@ -67,7 +67,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
     }
 
     preloadSequentially()
-  }, [selectedLessonId])
+  }, [selectedLessonId, cutoff])
 
   const resetPlayback = () => {
     console.log('Resetting playback')
