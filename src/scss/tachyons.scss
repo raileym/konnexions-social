@@ -17,6 +17,32 @@ $font-size-details: 4.5rem, 3rem, 2.25rem, 1.5rem, 1.25rem, 1rem, 0.875rem, 0.75
 $padding-details: 0, 0.25rem, 0.5rem, 1rem, 2rem, 4rem, 8rem, 16rem;     
 $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
   
+
+$colors: (
+  'dark-blue': #357edd,
+  'gold': #ffb700,
+  'dark-red': #e7040f,
+  'blue': #357edd,
+  'yellow': #ffde37,
+  'red': #ff4136
+);
+
+@each $name, $value in $colors {
+  .active\:bg-#{$name}:active {
+    background-color: #{$value};
+  }
+
+  .hover\:bg-#{$name}:hover {
+    background-color: #{$value};
+  }
+
+  .focus\:bg-#{$name}:focus {
+    background-color: #{$value};
+  }
+}
+
+
+
 @each $padding in $padding-details {
     $i: list.index($padding-details, $padding)-1;
 

@@ -14,7 +14,7 @@ export async function fetchTTS({
 
   try {
     console.log(`Pause before ask generate-tts-cache: ${text}`)
-    await new Promise(resolve => setTimeout(resolve, 2000)) // 200–400ms jitter
+    // await new Promise(resolve => setTimeout(resolve, 2000)) // 200–400ms jitter
     console.log(`Now ask ask generate-tts-cache: ${text}`)
 
     const res = await fetch('/.netlify/functions/generate-tts-cache', {

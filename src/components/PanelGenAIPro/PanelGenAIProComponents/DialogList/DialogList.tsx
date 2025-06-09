@@ -16,6 +16,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
   const synthRef = useRef(window.speechSynthesis)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const isPlayingRef = useRef(false)
+  const iRef = useRef(0) // controls current index across calls
 
   const { maxCount, cutoff } = useAppContext()
 
@@ -28,52 +29,69 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
     })
   }, [])
 
-useEffect(() => {
-  console.log('Invoking useEffect in DialogList')
-  if (!useCloudTTS || cutoff) return
-  console.log('Passing through useEffect in DialogList')
+  useEffect(() => {
+    console.log('Invoking useEffect in DialogList')
+    if (!useCloudTTS || cutoff) return
+    console.log('Passing through useEffect in DialogList')
 
-  const preloadSequentially = async () => {
-    for (let i = 0; i < lines.length; i++) {
-      if (audioItems[i]) {
-        console.log(`audio line found, no. ${i}`)
-        continue
-      }
-
-      console.log(`audio line not found, no. ${i}`)
-
-      const [gender, , sentence] = lines[i].split('|')
-
-      try {
-        const maybeAudio = await fetchTTS({
-          text: sentence,
-          gender,
-          maxCount,
-          cutoff
-        })
-
-        if (maybeAudio !== null) {
-          storeAudioOrLine(i, maybeAudio)
+    const preloadSequentially = async () => {
+      for (let i = 0; i < lines.length; i++) {
+        if (audioItems[i]) {
+          console.log(`audio line found, no. ${i}`)
+          continue
         }
-      } catch (err) {
-        console.error(`Failed to preload TTS for line ${i}:`, err)
+
+        console.log(`audio line not found, no. ${i}`)
+
+        const [gender, , sentence] = lines[i].split('|')
+
+        try {
+          const maybeAudio = await fetchTTS({
+            text: sentence,
+            gender,
+            maxCount,
+            cutoff
+          })
+
+          if (maybeAudio !== null) {
+            storeAudioOrLine(i, maybeAudio)
+          }
+        } catch (err) {
+          console.error(`Failed to preload TTS for line ${i}:`, err)
+        }
       }
     }
+
+    preloadSequentially()
+  }, [])
+
+  const resetPlayback = () => {
+    console.log('Resetting playback')
+    isPlayingRef.current = false
+    iRef.current = 0
+    setCurrentIndex(null)
   }
 
-  preloadSequentially()
-}, [lines])
-
-
   const playAll = () => {
-    if (isPlayingRef.current) return
+    if (isPlayingRef.current) {
+      console.log('playAll: already playing')
+      return
+    }
 
-    let i = 0
     isPlayingRef.current = true
+    iRef.current = 0
+
+    const safeNext = () => {
+      iRef.current++
+      playNext()
+    }
 
     const playNext = async () => {
+      const i = iRef.current
+
       if (!isPlayingRef.current || i >= lines.length) {
-        setCurrentIndex(null)
+        console.log(`playAll: done or stopped. isPlaying: ${isPlayingRef.current}, i: ${i}, len: ${lines.length}`)
+        resetPlayback()
         return
       }
 
@@ -84,40 +102,41 @@ useEffect(() => {
 
       if (!value) {
         const [gender, , sentence] = line.split('|')
+        console.log(`playAll: audioItems[${i}] is empty. Fetch: ${sentence}`)
+
         try {
-          value = useCloudTTS
+          value = (useCloudTTS && !cutoff && maxCount > 0)
             ? await fetchTTS({ text: sentence, gender, maxCount, cutoff }) ?? ''
             : sentence
+
           storeAudioOrLine(i, value)
         } catch (err) {
           console.error('TTS fetch failed:', err)
-          i++
-          return playNext()
+          return safeNext()
         }
+      } else {
+        console.log(`playAll: audioItems[${i}] is NOT empty.`)
       }
 
-      if (value.startsWith('data:audio/mp3')) {
+      console.log('value', value)
+
+      if (value.startsWith('http')) {
         const audio = new Audio(value)
         audioRef.current = audio
-        audio.onended = () => {
-          i++
-          playNext()
-        }
+        audio.onended = safeNext
         audio.play()
       } else {
         const utterance = new SpeechSynthesisUtterance(value)
         utterance.lang = 'es-ES'
         utterance.rate = 0.9
-        utterance.onend = () => {
-          i++
-          playNext()
-        }
+        utterance.onend = safeNext
         synthRef.current.speak(utterance)
       }
     }
 
     playNext()
   }
+
 
   const pauseAll = () => {
     if (audioRef.current) audioRef.current.pause()
@@ -141,19 +160,21 @@ useEffect(() => {
         <div className="mt4X b">Dialog</div>
         <button
           onClick={playAll}
-          className="ml3 f6 link dim br2 ph2 pv1 white bg-dark-blue"
+          className="ml3 f6 br2 ph2 pv1 white bg-dark-blue hover:bg-blue no-outline"
         >
           <FontAwesomeIcon icon={faPlay} /> Play All
         </button>
-        <button
+
+        {/* <button
           onClick={pauseAll}
-          className="ml2 f6 link dim br2 ph2 pv1 white bg-gold"
+          className="ml2 f6 br2 ph2 pv1 white bg-gold hover:bg-yellow no-outline"
         >
           <FontAwesomeIcon icon={faPause} /> Pause
-        </button>
+        </button> */}
+
         <button
           onClick={stopAll}
-          className="ml2 f6 link dim br2 ph2 pv1 white bg-dark-red"
+          className="ml2 f6 br2 ph2 pv1 white bg-dark-red hover:bg-red no-outline"
         >
           <FontAwesomeIcon icon={faStop} /> Stop
         </button>
