@@ -1,19 +1,32 @@
 #!/bin/bash
 
-# Load environment variables from .env file
+# Load environment variables
 source ../.env
 
-# Export data from public.ckn_tts_cache
+# Usage / Help
+if [[ $# -ne 1 ]]; then
+  echo "Usage: $0 output-file.sql"
+  echo ""
+  echo "Example:"
+  echo "  $0 my-data-export.sql"
+  exit 1
+fi
+
+SQL_FILE="$1"
+
+# Export selected tables
 pg_dump --data-only \
   --table=public.ckn_tts_cache \
+  --table=public.ckn_nouns \
+  --table=public.ckn_verbs \
   --column-inserts \
   --dbname="$DIRECT_CONNECT_URL" \
-  --file=ckn_tts_cache_data.sql
+  --file="$SQL_FILE"
 
-# if [[ $? != 0 ]]; then
-#   echo "FAILED: Exporting tts cache data."
-#   exit 1
-# else
-#   echo "SUCCESS: Exported tts cache to ckn_tts_cache_data.sql"
-#   exit 0
-# fi
+if [[ $? -ne 0 ]]; then
+  echo "❌ FAILED: Exporting data from tables."
+  exit 1
+else
+  echo "✅ SUCCESS: Exported to $SQL_FILE"
+  exit 0
+fi
