@@ -1,0 +1,12 @@
+taxi,taxi,taxis,M
+taxi,conductor,conductores,M
+taxi,destino,destinos,M
+taxi,dirección,direcciones,F
+taxi,calle,calles,F
+taxi,esquina,esquinas,F
+taxi,parada,paradas,F
+taxi,semáforo,semáforos,M
+taxi,maleta,maletas,F
+taxi,equipaje,equipajes,M
+taxi,precio,precios,M
+taxi,dinero,dineros,M

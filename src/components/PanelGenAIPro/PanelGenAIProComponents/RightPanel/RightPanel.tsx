@@ -482,6 +482,13 @@ const RightPane: React.FC = () => {
             ))}
           </ul>
 
+          <div className="mt4 b">VerbsConstraint</div>
+          <ul className="mt0 pt0 black">
+            {scenarioData?.verbs?.map((verb, index) => (
+              <li key={index}>{verb.verb_infinitive}|{verb.verb_nosotros}</li>
+            ))}
+          </ul>
+
           <div className="mt4 b">NounsOnly</div>
           <ul className="mt0 pt0 black">
             {lesson.nounsOnly?.lines?.map((line, index) => (

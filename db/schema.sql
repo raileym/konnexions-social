@@ -19,11 +19,16 @@ DROP VIEW IF EXISTS public.ckn_noun_forms;
 DROP TABLE IF EXISTS public.ckn_tts_cache;
 DROP TABLE IF EXISTS public.ckn_noun_examples;
 DROP TABLE IF EXISTS public.ckn_verb_examples;
+
 DROP TABLE IF EXISTS public.ckn_noun_scenarios;
 DROP TABLE IF EXISTS public.ckn_verb_scenarios;
+DROP TABLE IF EXISTS public.ckn_scenarios;
+
 DROP TABLE IF EXISTS public.ckn_verbs;
 DROP TABLE IF EXISTS public.ckn_nouns;
-DROP TABLE IF EXISTS public.ckn_scenarios;
+
+DROP TABLE IF EXISTS public.ckn_noun_base;
+DROP TABLE IF EXISTS public.ckn_verb_base;
 
 DROP TYPE IF EXISTS public.ckn_noun_record;
 DROP TYPE IF EXISTS public.ckn_verb_record;
@@ -73,60 +78,87 @@ COMMENT ON COLUMN public.ckn_tts_cache.tts_cache_usage_count IS 'How many times 
 COMMENT ON COLUMN public.ckn_tts_cache.tts_cache_last_used IS 'Last time this cache entry was served.';
 COMMENT ON COLUMN public.ckn_tts_cache.tts_cache_created IS 'Time this cache entry was created.';
 
+-- ==================================================================
+-- LANGUAGE-NEUTRAL CORE TABLES
+-- ==================================================================
+
+CREATE TABLE public.ckn_noun_base (
+  noun_base_key SERIAL PRIMARY KEY,
+  english_gloss TEXT NOT NULL UNIQUE  -- e.g., "table", "waiter"
+);
+
+CREATE TABLE public.ckn_verb_base (
+  verb_base_key SERIAL PRIMARY KEY,
+  english_gloss TEXT NOT NULL UNIQUE  -- e.g., "to eat", "to have"
+);
+
+-- ==================================================================
+-- LANGUAGE-SPECIFIC TABLES (SHARE STRUCTURE ACROSS ALL LANGUAGES)
+-- ==================================================================
 
 CREATE TABLE public.ckn_nouns (
   noun_key SERIAL PRIMARY KEY,
-  noun_singular TEXT NOT NULL UNIQUE,
+  noun_base_key INTEGER REFERENCES public.ckn_noun_base(noun_base_key) ON DELETE CASCADE,
+  language_code TEXT NOT NULL,  -- e.g., 'es', 'fr', 'it', 'en'
+  noun_singular TEXT NOT NULL,
   noun_plural TEXT NOT NULL,
-  noun_gender TEXT CHECK (noun_gender IN ('M', 'F')) NOT NULL
-);
-
-COMMENT ON TABLE public.ckn_nouns IS 'Stores noun vocabulary with singular/plural forms and grammatical gender.';
-
-COMMENT ON COLUMN public.ckn_nouns.noun_key IS 'Primary key for the noun entry.';
-COMMENT ON COLUMN public.ckn_nouns.noun_singular IS 'The singular form of the noun (e.g., "comensal").';
-COMMENT ON COLUMN public.ckn_nouns.noun_plural IS 'The plural form of the noun (e.g., "comensales").';
-COMMENT ON COLUMN public.ckn_nouns.noun_gender IS 'Grammatical gender of the noun: M = masculino, F = femenino.';
-
-CREATE TABLE public.ckn_noun_examples (
-  example_key SERIAL PRIMARY KEY,
-  noun_key INTEGER NOT NULL REFERENCES public.ckn_nouns(noun_key) ON DELETE CASCADE,
-  example_data JSONB NOT NULL,  -- e.g., sentence, context, tags, region
-  created_at TIMESTAMPTZ DEFAULT timezone('utc', now())
+  noun_gender TEXT CHECK (noun_gender IN ('M', 'F')),
+  UNIQUE (noun_base_key, language_code)
 );
 
 CREATE TABLE public.ckn_verbs (
   verb_key SERIAL PRIMARY KEY,
-  verb_infinitive TEXT NOT NULL UNIQUE,
+  verb_base_key INTEGER REFERENCES public.ckn_verb_base(verb_base_key) ON DELETE CASCADE,
+  language_code TEXT NOT NULL,  -- e.g., 'es', 'fr', 'it', 'en'
+  verb_infinitive TEXT NOT NULL,
   verb_yo TEXT,
   verb_tu TEXT,
   verb_el_ella_usted TEXT,
   verb_nosotros TEXT,
   verb_vosotros TEXT,
-  verb_ellos_ellas_ustedes TEXT
+  verb_ellos_ellas_ustedes TEXT,
+  UNIQUE (verb_base_key, language_code)
 );
 
-COMMENT ON TABLE public.ckn_verbs IS 'Stores conjugated forms of Spanish verbs by grammatical subject.';
+-- CREATE TABLE public.ckn_nouns (
+--   noun_key SERIAL PRIMARY KEY,
+--   noun_singular TEXT NOT NULL UNIQUE,
+--   noun_plural TEXT NOT NULL,
+--   noun_gender TEXT CHECK (noun_gender IN ('M', 'F')) NOT NULL
+-- );
 
-COMMENT ON COLUMN public.ckn_verbs.verb_key IS 'Primary key for the verb entry.';
-COMMENT ON COLUMN public.ckn_verbs.verb_infinitive IS 'The infinitive form of the verb (e.g., "tener").';
-COMMENT ON COLUMN public.ckn_verbs.verb_yo IS 'First person singular form (yo).';
-COMMENT ON COLUMN public.ckn_verbs.verb_tu IS 'Second person singular informal form (tú).';
-COMMENT ON COLUMN public.ckn_verbs.verb_el_ella_usted IS 'Third person singular form (él/ella/usted).';
-COMMENT ON COLUMN public.ckn_verbs.verb_nosotros IS 'First person plural form (nosotros).';
-COMMENT ON COLUMN public.ckn_verbs.verb_vosotros IS 'Second person plural form (vosotros – typically unused in Latin America).';
-COMMENT ON COLUMN public.ckn_verbs.verb_ellos_ellas_ustedes IS 'Third person plural form (ellos/ellas/ustedes).';
+-- CREATE TABLE public.ckn_noun_examples (
+--   example_key SERIAL PRIMARY KEY,
+--   noun_key INTEGER NOT NULL REFERENCES public.ckn_nouns(noun_key) ON DELETE CASCADE,
+--   example_data JSONB NOT NULL,  -- e.g., sentence, context, tags, region
+--   created_at TIMESTAMPTZ DEFAULT timezone('utc', now())
+-- );
 
-CREATE TABLE public.ckn_verb_examples (
-  example_key SERIAL PRIMARY KEY,
-  verb_key INTEGER NOT NULL REFERENCES public.ckn_verbs(verb_key) ON DELETE CASCADE,
-  example_data JSONB NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT timezone('utc', now())
-);
+-- CREATE TABLE public.ckn_verbs (
+--   verb_key SERIAL PRIMARY KEY,
+--   verb_infinitive TEXT NOT NULL UNIQUE,
+--   verb_yo TEXT,
+--   verb_tu TEXT,
+--   verb_el_ella_usted TEXT,
+--   verb_nosotros TEXT,
+--   verb_vosotros TEXT,
+--   verb_ellos_ellas_ustedes TEXT
+-- );
+
+-- CREATE TABLE public.ckn_verb_examples (
+--   example_key SERIAL PRIMARY KEY,
+--   verb_key INTEGER NOT NULL REFERENCES public.ckn_verbs(verb_key) ON DELETE CASCADE,
+--   example_data JSONB NOT NULL,
+--   created_at TIMESTAMPTZ DEFAULT timezone('utc', now())
+-- );
+
+-- ==================================================================
+-- SCENARIOS
+-- ==================================================================
 
 CREATE TABLE public.ckn_scenarios (
   scenario_key SERIAL PRIMARY KEY,
-  scenario_name TEXT NOT NULL UNIQUE
+  scenario_name TEXT NOT NULL UNIQUE  -- 'restaurant', 'hotel', 'airport'
 );
 
 CREATE TABLE public.ckn_noun_scenarios (
@@ -140,6 +172,23 @@ CREATE TABLE public.ckn_verb_scenarios (
   scenario_key INTEGER REFERENCES public.ckn_scenarios(scenario_key) ON DELETE CASCADE,
   PRIMARY KEY (verb_key, scenario_key)
 );
+
+-- CREATE TABLE public.ckn_scenarios (
+--   scenario_key SERIAL PRIMARY KEY,
+--   scenario_name TEXT NOT NULL UNIQUE
+-- );
+
+-- CREATE TABLE public.ckn_noun_scenarios (
+--   noun_key INTEGER REFERENCES public.ckn_nouns(noun_key) ON DELETE CASCADE,
+--   scenario_key INTEGER REFERENCES public.ckn_scenarios(scenario_key) ON DELETE CASCADE,
+--   PRIMARY KEY (noun_key, scenario_key)
+-- );
+
+-- CREATE TABLE public.ckn_verb_scenarios (
+--   verb_key INTEGER REFERENCES public.ckn_verbs(verb_key) ON DELETE CASCADE,
+--   scenario_key INTEGER REFERENCES public.ckn_scenarios(scenario_key) ON DELETE CASCADE,
+--   PRIMARY KEY (verb_key, scenario_key)
+-- );
 
 -- ************************************************************************
 -- VIEWS

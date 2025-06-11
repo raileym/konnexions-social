@@ -1,0 +1,53 @@
+english,language,scenario,singular,plural,gender
+
+hotel: [
+  key: {
+    es: "clave,claves,F"
+    fr: "clé,clés,F"
+    it: "chiave,chiavi,F"
+  },
+  reception; {
+    es: "recepción,recepciones,F"
+    fr: "réception,réceptions,F"
+    it: "reception,reception,F"
+  },
+  room: {
+    es: "habitación,habitaciones,F"
+    fr: "chambre,chambres,F"
+    it: "stanza,stanze,F"
+  }
+],
+restaurant: [
+  menu: {
+    es: "menú,menús,M"
+    fr: "menu,menus,M"
+    it: "menu,menu,M"
+  },
+  table: {
+    es: "mesa,mesas,F"
+    fr: "table,tables,F"
+    it: "tavolo,tavoli,M"
+  },
+  waiter: {
+    es: "camarero,camareros,M"
+    fr: "serveur,serveurs,M"
+    it: "camariere,camarieri,M"
+  }
+],
+airport: [
+  passport: {
+    es: "pasaporte,pasaportes,M"
+    fr: "passeport,passeports,M"
+    it: "passaporto,passaporti,M"
+  },
+  plane: {
+    es: "avión,aviones,M"
+    fr: "avion,avions,M"
+    it: "aereo,aerei,M"
+  },
+  suitcase: {
+    es: "maleta,maletas,F"
+    fr: "valise,valises,F"
+    it: "valigia,valigie,F"
+  }
+]
