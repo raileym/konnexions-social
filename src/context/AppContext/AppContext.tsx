@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import type {
   Answer,
   ApiKey,
@@ -30,7 +30,8 @@ import type {
   LessonId,
   GenerateTTSCount,
   MaxCount,
-  Cutoff
+  Cutoff,
+  ScenarioData
 } from '../../../shared/types'
 import {
   APP_HOME,
@@ -38,11 +39,13 @@ import {
   defaultLanguage,
   defaultLesson,
   defaultMaxCount,
+  defaultScenarioData,
   MODULE_NAME,
   SCENARIO
 } from '../../../shared/types'
 import { usePersistentState } from '../../hooks/usePersistentState'
 import { generateExample } from '../../../shared/generateExample'
+import { handleGetScenarioData } from './AppContextComponents/handleGetScenarioData/handleGetScenarioData'
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
@@ -134,8 +137,53 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
+  const [scenarioData, setScenarioData] = useState<ScenarioData>(defaultScenarioData)
 
-  const AppContextValue = {
+  // export type ScenarioData = {
+  //   nouns: NounDetails[]
+  //   verbs: VerbDetails[]
+  //   nounBySingular: Map<string, NounDetails>
+  //   nounByPlural: Map<string, NounDetails>
+  //   singularNounList: string[]
+  //   verbByInfinitive: Map<string, VerbDetails>
+  // }
+  
+useEffect(() => {
+  async function fetchScenarioData() {
+    const data = await handleGetScenarioData('restaurant')
+    if (!data) return
+
+    const nounBySingular = new Map()
+    const nounByPlural = new Map()
+    const singularNounList: string[] = []
+
+    for (const noun of data.nouns) {
+      nounBySingular.set(noun.noun_singular, noun)
+      nounByPlural.set(noun.noun_plural, noun)
+      singularNounList.push(noun.noun_singular)
+    }
+
+    const verbByInfinitive = new Map()
+    for (const verb of data.verbs) {
+      verbByInfinitive.set(verb.verb_infinitive, verb)
+    }
+
+    setScenarioData({
+      ...data,
+      nounBySingular,
+      nounByPlural,
+      singularNounList,
+      verbByInfinitive
+    })
+  }
+
+  fetchScenarioData()
+}, [])
+
+
+const AppContextValue = {
+
+    scenarioData, setScenarioData,
 
     maxCount, setMaxCount,
     cutoff, setCutoff,

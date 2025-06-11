@@ -11,7 +11,6 @@ const handler: Handler = async (event) => {
   try {
     const { testMode, lesson, moduleName } = JSON.parse(event.body ?? '{}')
 
-    
     if (!lesson || !moduleName) {
       console.log('Missing the big two')
       return {
@@ -33,7 +32,11 @@ const handler: Handler = async (event) => {
     let fieldCount: number = defaultFieldCount
     let errorLabel: ErrorLabel = defaultErrorLabel
 
+    console.log('TWO')
+
     ;({ prompt, fieldCount, errorLabel } = getPrompt({moduleName, lesson, errors: [] }))
+
+    console.log('THREE')
 
     let response: string
 

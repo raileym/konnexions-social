@@ -17,7 +17,7 @@ import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
 import { generateVerbLists } from '../generateVerbLists/generateVerbLists'
 import CutoffToggle from '../../../CutoffToggle'
 import ShowMaxCount from '../../../ShowMaxCount'
-import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
+// import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPane: React.FC = () => {
@@ -61,7 +61,8 @@ const RightPane: React.FC = () => {
     setLessons,
     selectedLessonId,
     scenario,
-    cutoff
+    cutoff,
+    scenarioData
     // generateTTSCount
   } = useAppContext()
   
@@ -153,63 +154,63 @@ const RightPane: React.FC = () => {
                   //
                   // Dialog
                   //
-                  const dialogLesson_1 = await runModule({moduleName: MODULE_NAME.DIALOG, lesson: initialLesson_0})
-                  if (!dialogLesson_1) return
+                  // const dialogLesson_1 = await runModule({moduleName: MODULE_NAME.DIALOG, lesson: initialLesson_0})
+                  // if (!dialogLesson_1) return
 
                   //
                   // Dialog Review
                   //
-                  const dialogReviewLesson_2 = await runModule({moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson_1})
-                  if (!dialogReviewLesson_2) return
+                  // const dialogReviewLesson_2 = await runModule({moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson_1})
+                  // if (!dialogReviewLesson_2) return
                   
                   //
                   // Dialog Resolve
                   //
-                  const { dialogLinesResolved: dialogLinesResolved_3 } = resolveDialog({
-                    dialogReviewLines: dialogReviewLesson_2.dialog.lines, 
-                    dialogLines: dialogLesson_1.dialog.lines
-                  })
+                  // const { dialogLinesResolved: dialogLinesResolved_3 } = resolveDialog({
+                  //   dialogReviewLines: dialogReviewLesson_2.dialog.lines, 
+                  //   dialogLines: dialogLesson_1.dialog.lines
+                  // })
                   
-                  const prose = dialogLinesResolved_3?.join(' ') ?? ''
-                  const dialogLessonUpdated_4 = {
-                    ...dialogReviewLesson_2,
-                    [MODULE_NAME.DIALOG]: {
-                      ...(dialogReviewLesson_2[MODULE_NAME.DIALOG as keyof Lesson] as Module),
-                      lines: dialogLinesResolved_3
-                    },
-                    prose
-                  }
+                  // const prose = dialogLinesResolved_3?.join(' ') ?? ''
+                  // const dialogLessonUpdated_4 = {
+                  //   ...dialogReviewLesson_2,
+                  //   [MODULE_NAME.DIALOG]: {
+                  //     ...(dialogReviewLesson_2[MODULE_NAME.DIALOG as keyof Lesson] as Module),
+                  //     lines: dialogLinesResolved_3
+                  //   },
+                  //   prose
+                  // }
                   
                   //
                   // Nouns Only
                   //
-                  const nounsOnlyLesson_a5 = await runModule({moduleName: MODULE_NAME.NOUNS_ONLY, lesson: dialogLessonUpdated_4})
-                  if (!nounsOnlyLesson_a5) return
-                  console.log('nounsOnlyLesson_a5', nounsOnlyLesson_a5.nounsOnly.lines)
+                  // const nounsOnlyLesson_a5 = await runModule({moduleName: MODULE_NAME.NOUNS_ONLY, lesson: dialogLessonUpdated_4})
+                  // if (!nounsOnlyLesson_a5) return
+                  // console.log('nounsOnlyLesson_a5', nounsOnlyLesson_a5.nounsOnly.lines)
 
                   //
                   // Nouns Only Review
                   //
-                  const nounsOnlyReviewLesson_a6 = await runModule({moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, lesson: nounsOnlyLesson_a5})
-                  if (!nounsOnlyReviewLesson_a6) return
-                  console.log('nounsOnlyReviewLesson_a6', nounsOnlyReviewLesson_a6.nounsOnly.lines)
+                  // const nounsOnlyReviewLesson_a6 = await runModule({moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, lesson: nounsOnlyLesson_a5})
+                  // if (!nounsOnlyReviewLesson_a6) return
+                  // console.log('nounsOnlyReviewLesson_a6', nounsOnlyReviewLesson_a6.nounsOnly.lines)
 
                   //
                   // Nouns Resolve
                   //
-                  const { nounsOnlyLinesResolved: nounsOnlyLinesResolved_a7 } = resolveNounsOnly({
-                    nounsOnlyReviewLines: nounsOnlyReviewLesson_a6.nounsOnlyReview.lines, 
-                    nounsOnlyLines: nounsOnlyLesson_a5.nounsOnly.lines
-                  })
-                  console.log('nounsOnlyLinesResolved_a7', nounsOnlyLinesResolved_a7)
+                  // const { nounsOnlyLinesResolved: nounsOnlyLinesResolved_a7 } = resolveNounsOnly({
+                  //   nounsOnlyReviewLines: nounsOnlyReviewLesson_a6.nounsOnlyReview.lines, 
+                  //   nounsOnlyLines: nounsOnlyLesson_a5.nounsOnly.lines
+                  // })
+                  // console.log('nounsOnlyLinesResolved_a7', nounsOnlyLinesResolved_a7)
 
-                  const nounsLessonUpdated_a8 = {
-                    ...nounsOnlyReviewLesson_a6,
-                    [MODULE_NAME.NOUNS_ONLY]: {
-                      ...(nounsOnlyReviewLesson_a6[MODULE_NAME.NOUNS_ONLY as keyof Lesson] as Module),
-                      lines: nounsOnlyLinesResolved_a7
-                    }
-                  }
+                  // const nounsLessonUpdated_a8 = {
+                  //   ...nounsOnlyReviewLesson_a6,
+                  //   [MODULE_NAME.NOUNS_ONLY]: {
+                  //     ...(nounsOnlyReviewLesson_a6[MODULE_NAME.NOUNS_ONLY as keyof Lesson] as Module),
+                  //     lines: nounsOnlyLinesResolved_a7
+                  //   }
+                  // }
 
                   //
                   // Nouns
@@ -298,11 +299,11 @@ const RightPane: React.FC = () => {
 
                   setLessons(prev => {
                     console.log('🔄 Updating lesson list...')
-                    console.log('▶️ nounsLessonUpdated_a8:', nounsLessonUpdated_a8)
+                    console.log('▶️ initialLesson_0:', initialLesson_0)
                     const next = prev.map(lsn => {
                       if (lsn.id === selectedLessonId) {
                         console.log(`✅ Match found: lesson.id = ${lsn.id}`)
-                        const updated = { ...nounsLessonUpdated_a8, id: lsn.id, name: lsn.name }
+                        const updated = { ...initialLesson_0, id: lsn.id, name: lsn.name }
                         console.log('🆕 Updated lesson:', updated)
                         return updated
                       }
@@ -473,6 +474,13 @@ const RightPane: React.FC = () => {
           {/* <DialogList lines={(lesson?.dialog?.lines ?? []).slice(0, 3)} useCloudTTS={true} /> */}
           {/* <DialogList lines={lesson?.dialog?.lines ?? []} useCloudTTS={true} /> */}
           
+          <div className="mt4 b">NounsConstraint</div>
+          <ul className="mt0 pt0 black">
+            {scenarioData?.nouns?.map((noun, index) => (
+              <li key={index}>{noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}|{noun.noun_article}</li>
+            ))}
+          </ul>
+
           <div className="mt4 b">NounsOnly</div>
           <ul className="mt0 pt0 black">
             {lesson.nounsOnly?.lines?.map((line, index) => (

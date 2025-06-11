@@ -1,6 +1,9 @@
 // import { generateSignature } from '../shared/generateSignature'
 
 export type AppContextType = {
+  scenarioData: ScenarioData
+  setScenarioData: SetScenarioData
+
   maxCount: MaxCount
   setMaxCount: SetMaxCount
 
@@ -157,6 +160,7 @@ export type SetOpenAiUsage = React.Dispatch<React.SetStateAction<OpenAiUsage>>
 export type SetQuestion = React.Dispatch<React.SetStateAction<Question>>
 export type SetQuestionContext = React.Dispatch<React.SetStateAction<QuestionContext>>
 export type SetScenario = React.Dispatch<React.SetStateAction<Scenario>>
+export type SetScenarioData = React.Dispatch<React.SetStateAction<ScenarioData>>
 export type SetTtsAvgChars = React.Dispatch<React.SetStateAction<TtsAvgChars>>
 export type SetTtsBudget = React.Dispatch<React.SetStateAction<TtsBudget>>
 export type SetTtsCharUsage = React.Dispatch<React.SetStateAction<TtsCharUsage>>
@@ -788,3 +792,40 @@ export type VerbRecord = {
   verb_vosotros: string
   verb_ellos_ellas_ustedes: string
 }
+
+
+export type NounDetails = {
+  noun_singular: string
+  noun_plural: string
+  noun_gender: 'M' | 'F'
+  noun_article: 'el' | 'la'
+}
+
+export type VerbDetails = {
+  verb_infinitive: string
+  verb_yo: string
+  verb_tu: string
+  verb_el_ella_usted: string
+  verb_nosotros: string
+  verb_vosotros: string
+  verb_ellos_ellas_ustedes: string
+}
+
+export type ScenarioData = {
+  nouns: NounDetails[]
+  verbs: VerbDetails[]
+  nounBySingular: Map<string, NounDetails>
+  nounByPlural: Map<string, NounDetails>
+  singularNounList: string[]
+  verbByInfinitive: Map<string, VerbDetails>
+}
+
+export const defaultScenarioData: ScenarioData = {
+  nouns: [],
+  verbs: [],
+  nounBySingular: new Map(),
+  nounByPlural: new Map(),
+  singularNounList: [],
+  verbByInfinitive: new Map()
+}
+
