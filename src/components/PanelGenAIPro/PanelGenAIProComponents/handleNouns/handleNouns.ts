@@ -29,10 +29,6 @@ export const handleNouns = async ({
     const updated = {
       ...prev,
 
-      // language: lesson.language,
-      // scenarioLabel: lesson.scenarioLabel,
-      // participantList: lesson.participantList,
-
       [moduleName]: {
         ...response
       }

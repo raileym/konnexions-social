@@ -9,7 +9,7 @@ import {
   faVolumeHigh
 } from '@fortawesome/free-solid-svg-icons'
 import { useTTS } from "../useTTS/useTTS"
-import { useAppContext } from "../../../../context/AppContext"
+import { useAppContext } from "../../../../context/AppContext/AppContext"
 
 type FlashcardProps = {
   fronts: string[]

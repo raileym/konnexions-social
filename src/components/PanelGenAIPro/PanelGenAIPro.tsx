@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // import React, { useMemo, useState } from 'react'
-import { useAppContext } from '../../context/AppContext'
+import { useAppContext } from '../../context/AppContext/AppContext'
 import {
   APP_HOME,
   // GEN_AI_STEP,
@@ -155,14 +155,13 @@ const PanelGenAIPro: React.FC = () => {
                     <button
                       onClick={async () => {
                         const {
-                          scenarioLabel,
                           participantList
                         } = getScenarioDetails({ scenario, language })
   
                         const initialLesson = { 
                           ...lesson,
                           language,
-                          scenarioLabel,
+                          scenario,
                           participantList
                         }
   

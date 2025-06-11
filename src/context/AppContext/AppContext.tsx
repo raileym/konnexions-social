@@ -31,7 +31,7 @@ import type {
   GenerateTTSCount,
   MaxCount,
   Cutoff
-} from '../../shared/types'
+} from '../../../shared/types'
 import {
   APP_HOME,
   APP_PANEL,
@@ -40,9 +40,9 @@ import {
   defaultMaxCount,
   MODULE_NAME,
   SCENARIO
-} from '../../shared/types'
-import { usePersistentState } from '../hooks/usePersistentState'
-import { generateExample } from '../../shared/generateExample'
+} from '../../../shared/types'
+import { usePersistentState } from '../../hooks/usePersistentState'
+import { generateExample } from '../../../shared/generateExample'
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 

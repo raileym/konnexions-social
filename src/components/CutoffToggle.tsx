@@ -1,7 +1,7 @@
 import { type FC } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons'
-import { useAppContext } from '../context/AppContext'
+import { useAppContext } from '../context/AppContext/AppContext'
 
 const CutoffToggle: FC = () => {
   const {

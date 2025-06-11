@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAppContext } from '../context/AppContext'
+import { useAppContext } from '../context/AppContext/AppContext'
 import { APP_PANEL } from '../../shared/types'
 
 const PanelMenu: React.FC = () => {

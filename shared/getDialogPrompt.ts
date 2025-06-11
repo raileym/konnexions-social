@@ -1,13 +1,14 @@
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
-import { GetDialogPrompt, GetDialogPromptProps } from "./types"
+import { GetDialogPrompt, GetDialogPromptProps, scenarioLabels } from "./types"
 
 export const getDialogPrompt: GetDialogPrompt = ({lesson, errors}: GetDialogPromptProps) => {
+  const dialogNouns = getConstraints({language: lesson.language, scenario: lesson.scenario, options: { asString: true }  })
   const dialogExample = generateExample({language: lesson.language, moduleName: 'dialog', options: { asString: true }  })
   
   return (`
 DIALOG: Create a dialog in ${lesson.language} appropriate for a beginning
-language instruction, where the dialog takes place ${lesson.scenarioLabel}
+language instruction, where the dialog takes place ${scenarioLabels[lesson.scenario]}
 between participants, ${lesson.participantList}.
 Use between 6 to 8 sentences for this dialog.
 

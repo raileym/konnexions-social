@@ -1,7 +1,7 @@
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTTS } from '../useTTS/useTTS'
-import { useAppContext } from '../../../../context/AppContext'
+import { useAppContext } from '../../../../context/AppContext/AppContext'
 
 type DialogLineProps = {
   line: string

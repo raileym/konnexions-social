@@ -34,10 +34,22 @@ export function generateExample({
       "ensalada|ensaladas|femenino|con, sin, de, para",
       "pollo|pollos|masculino|con, sin, de, para"
     ],
+    nounsOnly: [
+      "mesa",
+      "silla",
+      "camarero",
+      "menú",
+      "comida"
+    ],
     verbs: [
       "gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta",
       "ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan",
       "pedir|pido|pides|pide|pedimos|pedís|piden"
+    ],
+    verbsOnly: [
+      "gustar",
+      "ordenar",
+      "pedir"
     ],
     dialogReview: [
       "1. Buenas tardes, ¿qué le gustaría tomar?",
@@ -50,10 +62,22 @@ export function generateExample({
       "femenino|ensalada|ensaladas|con, sin, de, para",
       "masculino|pollo|pollos|con, sin, de, para"
     ],
+    nounsOnlyReview: [
+      "mesa",
+      "silla",
+      "camarero",
+      "menú",
+      "comida"
+    ],
     verbsReview: [
       "gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta",
       "ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan",
       "pedir|pido|pides|pide|pedimos|pedís|piden"
+    ],
+    verbsOnlyReview: [
+      "gustar",
+      "ordenar",
+      "pedir"
     ],
     verbsExpandedComplete: [
       " 1. yo estoy en casa.",

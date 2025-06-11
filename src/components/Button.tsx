@@ -1,7 +1,7 @@
 // components/Button.tsx
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useAppContext } from '../context/AppContext'
+import { useAppContext } from '../context/AppContext/AppContext'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { APP_PANEL, type ActiveHome, type ActivePanel, type IsActive } from '../../shared/types'
 // import { usePanel } from '../hooks/usePanel'

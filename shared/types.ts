@@ -82,10 +82,14 @@ export type Language = LanguageValue
 export const MODULE_NAME = {
   DIALOG: 'dialog',
   NOUNS: 'nouns',
+  NOUNS_ONLY: 'nounsOnly',
   VERBS: 'verbs',
+  VERBS_ONLY: 'verbsOnly',
   DIALOG_REVIEW: 'dialogReview',
   NOUNS_REVIEW: 'nounsReview',
+  NOUNS_ONLY_REVIEW: 'nounsOnlyReview',
   VERBS_REVIEW: 'verbsReview',
+  VERBS_ONLY_REVIEW: 'verbsOnlyReview',
   VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
   VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete',
   VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple'
@@ -237,17 +241,21 @@ export type Lesson = {
   description: Description
 
   language: Language
-  scenarioLabel: ScenarioLabel
+  scenario: Scenario
   participantList: ParticipantProse
   prose: Prose
   signature: Signature
 
   dialog: Module
   nouns: Module
+  nounsOnly: Module
   verbs: Module
+  verbsOnly: Module
   dialogReview: Module
   nounsReview: Module
+  nounsOnlyReview: Module
   verbsReview: Module
+  verbsOnlyReview: Module
   verbsExpandedComplete: Module
   verbsExpandedInComplete: Module
   verbsExpandedTriple: Module
@@ -313,6 +321,9 @@ export type SetVerbsLines = React.Dispatch<React.SetStateAction<VerbsLines>>
 export type Verb = string
 export type Verbs = Verb[]
 
+export type Noun = string
+export type Nouns = Noun[]
+
 export type DialogReviewLine = string
 export type DialogReviewLines = DialogReviewLine[]
 export type SetDialogReviewLines = React.Dispatch<React.SetStateAction<DialogReviewLines>>
@@ -327,7 +338,6 @@ export type SetVerbsReviewLines = React.Dispatch<React.SetStateAction<VerbsRevie
 
 export type DialogProse = string
 export type Prose = string
-export type Nouns = string
 
 export type DialogReview = string
 export type NounsReview = string
@@ -385,17 +395,25 @@ export type GetDialogPromptProps = GetPromptProps
 export type GetDialogReviewPromptProps = GetPromptProps
 export type GetNounsPromptProps = GetPromptProps
 export type GetNounsReviewPromptProps = GetPromptProps
+export type GetNounsOnlyPromptProps = GetPromptProps
+export type GetNounsOnlyReviewPromptProps = GetPromptProps
 export type GetVerbsExpandedCompletePromptProps = GetPromptProps
 export type GetVerbsPromptProps = GetPromptProps
 export type GetVerbsReviewPromptProps = GetPromptProps
+export type GetVerbsOnlyPromptProps = GetPromptProps
+export type GetVerbsOnlyReviewPromptProps = GetPromptProps
 
 export type GetDialogPrompt = (props: GetDialogPromptProps) => string
 export type GetDialogReviewPrompt = (props: GetDialogReviewPromptProps) => string
 export type GetNounsPrompt = (props: GetNounsPromptProps) => string
 export type GetNounsReviewPrompt = (props: GetNounsReviewPromptProps) => string
+export type GetNounsOnlyPrompt = (props: GetNounsOnlyPromptProps) => string
+export type GetNounsOnlyReviewPrompt = (props: GetNounsOnlyReviewPromptProps) => string
 export type GetVerbsExpandedCompletePrompt = (props: GetVerbsExpandedCompletePromptProps) => string
 export type GetVerbsPrompt = (props: GetVerbsPromptProps) => string
 export type GetVerbsReviewPrompt = (props: GetVerbsReviewPromptProps) => string
+export type GetVerbsOnlyPrompt = (props: GetVerbsOnlyPromptProps) => string
+export type GetVerbsOnlyReviewPrompt = (props: GetVerbsOnlyReviewPromptProps) => string
 
 export const defaultDialogLines: DialogLines = [
   "Mesero: Buenas tardes. ¿Qué desea tomar?",
@@ -414,17 +432,21 @@ export const scenarioLabels: ScenarioLabels = {
   hotel: 'at the hotel',
   airport: 'at the airport',
   taxi: 'in a taxi',
-  custom: 'Custom'
+  custom: 'custom'
 }
 
 export const ERROR_LABEL = {
   NO_ERROR: 'noError',
   DIALOG_ERROR: 'handleDialogError',
   NOUNS_ERROR: 'handleNounsError',
+  NOUNS_ONLY_ERROR: 'handleNounsOnlyError',
   VERBS_ERROR: 'handleVerbsError',
+  VERBS_ONLY_ERROR: 'handleVerbsOnlyError',
   DIALOG_REVIEW_ERROR: 'handleDialogReviewError',
   NOUNS_REVIEW_ERROR: 'handleNounsReviewError',
+  NOUNS_ONLY_REVIEW_ERROR: 'handleNounsOnlyReviewError',
   VERBS_REVIEW_ERROR: 'handleVerbsReviewError',
+  VERBS_REVIEW_ONLY_ERROR: 'handleVerbsOnlyReviewError',
   VERBS_EXPANDED_ERROR: 'handleVerbsExpandedError',
   VERBS_EXPANDED_INCOMPLETE_ERROR: 'handleVerbsExpandedInCompleteError',
   VERBS_EXPANDED_COMPLETE_ERROR: 'handleVerbsExpandedCompleteError'
@@ -446,6 +468,7 @@ export const defaultScenarioLabel = scenarioLabels[SCENARIO.RESTAURANT]
 export const defaultLanguage = LANGUAGE.SPANISH
 export const defaultParticipantList = ''
 export const defaultMaxCount = 20
+export const defaultScenario = SCENARIO.RESTAURANT
 
 export const defaultModule: Module = {
   lines: defaultLines,
@@ -459,30 +482,28 @@ export const defaultModule: Module = {
 
 export const defaultLesson: Lesson = {
   language: defaultLanguage,
+  scenario: defaultScenario,
   signature: defaultSignature,
   id: 1,
   name: "Default Lesson",
   description: "Default Lesson - Starter Details",
-  scenarioLabel: defaultScenarioLabel,
   participantList: defaultParticipantList,
   prose: defaultProse,
 
   dialog: defaultModule,
   nouns: defaultModule,
+  nounsOnly: defaultModule,
   verbs: defaultModule,
+  verbsOnly: defaultModule,
   dialogReview: defaultModule,
   nounsReview: defaultModule,
+  nounsOnlyReview: defaultModule,
   verbsReview: defaultModule,
+  verbsOnlyReview: defaultModule,
   verbsExpandedComplete: defaultModule,
   verbsExpandedInComplete: defaultModule,
   verbsExpandedTriple: defaultModule
 }
-
-export const dXfaultNouns: Nouns[] = [
-  "mesero",
-  "tardes",
-  "limonada"
-]
 
 export const dXfaultNounsLines: NounsLines = [
     "masculino|restaurante|restaurantes|a, en, desde, sobre",
@@ -641,6 +662,11 @@ export type GetGenAIExampleOptions = {
   asString?: boolean
 }
 
+export type GetConstraintsProps = {
+  language: Language
+  scenario: Scenario
+}
+
 export type GenerateExampleProps = {
   language: Language
   moduleName: ModuleName
@@ -745,3 +771,20 @@ export type FetchTTSProps = {
   cutoff: boolean
 }
 export type FetchTTSResult = string | null
+
+export type NounRecord = {
+  noun_singular: string
+  noun_plural: string
+  noun_gender: 'M' | 'F'
+  noun_article: 'el' | 'la'
+}
+
+export type VerbRecord = {
+  verb_infinitive: string
+  verb_yo: string
+  verb_tu: string
+  verb_el_ella_usted: string
+  verb_nosotros: string
+  verb_vosotros: string
+  verb_ellos_ellas_ustedes: string
+}

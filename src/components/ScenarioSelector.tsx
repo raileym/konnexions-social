@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAppContext } from '../context/AppContext'
+import { useAppContext } from '../context/AppContext/AppContext'
 import { SCENARIO, type Scenario } from '../../shared/types'
 
 type ScenarioSelectorProps = {

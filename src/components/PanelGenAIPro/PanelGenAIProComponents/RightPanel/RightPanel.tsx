@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useAppContext } from '../../../../context/AppContext'
+import { useAppContext } from '../../../../context/AppContext/AppContext'
 import ScenarioSelector from '../../../ScenarioSelector'
 import ParticipantToggle from '../../../ParticipantToggle'
 import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
@@ -8,8 +8,8 @@ import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { getScenarioDetails } from '../../../Util'
 import handleModule from '../handleModule/handleModule'
 import { resolveDialog } from '../resolveDialog/resolveDialog'
-import { resolveNouns } from '../resolveNouns/resolveNouns'
-import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
+// import { resolveNouns } from '../resolveNouns/resolveNouns'
+// import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
 import { DialogList } from '../DialogList/DialogList'
 // import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
 import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
@@ -17,6 +17,7 @@ import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
 import { generateVerbLists } from '../generateVerbLists/generateVerbLists'
 import CutoffToggle from '../../../CutoffToggle'
 import ShowMaxCount from '../../../ShowMaxCount'
+import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPane: React.FC = () => {
@@ -139,14 +140,13 @@ const RightPane: React.FC = () => {
               <button
                 onClick={async () => {
                   const {
-                    scenarioLabel,
                     participantList
                   } = getScenarioDetails({ scenario, language })
 
                   const initialLesson_0 = { 
                     ...lesson,
                     language,
-                    scenarioLabel,
+                    scenario,
                     participantList
                   }
 
@@ -181,98 +181,128 @@ const RightPane: React.FC = () => {
                   }
                   
                   //
-                  // Nouns
+                  // Nouns Only
                   //
-                  const nounsLesson_5 = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: dialogLessonUpdated_4})
-                  if (!nounsLesson_5) return
+                  const nounsOnlyLesson_a5 = await runModule({moduleName: MODULE_NAME.NOUNS_ONLY, lesson: dialogLessonUpdated_4})
+                  if (!nounsOnlyLesson_a5) return
+                  console.log('nounsOnlyLesson_a5', nounsOnlyLesson_a5.nounsOnly.lines)
 
                   //
-                  // Nouns Review
+                  // Nouns Only Review
                   //
-                  const nounsReviewLesson_6 = await runModule({moduleName: MODULE_NAME.NOUNS_REVIEW, lesson: nounsLesson_5})
-                  if (!nounsReviewLesson_6) return
+                  const nounsOnlyReviewLesson_a6 = await runModule({moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, lesson: nounsOnlyLesson_a5})
+                  if (!nounsOnlyReviewLesson_a6) return
+                  console.log('nounsOnlyReviewLesson_a6', nounsOnlyReviewLesson_a6.nounsOnly.lines)
 
                   //
                   // Nouns Resolve
                   //
-                  const { nounsLinesResolved: nounsLinesResolved_7 } = resolveNouns({
-                    nounsReviewLines: nounsReviewLesson_6.nouns.lines, 
-                    nounsLines: nounsLesson_5.nouns.lines
+                  const { nounsOnlyLinesResolved: nounsOnlyLinesResolved_a7 } = resolveNounsOnly({
+                    nounsOnlyReviewLines: nounsOnlyReviewLesson_a6.nounsOnlyReview.lines, 
+                    nounsOnlyLines: nounsOnlyLesson_a5.nounsOnly.lines
                   })
+                  console.log('nounsOnlyLinesResolved_a7', nounsOnlyLinesResolved_a7)
 
-                  const nounsLessonUpdated_8 = {
-                    ...nounsReviewLesson_6,
-                    [MODULE_NAME.NOUNS]: {
-                      ...(nounsReviewLesson_6[MODULE_NAME.NOUNS as keyof Lesson] as Module),
-                      lines: nounsLinesResolved_7
+                  const nounsLessonUpdated_a8 = {
+                    ...nounsOnlyReviewLesson_a6,
+                    [MODULE_NAME.NOUNS_ONLY]: {
+                      ...(nounsOnlyReviewLesson_a6[MODULE_NAME.NOUNS_ONLY as keyof Lesson] as Module),
+                      lines: nounsOnlyLinesResolved_a7
                     }
                   }
+
+                  //
+                  // Nouns
+                  //
+                  // // const nounsLesson_5 = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: dialogLessonUpdated_4})
+                  // const nounsLesson_5 = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: nounsLessonUpdated_a8})
+                  // if (!nounsLesson_5) return
+
+                  //
+                  // Nouns Review
+                  //
+                  // const nounsReviewLesson_6 = await runModule({moduleName: MODULE_NAME.NOUNS_REVIEW, lesson: nounsLesson_5})
+                  // if (!nounsReviewLesson_6) return
+
+                  //
+                  // Nouns Resolve
+                  //
+                  // const { nounsLinesResolved: nounsLinesResolved_7 } = resolveNouns({
+                  //   nounsReviewLines: nounsReviewLesson_6.nouns.lines, 
+                  //   nounsLines: nounsLesson_5.nouns.lines
+                  // })
+
+                  // const nounsLessonUpdated_8 = {
+                  //   ...nounsReviewLesson_6,
+                  //   [MODULE_NAME.NOUNS]: {
+                  //     ...(nounsReviewLesson_6[MODULE_NAME.NOUNS as keyof Lesson] as Module),
+                  //     lines: nounsLinesResolved_7
+                  //   }
+                  // }
 
                   //
                   // Verbs
                   //
-                  const verbsLesson_9 = await runModule({moduleName: MODULE_NAME.VERBS, lesson: nounsLessonUpdated_8})
-                  if (!verbsLesson_9) return
+                  // const verbsLesson_9 = await runModule({moduleName: MODULE_NAME.VERBS, lesson: nounsLessonUpdated_8})
+                  // if (!verbsLesson_9) return
 
                   //
                   // Verbs Review
                   //
-                  const verbsReviewLesson_10 = await runModule({moduleName: MODULE_NAME.VERBS_REVIEW, lesson: verbsLesson_9})
-                  if (!verbsReviewLesson_10) return
+                  // const verbsReviewLesson_10 = await runModule({moduleName: MODULE_NAME.VERBS_REVIEW, lesson: verbsLesson_9})
+                  // if (!verbsReviewLesson_10) return
 
-                  const { verbsLinesResolved: verbsLinesResolved_11 } = resolveVerbs({
-                    verbsReviewLines: verbsReviewLesson_10.verbs.lines, 
-                    verbsLines: verbsLesson_9.verbs.lines
-                  })
+                  // const { verbsLinesResolved: verbsLinesResolved_11 } = resolveVerbs({
+                  //   verbsReviewLines: verbsReviewLesson_10.verbs.lines, 
+                  //   verbsLines: verbsLesson_9.verbs.lines
+                  // })
 
-                  const verbsLessonUpdated_12 = {
-                    ...verbsReviewLesson_10,
-                    [MODULE_NAME.VERBS]: {
-                      ...(verbsReviewLesson_10[MODULE_NAME.VERBS as keyof Lesson] as Module),
-                      lines: verbsLinesResolved_11
-                    }
-                  }
+                  // const verbsLessonUpdated_12 = {
+                  //   ...verbsReviewLesson_10,
+                  //   [MODULE_NAME.VERBS]: {
+                  //     ...(verbsReviewLesson_10[MODULE_NAME.VERBS as keyof Lesson] as Module),
+                  //     lines: verbsLinesResolved_11
+                  //   }
+                  // }
 
                   //
                   // Verbs Expanded and Verbs Expanded In-Complete (Sentences)
                   //
-                  const verbsLists_13 = generateVerbLists(verbsLessonUpdated_12)
+                  // const verbsLists_13 = generateVerbLists(verbsLessonUpdated_12)
                   
-                  // console.log('verbsExpanded', verbsExpanded_13)
+                  // const verbsExpandedLesson_15 = {
+                  //   ...verbsLessonUpdated_12,
 
-                  const verbsExpandedLesson_15 = {
-                    ...verbsLessonUpdated_12,
+                  //   [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: {
+                  //     ...(verbsLessonUpdated_12[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
+                  //     lines: verbsLists_13.incomplete
+                  //   }
+                  // }
 
-                    [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: {
-                      ...(verbsLessonUpdated_12[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
-                      lines: verbsLists_13.incomplete
-                    }
-                  }
-
-                  const verbsExpandedCompleteLesson_16 = await runModule({moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson_15})
-                  if (!verbsExpandedCompleteLesson_16) return
+                  // const verbsExpandedCompleteLesson_16 = await runModule({moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson_15})
+                  // if (!verbsExpandedCompleteLesson_16) return
 
                   //
                   // Verbs Expanded Triple
                   //
-                  const verbsLists_17 = generateVerbLists(verbsExpandedCompleteLesson_16)
+                  // const verbsLists_17 = generateVerbLists(verbsExpandedCompleteLesson_16)
 
-                  const verbsExpandedTripleLesson_18 = {
-                    ...verbsExpandedCompleteLesson_16,
+                  // const verbsExpandedTripleLesson_18 = {
+                  //   ...verbsExpandedCompleteLesson_16,
 
-                    [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: {
-                      ...(verbsExpandedCompleteLesson_16[MODULE_NAME.VERBS_EXPANDED_TRIPLE as keyof Lesson] as Module),
-                      lines: verbsLists_17.triple
-                    }
-                  }
+                  //   [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: {
+                  //     ...(verbsExpandedCompleteLesson_16[MODULE_NAME.VERBS_EXPANDED_TRIPLE as keyof Lesson] as Module),
+                  //     lines: verbsLists_17.triple
+                  //   }
+                  // }
 
                   setLessons(prev => {
                     console.log('🔄 Updating lesson list...')
-                    console.log('▶️ verbsExpandedTripleLesson_18:', verbsExpandedTripleLesson_18)
+                    console.log('▶️ nounsLessonUpdated_a8:', nounsLessonUpdated_a8)
                     const next = prev.map(lsn => {
                       if (lsn.id === selectedLessonId) {
                         console.log(`✅ Match found: lesson.id = ${lsn.id}`)
-                        const updated = { ...verbsExpandedTripleLesson_18, id: lsn.id, name: lsn.name }
+                        const updated = { ...nounsLessonUpdated_a8, id: lsn.id, name: lsn.name }
                         console.log('🆕 Updated lesson:', updated)
                         return updated
                       }
@@ -443,6 +473,13 @@ const RightPane: React.FC = () => {
           {/* <DialogList lines={(lesson?.dialog?.lines ?? []).slice(0, 3)} useCloudTTS={true} /> */}
           {/* <DialogList lines={lesson?.dialog?.lines ?? []} useCloudTTS={true} /> */}
           
+          <div className="mt4 b">NounsOnly</div>
+          <ul className="mt0 pt0 black">
+            {lesson.nounsOnly?.lines?.map((line, index) => (
+              <li key={index}>{line}</li>
+            ))}
+          </ul>
+        
           <div className="mt4 b">Nouns</div>
           <ul className="mt0 pt0 black">
             {lesson.nouns.lines.map((line, index) => (

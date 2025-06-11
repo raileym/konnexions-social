@@ -20,6 +20,10 @@ import { getDialogReviewPrompt } from './getDialogReviewPrompt'
 import { getNounsReviewPrompt } from './getNounsReviewPrompt'
 import { getVerbsReviewPrompt } from './getVerbsReviewPrompt'
 import { getVerbsExpandedCompletePrompt } from './getVerbsExpandedCompletePrompt'
+import { getNounsOnlyPrompt } from './getNounsOnlyPrompt'
+import { getNounsOnlyReviewPrompt } from './getNounsOnlyReviewPrompt'
+import { getVerbsOnlyPrompt } from './getVerbsOnlyPrompt'
+import { getVerbsOnlyReviewPrompt } from './getVerbsOnlyReviewPrompt'
 
 const promptGenerators: Record<ModuleName, (args: { lesson: Lesson, errors: HandleLLMError[] }) => PromptWithMeta> = {
   dialog: ({ lesson, errors }) => ({
@@ -32,9 +36,19 @@ const promptGenerators: Record<ModuleName, (args: { lesson: Lesson, errors: Hand
     fieldCount: 4,
     errorLabel: ERROR_LABEL.NOUNS_ERROR
   }),
+  nounsOnly: ({ lesson, errors }) => ({
+    prompt: getNounsOnlyPrompt({ lesson, errors }),
+    fieldCount: 1,
+    errorLabel: ERROR_LABEL.NOUNS_ONLY_ERROR
+  }),
   verbs: ({ lesson, errors }) => ({
     prompt: getVerbsPrompt({ lesson, errors }),
     fieldCount: 7,
+    errorLabel: ERROR_LABEL.VERBS_ERROR
+  }),
+  verbsOnly: ({ lesson, errors }) => ({
+    prompt: getVerbsOnlyPrompt({ lesson, errors }),
+    fieldCount: 1,
     errorLabel: ERROR_LABEL.VERBS_ERROR
   }),
   dialogReview: ({ lesson, errors }) => ({
@@ -47,9 +61,19 @@ const promptGenerators: Record<ModuleName, (args: { lesson: Lesson, errors: Hand
     fieldCount: 4,
     errorLabel: ERROR_LABEL.NOUNS_REVIEW_ERROR
   }),
+  nounsOnlyReview: ({ lesson, errors }) => ({
+    prompt: getNounsOnlyReviewPrompt({ lesson, errors }),
+    fieldCount: 1,
+    errorLabel: ERROR_LABEL.NOUNS_ONLY_REVIEW_ERROR
+  }),
   verbsReview: ({ lesson, errors }) => ({
     prompt: getVerbsReviewPrompt({ lesson, errors }),
     fieldCount: 7,
+    errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
+  }),
+  verbsOnlyReview: ({ lesson, errors }) => ({
+    prompt: getVerbsOnlyReviewPrompt({ lesson, errors }),
+    fieldCount: 1,
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
   }),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

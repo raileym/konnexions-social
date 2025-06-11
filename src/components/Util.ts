@@ -1,6 +1,5 @@
 import {
   LANGUAGE,
-  scenarioLabels,
   scenarioTitles,
   type ChooseParticipantLinesProps,
   type GetScenarioDetailsProps,
@@ -185,7 +184,6 @@ export function getScenarioDetails({scenario, language}: GetScenarioDetailsProps
   const participantList = chooseParticipantLines({ participantLines: scenarioParticipants[scenario].participantLinesByLanguage[LANGUAGE.SPANISH], n: 2, useMyself: false, language })
 
   return {
-    scenarioLabel: scenarioLabels[scenario],
     scenarioTitle: scenarioTitles[scenario],
     participantList: participantList
   }

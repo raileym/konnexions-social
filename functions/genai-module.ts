@@ -20,11 +20,8 @@ const handler: Handler = async (event) => {
       }
     }
     
-    if (!lesson.language || !lesson.scenarioLabel || !lesson.participantList) {
+    if (!lesson.language || !lesson.scenario || !lesson.participantList) {
       console.log('Missing one or more of the smaller three')
-      // console.log(`language: ${lesson.language}`)
-      // console.log(`scenarioLabel: ${lesson.scenarioLabel}`)
-      // console.log(`participantList: ${lesson.participantList}`)
       console.log('lesson', JSON.stringify(lesson, null, 2))
       return {
         statusCode: 401,

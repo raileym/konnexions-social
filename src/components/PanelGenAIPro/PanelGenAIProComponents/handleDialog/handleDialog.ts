@@ -27,10 +27,6 @@ export const handleDialog = async ({
     const updated = {
       ...prev,
 
-      // language: lesson.language,
-      // scenarioLabel: lesson.scenarioLabel,
-      // participantList: lesson.participantList,
-
       [moduleName]: {
         ...response
       }

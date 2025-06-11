@@ -10,14 +10,44 @@ DROP FUNCTION IF EXISTS public.ckn_lookup_verb_examples;
 DROP FUNCTION IF EXISTS public.ckn_insert_verb_example;
 DROP FUNCTION IF EXISTS public.ckn_lookup_noun_examples;
 DROP FUNCTION IF EXISTS public.ckn_insert_noun_example;
+DROP FUNCTION IF EXISTS public.ckn_get_nouns_by_scenario;
+DROP FUNCTION IF EXISTS public.ckn_get_verbs_by_scenario;
 
-DROP TABLE IF EXISTS public.ckn_tts_cache;
 DROP VIEW IF EXISTS public.ckn_verb_forms;
 DROP VIEW IF EXISTS public.ckn_noun_forms;
+
+DROP TABLE IF EXISTS public.ckn_tts_cache;
 DROP TABLE IF EXISTS public.ckn_noun_examples;
 DROP TABLE IF EXISTS public.ckn_verb_examples;
+DROP TABLE IF EXISTS public.ckn_noun_scenarios;
+DROP TABLE IF EXISTS public.ckn_verb_scenarios;
 DROP TABLE IF EXISTS public.ckn_verbs;
 DROP TABLE IF EXISTS public.ckn_nouns;
+DROP TABLE IF EXISTS public.ckn_scenarios;
+
+DROP TYPE IF EXISTS public.ckn_noun_record;
+DROP TYPE IF EXISTS public.ckn_verb_record;
+
+-- ************************************************************************
+-- CREATE TYPES
+-- ************************************************************************
+
+CREATE TYPE public.ckn_noun_record AS (
+  noun_singular TEXT,
+  noun_plural TEXT,
+  noun_gender TEXT,
+  noun_article TEXT
+);
+
+CREATE TYPE public.ckn_verb_record AS (
+  verb_infinitive TEXT,
+  verb_yo TEXT,
+  verb_tu TEXT,
+  verb_el_ella_usted TEXT,
+  verb_nosotros TEXT,
+  verb_vosotros TEXT,
+  verb_ellos_ellas_ustedes TEXT
+);
 
 -- ************************************************************************
 -- CREATE TABLES
@@ -102,6 +132,23 @@ CREATE TABLE public.ckn_verb_examples (
   created_at TIMESTAMPTZ DEFAULT timezone('utc', now())
 );
 
+CREATE TABLE public.ckn_scenarios (
+  scenario_key SERIAL PRIMARY KEY,
+  scenario_name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE public.ckn_noun_scenarios (
+  noun_key INTEGER REFERENCES public.ckn_nouns(noun_key) ON DELETE CASCADE,
+  scenario_key INTEGER REFERENCES public.ckn_scenarios(scenario_key) ON DELETE CASCADE,
+  PRIMARY KEY (noun_key, scenario_key)
+);
+
+CREATE TABLE public.ckn_verb_scenarios (
+  verb_key INTEGER REFERENCES public.ckn_verbs(verb_key) ON DELETE CASCADE,
+  scenario_key INTEGER REFERENCES public.ckn_scenarios(scenario_key) ON DELETE CASCADE,
+  PRIMARY KEY (verb_key, scenario_key)
+);
+
 -- ************************************************************************
 -- VIEWS
 -- ************************************************************************
@@ -151,6 +198,39 @@ CREATE POLICY "Service role can insert ckn_tts_cache" ON public.ckn_tts_cache
 
 CREATE INDEX idx_ckn_tts_cache_signature ON public.ckn_tts_cache(tts_cache_signature);
 CREATE INDEX idx_ckn_tts_cache_last_used ON public.ckn_tts_cache(tts_cache_last_used);
+
+-- ************************************************************************
+-- FUNCTION: ckn_get_nouns_by_scenario
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_get_nouns_by_scenario(arg_scenario_name TEXT)
+RETURNS SETOF public.ckn_noun_record
+LANGUAGE sql
+SECURITY INVOKER
+AS $$
+  SELECT n.noun_singular, n.noun_plural, n.noun_gender, n.noun_article
+  FROM public.ckn_nouns n
+  JOIN public.ckn_noun_scenarios ns ON n.noun_key = ns.noun_key
+  JOIN public.ckn_scenarios s ON ns.scenario_key = s.scenario_key
+  WHERE s.scenario_name = arg_scenario_name;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: ckn_get_verbs_by_scenario
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_get_verbs_by_scenario(arg_scenario_name TEXT)
+RETURNS SETOF public.ckn_verb_record
+LANGUAGE sql
+SECURITY INVOKER
+AS $$
+  SELECT v.verb_infinitive, v.verb_yo, v.verb_tu, v.verb_el_ella_usted,
+         v.verb_nosotros, v.verb_vosotros, v.verb_ellos_ellas_ustedes
+  FROM public.ckn_verbs v
+  JOIN public.ckn_verb_scenarios vs ON v.verb_key = vs.verb_key
+  JOIN public.ckn_scenarios s ON vs.scenario_key = s.scenario_key
+  WHERE s.scenario_name = arg_scenario_name;
+$$;
 
 -- ************************************************************************
 -- FUNCTION: ckn_lookup_tts_cache
@@ -240,19 +320,34 @@ $$;
 CREATE FUNCTION public.ckn_insert_noun(
   arg_noun_singular TEXT,
   arg_noun_plural TEXT,
-  arg_noun_gender TEXT
+  arg_noun_gender TEXT,
+  arg_scenario TEXT
 )
 RETURNS VOID
 LANGUAGE plpgsql
 SECURITY INVOKER
 AS $$
+DECLARE
+  noun_id INTEGER;
+  scenario_id INTEGER;
 BEGIN
   IF trim(arg_noun_singular) IS NULL OR
      trim(arg_noun_plural) IS NULL OR
-     trim(arg_noun_gender) IS NULL THEN
+     trim(arg_noun_gender) IS NULL OR
+     trim(arg_scenario) IS NULL THEN
     RETURN;
   END IF;
 
+  -- Insert scenario if not exists
+  INSERT INTO public.ckn_scenarios (scenario_name)
+  VALUES (arg_scenario)
+  ON CONFLICT (scenario_name) DO NOTHING;
+
+  SELECT scenario_key INTO scenario_id
+  FROM public.ckn_scenarios
+  WHERE scenario_name = arg_scenario;
+
+  -- Insert noun
   INSERT INTO public.ckn_nouns (
     noun_singular,
     noun_plural,
@@ -263,8 +358,18 @@ BEGIN
     arg_noun_gender
   )
   ON CONFLICT (noun_singular) DO NOTHING;
+
+  SELECT noun_key INTO noun_id
+  FROM public.ckn_nouns
+  WHERE noun_singular = arg_noun_singular;
+
+  -- Insert into junction table
+  INSERT INTO public.ckn_noun_scenarios (noun_key, scenario_key)
+  VALUES (noun_id, scenario_id)
+  ON CONFLICT DO NOTHING;
 END;
 $$;
+
 
 -- ************************************************************************
 -- FUNCTION: ckn_insert_verb
@@ -277,17 +382,31 @@ CREATE FUNCTION public.ckn_insert_verb(
   arg_verb_el_ella_usted TEXT,
   arg_verb_nosotros TEXT,
   arg_verb_vosotros TEXT,
-  arg_verb_ellos_ellas_ustedes TEXT
+  arg_verb_ellos_ellas_ustedes TEXT,
+  arg_scenario TEXT
 )
 RETURNS VOID
 LANGUAGE plpgsql
 SECURITY INVOKER
 AS $$
+DECLARE
+  verb_id INTEGER;
+  scenario_id INTEGER;
 BEGIN
-  IF trim(arg_verb_infinitive) IS NULL THEN
+  IF trim(arg_verb_infinitive) IS NULL OR trim(arg_scenario) IS NULL THEN
     RETURN;
   END IF;
 
+  -- Insert scenario if missing
+  INSERT INTO public.ckn_scenarios (scenario_name)
+  VALUES (arg_scenario)
+  ON CONFLICT (scenario_name) DO NOTHING;
+
+  SELECT scenario_key INTO scenario_id
+  FROM public.ckn_scenarios
+  WHERE scenario_name = arg_scenario;
+
+  -- Insert verb
   INSERT INTO public.ckn_verbs (
     verb_infinitive,
     verb_yo,
@@ -306,8 +425,18 @@ BEGIN
     arg_verb_ellos_ellas_ustedes
   )
   ON CONFLICT (verb_infinitive) DO NOTHING;
+
+  SELECT verb_key INTO verb_id
+  FROM public.ckn_verbs
+  WHERE verb_infinitive = arg_verb_infinitive;
+
+  -- Insert into relation table
+  INSERT INTO public.ckn_verb_scenarios (verb_key, scenario_key)
+  VALUES (verb_id, scenario_id)
+  ON CONFLICT DO NOTHING;
 END;
 $$;
+
 
 -- ************************************************************************
 -- FUNCTION: ckn_insert_noun_example
@@ -398,13 +527,13 @@ $$;
 -- FUNCTION EXECUTION PRIVILEGES
 -- ************************************************************************
 
+GRANT EXECUTE ON FUNCTION public.ckn_get_nouns_by_scenario TO authenticated;
+GRANT EXECUTE ON FUNCTION public.ckn_get_verbs_by_scenario TO authenticated;
 GRANT EXECUTE ON FUNCTION public.ckn_lookup_tts_cache TO authenticated;
 GRANT EXECUTE ON FUNCTION public.ckn_insert_tts_cache TO authenticated;
+GRANT EXECUTE ON FUNCTION public.ckn_insert_noun TO authenticated;
 GRANT EXECUTE ON FUNCTION public.ckn_insert_verb TO authenticated;
-GRANT EXECUTE ON FUNCTION public.ckn_insert_noun TO authenticated;
-
-GRANT EXECUTE ON FUNCTION public.ckn_lookup_verb_examples TO authenticated;
-GRANT EXECUTE ON FUNCTION public.ckn_insert_verb_example TO authenticated;
+GRANT EXECUTE ON FUNCTION public.ckn_insert_noun_example TO authenticated;
 GRANT EXECUTE ON FUNCTION public.ckn_lookup_noun_examples TO authenticated;
-GRANT EXECUTE ON FUNCTION public.ckn_insert_noun TO authenticated;
-
+GRANT EXECUTE ON FUNCTION public.ckn_insert_verb_example TO authenticated;
+GRANT EXECUTE ON FUNCTION public.ckn_lookup_verb_examples TO authenticated;

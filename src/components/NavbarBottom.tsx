@@ -4,7 +4,7 @@ import React from 'react'
 import { faGear, faKey, faRobot, faBars } from '@fortawesome/free-solid-svg-icons'   
 import Button from './Button'
 import { usePanel } from '../hooks/usePanel'
-import { useAppContext } from '../context/AppContext'
+import { useAppContext } from '../context/AppContext/AppContext'
 
 const NavbarBottom: React.FC = () => {
   const { activeHome, activePanel } = useAppContext()

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useAppContext } from '../context/AppContext'
-import { APP_HOME, LANGUAGE, type Language } from '../../shared/types'
+import { useAppContext } from '../context/AppContext/AppContext'
+import { APP_HOME, LANGUAGE, scenarioLabels, type Language } from '../../shared/types'
 import Button from "./Button"
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek, getScenarioDetails } from './Util'
@@ -64,7 +64,7 @@ const PanelGenAI: React.FC = () => {
     }
   }
 
-  const {scenarioLabel, participantList} = getScenarioDetails({scenario, language})
+  const {participantList} = getScenarioDetails({scenario, language})
 
   const fullPrompt = (
     <div>
@@ -74,7 +74,7 @@ const PanelGenAI: React.FC = () => {
           <span className="">You could say, "</span>
         </>
       )}
-      I am <span className="b">{scenarioLabel}</span>.{' '}
+      I am <span className="b">{scenarioLabels[scenario]}</span>.{' '}
       Please create a dialog between me and two other people, randomly chosen from{' '}
       <span className="b">{participantList}</span>.
       {scenario === 'custom' && (
@@ -118,7 +118,6 @@ const PanelGenAI: React.FC = () => {
                 </p>
               </div>
               <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT</label>
-              {/* <label className="o-100 db mt0 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label> */}
               <textarea
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
@@ -152,7 +151,6 @@ const PanelGenAI: React.FC = () => {
                 {/* Content to be masked but not removed */}
                 {/* <div className="relative z-1"> */}
                   <label className="o-20 db mt0 mb2 f3 b">Ask ChatGPT</label>
-                  {/* <label className="o-20 db mt0 mb2 f3 b">Ask ChatGPT - {scenarioLabel}</label> */}
                   <textarea
                     value={questionContext}
                     onChange={(e) => setQuestionContext(e.target.value)}

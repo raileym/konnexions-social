@@ -17,91 +17,25 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Data for Name: ckn_nouns; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (1, 'mesa', 'mesas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (2, 'silla', 'sillas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (3, 'camarero', 'camareros', 'M');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (4, 'menú', 'menús', 'M');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (5, 'comida', 'comidas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (6, 'bebida', 'bebidas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (7, 'plato', 'platos', 'M');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (8, 'tenedor', 'tenedores', 'M');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (9, 'cuchillo', 'cuchillos', 'M');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (10, 'cuchara', 'cucharas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (11, 'servilleta', 'servilletas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (12, 'cuenta', 'cuentas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (13, 'vaso', 'vasos', 'M');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (14, 'copa', 'copas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (15, 'reserva', 'reservas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (16, 'cliente', 'clientes', 'M');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (17, 'camarera', 'camareras', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (18, 'postre', 'postres', 'M');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (19, 'entrada', 'entradas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (20, 'vino', 'vinos', 'M');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (21, 'agua', 'aguas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (22, 'cerveza', 'cervezas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (23, 'restaurante', 'restaurantes', 'M');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (24, 'propina', 'propinas', 'F');
-INSERT INTO public.ckn_nouns (noun_key, noun_singular, noun_plural, noun_gender) VALUES (25, 'arroz', 'arroces', 'M');
-
-
---
 -- Data for Name: ckn_tts_cache; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-
-
---
--- Data for Name: ckn_verbs; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (1, 'querer', 'quiero', 'quieres', 'quiere', 'queremos', 'queréis', 'quieren');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (2, 'tener', 'tengo', 'tienes', 'tiene', 'tenemos', 'tenéis', 'tienen');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (3, 'pedir', 'pido', 'pides', 'pide', 'pedimos', 'pedís', 'piden');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (4, 'servir', 'sirvo', 'sirves', 'sirve', 'servimos', 'servís', 'sirven');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (5, 'comer', 'como', 'comes', 'come', 'comemos', 'coméis', 'comen');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (6, 'beber', 'bebo', 'bebes', 'bebe', 'bebemos', 'bebéis', 'beben');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (7, 'traer', 'traigo', 'traes', 'trae', 'traemos', 'traéis', 'traen');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (8, 'venir', 'vengo', 'vienes', 'viene', 'venimos', 'venís', 'vienen');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (9, 'ir', 'voy', 'vas', 'va', 'vamos', 'vais', 'van');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (10, 'gustar', 'me gusta', 'te gusta', 'le gusta', 'nos gusta', 'os gusta', 'les gusta');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (11, 'necesitar', 'necesito', 'necesitas', 'necesita', 'necesitamos', 'necesitáis', 'necesitan');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (12, 'esperar', 'espero', 'esperas', 'espera', 'esperamos', 'esperáis', 'esperan');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (13, 'reservar', 'reservo', 'reservas', 'reserva', 'reservamos', 'reserváis', 'reservan');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (14, 'abrir', 'abro', 'abres', 'abre', 'abrimos', 'abrís', 'abren');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (15, 'cerrar', 'cierro', 'cierras', 'cierra', 'cerramos', 'cerráis', 'cierran');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (16, 'recomendar', 'recomiendo', 'recomiendas', 'recomienda', 'recomendamos', 'recomendáis', 'recomiendan');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (17, 'probar', 'pruebo', 'pruebas', 'prueba', 'probamos', 'probáis', 'prueban');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (18, 'pagar', 'pago', 'pagas', 'paga', 'pagamos', 'pagáis', 'pagan');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (19, 'dejar', 'dejo', 'dejas', 'deja', 'dejamos', 'dejáis', 'dejan');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (20, 'elegir', 'elijo', 'eliges', 'elige', 'elegimos', 'elegís', 'eligen');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (22, 'atender', 'atiendo', 'atiendes', 'atiende', 'atendemos', 'atendéis', 'atienden');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (23, 'cocinar', 'cocino', 'cocinas', 'cocina', 'cocinamos', 'cocináis', 'cocinan');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (24, 'decir', 'digo', 'dices', 'dice', 'decimos', 'decís', 'dicen');
-INSERT INTO public.ckn_verbs (verb_key, verb_infinitive, verb_yo, verb_tu, verb_el_ella_usted, verb_nosotros, verb_vosotros, verb_ellos_ellas_ustedes) VALUES (25, 'volver', 'vuelvo', 'vuelves', 'vuelve', 'volvemos', 'volvéis', 'vuelven');
-
-
---
--- Name: ckn_nouns_noun_key_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.ckn_nouns_noun_key_seq', 25, true);
+INSERT INTO public.ckn_tts_cache (tts_cache_key, tts_cache_signature, tts_cache_text, tts_cache_voice, tts_cache_language, tts_cache_usage_count, tts_cache_last_used, tts_cache_created) VALUES (1, 'a80897215bfeca30c04e7796c593f66024daf5a1d18107671fd6f759cfa8ddd8', 'hola!', 'es-US-Wavenet-B', 'es-US', 2, '2025-06-10 20:48:09.98827+00', '2025-06-10 20:48:09.98827+00');
+INSERT INTO public.ckn_tts_cache (tts_cache_key, tts_cache_signature, tts_cache_text, tts_cache_voice, tts_cache_language, tts_cache_usage_count, tts_cache_last_used, tts_cache_created) VALUES (5, 'a03678c8ceeb351419a24b3bc1a747a3e42e7de8164e9a898ee4657c6f898a06', 'tienen una mesa disponible para esta noche?', 'es-US-Wavenet-B', 'es-US', 2, '2025-06-10 20:48:11.397325+00', '2025-06-10 20:48:11.397325+00');
+INSERT INTO public.ckn_tts_cache (tts_cache_key, tts_cache_signature, tts_cache_text, tts_cache_voice, tts_cache_language, tts_cache_usage_count, tts_cache_last_used, tts_cache_created) VALUES (9, 'ba2353695bedfac7ca1427be8187ea9faff827d0ecf94076455d050c37966cc9', 'sí, tenemos mesas disponibles.', 'es-US-Wavenet-A', 'es-US', 2, '2025-06-10 20:48:12.359059+00', '2025-06-10 20:48:12.359059+00');
+INSERT INTO public.ckn_tts_cache (tts_cache_key, tts_cache_signature, tts_cache_text, tts_cache_voice, tts_cache_language, tts_cache_usage_count, tts_cache_last_used, tts_cache_created) VALUES (13, '00f3dfdbbcca5eb06db65a7ff41bc8272f49a3e4a0e031b6f79b93ecf8f71701', 'qué plato me recomiendas?', 'es-US-Wavenet-A', 'es-US', 2, '2025-06-10 20:55:32.344828+00', '2025-06-10 20:55:32.344828+00');
+INSERT INTO public.ckn_tts_cache (tts_cache_key, tts_cache_signature, tts_cache_text, tts_cache_voice, tts_cache_language, tts_cache_usage_count, tts_cache_last_used, tts_cache_created) VALUES (17, '0170cf2389dd0d6236278e65b57517b1c7272a352f9442a4a45abb02960bcb52', 'te recomiendo el ceviche peruano, es muy rico.', 'es-US-Wavenet-B', 'es-US', 2, '2025-06-10 20:55:33.550291+00', '2025-06-10 20:55:33.550291+00');
+INSERT INTO public.ckn_tts_cache (tts_cache_key, tts_cache_signature, tts_cache_text, tts_cache_voice, tts_cache_language, tts_cache_usage_count, tts_cache_last_used, tts_cache_created) VALUES (21, '9104e1bb53f17d03fe9a801b153fc6c3263633c4ea70417d582d68a26cf03ecf', 'perfecto, entonces quiero eso por favor.', 'es-US-Wavenet-A', 'es-US', 2, '2025-06-10 20:55:34.570309+00', '2025-06-10 20:55:34.570309+00');
+INSERT INTO public.ckn_tts_cache (tts_cache_key, tts_cache_signature, tts_cache_text, tts_cache_voice, tts_cache_language, tts_cache_usage_count, tts_cache_last_used, tts_cache_created) VALUES (25, '6017b4c6562855aa38421850e3587bfe63d14d8e2f853b2df9789fbc313f3232', 'cómo estás?', 'es-US-Wavenet-B', 'es-US', 2, '2025-06-10 21:00:33.916035+00', '2025-06-10 21:00:33.916035+00');
+INSERT INTO public.ckn_tts_cache (tts_cache_key, tts_cache_signature, tts_cache_text, tts_cache_voice, tts_cache_language, tts_cache_usage_count, tts_cache_last_used, tts_cache_created) VALUES (29, '6b42e5f6ba9d147391aaf12fd6716b39ca5f89fe263711d733fb60caa069fcc3', 'bien, gracias.', 'es-US-Wavenet-A', 'es-US', 2, '2025-06-10 21:00:35.122779+00', '2025-06-10 21:00:35.122779+00');
+INSERT INTO public.ckn_tts_cache (tts_cache_key, tts_cache_signature, tts_cache_text, tts_cache_voice, tts_cache_language, tts_cache_usage_count, tts_cache_last_used, tts_cache_created) VALUES (33, '67ca0e5857eeb2f8bc956f0f3fa674ca0014be9d847c0a272d354c5f6e97b4e4', 'en cuántas personas es la reservación?', 'es-US-Wavenet-A', 'es-US', 2, '2025-06-10 21:00:36.241446+00', '2025-06-10 21:00:36.241446+00');
 
 
 --
 -- Name: ckn_tts_cache_tts_cache_key_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.ckn_tts_cache_tts_cache_key_seq', 1, false);
-
-
---
--- Name: ckn_verbs_verb_key_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.ckn_verbs_verb_key_seq', 25, true);
+SELECT pg_catalog.setval('public.ckn_tts_cache_tts_cache_key_seq', 36, true);
 
 
 --

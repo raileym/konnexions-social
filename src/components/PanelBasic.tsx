@@ -1,4 +1,4 @@
-import { useAppContext } from "../context/AppContext"
+import { useAppContext } from "../context/AppContext/AppContext"
 import { getCurrentWeek } from "./Util"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'

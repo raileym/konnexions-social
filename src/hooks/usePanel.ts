@@ -1,5 +1,5 @@
 // src/hooks/usePanel.ts
-import { useAppContext } from '../context/AppContext'
+import { useAppContext } from '../context/AppContext/AppContext'
 import { type ActivePanel, type ActiveHome } from '../../shared/types'
 import { useHelpPanel } from './useHelpPanel'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAppContext } from '../../../../context/AppContext'
+import { useAppContext } from '../../../../context/AppContext/AppContext'
 import { defaultLesson, type Lesson } from '../../../../../shared/types'
 
 const LeftPane: React.FC = () => {
