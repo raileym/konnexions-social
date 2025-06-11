@@ -35,8 +35,7 @@ DROP TYPE IF EXISTS public.ckn_verb_record;
 CREATE TYPE public.ckn_noun_record AS (
   noun_singular TEXT,
   noun_plural TEXT,
-  noun_gender TEXT,
-  noun_article TEXT
+  noun_gender TEXT
 );
 
 CREATE TYPE public.ckn_verb_record AS (
@@ -79,13 +78,7 @@ CREATE TABLE public.ckn_nouns (
   noun_key SERIAL PRIMARY KEY,
   noun_singular TEXT NOT NULL UNIQUE,
   noun_plural TEXT NOT NULL,
-  noun_gender TEXT CHECK (noun_gender IN ('M', 'F')) NOT NULL,
-  noun_article TEXT GENERATED ALWAYS AS (
-    CASE noun_gender
-      WHEN 'M' THEN 'el'
-      WHEN 'F' THEN 'la'
-    END
-  ) STORED
+  noun_gender TEXT CHECK (noun_gender IN ('M', 'F')) NOT NULL
 );
 
 COMMENT ON TABLE public.ckn_nouns IS 'Stores noun vocabulary with singular/plural forms and grammatical gender.';
@@ -94,7 +87,6 @@ COMMENT ON COLUMN public.ckn_nouns.noun_key IS 'Primary key for the noun entry.'
 COMMENT ON COLUMN public.ckn_nouns.noun_singular IS 'The singular form of the noun (e.g., "comensal").';
 COMMENT ON COLUMN public.ckn_nouns.noun_plural IS 'The plural form of the noun (e.g., "comensales").';
 COMMENT ON COLUMN public.ckn_nouns.noun_gender IS 'Grammatical gender of the noun: M = masculino, F = femenino.';
-COMMENT ON COLUMN public.ckn_nouns.noun_article IS 'Definite article ("el" or "la") generated from noun_gender.';
 
 CREATE TABLE public.ckn_noun_examples (
   example_key SERIAL PRIMARY KEY,
@@ -208,7 +200,7 @@ RETURNS SETOF public.ckn_noun_record
 LANGUAGE sql
 SECURITY INVOKER
 AS $$
-  SELECT n.noun_singular, n.noun_plural, n.noun_gender, n.noun_article
+  SELECT n.noun_singular, n.noun_plural, n.noun_gender
   FROM public.ckn_nouns n
   JOIN public.ckn_noun_scenarios ns ON n.noun_key = ns.noun_key
   JOIN public.ckn_scenarios s ON ns.scenario_key = s.scenario_key

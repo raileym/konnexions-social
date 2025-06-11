@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { useAppContext } from '../../../../context/AppContext/AppContext'
 import ScenarioSelector from '../../../ScenarioSelector'
 import ParticipantToggle from '../../../ParticipantToggle'
-import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
+// import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
+import { LANGUAGE, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
-import { getScenarioDetails } from '../../../Util'
+import { getArticle, getScenarioDetails } from '../../../Util'
 import handleModule from '../handleModule/handleModule'
-import { resolveDialog } from '../resolveDialog/resolveDialog'
+// import { resolveDialog } from '../resolveDialog/resolveDialog'
 // import { resolveNouns } from '../resolveNouns/resolveNouns'
 // import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
 import { DialogList } from '../DialogList/DialogList'
@@ -68,20 +69,20 @@ const RightPane: React.FC = () => {
   
   const headline = 'Create a custom dialog for a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
 
-  type RunModuleProps = {
-    moduleName: ModuleName
-    lesson: Lesson
-  }
+  // type RunModuleProps = {
+  //   moduleName: ModuleName
+  //   lesson: Lesson
+  // }
 
-  const runModule = async ({moduleName, lesson}: RunModuleProps): Promise<Lesson | null> => {
-    const result = await handleModule({ lesson, moduleName, testMode })
-    if (!result) return null
-    console.log(`runModule (${moduleName})`)
-    return {
-      ...lesson,
-      [moduleName]: result      
-    }
-  }
+  // const runModule = async ({moduleName, lesson}: RunModuleProps): Promise<Lesson | null> => {
+  //   const result = await handleModule({ lesson, moduleName, testMode })
+  //   if (!result) return null
+  //   console.log(`runModule (${moduleName})`)
+  //   return {
+  //     ...lesson,
+  //     [moduleName]: result      
+  //   }
+  // }
 
   const lesson = lessons.find(l => l.id === selectedLessonId)
 
@@ -477,7 +478,7 @@ const RightPane: React.FC = () => {
           <div className="mt4 b">NounsConstraint</div>
           <ul className="mt0 pt0 black">
             {scenarioData?.nouns?.map((noun, index) => (
-              <li key={index}>{noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}|{noun.noun_article}</li>
+              <li key={index}>{noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}|{getArticle(noun.noun_gender)}</li>
             ))}
           </ul>
 

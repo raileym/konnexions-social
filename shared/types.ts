@@ -439,6 +439,19 @@ export const scenarioLabels: ScenarioLabels = {
   custom: 'custom'
 }
 
+export const NOUN_ARTICLES = {
+  LA: 'la',
+  EL: 'el'
+}
+export type NounArticlesValue = (typeof NOUN_ARTICLES)[keyof typeof NOUN_ARTICLES]
+export type NounArticlesKey = keyof typeof NOUN_ARTICLES
+export type NounArticles = NounArticlesValue
+
+export const GENDER_TO_ARTICLE: Record<'F' | 'M', NounArticlesValue> = {
+  F: NOUN_ARTICLES.LA,
+  M: NOUN_ARTICLES.EL
+}
+
 export const ERROR_LABEL = {
   NO_ERROR: 'noError',
   DIALOG_ERROR: 'handleDialogError',
@@ -626,13 +639,6 @@ export type GetDialogResult = {
 
 export type PartialLesson = Partial<Lesson>
 
-// export type GetDialogResult = {
-//   dialog: Dialog
-//   dialogPrompt: Prompt
-//   dialogResult: GenAIValidationResult<Dialog>
-//   dialogSignature: Signature
-// }
-
 export type GetNounsResult = {
   lesson: PartialLesson
 }
@@ -793,12 +799,10 @@ export type VerbRecord = {
   verb_ellos_ellas_ustedes: string
 }
 
-
 export type NounDetails = {
   noun_singular: string
   noun_plural: string
   noun_gender: 'M' | 'F'
-  noun_article: 'el' | 'la'
 }
 
 export type VerbDetails = {

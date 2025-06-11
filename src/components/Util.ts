@@ -5,7 +5,8 @@ import {
   type GetScenarioDetailsProps,
   type ParticipantProse,
   type ParticipantLinesByLanguage,
-  type Scenario
+  type Scenario,
+  GENDER_TO_ARTICLE
 } from "../../shared/types"
 
 export const getCurrentWeek = () => {
@@ -14,6 +15,8 @@ export const getCurrentWeek = () => {
   const diff = (now.getTime() - start.getTime()) / 86400000
   return Math.floor((diff + start.getDay() + 1) / 7)
 }
+
+export const getArticle = (gender: 'F' | 'M') => GENDER_TO_ARTICLE[gender]
 
 const scenarioParticipants: Record<Scenario, { participantLinesByLanguage: ParticipantLinesByLanguage }> = {
   restaurant: {
