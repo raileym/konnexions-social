@@ -1,6 +1,8 @@
 import React from 'react'
 import { useAppContext } from '../../../../context/AppContext/AppContext'
 import { defaultLesson, type Lesson } from '../../../../../shared/types'
+import CutoffToggle from '../../../CutoffToggle'
+import ShowMaxCount from '../../../ShowMaxCount'
 
 const LeftPane: React.FC = () => {
   const {
@@ -26,7 +28,7 @@ const handleAddLesson = () => {
 
 
   return (
-    <div className="w-20 vh-100 overflow-y-auto pa3 bg-washed-yellow" style={{paddingTop: '7em'}}>
+    <div className="w-30 vh-100 overflow-y-auto pa3 bg-washed-yellow" style={{paddingTop: '7em'}}>
       <button
         onClick={handleAddLesson}
         // onClick={() => {
@@ -54,6 +56,8 @@ const handleAddLesson = () => {
           <li className="pa2 gray">No saved lessons yet.</li>
         )}
       </ul>
+      <CutoffToggle />
+      <ShowMaxCount />
     </div>
   )
 }

@@ -3,7 +3,13 @@ import { useAppContext } from '../../../../context/AppContext/AppContext'
 import SelectorScenario from '../../../SelectorScenario'
 import ParticipantToggle from '../../../ParticipantToggle'
 // import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
-import { VERB_FORMATS, type LessonComplete, type TestMode, type UseMyself } from '../../../../../shared/types'
+import {
+  VERB_FORMATS,
+  type LessonComplete,
+  type TestMode,
+  type UseMyself,
+  scenarioDescriptions
+} from '../../../../../shared/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { getArticle, getScenarioDetails } from '../../../Util'
@@ -68,7 +74,8 @@ const RightPanel: React.FC = () => {
     // generateTTSCount
   } = useAppContext()
   
-  const headline = <div className="f3">Create a custom dialog in <b>{language}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.</div>
+  // const headline = <div className="f3">Create a custom dialog in <b>{language}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or in a taxi.</div>
+  const headline = <div className="f3">Create a custom dialog in <b>{language}</b> {scenarioDescriptions[scenario]}</div>
 
   // type RunModuleProps = {
   //   moduleName: ModuleName
@@ -97,19 +104,10 @@ const RightPanel: React.FC = () => {
 
       content = (
         <>
-          <CutoffToggle />
-          <ShowMaxCount />
-
-          <div className="pa3 mt3 ba bg-white w-100">
-            <DialogList lines={(lesson?.dialog?.lines ?? []).slice(0, 3)} useCloudTTS={true} />
-          </div>
-
           <h2 className="f2 pa3 pb0 mt5 w-100 tc">{language}: Premium</h2>
           <div className="w-100 flex justify-center pt3 pb4">
-            <div className="f3 pv3 pt0 mt0 w-60">{headline}</div>
+            <div className="f3 pv3 pt0 mt0 w-80">{headline}</div>
           </div>
-
-          {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
 
           <div className="flex flex-column items-center w-100">
             <div className="mt3 mb1">
@@ -126,11 +124,18 @@ const RightPanel: React.FC = () => {
             </div>
           </div>
 
+          <div className="pa3 mt3 ba bg-white w-100">
+            <DialogList lines={(lesson?.dialog?.lines ?? []).slice(0, 3)} useCloudTTS={true} />
+          </div>
+
+          {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
+
           <div className="flex flex-column items-center w-100">
             <div className={`f3 mt3 mb1 ${lessonComplete ? 'o-100' : 'o-20'}`}>
               Lesson Complete
             </div>
           </div>
+          {/* 
           <div className="mv3">
             <button
               onClick={() => setTestMode(prev => !prev)}
@@ -141,7 +146,8 @@ const RightPanel: React.FC = () => {
                 <div className="ml2">{testMode ? 'Disable' : 'Enable'} Test Mode</div>
               </div>
             </button>
-          </div>              
+          </div>
+          */}
 
           <div className={`ba bw2 mv3 pa4 ${testMode ? 'bg-black' : 'bg-white'} b--black flex flex-column`}>
             <div>
@@ -324,7 +330,7 @@ const RightPanel: React.FC = () => {
                 }}
                 className="pa2 br2 bn bg-brand white pointer"
               >
-                Master Button {testMode ? '(Test Mode)' : ''}
+                Create Lesson {testMode ? '(Test Mode)' : ''}
               </button>
 
             </div>
@@ -484,8 +490,8 @@ const RightPanel: React.FC = () => {
           <div className="mt4 b">NounsConstraint</div>
           <ul className="mt0 pt0 black">
             {scenarioData?.nouns?.map((noun, index) => (
-              // <li key={index}>{noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}|{getArticle(noun.noun_gender)}</li>
-              <li key={index}>{noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}</li>
+              // <li key={index}>{noun.noun_gender}|{noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}|{getArticle(noun.noun_gender)}</li>
+              <li key={index}>{noun.noun_base}: {noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}</li>
             ))}
           </ul>
 
@@ -538,7 +544,7 @@ const RightPanel: React.FC = () => {
   }
 
   return (
-    <div className={`w-80 vh-100 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+    <div className={`w-70 vh-100 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )

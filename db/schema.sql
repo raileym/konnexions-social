@@ -38,6 +38,7 @@ DROP TYPE IF EXISTS public.ckn_verb_record;
 -- ************************************************************************
 
 CREATE TYPE public.ckn_noun_record AS (
+  noun_base TEXT,
   noun_singular TEXT,
   noun_plural TEXT,
   noun_gender TEXT
@@ -217,10 +218,11 @@ RETURNS SETOF public.ckn_noun_record
 LANGUAGE sql
 SECURITY INVOKER
 AS $$
-  SELECT n.noun_singular, n.noun_plural, n.noun_gender
+  SELECT nb.noun_base, n.noun_singular, n.noun_plural, n.noun_gender
   FROM public.ckn_noun n
   JOIN public.ckn_noun_scenarios ns ON n.noun_key = ns.noun_key
   JOIN public.ckn_scenarios s ON ns.scenario_key = s.scenario_key
+  JOIN public.ckn_noun_base nb ON nb.noun_base_key = n.noun_base_key
   WHERE s.scenario = arg_scenario
     AND n.language_code = arg_language_code;
 $$;

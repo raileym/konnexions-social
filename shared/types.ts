@@ -229,6 +229,9 @@ export type ScenarioLabels = Record<Scenario, ScenarioLabel>
 export type ScenarioTitle = string
 export type ScenarioTitles = Record<Scenario, ScenarioTitle>
 
+export type ScenarioDescription = string
+export type ScenarioDescriptions = Record<Scenario, ScenarioDescription>
+
 export type Success = boolean
 
 export type Module = {
@@ -553,6 +556,14 @@ export const scenarioTitles: ScenarioTitles = {
   custom: 'Custom'
 }
 
+export const scenarioDescriptions: ScenarioDescriptions = {
+  restaurant: 'for a dining situation — at a restaurant with hosts, waiters, and other guests',
+  hotel: 'for a lodging situation — checking into a hotel, speaking with staff, or addressing room needs',
+  airport: 'for a travel scenario — navigating an airport, speaking to agents, or boarding a flight',
+  taxi: 'for ground transportation — riding in a taxi, using a rideshare, or talking to a driver',
+  custom: 'for a custom situation'
+}
+
 
 
 // export type HandleNounsError = {
@@ -805,6 +816,7 @@ export type VerbRecord = {
 }
 
 export type NounDetails = {
+  noun_base: string
   noun_singular: string
   noun_plural: string
   noun_gender: 'M' | 'F'
