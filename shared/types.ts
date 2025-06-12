@@ -1,38 +1,25 @@
 // import { generateSignature } from '../shared/generateSignature'
 
 export type AppContextType = {
-  scenarioData: ScenarioData
-  setScenarioData: SetScenarioData
-
-  maxCount: MaxCount
-  setMaxCount: SetMaxCount
-
-  cutoff: Cutoff
-  setCutoff: SetCutoff
-
-  answer: Answer
-  setAnswer: SetAnswer
-
-  generateTTSCount: GenerateTTSCount
-  setGenerateTTSCount: SetGenerateTTSCount
-
-  lessons: Lessons
-  setLessons: SetLessons
-  selectedLessonId: LessonId
-  setSelectedLessonId: SetLessonId
-
   activeHome: ActiveHome
   activePanel: ActivePanel
+  answer: Answer
   apiKey: ApiKey
   audioUrl: AudioUrl
   cleanedText: CleanedText
+  cutoff: Cutoff
   gcpKey: GcpKey
+  generateTTSCount: GenerateTTSCount
   helpPanel: HelpPanel
   inputText: InputText
   isHelpOpen: IsHelpOpen
   isTransitioning: IsTransitioning
+  language: Language
+  lesson: Lesson
+  lessons: Lessons
   maskKey: MaskKey
   maskOpenAiKey: MaskOpenAiKey
+  maxCount: MaxCount
   openAiAvgTokens: OpenAiAvgTokens
   openAiBudget: OpenAiBudget
   openAiKey: OpenAiKey
@@ -40,18 +27,27 @@ export type AppContextType = {
   question: Question
   questionContext: QuestionContext
   scenario: Scenario
+  scenarioData: ScenarioData
+  selectedLessonId: LessonId
   setActiveHome: SetActiveHome
   setActivePanel: SetActivePanel
+  setAnswer: SetAnswer
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
+  setCutoff: SetCutoff
   setGcpKey: SetGcpKey
+  setGenerateTTSCount: SetGenerateTTSCount
   setHelpPanel: SetHelpPanel
   setInputText: SetInputText
   setIsHelpOpen: SetIsHelpOpen
   setIsTransitioning: SetIsTransitioning
+  setLanguage: SetLanguage
+  setLesson: SetLesson
+  setLessons: SetLessons
   setMaskKey: SetMaskKey
   setMaskOpenAiKey: SetMaskOpenAiKey
+  setMaxCount: SetMaxCount
   setOpenAiAvgTokens: SetOpenAiAvgTokens
   setOpenAiBudget: SetOpenAiBudget
   setOpenAiKey: SetOpenAiKey
@@ -59,12 +55,12 @@ export type AppContextType = {
   setQuestion: SetQuestion
   setQuestionContext: SetQuestionContext
   setScenario: SetScenario
-  setLesson: SetLesson
+  setScenarioData: SetScenarioData
+  setSelectedLessonId: SetLessonId
   setTtsAvgChars: SetTtsAvgChars
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
-  lesson: Lesson
   ttsAvgChars: TtsAvgChars
   ttsBudget: TtsBudget
   ttsCharUsage: TtsCharUsage
@@ -76,6 +72,8 @@ export type LessonComplete = boolean
 export const LANGUAGE = {
   SPANISH: 'Latin American Spanish',
   ENGLISH: 'English',
+  FRENCH: 'French',
+  ITALIAN: 'Italian',
   SPXNISH: 'SpXnish'
 } as const
 export type LanguageValue = (typeof LANGUAGE)[keyof typeof LANGUAGE]
@@ -112,6 +110,13 @@ export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]
 export type ScenarioKey = keyof typeof SCENARIO
 export type Scenario = ScenarioValue
 
+export const languageCode = {
+  [LANGUAGE.ENGLISH]: 'en',
+  [LANGUAGE.SPANISH]: 'es',
+  [LANGUAGE.ITALIAN]: 'it',
+  [LANGUAGE.FRENCH]: 'fr'
+}
+
 export type Answer = string
 export type ApiKey = string
 export type AudioUrl = string | null
@@ -138,7 +143,6 @@ export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetCutoff = React.Dispatch<React.SetStateAction<Cutoff>>
 export type SetDialogPrompt = React.Dispatch<React.SetStateAction<Prompt>>
-export type SetNounsPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
 export type SetGenerateTTSCount = React.Dispatch<React.SetStateAction<GenerateTTSCount>>
 export type SetHandleDialogErrors = React.Dispatch<React.SetStateAction<HandleDialogErrors>>
@@ -148,11 +152,13 @@ export type SetHelpPanel = React.Dispatch<React.SetStateAction<HelpPanel>>
 export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
 export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
-export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
+export type SetLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetLessonId = React.Dispatch<React.SetStateAction<LessonId>>
+export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
-export type SetMaxCount = React.Dispatch<React.SetStateAction<MaxCount>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
+export type SetMaxCount = React.Dispatch<React.SetStateAction<MaxCount>>
+export type SetNounsPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetOpenAiAvgTokens = React.Dispatch<React.SetStateAction<OpenAiAvgTokens>>
 export type SetOpenAiBudget = React.Dispatch<React.SetStateAction<OpenAiBudget>>
 export type SetOpenAiKey = React.Dispatch<React.SetStateAction<OpenAiKey>>
@@ -831,5 +837,10 @@ export const defaultScenarioData: ScenarioData = {
   nounByPlural: new Map(),
   singularNounList: [],
   verbByInfinitive: new Map()
+}
+
+export type HandleGetScenarioDataProps = {
+  scenario: Scenario,
+  language: Language
 }
 

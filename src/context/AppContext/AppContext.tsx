@@ -31,7 +31,8 @@ import type {
   GenerateTTSCount,
   MaxCount,
   Cutoff,
-  ScenarioData
+  ScenarioData,
+  Language
 } from '../../../shared/types'
 import {
   APP_HOME,
@@ -40,6 +41,7 @@ import {
   defaultLesson,
   defaultMaxCount,
   defaultScenarioData,
+  LANGUAGE,
   MODULE_NAME,
   SCENARIO
 } from '../../../shared/types'
@@ -90,9 +92,6 @@ const updatedDefaultLesson = {
 // cXnsole.log(updatedDefaultLesson)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [scenario, setScenario] = usePersistentState<Scenario>('scenario', SCENARIO.RESTAURANT)
-  const [lesson, setLesson] = usePersistentState<Lesson>('lesson', updatedDefaultLesson)
-
   const [generateTTSCount, setGenerateTTSCount] = usePersistentState<GenerateTTSCount>('lessons', 0)
   // const [lessons, setLessons] = usePersistentState<Lessons>('lessons', [])
   const [lessons, setLessons] = usePersistentState<Lessons>(
@@ -100,45 +99,45 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     [],
     (val): val is Lessons =>
       Array.isArray(val) &&
-      val.every(
-        l =>
-          typeof l === 'object' &&
-          l !== null &&
-          typeof l.id === 'number' &&
-          typeof l.name === 'string'
-      )
+    val.every(
+      l =>
+        typeof l === 'object' &&
+      l !== null &&
+      typeof l.id === 'number' &&
+      typeof l.name === 'string'
+    )
   )  
-  const [selectedLessonId, setSelectedLessonId] = usePersistentState<LessonId>('lessonCount', 1)
-
-  const [maxCount, setMaxCount] = usePersistentState<MaxCount>('maxCount', defaultMaxCount, (v): v is number => typeof v === 'number')
-
-  const [cutoff, setCutoff] = usePersistentState<Cutoff>('cutoff', false)
-
-  const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
   const [activeHome, setActiveHome] = useState<ActiveHome>(APP_HOME.GEN_AI_PRO)
-  const [helpPanel, setHelpPanel] = useState<ActivePanel>(APP_PANEL.BASIC)
+  const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
   const [answer, setAnswer] = useState<Answer>('')
   const [apiKey, setApiKey] = useState<ApiKey>('')
-  const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
   const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
   const [cleanedText, setCleanedText] = useState<CleanedText>('')
+  const [cutoff, setCutoff] = usePersistentState<Cutoff>('cutoff', false)
   const [gcpKey, setGcpKey] = useState<GcpKey>('')
+  const [helpPanel, setHelpPanel] = useState<ActivePanel>(APP_PANEL.BASIC)
   const [inputText, setInputText] = useState<InputText>('')
+  const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
   const [isTransitioning, setIsTransitioning] = useState<IsTransitioning>(false)
+  const [lesson, setLesson] = usePersistentState<Lesson>('lesson', updatedDefaultLesson)
   const [maskKey, setMaskKey] = useState<MaskKey>(false)
   const [maskOpenAiKey, setMaskOpenAiKey] = useState<MaskOpenAiKey>(false)
+  const [maxCount, setMaxCount] = usePersistentState<MaxCount>('maxCount', defaultMaxCount, (v): v is number => typeof v === 'number')
   const [openAiAvgTokens, setOpenAiAvgTokens] = useState<OpenAiAvgTokens>(200)
   const [openAiBudget, setOpenAiBudget] = useState<OpenAiBudget>(1)
   const [openAiKey, setOpenAiKey] = useState<OpenAiKey>('')
   const [openAiUsage, setOpenAiUsage] = useState<OpenAiUsage>(0)
   const [question, setQuestion] = useState<Question>('')
   const [questionContext, setQuestionContext] = useState<QuestionContext>('')
+  const [scenario, setScenario] = usePersistentState<Scenario>('scenario', SCENARIO.RESTAURANT)
+  const [scenarioData, setScenarioData] = useState<ScenarioData>(defaultScenarioData)
+  const [selectedLessonId, setSelectedLessonId] = usePersistentState<LessonId>('lessonCount', 1)
   const [ttsAvgChars, setTtsAvgChars] = useState<TtsAvgChars>(80)
   const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
-  const [scenarioData, setScenarioData] = useState<ScenarioData>(defaultScenarioData)
 
+  const [language, setLanguage] = usePersistentState<Language>('language', LANGUAGE.ITALIAN)
   // export type ScenarioData = {
   //   nouns: NounDetails[]
   //   verbs: VerbDetails[]
@@ -150,7 +149,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   
 useEffect(() => {
   async function fetchScenarioData() {
-    const data = await handleGetScenarioData('restaurant')
+    const data = await handleGetScenarioData({scenario: SCENARIO.RESTAURANT, language})
     if (!data) return
 
     const nounBySingular = new Map()
@@ -178,34 +177,30 @@ useEffect(() => {
   }
 
   fetchScenarioData()
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
 
 
 const AppContextValue = {
-
-    scenarioData, setScenarioData,
-
-    maxCount, setMaxCount,
-    cutoff, setCutoff,
-
-    generateTTSCount, setGenerateTTSCount,
-
-    lessons, setLessons,
-    selectedLessonId, setSelectedLessonId,
-
     activeHome,
     activePanel,
     answer,
     apiKey,
     audioUrl,
     cleanedText,
+    cutoff,
     gcpKey,
+    generateTTSCount,
     helpPanel,
     inputText,
     isHelpOpen,
     isTransitioning,
+    language,
+    lesson,
+    lessons, setLessons,
     maskKey,
     maskOpenAiKey,
+    maxCount,
     openAiAvgTokens,
     openAiBudget,
     openAiKey,
@@ -213,19 +208,26 @@ const AppContextValue = {
     question,
     questionContext,
     scenario,
+    scenarioData,
+    selectedLessonId,
     setActiveHome,
     setActivePanel,
     setAnswer,
     setApiKey,
     setAudioUrl,
     setCleanedText,
+    setCutoff,
     setGcpKey,
+    setGenerateTTSCount,
     setHelpPanel,
     setInputText,
     setIsHelpOpen,
     setIsTransitioning,
+    setLanguage,
+    setLesson,
     setMaskKey,
     setMaskOpenAiKey,
+    setMaxCount,
     setOpenAiAvgTokens,
     setOpenAiBudget,
     setOpenAiKey,
@@ -233,12 +235,12 @@ const AppContextValue = {
     setQuestion,
     setQuestionContext,
     setScenario,
-    setLesson,
+    setScenarioData,
+    setSelectedLessonId,
     setTtsAvgChars,
     setTtsBudget,
     setTtsCharUsage,
     setUseCloudTTS,
-    lesson,
     ttsAvgChars,
     ttsBudget,
     ttsCharUsage,

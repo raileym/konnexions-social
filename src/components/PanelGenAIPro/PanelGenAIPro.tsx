@@ -4,14 +4,12 @@ import { useAppContext } from '../../context/AppContext/AppContext'
 import {
   APP_HOME,
   // GEN_AI_STEP,
-  LANGUAGE,
   MODULE_NAME
 } from '../../../shared/types'
 import type {
   // GetDialogReviewProps,
   // GetDialogReviewResult,
   // HandleDialogReviewProps,
-  Language,
   UseMyself,
   // HandleNounsReviewProps,
   // GetNounsReviewProps,
@@ -39,7 +37,8 @@ const PanelGenAIPro: React.FC = () => {
   const {
     activeHome,
     setLesson,
-    lesson
+    lesson,
+    language
   } = useAppContext()
 
   const isActive = activeHome === APP_HOME.GEN_AI_PRO
@@ -54,7 +53,7 @@ const PanelGenAIPro: React.FC = () => {
   const [showNounsReviewPrompt, setShowNounsReviewPrompt] = useState(false)
   const [showVerbsReviewPrompt, setShowVerbsReviewPrompt] = useState(false)
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(false)
-  const [language, ] = useState<Language>(LANGUAGE.SPANISH)
+  // const [language, ] = useState<Language>(LANGUAGE.SPANISH)
   const [testMode, setTestMode] = useState<TestMode>(true)
 
   const toggleShowDialogPrompt = () => {
@@ -120,7 +119,7 @@ const PanelGenAIPro: React.FC = () => {
             <div className="h-100 w-66 overflow-y-auto bg-blue">
               <div className="pa4 mw7 w-100 black center mb5">
 
-                <h2 className="f3 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
+                <h2 className="f3 pa3 pb0 mt5 w-100 tc">{language}: Premium</h2>
                 <div className="f3 pv3 pt0 mt0">{headline}</div>
   
                 <div className="flex flex-column items-center w-100">

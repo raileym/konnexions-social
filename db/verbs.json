@@ -1,0 +1,62 @@
+{
+  "hotel": {
+    "have": {
+      "en": "have,have,have,have,have,have,have", 
+      "es": "tener,tengo,tienes,tiene,tenemos,tenéis,tienen",
+      "fr": "avoir,j'ai,tu as,il a,nous avons,vous avez,ils ont",
+      "it": "avere,ho,hai,ha,abbiamo,avete,hanno"
+    },
+    "check": {
+      "en": "check,check,check,check,check,check,check", 
+      "es": "comprobar,compruebo,compruebas,comprueba,comprobamos,comprobáis,comprueban",
+      "fr": "vérifier,je vérifie,tu vérifies,il vérifie,nous vérifions,vous vérifiez,ils vérifient",
+      "it": "verificare,verifico,verifichi,verifica,verifichiamo,verificate,verificano"
+    },
+    "book": {
+      "en": "book,book,book,book,book,book,book", 
+      "es": "reservar,reservo,reservas,reserva,reservamos,reserváis,reservan",
+      "fr": "réserver,je réserve,tu réserves,il réserve,nous réservons,vous réservez,ils réservent",
+      "it": "prenotare,prenoto,prenoti,prenota,prenotiamo,prenotate,prenotano"
+    }
+  },
+  "restaurant": {
+    "eat": {
+      "en": "eat,eat,eat,eat,eat,eat,eat", 
+      "es": "comer,como,comes,come,comemos,coméis,comen",
+      "fr": "manger,je mange,tu manges,il mange,nous mangeons,vous mangez,ils mangent",
+      "it": "mangiare,mangio,mangi,mangia,mangiamo,mangiate,mangiano"
+    },
+    "drink": {
+      "en": "drink,drink,drink,drink,drink,drink,drink", 
+      "es": "beber,bebo,bebes,bebe,bebemos,bebéis,beben",
+      "fr": "boire,je bois,tu bois,il boit,nous buvons,vous buvez,ils boivent",
+      "it": "bere,bevo,bevi,beve,beviamo,bevete,bevono"
+    },
+    "order": {
+      "en": "order,order,order,order,order,order,order", 
+      "es": "pedir,pido,pides,pide,pedimos,pedís,piden",
+      "fr": "commander,je commande,tu commandes,il commande,nous commandons,vous commandez,ils commandent",
+      "it": "ordinare,ordino,ordini,ordina,ordiniamo,ordinate,ordinano"
+    }
+  },
+  "airport": {
+    "travel": {
+      "en": "travel,travel,travel,travel,travel,travel,travel", 
+      "es": "viajar,viajo,viajas,viaja,viajamos,viajáis,viajan",
+      "fr": "voyager,je voyage,tu voyages,il voyage,nous voyageons,vous voyagez,ils voyagent",
+      "it": "viaggiare,viaggio,viaggi,viaggia,viaggiamo,viaggiate,viaggiano"
+    },
+    "fly": {
+      "en": "fly,fly,fly,fly,fly,fly,fly", 
+      "es": "volar,vuelo,vuelas,vuela,volamos,voláis,vuelan",
+      "fr": "voler,je vole,tu voles,il vole,nous volons,vous volez,ils volent",
+      "it": "volare,volo,voli,vola,voliamo,volate,volano"
+    },
+    "arrive": {
+      "en": "arrive,arrive,arrive,arrive,arrive,arrive,arrive", 
+      "es": "llegar,llego,llegas,llega,llegamos,llegáis,llegan",
+      "fr": "arriver,j'arrive,tu arrives,il arrive,nous arrivons,vous arrivez,ils arrivent",
+      "it": "arrivare,arrivo,arrivi,arriva,arriviamo,arrivate,arrivano"
+    }
+  }
+}

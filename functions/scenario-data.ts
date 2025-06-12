@@ -1,5 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
+import { languageCode } from '../shared/types'
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -8,17 +9,20 @@ const supabase = createClient(
 
 const handler: Handler = async (event) => {
   try {
-    const { scenarioName } = JSON.parse(event.body || '{}')
+    const { scenario, language } = JSON.parse(event.body || '{}')
 
-    if (!scenarioName) {
+    if (!scenario || !language) {
       return {
         statusCode: 400,
-        body: 'Missing scenarioName'
+        body: 'Missing scenario or language'
       }
     }
 
     const { data: nouns, error: nounErr } = await supabase
-      .rpc('ckn_get_nouns_by_scenario', { arg_scenario_name: scenarioName })
+      .rpc('ckn_get_noun_by_scenario', {
+        arg_scenario: scenario,
+        arg_language_code: languageCode[language]
+      })
 
     if (nounErr) {
       console.error('Noun RPC error:', nounErr)
@@ -26,7 +30,10 @@ const handler: Handler = async (event) => {
     }
 
     const { data: verbs, error: verbErr } = await supabase
-      .rpc('ckn_get_verbs_by_scenario', { arg_scenario_name: scenarioName })
+      .rpc('ckn_get_verb_by_scenario', { 
+        arg_scenario: scenario,
+        arg_language_code: languageCode[language]
+      })
 
     if (verbErr) {
       console.error('Verb RPC error:', verbErr)

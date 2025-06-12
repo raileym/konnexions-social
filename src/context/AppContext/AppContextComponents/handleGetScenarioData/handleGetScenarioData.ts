@@ -1,16 +1,27 @@
-import type { NounRecord, VerbRecord } from '../../../../../shared/types'
+import type { 
+  HandleGetScenarioDataProps,
+  NounRecord,
+  VerbRecord
+} from '../../../../../shared/types'
 
 type ScenarioData = {
   nouns: NounRecord[]
   verbs: VerbRecord[]
 }
 
-export const handleGetScenarioData = async (scenarioName: string): Promise<ScenarioData | null> => {
+export const handleGetScenarioData = async ({
+  scenario,
+  language
+}: HandleGetScenarioDataProps
+): Promise<ScenarioData | null> => {
   try {
     const res = await fetch('/.netlify/functions/scenario-data', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ scenarioName })
+      body: JSON.stringify({
+        scenario,
+        language
+      })
     })
 
     if (!res.ok) {

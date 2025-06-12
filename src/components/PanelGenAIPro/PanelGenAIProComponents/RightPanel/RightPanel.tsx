@@ -3,11 +3,11 @@ import { useAppContext } from '../../../../context/AppContext/AppContext'
 import ScenarioSelector from '../../../ScenarioSelector'
 import ParticipantToggle from '../../../ParticipantToggle'
 // import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
-import { LANGUAGE, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
+import { VERB_FORMATS, type LessonComplete, type TestMode, type UseMyself } from '../../../../../shared/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { getArticle, getScenarioDetails } from '../../../Util'
-import handleModule from '../handleModule/handleModule'
+// import handleModule from '../handleModule/handleModule'
 // import { resolveDialog } from '../resolveDialog/resolveDialog'
 // import { resolveNouns } from '../resolveNouns/resolveNouns'
 // import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
@@ -21,11 +21,10 @@ import ShowMaxCount from '../../../ShowMaxCount'
 // import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
-const RightPane: React.FC = () => {
+const RightPanel: React.FC = () => {
   const [useMyself, setUseMyself] = useState<UseMyself>(false)
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(false)
   const [testMode, setTestMode] = useState<TestMode>(false)
-  const [language, ] = useState<Language>(LANGUAGE.SPANISH)
   const [showDialogPrompt, setShowDialogPrompt] = useState(false)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [showVerbsPrompt, setShowVerbsPrompt] = useState(false)
@@ -63,11 +62,12 @@ const RightPane: React.FC = () => {
     selectedLessonId,
     scenario,
     cutoff,
-    scenarioData
+    scenarioData,
+    language
     // generateTTSCount
   } = useAppContext()
   
-  const headline = 'Create a custom dialog for a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
+  const headline = <div className="f3">Create a custom dialog in <b>{language}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.</div>
 
   // type RunModuleProps = {
   //   moduleName: ModuleName
@@ -103,7 +103,7 @@ const RightPane: React.FC = () => {
             <DialogList lines={(lesson?.dialog?.lines ?? []).slice(0, 3)} useCloudTTS={true} />
           </div>
 
-          <h2 className="f2 pa3 pb0 mt5 w-100 tc">Spanish: Premium</h2>
+          <h2 className="f2 pa3 pb0 mt5 w-100 tc">{language}: Premium</h2>
           <div className="w-100 flex justify-center pt3 pb4">
             <div className="f3 pv3 pt0 mt0 w-60">{headline}</div>
           </div>
@@ -478,7 +478,8 @@ const RightPane: React.FC = () => {
           <div className="mt4 b">NounsConstraint</div>
           <ul className="mt0 pt0 black">
             {scenarioData?.nouns?.map((noun, index) => (
-              <li key={index}>{noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}|{getArticle(noun.noun_gender)}</li>
+              // <li key={index}>{noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}|{getArticle(noun.noun_gender)}</li>
+              <li key={index}>{noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}</li>
             ))}
           </ul>
 
@@ -537,4 +538,4 @@ const RightPane: React.FC = () => {
   )
 }
 
-export default RightPane
+export default RightPanel
