@@ -1,11 +1,12 @@
-import type {
-  AddErrorProps,
-  HandleLLMError,
-  RichParsedLine,
-  Module,
-  ValidateModuleProps,
-  Lines,
-  Line
+import {
+  type AddErrorProps,
+  type HandleLLMError,
+  type RichParsedLine,
+  type Module,
+  type ValidateModuleProps,
+  type Lines,
+  type Line,
+  LANGUAGE
 } from "./types"
 
 export const addError = ({
@@ -154,7 +155,8 @@ export const validateModule = ({
       }
     }
 
-    if (moduleName === 'nouns' && language === 'SpXnish' && fields.length >= 5) {
+    const alwaysFalse = false
+    if (moduleName === 'nouns' && language === LANGUAGE.SPANISH && fields.length >= 5 && alwaysFalse) {
       const gender = fields[0].trim().toLowerCase()
       const articleSing = fields[3].trim().toLowerCase()
       const articlePlur = fields[4].trim().toLowerCase()
@@ -179,7 +181,7 @@ export const validateModule = ({
       }
     }
 
-    if (moduleName === 'nouns' && language === 'SpXnish' && fields.length >= 7) {
+    if (moduleName === 'nouns' && language === LANGUAGE.SPANISH && fields.length >= 7 && alwaysFalse) {
       const preSing1 = fields[5].trim().toLowerCase()
       const preSing2 = fields[6].trim().toLowerCase()
 
@@ -194,7 +196,7 @@ export const validateModule = ({
       }
     }
 
-    if (moduleName === 'nouns' && language === 'SpXnish' && fields.length >= 9) {
+    if (moduleName === 'nouns' && language === LANGUAGE.SPANISH && fields.length >= 9 && alwaysFalse) {
       const prePlur1 = fields[7].trim().toLowerCase()
       const prePlur2 = fields[8].trim().toLowerCase()
 

@@ -43,16 +43,27 @@ const scenarioParticipants: Record<Scenario, { participantLinesByLanguage: Parti
         'una comensal (mujer)',
         'una pareja sentada cerca'
       ],
-      [LANGUAGE.SPXNISH]: [
-        'el anfitrión',
-        'la anfitriona',
-        'un camarero',
-        'una camarera',
-        'el barman',
-        'el chef',
-        'un comensal (hombre)',
-        'una comensal (mujer)',
-        'una pareja sentada cerca'
+      [LANGUAGE.FRENCH]: [
+        'le maître d’hôtel',
+        'l’hôtesse',
+        'un serveur',
+        'une serveuse',
+        'le barman',
+        'le chef',
+        'un client (homme)',
+        'une cliente (femme)',
+        'un couple assis à proximité'
+      ],
+      [LANGUAGE.ITALIAN]: [
+        'il padrone di sala',
+        'la padrona di sala',
+        'un cameriere',
+        'una cameriera',
+        'il barista',
+        'lo chef',
+        'un cliente (uomo)',
+        'una cliente (donna)',
+        'una coppia seduta vicino'
       ]
     }
   },
@@ -76,14 +87,23 @@ const scenarioParticipants: Record<Scenario, { participantLinesByLanguage: Parti
         'una huésped (mujer)',
         'el gerente del hotel'
       ],
-      [LANGUAGE.SPXNISH]: [
-        'el recepcionista',
-        'el conserje',
-        'el botones',
-        'la camarera de piso',
-        'un huésped (hombre)',
-        'una huésped (mujer)',
-        'el gerente del hotel'
+      [LANGUAGE.FRENCH]: [
+        'le réceptionniste',
+        'le concierge',
+        'le porteur',
+        'la femme de chambre',
+        'un client (homme)',
+        'une cliente (femme)',
+        'le directeur de l’hôtel'
+      ],
+      [LANGUAGE.ITALIAN]: [
+        'l’addetto alla reception',
+        'il concierge',
+        'il facchino',
+        'la cameriera ai piani',
+        'un ospite (uomo)',
+        'una ospite (donna)',
+        'il direttore dell’hotel'
       ]
     }
   },
@@ -107,14 +127,23 @@ const scenarioParticipants: Record<Scenario, { participantLinesByLanguage: Parti
         'un viajero',
         'una viajera'
       ],
-      [LANGUAGE.SPXNISH]: [
-        'un agente de aerolínea',
-        'un asistente de puerta',
-        'un oficial de seguridad (TSA)',
-        'un encargado de equipaje',
-        'un auxiliar de vuelo',
-        'un viajero',
-        'una viajera'
+      [LANGUAGE.FRENCH]: [
+        'un agent de la compagnie aérienne',
+        'un agent d’embarquement',
+        'un agent de sécurité',
+        'un bagagiste',
+        'un steward / une hôtesse de l’air',
+        'un voyageur',
+        'une voyageuse'
+      ],
+      [LANGUAGE.ITALIAN]: [
+        'un impiegato della compagnia aerea',
+        'un assistente al gate',
+        'un agente di sicurezza',
+        'un addetto ai bagagli',
+        'un assistente di volo',
+        'un viaggiatore',
+        'una viaggiatrice'
       ]
     }
   },
@@ -138,14 +167,23 @@ const scenarioParticipants: Record<Scenario, { participantLinesByLanguage: Parti
         'una pareja compartiendo el viaje',
         'un turista que no conoce la ciudad'
       ],
-      [LANGUAGE.SPXNISH]: [
-        'el conductor',
-        'un conductor de rideshare',
-        'el despachador',
-        'un pasajero',
-        'una pasajera',
-        'una pareja compartiendo el viaje',
-        'un turista que no conoce la ciudad'
+      [LANGUAGE.FRENCH]: [
+        'le chauffeur',
+        'un chauffeur de VTC',
+        'le répartiteur',
+        'un passager',
+        'une passagère',
+        'un couple partageant la course',
+        'un touriste qui ne connaît pas la ville'
+      ],
+      [LANGUAGE.ITALIAN]: [
+        'l’autista',
+        'un autista di rideshare',
+        'il centralinista',
+        'un passeggero',
+        'una passeggera',
+        'una coppia che condivide il viaggio',
+        'un turista che non conosce la città'
       ]
     }
   },
@@ -153,10 +191,12 @@ const scenarioParticipants: Record<Scenario, { participantLinesByLanguage: Parti
     participantLinesByLanguage: {
       [LANGUAGE.ENGLISH]: ['WHICH DIALOG PARTICIPANTS'],
       [LANGUAGE.SPANISH]: ['¿QUÉ PARTICIPANTES EN EL DIÁLOGO?'],
-      [LANGUAGE.SPXNISH]: ['¿QUÉ PARTICIPANTES EN EL DIÁLOGO?']
+      [LANGUAGE.FRENCH]: ['QUELS INTERVENANTS DANS LE DIALOGUE ?'],
+      [LANGUAGE.ITALIAN]: ['QUALI PARTECIPANTI NEL DIALOGO?']
     }
   }
 }
+
 
 const chooseParticipantLines = ({ participantLines, language, n, useMyself }: ChooseParticipantLinesProps): ParticipantProse => {
   if (!participantLines || participantLines.length === 0 || n <= 0) {

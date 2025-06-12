@@ -4,7 +4,7 @@ import { APP_HOME, LANGUAGE, scenarioLabels, type Language } from '../../shared/
 import Button from "./Button"
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek, getScenarioDetails } from './Util'
-import ScenarioSelector from './ScenarioSelector'
+import SelectorScenario from './SelectorScenario'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { usePanel } from '../hooks/usePanel'
@@ -94,7 +94,7 @@ const PanelGenAI: React.FC = () => {
           <h2 className="f3 pa3 pb0 mt5 w-100 tc">Spanish: Scenarios</h2>
           <div className="f3 pv3 pt0 mt0">{headline}</div>
 
-          <ScenarioSelector custom={true} />
+          <SelectorScenario custom={true} />
           
           { !openAiKey && (
               <div className="mt5">

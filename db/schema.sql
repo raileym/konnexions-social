@@ -102,7 +102,7 @@ CREATE TABLE public.ckn_noun (
   language_code TEXT NOT NULL,  -- e.g., 'es', 'fr', 'it', 'en'
   noun_singular TEXT NOT NULL,
   noun_plural TEXT NOT NULL,
-  noun_gender TEXT CHECK (noun_gender IN ('M', 'F', '')),
+  noun_gender TEXT CHECK (noun_gender IN ('M', 'F', 'N')),
   UNIQUE (noun_base_key, language_code)
 );
 
@@ -357,49 +357,69 @@ BEGIN
     RETURN;
   END IF;
 
+  RAISE LOG 'Inserting Noun: noun_base(%), noun_singular(%), noun_plural(%), language_code(%), scenario(%)', arg_noun_base, arg_noun_singular, arg_noun_plural, arg_language_code, arg_scenario;
+
   -- Insert scenario if not exists
-  INSERT INTO public.ckn_scenarios (scenario)
-  VALUES (arg_scenario)
-  ON CONFLICT (scenario) DO NOTHING;
+  IF EXISTS (SELECT 1 FROM public.ckn_scenarios WHERE scenario = arg_scenario) THEN
+    RAISE LOG 'Scenario already exists: %', arg_scenario;
+  ELSE
+    INSERT INTO public.ckn_scenarios (scenario) VALUES (arg_scenario);
+  END IF;
 
   SELECT scenario_key INTO local_scenario_key
   FROM public.ckn_scenarios
   WHERE scenario = arg_scenario;
 
-  INSERT INTO public.ckn_noun_base (noun_base)
-  VALUES (arg_noun_base)
-  ON CONFLICT (noun_base) DO NOTHING;
+  -- Insert noun base if not exists
+  IF EXISTS (SELECT 1 FROM public.ckn_noun_base WHERE noun_base = arg_noun_base) THEN
+    RAISE LOG 'Noun base already exists: %', arg_noun_base;
+  ELSE
+    INSERT INTO public.ckn_noun_base (noun_base) VALUES (arg_noun_base);
+  END IF;
 
   SELECT noun_base_key INTO local_noun_base_key
   FROM public.ckn_noun_base
   WHERE noun_base = arg_noun_base;
 
   -- Insert noun
-  INSERT INTO public.ckn_noun (
-    noun_base_key,
-    language_code,
-    noun_singular,
-    noun_plural,
-    noun_gender
-  ) VALUES (
-    local_noun_base_key,
-    arg_language_code,
-    arg_noun_singular,
-    arg_noun_plural,
-    arg_noun_gender
-  )
-  ON CONFLICT (noun_base_key, language_code) DO NOTHING;
+  IF EXISTS (
+    SELECT 1 FROM public.ckn_noun
+    WHERE noun_base_key = local_noun_base_key AND language_code = arg_language_code
+  ) THEN
+    RAISE LOG 'Noun already exists for base % and language %', arg_noun_base, arg_language_code;
+  ELSE
+    INSERT INTO public.ckn_noun (
+      noun_base_key,
+      language_code,
+      noun_singular,
+      noun_plural,
+      noun_gender
+    ) VALUES (
+      local_noun_base_key,
+      arg_language_code,
+      arg_noun_singular,
+      arg_noun_plural,
+      arg_noun_gender
+    );
+  END IF;
 
   SELECT noun_key INTO local_noun_key
   FROM public.ckn_noun
-  WHERE noun_singular = arg_noun_singular;
+  WHERE noun_base_key = local_noun_base_key AND language_code = arg_language_code;
 
   -- Insert into junction table
-  INSERT INTO public.ckn_noun_scenarios (noun_key, scenario_key)
-  VALUES (local_noun_key, local_scenario_key)
-  ON CONFLICT DO NOTHING;
+  IF EXISTS (
+    SELECT 1 FROM public.ckn_noun_scenarios
+    WHERE noun_key = local_noun_key AND scenario_key = local_scenario_key
+  ) THEN
+    RAISE LOG 'Noun-to-scenario mapping already exists: % → %', arg_noun_singular, arg_scenario;
+  ELSE
+    INSERT INTO public.ckn_noun_scenarios (noun_key, scenario_key)
+    VALUES (local_noun_key, local_scenario_key);
+  END IF;
 END;
 $$;
+
 
 
 -- ************************************************************************

@@ -137,7 +137,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
-  const [language, setLanguage] = usePersistentState<Language>('language', LANGUAGE.ITALIAN)
+  const [language, setLanguage] = usePersistentState<Language>('language', LANGUAGE.ENGLISH)
   // export type ScenarioData = {
   //   nouns: NounDetails[]
   //   verbs: VerbDetails[]
@@ -148,9 +148,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // }
   
 useEffect(() => {
+  console.log('useEffect', scenario)
   async function fetchScenarioData() {
-    const data = await handleGetScenarioData({scenario: SCENARIO.RESTAURANT, language})
-    if (!data) return
+    console.log('fetchScenarioData', scenario)
+    const data = await handleGetScenarioData({scenario, language})
+    if (!data) {
+      console.log('fetchScenarioData', 'no data returned')
+      return
+    }
+
+    console.log('fetchScenarioData', JSON.stringify(data, null, 2))
 
     const nounBySingular = new Map()
     const nounByPlural = new Map()
@@ -178,7 +185,7 @@ useEffect(() => {
 
   fetchScenarioData()
 // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [])
+}, [scenario, language])
 
 
 const AppContextValue = {

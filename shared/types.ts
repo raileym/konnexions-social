@@ -73,8 +73,7 @@ export const LANGUAGE = {
   SPANISH: 'Latin American Spanish',
   ENGLISH: 'English',
   FRENCH: 'French',
-  ITALIAN: 'Italian',
-  SPXNISH: 'SpXnish'
+  ITALIAN: 'Italian'
 } as const
 export type LanguageValue = (typeof LANGUAGE)[keyof typeof LANGUAGE]
 export type LanguageKey = keyof typeof LANGUAGE

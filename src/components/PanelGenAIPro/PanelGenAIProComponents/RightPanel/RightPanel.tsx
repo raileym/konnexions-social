@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useAppContext } from '../../../../context/AppContext/AppContext'
-import ScenarioSelector from '../../../ScenarioSelector'
+import SelectorScenario from '../../../SelectorScenario'
 import ParticipantToggle from '../../../ParticipantToggle'
 // import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
 import { VERB_FORMATS, type LessonComplete, type TestMode, type UseMyself } from '../../../../../shared/types'
@@ -18,6 +18,7 @@ import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
 import { generateVerbLists } from '../generateVerbLists/generateVerbLists'
 import CutoffToggle from '../../../CutoffToggle'
 import ShowMaxCount from '../../../ShowMaxCount'
+import SelectorLanguage from '../../../SelectorLanguage'
 // import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
@@ -112,7 +113,13 @@ const RightPanel: React.FC = () => {
 
           <div className="flex flex-column items-center w-100">
             <div className="mt3 mb1">
-              <ScenarioSelector custom={false} />
+              <SelectorLanguage />
+            </div>
+          </div>
+
+          <div className="flex flex-column items-center w-100">
+            <div className="mt3 mb1">
+              <SelectorScenario custom={false} />
             </div>
             <div className="mt1 mb3">
               <ParticipantToggle useMyself={useMyself} onClick={setUseMyself} />
@@ -124,7 +131,6 @@ const RightPanel: React.FC = () => {
               Lesson Complete
             </div>
           </div>
-
           <div className="mv3">
             <button
               onClick={() => setTestMode(prev => !prev)}
