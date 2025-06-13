@@ -1,0 +1,212 @@
+{
+  "taxi": {
+    "accept": {
+      "en": "accept,accept,accept,accept,accept,accept,accept",
+      "es": "aceptar,acepto,aceptas,acepta,aceptamos,aceptan,aceptan"
+    },
+    "adjust": {
+      "en": "adjust,adjust,adjust,adjust,adjust,adjust,adjust",
+      "es": "ajustar,ajusto,ajustas,ajusta,ajustamos,ajustan,ajustan"
+    },
+    "answer": {
+      "en": "answer,answer,answer,answer,answer,answer,answer",
+      "es": "responder,respondo,respondes,responde,respondemos,responden,responden"
+    },
+    "arrive": {
+      "en": "arrive,arrive,arrive,arrive,arrive,arrive,arrive",
+      "es": "llegar,llego,llegas,llega,llegamos,llegan,llegan"
+    },
+    "ask": {
+      "en": "ask,ask,ask,ask,ask,ask,ask",
+      "es": "preguntar,pregunto,preguntas,pregunta,preguntamos,preguntan,preguntan"
+    },
+    "book": {
+      "en": "book,book,book,book,book,book,book",
+      "es": "reservar,reservo,reservas,reserva,reservamos,reservan,reservan"
+    },
+    "call": {
+      "en": "call,call,call,call,call,call,call",
+      "es": "llamar,llamo,llamas,llama,llamamos,llaman,llaman"
+    },
+    "cancel": {
+      "en": "cancel,cancel,cancel,cancel,cancel,cancel,cancel",
+      "es": "cancelar,cancelo,cancelas,cancela,cancelamos,cancelan,cancelan"
+    },
+    "change": {
+      "en": "change,change,change,change,change,change,change",
+      "es": "cambiar,cambio,cambias,cambia,cambiamos,cambian,cambian"
+    },
+    "check": {
+      "en": "check,check,check,check,check,check,check",
+      "es": "revisar,revisto,revistas,revista,revistamos,revistan,revistan"
+    },
+    "close": {
+      "en": "close,close,close,close,close,close,close",
+      "es": "cerrar,cierro,cierras,cierra,cerramos,cierran,cierran"
+    },
+    "communicate": {
+      "en": "communicate,communicate,communicate,communicate,communicate,communicate,communicate",
+      "es": "comunicar,comunico,comunicas,comunica,comunicamos,comunican,comunican"
+    },
+    "confirm": {
+      "en": "confirm,confirm,confirm,confirm,confirm,confirm,confirm",
+      "es": "confirmar,confirmo,confirmas,confirma,confirmamos,confirman,confirman"
+    },
+    "drive": {
+      "en": "drive,drive,drive,drive,drive,drive,drive",
+      "es": "conducir,conduzco,conduces,conduce,conducimos,conducen,conducen"
+    },
+    "drop": {
+      "en": "drop,drop,drop,drop,drop,drop,drop",
+      "es": "dejar,dejo,dejas,deja,dejamos,dejan,dejan"
+    },
+    "end": {
+      "en": "end,end,end,end,end,end,end",
+      "es": "terminar,termino,terminas,termina,terminamos,terminan,terminan"
+    },
+    "explain": {
+      "en": "explain,explain,explain,explain,explain,explain,explain",
+      "es": "explicar,explico,explicas,explica,explicamos,explican,explican"
+    },
+    "follow": {
+      "en": "follow,follow,follow,follow,follow,follow,follow",
+      "es": "seguir,sigo,sigues,sigue,seguimos,siguen,siguen"
+    },
+    "give": {
+      "en": "give,give,give,give,give,give,give",
+      "es": "dar,doy,das,da,damos,dan,dan"
+    },
+    "go": {
+      "en": "go,go,go,go,go,go,go",
+      "es": "ir,voy,vas,va,vamos,van,van"
+    },
+    "hail": {
+      "en": "hail,hail,hail,hail,hail,hail,hail",
+      "es": "llamar,llamo,llamas,llama,llamamos,llaman,llaman"
+    },
+    "identify": {
+      "en": "identify,identify,identify,identify,identify,identify,identify",
+      "es": "identificar,identifico,identificas,identifica,identificamos,identifican,identifican"
+    },
+    "input": {
+      "en": "input,input,input,input,input,input,input",
+      "es": "ingresar,ingreso,ingresas,ingresa,ingresamos,ingresan,ingresan"
+    },
+    "leave": {
+      "en": "leave,leave,leave,leave,leave,leave,leave",
+      "es": "salir, salgo, sales, sale, salimos, salen, salen"
+    },
+    "listen": {
+      "en": "listen,listen,listen,listen,listen,listen,listen",
+      "es": "escuchar,escucho,escuchas,escucha,escuchamos,escuchan,escuchan"
+    },
+    "lock": {
+      "en": "lock,lock,lock,lock,lock,lock,lock",
+      "es": "cerrar con llave,cierro con llave,cierras con llave,cierra con llave,cerramos con llave,cierran con llave,cierran con llave"
+    },
+    "navigate": {
+      "en": "navigate,navigate,navigate,navigate,navigate,navigate,navigate",
+      "es": "navegar,navego,navegas,navega,navegamos,navegan,navegan"
+    },
+    "open": {
+      "en": "open,open,open,open,open,open,open",
+      "es": "abrir,abro,abres,abre,abrimos,abren,abren"
+    },
+    "order": {
+      "en": "order,order,order,order,order,order,order",
+      "es": "pedir,pido,pides,pide,pedimos,piden,piden"
+    },
+    "pay": {
+      "en": "pay,pay,pay,pay,pay,pay,pay",
+      "es": "pagar,pago,pagas,paga,pagamos,pagan,pagan"
+    },
+    "pick": {
+      "en": "pick,pick,pick,pick,pick,pick,pick",
+      "es": "recoger,recojo,recoges,recoge,recogemos,recogen,recogen"
+    },
+    "plan": {
+      "en": "plan,plan,plan,plan,plan,plan,plan",
+      "es": "planear,planeo,planeas,planea,planeamos,planean,planean"
+    },
+    "rate": {
+      "en": "rate,rate,rate,rate,rate,rate,rate",
+      "es": "calificar,califico,calificas,califica,calificamos,califican,califican"
+    },
+    "recognize": {
+      "en": "recognize,recognize,recognize,recognize,recognize,recognize,recognize",
+      "es": "reconocer,reconozco,reconoces,reconoce,reconocemos,reconocen,reconocen"
+    },
+    "reject": {
+      "en": "reject,reject,reject,reject,reject,reject,reject",
+      "es": "rechazar,rechazo,rechazas,rechaza,rechazamos,rechazan,rechazan"
+    },
+    "review": {
+      "en": "review,review,review,review,review,review,review",
+      "es": "revisar,reviso,revisas,revisa,revisamos,revistan,revistan"
+    },
+    "ride": {
+      "en": "ride,ride,ride,ride,ride,ride,ride",
+      "es": "viajar,viajo,viajas,viaja,viajamos,vianjan,vianjan"
+    },
+    "say": {
+      "en": "say,say,say,say,say,say,say",
+      "es": "decir,digo,dices,dice,decimos,dicen,dicen"
+    },
+    "share": {
+      "en": "share,share,share,share,share,share,share",
+      "es": "compartir,comparto,compartes,comparte,compartimos,comparten,comparten"
+    },
+    "show": {
+      "en": "show,show,show,show,show,show,show",
+      "es": "mostrar,muestro,muestras,muestra,mostramos,muestran,muestran"
+    },
+    "signal": {
+      "en": "signal,signal,signal,signal,signal,signal,signal",
+      "es": "señalar,señalo,señalas,señala,señalamos,señalan,señalan"
+    },
+    "split": {
+      "en": "split,split,split,split,split,split,split",
+      "es": "dividir,divido,divides,divide,dividimos,dividen,dividen"
+    },
+    "start": {
+      "en": "start,start,start,start,start,start,start",
+      "es": "empezar,empiezo,empiezas,empieza,empezamos,empiezan,empiezan"
+    },
+    "stop": {
+      "en": "stop,stop,stop,stop,stop,stop,stop",
+      "es": "parar,paro,paras,para,paramos,paran,paran"
+    },
+    "take": {
+      "en": "take,take,take,take,take,take,take",
+      "es": "tomar,tomo,tomas,toma,tomamos,toman,toman"
+    },
+    "talk": {
+      "en": "talk,talk,talk,talk,talk,talk,talk",
+      "es": "hablar,hablo,hablas,habla,hablamos,hablan,hablan"
+    },
+    "tell": {
+      "en": "tell,tell,tell,tell,tell,tell,tell",
+      "es": "decir,digo,dices,dice,decimos,dicen,dicen"
+    },
+    "tip": {
+      "en": "tip,tip,tip,tip,tip,tip,tip",
+      "es": "dar propina,doy propina,das propina,da propina,damos propina,dan propina,dan propina"
+    },
+    "travel": {
+      "en": "travel,travel,travel,travel,travel,travel,travel",
+      "es": "viajar,viajo,viajas,viaja,viajamos,viajan,viajan"
+    },
+    "turn": {
+      "en": "turn,turn,turn,turn,turn,turn,turn",
+      "es": "girar,giro,giras,gira,giramos,giran,giran"
+    },
+    "unlock": {
+      "en": "unlock,unlock,unlock,unlock,unlock,unlock,unlock",
+      "es": "abrir con llave,abro con llave,abres con llave,abre con llave,abrimos con llave,abren con llave,abren con llave"
+    },
+    "wait": {
+      "en": "wait,wait,wait,wait,wait,wait,wait",
+      "es": "esperar,espero,esperas,espera,esperamos,esperan,esperan"
+    }
+  }
+}

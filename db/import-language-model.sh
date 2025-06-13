@@ -20,7 +20,7 @@ for file in "$@"; do
 
   echo "📦 Processing: $file"
 
-  if [[ "$file" == nouns* ]]; then
+  if [[ "$file" == data-sets/nouns* ]]; then
     jq -c 'to_entries[] as $s |
       $s.value | to_entries[] |
       { base: .key, values: .value } |
@@ -36,7 +36,7 @@ for file in "$@"; do
       done
     done
 
-  elif [[ "$file" == verbs* ]]; then
+  elif [[ "$file" == data-sets/verbs* ]]; then
     jq -c 'to_entries[] as $s |
       $s.value | to_entries[] |
       { base: .key, values: .value } |

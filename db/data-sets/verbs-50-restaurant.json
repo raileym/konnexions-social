@@ -1,0 +1,220 @@
+{
+  "restaurant": {
+    "bring": {
+      "en": "bring,bring,bring,bring,bring,bring,bring",
+      "es": "traer,traigo,traes,trae,traemos,traéis,traen"
+    },
+    "call": {
+      "en": "call,call,call,call,call,call,call",
+      "es": "llamar,llamo,llamas,llama,llamamos,llamáis,llaman"
+    },
+    "cancel": {
+      "en": "cancel,cancel,cancel,cancel,cancel,cancel,cancel",
+      "es": "cancelar,cancelo,cancelas,cancela,cancelamos,canceláis,cancelan"
+    },
+    "carry": {
+      "en": "carry,carry,carry,carry,carry,carry,carry",
+      "es": "llevar,llevo,llevas,lleva,llevamos,lleváis,llevan"
+    },
+    "check": {
+      "en": "check,check,check,check,check,check,check",
+      "es": "revisar,revisto,revisas,revisa,revisamos,revisáis,revistan"
+    },
+    "choose": {
+      "en": "choose,choose,choose,choose,choose,choose,choose",
+      "es": "elegir,elijo,eliges,elige,elegimos,elegís,eligen"
+    },
+    "clean": {
+      "en": "clean,clean,clean,clean,clean,clean,clean",
+      "es": "limpiar,limpio,limpias,limpia,limpiamos,limpiáis,limpian"
+    },
+    "complain": {
+      "en": "complain,complain,complain,complain,complain,complain,complain",
+      "es": "quejarse,me quejo,te quejas,se queja,nos quejamos,os quejáis,se quejan"
+    },
+    "cook": {
+      "en": "cook,cook,cook,cook,cook,cook,cook",
+      "es": "cocinar,cocino,cocinas,cocina,cocinamos,cocináis,cocinan"
+    },
+    "count": {
+      "en": "count,count,count,count,count,count,count",
+      "es": "contar,cuento,cuentas,cuenta,contamos,contáis,cuentan"
+    },
+    "deliver": {
+      "en": "deliver,deliver,deliver,deliver,deliver,deliver,deliver",
+      "es": "entregar,entrego,entregas,entrega,entregamos,entregáis,entregan"
+    },
+    "dislike": {
+      "en": "dislike,dislike,dislike,dislike,dislike,dislike,dislike",
+      "es": "disgustar,me disgusta,te disgusta,le disgusta,nos disgusta,os disgusta,les disgusta"
+    },
+    "drink": {
+      "en": "drink,drink,drink,drink,drink,drink,drink",
+      "es": "beber,bebo,bebes,bebe,bebemos,bebéis,beben"
+    },
+    "eat": {
+      "en": "eat,eat,eat,eat,eat,eat,eat",
+      "es": "comer,como,comes,come,comemos,coméis,comen"
+    },
+    "eatout": {
+      "en": "eat out,eat out,eat out,eat out,eat out,eat out,eat out",
+      "es": "comer fuera,como fuera,comes fuera,come fuera,comemos fuera,coméis fuera,comen fuera"
+    },
+    "enjoy": {
+      "en": "enjoy,enjoy,enjoy,enjoy,enjoy,enjoy,enjoy",
+      "es": "disfrutar,disfruto,disfrutas,disfruta,disfrutamos,disfrutáis,disfrutan"
+    },
+    "enter": {
+      "en": "enter,enter,enter,enter,enter,enter,enter",
+      "es": "entrar,entro,entras,entra,entramos,entráis,entran"
+    },
+    "finish": {
+      "en": "finish,finish,finish,finish,finish,finish,finish",
+      "es": "terminar,termino,terminas,termina,terminamos,termináis,terminan"
+    },
+    "go": {
+      "en": "go,go,go,go,go,go,go",
+      "es": "ir,voy,vas,va,vamos,vais,van"
+    },
+    "greet": {
+      "en": "greet,greet,greet,greet,greet,greet,greet",
+      "es": "saludar,saludo,saludas,saluda,saludamos,saludáis,saludan"
+    },
+    "invite": {
+      "en": "invite,invite,invite,invite,invite,invite,invite",
+      "es": "invitar,invito,invitas,invita,invitamos,invitáis,invitan"
+    },
+    "leave": {
+      "en": "leave,leave,leave,leave,leave,leave,leave",
+      "es": "salir,salgo,sales,sale,salimos,salís,salen"
+    },
+    "like": {
+      "en": "like,like,like,like,like,like,like",
+      "es": "gustar,me gusta,te gusta,le gusta,nos gusta,os gusta,les gusta"
+    },
+    "need": {
+      "en": "need,need,need,need,need,need,need",
+      "es": "necesitar,necesito,necesitas,necesita,necesitamos,necesitáis,necesitan"
+    },
+    "order": {
+      "en": "order,order,order,order,order,order,order",
+      "es": "pedir,pido,pides,pide,pedimos,pedís,piden"
+    },
+    "pack": {
+      "en": "pack,pack,pack,pack,pack,pack,pack",
+      "es": "empacar,empaco,empacas,empaca,empacamos,empacan,empacan"
+    },
+    "pay": {
+      "en": "pay,pay,pay,pay,pay,pay,pay",
+      "es": "pagar,pago,pagas,paga,pagamos,pagan,pagan"
+    },
+    "prefer": {
+      "en": "prefer,prefer,prefer,prefer,prefer,prefer,prefer",
+      "es": "preferir,prefiero,prefieres,prefiere,preferimos,preferen,preferen"
+    },
+    "prepare": {
+      "en": "prepare,prepare,prepare,prepare,prepare,prepare,prepare",
+      "es": "preparar,preparo,preparas,prepara,preparamos,preparan,preparan"
+    },
+    "print": {
+      "en": "print,print,print,print,print,print,print",
+      "es": "imprimir,imprimo,imprimes,imprime,imprimimos,imprimen,imprimen"
+    },
+    "read": {
+      "en": "read,read,read,read,read,read,read",
+      "es": "leer,leo,lees,lee,leemos,leen,leen"
+    },
+    "recommend": {
+      "en": "recommend,recommend,recommend,recommend,recommend,recommend,recommend",
+      "es": "recomendar,recomiendo,recomiendas,recomienda,recomendamos,recomiendan,recomiendan"
+    },
+    "refill": {
+      "en": "refill,refill,refill,refill,refill,refill,refill",
+      "es": "rellenar,relleno,rellenas,rellena,rellenamos,rellenan,rellenan"
+    },
+    "reserve": {
+      "en": "reserve,reserve,reserve,reserve,reserve,reserve,reserve",
+      "es": "reservar,reservo,reservas,reserva,reservamos,reservan,reservan"
+    },
+    "seat": {
+      "en": "seat,seat,seat,seat,seat,seat,seat",
+      "es": "sentar,siento,sientas,sienta,sentamos,sientan,sientan"
+    },
+    "serve": {
+      "en": "serve,serve,serve,serve,serve,serve,serve",
+      "es": "servir,sirvo,sirves,sirve,servimos,sirven,sirven"
+    },
+    "share": {
+      "en": "share,share,share,share,share,share,share",
+      "es": "compartir,comparto,compartes,comparte,compartimos,comparten,comparten"
+    },
+    "sign": {
+      "en": "sign,sign,sign,sign,sign,sign,sign",
+      "es": "firmar,firmo,firmas,firma,firmamos,firman,firman"
+    },
+    "sit": {
+      "en": "sit,sit,sit,sit,sit,sit,sit",
+      "es": "sentarse,me siento,te sientas,se sienta,nos sentamos,se sientan,se sientan"
+    },
+    "smile": {
+      "en": "smile,smile,smile,smile,smile,smile,smile",
+      "es": "sonreír,sonrío,sonríes,sonríe,sonreímos,sonríen,sonríen"
+    },
+    "spill": {
+      "en": "spill,spill,spill,spill,spill,spill,spill",
+      "es": "derramar,derramo,derramas,derrama,derramamos,derraman,derraman"
+    },
+    "split": {
+      "en": "split,split,split,split,split,split,split",
+      "es": "dividir,divido,divides,divide,dividimos,dividen,dividen"
+    },
+    "stand": {
+      "en": "stand,stand,stand,stand,stand,stand,stand",
+      "es": "pararse,me paro,te paras,se para,nos paramos,se paran,se paran"
+    },
+    "start": {
+      "en": "start,start,start,start,start,start,start",
+      "es": "empezar,empiezo,empiezas,empieza,empezamos,empiezan,empiezan"
+    },
+    "suggest": {
+      "en": "suggest,suggest,suggest,suggest,suggest,suggest,suggest",
+      "es": "sugerir,sugiero,sugieres,sugiere,sugerimos,sugieren,sugieren"
+    },
+    "take": {
+      "en": "take,take,take,take,take,take,take",
+      "es": "tomar,tomo,tomas,toma,tomamos,toman,toman"
+    },
+    "taste": {
+      "en": "taste,taste,taste,taste,taste,taste,taste",
+      "es": "probar,pruebo,pruebas,prueba,probamos,prueban,prueban"
+    },
+    "thank": {
+      "en": "thank,thank,thank,thank,thank,thank,thank",
+      "es": "agradecer,agradezco,agradeces,agradece,agradecemos,agradecen,agradecen"
+    },
+    "tip": {
+      "en": "tip,tip,tip,tip,tip,tip,tip",
+      "es": "dar propina,doy propina,das propina,da propina,damos propina,dan propina,dan propina"
+    },
+    "try": {
+      "en": "try,try,try,try,try,try,try",
+      "es": "intentar,intento,intentas,intenta,intentamos,intentan,intentan"
+    },
+    "wait": {
+      "en": "wait,wait,wait,wait,wait,wait,wait",
+      "es": "esperar,espero,esperas,espera,esperamos,esperan,esperan"
+    },
+    "want": {
+      "en": "want,want,want,want,want,want,want",
+      "es": "querer,quiero,quieres,quiere,queremos,quieren,quieren"
+    },
+    "wash": {
+      "en": "wash,wash,wash,wash,wash,wash,wash",
+      "es": "lavar,lavo,lavas,lava,lavamos,lavan,lavan"
+    },
+    "write": {
+      "en": "write,write,write,write,write,write,write",
+      "es": "escribir,escribo,escribes,escribe,escribimos,escriben,escriben"
+    }
+  }
+}
