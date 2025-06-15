@@ -28,7 +28,7 @@ export const LANGUAGE_CODE = {
   [LANGUAGE.SPANISH]: 'es',
   [LANGUAGE.ITALIAN]: 'it',
   [LANGUAGE.FRENCH]: 'fr'
-}
+} as const
 
 export const SCENARIO = {
   RESTAURANT: 'restaurant',

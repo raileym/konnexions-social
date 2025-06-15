@@ -1,6 +1,7 @@
 import { type Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
 import { LANGUAGE_CODE } from '@cknTypes/constants'
+import type { Language } from '@cknTypes/types'
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -21,7 +22,7 @@ const handler: Handler = async (event) => {
     const { data: nouns, error: nounErr } = await supabase
       .rpc('ckn_get_noun_by_scenario', {
         arg_scenario: scenario,
-        arg_language_code: LANGUAGE_CODE[language]
+        arg_language_code: LANGUAGE_CODE[(language as Language)]
       })
 
     if (nounErr) {
@@ -32,7 +33,7 @@ const handler: Handler = async (event) => {
     const { data: verbs, error: verbErr } = await supabase
       .rpc('ckn_get_verb_by_scenario', { 
         arg_scenario: scenario,
-        arg_language_code: languageCode[language]
+        arg_language_code: LANGUAGE_CODE[(language as Language)]
       })
 
     if (verbErr) {

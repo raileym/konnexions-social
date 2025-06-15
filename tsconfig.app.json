@@ -15,8 +15,9 @@
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "noEmit": true,
     "composite": true,
+    "declaration": true,
+    "outDir": "./dist/app",
     "jsx": "react-jsx",
 
     /* Linting */
