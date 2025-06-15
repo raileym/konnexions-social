@@ -5,9 +5,12 @@ import {
   type Module,
   type ValidateModuleProps,
   type Lines,
-  type Line,
+  type Line
+} from '@cknTypes/types'
+
+import {
   LANGUAGE
-} from './cknTypes/types/types'
+} from '@cknTypes/constants'
 
 export const addError = ({
   errorLabel,

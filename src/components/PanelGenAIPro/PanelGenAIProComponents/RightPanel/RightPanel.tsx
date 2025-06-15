@@ -6,14 +6,16 @@ import { getPrompt } from '../../../../../shared/getPrompt'
 import ParticipantToggle from '../../../ParticipantToggle'
 // import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '@cknTypes/types'
 import {
-  VERB_FORMATS,
   type LessonComplete,
   type TestMode,
   type UseMyself,
-  scenarioDescriptions,
+  scenarioDescriptions
+} from '@cknTypes/types'
+import {
+  VERB_FORMATS,
   SCENARIO,
   MODULE_NAME
-} from '@cknTypes/types'
+} from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { getArticle, getScenarioDetails } from '../../../Util'

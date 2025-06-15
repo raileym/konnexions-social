@@ -11,7 +11,8 @@ import NavbarBottom from './components/NavbarBottom'
 import PanelMenu from './components/PanelMenu'
 import { useAppContext } from './context/AppContext/AppContext'
 import { getCurrentWeek } from './components/Util'
-import { defaultMaxCount, SCENARIO, type Scenario } from '@cknTypes/types'
+import { defaultMaxCount, type Scenario } from '@cknTypes/types'
+import { SCENARIO } from '@cknTypes/constants'
 import PanelGenAIPro from './components/PanelGenAIPro/PanelGenAIPro'
 
 const App: React.FC = () => {

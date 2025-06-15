@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useAppContext } from '../context/AppContext/AppContext'
-import { APP_HOME, LANGUAGE, scenarioLabels, type Language } from '@cknTypes/types'
+import { type Language } from '@cknTypes/types'
+import { APP_HOME, LANGUAGE, SCENARIO_LABELS } from '@cknTypes/constants'
 import Button from "./Button"
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek, getScenarioDetails } from './Util'
@@ -74,7 +75,7 @@ const PanelGenAI: React.FC = () => {
           <span className="">You could say, "</span>
         </>
       )}
-      I am <span className="b">{scenarioLabels[scenario]}</span>.{' '}
+      I am <span className="b">{SCENARIO_LABELS[scenario]}</span>.{' '}
       Please create a dialog between me and two other people, randomly chosen from{' '}
       <span className="b">{participantList}</span>.
       {scenario === 'custom' && (

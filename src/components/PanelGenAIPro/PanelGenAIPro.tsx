@@ -1,11 +1,6 @@
 import React from 'react'
 import { useAppContext } from '../../context/AppContext/AppContext'
-// import {
-//   APP_HOME
-// } from '@cknTypes/types'
-import {
-  APP_HOME
-} from '@cknTypes/types'
+import { APP_HOME } from '@cknTypes/constants'
 import LeftPanel from './PanelGenAIProComponents/LeftPanel/LeftPanel'
 import RightPanel from './PanelGenAIProComponents/RightPanel/RightPanel'
 

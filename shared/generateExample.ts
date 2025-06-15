@@ -1,10 +1,12 @@
 import {
-  LANGUAGE,
   type GenerateExampleProps,
   type Line,
   type Lines,
   type ModuleName
-} from './cknTypes/types/types'
+} from '@cknTypes/types'
+import {
+  LANGUAGE
+} from '@cknTypes/constants'
 
 // ✅ Overload declarations — DO NOT use 'const' or 'export'
 export function generateExample(props: GenerateExampleProps & { options: { asString: true } }): string

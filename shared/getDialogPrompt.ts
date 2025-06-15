@@ -1,6 +1,7 @@
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
-import { type GetDialogPrompt, type GetDialogPromptProps, scenarioLabels } from './cknTypes/types/types'
+import { type GetDialogPrompt, type GetDialogPromptProps } from '@cknTypes/types'
+import { SCENARIO_LABELS } from '@cknTypes/constants'
 // import { getConstraints } from '../shared/getConstraints'
 export const getDialogPrompt: GetDialogPrompt = ({scenarioData, lesson, errors}: GetDialogPromptProps) => {
   // const dialogNouns = getConstraints({language: lesson.language, scenario: lesson.scenario  })
@@ -12,7 +13,7 @@ export const getDialogPrompt: GetDialogPrompt = ({scenarioData, lesson, errors}:
   const requiredNouns = scenarioData?.nounsChooseN?.map((noun) => (`"${noun.noun_singular}"`))
 
   return (`
-DIALOG: Create a dialog in ${lesson.language} appropriate for a beginning language instruction, where the dialog takes place ${scenarioLabels[lesson.scenario]} between participants, ${lesson. participantList}. The dialog must contain between 6 to 8 lines, reflecting a natural exchange.
+DIALOG: Create a dialog in ${lesson.language} appropriate for a beginning language instruction, where the dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between participants, ${lesson. participantList}. The dialog must contain between 6 to 8 lines, reflecting a natural exchange.
 
 REQUIRED NOUNS: Your dialog must strongly prefer to include at least one of the following nouns:
 
@@ -20,7 +21,7 @@ REQUIRED NOUNS: Your dialog must strongly prefer to include at least one of the 
 ${requiredNouns.join(', ')}
     ]
 
-CONSTRAINED NOUNS: Limit your noun usage to the following list. If your dialog uses additional nouns, they must be clearly associated with typical scenario ${scenarioLabels[lesson.scenario]}.
+CONSTRAINED NOUNS: Limit your noun usage to the following list. If your dialog uses additional nouns, they must be clearly associated with typical scenario ${SCENARIO_LABELS[lesson.scenario]}.
 
     [
 ${constrainedNouns.join(', ')}

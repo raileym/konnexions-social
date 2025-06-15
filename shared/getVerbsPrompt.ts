@@ -1,6 +1,7 @@
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
-import { type GetVerbsPrompt, type GetVerbsPromptProps, MODULE_NAME } from './cknTypes/types/types'
+import { type GetVerbsPrompt, type GetVerbsPromptProps } from '@cknTypes/types'
+import { MODULE_NAME } from '@cknTypes/constants'
 
 export const getVerbsPrompt: GetVerbsPrompt = ({lesson, errors}: GetVerbsPromptProps) => {
         

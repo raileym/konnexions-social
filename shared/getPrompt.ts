@@ -2,17 +2,16 @@ import {
   defaultErrorLabel,
   defaultFieldCount,
   defaultPrompt,
-  ERROR_LABEL,
-  type Lesson
-} from './cknTypes/types/types'
-
+} from '@cknTypes/types'
+import {
+  ERROR_LABEL
+} from '@cknTypes/constants'
 type PromptWithMeta = {
   prompt: string
   fieldCount: number
   errorLabel: ErrorLabel
 }
-
-import type { ErrorLabel, GetPromptProps, HandleLLMError, ModuleName, ScenarioData } from './cknTypes/types/types'
+import type { Lesson, ErrorLabel, GetPromptProps, HandleLLMError, ModuleName, ScenarioData } from '@cknTypes/types'
 import { getDialogPrompt } from './getDialogPrompt'
 import { getNounsPrompt } from './getNounsPrompt'
 import { getVerbsPrompt } from './getVerbsPrompt'

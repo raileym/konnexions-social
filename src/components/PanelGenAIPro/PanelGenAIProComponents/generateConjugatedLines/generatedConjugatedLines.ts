@@ -1,11 +1,13 @@
 import {
   type VerbsLines,
-  LANGUAGE,
   type Language,
   pronounsUpperCase,
   type Lines,
   type VerbFormats
 } from "@cknTypes/types"
+import {
+  LANGUAGE
+} from '@cknTypes/constants'
 
 type GenerateConjugatedLinesProps = {
   verbsLines: VerbsLines

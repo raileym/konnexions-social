@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAppContext } from '../context/AppContext/AppContext'
-import { LANGUAGE, type Language } from '@cknTypes/types'
+import { type Language } from '@cknTypes/types'
+import { LANGUAGE } from '@cknTypes/constants'
 
 const SelectorLanguage: React.FC = () => {
   const {

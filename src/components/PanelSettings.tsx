@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppContext } from '../context/AppContext/AppContext'
-import { APP_PANEL } from '@cknTypes/types'
+import { APP_PANEL } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 

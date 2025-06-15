@@ -1,6 +1,7 @@
 // import { generateSignature } from '../shared/generateSignature'
 
 import {
+  APP_HOME,
   VERB_FORMATS,
   NOUN_ARTICLES,
   APP_PANEL,
@@ -8,7 +9,9 @@ import {
   SCENARIO,
   LANGUAGE,
   MODULE_NAME,
-  ERROR_LABEL
+  ERROR_LABEL,
+  GENDER,
+  SCENARIO_LABELS
 } from "@cknTypes/constants"
 
 export type AppContextType = {
@@ -165,7 +168,6 @@ export type ActivePanelValue = (typeof APP_PANEL)[keyof typeof APP_PANEL]
 export type ActivePanelKey = keyof typeof APP_PANEL
 export type ActivePanel = ActivePanelValue
 
-export const APP_HOME = APP_PANEL
 export type ActiveHomeValue = (typeof APP_HOME)[keyof typeof APP_HOME]
 export type ActiveHomeKey = keyof typeof APP_HOME
 export type ActiveHome = ActiveHomeValue
@@ -396,14 +398,6 @@ export const defaultDialogReviewLines: DialogLines = [
   "Mesero: En seguida.|Mesero: En un momento le traigo su bebida."
 ]
 
-export const scenarioLabels: ScenarioLabels = {
-  restaurant: 'at the restaurant',
-  hotel: 'at the hotel',
-  airport: 'at the airport',
-  taxi: 'in a taxi',
-  custom: 'custom'
-}
-
 export type NounArticlesValue = (typeof NOUN_ARTICLES)[keyof typeof NOUN_ARTICLES]
 export type NounArticlesKey = keyof typeof NOUN_ARTICLES
 export type NounArticles = NounArticlesValue
@@ -421,7 +415,7 @@ export const defaultErrors = []
 export const defaultSentinel = ''
 export const defaultProse = ''
 export const defaultModuleName = MODULE_NAME.DIALOG
-export const defaultScenarioLabel = scenarioLabels[SCENARIO.RESTAURANT]
+export const defaultScenarioLabel = SCENARIO_LABELS[SCENARIO.RESTAURANT]
 export const defaultLanguage = LANGUAGE.SPANISH
 export const defaultParticipantList = ''
 export const defaultMaxCount = 20
@@ -706,6 +700,10 @@ export const pronounsUpperCase: string[][] = [
   ['Ellos', 'Ellas', 'Ustedes']
 ]
 
+export type GenderValue = (typeof GENDER)[keyof typeof GENDER]
+export type GenderKey = keyof typeof GENDER
+export type Gender = GenderValue
+
 export type VerbFormatsValue = (typeof VERB_FORMATS)[keyof typeof VERB_FORMATS]
 export type VerbFormatsKey = keyof typeof VERB_FORMATS
 export type VerbFormats = VerbFormatsValue
@@ -721,8 +719,6 @@ export type FetchTTSProps = {
   cutoff: boolean
 }
 export type FetchTTSResult = string | null
-
-export type Gender = 'M' | 'F'
 
 export type NounRecord = {
   noun_base: Noun

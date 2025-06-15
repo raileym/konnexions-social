@@ -1,3 +1,5 @@
+import type { Gender, NounArticlesValue, ScenarioLabels } from "./types"
+
 export const MODULE_NAME = {
   DIALOG: 'dialog',
   NOUNS: 'nouns',
@@ -21,7 +23,7 @@ export const LANGUAGE = {
   ITALIAN: 'Italian'
 } as const
 
-export const languageCode = {
+export const LANGUAGE_CODE = {
   [LANGUAGE.ENGLISH]: 'en',
   [LANGUAGE.SPANISH]: 'es',
   [LANGUAGE.ITALIAN]: 'it',
@@ -82,9 +84,15 @@ export const NOUN_ARTICLES = {
   EL: 'el'
 } as const
 
+// export type Gender = 'M' | 'F'
+export const GENDER = {
+  M: 'M',
+  F: 'F'
+} as const
+
 export const GENDER_TO_ARTICLE: Record<Gender, NounArticlesValue> = {
-  F: NOUN_ARTICLES.LA,
-  M: NOUN_ARTICLES.EL
+  [GENDER.F]: NOUN_ARTICLES.LA,
+  [GENDER.M]: NOUN_ARTICLES.EL
 } as const
 
 export const VERB_FORMATS = {
@@ -96,3 +104,14 @@ export const VERB_FORMATS = {
   COMPLETE: "complete",
   TRIPLE: "triple"
  } as const
+
+ export const APP_HOME = APP_PANEL
+
+ export const SCENARIO_LABELS: ScenarioLabels = {
+  restaurant: 'at the restaurant',
+  hotel: 'at the hotel',
+  airport: 'at the airport',
+  taxi: 'in a taxi',
+  custom: 'custom'
+} as const
+

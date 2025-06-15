@@ -7,9 +7,11 @@ import {
   type SelectedLessonId,
   type ModuleName,
   type TestMode,
-  MODULE_NAME,
   type ScenarioData
-} from "../@cknTypes/types";
+} from "@cknTypes/types";
+import {
+  MODULE_NAME
+} from '@cknTypes/constants'
 import { getScenarioDetails } from "../../../../../Util";
 import handleModule from "../../../handleModule/handleModule";
 

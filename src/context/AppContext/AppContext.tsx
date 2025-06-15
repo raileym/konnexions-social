@@ -35,16 +35,18 @@ import type {
   Language
 } from '@cknTypes/types'
 import {
-  APP_HOME,
-  APP_PANEL,
   defaultLanguage,
   defaultLesson,
   defaultMaxCount,
   defaultScenarioData,
+} from '@cknTypes/types'
+import {
+  APP_HOME,
+  APP_PANEL,
   LANGUAGE,
   MODULE_NAME,
   SCENARIO
-} from '@cknTypes/types'
+} from '@cknTypes/constants'
 import { usePersistentState } from '../../hooks/usePersistentState'
 import { generateExample } from '../../../shared/generateExample'
 import { handleGetScenarioData } from './AppContextComponents/handleGetScenarioData/handleGetScenarioData'

@@ -1,6 +1,10 @@
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
-import { GetVerbsOnlyReviewPrompt, GetVerbsOnlyReviewPromptProps, MODULE_NAME } from './cknTypes/types/types'
+import type {
+  GetVerbsOnlyReviewPrompt,
+  GetVerbsOnlyReviewPromptProps
+} from '@cknTypes/types'
+import { MODULE_NAME } from '@cknTypes/constants'
 
 export const getVerbsOnlyReviewPrompt: GetVerbsOnlyReviewPrompt = ({lesson, errors}: GetVerbsOnlyReviewPromptProps) => {
   const verbsOnlyReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, options: { asString: true }  })
