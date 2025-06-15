@@ -1,15 +1,19 @@
 import {
-  Language,
   LANGUAGE,
-  Nouns,
   SCENARIO,
+} from "./types"
+import type {
+  Language,
+  Nouns,
   Scenario,
   Verbs,
-  type GetConstraintsProps
+  GetConstraintsProps
 } from "./types"
+
 
 // ✅ Implementation (this one is exported)
 export function getConstraints({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   language,
   scenario
 }: GetConstraintsProps): { nouns: Nouns, verbs: Verbs } {

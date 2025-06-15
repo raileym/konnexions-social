@@ -1,7 +1,7 @@
 import { formatDialogLinesForReview } from "./formatDialogLinesForReview"
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
-import { GetDialogReviewPrompt, GetDialogReviewPromptProps, MODULE_NAME } from "./types"
+import { type GetDialogReviewPrompt, type GetDialogReviewPromptProps, MODULE_NAME } from "./types"
 
 export const getDialogReviewPrompt: GetDialogReviewPrompt = ({lesson, errors}: GetDialogReviewPromptProps) => {
   const dialogReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: true }  })

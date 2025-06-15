@@ -12,7 +12,7 @@ type PromptWithMeta = {
   errorLabel: ErrorLabel
 }
 
-import type { ErrorLabel, GetPromptProps, HandleLLMError, ModuleName } from './types'
+import type { ErrorLabel, GetPromptProps, HandleLLMError, ModuleName, ScenarioData } from './types'
 import { getDialogPrompt } from './getDialogPrompt'
 import { getNounsPrompt } from './getNounsPrompt'
 import { getVerbsPrompt } from './getVerbsPrompt'
@@ -25,75 +25,73 @@ import { getNounsOnlyReviewPrompt } from './getNounsOnlyReviewPrompt'
 import { getVerbsOnlyPrompt } from './getVerbsOnlyPrompt'
 import { getVerbsOnlyReviewPrompt } from './getVerbsOnlyReviewPrompt'
 
-const promptGenerators: Record<ModuleName, (args: { lesson: Lesson, errors: HandleLLMError[] }) => PromptWithMeta> = {
-  dialog: ({ lesson, errors }) => ({
-    prompt: getDialogPrompt({ lesson, errors }),
+const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => PromptWithMeta> = {
+  dialog: ({ scenarioData, lesson, errors }) => ({
+    prompt: getDialogPrompt({ scenarioData, lesson, errors }),
     fieldCount: 3,
     errorLabel: ERROR_LABEL.DIALOG_ERROR
   }),
-  nouns: ({ lesson, errors }) => ({
-    prompt: getNounsPrompt({ lesson, errors }),
+  nouns: ({ scenarioData, lesson, errors }) => ({
+    prompt: getNounsPrompt({ scenarioData, lesson, errors }),
     fieldCount: 4,
     errorLabel: ERROR_LABEL.NOUNS_ERROR
   }),
-  nounsOnly: ({ lesson, errors }) => ({
-    prompt: getNounsOnlyPrompt({ lesson, errors }),
+  nounsOnly: ({ scenarioData, lesson, errors }) => ({
+    prompt: getNounsOnlyPrompt({ scenarioData, lesson, errors }),
     fieldCount: 1,
     errorLabel: ERROR_LABEL.NOUNS_ONLY_ERROR
   }),
-  verbs: ({ lesson, errors }) => ({
-    prompt: getVerbsPrompt({ lesson, errors }),
+  verbs: ({ scenarioData, lesson, errors }) => ({
+    prompt: getVerbsPrompt({ scenarioData, lesson, errors }),
     fieldCount: 7,
     errorLabel: ERROR_LABEL.VERBS_ERROR
   }),
-  verbsOnly: ({ lesson, errors }) => ({
-    prompt: getVerbsOnlyPrompt({ lesson, errors }),
+  verbsOnly: ({ scenarioData, lesson, errors }) => ({
+    prompt: getVerbsOnlyPrompt({ scenarioData, lesson, errors }),
     fieldCount: 1,
     errorLabel: ERROR_LABEL.VERBS_ERROR
   }),
-  dialogReview: ({ lesson, errors }) => ({
-    prompt: getDialogReviewPrompt({ lesson, errors }),
+  dialogReview: ({ scenarioData, lesson, errors }) => ({
+    prompt: getDialogReviewPrompt({ scenarioData, lesson, errors }),
     fieldCount: 1,
     errorLabel: ERROR_LABEL.DIALOG_REVIEW_ERROR
   }),
-  nounsReview: ({ lesson, errors }) => ({
-    prompt: getNounsReviewPrompt({ lesson, errors }),
+  nounsReview: ({ scenarioData, lesson, errors }) => ({
+    prompt: getNounsReviewPrompt({ scenarioData, lesson, errors }),
     fieldCount: 4,
     errorLabel: ERROR_LABEL.NOUNS_REVIEW_ERROR
   }),
-  nounsOnlyReview: ({ lesson, errors }) => ({
-    prompt: getNounsOnlyReviewPrompt({ lesson, errors }),
+  nounsOnlyReview: ({ scenarioData, lesson, errors }) => ({
+    prompt: getNounsOnlyReviewPrompt({ scenarioData, lesson, errors }),
     fieldCount: 1,
     errorLabel: ERROR_LABEL.NOUNS_ONLY_REVIEW_ERROR
   }),
-  verbsReview: ({ lesson, errors }) => ({
-    prompt: getVerbsReviewPrompt({ lesson, errors }),
+  verbsReview: ({ scenarioData, lesson, errors }) => ({
+    prompt: getVerbsReviewPrompt({ scenarioData, lesson, errors }),
     fieldCount: 7,
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
   }),
-  verbsOnlyReview: ({ lesson, errors }) => ({
-    prompt: getVerbsOnlyReviewPrompt({ lesson, errors }),
+  verbsOnlyReview: ({ scenarioData, lesson, errors }) => ({
+    prompt: getVerbsOnlyReviewPrompt({ scenarioData, lesson, errors }),
     fieldCount: 1,
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
   }),
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  verbsExpandedInComplete: ({ lesson, errors }) => ({
+  verbsExpandedInComplete: () => ({
     prompt: defaultPrompt,
     fieldCount: defaultFieldCount,
     errorLabel: defaultErrorLabel
   }),
-  verbsExpandedComplete: ({ lesson, errors }) => ({
-    prompt: getVerbsExpandedCompletePrompt({ lesson, errors }),
+  verbsExpandedComplete: ({ scenarioData, lesson, errors }) => ({
+    prompt: getVerbsExpandedCompletePrompt({ scenarioData, lesson, errors }),
     fieldCount: 1,
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
   }),
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  verbsExpandedTriple: ({ lesson, errors }) => ({
+  verbsExpandedTriple: () => ({
     prompt: defaultPrompt,
     fieldCount: defaultFieldCount,
     errorLabel: defaultErrorLabel
   }),
 }
 
-export const getPrompt = ({ moduleName, lesson, errors }: GetPromptProps & { moduleName: ModuleName }): PromptWithMeta =>
-  promptGenerators[moduleName]({ lesson, errors })
+export const getPrompt = ({ moduleName, scenarioData, lesson, errors }: GetPromptProps & { moduleName: ModuleName, scenarioData: ScenarioData }): PromptWithMeta =>
+  promptGenerators[moduleName]({ scenarioData, lesson, errors })

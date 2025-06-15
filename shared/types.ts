@@ -154,6 +154,7 @@ export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitio
 export type SetLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetLessonId = React.Dispatch<React.SetStateAction<LessonId>>
 export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
+export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
 export type SetMaxCount = React.Dispatch<React.SetStateAction<MaxCount>>
@@ -399,6 +400,7 @@ export type HandleNounsReviewProps = {
 }
 
 export type GetPromptProps = {
+  scenarioData: ScenarioData
   lesson: Lesson
   errors: HandleLLMError[]
 }
@@ -455,7 +457,7 @@ export type NounArticlesValue = (typeof NOUN_ARTICLES)[keyof typeof NOUN_ARTICLE
 export type NounArticlesKey = keyof typeof NOUN_ARTICLES
 export type NounArticles = NounArticlesValue
 
-export const GENDER_TO_ARTICLE: Record<'F' | 'M', NounArticlesValue> = {
+export const GENDER_TO_ARTICLE: Record<Gender, NounArticlesValue> = {
   F: NOUN_ARTICLES.LA,
   M: NOUN_ARTICLES.EL
 }
@@ -798,10 +800,13 @@ export type FetchTTSProps = {
 }
 export type FetchTTSResult = string | null
 
+export type Gender = 'M' | 'F'
+
 export type NounRecord = {
-  noun_singular: string
-  noun_plural: string
-  noun_gender: 'M' | 'F'
+  noun_base: Noun
+  noun_singular: Noun
+  noun_plural: Noun
+  noun_gender: Gender
   noun_article: 'el' | 'la'
 }
 
@@ -819,7 +824,7 @@ export type NounDetails = {
   noun_base: string
   noun_singular: string
   noun_plural: string
-  noun_gender: 'M' | 'F'
+  noun_gender: Gender
 }
 
 export type VerbDetails = {
@@ -833,6 +838,7 @@ export type VerbDetails = {
 }
 
 export type ScenarioData = {
+  nounsChooseN: NounDetails[]
   nouns: NounDetails[]
   verbs: VerbDetails[]
   nounBySingular: Map<string, NounDetails>
@@ -842,6 +848,7 @@ export type ScenarioData = {
 }
 
 export const defaultScenarioData: ScenarioData = {
+  nounsChooseN: [],
   nouns: [],
   verbs: [],
   nounBySingular: new Map(),

@@ -9,13 +9,13 @@ import { streamlineModule } from '../shared/streamlineModule'
 
 const handler: Handler = async (event) => {
   try {
-    const { testMode, lesson, moduleName } = JSON.parse(event.body ?? '{}')
+    const { testMode, scenarioData, lesson, moduleName } = JSON.parse(event.body ?? '{}')
 
-    if (!lesson || !moduleName) {
-      console.log('Missing the big two')
+    if (!scenarioData || !lesson || !moduleName) {
+      console.log('Missing the big three')
       return {
         statusCode: 400,
-        body: 'Missing a required field: lesson or moduleName'
+        body: 'Missing a required field: scenarioData, lesson, or moduleName'
       }
     }
     
@@ -34,7 +34,7 @@ const handler: Handler = async (event) => {
 
     console.log('TWO')
 
-    ;({ prompt, fieldCount, errorLabel } = getPrompt({moduleName, lesson, errors: [] }))
+    ;({ prompt, fieldCount, errorLabel } = getPrompt({moduleName, scenarioData, lesson, errors: [] }))
 
     console.log('THREE')
 
@@ -62,7 +62,7 @@ const handler: Handler = async (event) => {
 
     if (!validModule.success) {
 
-      ;({ prompt, fieldCount, errorLabel } = getPrompt({moduleName, lesson, errors: validModule.errors ?? []}))
+      ;({ prompt, fieldCount, errorLabel } = getPrompt({moduleName, scenarioData, lesson, errors: validModule.errors ?? []}))
 
       if (testMode) {
         response = generateExample({

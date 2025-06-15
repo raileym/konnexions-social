@@ -150,18 +150,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 useEffect(() => {
   console.log('useEffect', scenario)
   async function fetchScenarioData() {
-    console.log('fetchScenarioData', scenario)
+    // console.log('fetchScenarioData', scenario)
     const data = await handleGetScenarioData({scenario, language})
     if (!data) {
       console.log('fetchScenarioData', 'no data returned')
       return
     }
 
-    console.log('fetchScenarioData', JSON.stringify(data, null, 2))
+    // console.log('fetchScenarioData', JSON.stringify(data, null, 2))
 
     const nounBySingular = new Map()
     const nounByPlural = new Map()
     const singularNounList: string[] = []
+
+    console.log('data',data)
 
     for (const noun of data.nouns) {
       nounBySingular.set(noun.noun_singular, noun)
@@ -174,8 +176,11 @@ useEffect(() => {
       verbByInfinitive.set(verb.verb_infinitive, verb)
     }
 
+    const N = 2
+
     setScenarioData({
       ...data,
+      nounsChooseN: data.nouns.sort(() => 0.5 - Math.random()).slice(0, N),
       nounBySingular,
       nounByPlural,
       singularNounList,
@@ -184,7 +189,6 @@ useEffect(() => {
   }
 
   fetchScenarioData()
-// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [scenario, language])
 
 
