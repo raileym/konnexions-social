@@ -1,7 +1,7 @@
 // src/components/PanelKeys.tsx
 import React from 'react'
 import { useAppContext } from '../context/AppContext/AppContext'
-import { APP_PANEL } from '../../shared/types'
+import { APP_PANEL } from '../../shared/cknTypes/types/types'
 
 const PanelKeys: React.FC = () => {
   const {

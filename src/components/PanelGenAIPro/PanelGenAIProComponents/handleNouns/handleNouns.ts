@@ -1,4 +1,4 @@
-import type { HandleModuleProps } from "../../../../../shared/types"
+import type { HandleModuleProps } from "../../../../../shared/cknTypes/types/types"
 import getModule from "../getModule/getModule"
 
 export const handleNouns = async ({

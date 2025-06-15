@@ -4,7 +4,7 @@ import { generateExample } from '../shared/generateExample'
 import { fetchOpenAI } from '../shared/fetchLLM'
 import { getPrompt } from '../shared/getPrompt'
 import { validateModule } from '../shared/validateModule'
-import { defaultErrorLabel, defaultFieldCount, defaultModule, defaultPrompt, ErrorLabel, Lesson, Module, Prompt } from '../shared/types'
+import { defaultErrorLabel, defaultFieldCount, defaultModule, defaultPrompt, ErrorLabel, Lesson, Module, Prompt } from '../shared/cknTypes/types/types'
 import { streamlineModule } from '../shared/streamlineModule'
 
 const handler: Handler = async (event) => {

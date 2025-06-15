@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppContext } from '../context/AppContext/AppContext'
-import { SCENARIO, type Scenario } from '../../shared/types'
+import { SCENARIO, type Scenario } from '../../shared/cknTypes/types/types'
 
 type SelectorScenarioProps = {
   custom: boolean

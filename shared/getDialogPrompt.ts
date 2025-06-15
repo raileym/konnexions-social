@@ -1,12 +1,12 @@
 import { generateExample } from "./generateExample"
 import { jsonQualification } from "./jsonQualification"
-import { type GetDialogPrompt, type GetDialogPromptProps, scenarioLabels } from "./types"
+import { type GetDialogPrompt, type GetDialogPromptProps, scenarioLabels } from './cknTypes/types/types'
 // import { getConstraints } from '../shared/getConstraints'
 export const getDialogPrompt: GetDialogPrompt = ({scenarioData, lesson, errors}: GetDialogPromptProps) => {
   // const dialogNouns = getConstraints({language: lesson.language, scenario: lesson.scenario  })
   const dialogExample = generateExample({language: lesson.language, moduleName: 'dialog', options: { asString: true }  })
   
-  console.log('scenarioData.nouns', scenarioData?.nouns)
+  // console.log('scenarioData.nouns', scenarioData?.nouns)
 
   const constrainedNouns = scenarioData?.nouns?.map((noun) => (`"${noun.noun_singular}"`))
   const requiredNouns = scenarioData?.nounsChooseN?.map((noun) => (`"${noun.noun_singular}"`))

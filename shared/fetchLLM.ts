@@ -1,4 +1,4 @@
-import { Prompt } from "./types"
+import { Prompt } from "./cknTypes/types/types"
 
 type FetchOpenAIProps = {
   prompt: Prompt

@@ -1,4 +1,4 @@
-import { type Module, MODULE_NAME } from '../shared/types'
+import { type Module, MODULE_NAME } from '../shared/cknTypes/types/types'
 
 export function streamlineModule({
   moduleName,

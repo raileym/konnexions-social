@@ -4,7 +4,7 @@ import { useAppContext } from '../../../../context/AppContext/AppContext'
 import SelectorScenario from '../../../SelectorScenario'
 import { getPrompt } from '../../../../../shared/getPrompt'
 import ParticipantToggle from '../../../ParticipantToggle'
-// import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/types'
+// import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '../../../../../shared/cknTypes/types/types'
 import {
   VERB_FORMATS,
   type LessonComplete,
@@ -13,7 +13,7 @@ import {
   scenarioDescriptions,
   SCENARIO,
   MODULE_NAME
-} from '../../../../../shared/types'
+} from '../../../../../shared/cknTypes/types/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { getArticle, getScenarioDetails } from '../../../Util'
@@ -82,21 +82,6 @@ const RightPanel: React.FC = () => {
   // const headline = <div className="f3">Create a custom dialog in <b>{language}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or in a taxi.</div>
   const headline = <div className="f3">Create a custom dialog in <b>{language}</b> {scenarioDescriptions[scenario]}</div>
 
-  // type RunModuleProps = {
-  //   moduleName: ModuleName
-  //   lesson: Lesson
-  // }
-
-  // const runModule = async ({moduleName, lesson}: RunModuleProps): Promise<Lesson | null> => {
-  //   const result = await handleModule({ lesson, moduleName, testMode })
-  //   if (!result) return null
-  //   console.log(`runModule (${moduleName})`)
-  //   return {
-  //     ...lesson,
-  //     [moduleName]: result      
-  //   }
-  // }
-
   const lesson = lessons.find(l => l.id === selectedLessonId)
 
   
@@ -107,7 +92,7 @@ const RightPanel: React.FC = () => {
     } else {
       const { prompt } = getPrompt({moduleName: MODULE_NAME.DIALOG, scenarioData, lesson, errors: [] })
 
-      console.log('lesson', lesson)
+      // console.log('lesson', lesson)
       // console.log('prompt', prompt)
 
       const verbListsNoIndex = generateVerbLists(lesson, true)
@@ -124,12 +109,14 @@ const RightPanel: React.FC = () => {
               <button
                 className={`f3 pa3 br4 bn ${testMode ? 'bg-black white' : 'bg-brand white'} pointer`}
                 onClick={() => handleCreateLesson({
+                  scenarioData,
                   scenario,
                   language,
                   lesson,
                   setLessons,
                   setLessonComplete,
-                  selectedLessonId
+                  selectedLessonId,
+                  testMode
                 })}
               >
                 Create Lesson {testMode ? '(Test Mode)' : ''}
@@ -153,7 +140,7 @@ const RightPanel: React.FC = () => {
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
-            <DialogList lines={(lesson?.dialog?.lines ?? []).slice(0, 3)} useCloudTTS={true} />
+            <DialogList lines={(lesson?.dialog?.lines ?? [])} useCloudTTS={true} />
           </div>
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
@@ -190,8 +177,8 @@ const RightPanel: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mv4 ba pa3 bg-white">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{prompt}</div>
-                {/* <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialog.prompt}</div> */}
+                {/* <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{prompt}</div> */}
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialog.prompt}</div>
               </div>
             </div>
           )}

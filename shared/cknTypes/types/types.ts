@@ -361,6 +361,7 @@ export type JsonQualification = string
 export type Prompt = string
 
 export type HandleModuleProps = {
+  scenarioData: ScenarioData
   testMode: TestMode
   lesson: Lesson
   moduleName: ModuleName
@@ -738,6 +739,7 @@ export type GetPartialLessonProps = {
 }
   
 export type GetModuleProps = {
+  scenarioData: ScenarioData,
   testMode: TestMode,
   lesson: Lesson
   moduleName: ModuleName

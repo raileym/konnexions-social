@@ -1,9 +1,10 @@
 import type {
   GetModuleProps,
   Module
-} from "../../../../../shared/types"
+} from "../../../../../shared/cknTypes/types/types"
 
 export const getModule = async ({
+  scenarioData,
   lesson,
   moduleName,
   testMode
@@ -13,6 +14,7 @@ export const getModule = async ({
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        scenarioData,
         testMode,
         lesson,
         moduleName

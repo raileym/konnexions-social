@@ -2,7 +2,7 @@ import React from 'react'
 import { useAppContext } from '../../context/AppContext/AppContext'
 import {
   APP_HOME
-} from '../../../shared/types'
+} from '../../../shared/cknTypes/types/types'
 import LeftPanel from './PanelGenAIProComponents/LeftPanel/LeftPanel'
 import RightPanel from './PanelGenAIProComponents/RightPanel/RightPanel'
 

@@ -7,7 +7,7 @@ import {
   type ParticipantLinesByLanguage,
   type Scenario,
   GENDER_TO_ARTICLE
-} from "../../shared/types"
+} from "../../shared/cknTypes/types/types"
 
 export const getCurrentWeek = () => {
   const now = new Date()

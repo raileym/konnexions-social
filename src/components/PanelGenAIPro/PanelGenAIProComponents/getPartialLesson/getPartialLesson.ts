@@ -1,7 +1,7 @@
 import type {
   GetPartialLessonProps,
   PartialLesson
-} from "../../../../../shared/types"
+} from "../../../../../shared/cknTypes/types/types"
 
 export const getPartialLesson = async ({
   testMode,

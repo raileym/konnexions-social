@@ -1,7 +1,7 @@
 import type {
   GetModuleProps,
   Lesson
-} from "../../../../../shared/types"
+} from "../../../../../shared/cknTypes/types/types"
 
 export const getDialog = async ({
   testMode,

@@ -33,7 +33,7 @@ import type {
   Cutoff,
   ScenarioData,
   Language
-} from '../../../shared/types'
+} from '../../../shared/cknTypes/types/types'
 import {
   APP_HOME,
   APP_PANEL,
@@ -44,7 +44,7 @@ import {
   LANGUAGE,
   MODULE_NAME,
   SCENARIO
-} from '../../../shared/types'
+} from '../../../shared/cknTypes/types/types'
 import { usePersistentState } from '../../hooks/usePersistentState'
 import { generateExample } from '../../../shared/generateExample'
 import { handleGetScenarioData } from './AppContextComponents/handleGetScenarioData/handleGetScenarioData'
@@ -148,7 +148,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // }
   
 useEffect(() => {
-  console.log('useEffect', scenario)
+  // console.log('useEffect', scenario)
   async function fetchScenarioData() {
     // console.log('fetchScenarioData', scenario)
     const data = await handleGetScenarioData({scenario, language})
@@ -163,7 +163,7 @@ useEffect(() => {
     const nounByPlural = new Map()
     const singularNounList: string[] = []
 
-    console.log('data',data)
+    // console.log('data',data)
 
     for (const noun of data.nouns) {
       nounBySingular.set(noun.noun_singular, noun)

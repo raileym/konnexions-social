@@ -1,7 +1,7 @@
 import type {
   GetVerbsProps,
   GetVerbsResult
-} from "../../../../../shared/types"
+} from "../../../../../shared/cknTypes/types/types"
 
 export const getVerbs = async ({
   testMode,

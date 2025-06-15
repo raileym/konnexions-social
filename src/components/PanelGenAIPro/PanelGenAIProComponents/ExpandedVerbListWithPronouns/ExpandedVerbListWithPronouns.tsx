@@ -1,4 +1,4 @@
-import type { Language, VerbsLines } from "../../../../../shared/types"
+import type { Language, VerbsLines } from "../../../../../shared/cknTypes/types/types"
 import { generateConjugatedLines } from "../generateConjugatedList/generatedConjugatedList"
 
 type ConjugationListProps = {

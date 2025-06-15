@@ -1,14 +1,14 @@
 import {
   LANGUAGE,
   SCENARIO,
-} from "./types"
+} from './cknTypes/types/types'
 import type {
   Language,
   Nouns,
   Scenario,
   Verbs,
   GetConstraintsProps
-} from "./types"
+} from './cknTypes/types/types'
 
 
 // ✅ Implementation (this one is exported)

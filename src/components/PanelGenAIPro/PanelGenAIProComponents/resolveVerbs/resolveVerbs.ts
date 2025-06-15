@@ -1,4 +1,4 @@
-import type { Lines } from '../../../../../shared/types'
+import type { Lines } from '../../../../../shared/cknTypes/types/types'
 
 type ResolveVerbsProps = {
   verbsLines: Lines

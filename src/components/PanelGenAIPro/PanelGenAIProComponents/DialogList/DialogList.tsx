@@ -34,9 +34,9 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
   }, [selectedLessonId, cutoff])
 
   useEffect(() => {
-    console.log('Invoking useEffect in DialogList')
+    // console.log('Invoking useEffect in DialogList')
     if (!useCloudTTS || cutoff) return
-    console.log('Passing through useEffect in DialogList')
+    // console.log('Passing through useEffect in DialogList')
 
     const preloadSequentially = async () => {
       for (let i = 0; i < lines.length; i++) {

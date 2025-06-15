@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
-import { languageCode } from '../shared/types'
+import { languageCode } from '../shared/cknTypes/types/types'
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,

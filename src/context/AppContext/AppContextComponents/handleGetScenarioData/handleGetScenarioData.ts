@@ -2,7 +2,7 @@ import type {
   HandleGetScenarioDataProps,
   NounRecord,
   VerbRecord
-} from '../../../../../shared/types'
+} from '../../../../../shared/cknTypes/types/types'
 
 type ScenarioData = {
   nouns: NounRecord[]

@@ -7,7 +7,7 @@ import {
   type Lines,
   type Line,
   LANGUAGE
-} from "./types"
+} from './cknTypes/types/types'
 
 export const addError = ({
   errorLabel,

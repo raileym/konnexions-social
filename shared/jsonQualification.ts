@@ -1,4 +1,4 @@
-import { type JsonQualification } from "./types";
+import { type JsonQualification } from './cknTypes/types/types';
 
 export const jsonQualification: JsonQualification = `
 RESPONSE: Express your response using well-formed JSON only, with:

@@ -1,29 +1,56 @@
-import type {
-  Language,
-  Scenario,
-  Lesson,
-  SetLessonComplete,
-  SetLessons,
-  SelectedLessonId
-} from "../../../../../../../shared/types";
+import {
+  type Language,
+  type Scenario,
+  type Lesson,
+  type SetLessonComplete,
+  type SetLessons,
+  type SelectedLessonId,
+  type ModuleName,
+  type TestMode,
+  MODULE_NAME,
+  type ScenarioData
+} from "../../../../../../../shared/cknTypes/types/types";
 import { getScenarioDetails } from "../../../../../Util";
+import handleModule from "../../../handleModule/handleModule";
 
 export type HandleCreateLessonProps = {
+  scenarioData: ScenarioData
   scenario: Scenario
   language: Language
   lesson: Lesson
   setLessonComplete: SetLessonComplete
   setLessons: SetLessons
   selectedLessonId: SelectedLessonId
+  testMode: TestMode
 }
 
+type RunModuleProps = {
+  scenarioData: ScenarioData
+  testMode: TestMode
+  moduleName: ModuleName
+  lesson: Lesson
+}
+
+const runModule = async ({scenarioData, testMode, moduleName, lesson}: RunModuleProps): Promise<Lesson | null> => {
+  const result = await handleModule({ scenarioData, lesson, moduleName, testMode })
+  if (!result) return null
+  console.log(`runModule (${moduleName})`)
+  return {
+    ...lesson,
+    [moduleName]: result      
+  }
+}
+
+
 export const handleCreateLesson = async ({
+  scenarioData,
   scenario,
   language,
   lesson,
   setLessons,
   setLessonComplete,
-  selectedLessonId
+  selectedLessonId,
+  testMode
 }: HandleCreateLessonProps) => {
   const { participantList } = getScenarioDetails({ scenario, language });
 
@@ -37,8 +64,8 @@ export const handleCreateLesson = async ({
   //
   // Dialog
   //
-  // const dialogLesson_1 = await runModule({moduleName: MODULE_NAME.DIALOG, lesson: initialLesson_0})
-  // if (!dialogLesson_1) return
+  const dialogLesson_1 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.DIALOG, lesson: initialLesson_0})
+  if (!dialogLesson_1) return
 
   //
   // Dialog Review
@@ -179,14 +206,14 @@ export const handleCreateLesson = async ({
   //     lines: verbsLists_17.triple
   //   }
   // }
-  
+
   setLessons((prev) => {
     console.log('🔄 Updating lesson list...');
-    console.log('▶️ initialLesson_0:', initialLesson_0);
+    console.log('▶️ dialogLesson_1:', dialogLesson_1);
     const next = prev.map((lsn) => {
       if (lsn.id === selectedLessonId) {
         console.log(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...initialLesson_0, id: lsn.id, name: lsn.name };
+        const updated = { ...dialogLesson_1, id: lsn.id, name: lsn.name };
         console.log('🆕 Updated lesson:', updated);
         return updated;
       }

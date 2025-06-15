@@ -1,5 +1,5 @@
 import { useRef, useState } from "react"
-import type { MaxCount, SetMaxCount } from "../../../../../shared/types"
+import type { MaxCount, SetMaxCount } from "../../../../../shared/cknTypes/types/types"
 import { fetchTTS } from "../fetchTTS/fetchTTS"
 
 type UseTTSOptions = {

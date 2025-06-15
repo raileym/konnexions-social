@@ -5,7 +5,7 @@ import {
   pronounsUpperCase,
   type Lines,
   type VerbFormats
-} from "../../../../../shared/types"
+} from "../../../../../shared/cknTypes/types/types"
 
 type GenerateConjugatedLinesProps = {
   verbsLines: VerbsLines

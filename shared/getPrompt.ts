@@ -4,7 +4,7 @@ import {
   defaultPrompt,
   ERROR_LABEL,
   type Lesson
-} from './types'
+} from './cknTypes/types/types'
 
 type PromptWithMeta = {
   prompt: string
@@ -12,7 +12,7 @@ type PromptWithMeta = {
   errorLabel: ErrorLabel
 }
 
-import type { ErrorLabel, GetPromptProps, HandleLLMError, ModuleName, ScenarioData } from './types'
+import type { ErrorLabel, GetPromptProps, HandleLLMError, ModuleName, ScenarioData } from './cknTypes/types/types'
 import { getDialogPrompt } from './getDialogPrompt'
 import { getNounsPrompt } from './getNounsPrompt'
 import { getVerbsPrompt } from './getVerbsPrompt'
