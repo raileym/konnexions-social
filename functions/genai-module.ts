@@ -1,4 +1,4 @@
-import { Handler } from '@netlify/functions'
+import { type Handler } from '@netlify/functions'
 import { generateSignature } from '../shared/generateSignature'
 import { generateExample } from '../shared/generateExample'
 import { fetchOpenAI } from '../shared/fetchLLM'
@@ -13,7 +13,7 @@ import {
   Lesson,
   Module,
   Prompt
-} from '@cknTypes/types/'
+} from '@cknTypes/types'
 import { streamlineModule } from '../shared/streamlineModule'
 
 const handler: Handler = async (event) => {

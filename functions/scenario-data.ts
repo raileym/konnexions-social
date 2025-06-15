@@ -1,4 +1,4 @@
-import { Handler } from '@netlify/functions'
+import { type Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
 import { LANGUAGE_CODE } from '@cknTypes/constants'
 
