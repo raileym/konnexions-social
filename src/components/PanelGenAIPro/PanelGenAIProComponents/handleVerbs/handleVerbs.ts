@@ -1,6 +1,6 @@
 import type {
   HandleVerbsProps
-} from "../../../../../shared/cknTypes/types/types"
+} from "@cknTypes/types"
 import getVerbs from "../getVerbs/getVerbs"
 
 export const handleVerbs = async ({

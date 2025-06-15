@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppContext } from '../context/AppContext/AppContext'
-import { APP_PANEL } from '../../shared/cknTypes/types/types'
+import { APP_PANEL } from '@cknTypes/types'
 
 const PanelMenu: React.FC = () => {
   const { activePanel } = useAppContext()

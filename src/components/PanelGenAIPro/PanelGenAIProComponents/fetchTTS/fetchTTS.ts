@@ -1,4 +1,4 @@
-import type { FetchTTSProps, FetchTTSResult } from "../../../../../shared/cknTypes/types/types"
+import type { FetchTTSProps, FetchTTSResult } from "@cknTypes/types"
 
 export async function fetchTTS({
   text,

@@ -1,5 +1,5 @@
 import { generateConjugatedLines } from "../generateConjugatedLines/generatedConjugatedLines"
-import { type Lesson, LANGUAGE, type Lines, VERB_FORMATS, type VerbFormats } from "../../../../../shared/cknTypes/types/types"
+import { type Lesson, LANGUAGE, type Lines, VERB_FORMATS, type VerbFormats } from "@cknTypes/types"
 import { zipLines } from "../zipLines/zipLines"
 
 const formats: VerbFormats[] = Object.values(VERB_FORMATS)

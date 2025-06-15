@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useAppContext } from '../context/AppContext/AppContext'
-import { APP_HOME, LANGUAGE, scenarioLabels, type Language } from '../../shared/cknTypes/types/types'
+import { APP_HOME, LANGUAGE, scenarioLabels, type Language } from '@cknTypes/types'
 import Button from "./Button"
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek, getScenarioDetails } from './Util'

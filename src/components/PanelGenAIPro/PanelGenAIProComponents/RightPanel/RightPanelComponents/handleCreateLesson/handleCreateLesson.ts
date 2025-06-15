@@ -9,7 +9,7 @@ import {
   type TestMode,
   MODULE_NAME,
   type ScenarioData
-} from "../../../../../../../shared/cknTypes/types/types";
+} from "../@cknTypes/types";
 import { getScenarioDetails } from "../../../../../Util";
 import handleModule from "../../../handleModule/handleModule";
 

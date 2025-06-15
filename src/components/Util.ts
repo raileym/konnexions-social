@@ -1,13 +1,16 @@
 import {
-  LANGUAGE,
   scenarioTitles,
   type ChooseParticipantLinesProps,
   type GetScenarioDetailsProps,
   type ParticipantProse,
   type ParticipantLinesByLanguage,
-  type Scenario,
+  type Scenario
+} from "@cknTypes/types"
+import {
+  LANGUAGE,
   GENDER_TO_ARTICLE
-} from "../../shared/cknTypes/types/types"
+} from "@cknTypes/constants"
+
 
 export const getCurrentWeek = () => {
   const now = new Date()

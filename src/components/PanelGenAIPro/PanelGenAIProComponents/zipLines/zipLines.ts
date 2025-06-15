@@ -1,4 +1,4 @@
-import type { Lines } from "../../../../../shared/cknTypes/types/types"
+import type { Lines } from "@cknTypes/types"
 
 type ZipLinesProps = {
   left: Lines

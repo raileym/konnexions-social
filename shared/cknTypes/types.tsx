@@ -1,5 +1,16 @@
 // import { generateSignature } from '../shared/generateSignature'
 
+import {
+  VERB_FORMATS,
+  NOUN_ARTICLES,
+  APP_PANEL,
+  GEN_AI_STEP,
+  SCENARIO,
+  LANGUAGE,
+  MODULE_NAME,
+  ERROR_LABEL
+} from "@cknTypes/constants"
+
 export type AppContextType = {
   activeHome: ActiveHome
   activePanel: ActivePanel
@@ -69,52 +80,17 @@ export type AppContextType = {
 
 export type LessonComplete = boolean
 
-export const LANGUAGE = {
-  SPANISH: 'Latin American Spanish',
-  ENGLISH: 'English',
-  FRENCH: 'French',
-  ITALIAN: 'Italian'
-} as const
 export type LanguageValue = (typeof LANGUAGE)[keyof typeof LANGUAGE]
 export type LanguageKey = keyof typeof LANGUAGE
 export type Language = LanguageValue
 
-export const MODULE_NAME = {
-  DIALOG: 'dialog',
-  NOUNS: 'nouns',
-  NOUNS_ONLY: 'nounsOnly',
-  VERBS: 'verbs',
-  VERBS_ONLY: 'verbsOnly',
-  DIALOG_REVIEW: 'dialogReview',
-  NOUNS_REVIEW: 'nounsReview',
-  NOUNS_ONLY_REVIEW: 'nounsOnlyReview',
-  VERBS_REVIEW: 'verbsReview',
-  VERBS_ONLY_REVIEW: 'verbsOnlyReview',
-  VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
-  VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete',
-  VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple'
-} as const
 export type ModuleNameValue = (typeof MODULE_NAME)[keyof typeof MODULE_NAME]
 export type ModuleNameKey = keyof typeof MODULE_NAME
 export type ModuleName = ModuleNameValue
 
-export const SCENARIO = {
-  RESTAURANT: 'restaurant',
-  HOTEL: 'hotel',
-  AIRPORT: 'airport',
-  TAXI: 'taxi',
-  CUSTOM: 'custom'
-} as const
 export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]
 export type ScenarioKey = keyof typeof SCENARIO
 export type Scenario = ScenarioValue
-
-export const languageCode = {
-  [LANGUAGE.ENGLISH]: 'en',
-  [LANGUAGE.SPANISH]: 'es',
-  [LANGUAGE.ITALIAN]: 'it',
-  [LANGUAGE.FRENCH]: 'fr'
-}
 
 export type Answer = string
 export type ApiKey = string
@@ -181,32 +157,10 @@ export type UseCloudTTS = boolean
 
 export type IsActive = boolean
 
-export const GEN_AI_STEP = {
-  DIALOG: 0,
-  DIALOG_REVIEW: 1,
-  NOUNS: 2,
-  NOUNS_REVIEW: 3,
-  VERBS: 4,
-  VERBS_REVIEW: 5,
-  VERB_CONJUGATIONS: 6,
-  VERB_CONJUGATIONS_REVIEW: 7,
-  NOUN_USAGE: 8,
-  NOUN_USAGE_REVIEW: 9
-} as const
 export type GenAIStepValue = (typeof GEN_AI_STEP)[keyof typeof GEN_AI_STEP]
 export type GenAIStepKey = keyof typeof GEN_AI_STEP
 export type GenAIStep = GenAIStepValue
 
-export const APP_PANEL = {
-  // HOME: 'home',
-  SETTINGS: 'settings',
-  HELP: 'help',
-  KEYS: 'keys',
-  MENU: 'menu',
-  BASIC: 'basic',
-  GEN_AI: 'genAI',
-  GEN_AI_PRO: 'genAIPro'
-} as const
 export type ActivePanelValue = (typeof APP_PANEL)[keyof typeof APP_PANEL]
 export type ActivePanelKey = keyof typeof APP_PANEL
 export type ActivePanel = ActivePanelValue
@@ -450,35 +404,10 @@ export const scenarioLabels: ScenarioLabels = {
   custom: 'custom'
 }
 
-export const NOUN_ARTICLES = {
-  LA: 'la',
-  EL: 'el'
-}
 export type NounArticlesValue = (typeof NOUN_ARTICLES)[keyof typeof NOUN_ARTICLES]
 export type NounArticlesKey = keyof typeof NOUN_ARTICLES
 export type NounArticles = NounArticlesValue
 
-export const GENDER_TO_ARTICLE: Record<Gender, NounArticlesValue> = {
-  F: NOUN_ARTICLES.LA,
-  M: NOUN_ARTICLES.EL
-}
-
-export const ERROR_LABEL = {
-  NO_ERROR: 'noError',
-  DIALOG_ERROR: 'handleDialogError',
-  NOUNS_ERROR: 'handleNounsError',
-  NOUNS_ONLY_ERROR: 'handleNounsOnlyError',
-  VERBS_ERROR: 'handleVerbsError',
-  VERBS_ONLY_ERROR: 'handleVerbsOnlyError',
-  DIALOG_REVIEW_ERROR: 'handleDialogReviewError',
-  NOUNS_REVIEW_ERROR: 'handleNounsReviewError',
-  NOUNS_ONLY_REVIEW_ERROR: 'handleNounsOnlyReviewError',
-  VERBS_REVIEW_ERROR: 'handleVerbsReviewError',
-  VERBS_REVIEW_ONLY_ERROR: 'handleVerbsOnlyReviewError',
-  VERBS_EXPANDED_ERROR: 'handleVerbsExpandedError',
-  VERBS_EXPANDED_INCOMPLETE_ERROR: 'handleVerbsExpandedInCompleteError',
-  VERBS_EXPANDED_COMPLETE_ERROR: 'handleVerbsExpandedCompleteError'
-} as const
 export type ErrorLabelValue = (typeof ERROR_LABEL)[keyof typeof ERROR_LABEL]
 export type ErrorLabelKey = keyof typeof ERROR_LABEL
 export type ErrorLabel = ErrorLabelValue
@@ -777,15 +706,6 @@ export const pronounsUpperCase: string[][] = [
   ['Ellos', 'Ellas', 'Ustedes']
 ]
 
-export const VERB_FORMATS = {
-  INFINITE: "infinitive",
-  CONJUGATION: "conjugation",
-  PRONOUN: "pronoun",
-  PRONOUN_AND_CONJUGATION: "pronounAndConjugation",
-  INCOMPLETE: "incomplete",
-  COMPLETE: "complete",
-  TRIPLE: "triple"
- } as const
 export type VerbFormatsValue = (typeof VERB_FORMATS)[keyof typeof VERB_FORMATS]
 export type VerbFormatsKey = keyof typeof VERB_FORMATS
 export type VerbFormats = VerbFormatsValue

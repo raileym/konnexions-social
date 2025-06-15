@@ -1,5 +1,5 @@
-// import type { HandleModuleProps, Lesson, Module } from "../../../../../shared/cknTypes/types/types"
-import type { HandleModuleProps, Module } from "../../../../../shared/cknTypes/types/types"
+// import type { HandleModuleProps, Lesson, Module } from "@cknTypes/types"
+import type { HandleModuleProps, Module } from "@cknTypes/types"
 import getModule from "../getModule/getModule"
 
 export const handleModule = async ({

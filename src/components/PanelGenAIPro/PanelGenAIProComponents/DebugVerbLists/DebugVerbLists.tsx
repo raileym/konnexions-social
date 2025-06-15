@@ -1,4 +1,4 @@
-import type { Lesson } from "../../../../../shared/cknTypes/types/types"
+import type { Lesson } from "@cknTypes/types"
 import { generateVerbLists } from "../generateVerbLists/generateVerbLists"
 
 export function DebugVerbLists({ lesson }: { lesson: Lesson }) {

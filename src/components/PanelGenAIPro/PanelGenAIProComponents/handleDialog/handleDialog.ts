@@ -1,4 +1,4 @@
-import type { HandleDialogProps } from "../../../../../shared/cknTypes/types/types"
+import type { HandleDialogProps } from "@cknTypes/types"
 import getModule from "../getModule/getModule"
 export const handleDialog = async ({
   testMode,

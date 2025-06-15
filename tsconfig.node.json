@@ -7,11 +7,11 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "moduleResolution": "node",
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "composite": true,
+    "noEmit": false,
 
     /* Linting */
     "strict": true,
@@ -21,5 +21,13 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts"]
+  "baseUrl": ".",
+  "paths": {
+    "@cknTypes/*": ["shared/cknTypes/*"]
+  },
+  "include": [
+    "shared",
+    "functions",
+    "vite.config.ts"
+  ]
 }

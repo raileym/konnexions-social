@@ -33,7 +33,7 @@ import type {
   Cutoff,
   ScenarioData,
   Language
-} from '../../../shared/cknTypes/types/types'
+} from '@cknTypes/types'
 import {
   APP_HOME,
   APP_PANEL,
@@ -44,7 +44,7 @@ import {
   LANGUAGE,
   MODULE_NAME,
   SCENARIO
-} from '../../../shared/cknTypes/types/types'
+} from '@cknTypes/types'
 import { usePersistentState } from '../../hooks/usePersistentState'
 import { generateExample } from '../../../shared/generateExample'
 import { handleGetScenarioData } from './AppContextComponents/handleGetScenarioData/handleGetScenarioData'

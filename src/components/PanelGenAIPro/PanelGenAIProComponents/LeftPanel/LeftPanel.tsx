@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppContext } from '../../../../context/AppContext/AppContext'
-import { defaultLesson, type Lesson } from '../../../../../shared/cknTypes/types/types'
+import { defaultLesson, type Lesson } from '@cknTypes/types'
 import CutoffToggle from '../../../CutoffToggle'
 import ShowMaxCount from '../../../ShowMaxCount'
 

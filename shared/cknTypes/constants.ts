@@ -1,0 +1,98 @@
+export const MODULE_NAME = {
+  DIALOG: 'dialog',
+  NOUNS: 'nouns',
+  NOUNS_ONLY: 'nounsOnly',
+  VERBS: 'verbs',
+  VERBS_ONLY: 'verbsOnly',
+  DIALOG_REVIEW: 'dialogReview',
+  NOUNS_REVIEW: 'nounsReview',
+  NOUNS_ONLY_REVIEW: 'nounsOnlyReview',
+  VERBS_REVIEW: 'verbsReview',
+  VERBS_ONLY_REVIEW: 'verbsOnlyReview',
+  VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
+  VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete',
+  VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple'
+} as const
+
+export const LANGUAGE = {
+  SPANISH: 'Latin American Spanish',
+  ENGLISH: 'English',
+  FRENCH: 'French',
+  ITALIAN: 'Italian'
+} as const
+
+export const languageCode = {
+  [LANGUAGE.ENGLISH]: 'en',
+  [LANGUAGE.SPANISH]: 'es',
+  [LANGUAGE.ITALIAN]: 'it',
+  [LANGUAGE.FRENCH]: 'fr'
+}
+
+export const SCENARIO = {
+  RESTAURANT: 'restaurant',
+  HOTEL: 'hotel',
+  AIRPORT: 'airport',
+  TAXI: 'taxi',
+  CUSTOM: 'custom'
+} as const
+
+export const GEN_AI_STEP = {
+  DIALOG: 0,
+  DIALOG_REVIEW: 1,
+  NOUNS: 2,
+  NOUNS_REVIEW: 3,
+  VERBS: 4,
+  VERBS_REVIEW: 5,
+  VERB_CONJUGATIONS: 6,
+  VERB_CONJUGATIONS_REVIEW: 7,
+  NOUN_USAGE: 8,
+  NOUN_USAGE_REVIEW: 9
+} as const
+
+export const APP_PANEL = {
+  // HOME: 'home',
+  SETTINGS: 'settings',
+  HELP: 'help',
+  KEYS: 'keys',
+  MENU: 'menu',
+  BASIC: 'basic',
+  GEN_AI: 'genAI',
+  GEN_AI_PRO: 'genAIPro'
+} as const
+
+export const ERROR_LABEL = {
+  NO_ERROR: 'noError',
+  DIALOG_ERROR: 'handleDialogError',
+  NOUNS_ERROR: 'handleNounsError',
+  NOUNS_ONLY_ERROR: 'handleNounsOnlyError',
+  VERBS_ERROR: 'handleVerbsError',
+  VERBS_ONLY_ERROR: 'handleVerbsOnlyError',
+  DIALOG_REVIEW_ERROR: 'handleDialogReviewError',
+  NOUNS_REVIEW_ERROR: 'handleNounsReviewError',
+  NOUNS_ONLY_REVIEW_ERROR: 'handleNounsOnlyReviewError',
+  VERBS_REVIEW_ERROR: 'handleVerbsReviewError',
+  VERBS_REVIEW_ONLY_ERROR: 'handleVerbsOnlyReviewError',
+  VERBS_EXPANDED_ERROR: 'handleVerbsExpandedError',
+  VERBS_EXPANDED_INCOMPLETE_ERROR: 'handleVerbsExpandedInCompleteError',
+  VERBS_EXPANDED_COMPLETE_ERROR: 'handleVerbsExpandedCompleteError'
+} as const
+
+export const NOUN_ARTICLES = {
+  LA: 'la',
+  EL: 'el'
+} as const
+
+export const GENDER_TO_ARTICLE: Record<Gender, NounArticlesValue> = {
+  F: NOUN_ARTICLES.LA,
+  M: NOUN_ARTICLES.EL
+} as const
+
+export const VERB_FORMATS = {
+  INFINITE: "infinitive",
+  CONJUGATION: "conjugation",
+  PRONOUN: "pronoun",
+  PRONOUN_AND_CONJUGATION: "pronounAndConjugation",
+  INCOMPLETE: "incomplete",
+  COMPLETE: "complete",
+  TRIPLE: "triple"
+ } as const
