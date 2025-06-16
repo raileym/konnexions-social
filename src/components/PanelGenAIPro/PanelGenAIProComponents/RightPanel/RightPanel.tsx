@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { useAppContext } from '../../../../context/AppContext/AppContext'
 import SelectorScenario from '../../../SelectorScenario'
-import { getPrompt } from '../../../../../shared/getPrompt'
+import { getPrompt } from '@shared/getPrompt'
 import ParticipantToggle from '../../../ParticipantToggle'
 // import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '@cknTypes/types'
 import {

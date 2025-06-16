@@ -32,7 +32,8 @@ import type {
   MaxCount,
   Cutoff,
   ScenarioData,
-  Language
+  Language,
+  LineNumber
 } from '@cknTypes/types'
 import {
   defaultLanguage,
@@ -48,7 +49,7 @@ import {
   SCENARIO
 } from '@cknTypes/constants'
 import { usePersistentState } from '../../hooks/usePersistentState'
-import { generateExample } from '../../../shared/generateExample'
+import { generateExample } from '@shared/generateExample'
 import { handleGetScenarioData } from './AppContextComponents/handleGetScenarioData/handleGetScenarioData'
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
@@ -109,6 +110,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       typeof l.name === 'string'
     )
   )  
+  const [lineNumber, setLineNumber] = useState<LineNumber>(0)
   const [activeHome, setActiveHome] = useState<ActiveHome>(APP_HOME.GEN_AI_PRO)
   const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
   const [answer, setAnswer] = useState<Answer>('')
@@ -210,7 +212,8 @@ const AppContextValue = {
     isTransitioning,
     language,
     lesson,
-    lessons, setLessons,
+    lessons,
+    lineNumber,
     maskKey,
     maskOpenAiKey,
     maxCount,
@@ -238,6 +241,8 @@ const AppContextValue = {
     setIsTransitioning,
     setLanguage,
     setLesson,
+    setLessons,
+    setLineNumber,
     setMaskKey,
     setMaskOpenAiKey,
     setMaxCount,

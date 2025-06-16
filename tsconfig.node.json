@@ -5,9 +5,14 @@
     "lib": ["ES2023"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@cknTypes/*": ["shared/cknTypes/*"],
+      "@shared/*": ["shared/*"]
+    },
 
     /* Bundler mode */
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "composite": true,
@@ -21,10 +26,6 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
-  },
-  "baseUrl": ".",
-  "paths": {
-    "@cknTypes/*": ["shared/cknTypes/*"]
   },
   "include": [
     "shared",

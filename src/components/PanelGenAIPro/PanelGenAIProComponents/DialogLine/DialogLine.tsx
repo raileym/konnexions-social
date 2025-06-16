@@ -34,7 +34,7 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
   // console.log('useCloudTTS', useCloudTTS, index, line)
 
   return (
-    <li className="mb2 flex items-center">
+    <>
       <div className="flex-auto">
         <strong>{speaker}</strong>: {sentence}
       </div>
@@ -45,6 +45,6 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
       >
         <FontAwesomeIcon icon={faPlay} />
       </button>
-    </li>
+    </>
   )
 }

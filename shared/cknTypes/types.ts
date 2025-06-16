@@ -31,6 +31,7 @@ export type AppContextType = {
   language: Language
   lesson: Lesson
   lessons: Lessons
+  lineNumber: LineNumber
   maskKey: MaskKey
   maskOpenAiKey: MaskOpenAiKey
   maxCount: MaxCount
@@ -59,6 +60,7 @@ export type AppContextType = {
   setLanguage: SetLanguage
   setLesson: SetLesson
   setLessons: SetLessons
+  setLineNumber: SetLineNumber
   setMaskKey: SetMaskKey
   setMaskOpenAiKey: SetMaskOpenAiKey
   setMaxCount: SetMaxCount
@@ -112,6 +114,7 @@ export type OpenAiKey = string
 export type OpenAiUsage = number
 export type Question = string
 export type QuestionContext = string
+export type LineNumber = number
 
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
 export type SetActivePanel = React.Dispatch<React.SetStateAction<ActivePanel>>
@@ -134,6 +137,7 @@ export type SetLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetLessonId = React.Dispatch<React.SetStateAction<LessonId>>
 export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
 export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>
+export type SetLineNumber = React.Dispatch<React.SetStateAction<LineNumber>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
 export type SetMaxCount = React.Dispatch<React.SetStateAction<MaxCount>>

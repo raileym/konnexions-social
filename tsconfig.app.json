@@ -8,7 +8,8 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cknTypes/*": ["shared/cknTypes/*"]
+      "@cknTypes/*": ["shared/cknTypes/*"],
+      "@shared/*": ["shared/*"]
     },
 
     /* Bundler mode */

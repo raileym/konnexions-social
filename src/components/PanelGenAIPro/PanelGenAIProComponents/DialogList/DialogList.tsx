@@ -20,7 +20,13 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
   const isPlayingRef = useRef(false)
   const iRef = useRef(0) // controls current index across calls
 
-  const { maxCount, setMaxCount, cutoff, selectedLessonId } = useAppContext()
+  const {
+    maxCount,
+    setMaxCount,
+    cutoff,
+    selectedLessonId,
+    setLineNumber
+  } = useAppContext()
 
   const storeAudioOrLine = useCallback((index: number, value: string) => {
     const arr = audioItemsRef.current
@@ -103,6 +109,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
 
       const line = lines[i]
       setCurrentIndex(i)
+      setLineNumber(i)
 
       let value = audioItemsRef.current[i]
 
@@ -120,11 +127,10 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
           console.error('TTS fetch failed:', err)
           return safeNext()
         }
-      } else {
-        console.log(`playAll: audioItemsRef.current[${i}] is NOT empty.`)
       }
 
-      console.log('value', value)
+      // console.log('value', value)
+      console.log(`No ${i}: ${value}`)
 
       if (value.startsWith('http')) {
         const audio = new Audio(value)
@@ -189,13 +195,16 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
       </div>
       <ul className="mt3">
         {lines.map((line, i) => (
-          <DialogLine
-            key={i}
-            line={line}
-            index={i}
-            useCloudTTS={useCloudTTS}
-            storeAudioOrLine={storeAudioOrLine}
-          />
+          <li key={i} className={`mb2 pl3 flex items-center {i === lineNumber ? 'bg-red ': 'bg-transparent'`}>
+            <DialogLine
+              key={i}
+              line={line}
+              index={i}
+              useCloudTTS={useCloudTTS}
+              storeAudioOrLine={storeAudioOrLine}
+            />
+          </li>
+
         ))}
       </ul>
     </div>

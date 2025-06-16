@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@cknTypes': path.resolve(__dirname, 'shared/cknTypes')
+      '@cknTypes': path.resolve(__dirname, 'shared/cknTypes'),
+      '@shared': path.resolve(__dirname, 'shared')
     }
   }
 })
