@@ -4,6 +4,7 @@ import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchTTS } from '../fetchTTS/fetchTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
+import { SCENARIO_LABELS } from '@cknTypes/constants'
 
 type DialogListProps = {
   lines: string[]
@@ -25,7 +26,8 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
     setMaxCount,
     cutoff,
     selectedLessonId,
-    setLineNumber
+    setLineNumber,
+    scenario
   } = useAppContext()
 
   const storeAudioOrLine = useCallback((index: number, value: string) => {
@@ -168,8 +170,8 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
 
   return (
     <div>
+      <div className="tc f2 w-100 mt4X b">Dialog {SCENARIO_LABELS[scenario]}</div>
       <div className="flex flex-row items-center mt4">
-        <div className="mt4X b">Dialog</div>
         <button
           onClick={playAll}
           className="ml3 f6 br2 ph2 pv1 white bg-dark-blue hover:bg-blue no-outline"

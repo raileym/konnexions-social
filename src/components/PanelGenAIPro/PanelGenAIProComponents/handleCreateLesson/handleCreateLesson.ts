@@ -1,48 +1,16 @@
 import {
-  type Language,
-  type Scenario,
   type Lesson,
-  type SetLessonComplete,
-  type SetLessons,
-  type SelectedLessonId,
   type ModuleName,
   type TestMode,
-  type ScenarioData
-} from "@cknTypes/types";
+  type ScenarioData,
+  type HandleCreateLessonProps
+} from '@cknTypes/types';
 import {
   MODULE_NAME
 } from '@cknTypes/constants'
-import { getScenarioDetails } from "../../../../../Util";
-import handleModule from "../../../handleModule/handleModule";
-
-export type HandleCreateLessonProps = {
-  scenarioData: ScenarioData
-  scenario: Scenario
-  language: Language
-  lesson: Lesson
-  setLessonComplete: SetLessonComplete
-  setLessons: SetLessons
-  selectedLessonId: SelectedLessonId
-  testMode: TestMode
-}
-
-type RunModuleProps = {
-  scenarioData: ScenarioData
-  testMode: TestMode
-  moduleName: ModuleName
-  lesson: Lesson
-}
-
-const runModule = async ({scenarioData, testMode, moduleName, lesson}: RunModuleProps): Promise<Lesson | null> => {
-  const result = await handleModule({ scenarioData, lesson, moduleName, testMode })
-  if (!result) return null
-  console.log(`runModule (${moduleName})`)
-  return {
-    ...lesson,
-    [moduleName]: result      
-  }
-}
-
+import { getScenarioDetails } from '@components/Util';
+import handleModule from '@PanelGenAIProComponents/handleModule/handleModule';
+import { resolveDialog } from '@PanelGenAIProComponents/resolveDialog/resolveDialog'
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -72,16 +40,16 @@ export const handleCreateLesson = async ({
   //
   // Dialog Review
   //
-  // const dialogReviewLesson_2 = await runModule({moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson_1})
-  // if (!dialogReviewLesson_2) return
+  const dialogReviewLesson_2 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson_1})
+  if (!dialogReviewLesson_2) return
   
   //
   // Dialog Resolve
   //
-  // const { dialogLinesResolved: dialogLinesResolved_3 } = resolveDialog({
-  //   dialogReviewLines: dialogReviewLesson_2.dialog.lines, 
-  //   dialogLines: dialogLesson_1.dialog.lines
-  // })
+  const { dialogLinesResolved: dialogLinesResolved_3 } = resolveDialog({
+    dialogReviewLines: dialogReviewLesson_2.dialog.lines, 
+    dialogLines: dialogLesson_1.dialog.lines
+  })
   
   // const prose = dialogLinesResolved_3?.join(' ') ?? ''
   // const dialogLessonUpdated_4 = {

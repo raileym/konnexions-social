@@ -92,7 +92,8 @@ const RightPanel: React.FC = () => {
     if (!lesson) {
       content = <p>Lesson not found.</p>
     } else {
-      const { prompt } = getPrompt({moduleName: MODULE_NAME.DIALOG, scenarioData, lesson, errors: [] })
+      const { prompt: dialogPrompt } = getPrompt({moduleName: MODULE_NAME.DIALOG, scenarioData, lesson, errors: [] })
+      const { prompt: dialogReviewPrompt } = getPrompt({moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson, errors: [] })
 
       // console.log('lesson', lesson)
       // console.log('prompt', prompt)
@@ -106,7 +107,7 @@ const RightPanel: React.FC = () => {
             <div className="f3 pv3 pt0 mt0 w-80">{headline}</div>
           </div>
 
-          <div className={`mt3 mb4 flex justify-center`}>
+          <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
                 className={`f3 pa3 br4 bn ${testMode ? 'bg-black white' : 'bg-brand white'} pointer`}
@@ -168,10 +169,16 @@ const RightPanel: React.FC = () => {
 
           <div className="w-100 mv3">
             <button
-              onClick={toggleShowDialogPrompt}
+              onClick={() => setShowDialogPrompt(prev => !prev)}
               className="pa2 br3 bg-brand black pointer b--black"
             >
               {showDialogPrompt ? 'Hide Dialog Prompt' : 'Show Dialog Prompt'}
+            </button>
+            <button
+              onClick={() => setShowDialogReviewPrompt(prev => !prev)}
+              className="ml3 pa2 br3 bg-brand black pointer b--black"
+            >
+              {showDialogReviewPrompt ? 'Hide Dialog Review Prompt' : 'Show Dialog Review Prompt'}
             </button>
           </div>
 
@@ -179,8 +186,16 @@ const RightPanel: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mv4 ba pa3 bg-white">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Prompt</div>
-                {/* <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{prompt}</div> */}
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialog.prompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{dialogPrompt}</div>
+              </div>
+            </div>
+          )}
+
+          {showDialogReviewPrompt && (
+            <div className="w-100 flex justify-center flex-column">
+              <div className="mv4 ba pa3 bg-white">
+                <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Review Prompt</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{dialogReviewPrompt}</div>
               </div>
             </div>
           )}
@@ -315,6 +330,7 @@ const RightPanel: React.FC = () => {
           {/* <DialogList lines={lesson?.dialog?.lines ?? []} useCloudTTS={true} /> */}
           
 
+          {/*
           <div className="mt4 b">NounsConstraint</div>
           <ul className="mt0 pt0 black">
             {scenarioData?.nouns?.map((noun, index) => (
@@ -322,13 +338,14 @@ const RightPanel: React.FC = () => {
               <li key={index}>{noun.noun_base}: {noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}</li>
             ))}
           </ul>
-
           <div className="mt4 b">VerbsConstraint</div>
           <ul className="mt0 pt0 black">
             {scenarioData?.verbs?.map((verb, index) => (
               <li key={index}>{verb.verb_infinitive}|{verb.verb_nosotros}</li>
             ))}
           </ul>
+          */}
+
 
           <div className="mt4 b">NounsOnly</div>
           <ul className="mt0 pt0 black">
