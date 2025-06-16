@@ -1,9 +1,9 @@
 import { type Handler } from '@netlify/functions'
 import { generateSignature } from '@shared/generateSignature'
 import { generateExample } from '@shared/generateExample'
-import { fetchOpenAI } from '../shared/fetchLLM'
-import { getPrompt } from '../shared/getPrompt'
-import { validateModule } from '../shared/validateModule'
+import { fetchOpenAI } from '@shared/fetchLLM'
+import { getPrompt } from '@shared/getPrompt'
+import { validateModule } from '@shared/validateModule'
 import {
   defaultErrorLabel,
   defaultFieldCount,
@@ -14,7 +14,7 @@ import {
   Module,
   Prompt
 } from '@cknTypes/types'
-import { streamlineModule } from '../shared/streamlineModule'
+import { streamlineModule } from '@shared/streamlineModule'
 
 const handler: Handler = async (event) => {
   try {

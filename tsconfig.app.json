@@ -9,7 +9,9 @@
     "baseUrl": ".",
     "paths": {
       "@cknTypes/*": ["shared/cknTypes/*"],
-      "@shared/*": ["shared/*"]
+      "@shared/*": ["shared/*"],
+      "@context/*": ["src/context/*"],
+      "@hooks/*": ["src/hooks/*"]
     },
 
     /* Bundler mode */

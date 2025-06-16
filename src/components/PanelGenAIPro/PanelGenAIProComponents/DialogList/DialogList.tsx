@@ -3,7 +3,7 @@ import { DialogLine } from '../DialogLine/DialogLine'
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchTTS } from '../fetchTTS/fetchTTS'
-import { useAppContext } from '../../../../context/AppContext/AppContext'
+import { useAppContext } from '@context/AppContext/AppContext'
 
 type DialogListProps = {
   lines: string[]

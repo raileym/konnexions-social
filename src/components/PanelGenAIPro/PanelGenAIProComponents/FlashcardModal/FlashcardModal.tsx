@@ -1,5 +1,5 @@
-import * as Dialog from "@radix-ui/react-dialog"
-import { useState, useEffect, useCallback, useRef, type ReactNode } from "react"
+import * as Dialog from '@radix-ui/react-dialog'
+import { useState, useEffect, useCallback, useRef, type ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faGreaterThan,
@@ -8,8 +8,8 @@ import {
   faVolumeXmark,
   faVolumeHigh
 } from '@fortawesome/free-solid-svg-icons'
-import { useTTS } from "../useTTS/useTTS"
-import { useAppContext } from "../../../../context/AppContext/AppContext"
+import { useTTS } from '../useTTS/useTTS'
+import { useAppContext } from '@context/AppContext/AppContext'
 
 type FlashcardProps = {
   fronts: string[]
@@ -71,13 +71,13 @@ export function FlashcardModal({
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     stop()
-    if (event.key === "ArrowRight") {
+    if (event.key === 'ArrowRight') {
       event.preventDefault()
       handleNext()
-    } else if (event.key === "ArrowLeft") {
+    } else if (event.key === 'ArrowLeft') {
       event.preventDefault()
       handlePrev()
-    } else if (event.key === " " || event.key === "Enter") {
+    } else if (event.key === ' ' || event.key === 'Enter') {
       event.preventDefault()
       setShowBack((s) => !s)
     }
@@ -85,8 +85,8 @@ export function FlashcardModal({
 
   useEffect(() => {
     if (!isOpen) return
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, handleKeyDown])
 
   useEffect(() => {
@@ -108,57 +108,57 @@ export function FlashcardModal({
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed top-0 left-0 right-0 bottom-0 bg-black-50" style={{ zIndex: 99999 }} />
+        <Dialog.Overlay className='fixed top-0 left-0 right-0 bottom-0 bg-black-50' style={{ zIndex: 99999 }} />
         <Dialog.Content
-          className="fixed top-1/2 left-1/2 bg-white pa4 br3 shadow-5 w-60 w-60-m w-40-l no-focus-outline"
-          style={{ zIndex: 999999, transform: "translate(-50%, -50%)" }}
+          className='fixed top-1/2 left-1/2 bg-white pa4 br3 shadow-5 w-60 w-60-m w-40-l no-focus-outline'
+          style={{ zIndex: 999999, transform: 'translate(-50%, -50%)' }}
         >
-          <Dialog.Title className="f4 b mb0 mt0 pt0">Flashcard {current + 1} / {shuffled.length}</Dialog.Title>
+          <Dialog.Title className='f4 b mb0 mt0 pt0'>Flashcard {current + 1} / {shuffled.length}</Dialog.Title>
 
-          <Dialog.Description className="mb4 gray f6">
+          <Dialog.Description className='mb4 gray f6'>
             Use the left (<FontAwesomeIcon icon={faLessThan} />) or right (<FontAwesomeIcon icon={faGreaterThan} />)
             arrow keys to navigate between cards. Press the space bar to reveal the back of the card.
           </Dialog.Description>
 
-          <div className="tc">
+          <div className='tc'>
             <div
-              className="pa4 baX pointer no-focus-outline mv5"
+              className='pa4 baX pointer no-focus-outline mv5'
               onClick={() => setShowBack(s => !s)}
               ref={cardRef}
               tabIndex={-1}
               style={{
-                width: "100%",
-                height: "8rem",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "1rem",
-                textAlign: "center"
+                width: '100%',
+                height: '8rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '1rem',
+                textAlign: 'center'
               }}
             >
-              <span className="f1">{currentText}</span>
+              <span className='f1'>{currentText}</span>
             </div>
 
-            <div className="ba mt4 flex justify-between items-center">
-              <button className="f3 link dim ph3 pv1 bn bg-transparent" onClick={handlePrev}>
+            <div className='ba mt4 flex justify-between items-center'>
+              <button className='f3 link dim ph3 pv1 bn bg-transparent' onClick={handlePrev}>
                 <FontAwesomeIcon icon={faLessThan} />
               </button>
-              <div className="mt2X gray f6">tap space bar (flip)</div>
-              <button className="f3 link dim ph3 pv1 bn bg-transparent" onClick={handleNext}>
+              <div className='mt2X gray f6'>tap space bar (flip)</div>
+              <button className='f3 link dim ph3 pv1 bn bg-transparent' onClick={handleNext}>
                 <FontAwesomeIcon icon={faGreaterThan} />
               </button>
             </div>
           </div>
 
-          <div className="absolute top-1 right-1 flex items-center gap-2">
+          <div className='absolute top-1 right-1 flex items-center gap-2'>
             <button
-              className="f4 dim pointer bg-transparent bn dark-gray mr4"
+              className='f4 dim pointer bg-transparent bn dark-gray mr4'
               onClick={() => setSoundEnabled(prev => !prev)}
-              aria-label="Toggle sound"
+              aria-label='Toggle sound'
             >
               <FontAwesomeIcon icon={soundEnabled ? faVolumeHigh : faVolumeXmark} />
             </button>
-            <Dialog.Close className="f4 dim pointer bg-transparent bn dark-red">
+            <Dialog.Close className='f4 dim pointer bg-transparent bn dark-red'>
               <FontAwesomeIcon icon={faTimes} />
             </Dialog.Close>
           </div>

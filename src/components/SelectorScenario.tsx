@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAppContext } from '../context/AppContext/AppContext'
+import { useAppContext } from '@context/AppContext/AppContext'
 import { type Scenario } from '@cknTypes/types'
 import { SCENARIO } from '@cknTypes/constants'
 

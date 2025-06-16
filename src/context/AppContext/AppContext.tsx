@@ -48,7 +48,7 @@ import {
   MODULE_NAME,
   SCENARIO
 } from '@cknTypes/constants'
-import { usePersistentState } from '../../hooks/usePersistentState'
+import { usePersistentState } from '@hooks/usePersistentState'
 import { generateExample } from '@shared/generateExample'
 import { handleGetScenarioData } from './AppContextComponents/handleGetScenarioData/handleGetScenarioData'
 

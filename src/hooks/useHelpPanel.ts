@@ -1,5 +1,5 @@
 // src/hooks/useHelpPanel.ts
-import { useAppContext } from '../context/AppContext/AppContext'
+import { useAppContext } from '@context/AppContext/AppContext'
 
 export const useHelpPanel = () => {
   const {

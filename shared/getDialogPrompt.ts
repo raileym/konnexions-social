@@ -2,7 +2,7 @@ import { generateExample } from './generateExample'
 import { jsonQualification } from './jsonQualification'
 import { type GetDialogPrompt, type GetDialogPromptProps } from '@cknTypes/types'
 import { SCENARIO_LABELS } from '@cknTypes/constants'
-// import { getConstraints } from '../shared/getConstraints'
+// import { getConstraints } from '@shared/getConstraints'
 export const getDialogPrompt: GetDialogPrompt = ({scenarioData, lesson, errors}: GetDialogPromptProps) => {
   // const dialogNouns = getConstraints({language: lesson.language, scenario: lesson.scenario  })
   const dialogExample = generateExample({language: lesson.language, moduleName: 'dialog', options: { asString: true }  })

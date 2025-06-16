@@ -7,7 +7,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@cknTypes': path.resolve(__dirname, 'shared/cknTypes'),
-      '@shared': path.resolve(__dirname, 'shared')
+      '@shared': path.resolve(__dirname, 'shared'),
+      '@context': path.resolve(__dirname, 'src/context'),
+      '@hooks': path.resolve(__dirname, 'src/hooks')
     }
   }
 })

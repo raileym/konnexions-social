@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
-import { useAppContext } from '../../../../context/AppContext/AppContext'
+import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '../../../SelectorScenario'
 import { getPrompt } from '@shared/getPrompt'
 import ParticipantToggle from '../../../ParticipantToggle'

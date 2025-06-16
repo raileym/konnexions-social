@@ -1,4 +1,4 @@
-// import { generateSignature } from '../shared/generateSignature'
+// import { generateSignature } from '@shared/generateSignature'
 
 import {
   APP_HOME,

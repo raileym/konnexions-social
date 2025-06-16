@@ -1,9 +1,9 @@
-import { useAppContext } from "../context/AppContext/AppContext"
-import { getCurrentWeek } from "./Util"
+import { useAppContext } from '@context/AppContext/AppContext'
+import { getCurrentWeek } from './Util'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
-import { APP_PANEL } from "@cknTypes/constants"
-import { usePanel } from "../hooks/usePanel"
+import { APP_PANEL } from '@cknTypes/constants'
+import { usePanel } from '@hooks/usePanel'
 
 export default function PanelBasic() {
   const {
@@ -40,7 +40,7 @@ export default function PanelBasic() {
   //   const speakText = () => {
   //     const voices = synth.getVoices()
   //     const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-  //     const utterance = new SpeechSynthesisUtterance("¡Buenos días! Bienvenido a Let's Connect!")
+  //     const utterance = new SpeechSynthesisUtterance('¡Buenos días! Bienvenido a Let's Connect!')
   //     utterance.voice = spanishVoice
   //     utterance.lang = spanishVoice.lang
   //     utterance.rate = 0.9
@@ -60,7 +60,7 @@ export default function PanelBasic() {
   //   const speakText = () => {
   //     const voices = synth.getVoices()
   //     const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-  //     const utterance = new SpeechSynthesisUtterance("¡Buenos noches! Adios! Bienvenido a Let's Connect!")
+  //     const utterance = new SpeechSynthesisUtterance('¡Buenos noches! Adios! Bienvenido a Let's Connect!')
   //     utterance.voice = spanishVoice
   //     utterance.lang = spanishVoice.lang
   //     utterance.rate = 0.9
@@ -80,7 +80,7 @@ export default function PanelBasic() {
   //   const speakText = () => {
   //     const voices = synth.getVoices()
   //     const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-  //     const utterance = new SpeechSynthesisUtterance("¡Hola! Usando voz integrada en el dispositivo.")
+  //     const utterance = new SpeechSynthesisUtterance('¡Hola! Usando voz integrada en el dispositivo.')
   //     utterance.voice = spanishVoice
   //     utterance.lang = spanishVoice.lang
   //     utterance.rate = 0.9
@@ -174,84 +174,84 @@ export default function PanelBasic() {
 
   const headline = (
     <div>
-      <p className="pa0 ma0">
+      <p className='pa0 ma0'>
       Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.
       </p>
-      <div className="flex justify-center w-100 mv4">
+      <div className='flex justify-center w-100 mv4'>
         <div
-          className="db items-center tc ba pa1 w-20 f2 br3 pointer"
+          className='db items-center tc ba pa1 w-20 f2 br3 pointer'
           style={{ width: '2em' }}
           onClick={() => switchPanel(APP_PANEL.KEYS)}
-          role="button"
+          role='button'
           tabIndex={0}
         >
           <FontAwesomeIcon icon={faKey} />
-          <div className="f6 mt0 b">API Keys</div>
+          <div className='f6 mt0 b'>API Keys</div>
         </div>        
       </div>
     </div>
   )
   
   return (
-    <div className="basic-panel z-0 bg-white w-100 min-vh-100 flex justify-center overflow-y-auto">
-      <div className="pa4 mw7 w-100">
-        <h2 className="f3 pa3 pb0 mt5 w-100 tc">Spanish: Basic Speech</h2>
-        <div className="f3 pv3 pt0 mt0">{headline}</div>
+    <div className='basic-panel z-0 bg-white w-100 min-vh-100 flex justify-center overflow-y-auto'>
+      <div className='pa4 mw7 w-100'>
+        <h2 className='f3 pa3 pb0 mt5 w-100 tc'>Spanish: Basic Speech</h2>
+        <div className='f3 pv3 pt0 mt0'>{headline}</div>
 
-        <label className="o-100 db mt0 mb2 f3 b">Enter your Spanish text</label>
+        <label className='o-100 db mt0 mb2 f3 b'>Enter your Spanish text</label>
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          className="input-reset ba b--black-20 pa2 mb2 db w-100"
+          className='input-reset ba b--black-20 pa2 mb2 db w-100'
           rows={8}
-          placeholder="Hola, mundo"
+          placeholder='Hola, mundo'
         />
-        <div className="w-100 flex justify-center">
+        <div className='w-100 flex justify-center'>
           <button
             onClick={handleGenerate}
-            className="bg-brand white pa2 f4 br2 bn pointer db mb3 w-100"
+            className='bg-brand white pa2 f4 br2 bn pointer db mb3 w-100'
           >
             Hear your Spanish text using a {useCloudTTS ? 'cloud-based voice' : 'local voice'}
           </button>
         </div>
 
-        <hr className="mv4" />
+        <hr className='mv4' />
 
         { (
           <>
-            <div className="b f3 mb3">Generated Audio</div>
-            <div className="mb3" style={{ minHeight: '3.5em' }}>
+            <div className='b f3 mb3'>Generated Audio</div>
+            <div className='mb3' style={{ minHeight: '3.5em' }}>
               {audioUrl && useCloudTTS ? (
                 <>
-                  <div className="flex items-center mv3 justify-start">
+                  <div className='flex items-center mv3 justify-start'>
                     <FontAwesomeIcon icon={faLockOpen} />
-                    <p className="ml2 pa0 ma0 f6">
+                    <p className='ml2 pa0 ma0 f6'>
                       This audio control is available only when cloud-based voice is selected.
                     </p>
                   </div>
-                  <audio controls src={audioUrl} className="db w-100" />
+                  <audio controls src={audioUrl} className='db w-100' />
                 </>
               ) : useCloudTTS ? (
                 <>
-                  <div className="flex items-center mv3 justify-start">
+                  <div className='flex items-center mv3 justify-start'>
                     <FontAwesomeIcon icon={faLock} />
-                    <p className="ml2 pa0 ma0 f6">
+                    <p className='ml2 pa0 ma0 f6'>
                       This audio control is available only when audio file is present.
                     </p>
                   </div>
-                  <div className="white bg-green h2 f3 w-100">No Audio</div>
-                  {/* <audio controls src={undefined} className="db w-100" /> */}
+                  <div className='white bg-green h2 f3 w-100'>No Audio</div>
+                  {/* <audio controls src={undefined} className='db w-100' /> */}
                 </>
               ) : (
                 <>
-                  <div className="flex items-center mv3 justify-start">
+                  <div className='flex items-center mv3 justify-start'>
                     <FontAwesomeIcon icon={faLock} />
-                    <p className="ml2 pa0 ma0 f6">
+                    <p className='ml2 pa0 ma0 f6'>
                       This audio control is available only when cloud-based voice is selected.
                     </p>
                   </div>
-                  {/* <audio controls src="" className="o-50 db w-100 red" /> */}
-                  <div className="white bg-green h2 f3 w-100">No Audio</div>
+                  {/* <audio controls src='' className='o-50 db w-100 red' /> */}
+                  <div className='white bg-green h2 f3 w-100'>No Audio</div>
                 </>
               )}
             </div>
@@ -260,9 +260,9 @@ export default function PanelBasic() {
 
         {cleanedText && (
           <>
-            <hr className="mv4" />
-            <div className="b f3">Clean text</div>
-            <div className="pa2 bg-washed-blue mb3">{cleanedText}</div>
+            <hr className='mv4' />
+            <div className='b f3'>Clean text</div>
+            <div className='pa2 bg-washed-blue mb3'>{cleanedText}</div>
           </>
         )}
       </div>
