@@ -37,6 +37,7 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'quotes': ['error', 'single'],  // ✅ Add this - enforce single quotes
     },
   },
   
@@ -53,7 +54,7 @@ export default tseslint.config(
       },
     },
     rules: {
-      // No React-specific rules for shared code
+      'quotes': ['error', 'single'],  // ✅ Add this - enforce single quotes
     },
   },
   
@@ -70,7 +71,7 @@ export default tseslint.config(
       },
     },
     rules: {
-      // No React rules for backend files
+      'quotes': ['error', 'single'],  // ✅ Add this - enforce single quotes
     },
   },
   

@@ -1,14 +1,14 @@
 import {
   LANGUAGE,
   SCENARIO,
-} from './cknTypes/types/types'
+} from '@cknTypes/constants'
 import type {
   Language,
   Nouns,
   Scenario,
   Verbs,
   GetConstraintsProps
-} from './cknTypes/types/types'
+} from '@cknTypes/types'
 
 
 // ✅ Implementation (this one is exported)
@@ -21,11 +21,11 @@ export function getConstraints({
   const nounsList: Record<Language, Record<Scenario, Nouns>> = {
     [LANGUAGE.SPANISH]: {
       [SCENARIO.RESTAURANT]: [
-        "mesa", "silla", "camarero", "menú", "comida",
-        "bebida", "plato", "tenedor", "cuchillo", "cuchara",
-        "servilleta", "cuenta", "vaso", "copa", "reserva",
-        "cliente", "camarera", "postre", "entrada", "vino",
-        "agua", "cerveza", "restaurante", "propina", "arroz"
+        'mesa', 'silla', 'camarero', 'menú', 'comida',
+        'bebida', 'plato', 'tenedor', 'cuchillo', 'cuchara',
+        'servilleta', 'cuenta', 'vaso', 'copa', 'reserva',
+        'cliente', 'camarera', 'postre', 'entrada', 'vino',
+        'agua', 'cerveza', 'restaurante', 'propina', 'arroz'
       ],
       [SCENARIO.HOTEL]: [],
       [SCENARIO.AIRPORT]: [],
@@ -37,11 +37,11 @@ export function getConstraints({
   const verbsList: Record<Language, Record<Scenario, Nouns>> = {
     [LANGUAGE.SPANISH]: {
       [SCENARIO.RESTAURANT]: [
-        "querer", "tener", "pedir", "servir", "comer",
-        "beber", "traer", "venir", "ir", "gustar",
-        "necesitar", "esperar", "reservar", "abrir", "cerrar",
-        "recomendar", "probar", "pagar", "dejar", "elegir",
-        "atender", "cocinar", "decir", "volver"
+        'querer', 'tener', 'pedir', 'servir', 'comer',
+        'beber', 'traer', 'venir', 'ir', 'gustar',
+        'necesitar', 'esperar', 'reservar', 'abrir', 'cerrar',
+        'recomendar', 'probar', 'pagar', 'dejar', 'elegir',
+        'atender', 'cocinar', 'decir', 'volver'
       ],
       [SCENARIO.HOTEL]: [],
       [SCENARIO.AIRPORT]: [],
@@ -50,16 +50,16 @@ export function getConstraints({
     },
     [LANGUAGE.ENGLISH]: {
       [SCENARIO.RESTAURANT]: [
-        "want", "have", "ask for", "serve", "eat",
-        "drink", "bring", "come", "go", "like",
-        "need", "wait", "reserve", "open", "close",
-        "recommend", "try", "pay",
-        "leave",
-        "choose",
-        "attend to",
-        "cook",
-        "say",
-        "return"
+        'want', 'have', 'ask for', 'serve', 'eat',
+        'drink', 'bring', 'come', 'go', 'like',
+        'need', 'wait', 'reserve', 'open', 'close',
+        'recommend', 'try', 'pay',
+        'leave',
+        'choose',
+        'attend to',
+        'cook',
+        'say',
+        'return'
       ],
       [SCENARIO.HOTEL]: [],
       [SCENARIO.AIRPORT]: [],

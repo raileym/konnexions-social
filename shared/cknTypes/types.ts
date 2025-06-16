@@ -12,7 +12,7 @@ import {
   ERROR_LABEL,
   GENDER,
   SCENARIO_LABELS
-} from "@cknTypes/constants"
+} from '@cknTypes/constants'
 
 export type AppContextType = {
   activeHome: ActiveHome
@@ -391,15 +391,15 @@ export type GetVerbsOnlyPrompt = (props: GetVerbsOnlyPromptProps) => string
 export type GetVerbsOnlyReviewPrompt = (props: GetVerbsOnlyReviewPromptProps) => string
 
 export const defaultDialogLines: DialogLines = [
-  "Mesero: Buenas tardes. ¿Qué desea tomar?",
-  "Cliente: Una limonada, por favor.",
-  "Mesero: En seguida."
+  'Mesero: Buenas tardes. ¿Qué desea tomar?',
+  'Cliente: Una limonada, por favor.',
+  'Mesero: En seguida.'
 ]
 
 export const defaultDialogReviewLines: DialogLines = [
-  "Mesero: Buenas tardes. ¿Qué desea tomar?|Mesero: Buenas tardes, ¿qué le gustaría tomar?",
-  "Cliente: Una limonada, por favor.|Cliente: Me gustaría una limonada, por favor.",
-  "Mesero: En seguida.|Mesero: En un momento le traigo su bebida."
+  'Mesero: Buenas tardes. ¿Qué desea tomar?|Mesero: Buenas tardes, ¿qué le gustaría tomar?',
+  'Cliente: Una limonada, por favor.|Cliente: Me gustaría una limonada, por favor.',
+  'Mesero: En seguida.|Mesero: En un momento le traigo su bebida.'
 ]
 
 export type NounArticlesValue = (typeof NOUN_ARTICLES)[keyof typeof NOUN_ARTICLES]
@@ -440,8 +440,8 @@ export const defaultLesson: Lesson = {
   scenario: defaultScenario,
   signature: defaultSignature,
   id: 1,
-  name: "Default Lesson",
-  description: "Default Lesson - Starter Details",
+  name: 'Default Lesson',
+  description: 'Default Lesson - Starter Details',
   participantList: defaultParticipantList,
   prose: defaultProse,
 
@@ -461,21 +461,21 @@ export const defaultLesson: Lesson = {
 }
 
 export const dXfaultNounsLines: NounsLines = [
-    "masculino|restaurante|restaurantes|a, en, desde, sobre",
-    "femenino|noche|noches|en, durante, por",
-    "femenino|ensalada|ensaladas|con, sin, de, para",
-    "masculino|pollo|pollos|con, sin, de, para"
+    'masculino|restaurante|restaurantes|a, en, desde, sobre',
+    'femenino|noche|noches|en, durante, por',
+    'femenino|ensalada|ensaladas|con, sin, de, para',
+    'masculino|pollo|pollos|con, sin, de, para'
   ]
 
 // export const dXfaultVerbs: Verbs[] = [
-//   "desear",
-//   "tomar"
+//   'desear',
+//   'tomar'
 // ]
 
 export const dXfaultVerbsLines: VerbsLines = [
-  "gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta",
-  "ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan",
-  "pedir|pido|pides|pide|pedimos|pedís|piden",
+  'gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
+  'ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
+  'pedir|pido|pides|pide|pedimos|pedís|piden',
 ]
 
 export const scenarioTitles: ScenarioTitles = {

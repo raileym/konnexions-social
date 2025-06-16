@@ -1,4 +1,4 @@
-import type { Gender, NounArticlesValue, ScenarioLabels } from "./types"
+import type { Gender, NounArticlesValue, ScenarioLabels } from './types'
 
 export const MODULE_NAME = {
   DIALOG: 'dialog',
@@ -96,13 +96,13 @@ export const GENDER_TO_ARTICLE: Record<Gender, NounArticlesValue> = {
 } as const
 
 export const VERB_FORMATS = {
-  INFINITE: "infinitive",
-  CONJUGATION: "conjugation",
-  PRONOUN: "pronoun",
-  PRONOUN_AND_CONJUGATION: "pronounAndConjugation",
-  INCOMPLETE: "incomplete",
-  COMPLETE: "complete",
-  TRIPLE: "triple"
+  INFINITE: 'infinitive',
+  CONJUGATION: 'conjugation',
+  PRONOUN: 'pronoun',
+  PRONOUN_AND_CONJUGATION: 'pronounAndConjugation',
+  INCOMPLETE: 'incomplete',
+  COMPLETE: 'complete',
+  TRIPLE: 'triple'
  } as const
 
  export const APP_HOME = APP_PANEL
