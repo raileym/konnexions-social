@@ -1,16 +1,14 @@
 import {
+  type HandleCreateLessonProps,
   type Lesson,
-  type ModuleName,
-  type TestMode,
-  type ScenarioData,
-  type HandleCreateLessonProps
+  type Module
 } from '@cknTypes/types';
 import {
   MODULE_NAME
 } from '@cknTypes/constants'
 import { getScenarioDetails } from '@components/Util';
-import handleModule from '@PanelGenAIProComponents/handleModule/handleModule';
 import { resolveDialog } from '@PanelGenAIProComponents/resolveDialog/resolveDialog'
+import { runModule } from '@PanelGenAIProComponents/runModule/runModule';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -51,15 +49,15 @@ export const handleCreateLesson = async ({
     dialogLines: dialogLesson_1.dialog.lines
   })
   
-  // const prose = dialogLinesResolved_3?.join(' ') ?? ''
-  // const dialogLessonUpdated_4 = {
-  //   ...dialogReviewLesson_2,
-  //   [MODULE_NAME.DIALOG]: {
-  //     ...(dialogReviewLesson_2[MODULE_NAME.DIALOG as keyof Lesson] as Module),
-  //     lines: dialogLinesResolved_3
-  //   },
-  //   prose
-  // }
+  const prose = dialogLinesResolved_3?.join(' ') ?? ''
+  const dialogLessonUpdated_4 = {
+    ...dialogReviewLesson_2,
+    [MODULE_NAME.DIALOG]: {
+      ...(dialogReviewLesson_2[MODULE_NAME.DIALOG as keyof Lesson] as Module),
+      lines: dialogLinesResolved_3
+    },
+    prose
+  }
   
   //
   // Nouns Only
@@ -179,11 +177,11 @@ export const handleCreateLesson = async ({
 
   setLessons((prev) => {
     console.log('🔄 Updating lesson list...');
-    console.log('▶️ dialogLesson_1:', dialogLesson_1);
+    console.log('▶️ dialogLessonUpdated_4:', dialogLessonUpdated_4);
     const next = prev.map((lsn) => {
       if (lsn.id === selectedLessonId) {
         console.log(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...dialogLesson_1, id: lsn.id, name: lsn.name };
+        const updated = { ...dialogLessonUpdated_4, id: lsn.id, name: lsn.name };
         console.log('🆕 Updated lesson:', updated);
         return updated;
       }

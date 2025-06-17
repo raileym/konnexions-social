@@ -11,9 +11,11 @@
       "@cknTypes/*": ["shared/cknTypes/*"],
       "@shared/*": ["shared/*"],
       "@context/*": ["src/context/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@components/*": ["src/components/*"],
+      "@PanelGenAIPro/*": ["src/components/PanelGenAIPro/*"],
+      "@PanelGenAIProComponents/*": ["src/components/PanelGenAIPro/PanelGenAIProComponents/*"]
     },
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,

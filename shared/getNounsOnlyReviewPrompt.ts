@@ -1,5 +1,5 @@
-import { generateExample } from "./generateExample"
-import { jsonQualification } from "./jsonQualification"
+import { generateExample } from './generateExample'
+import { jsonQualification } from './jsonQualification'
 import type { GetNounsOnlyReviewPrompt, GetNounsOnlyReviewPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 

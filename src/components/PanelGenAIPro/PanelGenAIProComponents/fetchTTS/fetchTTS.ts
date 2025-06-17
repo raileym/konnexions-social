@@ -14,16 +14,15 @@ export async function fetchTTS({
   try {
     // console.log(`Pause before ask generate-tts-cache: ${text}`)
     // await new Promise(resolve => setTimeout(resolve, 2000)) // 200–400ms jitter
-    console.log(`Ask generate-tts-cache: ${text}`)
-
+    
     const res = await fetch('/.netlify/functions/generate-tts-cache', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, gender, maxCount, cutoff })
     })
-
+    
     const { audioUrl, cacheStatus } = await res.json()
-    console.log(`Generate-tts-cache: ${cacheStatus}`)
+    console.log(`TTS (${cacheStatus}): ${text}`)
 
     return audioUrl ?? null
   } catch (err) {

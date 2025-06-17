@@ -1,6 +1,6 @@
-import { formatDialogLinesForReview } from "./formatDialogLinesForReview"
-import { generateExample } from "./generateExample"
-import { jsonQualification } from "./jsonQualification"
+import { formatDialogLinesForReview } from './formatDialogLinesForReview'
+import { generateExample } from './generateExample'
+import { jsonQualificationWithExample } from '../shared/jsonQualification'
 import { type GetDialogReviewPrompt, type GetDialogReviewPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -9,27 +9,27 @@ export const getDialogReviewPrompt: GetDialogReviewPrompt = ({lesson, errors}: G
 
 const dialogReviewLines = formatDialogLinesForReview(lesson.dialog.lines)  
   
+const example =
+`
+[
+    "1. Corrected line",
+    "2. Corrected line",
+    "3. Corrected line"
+]
+`
+
   return (`
-REQUEST: Review the following Spanish-language dialog array for grammatical correctness and natural usage, making minor corrections only when necessary. This dialog is intended for beginning Spanish learners.
+REQUEST: Review the following Spanish-language dialog array for grammatical correctness and natural usage, making minor corrections as appropriate. Please correct grammatical mistakes as appropriate for ${lesson.language}. This dialog is intended for beginning Spanish learners.
 
 DIALOG REVIEW ARRAY:
 
 ${JSON.stringify(dialogReviewLines, null, 2)}         
-${jsonQualification}
-In your response, only include corrections for each numbered line as noted above, retaining the same numbering scheme
-matching a corrected line with the original line that it will replace. The Dialog Review Array must take the form:
 
-  [
-    "1. Corrected line",
-    "2. Corrected line",
-    "3. Corrected line"
-  ]
+RESPONSE: In your response, re-write dialog lines that require corrections, retaining the same numbering scheme aligned with the lines corrected.
 
-If no lines require corrections or updates, return a JSON array with one entry,
+${jsonQualificationWithExample({example})}
 
-  [ "No corrections needed" ]
- 
-A complete example of a sample response follows:
+A complete example response follows:
 
 EXAMPLE RESPONSE:
 

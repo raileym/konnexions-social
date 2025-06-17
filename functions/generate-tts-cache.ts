@@ -20,7 +20,7 @@ const handler: Handler = async (event) => {
 
     if (cutoff) {
 
-      console.log(`Issue No 1, Cut-off engaged.`)
+      console.log('Issue No 1, Cut-off engaged.')
 
       return {
         statusCode: 400, 
@@ -32,7 +32,7 @@ const handler: Handler = async (event) => {
 
     if (maxCount <= 0) {
 
-      console.log(`Issue No 2, maxCount exceeded.`)
+      console.log('Issue No 2, maxCount exceeded.')
 
       return {
         statusCode: 401, 
@@ -75,11 +75,11 @@ const handler: Handler = async (event) => {
         console.warn(`🔍 No metadata row found in ckn_tts_cache for: ${text} (${signature})`)
       }
     } else {
-      console.error(`🧨 Supabase RPC error from ckn_lookup_tts_cache:`, lookupError)
+      console.error('🧨 Supabase RPC error from ckn_lookup_tts_cache:', lookupError)
     }
 
     if (fileError) {
-      console.error(`🧨 Supabase Storage error:`, fileError)
+      console.error('🧨 Supabase Storage error:', fileError)
     } else if (!isAudioFileHit) {
       console.warn(`🔍 No audio file found in bucket for: ${filePath}`)
     }

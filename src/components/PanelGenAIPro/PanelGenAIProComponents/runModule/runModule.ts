@@ -1,9 +1,8 @@
-type RunModuleProps = {
-  scenarioData: ScenarioData
-  testMode: TestMode
-  moduleName: ModuleName
-  lesson: Lesson
-}
+import type {
+  Lesson,
+  RunModuleProps
+} from '@cknTypes/types'
+import handleModule from '@PanelGenAIProComponents/handleModule/handleModule'
 
 export const runModule = async ({scenarioData, testMode, moduleName, lesson}: RunModuleProps): Promise<Lesson | null> => {
   const result = await handleModule({ scenarioData, lesson, moduleName, testMode })

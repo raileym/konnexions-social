@@ -1,5 +1,5 @@
-import { generateExample } from "./generateExample"
-import { jsonQualification } from "./jsonQualification"
+import { generateExample } from './generateExample'
+import { jsonQualification } from './jsonQualification'
 import type { GetNounsPrompt, GetNounsPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -23,9 +23,9 @@ STRING ARRAY: A nouns response is an array of strings that takes the form,
 
 where
 
-  - the vertical bar "|" delineates the four fields
-  - use a single vertical bar ("|") with no extra spaces to separate your fields
-  - gender must be "masculino" or "femenino"
+  - the vertical bar '|' delineates the four fields
+  - use a single vertical bar ('|') with no extra spaces to separate your fields
+  - gender must be 'masculino' or 'femenino'
   - common prepositions must be at least 3 valid Spanish prepositions, separated by commas
   - use lowercase throughout
   - all content must be in lowercase, including nouns and prepositions

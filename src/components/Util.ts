@@ -5,11 +5,11 @@ import {
   type ParticipantProse,
   type ParticipantLinesByLanguage,
   type Scenario
-} from "@cknTypes/types"
+} from '@cknTypes/types'
 import {
   LANGUAGE,
   GENDER_TO_ARTICLE
-} from "@cknTypes/constants"
+} from '@cknTypes/constants'
 
 
 export const getCurrentWeek = () => {
@@ -213,7 +213,7 @@ const chooseParticipantLines = ({ participantLines, language, n, useMyself }: Ch
 
   if (useMyself) selected.unshift(language === LANGUAGE.SPANISH ? 'yo mismo' : 'myself')
 
-  const quoted = selected.map(p => `"${p}"`)
+  const quoted = selected.map(p => `'${p}'`)
 
   if (quoted.length === 1) return quoted[0]
   if (quoted.length === 2) return `${quoted[0]} and ${quoted[1]}`

@@ -31,7 +31,9 @@ import { generateVerbLists } from '../generateVerbLists/generateVerbLists'
 import CutoffToggle from '../../../CutoffToggle'
 import ShowMaxCount from '../../../ShowMaxCount'
 import SelectorLanguage from '../../../SelectorLanguage'
-import { handleCreateLesson } from './RightPanelComponents/handleCreateLesson/handleCreateLesson'
+import { handleCreateLesson } from '@PanelGenAIProComponents/handleCreateLesson/handleCreateLesson'
+import PromptToggle from '../PromptToggle/PromptToggle'
+import Hr from '@components/Hr'
 // import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
@@ -167,29 +169,8 @@ const RightPanel: React.FC = () => {
           </div>
           */}
 
-          <div className="w-100 mv3">
-            <button
-              onClick={() => setShowDialogPrompt(prev => !prev)}
-              className="pa2 br3 bg-brand black pointer b--black"
-            >
-              {showDialogPrompt ? 'Hide Dialog Prompt' : 'Show Dialog Prompt'}
-            </button>
-            <button
-              onClick={() => setShowDialogReviewPrompt(prev => !prev)}
-              className="ml3 pa2 br3 bg-brand black pointer b--black"
-            >
-              {showDialogReviewPrompt ? 'Hide Dialog Review Prompt' : 'Show Dialog Review Prompt'}
-            </button>
-          </div>
-
-          {showDialogPrompt && (
-            <div className="w-100 flex justify-center flex-column">
-              <div className="mv4 ba pa3 bg-white">
-                <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{dialogPrompt}</div>
-              </div>
-            </div>
-          )}
+          <PromptToggle title={'Proposed Dialog Prompt'} prompt={dialogPrompt} />
+          <PromptToggle title={'Actual Dialog Prompt'} prompt={lesson.dialog.prompt} />
 
           {showDialogReviewPrompt && (
             <div className="w-100 flex justify-center flex-column">
@@ -300,6 +281,8 @@ const RightPanel: React.FC = () => {
             </div>
           )}
 
+          <Hr />
+          
           { verbListsNoIndex && 
             Array.isArray(verbListsNoIndex[VERB_FORMATS.CONJUGATION]) && verbListsNoIndex[VERB_FORMATS.CONJUGATION].length > 0 &&
             Array.isArray(verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION]) && verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION].length > 0 &&

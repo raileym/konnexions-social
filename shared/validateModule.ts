@@ -188,7 +188,7 @@ export const validateModule = ({
       const preSing1 = fields[5].trim().toLowerCase()
       const preSing2 = fields[6].trim().toLowerCase()
 
-      const validPrepositions = ["a", "con", "de", "desde", "en", "entre", "hacia", "hasta", "para", "por", "sin", "sobre"]
+      const validPrepositions = ['a', 'con', 'de', 'desde', 'en', 'entre', 'hacia', 'hasta', 'para', 'por', 'sin', 'sobre']
 
       if (!validPrepositions.some(p => preSing1.startsWith(p + ' '))) {
         reasons.push(`Singular prep phrase 1 missing valid preposition: ${preSing1}`)
@@ -203,7 +203,7 @@ export const validateModule = ({
       const prePlur1 = fields[7].trim().toLowerCase()
       const prePlur2 = fields[8].trim().toLowerCase()
 
-      const validPrepositions = ["a", "con", "de", "desde", "en", "entre", "hacia", "hasta", "para", "por", "sin", "sobre"]
+      const validPrepositions = ['a', 'con', 'de', 'desde', 'en', 'entre', 'hacia', 'hasta', 'para', 'por', 'sin', 'sobre']
 
       if (!validPrepositions.some(p => prePlur1.startsWith(p + ' '))) {
         reasons.push(`Plural prep phrase 1 missing valid preposition: ${prePlur1}`)

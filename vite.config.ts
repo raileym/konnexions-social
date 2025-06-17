@@ -9,7 +9,10 @@ export default defineConfig({
       '@cknTypes': path.resolve(__dirname, 'shared/cknTypes'),
       '@shared': path.resolve(__dirname, 'shared'),
       '@context': path.resolve(__dirname, 'src/context'),
-      '@hooks': path.resolve(__dirname, 'src/hooks')
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@PanelGenAIPro': path.resolve(__dirname, 'src/components/PanelGenAIPro'),
+      '@PanelGenAIProComponents': path.resolve(__dirname, 'src/components/PanelGenAIPro/PanelGenAIProComponents')
     }
   }
 })

@@ -784,3 +784,21 @@ export type HandleGetScenarioDataProps = {
   language: Language
 }
 
+export type HandleCreateLessonProps = {
+  scenarioData: ScenarioData
+  scenario: Scenario
+  language: Language
+  lesson: Lesson
+  setLessonComplete: SetLessonComplete
+  setLessons: SetLessons
+  selectedLessonId: SelectedLessonId
+  testMode: TestMode
+}
+
+export type RunModuleProps = {
+  scenarioData: ScenarioData
+  testMode: TestMode
+  moduleName: ModuleName
+  lesson: Lesson
+}
+
