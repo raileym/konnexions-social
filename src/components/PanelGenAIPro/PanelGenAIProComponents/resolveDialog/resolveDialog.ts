@@ -1,4 +1,4 @@
-import type { Lines } from "@cknTypes/types"
+import type { Lines } from '@cknTypes/types'
 
 type ResolveDialogResult = {
   dialogLinesResolved: Lines
@@ -34,7 +34,7 @@ export function resolveDialog({
   for (const entry of dialogReviewLines) {
     const match = entry.match(/^(\d+)\.\s*(.+)$/)
     if (!match) {
-      dialogLinesResolutions.push(`⚠️ Unrecognized format in review line: "${entry}"`)
+      dialogLinesResolutions.push(`⚠️ Unrecognized format in review line: '${entry}'`)
       continue
     }
 
@@ -50,7 +50,7 @@ export function resolveDialog({
     const parts = originalLine.split('|')
     if (parts.length < 3) {
       dialogLinesResolved.push(originalLine)
-      dialogLinesResolutions.push(`⚠️ Malformed line (expected 3 parts): "${originalLine}"`)
+      dialogLinesResolutions.push(`⚠️ Malformed line (expected 3 parts): '${originalLine}'`)
       continue
     }
 
@@ -59,10 +59,10 @@ export function resolveDialog({
 
     if (!updatedSentence) {
       dialogLinesResolved.push(originalLine)
-      dialogLinesResolutions.push(`✅ No correction for line ${i + 1}: "${sentence.trim()}"`)
+      dialogLinesResolutions.push(`✅ No correction for line ${i + 1}: '${sentence.trim()}'`)
     } else {
       dialogLinesResolved.push(`${gender}|${participant}|${updatedSentence}`)
-      dialogLinesResolutions.push(`✏️ Line ${i + 1} corrected: "${sentence.trim()}" → "${updatedSentence}"`)
+      dialogLinesResolutions.push(`✏️ Line ${i + 1} corrected: '${sentence.trim()}' → '${updatedSentence}'`)
     }
   }
 

@@ -1,4 +1,4 @@
-import type { Lines } from "@cknTypes/types"
+import type { Lines } from '@cknTypes/types'
 
 export function zipVerbsExpandedWithComplete({
   expandedLines,

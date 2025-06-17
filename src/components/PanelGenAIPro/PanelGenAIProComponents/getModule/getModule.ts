@@ -1,7 +1,7 @@
 import type {
   GetModuleProps,
   Module
-} from "@cknTypes/types"
+} from '@cknTypes/types'
 
 export const getModule = async ({
   scenarioData,

@@ -56,7 +56,7 @@ const PanelSettings: React.FC = () => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            input: { ssml: `<speak>Hola. Usando servicio de voz en la nube.</speak>` },
+            input: { ssml: '<speak>Hola. Usando servicio de voz en la nube.</speak>' },
             voice: { languageCode: 'es-US', name: 'es-US-Wavenet-B' },
             audioConfig: { audioEncoding: 'MP3', speakingRate: 0.9 },
           }),

@@ -1,6 +1,6 @@
 // import type { HandleModuleProps, Lesson, Module } from "@cknTypes/types"
-import type { HandleModuleProps, Module } from "@cknTypes/types"
-import getModule from "../getModule/getModule"
+import type { HandleModuleProps, Module } from '@cknTypes/types'
+import getModule from '@PanelGenAIProComponents/getModule/getModule'
 
 export const handleModule = async ({
   scenarioData,
@@ -10,7 +10,7 @@ export const handleModule = async ({
 }: HandleModuleProps): Promise<Module | null> => {
 
   if (testMode) {
-    // console.log(`"${moduleName}": ${JSON.stringify(lesson[moduleName as keyof Lesson], null, 2)}`)
+    // console.log(`'${moduleName}': ${JSON.stringify(lesson[moduleName as keyof Lesson], null, 2)}`)
   }
 
   const module = await getModule({scenarioData, testMode, lesson, moduleName })
