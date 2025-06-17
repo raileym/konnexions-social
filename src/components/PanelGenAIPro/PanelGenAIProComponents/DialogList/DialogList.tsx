@@ -167,6 +167,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
       synthRef.current.cancel()
     }
     setCurrentIndex(null)
+    setLineNumber(0)
   }
 
   return (
@@ -198,13 +199,14 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
       </div>
       <ul className='mt3'>
         {lines.map((line, i) => (
-          <li key={i} className={`mb2 pl3 flex items-center ${i === lineNumber ? 'bg-red ': 'bg-transparent'}`}>
+          <li key={i} className={'mb2 pl3 flex items-center'}>
             <DialogLine
               key={i}
               line={line}
               index={i}
               useCloudTTS={useCloudTTS}
               storeAudioOrLine={storeAudioOrLine}
+              className={i === lineNumber ? 'bg-brand white ': 'bg-transparent black'}
             />
           </li>
 

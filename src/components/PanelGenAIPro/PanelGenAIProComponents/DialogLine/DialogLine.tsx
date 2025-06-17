@@ -8,9 +8,10 @@ type DialogLineProps = {
   index: number
   useCloudTTS: boolean
   storeAudioOrLine: (index: number, value: string) => void
+  className?: string
 }
 
-export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: DialogLineProps) {
+export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine, className='' }: DialogLineProps) {
   const [gender, speaker, sentence] = line.split('|')
 
   const { cutoff, maxCount, setMaxCount } = useAppContext()
@@ -35,7 +36,7 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine }: Dialo
 
   return (
     <>
-      <div className="flex-auto">
+      <div className={`ph3 flex-auto ${className}`}>
         <strong>{speaker}</strong>: {sentence}
       </div>
       <button
