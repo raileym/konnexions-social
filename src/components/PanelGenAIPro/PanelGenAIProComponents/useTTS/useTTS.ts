@@ -1,6 +1,6 @@
-import { useRef, useState } from "react"
-import type { MaxCount, SetMaxCount } from "@cknTypes/types"
-import { fetchTTS } from "../fetchTTS/fetchTTS"
+import { useRef, useState } from 'react'
+import type { MaxCount, SetMaxCount } from '@cknTypes/types'
+import { fetchTTS } from '@PanelGenAIProComponents/fetchTTS/fetchTTS'
 
 type UseTTSOptions = {
   text: string
@@ -15,7 +15,7 @@ type UseTTSOptions = {
 
 export function useTTS({
   text,
-  gender = "M",
+  gender = 'M',
   index = 0,
   useCloudTTS,
   maxCount,
@@ -68,13 +68,13 @@ export function useTTS({
       const utterance = new SpeechSynthesisUtterance(text)
       const voices = window.speechSynthesis.getVoices()
       const match = voices.find(v =>
-        gender === "F"
-          ? v.lang.startsWith("es") && v.name.toLowerCase().includes("female")
-          : v.lang.startsWith("es") && v.name.toLowerCase().includes("male")
+        gender === 'F'
+          ? v.lang.startsWith('es') && v.name.toLowerCase().includes('female')
+          : v.lang.startsWith('es') && v.name.toLowerCase().includes('male')
       )
 
-      utterance.voice = match || voices.find(v => v.lang.startsWith("es")) || null
-      utterance.lang = "es-ES"
+      utterance.voice = match || voices.find(v => v.lang.startsWith('es')) || null
+      utterance.lang = 'es-ES'
       utterance.rate = 0.9
       window.speechSynthesis.speak(utterance)
     }

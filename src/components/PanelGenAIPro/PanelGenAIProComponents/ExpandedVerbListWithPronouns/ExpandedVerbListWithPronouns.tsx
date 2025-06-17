@@ -1,5 +1,7 @@
-import type { Language, VerbsLines } from "@cknTypes/types"
-import { generateConjugatedLines } from "../generateConjugatedList/generatedConjugatedList"
+import type { Language, VerbsLines } from '@cknTypes/types'
+import { generateConjugatedLines } from '../generateConjugatedLines/generatedConjugatedLines'
+import { VERB_FORMATS } from '@cknTypes/constants'
+// import { generateConjugatedLines } from '../generateConjugatedList/generatedConjugatedList'
 
 type ConjugationListProps = {
   language: Language
@@ -7,7 +9,7 @@ type ConjugationListProps = {
 }
 
 export function ExpandedVerbListWithPronouns({ language, verbsLines }: ConjugationListProps) {
-  const lines = generateConjugatedLines({ verbsLines, inCompleteOnly: false, language })
+  const lines = generateConjugatedLines({ verbsLines, language, returnFormat: VERB_FORMATS.COMPLETE })
 
   return (
     <ul>

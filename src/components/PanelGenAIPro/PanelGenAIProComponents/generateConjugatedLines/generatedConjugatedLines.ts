@@ -4,9 +4,10 @@ import {
   pronounsUpperCase,
   type Lines,
   type VerbFormats
-} from "@cknTypes/types"
+} from '@cknTypes/types'
 import {
-  LANGUAGE
+  LANGUAGE,
+  VERB_FORMATS
 } from '@cknTypes/constants'
 
 type GenerateConjugatedLinesProps = {
@@ -46,23 +47,23 @@ export function generateConjugatedLines({
         let line: string
 
         switch (returnFormat) {
-          case "infinitive":
+          case VERB_FORMATS.INFINITIVE:
             line = infinitiveUC
             break
-          case "conjugation":
+          case VERB_FORMATS.CONJUGATION:
             line = noCap ? conj : conjUC
             break
-          case "pronoun":
+          case VERB_FORMATS.PRONOUN:
             line = pronoun
             break
-          case "incomplete":
+          case VERB_FORMATS.INCOMPLETE:
             line = `${pronoun} ${conj} ...`
             break
-          case "complete":
+          case  VERB_FORMATS.COMPLETE:
             // Placeholders since actual complete lines come from CAI
             line = `${pronoun} ${conj} ___`
             break
-          case "triple":
+          case VERB_FORMATS.TRIPLE:
             line = `${conjUC}. ${pronoun} ${conj}. ${pronoun} ${conj} ___`
             break
           default:

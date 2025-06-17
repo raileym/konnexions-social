@@ -19,29 +19,29 @@ export function resolveNouns({
 
   const isNoCorrections =
     nounsReviewLines.length === 1 &&
-    nounsReviewLines[0].toLowerCase().includes("no corrections")
+    nounsReviewLines[0].toLowerCase().includes('no corrections')
 
   if (isNoCorrections) {
     return {
       nounsLinesResolved: [...nounsLines],
-      nounsLinesResolutions: ["✅ No corrections found. Kept original nounsLines."]
+      nounsLinesResolutions: ['✅ No corrections found. Kept original nounsLines.']
     }
   }
 
   // Build a map keyed by singular noun
   const reviewMap = new Map<string, string>()
   for (const entry of nounsReviewLines) {
-    const [gender, singular] = entry.split("|")
+    const [gender, singular] = entry.split('|')
     if (gender && singular) {
       reviewMap.set(singular.trim(), entry.trim())
     }
   }
 
   for (const original of nounsLines) {
-    const parts = original.split("|")
+    const parts = original.split('|')
     if (parts.length !== 4) {
       nounsLinesResolved.push(original)
-      nounsLinesResolutions.push(`⚠️ Malformed line: kept as-is -> "${original}"`)
+      nounsLinesResolutions.push(`⚠️ Malformed line: kept as-is -> '${original}'`)
       continue
     }
 
@@ -50,19 +50,19 @@ export function resolveNouns({
 
     if (!reviewed) {
       nounsLinesResolved.push(original)
-      nounsLinesResolutions.push(`✅ No correction for: "${singular}"`)
+      nounsLinesResolutions.push(`✅ No correction for: '${singular}'`)
     } else if (reviewed === original) {
       nounsLinesResolved.push(original)
-      nounsLinesResolutions.push(`🔁 Same in review: kept original -> "${original}"`)
+      nounsLinesResolutions.push(`🔁 Same in review: kept original -> '${original}'`)
     } else {
-      const [newGender, , newPlural, newPrepositions] = reviewed.split("|").map(part => part.trim())
+      const [newGender, , newPlural, newPrepositions] = reviewed.split('|').map(part => part.trim())
 
       const resolvedLine = [
         newGender || originalGender,
         singular,
         newPlural || plural,
         newPrepositions || prepositions
-      ].join("|")
+      ].join('|')
 
       nounsLinesResolved.push(resolvedLine)
       nounsLinesResolutions.push(`✏️ Corrected: "${original}" → "${resolvedLine}"`)

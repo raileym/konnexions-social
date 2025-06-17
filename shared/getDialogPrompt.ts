@@ -1,5 +1,5 @@
-import { generateExample } from './generateExample'
-import { jsonQualification } from './jsonQualification'
+import { generateExample } from '@shared/generateExample'
+import { jsonQualification } from '@shared/jsonQualification'
 import { type GetDialogPrompt, type GetDialogPromptProps } from '@cknTypes/types'
 import { SCENARIO_LABELS } from '@cknTypes/constants'
 // import { getConstraints } from '@shared/getConstraints'
@@ -21,13 +21,13 @@ REQUIRED NOUNS: Your dialog must strongly prefer to include at least one of the 
 ${requiredNouns.join(', ')}
     ]
 
-CONSTRAINED NOUNS: Limit your noun usage to the following list. If your dialog uses additional nouns, they must be clearly associated with typical scenario ${SCENARIO_LABELS[lesson.scenario]}.
+CONSTRAINED NOUNS: Limit your noun usage to the following list. If your dialog uses additional nouns, they must be clearly associated with a typical scenario ${SCENARIO_LABELS[lesson.scenario]}.
 
     [
 ${constrainedNouns.join(', ')}
     ]
 ${jsonQualification}
-STRING ARRAY: A dialog response is an array of strings that takes the form,
+DIALOG ARRAY: A dialog response is an array of strings that takes the form,
 
   [
     'M|Participant|Line from the dialog',

@@ -1,5 +1,5 @@
 import { formatDialogLinesForReview } from './formatDialogLinesForReview'
-import { generateExample } from './generateExample'
+import { generateExample } from '@shared/generateExample'
 import { jsonQualificationWithExample } from '../shared/jsonQualification'
 import { type GetDialogReviewPrompt, type GetDialogReviewPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'

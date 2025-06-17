@@ -96,7 +96,7 @@ export const GENDER_TO_ARTICLE: Record<Gender, NounArticlesValue> = {
 } as const
 
 export const VERB_FORMATS = {
-  INFINITE: 'infinitive',
+  INFINITIVE: 'infinitive',
   CONJUGATION: 'conjugation',
   PRONOUN: 'pronoun',
   PRONOUN_AND_CONJUGATION: 'pronounAndConjugation',

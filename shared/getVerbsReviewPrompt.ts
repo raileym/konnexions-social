@@ -1,5 +1,5 @@
-import { generateExample } from "./generateExample"
-import { jsonQualification } from "./jsonQualification"
+import { generateExample } from '@shared/generateExample'
+import { jsonQualification } from '@shared/jsonQualification'
 import { type GetVerbsReviewPrompt, type GetVerbsReviewPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 

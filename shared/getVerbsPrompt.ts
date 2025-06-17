@@ -1,5 +1,5 @@
-import { generateExample } from "./generateExample"
-import { jsonQualification } from "./jsonQualification"
+import { generateExample } from '@shared/generateExample'
+import { jsonQualification } from '@shared/jsonQualification'
 import { type GetVerbsPrompt, type GetVerbsPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -16,7 +16,7 @@ DIALOG: ${lesson.prose}
 
 ${jsonQualification}
 
-STRING ARRAY: A nouns response is an array of strings that takes the form,
+VERBS RESPONSE: A nouns response is an array of strings that takes the form,
 
   [
     "verb(infinitive)|verb(1st Person Singular)|verb(2nd Person Singular)|verb(3rd Person Singular)|verb(1st Person Plural)|verb(2nd Person Plural)|verb(3rd Person Plural)",
@@ -29,8 +29,8 @@ by the six forms of conjugation in common order.
 
 Also,
 
-  - The vertical bar "|" delineates the seven fields
-  - Use a single vertical bar ("|") with no extra spaces to separate your fields
+  - The vertical bar '|' delineates the seven fields
+  - Use a single vertical bar ('|') with no extra spaces to separate your fields
   - Use lowercase throughout
   - All content must be in lowercase, including nouns and prepositions
   - Each line denotes a conjugation of the verb in present tense.

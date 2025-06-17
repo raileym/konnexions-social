@@ -1,5 +1,5 @@
-import { generateExample } from './generateExample'
-import { jsonQualification } from './jsonQualification'
+import { generateExample } from '@shared/generateExample'
+import { jsonQualification } from '@shared/jsonQualification'
 import type { GetNounsPrompt, GetNounsPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -13,7 +13,7 @@ DIALOG: ${lesson.prose}
 
 ${jsonQualification}
 
-STRING ARRAY: A nouns response is an array of strings that takes the form,
+NOUNS RESPONSE: A nouns response is an array of strings that takes the form,
 
   [
     "noun(singular)|noun(plural)|gender|common prepositions",

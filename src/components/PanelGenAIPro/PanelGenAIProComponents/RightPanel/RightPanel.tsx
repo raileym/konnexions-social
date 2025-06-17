@@ -34,6 +34,7 @@ import SelectorLanguage from '../../../SelectorLanguage'
 import { handleCreateLesson } from '@PanelGenAIProComponents/handleCreateLesson/handleCreateLesson'
 import PromptToggle from '../PromptToggle/PromptToggle'
 import Hr from '@components/Hr'
+import LessonElementToggle from '../LessonElementToggle/LessonElementToggle'
 // import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
@@ -94,9 +95,6 @@ const RightPanel: React.FC = () => {
     if (!lesson) {
       content = <p>Lesson not found.</p>
     } else {
-      const { prompt: dialogPrompt } = getPrompt({moduleName: MODULE_NAME.DIALOG, scenarioData, lesson, errors: [] })
-      const { prompt: dialogReviewPrompt } = getPrompt({moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson, errors: [] })
-
       // console.log('lesson', lesson)
       // console.log('prompt', prompt)
 
@@ -169,17 +167,16 @@ const RightPanel: React.FC = () => {
           </div>
           */}
 
-          <PromptToggle title={'Proposed Dialog Prompt'} prompt={dialogPrompt} />
+          <PromptToggle className='b--greenX bg-yellow black' title={'Proposed Dialog Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG, scenarioData, lesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Dialog Prompt'} prompt={lesson.dialog.prompt} />
 
-          {showDialogReviewPrompt && (
-            <div className="w-100 flex justify-center flex-column">
-              <div className="mv4 ba pa3 bg-white">
-                <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Review Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{dialogReviewPrompt}</div>
-              </div>
-            </div>
-          )}
+          <PromptToggle className='b--greenX bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+          <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
+
+          <PromptToggle title={'Proposed Nouns Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS, scenarioData, lesson, errors: [] }).prompt} />
+          <PromptToggle title={'Actual Nouns Prompt'} prompt={lesson.nouns.prompt} />
+
+          <LessonElementToggle title={'Nouns'} content={lesson.nouns.lines} testMode={testMode} />
 
           { testMode && (
             <div className="w-100">

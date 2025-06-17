@@ -1,7 +1,7 @@
 import { type JsonQualification } from '@cknTypes/types';
 
 export const jsonQualification: JsonQualification = `
-RESPONSE: Express your response using well-formed JSON only, with:
+RESPONSE FORMAT: Express your response using well-formed JSON only, with:
 
   - no trailing commas,
   - no single quotes (use double quotes only),

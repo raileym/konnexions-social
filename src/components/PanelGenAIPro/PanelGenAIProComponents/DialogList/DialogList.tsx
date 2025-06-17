@@ -27,6 +27,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
     cutoff,
     selectedLessonId,
     setLineNumber,
+    lineNumber,
     scenario
   } = useAppContext()
 
@@ -170,11 +171,11 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
 
   return (
     <div>
-      <div className="tc f2 w-100 mt4X b">Dialog {SCENARIO_LABELS[scenario]}</div>
-      <div className="flex flex-row items-center mt4">
+      <div className='tc f2 w-100 mt4X b'>Dialog {SCENARIO_LABELS[scenario]}</div>
+      <div className='flex flex-row items-center mt4'>
         <button
           onClick={playAll}
-          className="ml3 f6 br2 ph2 pv1 white bg-dark-blue hover:bg-blue no-outline"
+          className='ml3 f6 br2 ph2 pv1 white bg-dark-blue hover:bg-blue no-outline'
         >
           <FontAwesomeIcon icon={faPlay} /> Play All
         </button>
@@ -182,7 +183,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
         {/*
         <button
           onClick={pauseAll}
-          className="ml2 f6 br2 ph2 pv1 white bg-gold hover:bg-yellow no-outline"
+          className='ml2 f6 br2 ph2 pv1 white bg-gold hover:bg-yellow no-outline'
         >
           <FontAwesomeIcon icon={faPause} /> Pause
         </button>
@@ -190,14 +191,14 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
 
         <button
           onClick={stopAll}
-          className="ml2 f6 br2 ph2 pv1 white bg-dark-red hover:bg-red no-outline"
+          className='ml2 f6 br2 ph2 pv1 white bg-dark-red hover:bg-red no-outline'
         >
           <FontAwesomeIcon icon={faStop} /> Stop
         </button>
       </div>
-      <ul className="mt3">
+      <ul className='mt3'>
         {lines.map((line, i) => (
-          <li key={i} className={`mb2 pl3 flex items-center {i === lineNumber ? 'bg-red ': 'bg-transparent'`}>
+          <li key={i} className={`mb2 pl3 flex items-center ${i === lineNumber ? 'bg-red ': 'bg-transparent'}`}>
             <DialogLine
               key={i}
               line={line}

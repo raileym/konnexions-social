@@ -1,5 +1,5 @@
-import { generateExample } from './generateExample'
-import { jsonQualification } from './jsonQualification'
+import { generateExample } from '@shared/generateExample'
+import { jsonQualification } from '@shared/jsonQualification'
 import type { GetNounsOnlyPrompt, GetNounsOnlyPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -13,7 +13,7 @@ DIALOG: ${lesson.prose}
 
 ${jsonQualification}
 
-STRING ARRAY: A list of nouns is an array of strings with one noun only per string,
+NOUNS ONLY RESPONSE: A list of nouns is an array of strings with one noun only per string,
 
   [
     "noun",

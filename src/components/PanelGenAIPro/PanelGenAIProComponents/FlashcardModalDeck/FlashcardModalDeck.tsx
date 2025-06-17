@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react"
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
+import React, { useState, useEffect } from 'react'
+import { Dialog, DialogContent, DialogTrigger } from '@radix-ui/react-dialog';
+// import Button from '@components/Button'
 
 type FlashcardDeckProps = {
   fronts: string[]
@@ -41,23 +41,21 @@ export const FlashcardModalDeck: React.FC<FlashcardDeckProps> = ({ fronts, backs
   if (!current) return <p>No cards to show.</p>
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      <div className="text-xl font-semibold">Flashcard {index + 1} of {cards.length}</div>
+    <div className='flex flex-col items-center space-y-4'>
+      <div className='text-xl font-semibold'>Flashcard {index + 1} of {cards.length}</div>
       <Dialog>
         <DialogTrigger asChild>
-          <Button onClick={() => setShowBack(true)}>Show Card</Button>
+          <button title={'Show Card'} onClick={() => setShowBack(true)} />
         </DialogTrigger>
-        <DialogContent className="max-w-md text-center">
-          <div className="text-2xl font-medium mb-4">{showBack ? current.back : current.front}</div>
-          <Button variant="outline" onClick={() => setShowBack((s) => !s)}>
-            {showBack ? "Hide Back" : "Reveal Back"}
-          </Button>
+        <DialogContent className='max-w-md text-center'>
+          <div className='text-2xl font-medium mb-4'>{showBack ? current.back : current.front}</div>
+          <button title={showBack ? 'Hide Back' : 'Reveal Back'} onClick={() => setShowBack((s) => !s)} />
         </DialogContent>
       </Dialog>
 
-      <div className="flex space-x-4">
-        <Button variant="secondary" onClick={prevCard}>Previous</Button>
-        <Button onClick={nextCard}>Next</Button>
+      <div className='flex space-x-4'>
+        <button title={'Previous'} onClick={prevCard} />
+        <button title={'Next'} onClick={nextCard} />
       </div>
     </div>
   )
