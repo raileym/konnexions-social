@@ -8,7 +8,7 @@ export const getNounsOnlyPrompt: GetNounsOnlyPrompt = ({lesson, errors}: GetNoun
   const nounsOnlyExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_ONLY, options: { asString: true }  })
   const dialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
   
-  console.log('dialogLines',dialogLines)
+  // console.log('dialogLines',dialogLines)
   return (`
 REQUEST: Extract a list of ${lesson.language} nouns from the dialog below:
 

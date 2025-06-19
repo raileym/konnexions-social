@@ -9,6 +9,7 @@ import {
 import { getScenarioDetails } from '@components/Util';
 import { resolveDialog } from '@PanelGenAIProComponents/resolveDialog/resolveDialog'
 import { runModule } from '@PanelGenAIProComponents/runModule/runModule';
+import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -77,26 +78,26 @@ export const handleCreateLesson = async ({
   //
   // Nouns Only Review
   //
-  // const nounsOnlyReviewLesson_a6 = await runModule({moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, lesson: nounsOnlyLesson_a5})
-  // if (!nounsOnlyReviewLesson_a6) return
+  const nounsOnlyReviewLesson_a6 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, lesson: nounsOnlyLesson_a5})
+  if (!nounsOnlyReviewLesson_a6) return
   // console.log('nounsOnlyReviewLesson_a6', nounsOnlyReviewLesson_a6.nounsOnly.lines)
 
   //
   // Nouns Resolve
   //
-  // const { nounsOnlyLinesResolved: nounsOnlyLinesResolved_a7 } = resolveNounsOnly({
-  //   nounsOnlyReviewLines: nounsOnlyReviewLesson_a6.nounsOnlyReview.lines, 
-  //   nounsOnlyLines: nounsOnlyLesson_a5.nounsOnly.lines
-  // })
+  const { nounsOnlyLinesResolved: nounsOnlyLinesResolved_a7 } = resolveNounsOnly({
+    nounsOnlyReviewLines: nounsOnlyReviewLesson_a6.nounsOnlyReview.lines, 
+    nounsOnlyLines: nounsOnlyLesson_a5.nounsOnly.lines
+  })
   // console.log('nounsOnlyLinesResolved_a7', nounsOnlyLinesResolved_a7)
 
-  // const nounsLessonUpdated_a8 = {
-  //   ...nounsOnlyReviewLesson_a6,
-  //   [MODULE_NAME.NOUNS_ONLY]: {
-  //     ...(nounsOnlyReviewLesson_a6[MODULE_NAME.NOUNS_ONLY as keyof Lesson] as Module),
-  //     lines: nounsOnlyLinesResolved_a7
-  //   }
-  // }
+  const nounsLessonUpdated_a8 = {
+    ...nounsOnlyReviewLesson_a6,
+    [MODULE_NAME.NOUNS_ONLY]: {
+      ...(nounsOnlyReviewLesson_a6[MODULE_NAME.NOUNS_ONLY as keyof Lesson] as Module),
+      lines: nounsOnlyLinesResolved_a7
+    }
+  }
 
   //
   // Nouns
@@ -185,11 +186,11 @@ export const handleCreateLesson = async ({
 
   setLessons((prev) => {
     console.log('🔄 Updating lesson list...');
-    console.log('▶️ dialogLessonUpdated_4:', dialogLessonUpdated_4);
+    console.log('▶️ nounsLessonUpdated_a8:', nounsLessonUpdated_a8);
     const next = prev.map((lsn) => {
       if (lsn.id === selectedLessonId) {
         console.log(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...dialogLessonUpdated_4, id: lsn.id, name: lsn.name };
+        const updated = { ...nounsLessonUpdated_a8, id: lsn.id, name: lsn.name };
         console.log('🆕 Updated lesson:', updated);
         return updated;
       }

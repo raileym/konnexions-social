@@ -4,13 +4,9 @@ import {
   type RichParsedLine,
   type Module,
   type ValidateModuleProps,
-  type Lines,
   type Line
 } from '@cknTypes/types'
-
-import {
-  LANGUAGE
-} from '@cknTypes/constants'
+import { lintJsonArrayStructure } from '@shared/lintJsonArrayStructure'
 
 export const addError = ({
   errorLabel,
@@ -43,9 +39,8 @@ export const validateModule = ({
   response,
   fieldCount,
   errorLabel,
-  language,
   moduleName
-}: ValidateModuleProps): Partial<Module> => {
+}: ValidateModuleProps): Partial<Module> & { status?: 'valid' | 'warning' | 'error' } => {
   const errors: HandleLLMError[] = []
 
   if (!response) {
@@ -57,74 +52,79 @@ export const validateModule = ({
       timestamp: new Date().toISOString()
     }
     errors.push(error)
-    return { success: false, lines: [], errors, sentinel: '' }
+    return { success: false, lines: [], errors, sentinel: '', status: 'error' }
   }
 
-  if (!looksLikeStringArray(response)) {
-    console.log('failing response',response)
+  const warnings = lintJsonArrayStructure(response)
 
-    const error: HandleLLMError = {
-      message: 'Response from ChatGPT AI does not match expected JSON array format',
+  warnings.forEach(warning => {
+    errors.push({
+      message: warning,
       detail: '',
-      offendingData: JSON.stringify(response),
+      offendingData: response,
       errorLabel,
       timestamp: new Date().toISOString()
-    }
-    errors.push(error)
-    return { success: false, lines: [], errors, sentinel: '' }
-  }
+    })
+  })
 
   let lines: string[]
+
   try {
-    // First parse attempt
-    const firstParse = JSON.parse(response)
+    let parsed = JSON.parse(response)
 
-    // If the result is a string (i.e., still looks like JSON text), try parsing again
-    if (typeof firstParse === 'string') {
-      lines = JSON.parse(firstParse)
-    } else {
-      lines = firstParse
+    if (typeof parsed === 'string') {
+      parsed = JSON.parse(parsed)
     }
 
-    // Validate the shape
-    if (!Array.isArray(lines) || !lines.every(item => typeof item === 'string')) {
-      throw new Error('Parsed result is not an array of strings')
+    if (!Array.isArray(parsed) || !parsed.every(item => typeof item === 'string')) {
+      throw new Error('Parsed response is not an array of strings')
     }
 
-  } catch (err: unknown) {
-    const error: HandleLLMError = {
-      message: 'Failed to parse response as string array (even after detecting double stringify)',
-      detail: err instanceof Error ? err.message : 'Unknown JSON parse error',
-      offendingData: typeof response === 'string' ? response : String(response),
+    lines = parsed
+  } catch (err1) {
+    errors.push({
+      message: 'Initial JSON.parse attempt failed',
+      detail: err1 instanceof Error ? err1.message : 'Unknown parse error',
+      offendingData: typeof response === 'string' ? response : JSON.stringify(response),
       errorLabel,
       timestamp: new Date().toISOString()
-    }
-    errors.push(error)
-    return { success: false, lines: [], errors, sentinel: '' }
-  }
+    })
 
-  if (!Array.isArray(lines)) {
-    const error: HandleLLMError = {
-      message: 'Parsed response is not an array',
-      detail: '',
-      offendingData: JSON.stringify(lines),
-      errorLabel,
-      timestamp: new Date().toISOString()
-    }
-    errors.push(error)
-    return { success: false, lines: [], errors, sentinel: '' }
-  }
+    try {
+      const hasTrailingComma = /,(\s*])/.test(response)
 
-  if (!lines.every(line => typeof line === 'string')) {
-    const error: HandleLLMError = {
-      message: 'One or more items in the lines array is not a string',
-      detail: '',
-      offendingData: JSON.stringify(lines),
-      errorLabel,
-      timestamp: new Date().toISOString()
+      if (hasTrailingComma) {
+        errors.push({
+          message: 'Trailing comma detected and removed from JSON array',
+          detail: 'Output included a trailing comma before the closing bracket',
+          offendingData: response,
+          errorLabel,
+          timestamp: new Date().toISOString()
+        })
+      }
+
+      const cleaned = response.replace(/,(\s*])/g, '$1')
+      const fallbackParsed = JSON.parse(cleaned)
+
+      if (
+        Array.isArray(fallbackParsed) &&
+        fallbackParsed.every(item => typeof item === 'string')
+      ) {
+        lines = fallbackParsed
+      } else {
+        throw new Error('Fallback parsed result is not a valid string array')
+      }
+    } catch (err2) {
+      const error: HandleLLMError = {
+        message: 'Failed to parse response as string array (even after fallback)',
+        detail: (err2 instanceof Error ? err2.message : 'Unknown error'),
+        offendingData: typeof response === 'string' ? response : JSON.stringify(response),
+        errorLabel,
+        timestamp: new Date().toISOString()
+      }
+      errors.push(error)
+      return { success: false, lines: [], errors, sentinel: '', status: 'error' }
     }
-    errors.push(error)
-    return { success: false, lines: [], errors, sentinel: '' }
   }
 
   if (
@@ -134,7 +134,9 @@ export const validateModule = ({
     return {
       success: true,
       lines: [],
-      sentinel: 'No corrections needed'
+      sentinel: 'No corrections needed',
+      errors,
+      status: errors.length > 0 ? 'warning' : 'valid'
     }
   }
 
@@ -166,7 +168,6 @@ export const validateModule = ({
     if (moduleName === 'verbs') {
       const specialCases = ['gustar', 'encantar', 'faltar', 'interesar']
       const infinitive = fields[0].trim().toLowerCase()
-
       if (!specialCases.includes(infinitive) && fields[1].trim() === fields[2].trim()) {
         // reasons.push('Singular and plural forms are identical')
       }
@@ -174,7 +175,6 @@ export const validateModule = ({
 
     if (moduleName === 'nouns') {
       const invariableNouns = ['lunes', 'análisis', 'paraguas', 'virus', 'tórax']
-
       const noun = fields[0].trim().toLowerCase()
       if (
         fields.length >= 3 &&
@@ -182,62 +182,6 @@ export const validateModule = ({
         !invariableNouns.includes(noun)
       ) {
         reasons.push('Singular and plural noun forms are identical (and not in exception list)')
-      }
-    }
-
-    const alwaysFalse = false
-    if (moduleName === 'nouns' && language === LANGUAGE.SPANISH && fields.length >= 5 && alwaysFalse) {
-      const gender = fields[0].trim().toLowerCase()
-      const articleSing = fields[3].trim().toLowerCase()
-      const articlePlur = fields[4].trim().toLowerCase()
-
-      const mascArticles = ['el', 'los']
-      const femArticles = ['la', 'las']
-
-      if (gender === 'masculino') {
-        if (!mascArticles.includes(articleSing)) {
-          reasons.push(`Masculine noun with unexpected singular article: ${articleSing}`)
-        }
-        if (!mascArticles.includes(articlePlur)) {
-          reasons.push(`Masculine noun with unexpected plural article: ${articlePlur}`)
-        }
-      } else if (gender === 'femenino') {
-        if (!femArticles.includes(articleSing)) {
-          reasons.push(`Feminine noun with unexpected singular article: ${articleSing}`)
-        }
-        if (!femArticles.includes(articlePlur)) {
-          reasons.push(`Feminine noun with unexpected plural article: ${articlePlur}`)
-        }
-      }
-    }
-
-    if (moduleName === 'nouns' && language === LANGUAGE.SPANISH && fields.length >= 7 && alwaysFalse) {
-      const preSing1 = fields[5].trim().toLowerCase()
-      const preSing2 = fields[6].trim().toLowerCase()
-
-      const validPrepositions = ['a', 'con', 'de', 'desde', 'en', 'entre', 'hacia', 'hasta', 'para', 'por', 'sin', 'sobre']
-
-      if (!validPrepositions.some(p => preSing1.startsWith(p + ' '))) {
-        reasons.push(`Singular prep phrase 1 missing valid preposition: ${preSing1}`)
-      }
-
-      if (!validPrepositions.some(p => preSing2.startsWith(p + ' '))) {
-        reasons.push(`Singular prep phrase 2 missing valid preposition: ${preSing2}`)
-      }
-    }
-
-    if (moduleName === 'nouns' && language === LANGUAGE.SPANISH && fields.length >= 9 && alwaysFalse) {
-      const prePlur1 = fields[7].trim().toLowerCase()
-      const prePlur2 = fields[8].trim().toLowerCase()
-
-      const validPrepositions = ['a', 'con', 'de', 'desde', 'en', 'entre', 'hacia', 'hasta', 'para', 'por', 'sin', 'sobre']
-
-      if (!validPrepositions.some(p => prePlur1.startsWith(p + ' '))) {
-        reasons.push(`Plural prep phrase 1 missing valid preposition: ${prePlur1}`)
-      }
-
-      if (!validPrepositions.some(p => prePlur2.startsWith(p + ' '))) {
-        reasons.push(`Plural prep phrase 2 missing valid preposition: ${prePlur2}`)
       }
     }
 
@@ -263,10 +207,14 @@ export const validateModule = ({
     errors.push(error)
   }
 
+  const hasBlockingErrors = invalid.length > 0
+  const hasWarnings = errors.length > 0
+
   return {
-    success: errors.length === 0,
+    success: !hasBlockingErrors,
     lines: valid,
     errors,
-    sentinel: ''
+    sentinel: '',
+    status: hasBlockingErrors ? 'error' : hasWarnings ? 'warning' : 'valid'
   }
-} 
+}
