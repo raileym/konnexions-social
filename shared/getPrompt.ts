@@ -12,17 +12,19 @@ type PromptWithMeta = {
   errorLabel: ErrorLabel
 }
 import type { Lesson, ErrorLabel, GetPromptProps, HandleLLMError, ModuleName, ScenarioData } from '@cknTypes/types'
-import { getDialogPrompt } from './getDialogPrompt'
-import { getNounsPrompt } from './getNounsPrompt'
-import { getVerbsPrompt } from './getVerbsPrompt'
-import { getDialogReviewPrompt } from './getDialogReviewPrompt'
-import { getNounsReviewPrompt } from './getNounsReviewPrompt'
-import { getVerbsReviewPrompt } from './getVerbsReviewPrompt'
-import { getVerbsExpandedCompletePrompt } from './getVerbsExpandedCompletePrompt'
-import { getNounsOnlyPrompt } from './getNounsOnlyPrompt'
-import { getNounsOnlyReviewPrompt } from './getNounsOnlyReviewPrompt'
-import { getVerbsOnlyPrompt } from './getVerbsOnlyPrompt'
-import { getVerbsOnlyReviewPrompt } from './getVerbsOnlyReviewPrompt'
+import { getDialogPrompt } from '@shared/getDialogPrompt'
+import { getNounsPrompt } from '@shared/getNounsPrompt'
+import { getVerbsPrompt } from '@shared/getVerbsPrompt'
+import { getDialogReviewPrompt } from '@shared/getDialogReviewPrompt'
+import { getNounsReviewPrompt } from '@shared/getNounsReviewPrompt'
+import { getVerbsReviewPrompt } from '@shared/getVerbsReviewPrompt'
+import { getVerbsExpandedCompletePrompt } from '@shared/getVerbsExpandedCompletePrompt'
+import { getNounsOnlyPrompt } from '@shared/getNounsOnlyPrompt'
+import { getNounsOnlyReviewPrompt } from '@shared/getNounsOnlyReviewPrompt'
+import { getVerbsOnlyPrompt } from '@shared/getVerbsOnlyPrompt'
+import { getVerbsOnlyReviewPrompt } from '@shared/getVerbsOnlyReviewPrompt'
+import { getNounsMissingPrompt } from '@shared/getNounsMissingPrompt'
+import { getNounsMissingReviewPrompt } from '@shared/getNounsMissingReviewPrompt'
 
 const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => PromptWithMeta> = {
   dialog: ({ scenarioData, lesson, errors }) => ({
@@ -37,6 +39,21 @@ const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, 
   }),
   nounsOnly: ({ scenarioData, lesson, errors }) => ({
     prompt: getNounsOnlyPrompt({ scenarioData, lesson, errors }),
+    fieldCount: 1,
+    errorLabel: ERROR_LABEL.NOUNS_ONLY_ERROR
+  }),
+  nounsOnlyMissing: () => ({
+    prompt: defaultPrompt,
+    fieldCount: defaultFieldCount,
+    errorLabel: defaultErrorLabel
+  }),
+  nounsMissing: ({ scenarioData, lesson, errors }) => ({
+    prompt: getNounsMissingPrompt({ scenarioData, lesson, errors }),
+    fieldCount: 3,
+    errorLabel: ERROR_LABEL.NOUNS_ERROR
+  }),
+  nounsMissingReview: ({ scenarioData, lesson, errors }) => ({
+    prompt: getNounsMissingReviewPrompt({ scenarioData, lesson, errors }),
     fieldCount: 1,
     errorLabel: ERROR_LABEL.NOUNS_ONLY_ERROR
   }),

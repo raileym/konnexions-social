@@ -92,13 +92,65 @@ export const handleCreateLesson = async ({
   })
   // console.log('nounsOnlyLinesResolved_a7', nounsOnlyLinesResolved_a7)
 
-  const nounsLessonUpdated_a8 = {
+  const nounsOnlyLessonUpdated_a8 = {
     ...nounsOnlyReviewLesson_a6,
     [MODULE_NAME.NOUNS_ONLY]: {
       ...(nounsOnlyReviewLesson_a6[MODULE_NAME.NOUNS_ONLY as keyof Lesson] as Module),
       lines: nounsOnlyLinesResolved_a7
     }
   }
+
+
+
+
+  const extractedNouns = nounsOnlyLessonUpdated_a8.nounsOnly.lines.map(n => n.trim().toLowerCase())
+
+  const allowedForms = new Set<string>()
+  scenarioData.nouns.forEach(noun => {
+    allowedForms.add(noun.noun_singular.toLowerCase())
+    allowedForms.add(noun.noun_plural.toLowerCase())
+  })
+
+  const unmatchedNouns = extractedNouns.filter(n => !allowedForms.has(n))
+
+  const nounsOnlyMissingLessonUpdated_a8 = {
+    ...nounsOnlyLessonUpdated_a8,
+    [MODULE_NAME.NOUNS_ONLY_MISSING]: {
+      ...(nounsOnlyLessonUpdated_a8[MODULE_NAME.NOUNS_ONLY_MISSING as keyof Lesson] as Module),
+      lines: unmatchedNouns
+    }
+  }
+
+  let nounsMissingLesson_b5: Lesson | null
+
+  if (unmatchedNouns.length === 0) {
+    nounsMissingLesson_b5 = nounsOnlyMissingLessonUpdated_a8
+  } else {
+    nounsMissingLesson_b5 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_MISSING, lesson: nounsOnlyMissingLessonUpdated_a8})
+    }
+  if (!nounsMissingLesson_b5) return
+
+  //
+  // Nouns Missing Review
+  //
+  const nounsMissingReviewLesson_b6 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, lesson: nounsMissingLesson_b5})
+  if (!nounsMissingReviewLesson_b6) return
+
+  //
+  // Nouns Resolve
+  //
+  // const { nounsLinesResolved: nounsLinesResolved_7 } = resolveNouns({
+  //   nounsReviewLines: nounsReviewLesson_6.nouns.lines, 
+  //   nounsLines: nounsLesson_5.nouns.lines
+  // })
+
+  // const nounsLessonUpdated_8 = {
+  //   ...nounsReviewLesson_6,
+  //   [MODULE_NAME.NOUNS]: {
+  //     ...(nounsReviewLesson_6[MODULE_NAME.NOUNS as keyof Lesson] as Module),
+  //     lines: nounsLinesResolved_7
+  //   }
+  // }
 
   //
   // Nouns
@@ -132,7 +184,7 @@ export const handleCreateLesson = async ({
   //
   // Verbs
   //
-  const verbsOnlyLesson_9 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_ONLY, lesson: nounsLessonUpdated_a8})
+  const verbsOnlyLesson_9 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_ONLY, lesson: nounsMissingLesson_b5})
   if (!verbsOnlyLesson_9) return
 
   //

@@ -41,11 +41,7 @@ const handler: Handler = async (event) => {
     let fieldCount: number = defaultFieldCount
     let errorLabel: ErrorLabel = defaultErrorLabel
 
-    console.log('TWO')
-
     ;({ prompt, fieldCount, errorLabel } = getPrompt({moduleName, scenarioData, lesson, errors: [] }))
-
-    console.log('THREE')
 
     let response: string
 

@@ -36,6 +36,18 @@ export function generateExample({
       'ensalada|ensaladas|femenino|con, sin, de, para',
       'pollo|pollos|masculino|con, sin, de, para'
     ],
+    nounsMissing: [
+      'restaurante|restaurantes|M',
+      'noche|noches|F',
+      'ensalada|ensaladas|F',
+      'pollo|pollos|M'
+    ],
+    nounsMissingReview: [
+      'restaurante|restaurantes|M',
+      'noche|noches|F',
+      'ensalada|ensaladas|F',
+      'pollo|pollos|M'
+    ],
     nounsOnly: [
       'mesa',
       'silla',
@@ -91,7 +103,8 @@ export function generateExample({
       ' 7. yo tomo un café por la mañana.',
     ],
     verbsExpandedTriple: [],
-    verbsExpandedInComplete: []  
+    verbsExpandedInComplete: [],
+    nounsOnlyMissing: []
   }
 
   const raw = examples[moduleName]

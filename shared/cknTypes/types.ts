@@ -220,18 +220,21 @@ export type Lesson = {
   signature: Signature
 
   dialog: Module
-  nouns: Module
-  nounsOnly: Module
-  verbs: Module
-  verbsOnly: Module
   dialogReview: Module
-  nounsReview: Module
+  nouns: Module
+  nounsMissing: Module
+  nounsMissingReview: Module
+  nounsOnly: Module
+  nounsOnlyMissing: Module
   nounsOnlyReview: Module
-  verbsReview: Module
-  verbsOnlyReview: Module
+  nounsReview: Module
+  verbs: Module
   verbsExpandedComplete: Module
   verbsExpandedInComplete: Module
   verbsExpandedTriple: Module
+  verbsOnly: Module
+  verbsOnlyReview: Module
+  verbsReview: Module
 }
 
 export type LessonId = number
@@ -377,7 +380,9 @@ export type GetPromptProps = {
 export type GetDialogPromptProps = GetPromptProps
 export type GetDialogReviewPromptProps = GetPromptProps
 export type GetNounsPromptProps = GetPromptProps
+export type GetNounsMissingPromptProps = GetPromptProps
 export type GetNounsReviewPromptProps = GetPromptProps
+export type GetNounsMissingReviewPromptProps = GetPromptProps
 export type GetNounsOnlyPromptProps = GetPromptProps
 export type GetNounsOnlyReviewPromptProps = GetPromptProps
 export type GetVerbsExpandedCompletePromptProps = GetPromptProps
@@ -389,7 +394,9 @@ export type GetVerbsOnlyReviewPromptProps = GetPromptProps
 export type GetDialogPrompt = (props: GetDialogPromptProps) => string
 export type GetDialogReviewPrompt = (props: GetDialogReviewPromptProps) => string
 export type GetNounsPrompt = (props: GetNounsPromptProps) => string
+export type GetNounsMissingPrompt = (props: GetNounsMissingPromptProps) => string
 export type GetNounsReviewPrompt = (props: GetNounsReviewPromptProps) => string
+export type GetNounsMissingReviewPrompt = (props: GetNounsMissingReviewPromptProps) => string
 export type GetNounsOnlyPrompt = (props: GetNounsOnlyPromptProps) => string
 export type GetNounsOnlyReviewPrompt = (props: GetNounsOnlyReviewPromptProps) => string
 export type GetVerbsExpandedCompletePrompt = (props: GetVerbsExpandedCompletePromptProps) => string
@@ -454,18 +461,21 @@ export const defaultLesson: Lesson = {
   prose: defaultProse,
 
   dialog: defaultModule,
-  nouns: defaultModule,
-  nounsOnly: defaultModule,
-  verbs: defaultModule,
-  verbsOnly: defaultModule,
   dialogReview: defaultModule,
-  nounsReview: defaultModule,
+  nouns: defaultModule,
+  nounsMissing: defaultModule,
+  nounsMissingReview: defaultModule,
+  nounsOnly: defaultModule,
+  nounsOnlyMissing: defaultModule,
   nounsOnlyReview: defaultModule,
-  verbsReview: defaultModule,
-  verbsOnlyReview: defaultModule,
+  nounsReview: defaultModule,
+  verbs: defaultModule,
   verbsExpandedComplete: defaultModule,
   verbsExpandedInComplete: defaultModule,
-  verbsExpandedTriple: defaultModule
+  verbsExpandedTriple: defaultModule,
+  verbsOnly: defaultModule,
+  verbsOnlyReview: defaultModule,
+  verbsReview: defaultModule
 }
 
 export const dXfaultNounsLines: NounsLines = [

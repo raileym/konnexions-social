@@ -85,6 +85,18 @@ const RightPanel: React.FC = () => {
     // generateTTSCount
   } = useAppContext()
   
+// export type ScenarioData = {
+//   nounsChooseN: NounDetails[]
+//   nouns: NounDetails[]
+//   verbs: VerbDetails[]
+//   nounBySingular: Map<string, NounDetails>
+//   nounByPlural: Map<string, NounDetails>
+//   singularNounList: string[]
+//   verbByInfinitive: Map<string, VerbDetails>
+// }
+
+  // console.log(JSON.stringify(scenarioData.nouns), null, 2)
+
   // const headline = <div className="f3">Create a custom dialog in <b>{language}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or in a taxi.</div>
   const headline = <div className="f3">Create a custom dialog in <b>{language}</b> {scenarioDescriptions[scenario]}</div>
 
@@ -106,6 +118,38 @@ const RightPanel: React.FC = () => {
       // console.log('prompt', prompt)
 
       const verbListsNoIndex = generateVerbLists(lesson, true)
+
+
+
+
+
+
+  
+      // const extractedNouns = lesson.nounsOnly.lines.map(n => n.trim().toLowerCase())
+
+      // const allowedForms = new Set<string>()
+      // scenarioData.nouns.forEach(noun => {
+      //   allowedForms.add(noun.noun_singular.toLowerCase())
+      //   allowedForms.add(noun.noun_plural.toLowerCase())
+      // })
+
+      // const unmatchedNouns = extractedNouns.filter(n => !allowedForms.has(n))
+
+      // console.log('🚫 Nouns in lesson but not in scenarioData:', unmatchedNouns)
+
+      // const extractedVerbs = lesson.verbsOnly.lines.map(v => v.trim().toLowerCase())
+
+      // const allowedVerbs = new Set<string>()
+      // scenarioData.verbs.forEach(verb => {
+      //   allowedVerbs.add(verb.verb_infinitive.toLowerCase())
+      // })
+
+      // const unmatchedVerbs = extractedVerbs.filter(v => !allowedVerbs.has(v))
+
+      // console.log('🚫 Verbs in lesson but not in scenarioData:', unmatchedVerbs)
+
+
+
 
       content = (
         <>
@@ -190,7 +234,10 @@ const RightPanel: React.FC = () => {
           <PromptToggle title={'Actual Verbs Only Prompt'} prompt={lesson.verbsOnly.prompt} />
 
           <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-          {/* <PromptToggle title={'Actual Verbs Review Prompt'} prompt={lesson.verbsOnlyReview.prompt} /> */}
+          <PromptToggle title={'Actual Verbs Review Prompt'} prompt={lesson.verbsOnlyReview.prompt} />
+
+          <PromptToggle className='bg-yellow black' title={'Proposed Nouns Missing Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_MISSING, scenarioData, lesson, errors: [] }).prompt} />
+          <PromptToggle title={'Actual Nouns Missing Prompt'} prompt={lesson?.nounsMissing.prompt} />
 
           <LessonElementToggle title={'Nouns'} content={lesson.nouns.lines} testMode={testMode} />
 
@@ -326,7 +373,7 @@ const RightPanel: React.FC = () => {
           {/* <DialogList lines={lesson?.dialog?.lines ?? []} useCloudTTS={true} /> */}
           
 
-          {/*
+          
           <div className="mt4 b">NounsConstraint</div>
           <ul className="mt0 pt0 black">
             {scenarioData?.nouns?.map((noun, index) => (
@@ -340,7 +387,7 @@ const RightPanel: React.FC = () => {
               <li key={index}>{verb.verb_infinitive}|{verb.verb_nosotros}</li>
             ))}
           </ul>
-          */}
+         
 
 
           <div className="mt4 b">NounsOnly</div>
