@@ -27,7 +27,7 @@ Where:
 
   - each verb occupies one string in the array of strings,
   - all verbs use lowercase throughout,
-  - use the verb form as it appears in the dialog (1st, 2nd, or 3rd person, singular or plural),
+  - use the verb form or conjugation as it appears in the dialog (1st, 2nd, or 3rd person, singular or plural),
   - include only verbs,
   - do not include nouns, adverbs, adjectives, expressions, or other parts of speech.
 

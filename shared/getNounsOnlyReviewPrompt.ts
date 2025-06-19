@@ -32,11 +32,11 @@ NOUNS ONLY RESPONSE FORMAT: Return your result as a single valid JSON array in t
 
 Guidelines:
 
-  - use only one noun per string
-  - use the noun form (singular or plural) exactly as it appears in the dialog.
-  - use lowercase throughout  
-  - include only nouns (people, places, things, or ideas)  
-  - exclude verbs, adjectives, expressions, or other parts of speech  
+  - use only one noun per string,
+  - use the noun form (singular or plural) exactly as it appears in the dialog,
+  - use lowercase throughout,
+  - include only nouns (people, places, things, or ideas),
+  - exclude verbs, adjectives, expressions, or other parts of speech.
 
 Formatting rules:
 ${getJsonQualification({responseType: ''})}

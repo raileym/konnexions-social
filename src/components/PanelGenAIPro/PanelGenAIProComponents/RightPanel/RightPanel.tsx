@@ -189,8 +189,8 @@ const RightPanel: React.FC = () => {
           <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Verbs Only Prompt'} prompt={lesson.verbsOnly.prompt} />
 
-          {/* <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Verbs Review Prompt'} prompt={lesson.verbsOnlyReview.prompt} /> */}
+          <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+          {/* <PromptToggle title={'Actual Verbs Review Prompt'} prompt={lesson.verbsOnlyReview.prompt} /> */}
 
           <LessonElementToggle title={'Nouns'} content={lesson.nouns.lines} testMode={testMode} />
 

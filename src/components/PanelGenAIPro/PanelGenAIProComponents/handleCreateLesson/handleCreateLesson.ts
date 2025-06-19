@@ -10,6 +10,7 @@ import { getScenarioDetails } from '@components/Util';
 import { resolveDialog } from '@PanelGenAIProComponents/resolveDialog/resolveDialog'
 import { runModule } from '@PanelGenAIProComponents/runModule/runModule';
 import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly';
+import { resolveVerbsOnly } from '../resolveVerbsOnly/resolveVerbsOnly';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -131,27 +132,27 @@ export const handleCreateLesson = async ({
   //
   // Verbs
   //
-  // const verbsLesson_9 = await runModule({moduleName: MODULE_NAME.VERBS, lesson: nounsLessonUpdated_8})
-  // if (!verbsLesson_9) return
+  const verbsOnlyLesson_9 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_ONLY, lesson: nounsLessonUpdated_a8})
+  if (!verbsOnlyLesson_9) return
 
   //
   // Verbs Review
   //
-  // const verbsReviewLesson_10 = await runModule({moduleName: MODULE_NAME.VERBS_REVIEW, lesson: verbsLesson_9})
-  // if (!verbsReviewLesson_10) return
+  const verbsOnlyReviewLesson_10 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_ONLY_REVIEW, lesson: verbsOnlyLesson_9})
+  if (!verbsOnlyReviewLesson_10) return
 
-  // const { verbsLinesResolved: verbsLinesResolved_11 } = resolveVerbs({
-  //   verbsReviewLines: verbsReviewLesson_10.verbs.lines, 
-  //   verbsLines: verbsLesson_9.verbs.lines
-  // })
+  const { verbsOnlyLinesResolved: verbsOnlyLinesResolved_11 } = resolveVerbsOnly({
+    verbsOnlyReviewLines: verbsOnlyReviewLesson_10.verbsOnlyReview.lines, 
+    verbsOnlyLines: verbsOnlyLesson_9.verbsOnly.lines
+  })
 
-  // const verbsLessonUpdated_12 = {
-  //   ...verbsReviewLesson_10,
-  //   [MODULE_NAME.VERBS]: {
-  //     ...(verbsReviewLesson_10[MODULE_NAME.VERBS as keyof Lesson] as Module),
-  //     lines: verbsLinesResolved_11
-  //   }
-  // }
+  const verbsOnlyLessonUpdated_12 = {
+    ...verbsOnlyReviewLesson_10,
+    [MODULE_NAME.VERBS_ONLY]: {
+      ...(verbsOnlyReviewLesson_10[MODULE_NAME.VERBS_ONLY as keyof Lesson] as Module),
+      lines: verbsOnlyLinesResolved_11
+    }
+  }
 
   //
   // Verbs Expanded and Verbs Expanded In-Complete (Sentences)
@@ -186,11 +187,11 @@ export const handleCreateLesson = async ({
 
   setLessons((prev) => {
     console.log('🔄 Updating lesson list...');
-    console.log('▶️ nounsLessonUpdated_a8:', nounsLessonUpdated_a8);
+    console.log('▶️ verbsOnlyLessonUpdated_12:', verbsOnlyLessonUpdated_12);
     const next = prev.map((lsn) => {
       if (lsn.id === selectedLessonId) {
         console.log(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...nounsLessonUpdated_a8, id: lsn.id, name: lsn.name };
+        const updated = { ...verbsOnlyLessonUpdated_12, id: lsn.id, name: lsn.name };
         console.log('🆕 Updated lesson:', updated);
         return updated;
       }
