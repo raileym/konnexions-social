@@ -26,7 +26,18 @@ export const addError = ({
   // cXnsole.log(`${error.message}: ${error.offendingData}`)
 }
 
-export const looksLikeStringArray = /^\s*\[\s*"(?:[^"\\]|\\.)*"(?:\s*,\s*"(?:[^"\\]|\\.)*")*\s*\]\s*$/s
+// export const looksLikeStringArray = /^\s*\[\s*"(?:[^"\\]|\\.)*"(?:\s*,\s*"(?:[^"\\]|\\.)*")*\s*\]\s*$/s
+
+export const looksLikeStringArray = (str: string): boolean => {
+  try {
+    // const cleaned = str.replace(/,(\s*])/, '$1') // remove trailing comma
+    const cleaned = str.replace(/,(\s*])/g, '$1')  // global match — all trailing commas
+    const parsed = JSON.parse(cleaned)
+    return Array.isArray(parsed) && parsed.every(item => typeof item === 'string')
+  } catch {
+    return false
+  }
+}
 
 export const validateModule = ({
   response,
@@ -49,7 +60,9 @@ export const validateModule = ({
     return { success: false, lines: [], errors, sentinel: '' }
   }
 
-  if (!looksLikeStringArray.test(response)) {
+  if (!looksLikeStringArray(response)) {
+    console.log('failing response',response)
+
     const error: HandleLLMError = {
       message: 'Response from ChatGPT AI does not match expected JSON array format',
       detail: '',
@@ -63,12 +76,26 @@ export const validateModule = ({
 
   let lines: string[]
   try {
-    lines = JSON.parse(response) as Lines
+    // First parse attempt
+    const firstParse = JSON.parse(response)
+
+    // If the result is a string (i.e., still looks like JSON text), try parsing again
+    if (typeof firstParse === 'string') {
+      lines = JSON.parse(firstParse)
+    } else {
+      lines = firstParse
+    }
+
+    // Validate the shape
+    if (!Array.isArray(lines) || !lines.every(item => typeof item === 'string')) {
+      throw new Error('Parsed result is not an array of strings')
+    }
+
   } catch (err: unknown) {
     const error: HandleLLMError = {
-      message: 'Failed to parse response as JSON',
+      message: 'Failed to parse response as string array (even after detecting double stringify)',
       detail: err instanceof Error ? err.message : 'Unknown JSON parse error',
-      offendingData: JSON.stringify(response),
+      offendingData: typeof response === 'string' ? response : String(response),
       errorLabel,
       timestamp: new Date().toISOString()
     }

@@ -316,8 +316,16 @@ export type DialogReview = string
 export type NounsReview = string
 export type VerbsReview = string
 
-export type TestMode = boolean
+export type GetJsonQualificationWithExampleProps = {
+  responseType: string
+  example: string
+}
+export type GetJsonQualificationProps = {
+  responseType: string
+}
 export type JsonQualification = string
+
+export type TestMode = boolean
 export type Prompt = string
 
 export type HandleModuleProps = {

@@ -1,5 +1,5 @@
 import { generateExample } from '@shared/generateExample'
-import { jsonQualification } from '@shared/jsonQualification'
+import { getJsonQualification } from '@shared/getJsonQualification'
 import { type GetVerbsExpandedCompletePrompt, type GetVerbsExpandedCompletePromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -12,7 +12,7 @@ REQUEST: Complete the sentences below as appropriate for a beginner's lesson in 
 IN-COMPLETE SENTENCES:
 
 ${lesson.verbsExpandedInComplete.lines.map(line => `    ${line}`).join('\n')}
-${jsonQualification}
+${getJsonQualification({responseType: 'verbs'})}
 Align numbered in-complete sentences with numbered complete sentences. The Numbered Complete Sentences Array must take the form:
 
   [

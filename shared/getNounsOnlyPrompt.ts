@@ -1,35 +1,39 @@
 import { generateExample } from '@shared/generateExample'
-import { jsonQualification } from '@shared/jsonQualification'
+import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsOnlyPrompt, GetNounsOnlyPromptProps } from '@cknTypes/types'
-import { MODULE_NAME } from '@cknTypes/constants'
+import { MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
+import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getNounsOnlyPrompt: GetNounsOnlyPrompt = ({lesson, errors}: GetNounsOnlyPromptProps) => {
   const nounsOnlyExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_ONLY, options: { asString: true }  })
+  const dialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
   
+  console.log('dialogLines',dialogLines)
   return (`
 REQUEST: Extract a list of ${lesson.language} nouns from the dialog below:
 
-DIALOG: ${lesson.prose}
+DIALOG: The following dialog is appropriate for a beginning language instruction. This dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between ${lesson.participantList}.
+  
+${dialogLines.join('\n')}
 
-${jsonQualification}
-
-NOUNS ONLY RESPONSE: A list of nouns is an array of strings with one noun only per string,
+NOUNS ONLY RESPONSE: Your nouns only response should be an array of strings in the following format:
 
   [
     "noun",
     "noun",
-    "noun",
-    "noun",
     "noun"
-  ]
+  ],
 
-where
+Where:
 
-  - use only one string per noun
-  - use lowercase throughout
-  - all content must be in lowercase
+  - each noun occupies one string in the array of strings,
+  - all nouns use lowercase throughout,
+  - use the noun form as it appears in the dialog (singular or plural),
+  - include only nouns (e.g., people, places, things, or ideas),
+  - do not include verbs, adjectives, expressions, or other parts of speech.
+${getJsonQualification({responseType: 'nouns only'})}
+EXAMPLE NOUNS ONLY RESPONSE:
 
-EXAMPLE RESPONSE:
 ${nounsOnlyExample}
 
 ${errors.length > 0 ? `AVOID THESE ERRORS:\n\n${errors.map(error => `    - ${error.detail}`).join('\n')}` : ''}

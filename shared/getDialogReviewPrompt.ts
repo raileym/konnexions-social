@@ -1,6 +1,6 @@
 import { formatDialogLinesForReview } from './formatDialogLinesForReview'
 import { generateExample } from '@shared/generateExample'
-import { jsonQualificationWithExample } from '../shared/jsonQualification'
+import { getJsonQualificationWithExample } from '@shared/getJsonQualification'
 import { type GetDialogReviewPrompt, type GetDialogReviewPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -15,21 +15,21 @@ const example =
     "1. Corrected line",
     "2. Corrected line",
     "3. Corrected line"
-]
+],
 `
 
   return (`
-REQUEST: Review the following Spanish-language dialog array for grammatical correctness and natural usage, making minor corrections as appropriate. Please correct grammatical mistakes as appropriate for ${lesson.language}. This dialog is intended for beginning Spanish learners.
+REQUEST: Create a dialog review for the following Spanish-language dialog for grammatical correctness and natural usage, making minor corrections as appropriate. Please correct grammatical mistakes as appropriate for ${lesson.language}. This dialog is intended for beginning Spanish learners.
 
-DIALOG REVIEW ARRAY:
+DIALOG:
 
 ${JSON.stringify(dialogReviewLines, null, 2)}         
 
-RESPONSE: In your response, re-write dialog lines that require corrections, retaining the same numbering scheme aligned with the lines corrected.
+DIALOG REVIEW RESPONSE: In your dialog review response, re-write dialog lines that require corrections, retaining the same numbering scheme as the original dialog.
 
-${jsonQualificationWithExample({example})}
+${getJsonQualificationWithExample({responseType: 'dialog review', example})}
 
-A complete example response follows:
+A complete example of a dialog review response follows:
 
 EXAMPLE RESPONSE:
 

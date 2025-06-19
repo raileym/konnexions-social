@@ -1,5 +1,5 @@
 import { generateExample } from '@shared/generateExample'
-import { jsonQualification } from '@shared/jsonQualification'
+import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsPrompt, GetNounsPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -11,7 +11,7 @@ REQUEST: Extract the ${lesson.language} nouns from the dialog below:
 
 DIALOG: ${lesson.prose}
 
-${jsonQualification}
+${getJsonQualification({responseType: 'nouns'})}
 
 NOUNS RESPONSE: A nouns response is an array of strings that takes the form,
 

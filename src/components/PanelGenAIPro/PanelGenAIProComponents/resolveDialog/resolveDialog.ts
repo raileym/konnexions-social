@@ -1,4 +1,5 @@
 import type { Lines } from '@cknTypes/types'
+import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 type ResolveDialogResult = {
   dialogLinesResolved: Lines
@@ -16,6 +17,8 @@ export function resolveDialog({
 }: ResolveDialogProps): ResolveDialogResult {
   const dialogLinesResolved: string[] = []
   const dialogLinesResolutions: string[] = []
+
+  const formattedOriginalLines = formatDialogLinesForReview(dialogLines)
 
   const isNoCorrections =
     dialogReviewLines.length === 1 &&
@@ -55,9 +58,10 @@ export function resolveDialog({
     }
 
     const [gender, participant, sentence] = parts
+    const formattedOriginal = formattedOriginalLines[i]?.replace(/^\d+\.\s*/, '') || ''
     const updatedSentence = reviewMap.get(i)
 
-    if (!updatedSentence) {
+    if (!updatedSentence || updatedSentence === formattedOriginal) {
       dialogLinesResolved.push(originalLine)
       dialogLinesResolutions.push(`✅ No correction for line ${i + 1}: '${sentence.trim()}'`)
     } else {
@@ -71,4 +75,3 @@ export function resolveDialog({
     dialogLinesResolutions
   }
 }
-

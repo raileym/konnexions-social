@@ -1,5 +1,5 @@
 import { generateExample } from '@shared/generateExample'
-import { jsonQualification } from '@shared/jsonQualification'
+import { getJsonQualification } from '@shared/getJsonQualification'
 import { type GetVerbsReviewPrompt, type GetVerbsReviewPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -12,7 +12,7 @@ REQUEST: Review the following Spanish-language verbs for grammatical correctness
 VERBS REVIEW ARRAY:
 
 ${JSON.stringify(lesson.verbs.lines, null, 2)}         
-${jsonQualification}
+${getJsonQualification({responseType: 'verbsReview'})}
 Only include lines from the verbs that require corrections. Do not include the participant's
 name in your response. The Verbs Review Array must take the form:
 

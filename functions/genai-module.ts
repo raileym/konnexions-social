@@ -9,10 +9,10 @@ import {
   defaultFieldCount,
   defaultModule,
   defaultPrompt,
-  ErrorLabel,
-  Lesson,
-  Module,
-  Prompt
+  type ErrorLabel,
+  type Lesson,
+  type Module,
+  type Prompt
 } from '@cknTypes/types'
 import { streamlineModule } from '@shared/streamlineModule'
 

@@ -1,5 +1,5 @@
 import { generateExample } from '@shared/generateExample'
-import { jsonQualification } from '@shared/jsonQualification'
+import { getJsonQualification } from '@shared/getJsonQualification'
 import { type GetVerbsPrompt, type GetVerbsPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -14,7 +14,7 @@ unless they are valid present-tense conjugations of the same verb.
 
 DIALOG: ${lesson.prose}
 
-${jsonQualification}
+${getJsonQualification({responseType: 'verbs'})}
 
 VERBS RESPONSE: A nouns response is an array of strings that takes the form,
 

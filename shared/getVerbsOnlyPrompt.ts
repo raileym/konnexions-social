@@ -1,5 +1,5 @@
 import { generateExample } from '@shared/generateExample'
-import { jsonQualification } from '@shared/jsonQualification'
+import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetVerbsOnlyPrompt, GetVerbsOnlyPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -11,7 +11,7 @@ REQUEST: Extract a list of ${lesson.language} verbs from the dialog below:
 
 DIALOG: ${lesson.prose}
 
-${jsonQualification}
+${getJsonQualification({responseType: 'verbsOnly'})}
 
 VERBS ONLY RESPONSE: A list of verbs is an array of strings with one noun only per string,
 

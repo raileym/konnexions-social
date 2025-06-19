@@ -35,11 +35,15 @@ export const handleCreateLesson = async ({
   const dialogLesson_1 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.DIALOG, lesson: initialLesson_0})
   if (!dialogLesson_1) return
 
+  // console.log('dialogLesson_1', dialogLesson_1)
+  
   //
   // Dialog Review
   //
   const dialogReviewLesson_2 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson_1})
   if (!dialogReviewLesson_2) return
+
+  // console.log('dialogReviewLesson', dialogReviewLesson_2)
   
   //
   // Dialog Resolve
@@ -48,6 +52,10 @@ export const handleCreateLesson = async ({
     dialogReviewLines: dialogReviewLesson_2.dialog.lines, 
     dialogLines: dialogLesson_1.dialog.lines
   })
+
+  // console.log('dialogLesson_1.dialog.lines', dialogLesson_1.dialog.lines)
+  // console.log('dialogReviewLesson_2.dialog.lines', dialogReviewLesson_2.dialog.lines)
+  // console.log('dialogLinesResolved_3', dialogLinesResolved_3)
   
   const prose = dialogLinesResolved_3?.join(' ') ?? ''
   const dialogLessonUpdated_4 = {
@@ -62,8 +70,8 @@ export const handleCreateLesson = async ({
   //
   // Nouns Only
   //
-  // const nounsOnlyLesson_a5 = await runModule({moduleName: MODULE_NAME.NOUNS_ONLY, lesson: dialogLessonUpdated_4})
-  // if (!nounsOnlyLesson_a5) return
+  const nounsOnlyLesson_a5 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_ONLY, lesson: dialogLessonUpdated_4})
+  if (!nounsOnlyLesson_a5) return
   // console.log('nounsOnlyLesson_a5', nounsOnlyLesson_a5.nounsOnly.lines)
 
   //

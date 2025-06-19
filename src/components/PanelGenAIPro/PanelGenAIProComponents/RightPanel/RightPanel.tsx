@@ -9,7 +9,8 @@ import {
   type LessonComplete,
   type TestMode,
   type UseMyself,
-  scenarioDescriptions
+  scenarioDescriptions,
+  defaultLesson
 } from '@cknTypes/types'
 import {
   VERB_FORMATS,
@@ -88,7 +89,13 @@ const RightPanel: React.FC = () => {
   const headline = <div className="f3">Create a custom dialog in <b>{language}</b> {scenarioDescriptions[scenario]}</div>
 
   const lesson = lessons.find(l => l.id === selectedLessonId)
-
+  
+  const fakeLesson = {
+      ...defaultLesson,
+      scenario,
+      language,
+      participantList: getScenarioDetails({ scenario, language }).participantList
+  }
   
   let content
   if (selectedLessonId != null && Array.isArray(lessons)) {
@@ -167,14 +174,17 @@ const RightPanel: React.FC = () => {
           </div>
           */}
 
-          <PromptToggle className='b--greenX bg-yellow black' title={'Proposed Dialog Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG, scenarioData, lesson, errors: [] }).prompt} />
+          <PromptToggle className='bg-yellow black' title={'Proposed Dialog Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Dialog Prompt'} prompt={lesson.dialog.prompt} />
 
-          <PromptToggle className='b--greenX bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+          <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
 
-          <PromptToggle title={'Proposed Nouns Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Nouns Prompt'} prompt={lesson.nouns.prompt} />
+          <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
+          <PromptToggle title={'Actual Nouns Only Prompt'} prompt={lesson.nounsOnly.prompt} />
+
+          <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+          <PromptToggle title={'Actual Nouns Review Prompt'} prompt={lesson.nounsOnlyReview.prompt} />
 
           <LessonElementToggle title={'Nouns'} content={lesson.nouns.lines} testMode={testMode} />
 

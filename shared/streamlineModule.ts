@@ -1,4 +1,5 @@
-import { type Module, MODULE_NAME } from '@cknTypes/types/types'
+import { type Module } from '@cknTypes/types'
+import { MODULE_NAME } from '@cknTypes/constants'
 
 export function streamlineModule({
   moduleName,

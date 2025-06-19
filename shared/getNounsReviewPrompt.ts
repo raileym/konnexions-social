@@ -1,5 +1,5 @@
 import { generateExample } from '@shared/generateExample'
-import { jsonQualification } from '@shared/jsonQualification'
+import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsReviewPrompt, GetNounsReviewPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
 
@@ -42,7 +42,8 @@ REQUEST: Review the given Spanish-language nounsArray for grammatical correctnes
 
 expressing minor corrections in your response only when necessary. All corrections offered for the 
 ${lesson.language} content must reflect language appropriate for beginning ${lesson.language} learners.
-${jsonQualification}
+${getJsonQualification({responseType: 'nounsReview'})}
+
 Only include lines from nounsArray that require corrections. Your response, an updated nounsArray, will mimic the original format of nounsArray. Do not include unchanged lines. If no lines require corrections or updates, return a JSON array with one entry,
 
   [ 'No corrections needed' ]

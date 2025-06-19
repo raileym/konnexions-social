@@ -1,5 +1,5 @@
 import { generateExample } from '@shared/generateExample'
-import { jsonQualification } from '@shared/jsonQualification'
+import { getJsonQualification } from '@shared/getJsonQualification'
 import type {
   GetVerbsOnlyReviewPrompt,
   GetVerbsOnlyReviewPromptProps
@@ -38,7 +38,7 @@ REQUEST: Review the given Spanish-language verbsOnlyArray for grammatical correc
 
 expressing minor corrections in your response only when necessary. All corrections offered for the 
 ${lesson.language} content must reflect language appropriate for beginning ${lesson.language} learners.
-${jsonQualification}
+${getJsonQualification({responseType: 'verbsOnlyReview'})}
 Your response, an updated verbsOnlyArray, will mimic the original format of verbsOnlyArray. 
  
 A complete example of a sample response follows:
