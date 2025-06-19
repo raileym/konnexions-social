@@ -350,6 +350,13 @@ const RightPanel: React.FC = () => {
             ))}
           </ul>
         
+          <div className="mt4 b">VerbsOnly</div>
+          <ul className="mt0 pt0 black">
+            {lesson.verbsOnly?.lines?.map((line, index) => (
+              <li key={index}>{line}</li>
+            ))}
+          </ul>
+        
           <div className="mt4 b">Nouns</div>
           <ul className="mt0 pt0 black">
             {lesson.nouns.lines.map((line, index) => (
