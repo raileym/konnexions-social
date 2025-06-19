@@ -24,13 +24,15 @@ NOUNS ONLY RESPONSE: Your nouns only response should be an array of strings in t
     "noun"
   ],
 
-Where:
+Guidelines:
 
   - each noun occupies one string in the array of strings,
   - all nouns use lowercase throughout,
   - use the noun form as it appears in the dialog (singular or plural),
   - include only nouns (e.g., people, places, things, or ideas),
   - do not include verbs, adjectives, expressions, or other parts of speech.
+
+Formatting rules:
 ${getJsonQualification({responseType: 'nouns only'})}
 EXAMPLE NOUNS ONLY RESPONSE:
 
