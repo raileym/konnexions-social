@@ -13,6 +13,7 @@ import { resolveNounsOnly } from '@PanelGenAIProComponents/resolveNounsOnly/reso
 import { resolveVerbsOnly } from '@PanelGenAIProComponents/resolveVerbsOnly/resolveVerbsOnly';
 import { resolveNounsMissing } from '@PanelGenAIProComponents/resolveNounsMissing/resolveNounsMissing';
 import { resolveVerbsMissing } from '@PanelGenAIProComponents/resolveVerbsMissing/resolveVerbsMissing';
+import { pushMissingToDB } from '@PanelGenAIProComponents/pushMissingToDB/pushMissingToDB';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -264,6 +265,12 @@ export const handleCreateLesson = async ({
   }
 
 
+  try {
+    await pushMissingToDB(verbsMissingLessonUpdated_b16)
+    console.log('✅ Successfully inserted missing nouns and verbs into the database.')
+  } catch (err) {
+    console.error('❌ Error inserting missing nouns/verbs into DB:', (err as Error).message)
+  }
 
 
 
@@ -298,6 +305,7 @@ export const handleCreateLesson = async ({
   //     lines: verbsLists_17.triple
   //   }
   // }
+
 
   setLessons((prev) => {
     console.log('🔄 Updating lesson list...');

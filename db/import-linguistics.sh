@@ -40,7 +40,7 @@ for file in "$@"; do
         echo "⚠️ Skipping malformed noun row: '$col1, $col2, $col3, $col4'"
         continue
       fi
-      psql "$DATABASE_URL" -c "SELECT public.ckn_insert_noun('$col2', '$col3', '$col4', '$col1');" > /dev/null
+      psql "$DATABASE_URL" -c "SELECT private.ckn_insert_noun('$col2', '$col3', '$col4', '$col1');" > /dev/null
 
     elif [[ "$file" == verbs* ]]; then
       # Expect: scenario, infinitive, yo, tú, él/ella/usted, nosotros, vosotros, ellos/ellas/ustedes
@@ -48,7 +48,7 @@ for file in "$@"; do
         echo "⚠️ Skipping malformed verb row: '$col1,...'"
         continue
       fi
-      psql "$DATABASE_URL" -c "SELECT public.ckn_insert_verb('$col2', '$col3', '$col4', '$col5', '$col6', '$col7', '$col8', '$col1');" > /dev/null
+      psql "$DATABASE_URL" -c "SELECT private.ckn_insert_verb('$col2', '$col3', '$col4', '$col5', '$col6', '$col7', '$col8', '$col1');" > /dev/null
 
     else
       echo "⚠️  Unrecognized file type: $file (must start with 'nouns' or 'verbs')"

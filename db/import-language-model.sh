@@ -37,7 +37,7 @@ for file in "$@"; do
         esc() { echo "$1" | sed "s/'/''/g"; }
 
         echo "Adding $base: $language"
-        psql "$DATABASE_URL" -c "SELECT public.ckn_insert_noun(
+        psql "$DATABASE_URL" -c "SELECT private.ckn_insert_noun(
           '$(esc "$base")',
           '$(esc "$singular")',
           '$(esc "$plural")',
@@ -65,7 +65,7 @@ for file in "$@"; do
         esc() { echo "$1" | sed "s/'/''/g"; }
 
         echo "Adding $base: $language"
-        psql "$DATABASE_URL" -c "SELECT public.ckn_insert_verb(
+        psql "$DATABASE_URL" -c "SELECT private.ckn_insert_verb(
           '$(esc "$base")',
           '$(esc "$inf")',
           '$(esc "$yo")',
