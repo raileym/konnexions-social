@@ -25,9 +25,9 @@ Guidelines:
   
   - the vertical bar '|' delineates the three fields
   - use a single vertical bar ('|') with no extra spaces to separate your fields
-  - gender must be 'M' for masculine or 'F' for feminine
+  - gender must be 'm' for masculine or 'f' for feminine
   - use lowercase throughout
-  - all content must be in lowercase, including nouns and prepositions
+  - all content must be in lowercase
 
 Formatting rules:
 ${getJsonQualification({responseType: 'nouns'})}

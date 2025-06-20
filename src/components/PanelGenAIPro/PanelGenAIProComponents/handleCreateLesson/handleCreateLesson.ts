@@ -9,8 +9,9 @@ import {
 import { getScenarioDetails } from '@components/Util';
 import { resolveDialog } from '@PanelGenAIProComponents/resolveDialog/resolveDialog'
 import { runModule } from '@PanelGenAIProComponents/runModule/runModule';
-import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly';
-import { resolveVerbsOnly } from '../resolveVerbsOnly/resolveVerbsOnly';
+import { resolveNounsOnly } from '@PanelGenAIProComponents/resolveNounsOnly/resolveNounsOnly';
+import { resolveVerbsOnly } from '@PanelGenAIProComponents/resolveVerbsOnly/resolveVerbsOnly';
+import { resolveNounsMissing } from '@PanelGenAIProComponents/resolveNounsMissing/resolveNounsMissing';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -74,23 +75,20 @@ export const handleCreateLesson = async ({
   //
   const nounsOnlyLesson_a5 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_ONLY, lesson: dialogLessonUpdated_4})
   if (!nounsOnlyLesson_a5) return
-  // console.log('nounsOnlyLesson_a5', nounsOnlyLesson_a5.nounsOnly.lines)
 
   //
   // Nouns Only Review
   //
   const nounsOnlyReviewLesson_a6 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, lesson: nounsOnlyLesson_a5})
   if (!nounsOnlyReviewLesson_a6) return
-  // console.log('nounsOnlyReviewLesson_a6', nounsOnlyReviewLesson_a6.nounsOnly.lines)
 
   //
-  // Nouns Resolve
+  // Nouns Only Resolve
   //
   const { nounsOnlyLinesResolved: nounsOnlyLinesResolved_a7 } = resolveNounsOnly({
     nounsOnlyReviewLines: nounsOnlyReviewLesson_a6.nounsOnlyReview.lines, 
     nounsOnlyLines: nounsOnlyLesson_a5.nounsOnly.lines
   })
-  // console.log('nounsOnlyLinesResolved_a7', nounsOnlyLinesResolved_a7)
 
   const nounsOnlyLessonUpdated_a8 = {
     ...nounsOnlyReviewLesson_a6,
@@ -137,20 +135,20 @@ export const handleCreateLesson = async ({
   if (!nounsMissingReviewLesson_b6) return
 
   //
-  // Nouns Resolve
+  // Nouns Missing Resolve
   //
-  // const { nounsLinesResolved: nounsLinesResolved_7 } = resolveNouns({
-  //   nounsReviewLines: nounsReviewLesson_6.nouns.lines, 
-  //   nounsLines: nounsLesson_5.nouns.lines
-  // })
+  const { nounsMissingLinesResolved: nounsMissingLinesResolved_b7 } = resolveNounsMissing({
+    nounsMissingReviewLines: nounsMissingReviewLesson_b6.nounsMissingReview.lines, 
+    nounsMissingLines: nounsMissingLesson_b5.nounsMissing.lines
+  })
 
-  // const nounsLessonUpdated_8 = {
-  //   ...nounsReviewLesson_6,
-  //   [MODULE_NAME.NOUNS]: {
-  //     ...(nounsReviewLesson_6[MODULE_NAME.NOUNS as keyof Lesson] as Module),
-  //     lines: nounsLinesResolved_7
-  //   }
-  // }
+  const nounsMissingLessonUpdated_b8 = {
+    ...nounsMissingReviewLesson_b6,
+    [MODULE_NAME.NOUNS_MISSING]: {
+      ...(nounsMissingReviewLesson_b6[MODULE_NAME.NOUNS_MISSING as keyof Lesson] as Module),
+      lines: nounsMissingLinesResolved_b7
+    }
+  }
 
   //
   // Nouns
@@ -184,7 +182,7 @@ export const handleCreateLesson = async ({
   //
   // Verbs
   //
-  const verbsOnlyLesson_9 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_ONLY, lesson: nounsMissingLesson_b5})
+  const verbsOnlyLesson_9 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_ONLY, lesson: nounsMissingLessonUpdated_b8})
   if (!verbsOnlyLesson_9) return
 
   //

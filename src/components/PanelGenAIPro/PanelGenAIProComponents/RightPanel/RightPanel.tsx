@@ -228,7 +228,7 @@ const RightPanel: React.FC = () => {
           <PromptToggle title={'Actual Nouns Only Prompt'} prompt={lesson.nounsOnly.prompt} />
 
           <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Nouns Review Prompt'} prompt={lesson.nounsOnlyReview.prompt} />
+          <PromptToggle title={'Actual Nouns Only Review Prompt'} prompt={lesson.nounsOnlyReview.prompt} />
 
           <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Verbs Only Prompt'} prompt={lesson.verbsOnly.prompt} />
@@ -238,6 +238,9 @@ const RightPanel: React.FC = () => {
 
           <PromptToggle className='bg-yellow black' title={'Proposed Nouns Missing Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_MISSING, scenarioData, lesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Nouns Missing Prompt'} prompt={lesson?.nounsMissing.prompt} />
+
+          <PromptToggle className='bg-yellow black' title={'Proposed Nouns Missing Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+          <PromptToggle title={'Actual Nouns Missing Review Prompt'} prompt={lesson?.nounsMissingReview?.prompt} />
 
           <LessonElementToggle title={'Nouns'} content={lesson.nouns.lines} testMode={testMode} />
 
@@ -376,34 +379,62 @@ const RightPanel: React.FC = () => {
           
           <div className="mt4 b">NounsConstraint</div>
           <ul className="mt0 pt0 black">
-            {scenarioData?.nouns?.map((noun, index) => (
-              // <li key={index}>{noun.noun_gender}|{noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}|{getArticle(noun.noun_gender)}</li>
-              <li key={index}>{noun.noun_base}: {noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}</li>
-            ))}
+            {scenarioData?.nouns
+              ?.slice()
+              .sort((a, b) => a.noun_base.localeCompare(b.noun_base))
+              .map((noun, index) => (
+                <li key={index}>
+                  {noun.noun_base}: {noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}
+                </li>
+              ))}
           </ul>
+
           <div className="mt4 b">VerbsConstraint</div>
           <ul className="mt0 pt0 black">
-            {scenarioData?.verbs?.map((verb, index) => (
-              <li key={index}>{verb.verb_infinitive}|{verb.verb_nosotros}</li>
-            ))}
+            {scenarioData?.verbs
+              ?.slice()
+              .sort((a, b) => a.verb_infinitive.localeCompare(b.verb_infinitive))
+              .map((verb, index) => (
+                <li key={index}>
+                  {verb.verb_infinitive}|{verb.verb_nosotros}
+                </li>
+              ))}
           </ul>
-         
+
 
 
           <div className="mt4 b">NounsOnly</div>
           <ul className="mt0 pt0 black">
-            {lesson.nounsOnly?.lines?.map((line, index) => (
-              <li key={index}>{line}</li>
-            ))}
+            {lesson.nounsOnly?.lines
+              ?.slice()
+              .sort((a, b) => a.localeCompare(b))
+              .map((line, index) => (
+                <li key={index}>{line}</li>
+              ))}
           </ul>
-        
+
           <div className="mt4 b">VerbsOnly</div>
           <ul className="mt0 pt0 black">
-            {lesson.verbsOnly?.lines?.map((line, index) => (
-              <li key={index}>{line}</li>
-            ))}
+            {lesson.verbsOnly?.lines
+              ?.slice()
+              .sort((a, b) => a.localeCompare(b))
+              .map((line, index) => (
+                <li key={index}>{line}</li>
+              ))}
           </ul>
+
         
+          <div className="mt4 b">NounsMissing</div>
+          <ul className="mt0 pt0 black">
+            {lesson.nounsMissing?.lines
+              ?.slice()
+              .sort((a, b) => a.localeCompare(b))
+              .map((line, index) => (
+                <li key={index}>{line}</li>
+              ))}
+          </ul>
+
+          {/* 
           <div className="mt4 b">Nouns</div>
           <ul className="mt0 pt0 black">
             {lesson.nouns.lines.map((line, index) => (
@@ -417,6 +448,7 @@ const RightPanel: React.FC = () => {
               <li key={index}>{line}</li>
             ))}
           </ul>
+          */}
 
           <h2>{lesson.name}</h2>
           <p>{lesson.description}</p>

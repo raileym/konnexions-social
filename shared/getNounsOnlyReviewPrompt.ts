@@ -10,7 +10,7 @@ export const getNounsOnlyReviewPrompt: GetNounsOnlyReviewPrompt = ({lesson, erro
   const dialogReviewLines = formatDialogLinesForReview(lesson.dialog.lines)  
   
   return (`
-REQUEST: Review the list of Latin American Spanish nouns below in relation to the dialog that follows. Your task is to ensure that the list contains only nouns that appear in the dialog.
+REQUEST: Review the list of ${lesson.language} nouns below in relation to the dialog that follows. Your task is to ensure that the list contains only nouns that appear in the dialog.
 
 NOUNS TO REVIEW:
 
@@ -20,7 +20,7 @@ DIALOG: The following beginner-level Spanish dialog takes place ${SCENARIO_LABEL
 
 ${dialogReviewLines.join('\n')}
 
-NOUNS ONLY RESPONSE: Rewrite the noun list above so that it includes only nouns that explicitly appear in the dialog above, and excludes all others. Use the exact noun form as it appears in the dialog (singular or plural).
+NOUNS ONLY RESPONSE: Rewrite the list of nouns above so that it includes only nouns that explicitly appear in the dialog above, and excludes all others. Use the exact noun form as it appears in the dialog (singular or plural).
 
 NOUNS ONLY RESPONSE FORMAT: Return your result as a single valid JSON array in the following structure:
 

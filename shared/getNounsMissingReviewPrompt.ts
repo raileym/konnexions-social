@@ -2,57 +2,51 @@ import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsMissingReviewPrompt, GetNounsMissingReviewPromptProps } from '@cknTypes/types'
 import { MODULE_NAME } from '@cknTypes/constants'
+import { formatNounLinesForReview } from '@shared/formatNounLinesForReview'
 
 export const getNounsMissingReviewPrompt: GetNounsMissingReviewPrompt = ({lesson, errors}: GetNounsMissingReviewPromptProps) => {
-  const nounsReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
+  const nounsMissingReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, options: { asString: true }  })
   
+  const nounReviewLines = formatNounLinesForReview(lesson.nounsMissing.lines)
+
   return (`
-GIVEN:
+REQUEST: Review the list of ${lesson.language} nouns below as to each noun's details: singular form, plural form, and proper grammatical gender. Your task is to ensure the details for each noun are correct.
 
-nounsArray = ${JSON.stringify(lesson.nouns.lines, null, 2)}
+NOUNS TO REVIEW:
 
-where the nounsArray takes the form:
+${JSON.stringify(nounReviewLines, null, 2)}
+
+which takes the form
 
   [
-    "noun(singular)|noun(plural)|gender|common prepositions",
-    "noun(singular)|noun(plural)|gender|common prepositions",
-    "noun(singular)|noun(plural)|gender|common prepositions"
+    "N. noun(singular)|noun(plural)|gender",
+    "N. noun(singular)|noun(plural)|gender",
+    "N. noun(singular)|noun(plural)|gender"
+  ],
+
+where
+  
+  - 'N.' denotes the line number for the noun
+  - the vertical bar '|' separates three fields: singular form, plural form, and grammatical gender,
+  - there is no extra space surrounding the vertical bar ('|'),
+  - gender is either 'm' for masculine or 'f' for feminine, and
+  - all content is in lowercase.
+
+NOUNS REVIEW RESPONSE: Return a numbered list of nouns and their details in line with the original list, correcting any errors in the noun's details, as needed.
+
+NOUNS REVIEW RESPONSE FORMAT: Return your response as a single valid JSON array with all items from the original list, whether corrected or unchanged, using the same structure:
+
+  [
+    "N. noun(singular)|noun(plural)|gender",
+    "N. noun(singular)|noun(plural)|gender",
+    "N. noun(singular)|noun(plural)|gender"
   ]
 
-with
+Formatting rules:
+${getJsonQualification({responseType: ''})}
+EXAMPLE NOUNS ONLY RESPONSE:
 
-  - Field no 1: gender must be 'M' or 'F' for masculine and feminine, respectively
-  - Field no 2: singular form of the noun
-  - Field no 3: plural form of the noun, grammatically correct and commonly accepted in Latin American Spanish
-  - Field no 4: common prepositions frequently used with the noun. Include at least 3 valid Spanish prepositions, separated by commas
-
-and
-
-  - the vertical bar '|' delineates the four fields
-  - use a single vertical bar ('|') with no extra spaces to separate your fields
-  - use lowercase throughout
-  - all content must be in lowercase, including nouns and prepositions
-
-REQUEST: Review the given Spanish-language nounsArray for grammatical correctness as to each noun's
-
-  - proper gender,
-  - singular form,
-  - plural form,
-  - common prepositions used with the noun,
-
-expressing minor corrections in your response only when necessary. All corrections offered for the 
-${lesson.language} content must reflect language appropriate for beginning ${lesson.language} learners.
-${getJsonQualification({responseType: 'nounsReview'})}
-
-Only include lines from nounsArray that require corrections. Your response, an updated nounsArray, will mimic the original format of nounsArray. Do not include unchanged lines. If no lines require corrections or updates, return a JSON array with one entry,
-
-  [ 'No corrections needed' ]
- 
-A complete example of a sample response follows:
-
-EXAMPLE RESPONSE:
-
-${nounsReviewExample}
+${nounsMissingReviewExample}
 
 ${errors.length > 0 ? `AVOID THESE ERRORS:\n\n${errors.map(error => `    - ${error.detail}`).join('\n')}` : ''}
 `)}
