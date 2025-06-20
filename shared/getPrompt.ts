@@ -49,12 +49,12 @@ const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, 
   }),
   nounsMissing: ({ scenarioData, lesson, errors }) => ({
     prompt: getNounsMissingPrompt({ scenarioData, lesson, errors }),
-    fieldCount: 3,
+    fieldCount: 4,
     errorLabel: ERROR_LABEL.NOUNS_ERROR
   }),
   nounsMissingReview: ({ scenarioData, lesson, errors }) => ({
     prompt: getNounsMissingReviewPrompt({ scenarioData, lesson, errors }),
-    fieldCount: 3,
+    fieldCount: 4,
     errorLabel: ERROR_LABEL.NOUNS_ONLY_ERROR
   }),
   verbs: ({ scenarioData, lesson, errors }) => ({

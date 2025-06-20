@@ -37,16 +37,16 @@ export function generateExample({
       'pollo|pollos|masculino|con, sin, de, para'
     ],
     nounsMissing: [
-      'restaurante|restaurantes|m',
-      'noche|noches|f',
-      'ensalada|ensaladas|f',
-      'pollo|pollos|m'
+      'restaurant|restaurante|restaurantes|m',
+      'night|noche|noches|f',
+      'salad|ensalada|ensaladas|f',
+      'chicken|pollo|pollos|m'
     ],
     nounsMissingReview: [
-      '1. restaurante|restaurantes|m',
-      '2. noche|noches|f',
-      '3. ensalada|ensaladas|f',
-      '4. pollo|pollos|m'
+      '1. restaurant|restaurante|restaurantes|m',
+      '2. night|noche|noches|f',
+      '3. salad|ensalada|ensaladas|f',
+      '4. chicken|pollo|pollos|m'
     ],
     nounsOnly: [
       'mesa',
