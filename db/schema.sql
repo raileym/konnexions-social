@@ -13,6 +13,13 @@ DROP FUNCTION IF EXISTS private.ckn_insert_noun_example;
 DROP FUNCTION IF EXISTS private.ckn_get_noun_by_scenario;
 DROP FUNCTION IF EXISTS private.ckn_get_verb_by_scenario;
 
+DROP FUNCTION IF EXISTS public.ckn_lookup_tts_cache;
+DROP FUNCTION IF EXISTS public.ckn_insert_tts_cache;
+DROP FUNCTION IF EXISTS public.ckn_insert_noun;
+DROP FUNCTION IF EXISTS public.ckn_insert_verb;
+DROP FUNCTION IF EXISTS public.ckn_get_noun_by_scenario;
+DROP FUNCTION IF EXISTS public.ckn_get_verb_by_scenario;
+
 DROP VIEW IF EXISTS private.ckn_verb_forms;
 DROP VIEW IF EXISTS private.ckn_noun_forms;
 
@@ -114,7 +121,7 @@ CREATE TABLE private.ckn_noun (
   language_code TEXT NOT NULL,  -- e.g., 'es', 'fr', 'it', 'en'
   noun_singular TEXT NOT NULL,
   noun_plural TEXT NOT NULL,
-  noun_gender TEXT CHECK (noun_gender IN ('M', 'F', 'N')),
+  noun_gender TEXT CHECK (noun_gender IN ('m', 'f', 'n')),
   curated BOOLEAN NOT NULL DEFAULT FALSE,
   UNIQUE (noun_base_key, language_code)
 );
@@ -611,6 +618,149 @@ JOIN private.ckn_verb_example e ON vf.verb_key = e.verb_key
 WHERE vf.verb_key = arg_verb_key;
 $$;
 
+-- ************************************************************************
+-- FUNCTION SHIMS: public.ckn_lookup_tts_cache
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_lookup_tts_cache(arg_tts_cache_signature TEXT)
+RETURNS TABLE (
+  tts_cache_key INTEGER,
+  tts_cache_signature TEXT,
+  tts_cache_text TEXT,
+  tts_cache_voice TEXT,
+  tts_cache_language TEXT,
+  tts_cache_usage_count INTEGER,
+  tts_cache_last_used TIMESTAMPTZ,
+  tts_cache_created TIMESTAMPTZ
+)
+LANGUAGE SQL
+SECURITY DEFINER
+AS $$
+  SELECT * FROM private.ckn_lookup_tts_cache(arg_tts_cache_signature);
+$$;
+
+-- ************************************************************************
+-- FUNCTION SHIMS: public.ckn_lookup_tts_cache
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_insert_tts_cache(
+  arg_tts_cache_signature TEXT,
+  arg_tts_cache_text TEXT,
+  arg_tts_cache_voice TEXT,
+  arg_tts_cache_language TEXT DEFAULT 'es-US'
+)
+RETURNS TABLE (
+  tts_cache_key INTEGER,
+  tts_cache_signature TEXT,
+  tts_cache_text TEXT,
+  tts_cache_voice TEXT,
+  tts_cache_language TEXT,
+  tts_cache_usage_count INTEGER,
+  tts_cache_last_used TIMESTAMPTZ,
+  tts_cache_created TIMESTAMPTZ
+)
+LANGUAGE SQL
+SECURITY DEFINER
+AS $$
+  SELECT * FROM private.ckn_insert_tts_cache(
+    arg_tts_cache_signature,
+    arg_tts_cache_text,
+    arg_tts_cache_voice,
+    arg_tts_cache_language
+  );
+$$;
+
+-- ************************************************************************
+-- FUNCTION SHIMS: public.ckn_lookup_tts_cache
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_insert_noun(
+  arg_noun_base TEXT,
+  arg_noun_singular TEXT,
+  arg_noun_plural TEXT,
+  arg_noun_gender TEXT,
+  arg_scenario TEXT,
+  arg_language_code TEXT,
+  arg_curated BOOLEAN DEFAULT FALSE
+)
+RETURNS VOID
+LANGUAGE SQL
+SECURITY DEFINER
+AS $$
+  SELECT private.ckn_insert_noun(
+    arg_noun_base,
+    arg_noun_singular,
+    arg_noun_plural,
+    arg_noun_gender,
+    arg_scenario,
+    arg_language_code,
+    arg_curated
+  );
+$$;
+
+-- ************************************************************************
+-- FUNCTION SHIMS: public.ckn_lookup_tts_cache
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_insert_verb(
+  arg_verb_base TEXT,
+  arg_verb_infinitive TEXT,
+  arg_verb_yo TEXT,
+  arg_verb_tu TEXT,
+  arg_verb_el_ella_usted TEXT,
+  arg_verb_nosotros TEXT,
+  arg_verb_vosotros TEXT,
+  arg_verb_ellos_ellas_ustedes TEXT,
+  arg_scenario TEXT,
+  arg_language_code TEXT,
+  arg_curated BOOLEAN DEFAULT FALSE
+)
+RETURNS VOID
+LANGUAGE SQL
+SECURITY DEFINER
+AS $$
+  SELECT private.ckn_insert_verb(
+    arg_verb_base,
+    arg_verb_infinitive,
+    arg_verb_yo,
+    arg_verb_tu,
+    arg_verb_el_ella_usted,
+    arg_verb_nosotros,
+    arg_verb_vosotros,
+    arg_verb_ellos_ellas_ustedes,
+    arg_scenario,
+    arg_language_code,
+    arg_curated
+  );
+$$;
+
+-- ************************************************************************
+-- FUNCTION SHIMS: public.ckn_lookup_tts_cache
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_get_noun_by_scenario(
+  arg_scenario TEXT,
+  arg_language_code TEXT
+)
+RETURNS SETOF private.ckn_noun_record
+LANGUAGE SQL
+SECURITY DEFINER
+AS $$
+  SELECT * FROM private.ckn_get_noun_by_scenario(arg_scenario, arg_language_code);
+$$;
+
+CREATE FUNCTION public.ckn_get_verb_by_scenario(
+  arg_scenario TEXT,
+  arg_language_code TEXT
+)
+RETURNS SETOF private.ckn_verb_record
+LANGUAGE SQL
+SECURITY DEFINER
+AS $$
+  SELECT * FROM private.ckn_get_verb_by_scenario(arg_scenario, arg_language_code);
+$$;
+
+
 
 -- ************************************************************************
 -- FUNCTION EXECUTION PRIVILEGES
@@ -621,3 +771,28 @@ GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA private TO service_role;
 
 ALTER DEFAULT PRIVILEGES IN SCHEMA private
 GRANT EXECUTE ON FUNCTIONS TO service_role;
+
+-- Scenario-based lookup
+GRANT EXECUTE ON FUNCTION private.ckn_get_noun_by_scenario(TEXT, TEXT) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_get_verb_by_scenario(TEXT, TEXT) TO service_role;
+
+-- TTS cache operations
+GRANT EXECUTE ON FUNCTION private.ckn_lookup_tts_cache(TEXT) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_insert_tts_cache(TEXT, TEXT, TEXT, TEXT) TO service_role;
+
+-- Noun insert
+GRANT EXECUTE ON FUNCTION private.ckn_insert_noun(TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, BOOLEAN) TO service_role;
+
+-- Verb insert
+GRANT EXECUTE ON FUNCTION private.ckn_insert_verb(TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, BOOLEAN) TO service_role;
+
+-- Noun example insert + lookup
+GRANT EXECUTE ON FUNCTION private.ckn_insert_noun_example(INTEGER, JSONB) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_lookup_noun_examples(INTEGER) TO service_role;
+
+-- Verb example insert + lookup
+GRANT EXECUTE ON FUNCTION private.ckn_insert_verb_example(INTEGER, JSONB) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_lookup_verb_example(INTEGER) TO service_role;
+
+ALTER ROLE service_role SET search_path = private, public;
+

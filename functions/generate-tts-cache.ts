@@ -1,6 +1,12 @@
+import { GENDER } from '@cknTypes/constants'
+import type { GenderKey } from '@cknTypes/types'
 import { type Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
 import crypto from 'crypto'
+
+type GoogleTTSResponse = {
+  audioContent: string
+}
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -8,15 +14,15 @@ const supabase = createClient(
 )
 
 const voiceMap = {
-  M: 'es-US-Wavenet-B',
-  F: 'es-US-Wavenet-A'
+  [GENDER.M]: 'es-US-Wavenet-B',
+  [GENDER.F]: 'es-US-Wavenet-A'
 }
 
 const bucketName = 'tts-cache'
 
 const handler: Handler = async (event) => {
   try {
-    const { text, gender = 'M', languageCode = 'es-US', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
+    const { text, gender = GENDER.M, languageCode = 'es-US', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
 
     if (cutoff) {
 
@@ -56,7 +62,7 @@ const handler: Handler = async (event) => {
 
     const normalized = text.trim().toLowerCase()
     const signature = crypto.createHash('sha256').update(normalized).digest('hex')
-    const voice = voiceMap[gender] || voiceMap.M
+    const voice = voiceMap[gender as GenderKey] || voiceMap.M
     const filePath = `${signature}.mp3`
 
     const { data: cachedData, error: lookupError } = await supabase
@@ -100,7 +106,7 @@ const handler: Handler = async (event) => {
 
 
     // 2. Call Google TTS
-    const res = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${process.env.GOOGLE_TTS_KEY}`, {
+    const res = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${process.env.GOOGLE_API_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -122,7 +128,7 @@ const handler: Handler = async (event) => {
       }
     }
 
-    const { audioContent } = await res.json()
+    const { audioContent } = await res.json() as GoogleTTSResponse
     const audioBuffer = Buffer.from(audioContent, 'base64')
 
     // 2+. Introduce a short randomized delay to spread load

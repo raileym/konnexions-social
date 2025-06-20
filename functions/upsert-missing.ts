@@ -24,6 +24,7 @@ const handler: Handler = async (event) => {
   try {
     for (const line of nounLines) {
       const [base, singular, plural, gender] = line.split('|')
+      console.log(`Adding noun: ${base}`)
       await supabase.rpc('ckn_insert_noun', {
         arg_noun_base: base,
         arg_noun_singular: singular,
@@ -37,6 +38,7 @@ const handler: Handler = async (event) => {
 
     for (const line of verbLines) {
       const [base, inf, yo, tu, el_ella_usted, noso, voso, ellos] = line.split('|')
+      console.log(`Adding verb: ${base}`)
       await supabase.rpc('ckn_insert_verb', {
         arg_verb_base: base,
         arg_verb_infinitive: inf,
