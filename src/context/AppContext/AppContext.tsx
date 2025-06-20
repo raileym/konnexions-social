@@ -177,6 +177,7 @@ useEffect(() => {
 
     const verbByInfinitive = new Map()
     for (const verb of data.verbs) {
+      console.log('verb', verb)
       verbByInfinitive.set(verb.verb_infinitive, verb)
     }
 

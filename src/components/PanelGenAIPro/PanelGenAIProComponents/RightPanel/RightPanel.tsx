@@ -402,7 +402,7 @@ const RightPanel: React.FC = () => {
               .sort((a, b) => a.verb_infinitive.localeCompare(b.verb_infinitive))
               .map((verb, index) => (
                 <li key={index}>
-                  {verb.verb_infinitive}|{verb.verb_nosotros}
+                  {verb.verb_base}|{verb.verb_infinitive}|{verb.verb_nosotros}
                 </li>
               ))}
           </ul>

@@ -761,6 +761,7 @@ export type NounRecord = {
 }
 
 export type VerbRecord = {
+  verb_base: string
   verb_infinitive: string
   verb_yo: string
   verb_tu: string
@@ -778,6 +779,7 @@ export type NounDetails = {
 }
 
 export type VerbDetails = {
+  verb_base: string
   verb_infinitive: string
   verb_yo: string
   verb_tu: string

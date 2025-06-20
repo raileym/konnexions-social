@@ -41,17 +41,20 @@ CREATE TYPE public.ckn_noun_record AS (
   noun_base TEXT,
   noun_singular TEXT,
   noun_plural TEXT,
-  noun_gender TEXT
+  noun_gender TEXT,
+  curated BOOLEAN
 );
 
 CREATE TYPE public.ckn_verb_record AS (
+  verb_base TEXT,
   verb_infinitive TEXT,
   verb_yo TEXT,
   verb_tu TEXT,
   verb_el_ella_usted TEXT,
   verb_nosotros TEXT,
   verb_vosotros TEXT,
-  verb_ellos_ellas_ustedes TEXT
+  verb_ellos_ellas_ustedes TEXT,
+  curated BOOLEAN
 );
 
 -- ************************************************************************
@@ -104,6 +107,7 @@ CREATE TABLE public.ckn_noun (
   noun_singular TEXT NOT NULL,
   noun_plural TEXT NOT NULL,
   noun_gender TEXT CHECK (noun_gender IN ('M', 'F', 'N')),
+  curated BOOLEAN NOT NULL DEFAULT FALSE,
   UNIQUE (noun_base_key, language_code)
 );
 
@@ -118,6 +122,7 @@ CREATE TABLE public.ckn_verb (
   verb_nosotros TEXT,
   verb_vosotros TEXT,
   verb_ellos_ellas_ustedes TEXT,
+  curated BOOLEAN NOT NULL DEFAULT FALSE,
   UNIQUE (verb_base_key, language_code)
 );
 
@@ -218,7 +223,7 @@ RETURNS SETOF public.ckn_noun_record
 LANGUAGE sql
 SECURITY INVOKER
 AS $$
-  SELECT nb.noun_base, n.noun_singular, n.noun_plural, n.noun_gender
+  SELECT nb.noun_base, n.noun_singular, n.noun_plural, n.noun_gender, n.curated
   FROM public.ckn_noun n
   JOIN public.ckn_noun_scenarios ns ON n.noun_key = ns.noun_key
   JOIN public.ckn_scenarios s ON ns.scenario_key = s.scenario_key
@@ -239,11 +244,12 @@ RETURNS SETOF public.ckn_verb_record
 LANGUAGE sql
 SECURITY INVOKER
 AS $$
-  SELECT v.verb_infinitive, v.verb_yo, v.verb_tu, v.verb_el_ella_usted,
-         v.verb_nosotros, v.verb_vosotros, v.verb_ellos_ellas_ustedes
+  SELECT vb.verb_base, v.verb_infinitive, v.verb_yo, v.verb_tu, v.verb_el_ella_usted,
+         v.verb_nosotros, v.verb_vosotros, v.verb_ellos_ellas_ustedes, curated
   FROM public.ckn_verb v
   JOIN public.ckn_verb_scenarios vs ON v.verb_key = vs.verb_key
   JOIN public.ckn_scenarios s ON vs.scenario_key = s.scenario_key
+  JOIN public.ckn_verb_base vb ON vb.verb_base_key = v.verb_base_key
   WHERE s.scenario = arg_scenario
     AND v.language_code = arg_language_code;
 $$;
@@ -339,7 +345,8 @@ CREATE FUNCTION public.ckn_insert_noun(
   arg_noun_plural TEXT,
   arg_noun_gender TEXT,
   arg_scenario TEXT,
-  arg_language_code TEXT
+  arg_language_code TEXT,
+  arg_curated BOOLEAN DEFAULT FALSE
 )
 RETURNS VOID
 LANGUAGE plpgsql
@@ -395,13 +402,15 @@ BEGIN
       language_code,
       noun_singular,
       noun_plural,
-      noun_gender
+      noun_gender,
+      curated
     ) VALUES (
       local_noun_base_key,
       arg_language_code,
       arg_noun_singular,
       arg_noun_plural,
-      arg_noun_gender
+      arg_noun_gender,
+      arg_curated
     );
   END IF;
 
@@ -438,7 +447,8 @@ CREATE FUNCTION public.ckn_insert_verb(
   arg_verb_vosotros TEXT,
   arg_verb_ellos_ellas_ustedes TEXT,
   arg_scenario TEXT,
-  arg_language_code TEXT
+  arg_language_code TEXT,
+  arg_curated BOOLEAN DEFAULT FALSE
 )
 RETURNS VOID
 LANGUAGE plpgsql
@@ -481,7 +491,8 @@ BEGIN
     verb_el_ella_usted,
     verb_nosotros,
     verb_vosotros,
-    verb_ellos_ellas_ustedes
+    verb_ellos_ellas_ustedes,
+    curated
   ) VALUES (
     local_verb_base_key,
     arg_language_code,
@@ -491,7 +502,8 @@ BEGIN
     arg_verb_el_ella_usted,
     arg_verb_nosotros,
     arg_verb_vosotros,
-    arg_verb_ellos_ellas_ustedes
+    arg_verb_ellos_ellas_ustedes,
+    arg_curated
   )
   ON CONFLICT (verb_base_key, language_code) DO NOTHING;
 
@@ -596,13 +608,13 @@ $$;
 -- FUNCTION EXECUTION PRIVILEGES
 -- ************************************************************************
 
-GRANT EXECUTE ON FUNCTION public.ckn_get_noun_by_scenario TO authenticated;
-GRANT EXECUTE ON FUNCTION public.ckn_get_verb_by_scenario TO authenticated;
 GRANT EXECUTE ON FUNCTION public.ckn_lookup_tts_cache TO authenticated;
 GRANT EXECUTE ON FUNCTION public.ckn_insert_tts_cache TO authenticated;
 GRANT EXECUTE ON FUNCTION public.ckn_insert_noun TO authenticated;
 GRANT EXECUTE ON FUNCTION public.ckn_insert_verb TO authenticated;
+GRANT EXECUTE ON FUNCTION public.ckn_lookup_verb_example TO authenticated;
+GRANT EXECUTE ON FUNCTION public.ckn_insert_verb_example TO authenticated;
 GRANT EXECUTE ON FUNCTION public.ckn_insert_noun_example TO authenticated;
 GRANT EXECUTE ON FUNCTION public.ckn_lookup_noun_examples TO authenticated;
-GRANT EXECUTE ON FUNCTION public.ckn_insert_verb_example TO authenticated;
-GRANT EXECUTE ON FUNCTION public.ckn_lookup_verb_example TO authenticated;
+GRANT EXECUTE ON FUNCTION public.ckn_get_noun_by_scenario TO authenticated;
+GRANT EXECUTE ON FUNCTION public.ckn_get_verb_by_scenario TO authenticated;
