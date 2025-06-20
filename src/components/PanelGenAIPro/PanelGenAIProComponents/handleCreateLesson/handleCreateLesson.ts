@@ -12,6 +12,7 @@ import { runModule } from '@PanelGenAIProComponents/runModule/runModule';
 import { resolveNounsOnly } from '@PanelGenAIProComponents/resolveNounsOnly/resolveNounsOnly';
 import { resolveVerbsOnly } from '@PanelGenAIProComponents/resolveVerbsOnly/resolveVerbsOnly';
 import { resolveNounsMissing } from '@PanelGenAIProComponents/resolveNounsMissing/resolveNounsMissing';
+import { resolveVerbsMissing } from '@PanelGenAIProComponents/resolveVerbsMissing/resolveVerbsMissing';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -103,13 +104,13 @@ export const handleCreateLesson = async ({
 
   const extractedNouns = nounsOnlyLessonUpdated_a8.nounsOnly.lines.map(n => n.trim().toLowerCase())
 
-  const allowedForms = new Set<string>()
+  const allowedNounForms = new Set<string>()
   scenarioData.nouns.forEach(noun => {
-    allowedForms.add(noun.noun_singular.toLowerCase())
-    allowedForms.add(noun.noun_plural.toLowerCase())
+    allowedNounForms.add(noun.noun_singular.toLowerCase())
+    allowedNounForms.add(noun.noun_plural.toLowerCase())
   })
 
-  const unmatchedNouns = extractedNouns.filter(n => !allowedForms.has(n))
+  const unmatchedNouns = extractedNouns.filter(n => !allowedNounForms.has(n))
 
   const nounsOnlyMissingLessonUpdated_a8 = {
     ...nounsOnlyLessonUpdated_a8,
@@ -204,6 +205,69 @@ export const handleCreateLesson = async ({
     }
   }
 
+
+
+
+
+  const extractedVerbs = verbsOnlyLessonUpdated_12.verbsOnly.lines.map(n => n.trim().toLowerCase())
+
+  const allowedVerbForms = new Set<string>()
+  scenarioData.verbs.forEach(verb => {
+    allowedVerbForms.add(verb.verb_el_ella_usted.toLowerCase())
+    allowedVerbForms.add(verb.verb_ellos_ellas_ustedes.toLowerCase())
+    allowedVerbForms.add(verb.verb_infinitive.toLowerCase())
+    allowedVerbForms.add(verb.verb_nosotros.toLowerCase())
+    allowedVerbForms.add(verb.verb_tu.toLowerCase())
+    allowedVerbForms.add(verb.verb_vosotros.toLowerCase())
+    allowedVerbForms.add(verb.verb_yo.toLowerCase())
+  })
+
+  const unmatchedVerbs = extractedVerbs.filter(n => !allowedVerbForms.has(n))
+
+  const verbsOnlyMissingLessonUpdated_b12 = {
+    ...verbsOnlyLessonUpdated_12,
+    [MODULE_NAME.VERBS_ONLY_MISSING]: {
+      ...(verbsOnlyLessonUpdated_12[MODULE_NAME.VERBS_ONLY_MISSING as keyof Lesson] as Module),
+      lines: unmatchedVerbs
+    }
+  }
+
+  let verbsMissingLesson_b13: Lesson | null
+
+  if (unmatchedVerbs.length === 0) {
+    verbsMissingLesson_b13 = verbsOnlyMissingLessonUpdated_b12
+  } else {
+    verbsMissingLesson_b13 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_MISSING, lesson: verbsOnlyMissingLessonUpdated_b12})
+    }
+  if (!verbsMissingLesson_b13) return
+
+  //
+  // Verbs Missing Review
+  //
+  const verbsMissingReviewLesson_b14 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_MISSING_REVIEW, lesson: verbsMissingLesson_b13})
+  if (!verbsMissingReviewLesson_b14) return
+
+  //
+  // Verbs Missing Resolve
+  //
+  const { verbsMissingLinesResolved: verbsMissingLinesResolved_b15 } = resolveVerbsMissing({
+    verbsMissingReviewLines: verbsMissingReviewLesson_b14?.verbsMissingReview?.lines ?? [], 
+    verbsMissingLines: verbsMissingLesson_b13?.verbsMissing?.lines ?? []
+  })
+
+  const verbsMissingLessonUpdated_b16 = {
+    ...verbsMissingReviewLesson_b14,
+    [MODULE_NAME.VERBS_MISSING]: {
+      ...(verbsMissingReviewLesson_b14[MODULE_NAME.VERBS_MISSING as keyof Lesson] as Module),
+      lines: verbsMissingLinesResolved_b15
+    }
+  }
+
+
+
+
+
+
   //
   // Verbs Expanded and Verbs Expanded In-Complete (Sentences)
   //
@@ -237,11 +301,11 @@ export const handleCreateLesson = async ({
 
   setLessons((prev) => {
     console.log('🔄 Updating lesson list...');
-    console.log('▶️ verbsOnlyLessonUpdated_12:', verbsOnlyLessonUpdated_12);
+    console.log('▶️ verbsMissingLessonUpdated_b16:', verbsMissingLessonUpdated_b16);
     const next = prev.map((lsn) => {
       if (lsn.id === selectedLessonId) {
         console.log(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...verbsOnlyLessonUpdated_12, id: lsn.id, name: lsn.name };
+        const updated = { ...verbsMissingLessonUpdated_b16, id: lsn.id, name: lsn.name };
         console.log('🆕 Updated lesson:', updated);
         return updated;
       }

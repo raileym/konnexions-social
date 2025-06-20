@@ -25,6 +25,8 @@ import { getVerbsOnlyPrompt } from '@shared/getVerbsOnlyPrompt'
 import { getVerbsOnlyReviewPrompt } from '@shared/getVerbsOnlyReviewPrompt'
 import { getNounsMissingPrompt } from '@shared/getNounsMissingPrompt'
 import { getNounsMissingReviewPrompt } from '@shared/getNounsMissingReviewPrompt'
+import { getVerbsMissingPrompt } from '@shared/getVerbsMissingPrompt'
+import { getVerbsMissingReviewPrompt } from '@shared/getVerbsMissingReviewPrompt'
 
 const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => PromptWithMeta> = {
   dialog: ({ scenarioData, lesson, errors }) => ({
@@ -47,6 +49,11 @@ const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, 
     fieldCount: defaultFieldCount,
     errorLabel: defaultErrorLabel
   }),
+  verbsOnlyMissing: () => ({
+    prompt: defaultPrompt,
+    fieldCount: defaultFieldCount,
+    errorLabel: defaultErrorLabel
+  }),
   nounsMissing: ({ scenarioData, lesson, errors }) => ({
     prompt: getNounsMissingPrompt({ scenarioData, lesson, errors }),
     fieldCount: 4,
@@ -56,6 +63,16 @@ const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, 
     prompt: getNounsMissingReviewPrompt({ scenarioData, lesson, errors }),
     fieldCount: 4,
     errorLabel: ERROR_LABEL.NOUNS_ONLY_ERROR
+  }),
+  verbsMissing: ({ scenarioData, lesson, errors }) => ({
+    prompt: getVerbsMissingPrompt({ scenarioData, lesson, errors }),
+    fieldCount: 8,
+    errorLabel: ERROR_LABEL.VERBS_ERROR
+  }),
+  verbsMissingReview: ({ scenarioData, lesson, errors }) => ({
+    prompt: getVerbsMissingReviewPrompt({ scenarioData, lesson, errors }),
+    fieldCount: 8,
+    errorLabel: ERROR_LABEL.VERBS_ONLY_ERROR
   }),
   verbs: ({ scenarioData, lesson, errors }) => ({
     prompt: getVerbsPrompt({ scenarioData, lesson, errors }),

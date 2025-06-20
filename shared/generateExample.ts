@@ -46,7 +46,7 @@ export function generateExample({
       '1. restaurant|restaurante|restaurantes|m',
       '2. night|noche|noches|f',
       '3. salad|ensalada|ensaladas|f',
-      '4. chicken|pollo|pollos|m'
+      '4. pollo|pollos|m'
     ],
     nounsOnly: [
       'mesa',
@@ -59,6 +59,16 @@ export function generateExample({
       'gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
       'ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
       'pedir|pido|pides|pide|pedimos|pedís|piden'
+    ],
+    verbsMissing: [
+      'like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
+      'order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
+      'request|pedir|pido|pides|pide|pedimos|pedís|piden'
+    ],
+    verbsMissingReview: [
+      '1. like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
+      '2. order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
+      '3. request|pedir|pido|pides|pide|pedimos|pedís|piden'
     ],
     verbsOnly: [
       'gustar',
@@ -104,6 +114,7 @@ export function generateExample({
     ],
     verbsExpandedTriple: [],
     verbsExpandedInComplete: [],
+    verbsOnlyMissing: [],
     nounsOnlyMissing: []
   }
 

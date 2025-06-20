@@ -11,7 +11,7 @@ REQUEST: Identify and return the English translation, singular form, plural form
 
 NOUNS TO REVIEW:
 
-${JSON.stringify(lesson?.nounsOnlyMissing?.lines, null, 2)}
+${JSON.stringify(lesson?.nounsOnlyMissing?.lines ?? [], null, 2)}
 
 NOUNS RESPONSE: Write your nouns response as an array of strings that takes the form,
 

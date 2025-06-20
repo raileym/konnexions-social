@@ -232,7 +232,10 @@ export type Lesson = {
   verbsExpandedComplete: Module
   verbsExpandedInComplete: Module
   verbsExpandedTriple: Module
+  verbsMissing: Module
+  verbsMissingReview: Module
   verbsOnly: Module
+  verbsOnlyMissing: Module
   verbsOnlyReview: Module
   verbsReview: Module
 }
@@ -381,8 +384,10 @@ export type GetDialogPromptProps = GetPromptProps
 export type GetDialogReviewPromptProps = GetPromptProps
 export type GetNounsPromptProps = GetPromptProps
 export type GetNounsMissingPromptProps = GetPromptProps
+export type GetVerbsMissingPromptProps = GetPromptProps
 export type GetNounsReviewPromptProps = GetPromptProps
 export type GetNounsMissingReviewPromptProps = GetPromptProps
+export type GetVerbsMissingReviewPromptProps = GetPromptProps
 export type GetNounsOnlyPromptProps = GetPromptProps
 export type GetNounsOnlyReviewPromptProps = GetPromptProps
 export type GetVerbsExpandedCompletePromptProps = GetPromptProps
@@ -395,8 +400,10 @@ export type GetDialogPrompt = (props: GetDialogPromptProps) => string
 export type GetDialogReviewPrompt = (props: GetDialogReviewPromptProps) => string
 export type GetNounsPrompt = (props: GetNounsPromptProps) => string
 export type GetNounsMissingPrompt = (props: GetNounsMissingPromptProps) => string
+export type GetVerbsMissingPrompt = (props: GetVerbsMissingPromptProps) => string
 export type GetNounsReviewPrompt = (props: GetNounsReviewPromptProps) => string
 export type GetNounsMissingReviewPrompt = (props: GetNounsMissingReviewPromptProps) => string
+export type GetVerbsMissingReviewPrompt = (props: GetVerbsMissingReviewPromptProps) => string
 export type GetNounsOnlyPrompt = (props: GetNounsOnlyPromptProps) => string
 export type GetNounsOnlyReviewPrompt = (props: GetNounsOnlyReviewPromptProps) => string
 export type GetVerbsExpandedCompletePrompt = (props: GetVerbsExpandedCompletePromptProps) => string
@@ -473,7 +480,10 @@ export const defaultLesson: Lesson = {
   verbsExpandedComplete: defaultModule,
   verbsExpandedInComplete: defaultModule,
   verbsExpandedTriple: defaultModule,
+  verbsMissing: defaultModule,
+  verbsMissingReview: defaultModule,
   verbsOnly: defaultModule,
+  verbsOnlyMissing: defaultModule,
   verbsOnlyReview: defaultModule,
   verbsReview: defaultModule
 }

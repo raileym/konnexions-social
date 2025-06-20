@@ -242,6 +242,12 @@ const RightPanel: React.FC = () => {
           <PromptToggle className='bg-yellow black' title={'Proposed Nouns Missing Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Nouns Missing Review Prompt'} prompt={lesson?.nounsMissingReview?.prompt} />
 
+          <PromptToggle className='bg-yellow black' title={'Proposed Verbs Missing Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_MISSING, scenarioData, lesson, errors: [] }).prompt} />
+          <PromptToggle title={'Actual Verbs Missing Prompt'} prompt={lesson?.verbsMissing?.prompt} />
+
+          <PromptToggle className='bg-yellow black' title={'Proposed Verbs Missing Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_MISSING_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+          <PromptToggle title={'Actual Verbs Missing Review Prompt'} prompt={lesson?.verbsMissingReview?.prompt} />
+
           <LessonElementToggle title={'Nouns'} content={lesson.nouns.lines} testMode={testMode} />
 
           { testMode && (
@@ -427,6 +433,16 @@ const RightPanel: React.FC = () => {
           <div className="mt4 b">NounsMissing</div>
           <ul className="mt0 pt0 black">
             {lesson.nounsMissing?.lines
+              ?.slice()
+              .sort((a, b) => a.localeCompare(b))
+              .map((line, index) => (
+                <li key={index}>{line}</li>
+              ))}
+          </ul>
+
+          <div className="mt4 b">VerbsMissing</div>
+          <ul className="mt0 pt0 black">
+            {lesson.verbsMissing?.lines
               ?.slice()
               .sort((a, b) => a.localeCompare(b))
               .map((line, index) => (

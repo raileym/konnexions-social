@@ -2,21 +2,24 @@ import type { Gender, NounArticlesValue, ScenarioLabels } from './types'
 
 export const MODULE_NAME = {
   DIALOG: 'dialog',
+  DIALOG_REVIEW: 'dialogReview',
   NOUNS: 'nouns',
-  NOUNS_ONLY: 'nounsOnly',
-  NOUNS_ONLY_MISSING: 'nounsOnlyMissing',
   NOUNS_MISSING: 'nounsMissing',
   NOUNS_MISSING_REVIEW: 'nounsMissingReview',
-  VERBS: 'verbs',
-  VERBS_ONLY: 'verbsOnly',
-  DIALOG_REVIEW: 'dialogReview',
-  NOUNS_REVIEW: 'nounsReview',
+  NOUNS_ONLY: 'nounsOnly',
+  NOUNS_ONLY_MISSING: 'nounsOnlyMissing',
   NOUNS_ONLY_REVIEW: 'nounsOnlyReview',
-  VERBS_REVIEW: 'verbsReview',
-  VERBS_ONLY_REVIEW: 'verbsOnlyReview',
-  VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
+  NOUNS_REVIEW: 'nounsReview',
+  VERBS: 'verbs',
   VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete',
-  VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple'
+  VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
+  VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple',
+  VERBS_MISSING: 'verbsMissing',
+  VERBS_MISSING_REVIEW: 'verbsMissingReview',
+  VERBS_ONLY: 'verbsOnly',
+  VERBS_ONLY_MISSING: 'verbsOnlyMissing',
+  VERBS_ONLY_REVIEW: 'verbsOnlyReview',
+  VERBS_REVIEW: 'verbsReview'
 } as const
 
 export const LANGUAGE = {
