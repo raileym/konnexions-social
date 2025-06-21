@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '../../../SelectorScenario'
 import { getPrompt } from '@shared/getPrompt'
@@ -116,6 +116,8 @@ const RightPanel: React.FC = () => {
     } else {
       // console.log('lesson', lesson)
       // console.log('prompt', prompt)
+      
+      // console.log('lesson', JSON.stringify(lesson, null, 2))
 
       const verbListsNoIndex = generateVerbLists(lesson, true)
 
@@ -485,6 +487,10 @@ const RightPanel: React.FC = () => {
       </>
     )
   }
+
+  useEffect(() => {
+    console.log('lesson', lesson)
+  },[lesson])
 
   return (
     <div className={`w-70 vh-100 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>

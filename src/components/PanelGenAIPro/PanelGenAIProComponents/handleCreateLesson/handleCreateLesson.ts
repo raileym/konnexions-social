@@ -1,6 +1,7 @@
 import {
   type HandleCreateLessonProps,
   type Lesson,
+  type Lines,
   type Module
 } from '@cknTypes/types';
 import {
@@ -14,6 +15,7 @@ import { resolveVerbsOnly } from '@PanelGenAIProComponents/resolveVerbsOnly/reso
 import { resolveNounsMissing } from '@PanelGenAIProComponents/resolveNounsMissing/resolveNounsMissing';
 import { resolveVerbsMissing } from '@PanelGenAIProComponents/resolveVerbsMissing/resolveVerbsMissing';
 import { pushMissingToDB } from '@PanelGenAIProComponents/pushMissingToDB/pushMissingToDB';
+import { runTranslation } from '@PanelGenAIProComponents/runTranslation/runTranslation';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -71,11 +73,53 @@ export const handleCreateLesson = async ({
     },
     prose
   }
+
+
+
+
+  let translationTo: Lines = []
+  const translationFrom = (dialogLessonUpdated_4?.dialog?.lines ?? []).map((line: string) => {
+    const parts = line.split('|')
+    return parts[2] // the third field: actual dialog text
+  })
+
+  console.log(translationFrom)
+
+  try {
+    translationTo = await runTranslation(translationFrom) as Lines
+
+    if (!translationTo) {
+      console.error('⚠️ runTranslation returned null')
+      // Handle gracefully — maybe show a fallback or alert the user
+    } else {
+      console.log('✅ Translations:', translationTo)
+      // Continue with your logic here
+    }
+  } catch (err) {
+    console.error('❌ Unexpected error when calling runTranslation', err)
+  }
+
+  const dialogLessonUpdated_4translation = {
+    ...dialogLessonUpdated_4,
+    translationTo,
+    translationFrom
+  }
   
+  // const dialogLinesOnly = dialogLessonUpdated_4.dialog.lines.map((line: string) => {
+  //   const parts = line.split('|')
+  //   return parts[2] // the third field: actual dialog text
+  // })
+
+  // console.log(dialogLinesOnly)
+
+
+
+
+
   //
   // Nouns Only
   //
-  const nounsOnlyLesson_a5 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_ONLY, lesson: dialogLessonUpdated_4})
+  const nounsOnlyLesson_a5 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_ONLY, lesson: dialogLessonUpdated_4translation})
   if (!nounsOnlyLesson_a5) return
 
   //

@@ -219,6 +219,9 @@ export type Lesson = {
   prose: Prose
   signature: Signature
 
+  translationTo: Lines
+  translationFrom: Lines
+
   dialog: Module
   dialogReview: Module
   nouns: Module
@@ -466,6 +469,9 @@ export const defaultLesson: Lesson = {
   description: 'Default Lesson - Starter Details',
   participantList: defaultParticipantList,
   prose: defaultProse,
+
+  translationTo: [],
+  translationFrom: [],
 
   dialog: defaultModule,
   dialogReview: defaultModule,

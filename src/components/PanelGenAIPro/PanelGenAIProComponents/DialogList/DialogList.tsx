@@ -50,7 +50,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
     const preloadSequentially = async () => {
       for (let i = 0; i < lines.length; i++) {
         if (audioItemsRef.current[i]) {
-          console.log(`audio line found, no. ${i}`)
+          // console.log(`audio line found, no. ${i}`)
           continue
         }
 
@@ -81,15 +81,16 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
   }, [selectedLessonId, cutoff])
 
   const resetPlayback = () => {
-    console.log('Resetting playback')
+    // console.log('Resetting playback')
     isPlayingRef.current = false
     iRef.current = 0
     setCurrentIndex(null)
+    setLineNumber(0)
   }
 
   const playAll = () => {
     if (isPlayingRef.current) {
-      console.log('playAll: already playing')
+      // console.log('playAll: already playing')
       return
     }
 
@@ -105,7 +106,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
       const i = iRef.current
 
       if (!isPlayingRef.current || i >= lines.length) {
-        console.log(`playAll: done or stopped. isPlaying: ${isPlayingRef.current}, i: ${i}, len: ${lines.length}`)
+        // console.log(`playAll: done or stopped. isPlaying: ${isPlayingRef.current}, i: ${i}, len: ${lines.length}`)
         resetPlayback()
         return
       }
@@ -118,7 +119,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
 
       if (!value) {
         const [gender, , sentence] = line.split('|')
-        console.log(`playAll: audioItemsRef.current[${i}] is empty. Fetch: ${sentence}`)
+        // console.log(`playAll: audioItemsRef.current[${i}] is empty. Fetch: ${sentence}`)
 
         try {
           value = (useCloudTTS && !cutoff && maxCount > 0)
@@ -133,7 +134,7 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
       }
 
       // console.log('value', value)
-      console.log(`No ${i}: ${value}`)
+      // console.log(`No ${i}: ${value}`)
 
       if (value.startsWith('http')) {
         const audio = new Audio(value)
