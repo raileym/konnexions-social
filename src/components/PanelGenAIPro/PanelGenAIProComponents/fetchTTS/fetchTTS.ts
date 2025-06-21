@@ -1,8 +1,9 @@
+import { GENDER } from '@cknTypes/constants'
 import type { FetchTTSProps, FetchTTSResult } from '@cknTypes/types'
 
 export async function fetchTTS({
   text,
-  gender = 'M',
+  gender = GENDER.M,
   maxCount,
   setMaxCount,
   cutoff,

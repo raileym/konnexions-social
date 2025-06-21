@@ -30,7 +30,8 @@ export function FlashcardModal({
 
   const { cutoff,
     maxCount,
-    setMaxCount
+    setMaxCount,
+    targetLanguage
   } = useAppContext()
   
   const [shuffled] = useState(() =>
@@ -48,7 +49,8 @@ export function FlashcardModal({
     useCloudTTS,
     cutoff,
     maxCount,
-    setMaxCount
+    setMaxCount,
+    language: targetLanguage
   })
 
   const handleNext = useCallback(() => {

@@ -37,7 +37,7 @@ DIALOG RESPONSE: Your dialog response should be an array of strings that takes t
 
 where the vertical bar '|' delineates three fields:
 
-    - the gender of the speaking participant using "m" for male and "f" for female,
+    - the gender of the speaking participant using "m" for masculine and "f" for feminine,
     - the title of the participant, ${lesson.participantList.replace(/and/g, 'or')}, and 
     - the particular dialog line spoken.
 ${getJsonQualification({responseType: 'dialog'})}

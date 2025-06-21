@@ -2,6 +2,7 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTTS } from '../useTTS/useTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
+import type { Language } from '@cknTypes/types'
 
 type DialogLineProps = {
   line: string
@@ -9,9 +10,10 @@ type DialogLineProps = {
   useCloudTTS: boolean
   storeAudioOrLine: (index: number, value: string) => void
   className?: string
+  language: Language
 }
 
-export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine, className='' }: DialogLineProps) {
+export function DialogLine({ language, line, index, useCloudTTS, storeAudioOrLine, className='' }: DialogLineProps) {
   const [gender, speaker, sentence] = line.split('|')
 
   const { cutoff, maxCount, setMaxCount } = useAppContext()
@@ -29,7 +31,8 @@ export function DialogLine({ line, index, useCloudTTS, storeAudioOrLine, classNa
     store: storeAudioOrLine,
     cutoff,
     maxCount,
-    setMaxCount
+    setMaxCount,
+    language
   })
 
   // console.log('useCloudTTS', useCloudTTS, index, line)

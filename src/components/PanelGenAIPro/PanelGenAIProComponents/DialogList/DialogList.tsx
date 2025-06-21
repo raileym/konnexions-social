@@ -211,9 +211,9 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
               useCloudTTS={useCloudTTS}
               storeAudioOrLine={storeAudioOrLine}
               className={i === lineNumber ? 'bg-brand white ': 'bg-transparent black'}
+              language={language}
             />
           </li>
-
         ))}
       </ul>
     </div>

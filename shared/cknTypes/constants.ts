@@ -99,7 +99,6 @@ export const NOUN_ARTICLES = {
   EL: 'el'
 } as const
 
-// export type Gender = 'M' | 'F'
 export const GENDER = {
   M: 'm',
   F: 'f'
