@@ -36,7 +36,7 @@ import type {
   LineNumber
 } from '@cknTypes/types'
 import {
-  defaultLanguage,
+  defaultTargetLanguage,
   defaultLesson,
   defaultMaxCount,
   defaultScenarioData,
@@ -55,12 +55,12 @@ import { handleGetScenarioData } from './AppContextComponents/handleGetScenarioD
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 const defaultExample = {
-  dialog: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.DIALOG, options: { asString: false }}),
-  nouns: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.NOUNS, options: { asString: false }}),
-  verbs: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}),
-  dialogReview: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: false }}),
-  nounsReview: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: false }}),
-  verbsReview: generateExample({language: defaultLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: false }})
+  dialog: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.DIALOG, options: { asString: false }}),
+  nouns: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.NOUNS, options: { asString: false }}),
+  verbs: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}),
+  dialogReview: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: false }}),
+  nounsReview: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: false }}),
+  verbsReview: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: false }})
 }
 
 const updatedDefaultLesson = {
@@ -91,7 +91,7 @@ const updatedDefaultLesson = {
   }
 }
 
-// // cXnsole.log(generateExample({language: defaultLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}))
+// // cXnsole.log(generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}))
 // cXnsole.log(updatedDefaultLesson)
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -141,21 +141,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
   const [useCloudTTS, setUseCloudTTS] = useState<UseCloudTTS>(true)
 
-  const [language, setLanguage] = usePersistentState<Language>('language', LANGUAGE.ENGLISH)
-  // export type ScenarioData = {
-  //   nouns: NounDetails[]
-  //   verbs: VerbDetails[]
-  //   nounBySingular: Map<string, NounDetails>
-  //   nounByPlural: Map<string, NounDetails>
-  //   singularNounList: string[]
-  //   verbByInfinitive: Map<string, VerbDetails>
-  // }
-  
+  const [targetLanguage, setTargetLanguage] = usePersistentState<Language>('targetLanguage', LANGUAGE.SPANISH)
+  const [sourceLanguage, setSourceLanguage] = usePersistentState<Language>('sourceLanguage', LANGUAGE.ENGLISH)
+
 useEffect(() => {
   // console.log('useEffect', scenario)
   async function fetchScenarioData() {
     // console.log('fetchScenarioData', scenario)
-    const data = await handleGetScenarioData({scenario, language})
+    const data = await handleGetScenarioData({scenario, language: targetLanguage})
     if (!data) {
       console.log('fetchScenarioData', 'no data returned')
       return
@@ -193,7 +186,7 @@ useEffect(() => {
   }
 
   fetchScenarioData()
-}, [scenario, language])
+}, [scenario, targetLanguage])
 
 
 const AppContextValue = {
@@ -210,7 +203,8 @@ const AppContextValue = {
     inputText,
     isHelpOpen,
     isTransitioning,
-    language,
+    targetLanguage,
+    sourceLanguage,
     lesson,
     lessons,
     lineNumber,
@@ -239,7 +233,8 @@ const AppContextValue = {
     setInputText,
     setIsHelpOpen,
     setIsTransitioning,
-    setLanguage,
+    setSourceLanguage,
+    setTargetLanguage,
     setLesson,
     setLessons,
     setLineNumber,

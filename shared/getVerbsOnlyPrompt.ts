@@ -5,11 +5,11 @@ import { LANGUAGE_TITLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constant
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getVerbsOnlyPrompt: GetVerbsOnlyPrompt = ({lesson, errors}: GetVerbsOnlyPromptProps) => {
-  const verbsOnlyExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS_ONLY, options: { asString: true }  })
+  const verbsOnlyExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_ONLY, options: { asString: true }  })
   const dialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
   
   return (`
-REQUEST: Extract a list of ${LANGUAGE_TITLE[lesson.language]} verbs from the dialog below:
+REQUEST: Extract a list of ${LANGUAGE_TITLE[lesson.targetLanguage]} verbs from the dialog below:
 
 DIALOG: The following dialog is appropriate for a beginning language instruction. This dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between ${lesson.participantList}.
   

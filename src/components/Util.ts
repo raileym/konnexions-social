@@ -202,7 +202,7 @@ const scenarioParticipants: Record<Scenario, { participantLinesByLanguage: Parti
 }
 
 
-const chooseParticipantLines = ({ participantLines, language, n, useMyself }: ChooseParticipantLinesProps): ParticipantProse => {
+const chooseParticipantLines = ({ participantLines, targetLanguage, n, useMyself }: ChooseParticipantLinesProps): ParticipantProse => {
   if (!participantLines || participantLines.length === 0 || n <= 0) {
     // cXnsole.log('error out too soon')
     return ''
@@ -212,7 +212,7 @@ const chooseParticipantLines = ({ participantLines, language, n, useMyself }: Ch
   const shuffled = [...participantLines].sort(() => Math.random() - 0.5)
   const selected = shuffled.slice(0, Math.min(count, participantLines.length))
 
-  if (useMyself) selected.unshift(language === LANGUAGE.SPANISH ? 'yo mismo' : 'myself')
+  if (useMyself) selected.unshift(targetLanguage === LANGUAGE.SPANISH ? 'yo mismo' : 'myself')
 
   const quoted = selected.map(p => `'${p}'`)
 

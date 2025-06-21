@@ -15,13 +15,14 @@ import {
 } from '@cknTypes/types'
 import {
   VERB_FORMATS,
-  SCENARIO,
+  // SCENARIO,
   MODULE_NAME,
   LANGUAGE_TITLE
 } from '@cknTypes/constants'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
-import { getArticle, getScenarioDetails } from '../../../Util'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+// import { getArticle, getScenarioDetails } from '../../../Util'
+import { getScenarioDetails } from '../../../Util'
 // import handleModule from '../handleModule/handleModule'
 // import { resolveDialog } from '../resolveDialog/resolveDialog'
 // import { resolveNouns } from '../resolveNouns/resolveNouns'
@@ -31,8 +32,8 @@ import { DialogList } from '../DialogList/DialogList'
 import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
 // import { DebugVerbLists } from '../DebugVerbLists/DebugVerbLists'
 import { generateVerbLists } from '../generateVerbLists/generateVerbLists'
-import CutoffToggle from '../../../CutoffToggle'
-import ShowMaxCount from '../../../ShowMaxCount'
+// import CutoffToggle from '../../../CutoffToggle'
+// import ShowMaxCount from '../../../ShowMaxCount'
 import SelectorLanguage from '../../../SelectorLanguage'
 import { handleCreateLesson } from '@PanelGenAIProComponents/handleCreateLesson/handleCreateLesson'
 import PromptToggle from '../PromptToggle/PromptToggle'
@@ -47,16 +48,16 @@ const RightPanel: React.FC = () => {
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
   const [creatingLesson, setCreatingLesson] = useState<CreatingLesson>(false)
   const [testMode, setTestMode] = useState<TestMode>(false)
-  const [showDialogPrompt, setShowDialogPrompt] = useState(false)
+  // const [showDialogPrompt, setShowDialogPrompt] = useState(false)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [showVerbsPrompt, setShowVerbsPrompt] = useState(false)
   const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)
   const [showNounsReviewPrompt, setShowNounsReviewPrompt] = useState(false)
   const [showVerbsReviewPrompt, setShowVerbsReviewPrompt] = useState(false)
 
-  const toggleShowDialogPrompt = () => {
-    setShowDialogPrompt(prev => !prev)
-  }
+  // const toggleShowDialogPrompt = () => {
+  //   setShowDialogPrompt(prev => !prev)
+  // }
     
   const toggleShowNounsPrompt = () => {
     setShowNounsPrompt(prev => !prev)
@@ -85,7 +86,8 @@ const RightPanel: React.FC = () => {
     scenario,
     cutoff,
     scenarioData,
-    language
+    targetLanguage,
+    sourceLanguage
     // generateTTSCount
   } = useAppContext()
   
@@ -102,15 +104,16 @@ const RightPanel: React.FC = () => {
   // console.log(JSON.stringify(scenarioData.nouns), null, 2)
 
   // const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[language]}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or in a taxi.</div>
-  const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[language]}</b> {scenarioDescriptions[scenario]}</div>
+  const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[targetLanguage]}</b> {scenarioDescriptions[scenario]}</div>
 
   const lesson = lessons.find(l => l.id === selectedLessonId)
   
   const fakeLesson = {
       ...defaultLesson,
       scenario,
-      language,
-      participantList: getScenarioDetails({ scenario, language }).participantList
+      targetLanguage,
+      sourceLanguage,
+      participantList: getScenarioDetails({ scenario, language: targetLanguage }).participantList
   }
   
   let content
@@ -159,7 +162,7 @@ const RightPanel: React.FC = () => {
 
       content = (
         <>
-          <h2 className="f2 pa3 pb0 mt5 w-100 tc">{LANGUAGE_TITLE[language]}: Premium</h2>
+          <h2 className="f2 pa3 pb0 mt5 w-100 tc">{LANGUAGE_TITLE[targetLanguage]}: Premium</h2>
           <div className="w-100 flex justify-center pt3 pb4">
             <div className="f3 pv3 pt0 mt0 w-80">{headline}</div>
           </div>
@@ -174,7 +177,8 @@ const RightPanel: React.FC = () => {
                   handleCreateLesson({
                     scenarioData,
                     scenario,
-                    language,
+                    targetLanguage,
+                    sourceLanguage,
                     lesson,
                     setLessons,
                     setLessonComplete,
@@ -215,7 +219,11 @@ const RightPanel: React.FC = () => {
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
-            <DialogList language={lesson.language} lines={(lesson?.dialog?.lines ?? [])} useCloudTTS={true} />
+            <DialogList language={lesson.targetLanguage} lines={(lesson?.dialog?.lines ?? [])} useCloudTTS={true} />
+          </div>
+
+          <div className="pa3 mt3 ba bg-white w-100">
+            <DialogList language={lesson.sourceLanguage} lines={(lesson?. dialog?.lines ?? [])} useCloudTTS={true} />
           </div>
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}

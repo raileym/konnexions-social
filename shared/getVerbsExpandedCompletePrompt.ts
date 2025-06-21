@@ -4,10 +4,10 @@ import { type GetVerbsExpandedCompletePrompt, type GetVerbsExpandedCompletePromp
 import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 
 export const getVerbsExpandedCompletePrompt: GetVerbsExpandedCompletePrompt = ({lesson, errors}: GetVerbsExpandedCompletePromptProps) => {
-  const verbsExpandedCompleteExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, options: { asString: true }  })
+  const verbsExpandedCompleteExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, options: { asString: true }  })
   
   return (`
-REQUEST: Complete the sentences below as appropriate for a beginner's lesson in ${LANGUAGE_TITLE[lesson.language]}.
+REQUEST: Complete the sentences below as appropriate for a beginner's lesson in ${LANGUAGE_TITLE[lesson.targetLanguage]}.
 
 IN-COMPLETE SENTENCES:
 
@@ -22,7 +22,7 @@ Align numbered in-complete sentences with numbered complete sentences. The Numbe
     ...
   ]
 
-Each complete sentence must show a realistic use of the verb, appropriate for a beginner learning ${LANGUAGE_TITLE[lesson.language]}.
+Each complete sentence must show a realistic use of the verb, appropriate for a beginner learning ${LANGUAGE_TITLE[lesson.targetLanguage]}.
 
 - Include a clear object, place, or time expression (e.g., un libro, al parque, cada mañana).
 - Avoid one-word or two-word sentences like “Yo voy.” or “Tú tienes.”

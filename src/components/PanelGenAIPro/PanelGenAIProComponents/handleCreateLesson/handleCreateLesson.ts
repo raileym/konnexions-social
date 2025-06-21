@@ -1,7 +1,6 @@
 import {
   type HandleCreateLessonProps,
   type Lesson,
-  type Lines,
   type Module
 } from '@cknTypes/types';
 import {
@@ -20,18 +19,20 @@ import { runTranslation } from '@PanelGenAIProComponents/runTranslation/runTrans
 export const handleCreateLesson = async ({
   scenarioData,
   scenario,
-  language,
+  targetLanguage,
+  sourceLanguage,
   lesson,
   setLessons,
   setLessonComplete,
   selectedLessonId,
   testMode
 }: HandleCreateLessonProps) => {
-  const { participantList } = getScenarioDetails({ scenario, language });
+  const { participantList } = getScenarioDetails({ scenario, language: targetLanguage });
 
   const initialLesson_0 = {
     ...lesson,
-    language,
+    targetLanguage,
+    sourceLanguage,
     scenario,
     participantList,
   };
@@ -77,37 +78,6 @@ export const handleCreateLesson = async ({
 
 
 
-  // let translationTo: Lines = []
-  // const translationFrom = (dialogLessonUpdated_4?.dialog?.lines ?? []).map((line: string) => {
-  //   const parts = line.split('|')
-  //   return parts[2] // the third field: actual dialog text
-  // })
-
-  // console.log(translationFrom)
-
-  // try {
-  //   translationTo = await runTranslation(translationFrom) as Lines
-
-  //   if (!translationTo) {
-  //     console.error('⚠️ runTranslation returned null')
-  //     // Handle gracefully — maybe show a fallback or alert the user
-  //   } else {
-  //     console.log('✅ Translations:', translationTo)
-  //     // Continue with your logic here
-  //   }
-  // } catch (err) {
-  //   console.error('❌ Unexpected error when calling runTranslation', err)
-  // }
-
-  // const dialogLessonUpdated_4translation = {
-  //   ...dialogLessonUpdated_4,
-  //   translationTo,
-  //   translationFrom
-  // }
-
-
-
-
 
   const originalLines = dialogLessonUpdated_4?.dialog?.lines ?? []
 
@@ -119,8 +89,8 @@ export const handleCreateLesson = async ({
   let dialogTo: string[] = []
 
   try {
-    speakerTo = await runTranslation({lines: speakerFrom, source: dialogLessonUpdated_4.language, target: 'en'}) as string[]
-    dialogTo = await runTranslation({lines: dialogFrom, source: dialogLessonUpdated_4.language, target: 'en'}) as string[]
+    speakerTo = await runTranslation({lines: speakerFrom, source: dialogLessonUpdated_4.targetLanguage, target: dialogLessonUpdated_4.sourceLanguage}) as string[]
+    dialogTo = await runTranslation({lines: dialogFrom, source: dialogLessonUpdated_4.targetLanguage, target: dialogLessonUpdated_4.sourceLanguage}) as string[]
   } catch (err) {
     console.error('❌ Translation error', err)
   }
@@ -136,8 +106,9 @@ export const handleCreateLesson = async ({
   const dialogLessonUpdated_4translation = {
     ...dialogLessonUpdated_4,
     translation: {
-      [dialogLessonUpdated_4.language]: originalLines,  // typically lesson.dialog.lines
-      ['en']: translatedLines   // result from runTranslation
+      ...dialogLessonUpdated_4.translation,
+      [dialogLessonUpdated_4.targetLanguage]: originalLines,  // typically lesson.dialog.lines
+      [dialogLessonUpdated_4.sourceLanguage]: translatedLines   // result from runTranslation
     }
   }
 

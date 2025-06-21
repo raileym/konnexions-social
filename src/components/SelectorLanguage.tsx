@@ -4,7 +4,7 @@ import { type Language } from '@cknTypes/types'
 import { LANGUAGE, LANGUAGE_TITLE } from '@cknTypes/constants'
 
 const SelectorLanguage: React.FC = () => {
-  const { language, setLanguage } = useAppContext()
+  const { targetLanguage, setTargetLanguage } = useAppContext()
 
   const languages: Language[] = [
     LANGUAGE.ENGLISH,
@@ -23,8 +23,8 @@ const SelectorLanguage: React.FC = () => {
               type="radio"
               name="language" // fixed name ensures exclusive selection
               value={code}
-              checked={language === code}
-              onChange={() => setLanguage(code)}
+              checked={targetLanguage === code}
+              onChange={() => setTargetLanguage(code)}
               className="mr1"
             />
             {LANGUAGE_TITLE[code]}

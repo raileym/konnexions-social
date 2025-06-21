@@ -4,7 +4,7 @@ import type { GetNounsReviewPrompt, GetNounsReviewPromptProps } from '@cknTypes/
 import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 
 export const getNounsReviewPrompt: GetNounsReviewPrompt = ({lesson, errors}: GetNounsReviewPromptProps) => {
-  const nounsReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
+  const nounsReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
   
   return (`
 GIVEN:
@@ -23,8 +23,8 @@ with
 
   - Field no 1: gender must be 'M' or 'F' for masculine and feminine, respectively
   - Field no 2: singular form of the noun
-  - Field no 3: plural form of the noun, grammatically correct and commonly accepted in ${LANGUAGE_TITLE[lesson.language]}
-  - Field no 4: common prepositions frequently used with the noun. Include at least 3 valid ${LANGUAGE_TITLE[lesson.language]} prepositions, separated by commas
+  - Field no 3: plural form of the noun, grammatically correct and commonly accepted in ${LANGUAGE_TITLE[lesson.targetLanguage]}
+  - Field no 4: common prepositions frequently used with the noun. Include at least 3 valid ${LANGUAGE_TITLE[lesson.targetLanguage]} prepositions, separated by commas
 
 and
 
@@ -41,7 +41,7 @@ REQUEST: Review the given Spanish-language nounsArray for grammatical correctnes
   - common prepositions used with the noun,
 
 expressing minor corrections in your response only when necessary. All corrections offered for the 
-${LANGUAGE_TITLE[lesson.language]} content must reflect language appropriate for beginning ${LANGUAGE_TITLE[lesson.language]} learners.
+${LANGUAGE_TITLE[lesson.targetLanguage]} content must reflect language appropriate for beginning ${LANGUAGE_TITLE[lesson.targetLanguage]} learners.
 ${getJsonQualification({responseType: 'nounsReview'})}
 
 Only include lines from nounsArray that require corrections. Your response, an updated nounsArray, will mimic the original format of nounsArray. Do not include unchanged lines. If no lines require corrections or updates, return a JSON array with one entry,

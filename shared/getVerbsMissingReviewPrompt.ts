@@ -5,12 +5,12 @@ import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 import { formatVerbLinesForReview } from '@shared/formatVerbLinesForReview'
 
 export const getVerbsMissingReviewPrompt: GetVerbsMissingReviewPrompt = ({lesson, errors}: GetVerbsMissingReviewPromptProps) => {
-  const verbsMissingReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS_MISSING_REVIEW, options: { asString: true }  })
+  const verbsMissingReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_MISSING_REVIEW, options: { asString: true }  })
   
   const verbReviewLines = formatVerbLinesForReview(lesson?.verbsMissing?.lines ?? [])
 
   return (`
-REQUEST: Review the list of ${LANGUAGE_TITLE[lesson.language]} verbs below as to each verb's details: English translation, singular form, plural form, and proper grammatical gender. Your task is to ensure the details for each verb are correct.
+REQUEST: Review the list of ${LANGUAGE_TITLE[lesson.targetLanguage]} verbs below as to each verb's details: English translation, singular form, plural form, and proper grammatical gender. Your task is to ensure the details for each verb are correct.
 
 VERBS TO REVIEW:
 

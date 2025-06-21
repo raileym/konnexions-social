@@ -126,7 +126,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
 
         try {
           value = (useCloudTTS && !cutoff && maxCount > 0)
-            ? await fetchTTS({ text: sentence, gender, maxCount, setMaxCount, cutoff }) ?? ''
+            ? await fetchTTS({ language, text: sentence, gender, maxCount, setMaxCount, cutoff }) ?? ''
             : sentence
 
           storeAudioOrLine(i, value)

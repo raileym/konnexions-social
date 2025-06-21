@@ -29,7 +29,8 @@ export type AppContextType = {
   inputText: InputText
   isHelpOpen: IsHelpOpen
   isTransitioning: IsTransitioning
-  language: Language
+  targetLanguage: Language
+  sourceLanguage: Language
   lesson: Lesson
   lessons: Lessons
   lineNumber: LineNumber
@@ -58,7 +59,6 @@ export type AppContextType = {
   setInputText: SetInputText
   setIsHelpOpen: SetIsHelpOpen
   setIsTransitioning: SetIsTransitioning
-  setLanguage: SetLanguage
   setLesson: SetLesson
   setLessons: SetLessons
   setLineNumber: SetLineNumber
@@ -74,6 +74,8 @@ export type AppContextType = {
   setScenario: SetScenario
   setScenarioData: SetScenarioData
   setSelectedLessonId: SetLessonId
+  setTargetLanguage: SetTargetLanguage
+  setSourceLanguage: SetSourceLanguage
   setTtsAvgChars: SetTtsAvgChars
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
@@ -135,7 +137,8 @@ export type SetHelpPanel = React.Dispatch<React.SetStateAction<HelpPanel>>
 export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
 export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
-export type SetLanguage = React.Dispatch<React.SetStateAction<Language>>
+export type SetTargetLanguage = React.Dispatch<React.SetStateAction<Language>>
+export type SetSourceLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetLessonId = React.Dispatch<React.SetStateAction<LessonId>>
 export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
 export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>
@@ -210,20 +213,21 @@ export type Module = {
 export type Name = string
 export type Description = string
 
+export type Translation = Record<Language, Lines>
+
 export type Lesson = {
   id: LessonId
   name: Name
   description: Description
 
-  language: Language
+  targetLanguage: Language
+  sourceLanguage: Language
   scenario: Scenario
   participantList: ParticipantProse
   prose: Prose
   signature: Signature
 
-  translationTo: Lines
-  translationFrom: Lines
-
+  translation: Translation
   dialog: Module
   dialogReview: Module
   nouns: Module
@@ -258,7 +262,7 @@ export type ChooseParticipantLinesProps = {
   participantLines: ParticipantLines // ByLanguage: ParticipantLinesByLanguage
   n: number
   useMyself: UseMyself
-  language: Language
+  targetLanguage: Language
 }
 
 export type ParsedLesson = {
@@ -417,6 +421,13 @@ export type GetVerbsReviewPrompt = (props: GetVerbsReviewPromptProps) => string
 export type GetVerbsOnlyPrompt = (props: GetVerbsOnlyPromptProps) => string
 export type GetVerbsOnlyReviewPrompt = (props: GetVerbsOnlyReviewPromptProps) => string
 
+export const defaultTranslation: Translation = {
+  [LANGUAGE.ENGLISH]: [],
+  [LANGUAGE.SPANISH]: [],
+  [LANGUAGE.FRENCH]: [],
+  [LANGUAGE.ITALIAN]: []
+}
+
 export const defaultDialogLines: DialogLines = [
   'Mesero: Buenas tardes. ¿Qué desea tomar?',
   'Cliente: Una limonada, por favor.',
@@ -447,7 +458,8 @@ export const defaultSentinel = ''
 export const defaultProse = ''
 export const defaultModuleName = MODULE_NAME.DIALOG
 export const defaultScenarioLabel = SCENARIO_LABELS[SCENARIO.RESTAURANT]
-export const defaultLanguage = LANGUAGE.SPANISH
+export const defaultTargetLanguage = LANGUAGE.SPANISH
+export const defaultSourceLanguage = LANGUAGE.ENGLISH
 export const defaultParticipantList = ''
 export const defaultMaxCount = 20
 export const defaultScenario = SCENARIO.RESTAURANT
@@ -463,7 +475,8 @@ export const defaultModule: Module = {
 }
 
 export const defaultLesson: Lesson = {
-  language: defaultLanguage,
+  targetLanguage: defaultTargetLanguage,
+  sourceLanguage: defaultSourceLanguage,
   scenario: defaultScenario,
   signature: defaultSignature,
   id: 1,
@@ -472,9 +485,7 @@ export const defaultLesson: Lesson = {
   participantList: defaultParticipantList,
   prose: defaultProse,
 
-  translationTo: [],
-  translationFrom: [],
-
+  translation: defaultTranslation,
   dialog: defaultModule,
   dialogReview: defaultModule,
   nouns: defaultModule,
@@ -718,7 +729,6 @@ export type GetVerbsProps = {
   lesson: Lesson
 }
   
-
 export type LessonBank = Record<string, Lesson> // key = unique ID or label
 export type StoredLessons = Record<string, Lesson>
 
@@ -834,7 +844,8 @@ export type HandleGetScenarioDataProps = {
 export type HandleCreateLessonProps = {
   scenarioData: ScenarioData
   scenario: Scenario
-  language: Language
+  sourceLanguage: Language
+  targetLanguage: Language
   lesson: Lesson
   setLessonComplete: SetLessonComplete
   setLessons: SetLessons

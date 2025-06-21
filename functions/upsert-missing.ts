@@ -10,14 +10,14 @@ const supabase = createClient(
 const handler: Handler = async (event) => {
   const { lesson } = JSON.parse(event.body ?? '{}')
 
-  if (!lesson?.language || !lesson?.scenario) {
+  if (!lesson?.targetLanguage || !lesson?.scenario) {
     return {
       statusCode: 400,
-      body: 'Missing lesson.language or lesson.scenario'
+      body: 'Missing lesson.targetLanguage or lesson.scenario'
     }
   }
 
-  const { language, scenario } = lesson
+  const { targetLanguage, scenario } = lesson
 
   const nounLines = lesson.nounsMissing?.lines ?? []
   const verbLines = lesson.verbsMissing?.lines ?? []
@@ -32,7 +32,7 @@ const handler: Handler = async (event) => {
         arg_noun_plural: plural,
         arg_noun_gender: gender,
         arg_scenario: scenario,
-        arg_language: language,
+        arg_language: targetLanguage,
         arg_curated: CURATED.FALSE
       })
     }
@@ -50,7 +50,7 @@ const handler: Handler = async (event) => {
         arg_verb_vosotros: voso,
         arg_verb_ellos_ellas_ustedes: ellos,
         arg_scenario: scenario,
-        arg_language: language,
+        arg_language: targetLanguage,
         arg_curated: CURATED.FALSE
       })
     }

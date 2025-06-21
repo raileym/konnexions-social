@@ -4,10 +4,10 @@ import type { GetNounsMissingPrompt, GetNounsMissingPromptProps } from '@cknType
 import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 
 export const getNounsMissingPrompt: GetNounsMissingPrompt = ({lesson, errors}: GetNounsMissingPromptProps) => {
-  const nounsExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_MISSING, options: { asString: true }  })
+  const nounsExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS_MISSING, options: { asString: true }  })
   
   return (`
-REQUEST: Identify and return the English translation, singular form, plural form, and grammatical gender for each of the ${LANGUAGE_TITLE[lesson.language]} nouns listed below:
+REQUEST: Identify and return the English translation, singular form, plural form, and grammatical gender for each of the ${LANGUAGE_TITLE[lesson.targetLanguage]} nouns listed below:
 
 NOUNS TO REVIEW:
 

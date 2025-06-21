@@ -4,7 +4,7 @@ import { type GetVerbsReviewPrompt, type GetVerbsReviewPromptProps } from '@cknT
 import { MODULE_NAME } from '@cknTypes/constants'
 
 export const getVerbsReviewPrompt: GetVerbsReviewPrompt = ({lesson, errors}: GetVerbsReviewPromptProps) => {
-  const verbsReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: true }  })
+  const verbsReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: true }  })
   
   return (`
 REQUEST: Review the following Spanish-language verbs for grammatical correctness and natural usage, making minor corrections only when necessary. These verbs are intended for beginning Spanish learners.

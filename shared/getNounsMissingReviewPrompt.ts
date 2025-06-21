@@ -5,12 +5,12 @@ import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 import { formatNounLinesForReview } from '@shared/formatNounLinesForReview'
 
 export const getNounsMissingReviewPrompt: GetNounsMissingReviewPrompt = ({lesson, errors}: GetNounsMissingReviewPromptProps) => {
-  const nounsMissingReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, options: { asString: true }  })
+  const nounsMissingReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, options: { asString: true }  })
   
   const nounReviewLines = formatNounLinesForReview(lesson.nounsMissing.lines)
 
   return (`
-REQUEST: Review the list of ${LANGUAGE_TITLE[lesson.language]} nouns below as to each noun's details: English translation, singular form, plural form, and proper grammatical gender. Your task is to ensure the details for each noun are correct.
+REQUEST: Review the list of ${LANGUAGE_TITLE[lesson.targetLanguage]} nouns below as to each noun's details: English translation, singular form, plural form, and proper grammatical gender. Your task is to ensure the details for each noun are correct.
 
 NOUNS TO REVIEW:
 

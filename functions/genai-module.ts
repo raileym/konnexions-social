@@ -28,7 +28,7 @@ const handler: Handler = async (event) => {
       }
     }
     
-    if (!lesson.language || !lesson.scenario || !lesson.participantList) {
+    if (!lesson.targetLanguage || !lesson.scenario || !lesson.participantList) {
       console.log('Missing one or more of the smaller three')
       console.log('lesson', JSON.stringify(lesson, null, 2))
       return {
@@ -47,7 +47,7 @@ const handler: Handler = async (event) => {
 
     if (testMode) {
       response = generateExample({
-        language: lesson.language,
+        language: lesson.targetLanguage,
         moduleName,
         options: { asString: true }
       })
@@ -61,7 +61,7 @@ const handler: Handler = async (event) => {
       response,
       errorLabel,
       fieldCount,
-      language: lesson.language,
+      language: lesson.targetLanguage,
       moduleName
     })
 
@@ -71,7 +71,7 @@ const handler: Handler = async (event) => {
 
       if (testMode) {
         response = generateExample({
-          language: lesson.language,
+          language: lesson.targetLanguage,
           moduleName,
           options: { asString: true }
         })
@@ -83,7 +83,7 @@ const handler: Handler = async (event) => {
         response,
         errorLabel,
         fieldCount,
-        language: lesson.language,
+        language: lesson.targetLanguage,
         moduleName
       })
     }
