@@ -1,7 +1,7 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import { type GetVerbsExpandedCompletePrompt, type GetVerbsExpandedCompletePromptProps } from '@cknTypes/types'
-import { MODULE_NAME } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 
 export const getVerbsExpandedCompletePrompt: GetVerbsExpandedCompletePrompt = ({lesson, errors}: GetVerbsExpandedCompletePromptProps) => {
   const verbsExpandedCompleteExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, options: { asString: true }  })
@@ -22,7 +22,7 @@ Align numbered in-complete sentences with numbered complete sentences. The Numbe
     ...
   ]
 
-Each complete sentence must show a realistic use of the verb, appropriate for a beginner learning Latin American Spanish.
+Each complete sentence must show a realistic use of the verb, appropriate for a beginner learning ${LANGUAGE_TITLE[lesson.language]}.
 
 - Include a clear object, place, or time expression (e.g., un libro, al parque, cada mañana).
 - Avoid one-word or two-word sentences like “Yo voy.” or “Tú tienes.”

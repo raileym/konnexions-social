@@ -22,18 +22,27 @@ export const MODULE_NAME = {
   VERBS_REVIEW: 'verbsReview'
 } as const
 
+
+
+// export const LANGUAGE_CODE = {
+//   [LANGUAGE.ENGLISH]: 'en',
+//   [LANGUAGE.SPANISH]: 'es',
+//   [LANGUAGE.ITALIAN]: 'it',
+//   [LANGUAGE.FRENCH]: 'fr'
+// } as const
+
 export const LANGUAGE = {
-  SPANISH: 'Latin American Spanish',
-  ENGLISH: 'English',
-  FRENCH: 'French',
-  ITALIAN: 'Italian'
+  SPANISH: 'es',
+  ENGLISH: 'en',
+  FRENCH: 'fr',
+  ITALIAN: 'it'
 } as const
 
-export const LANGUAGE_CODE = {
-  [LANGUAGE.ENGLISH]: 'en',
-  [LANGUAGE.SPANISH]: 'es',
-  [LANGUAGE.ITALIAN]: 'it',
-  [LANGUAGE.FRENCH]: 'fr'
+export const LANGUAGE_TITLE = {
+  [LANGUAGE.SPANISH]: 'Latin American Spanish',
+  [LANGUAGE.ENGLISH]: 'English',
+  [LANGUAGE.FRENCH]: 'French',
+  [LANGUAGE.ITALIAN]: 'Italian'
 } as const
 
 export const SCENARIO = {
@@ -92,8 +101,8 @@ export const NOUN_ARTICLES = {
 
 // export type Gender = 'M' | 'F'
 export const GENDER = {
-  M: 'M',
-  F: 'F'
+  M: 'm',
+  F: 'f'
 } as const
 
 export const GENDER_TO_ARTICLE: Record<Gender, NounArticlesValue> = {

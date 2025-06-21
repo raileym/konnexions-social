@@ -4,7 +4,7 @@ import type {
   GetVerbsOnlyReviewPrompt,
   GetVerbsOnlyReviewPromptProps
 } from '@cknTypes/types'
-import { MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getVerbsOnlyReviewPrompt: GetVerbsOnlyReviewPrompt = ({lesson, errors}: GetVerbsOnlyReviewPromptProps) => {
@@ -13,7 +13,7 @@ export const getVerbsOnlyReviewPrompt: GetVerbsOnlyReviewPrompt = ({lesson, erro
   const dialogReviewLines = formatDialogLinesForReview(lesson.dialog.lines)  
 
   return (`
-REQUEST: Review the list of Latin American Spanish verbs below in relation to the dialog that follows. Your task is to ensure that the list contains only verbs that appear in the dialog.
+REQUEST: Review the list of ${LANGUAGE_TITLE[lesson.language]} verbs below in relation to the dialog that follows. Your task is to ensure that the list contains only verbs that appear in the dialog.
 
 VERBS TO REVIEW:
 

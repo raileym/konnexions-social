@@ -1,7 +1,7 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsReviewPrompt, GetNounsReviewPromptProps } from '@cknTypes/types'
-import { MODULE_NAME } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 
 export const getNounsReviewPrompt: GetNounsReviewPrompt = ({lesson, errors}: GetNounsReviewPromptProps) => {
   const nounsReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
@@ -23,8 +23,8 @@ with
 
   - Field no 1: gender must be 'M' or 'F' for masculine and feminine, respectively
   - Field no 2: singular form of the noun
-  - Field no 3: plural form of the noun, grammatically correct and commonly accepted in Latin American Spanish
-  - Field no 4: common prepositions frequently used with the noun. Include at least 3 valid Spanish prepositions, separated by commas
+  - Field no 3: plural form of the noun, grammatically correct and commonly accepted in ${LANGUAGE_TITLE[lesson.language]}
+  - Field no 4: common prepositions frequently used with the noun. Include at least 3 valid ${LANGUAGE_TITLE[lesson.language]} prepositions, separated by commas
 
 and
 

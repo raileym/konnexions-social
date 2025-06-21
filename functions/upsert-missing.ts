@@ -31,7 +31,7 @@ const handler: Handler = async (event) => {
         arg_noun_plural: plural,
         arg_noun_gender: gender,
         arg_scenario: scenario,
-        arg_language_code: language,
+        arg_language: language,
         arg_curated: false
       })
     }
@@ -49,7 +49,7 @@ const handler: Handler = async (event) => {
         arg_verb_vosotros: voso,
         arg_verb_ellos_ellas_ustedes: ellos,
         arg_scenario: scenario,
-        arg_language_code: language,
+        arg_language: language,
         arg_curated: false
       })
     }

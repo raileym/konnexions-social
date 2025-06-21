@@ -15,19 +15,24 @@ fi
 SQL_FILE="$1"
 
 # Export selected tables
-pg_dump --data-only \
-  --table=public.ckn_tts_cache \
-  --column-inserts \
-  --dbname="$DIRECT_CONNECT_URL" \
-  --file="$SQL_FILE"
-
 # pg_dump --data-only \
-#   --table=public.ckn_tts_cache \
-#   --table=public.ckn_nouns \
-#   --table=public.ckn_verbs \
+#   --table=private.ckn_tts_cache \
 #   --column-inserts \
 #   --dbname="$DIRECT_CONNECT_URL" \
 #   --file="$SQL_FILE"
+
+pg_dump --data-only \
+  --table=private.ckn_tts_cache \
+  --table=private.ckn_noun_base \
+  --table=private.ckn_verb_base \
+  --table=private.ckn_noun \
+  --table=private.ckn_verb \
+  --table=private.ckn_scenarios \
+  --table=private.ckn_noun_scenarios \
+  --table=private.ckn_verb_scenarios \
+  --column-inserts \
+  --dbname="$DIRECT_CONNECT_URL" \
+  --file="$SQL_FILE"
 
 if [[ $? -ne 0 ]]; then
   echo "❌ FAILED: Exporting data from tables."

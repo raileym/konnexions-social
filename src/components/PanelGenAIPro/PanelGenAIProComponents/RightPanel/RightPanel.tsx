@@ -16,7 +16,8 @@ import {
 import {
   VERB_FORMATS,
   SCENARIO,
-  MODULE_NAME
+  MODULE_NAME,
+  LANGUAGE_TITLE
 } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
@@ -100,8 +101,8 @@ const RightPanel: React.FC = () => {
 
   // console.log(JSON.stringify(scenarioData.nouns), null, 2)
 
-  // const headline = <div className="f3">Create a custom dialog in <b>{language}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or in a taxi.</div>
-  const headline = <div className="f3">Create a custom dialog in <b>{language}</b> {scenarioDescriptions[scenario]}</div>
+  // const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[language]}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or in a taxi.</div>
+  const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[language]}</b> {scenarioDescriptions[scenario]}</div>
 
   const lesson = lessons.find(l => l.id === selectedLessonId)
   
@@ -158,7 +159,7 @@ const RightPanel: React.FC = () => {
 
       content = (
         <>
-          <h2 className="f2 pa3 pb0 mt5 w-100 tc">{language}: Premium</h2>
+          <h2 className="f2 pa3 pb0 mt5 w-100 tc">{LANGUAGE_TITLE[language]}: Premium</h2>
           <div className="w-100 flex justify-center pt3 pb4">
             <div className="f3 pv3 pt0 mt0 w-80">{headline}</div>
           </div>

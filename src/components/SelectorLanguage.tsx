@@ -1,13 +1,10 @@
 import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { type Language } from '@cknTypes/types'
-import { LANGUAGE } from '@cknTypes/constants'
+import { LANGUAGE, LANGUAGE_TITLE } from '@cknTypes/constants'
 
 const SelectorLanguage: React.FC = () => {
-  const {
-    language,
-    setLanguage
-  } = useAppContext()
+  const { language, setLanguage } = useAppContext()
 
   const languages: Language[] = [
     LANGUAGE.ENGLISH,
@@ -17,27 +14,24 @@ const SelectorLanguage: React.FC = () => {
   ]
 
   return (
-    <>
-      <div className="mb3">
-        <label className="db mb2 f5 b">Choose a language:</label>
-        <div className="flex flex-wrap">
-          {languages.map((s) => (
-            <label key={s} className="mr3 mb2 flex items-center">
-              <input
-                type="radio"
-                name={`language-${Math.random().toString(36).slice(2)}`}
-                // name="language"
-                value={s}
-                checked={language === s}
-                onChange={() => setLanguage(s)}
-                className="mr1"
-              />
-              {s.charAt(0).toUpperCase() + s.slice(1)}
-            </label>
-          ))}
-        </div>
+    <div className="mb3">
+      <label className="db mb2 f5 b">Choose a language:</label>
+      <div className="flex flex-wrap">
+        {languages.map((code) => (
+          <label key={code} className="mr3 mb2 flex items-center">
+            <input
+              type="radio"
+              name="language" // fixed name ensures exclusive selection
+              value={code}
+              checked={language === code}
+              onChange={() => setLanguage(code)}
+              className="mr1"
+            />
+            {LANGUAGE_TITLE[code]}
+          </label>
+        ))}
       </div>
-    </>
+    </div>
   )
 }
 

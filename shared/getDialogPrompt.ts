@@ -1,7 +1,7 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import { type GetDialogPrompt, type GetDialogPromptProps } from '@cknTypes/types'
-import { SCENARIO_LABELS } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, SCENARIO_LABELS } from '@cknTypes/constants'
 // import { getConstraints } from '@shared/getConstraints'
 export const getDialogPrompt: GetDialogPrompt = ({scenarioData, lesson, errors}: GetDialogPromptProps) => {
   // const dialogNouns = getConstraints({language: lesson.language, scenario: lesson.scenario  })
@@ -13,7 +13,7 @@ export const getDialogPrompt: GetDialogPrompt = ({scenarioData, lesson, errors}:
   const requiredNouns = scenarioData?.nounsChooseN?.map((noun) => (`'${noun.noun_singular}'`))
 
   return (`
-DIALOG: Create a dialog in ${lesson.language} appropriate for a beginning language instruction, where the dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between participants, ${lesson.participantList}. The dialog must contain between 6 to 8 lines, reflecting a natural dialog exchange.
+DIALOG: Create a dialog in ${LANGUAGE_TITLE[lesson.language]} appropriate for a beginning language instruction, where the dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between participants, ${lesson.participantList}. The dialog must contain between 6 to 8 lines, reflecting a natural dialog exchange.
 
 REQUIRED NOUNS: Your dialog must strongly prefer to include at least one of the following nouns:
 
@@ -30,14 +30,14 @@ ${constrainedNouns.join(', ')}
 DIALOG RESPONSE: Your dialog response should be an array of strings that takes the form,
 
   [
-    'M|Participant|Line from the dialog',
-    'F|Participant|Line from the dialog',
-    'M|Participant|Line from the dialog',
+    'm|Participant|Line from the dialog',
+    'f|Participant|Line from the dialog',
+    'm|Participant|Line from the dialog',
   ],
 
 where the vertical bar '|' delineates three fields:
 
-    - the gender of the speaking participant using M for Male and F for Female,
+    - the gender of the speaking participant using "m" for male and "f" for female,
     - the title of the participant, ${lesson.participantList.replace(/and/g, 'or')}, and 
     - the particular dialog line spoken.
 ${getJsonQualification({responseType: 'dialog'})}

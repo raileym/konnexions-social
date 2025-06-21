@@ -118,18 +118,18 @@ CREATE TABLE private.ckn_verb_base (
 CREATE TABLE private.ckn_noun (
   noun_key SERIAL PRIMARY KEY,
   noun_base_key INTEGER REFERENCES private.ckn_noun_base(noun_base_key) ON DELETE CASCADE,
-  language_code TEXT NOT NULL,  -- e.g., 'es', 'fr', 'it', 'en'
+  language TEXT NOT NULL,  -- e.g., 'es', 'fr', 'it', 'en'
   noun_singular TEXT NOT NULL,
   noun_plural TEXT NOT NULL,
   noun_gender TEXT CHECK (noun_gender IN ('m', 'f', 'n')),
   curated BOOLEAN NOT NULL DEFAULT FALSE,
-  UNIQUE (noun_base_key, language_code)
+  UNIQUE (noun_base_key, language)
 );
 
 CREATE TABLE private.ckn_verb (
   verb_key SERIAL PRIMARY KEY,
   verb_base_key INTEGER REFERENCES private.ckn_verb_base(verb_base_key) ON DELETE CASCADE,
-  language_code TEXT NOT NULL,  -- e.g., 'es', 'fr', 'it', 'en'
+  language TEXT NOT NULL,  -- e.g., 'es', 'fr', 'it', 'en'
   verb_infinitive TEXT NOT NULL,
   verb_yo TEXT,
   verb_tu TEXT,
@@ -138,7 +138,7 @@ CREATE TABLE private.ckn_verb (
   verb_vosotros TEXT,
   verb_ellos_ellas_ustedes TEXT,
   curated BOOLEAN NOT NULL DEFAULT FALSE,
-  UNIQUE (verb_base_key, language_code)
+  UNIQUE (verb_base_key, language)
 );
 
 CREATE TABLE private.ckn_noun_example (
@@ -232,7 +232,7 @@ CREATE INDEX idx_ckn_tts_cache_last_used ON private.ckn_tts_cache(tts_cache_last
 
 CREATE FUNCTION private.ckn_get_noun_by_scenario(
   arg_scenario TEXT,
-  arg_language_code TEXT
+  arg_language TEXT
 )
 RETURNS SETOF private.ckn_noun_record
 LANGUAGE sql
@@ -244,7 +244,7 @@ AS $$
   JOIN private.ckn_scenarios s ON ns.scenario_key = s.scenario_key
   JOIN private.ckn_noun_base nb ON nb.noun_base_key = n.noun_base_key
   WHERE s.scenario = arg_scenario
-    AND n.language_code = arg_language_code;
+    AND n.language = arg_language;
 $$;
 
 -- ************************************************************************
@@ -253,7 +253,7 @@ $$;
 
 CREATE FUNCTION private.ckn_get_verb_by_scenario(
   arg_scenario TEXT,
-  arg_language_code TEXT
+  arg_language TEXT
 )
 RETURNS SETOF private.ckn_verb_record
 LANGUAGE sql
@@ -266,7 +266,7 @@ AS $$
   JOIN private.ckn_scenarios s ON vs.scenario_key = s.scenario_key
   JOIN private.ckn_verb_base vb ON vb.verb_base_key = v.verb_base_key
   WHERE s.scenario = arg_scenario
-    AND v.language_code = arg_language_code;
+    AND v.language = arg_language;
 $$;
 
 -- ************************************************************************
@@ -360,7 +360,7 @@ CREATE FUNCTION private.ckn_insert_noun(
   arg_noun_plural TEXT,
   arg_noun_gender TEXT,
   arg_scenario TEXT,
-  arg_language_code TEXT,
+  arg_language TEXT,
   arg_curated BOOLEAN DEFAULT FALSE
 )
 RETURNS VOID
@@ -377,11 +377,11 @@ BEGIN
      trim(arg_noun_plural) IS NULL OR
      trim(arg_noun_gender) IS NULL OR
      trim(arg_scenario) IS NULL OR
-     trim(arg_language_code) IS NULL THEN
+     trim(arg_language) IS NULL THEN
     RETURN;
   END IF;
 
-  RAISE LOG 'Inserting Noun: noun_base(%), noun_singular(%), noun_plural(%), language_code(%), scenario(%)', arg_noun_base, arg_noun_singular, arg_noun_plural, arg_language_code, arg_scenario;
+  RAISE LOG 'Inserting Noun: noun_base(%), noun_singular(%), noun_plural(%), language(%), scenario(%)', arg_noun_base, arg_noun_singular, arg_noun_plural, arg_language, arg_scenario;
 
   -- Insert scenario if not exists
   IF EXISTS (SELECT 1 FROM private.ckn_scenarios WHERE scenario = arg_scenario) THEN
@@ -408,20 +408,20 @@ BEGIN
   -- Insert noun
   IF EXISTS (
     SELECT 1 FROM private.ckn_noun
-    WHERE noun_base_key = local_noun_base_key AND language_code = arg_language_code
+    WHERE noun_base_key = local_noun_base_key AND language = arg_language
   ) THEN
-    RAISE LOG 'Noun already exists for base % and language %', arg_noun_base, arg_language_code;
+    RAISE LOG 'Noun already exists for base % and language %', arg_noun_base, arg_language;
   ELSE
     INSERT INTO private.ckn_noun (
       noun_base_key,
-      language_code,
+      language,
       noun_singular,
       noun_plural,
       noun_gender,
       curated
     ) VALUES (
       local_noun_base_key,
-      arg_language_code,
+      arg_language,
       arg_noun_singular,
       arg_noun_plural,
       arg_noun_gender,
@@ -431,7 +431,7 @@ BEGIN
 
   SELECT noun_key INTO local_noun_key
   FROM private.ckn_noun
-  WHERE noun_base_key = local_noun_base_key AND language_code = arg_language_code;
+  WHERE noun_base_key = local_noun_base_key AND language = arg_language;
 
   -- Insert into junction table
   IF EXISTS (
@@ -462,7 +462,7 @@ CREATE FUNCTION private.ckn_insert_verb(
   arg_verb_vosotros TEXT,
   arg_verb_ellos_ellas_ustedes TEXT,
   arg_scenario TEXT,
-  arg_language_code TEXT,
+  arg_language TEXT,
   arg_curated BOOLEAN DEFAULT FALSE
 )
 RETURNS VOID
@@ -499,7 +499,7 @@ BEGIN
   -- Insert verb
   INSERT INTO private.ckn_verb (
     verb_base_key,
-    language_code,
+    language,
     verb_infinitive,
     verb_yo,
     verb_tu,
@@ -510,7 +510,7 @@ BEGIN
     curated
   ) VALUES (
     local_verb_base_key,
-    arg_language_code,
+    arg_language,
     arg_verb_infinitive,
     arg_verb_yo,
     arg_verb_tu,
@@ -520,7 +520,7 @@ BEGIN
     arg_verb_ellos_ellas_ustedes,
     arg_curated
   )
-  ON CONFLICT (verb_base_key, language_code) DO NOTHING;
+  ON CONFLICT (verb_base_key, language) DO NOTHING;
 
   SELECT verb_key INTO local_verb_key
   FROM private.ckn_verb
@@ -680,7 +680,7 @@ CREATE FUNCTION public.ckn_insert_noun(
   arg_noun_plural TEXT,
   arg_noun_gender TEXT,
   arg_scenario TEXT,
-  arg_language_code TEXT,
+  arg_language TEXT,
   arg_curated BOOLEAN DEFAULT FALSE
 )
 RETURNS VOID
@@ -693,7 +693,7 @@ AS $$
     arg_noun_plural,
     arg_noun_gender,
     arg_scenario,
-    arg_language_code,
+    arg_language,
     arg_curated
   );
 $$;
@@ -712,7 +712,7 @@ CREATE FUNCTION public.ckn_insert_verb(
   arg_verb_vosotros TEXT,
   arg_verb_ellos_ellas_ustedes TEXT,
   arg_scenario TEXT,
-  arg_language_code TEXT,
+  arg_language TEXT,
   arg_curated BOOLEAN DEFAULT FALSE
 )
 RETURNS VOID
@@ -729,7 +729,7 @@ AS $$
     arg_verb_vosotros,
     arg_verb_ellos_ellas_ustedes,
     arg_scenario,
-    arg_language_code,
+    arg_language,
     arg_curated
   );
 $$;
@@ -740,24 +740,24 @@ $$;
 
 CREATE FUNCTION public.ckn_get_noun_by_scenario(
   arg_scenario TEXT,
-  arg_language_code TEXT
+  arg_language TEXT
 )
 RETURNS SETOF private.ckn_noun_record
 LANGUAGE SQL
 SECURITY DEFINER
 AS $$
-  SELECT * FROM private.ckn_get_noun_by_scenario(arg_scenario, arg_language_code);
+  SELECT * FROM private.ckn_get_noun_by_scenario(arg_scenario, arg_language);
 $$;
 
 CREATE FUNCTION public.ckn_get_verb_by_scenario(
   arg_scenario TEXT,
-  arg_language_code TEXT
+  arg_language TEXT
 )
 RETURNS SETOF private.ckn_verb_record
 LANGUAGE SQL
 SECURITY DEFINER
 AS $$
-  SELECT * FROM private.ckn_get_verb_by_scenario(arg_scenario, arg_language_code);
+  SELECT * FROM private.ckn_get_verb_by_scenario(arg_scenario, arg_language);
 $$;
 
 
