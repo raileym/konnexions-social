@@ -1,5 +1,6 @@
-import { GENDER, LANGUAGE } from '@cknTypes/constants'
+import { GENDER } from '@cknTypes/constants'
 import { type Handler } from '@netlify/functions'
+import { getVoiceForSpeaker } from '@shared/getVoiceForSpeaker'
 import { createClient } from '@supabase/supabase-js'
 import crypto from 'crypto'
 
@@ -19,36 +20,11 @@ const GOOGLE_LANGUAGE_MAP: Record<string, string> = {
   it: 'it-IT'
 }
 
-const voiceMap = {
-  [GENDER.M]: 'es-US-Wavenet-B',
-  [GENDER.F]: 'es-US-Wavenet-A'
-}
-
-const GOOGLE_VOICE_MAP: Record<string, Record<string, string>> = {
-  [LANGUAGE.SPANISH]: {
-    m: 'es-US-Wavenet-B',
-    f: 'es-US-Wavenet-A'
-  },
-  [LANGUAGE.ENGLISH]: {
-    m: 'en-US-Wavenet-D',
-    f: 'en-US-Wavenet-C'
-  },
-  [LANGUAGE.FRENCH]: {
-    m: 'fr-FR-Wavenet-B',
-    f: 'fr-FR-Wavenet-A'
-  },
-  [LANGUAGE.ITALIAN]: {
-    m: 'it-IT-Wavenet-C',
-    f: 'it-IT-Wavenet-B'
-  }
-}
-
-
 const bucketName = 'tts-cache'
 
 const handler: Handler = async (event) => {
   try {
-    const { text, gender = GENDER.M, language = 'es', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
+    const { text, speaker, gender = GENDER.M, language = 'es', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
 
     if (cutoff) {
 
@@ -89,8 +65,8 @@ const handler: Handler = async (event) => {
     const languageCode = GOOGLE_LANGUAGE_MAP[language] || 'es-US'
     const normalized = text.trim().toLowerCase()
     const signature = crypto.createHash('sha256').update(normalized).digest('hex')
-    const voiceKey = GENDER[gender as keyof typeof GENDER] // "M" → "m"
-    const voice = GOOGLE_VOICE_MAP[language]?.[voiceKey] || 'en-US-Wavenet-D'
+    const voice = getVoiceForSpeaker({speaker, language, gender})
+
     // const voiceKey = GENDER[gender as keyof typeof GENDER] // converts "M" → "m"
     // const voice = voiceMap[voiceKey] || voiceMap.m
     const filePath = `${signature}.mp3`
@@ -133,7 +109,6 @@ const handler: Handler = async (event) => {
         })
       }
     }
-
 
     // 2. Call Google TTS
     const res = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${process.env.GOOGLE_API_KEY}`, {

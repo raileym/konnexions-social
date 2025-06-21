@@ -767,6 +767,7 @@ export type Cutoff = boolean
 
 export type FetchTTSProps = {
   text: string
+  speaker: string
   gender?: string
   maxCount: number
   setMaxCount: SetMaxCount
@@ -860,3 +861,6 @@ export type RunModuleProps = {
   lesson: Lesson
 }
 
+export type Voice = string
+export type Voices = Voice[]
+export type VoicePool = Record<Language, Record<Gender, Voices>>

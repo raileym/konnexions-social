@@ -58,11 +58,12 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
 
         // console.log(`audio line not found, no. ${i}`)
 
-        const [gender, , sentence] = lines[i].split('|')
+        const [gender, speaker, sentence] = lines[i].split('|')
 
         try {
           const maybeAudio = await fetchTTS({
             text: sentence,
+            speaker,
             gender,
             maxCount,
             setMaxCount,
@@ -121,12 +122,12 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
       let value = audioItemsRef.current[i]
 
       if (!value) {
-        const [gender, , sentence] = line.split('|')
+        const [gender, speaker, sentence] = line.split('|')
         // console.log(`playAll: audioItemsRef.current[${i}] is empty. Fetch: ${sentence}`)
 
         try {
           value = (useCloudTTS && !cutoff && maxCount > 0)
-            ? await fetchTTS({ language, text: sentence, gender, maxCount, setMaxCount, cutoff }) ?? ''
+            ? await fetchTTS({ language, speaker, text: sentence, gender, maxCount, setMaxCount, cutoff }) ?? ''
             : sentence
 
           storeAudioOrLine(i, value)

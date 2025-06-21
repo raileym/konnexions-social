@@ -3,6 +3,7 @@ import type { FetchTTSProps, FetchTTSResult } from '@cknTypes/types'
 
 export async function fetchTTS({
   text,
+  speaker,
   gender = GENDER.M,
   maxCount,
   setMaxCount,
@@ -20,7 +21,7 @@ export async function fetchTTS({
     const res = await fetch('/.netlify/functions/generate-tts-cache', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, gender, maxCount, cutoff, language })
+      body: JSON.stringify({ text, speaker, gender, maxCount, cutoff, language })
     })
     
     const { audioUrl, cacheStatus } = await res.json()
