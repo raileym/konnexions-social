@@ -219,11 +219,11 @@ const RightPanel: React.FC = () => {
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
-            <DialogList language={lesson.targetLanguage} lines={(lesson?.dialog?.lines ?? [])} useCloudTTS={true} />
+            <DialogList language={lesson.targetLanguage} lines={(lesson?.translation[lesson.targetLanguage] ?? [])} useCloudTTS={true} />
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
-            <DialogList language={lesson.sourceLanguage} lines={(lesson?. dialog?.lines ?? [])} useCloudTTS={true} />
+            <DialogList language={lesson.sourceLanguage} lines={(lesson?.translation[lesson.sourceLanguage]  ?? [])} useCloudTTS={true} />
           </div>
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
