@@ -193,7 +193,7 @@ const RightPanel: React.FC = () => {
           <div className="flex flex-column items-center w-100">
             <div className={`w-100 f3 mt3X mb3 ${lessonComplete ? 'o-100' : 'o-60'}`}>
               {/* <LessonStatus isLoading={!lessonComplete} /> */}
-              <LessonStatus isLoading={!lessonComplete && creatingLesson} />
+              <LessonStatus isLoading={!lessonComplete} />
               {/* <LessonStatus isLoading={!lessonComplete} /> */}
             </div>
           </div>
@@ -215,7 +215,7 @@ const RightPanel: React.FC = () => {
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
-            <DialogList lines={(lesson?.dialog?.lines ?? [])} useCloudTTS={true} />
+            <DialogList language={lesson.language} lines={(lesson?.dialog?.lines ?? [])} useCloudTTS={true} />
           </div>
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}

@@ -12,6 +12,13 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
+const GOOGLE_LANGUAGE_MAP: Record<string, string> = {
+  es: 'es-US',
+  en: 'en-US',
+  fr: 'fr-FR',
+  it: 'it-IT'
+}
+
 const voiceMap = {
   [GENDER.M]: 'es-US-Wavenet-B',
   [GENDER.F]: 'es-US-Wavenet-A'
@@ -21,7 +28,7 @@ const bucketName = 'tts-cache'
 
 const handler: Handler = async (event) => {
   try {
-    const { text, gender = GENDER.M, languageCode = 'es-US', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
+    const { text, gender = GENDER.M, language = 'es', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
 
     if (cutoff) {
 
@@ -49,7 +56,7 @@ const handler: Handler = async (event) => {
 
     if (!text) {
 
-      console.log(`Issue No 3 with generate-tts-cache: ${text}, ${gender}, ${languageCode}`)
+      console.log(`Issue No 3 with generate-tts-cache: ${text}, ${gender}, ${language}`)
 
       return {
         statusCode: 402, 
@@ -59,6 +66,7 @@ const handler: Handler = async (event) => {
       }
     }
 
+    const languageCode = GOOGLE_LANGUAGE_MAP[language] || 'es-US'
     const normalized = text.trim().toLowerCase()
     const signature = crypto.createHash('sha256').update(normalized).digest('hex')
     const voiceKey = GENDER[gender as keyof typeof GENDER] // converts "M" → "m"
@@ -166,14 +174,14 @@ const handler: Handler = async (event) => {
       arg_tts_cache_signature: signature,
       arg_tts_cache_text: normalized,
       arg_tts_cache_voice: voice,
-      arg_tts_cache_language: languageCode
+      arg_tts_cache_language: language
     })
 
     const { error: insertError } = await supabase.rpc('ckn_insert_tts_cache', {
       arg_tts_cache_signature: signature,
       arg_tts_cache_text: normalized,
       arg_tts_cache_voice: voice,
-      arg_tts_cache_language: languageCode
+      arg_tts_cache_language: language
     })
 
     if (insertError) {

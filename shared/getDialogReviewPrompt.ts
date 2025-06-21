@@ -2,7 +2,7 @@ import { formatDialogLinesForReview } from './formatDialogLinesForReview'
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualificationWithExample } from '@shared/getJsonQualification'
 import { type GetDialogReviewPrompt, type GetDialogReviewPromptProps } from '@cknTypes/types'
-import { MODULE_NAME } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 
 export const getDialogReviewPrompt: GetDialogReviewPrompt = ({lesson, errors}: GetDialogReviewPromptProps) => {
   const dialogReviewExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: true }  })
@@ -19,7 +19,7 @@ const example =
 `
 
   return (`
-REQUEST: Create a dialog review for the following Spanish-language dialog for grammatical correctness and natural usage, making minor corrections as appropriate. Please correct grammatical mistakes as appropriate for ${lesson.language}. This dialog is intended for beginning Spanish learners.
+REQUEST: Create a dialog review for the following Spanish-language dialog for grammatical correctness and natural usage, making minor corrections as appropriate. Please correct grammatical mistakes as appropriate for ${LANGUAGE_TITLE[lesson.language]}. This dialog is intended for beginning Spanish learners.
 
 DIALOG:
 

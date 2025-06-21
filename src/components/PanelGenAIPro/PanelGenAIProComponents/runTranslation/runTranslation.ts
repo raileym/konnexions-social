@@ -1,9 +1,21 @@
-export const runTranslation = async (lines: string[]): Promise<string[] | null> => {
+import type { Language, Lines } from '@cknTypes/types'
+
+type RunTranslationProps = {
+  lines: Lines,
+  source: Language,
+  target: Language
+}
+
+export const runTranslation = async ({lines, source, target}: RunTranslationProps): Promise<string[] | null> => {
   try {
     const res = await fetch('/.netlify/functions/translate-dialog', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lines })
+      body: JSON.stringify({ 
+        lines,
+        source,
+        target
+      })
     })
 
     if (!res.ok) {

@@ -1,7 +1,7 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsOnlyReviewPrompt, GetNounsOnlyReviewPromptProps } from '@cknTypes/types'
-import { MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getNounsOnlyReviewPrompt: GetNounsOnlyReviewPrompt = ({lesson, errors}: GetNounsOnlyReviewPromptProps) => {
@@ -10,7 +10,7 @@ export const getNounsOnlyReviewPrompt: GetNounsOnlyReviewPrompt = ({lesson, erro
   const dialogReviewLines = formatDialogLinesForReview(lesson.dialog.lines)  
   
   return (`
-REQUEST: Review the list of ${lesson.language} nouns below in relation to the dialog that follows. Your task is to ensure that the list contains only nouns that appear in the dialog.
+REQUEST: Review the list of ${LANGUAGE_TITLE[lesson.language]} nouns below in relation to the dialog that follows. Your task is to ensure that the list contains only nouns that appear in the dialog.
 
 NOUNS TO REVIEW:
 

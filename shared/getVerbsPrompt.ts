@@ -1,14 +1,14 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import { type GetVerbsPrompt, type GetVerbsPromptProps } from '@cknTypes/types'
-import { MODULE_NAME } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 
 export const getVerbsPrompt: GetVerbsPrompt = ({lesson, errors}: GetVerbsPromptProps) => {
         
   const verbsExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS, options: { asString: true }  })
 
   return (`
-REQUEST: Extract the ${lesson.language} verbs from the dialog below. Only include present-tense verbs, 
+REQUEST: Extract the ${LANGUAGE_TITLE[lesson.language]} verbs from the dialog below. Only include present-tense verbs, 
 not greetings (e.g., “buenos días”), nouns, or fixed expressions. Do not include repeated phrases
 unless they are valid present-tense conjugations of the same verb.
 
@@ -34,9 +34,9 @@ Also,
   - Use lowercase throughout
   - All content must be in lowercase, including nouns and prepositions
   - Each line denotes a conjugation of the verb in present tense.
-  - Order your conjugations using an order common to all beginning ${lesson.language} classes.
+  - Order your conjugations using an order common to all beginning ${LANGUAGE_TITLE[lesson.language]} classes.
   - Do not include pronouns
-  - For reflexive verbs, conjugate them as appropriate in beginning ${lesson.language} class.
+  - For reflexive verbs, conjugate them as appropriate in beginning ${LANGUAGE_TITLE[lesson.language]} class.
 
 EXAMPLE RESPONSE:
 

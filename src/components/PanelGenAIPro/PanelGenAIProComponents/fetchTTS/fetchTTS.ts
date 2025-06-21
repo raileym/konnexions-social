@@ -5,7 +5,8 @@ export async function fetchTTS({
   gender = 'M',
   maxCount,
   setMaxCount,
-  cutoff
+  cutoff,
+  language
 }: FetchTTSProps): Promise<FetchTTSResult> {
   if (!text || cutoff || maxCount <= 0) return null
 
@@ -18,7 +19,7 @@ export async function fetchTTS({
     const res = await fetch('/.netlify/functions/generate-tts-cache', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, gender, maxCount, cutoff })
+      body: JSON.stringify({ text, gender, maxCount, cutoff, language })
     })
     
     const { audioUrl, cacheStatus } = await res.json()

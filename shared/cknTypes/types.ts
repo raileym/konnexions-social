@@ -761,6 +761,7 @@ export type FetchTTSProps = {
   maxCount: number
   setMaxCount: SetMaxCount
   cutoff: boolean
+  language: Language
 }
 export type FetchTTSResult = string | null
 

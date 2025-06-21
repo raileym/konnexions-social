@@ -77,33 +77,70 @@ export const handleCreateLesson = async ({
 
 
 
-  let translationTo: Lines = []
-  const translationFrom = (dialogLessonUpdated_4?.dialog?.lines ?? []).map((line: string) => {
-    const parts = line.split('|')
-    return parts[2] // the third field: actual dialog text
-  })
+  // let translationTo: Lines = []
+  // const translationFrom = (dialogLessonUpdated_4?.dialog?.lines ?? []).map((line: string) => {
+  //   const parts = line.split('|')
+  //   return parts[2] // the third field: actual dialog text
+  // })
 
-  console.log(translationFrom)
+  // console.log(translationFrom)
+
+  // try {
+  //   translationTo = await runTranslation(translationFrom) as Lines
+
+  //   if (!translationTo) {
+  //     console.error('⚠️ runTranslation returned null')
+  //     // Handle gracefully — maybe show a fallback or alert the user
+  //   } else {
+  //     console.log('✅ Translations:', translationTo)
+  //     // Continue with your logic here
+  //   }
+  // } catch (err) {
+  //   console.error('❌ Unexpected error when calling runTranslation', err)
+  // }
+
+  // const dialogLessonUpdated_4translation = {
+  //   ...dialogLessonUpdated_4,
+  //   translationTo,
+  //   translationFrom
+  // }
+
+
+
+
+
+  const originalLines = dialogLessonUpdated_4?.dialog?.lines ?? []
+
+  // Step 1: Separate speaker and dialog fields
+  const speakerFrom = originalLines.map(line => line.split('|')[1] ?? '')
+  const dialogFrom = originalLines.map(line => line.split('|')[2] ?? '')
+
+  let speakerTo: string[] = []
+  let dialogTo: string[] = []
 
   try {
-    translationTo = await runTranslation(translationFrom) as Lines
-
-    if (!translationTo) {
-      console.error('⚠️ runTranslation returned null')
-      // Handle gracefully — maybe show a fallback or alert the user
-    } else {
-      console.log('✅ Translations:', translationTo)
-      // Continue with your logic here
-    }
+    speakerTo = await runTranslation({lines: speakerFrom, source: dialogLessonUpdated_4.language, target: 'en'}) as string[]
+    dialogTo = await runTranslation({lines: dialogFrom, source: dialogLessonUpdated_4.language, target: 'en'}) as string[]
   } catch (err) {
-    console.error('❌ Unexpected error when calling runTranslation', err)
+    console.error('❌ Translation error', err)
   }
+
+  // Step 2: Reconstruct full translated lines
+  const translatedLines = originalLines.map((line, idx) => {
+    const gender = line.split('|')[0] ?? 'x'
+    const speaker = speakerTo[idx] ?? '???'
+    const dialog = dialogTo[idx] ?? '???'
+    return `${gender}|${speaker}|${dialog}`
+  })
 
   const dialogLessonUpdated_4translation = {
     ...dialogLessonUpdated_4,
-    translationTo,
-    translationFrom
+    translation: {
+      [dialogLessonUpdated_4.language]: originalLines,  // typically lesson.dialog.lines
+      ['en']: translatedLines   // result from runTranslation
+    }
   }
+
   
   // const dialogLinesOnly = dialogLessonUpdated_4.dialog.lines.map((line: string) => {
   //   const parts = line.split('|')

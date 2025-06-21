@@ -1,13 +1,13 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetVerbsMissingPrompt, GetVerbsMissingPromptProps } from '@cknTypes/types'
-import { MODULE_NAME } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 
 export const getVerbsMissingPrompt: GetVerbsMissingPrompt = ({lesson, errors}: GetVerbsMissingPromptProps) => {
   const verbsExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS_MISSING, options: { asString: true }  })
   
   return (`
-REQUEST: Identify and return the English translation, singular form, plural form, and grammatical gender for each of the ${lesson.language} verbs listed below:
+REQUEST: Identify and return the English translation, singular form, plural form, and grammatical gender for each of the ${LANGUAGE_TITLE[lesson.language]} verbs listed below:
 
 VERBS TO REVIEW:
 

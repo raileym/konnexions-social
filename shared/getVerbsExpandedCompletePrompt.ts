@@ -7,7 +7,7 @@ export const getVerbsExpandedCompletePrompt: GetVerbsExpandedCompletePrompt = ({
   const verbsExpandedCompleteExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, options: { asString: true }  })
   
   return (`
-REQUEST: Complete the sentences below as appropriate for a beginner's lesson in ${lesson.language}.
+REQUEST: Complete the sentences below as appropriate for a beginner's lesson in ${LANGUAGE_TITLE[lesson.language]}.
 
 IN-COMPLETE SENTENCES:
 

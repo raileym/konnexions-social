@@ -5,13 +5,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchTTS } from '../fetchTTS/fetchTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { SCENARIO_LABELS } from '@cknTypes/constants'
+import type { Language } from '@cknTypes/types'
 
 type DialogListProps = {
   lines: string[]
   useCloudTTS: boolean
+  language: Language
 }
 
-export function DialogList({ lines, useCloudTTS }: DialogListProps) {
+export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
   // const [audioItems, setAudioItems] = useState<string[]>([])
   const audioItemsRef = useRef<string[]>([])
 
@@ -64,7 +66,8 @@ export function DialogList({ lines, useCloudTTS }: DialogListProps) {
             gender,
             maxCount,
             setMaxCount,
-            cutoff
+            cutoff,
+            language
           })
 
           if (maybeAudio !== null) {

@@ -1,13 +1,13 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsPrompt, GetNounsPromptProps } from '@cknTypes/types'
-import { MODULE_NAME } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 
 export const getNounsPrompt: GetNounsPrompt = ({lesson, errors}: GetNounsPromptProps) => {
   const nounsExample = generateExample({language: lesson.language, moduleName: MODULE_NAME.NOUNS, options: { asString: true }  })
   
   return (`
-REQUEST: Extract the ${lesson.language} nouns from the dialog below:
+REQUEST: Extract the ${LANGUAGE_TITLE[lesson.language]} nouns from the dialog below:
 
 DIALOG: ${lesson.prose}
 

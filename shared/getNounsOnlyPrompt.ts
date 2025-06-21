@@ -1,7 +1,7 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsOnlyPrompt, GetNounsOnlyPromptProps } from '@cknTypes/types'
-import { MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getNounsOnlyPrompt: GetNounsOnlyPrompt = ({lesson, errors}: GetNounsOnlyPromptProps) => {
@@ -10,7 +10,7 @@ export const getNounsOnlyPrompt: GetNounsOnlyPrompt = ({lesson, errors}: GetNoun
   
   // console.log('dialogLines',dialogLines)
   return (`
-REQUEST: Extract a list of ${lesson.language} nouns from the dialog below:
+REQUEST: Extract a list of ${LANGUAGE_TITLE[lesson.language]} nouns from the dialog below:
 
 DIALOG: The following dialog is appropriate for a beginning language instruction. This dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between ${lesson.participantList}.
   

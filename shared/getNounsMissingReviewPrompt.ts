@@ -1,7 +1,7 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsMissingReviewPrompt, GetNounsMissingReviewPromptProps } from '@cknTypes/types'
-import { MODULE_NAME } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 import { formatNounLinesForReview } from '@shared/formatNounLinesForReview'
 
 export const getNounsMissingReviewPrompt: GetNounsMissingReviewPrompt = ({lesson, errors}: GetNounsMissingReviewPromptProps) => {
@@ -10,7 +10,7 @@ export const getNounsMissingReviewPrompt: GetNounsMissingReviewPrompt = ({lesson
   const nounReviewLines = formatNounLinesForReview(lesson.nounsMissing.lines)
 
   return (`
-REQUEST: Review the list of ${lesson.language} nouns below as to each noun's details: English translation, singular form, plural form, and proper grammatical gender. Your task is to ensure the details for each noun are correct.
+REQUEST: Review the list of ${LANGUAGE_TITLE[lesson.language]} nouns below as to each noun's details: English translation, singular form, plural form, and proper grammatical gender. Your task is to ensure the details for each noun are correct.
 
 NOUNS TO REVIEW:
 

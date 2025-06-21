@@ -1,7 +1,7 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetVerbsMissingReviewPrompt, GetVerbsMissingReviewPromptProps } from '@cknTypes/types'
-import { MODULE_NAME } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 import { formatVerbLinesForReview } from '@shared/formatVerbLinesForReview'
 
 export const getVerbsMissingReviewPrompt: GetVerbsMissingReviewPrompt = ({lesson, errors}: GetVerbsMissingReviewPromptProps) => {
@@ -10,7 +10,7 @@ export const getVerbsMissingReviewPrompt: GetVerbsMissingReviewPrompt = ({lesson
   const verbReviewLines = formatVerbLinesForReview(lesson?.verbsMissing?.lines ?? [])
 
   return (`
-REQUEST: Review the list of ${lesson.language} verbs below as to each verb's details: English translation, singular form, plural form, and proper grammatical gender. Your task is to ensure the details for each verb are correct.
+REQUEST: Review the list of ${LANGUAGE_TITLE[lesson.language]} verbs below as to each verb's details: English translation, singular form, plural form, and proper grammatical gender. Your task is to ensure the details for each verb are correct.
 
 VERBS TO REVIEW:
 

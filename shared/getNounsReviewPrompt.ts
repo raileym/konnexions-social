@@ -41,7 +41,7 @@ REQUEST: Review the given Spanish-language nounsArray for grammatical correctnes
   - common prepositions used with the noun,
 
 expressing minor corrections in your response only when necessary. All corrections offered for the 
-${lesson.language} content must reflect language appropriate for beginning ${lesson.language} learners.
+${LANGUAGE_TITLE[lesson.language]} content must reflect language appropriate for beginning ${LANGUAGE_TITLE[lesson.language]} learners.
 ${getJsonQualification({responseType: 'nounsReview'})}
 
 Only include lines from nounsArray that require corrections. Your response, an updated nounsArray, will mimic the original format of nounsArray. Do not include unchanged lines. If no lines require corrections or updates, return a JSON array with one entry,

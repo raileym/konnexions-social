@@ -8,12 +8,12 @@ type TranslationResponse = {
 
 const handler: Handler = async (event) => {
   try {
-    const { lines } = JSON.parse(event.body ?? '{}')
+    const { lines, source, target } = JSON.parse(event.body ?? '{}')
 
-    if (!Array.isArray(lines) || lines.length === 0) {
+    if (!Array.isArray(lines) || lines.length === 0 || !source || !target) {
       return {
         statusCode: 400,
-        body: 'Missing or invalid "lines" array.'
+        body: 'Missing or invalid "lines" array, "source", or "target".'
       }
     }
 
@@ -32,8 +32,8 @@ const handler: Handler = async (event) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           q: lines,
-          source: 'es',
-          target: 'en',
+          source,
+          target,
           format: 'text'
         })
       }
