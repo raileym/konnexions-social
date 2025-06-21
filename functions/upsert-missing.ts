@@ -1,3 +1,4 @@
+import { CURATED } from '@cknTypes/constants'
 import { type Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
 
@@ -32,7 +33,7 @@ const handler: Handler = async (event) => {
         arg_noun_gender: gender,
         arg_scenario: scenario,
         arg_language: language,
-        arg_curated: false
+        arg_curated: CURATED.FALSE
       })
     }
 
@@ -50,7 +51,7 @@ const handler: Handler = async (event) => {
         arg_verb_ellos_ellas_ustedes: ellos,
         arg_scenario: scenario,
         arg_language: language,
-        arg_curated: false
+        arg_curated: CURATED.FALSE
       })
     }
 

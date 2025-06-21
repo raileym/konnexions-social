@@ -161,7 +161,7 @@ useEffect(() => {
       return
     }
 
-    // console.log('fetchScenarioData', JSON.stringify(data, null, 2))
+    console.log('fetchScenarioData', JSON.stringify(data, null, 2))
 
     const nounBySingular = new Map()
     const nounByPlural = new Map()

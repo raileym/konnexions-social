@@ -1,5 +1,4 @@
 import { GENDER } from '@cknTypes/constants'
-import type { GenderKey } from '@cknTypes/types'
 import { type Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
 import crypto from 'crypto'
@@ -62,7 +61,8 @@ const handler: Handler = async (event) => {
 
     const normalized = text.trim().toLowerCase()
     const signature = crypto.createHash('sha256').update(normalized).digest('hex')
-    const voice = voiceMap[gender as GenderKey] || voiceMap.M
+    const voiceKey = GENDER[gender as keyof typeof GENDER] // converts "M" → "m"
+    const voice = voiceMap[voiceKey] || voiceMap.m
     const filePath = `${signature}.mp3`
 
     const { data: cachedData, error: lookupError } = await supabase

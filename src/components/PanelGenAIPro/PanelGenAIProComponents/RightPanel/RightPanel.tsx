@@ -405,25 +405,25 @@ const RightPanel: React.FC = () => {
           
 
           
-          <div className="mt4 b">NounsConstraint</div>
+          <div className="mt4 b">NounsConstraint ({scenarioData?.nouns?.length ?? 0})</div>
           <ul className="mt0 pt0 black">
             {scenarioData?.nouns
               ?.slice()
               .sort((a, b) => a.noun_base.localeCompare(b.noun_base))
               .map((noun, index) => (
-                <li key={index}>
+                <li key={index} className={`${noun.curated ? 'black' : 'red'}`}>
                   {noun.noun_base}: {noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}
                 </li>
               ))}
           </ul>
 
-          <div className="mt4 b">VerbsConstraint</div>
+          <div className="mt4 b">VerbsConstraint  ({scenarioData?.verbs?.length ?? 0})</div>
           <ul className="mt0 pt0 black">
             {scenarioData?.verbs
               ?.slice()
               .sort((a, b) => a.verb_infinitive.localeCompare(b.verb_infinitive))
               .map((verb, index) => (
-                <li key={index}>
+                <li key={index} className={`${verb.curated ? 'black' : 'red'}`}>
                   {verb.verb_base}|{verb.verb_infinitive}|{verb.verb_nosotros}
                 </li>
               ))}

@@ -11,7 +11,8 @@ import {
   MODULE_NAME,
   ERROR_LABEL,
   GENDER,
-  SCENARIO_LABELS
+  SCENARIO_LABELS,
+  CURATED
 } from '@cknTypes/constants'
 
 export type AppContextType = {
@@ -743,6 +744,10 @@ export type GenderValue = (typeof GENDER)[keyof typeof GENDER]
 export type GenderKey = keyof typeof GENDER
 export type Gender = GenderValue
 
+export type CuratedValue = (typeof CURATED)[keyof typeof CURATED]
+export type CuratedKey = keyof typeof CURATED
+export type Curated = CuratedValue
+
 export type VerbFormatsValue = (typeof VERB_FORMATS)[keyof typeof VERB_FORMATS]
 export type VerbFormatsKey = keyof typeof VERB_FORMATS
 export type VerbFormats = VerbFormatsValue
@@ -765,6 +770,7 @@ export type NounRecord = {
   noun_plural: Noun
   noun_gender: Gender
   noun_article: 'el' | 'la'
+  curated: Curated
 }
 
 export type VerbRecord = {
@@ -776,6 +782,7 @@ export type VerbRecord = {
   verb_nosotros: string
   verb_vosotros: string
   verb_ellos_ellas_ustedes: string
+  curated: Curated
 }
 
 export type NounDetails = {
@@ -783,6 +790,7 @@ export type NounDetails = {
   noun_singular: string
   noun_plural: string
   noun_gender: Gender
+  curated: Curated
 }
 
 export type VerbDetails = {
@@ -794,6 +802,7 @@ export type VerbDetails = {
   verb_nosotros: string
   verb_vosotros: string
   verb_ellos_ellas_ustedes: string
+  curated: Curated
 }
 
 export type ScenarioData = {

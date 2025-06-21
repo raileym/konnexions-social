@@ -105,6 +105,11 @@ export const GENDER = {
   F: 'f'
 } as const
 
+export const CURATED = {
+  TRUE: true,
+  FALSE: false
+} as const
+
 export const GENDER_TO_ARTICLE: Record<Gender, NounArticlesValue> = {
   [GENDER.F]: NOUN_ARTICLES.LA,
   [GENDER.M]: NOUN_ARTICLES.EL

@@ -4,7 +4,8 @@ import {
   type GetScenarioDetailsProps,
   type ParticipantProse,
   type ParticipantLinesByLanguage,
-  type Scenario
+  type Scenario,
+  type Gender
 } from '@cknTypes/types'
 import {
   LANGUAGE,
@@ -19,7 +20,7 @@ export const getCurrentWeek = () => {
   return Math.floor((diff + start.getDay() + 1) / 7)
 }
 
-export const getArticle = (gender: 'F' | 'M') => GENDER_TO_ARTICLE[gender]
+export const getArticle = (gender: Gender) => GENDER_TO_ARTICLE[gender]
 
 const scenarioParticipants: Record<Scenario, { participantLinesByLanguage: ParticipantLinesByLanguage }> = {
   restaurant: {

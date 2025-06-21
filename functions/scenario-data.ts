@@ -17,6 +17,7 @@ const handler: Handler = async (event) => {
       }
     }
 
+    console.log(`server-side scenario: ${scenario}`)
     console.log(`server-side language: ${language}`)
     
     const { data: nouns, error: nounErr } = await supabase
