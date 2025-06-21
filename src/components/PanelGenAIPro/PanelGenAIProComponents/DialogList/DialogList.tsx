@@ -1,11 +1,12 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import { DialogLine } from '../DialogLine/DialogLine'
+import { DialogLine } from '@PanelGenAIProComponents/DialogLine/DialogLine'
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { fetchTTS } from '../fetchTTS/fetchTTS'
+import { fetchTTS } from '@PanelGenAIProComponents/fetchTTS/fetchTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { SCENARIO_LABELS } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, SCENARIO_LABELS } from '@cknTypes/constants'
 import type { Language } from '@cknTypes/types'
+import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 
 type DialogListProps = {
   lines: string[]
@@ -39,6 +40,14 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
     arr[index] = value
   }, [])
 
+  const { speak } = useTTS({
+    useCloudTTS,
+    maxCount,
+    setMaxCount,
+    cutoff,
+    store: storeAudioOrLine,
+    language
+  })
 
   useEffect(() => {
     audioItemsRef.current = []
@@ -65,9 +74,9 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
             text: sentence,
             speaker,
             gender,
+            cutoff,
             maxCount,
             setMaxCount,
-            cutoff,
             language
           })
 
@@ -121,8 +130,9 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
 
       let value = audioItemsRef.current[i]
 
+      const [gender, speaker, sentence] = line.split('|')
+      
       if (!value) {
-        const [gender, speaker, sentence] = line.split('|')
         // console.log(`playAll: audioItemsRef.current[${i}] is empty. Fetch: ${sentence}`)
 
         try {
@@ -146,11 +156,13 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
         audio.onended = safeNext
         audio.play()
       } else {
-        const utterance = new SpeechSynthesisUtterance(value)
-        utterance.lang = 'es-ES'
-        utterance.rate = 0.9
-        utterance.onend = safeNext
-        synthRef.current.speak(utterance)
+        speak({
+          text: value,
+          speaker,
+          gender,
+          index: i,
+          onEnd: safeNext
+        })
       }
     }
 
@@ -178,6 +190,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
   return (
     <div>
       <div className='tc f2 w-100 mt4X b'>Dialog {SCENARIO_LABELS[scenario]}</div>
+      <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
       <div className='flex flex-row items-center mt4'>
         <button
           onClick={playAll}

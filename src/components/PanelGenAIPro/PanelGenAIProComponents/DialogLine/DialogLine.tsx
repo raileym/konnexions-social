@@ -1,6 +1,6 @@
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useTTS } from '../useTTS/useTTS'
+import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
 import type { Language } from '@cknTypes/types'
 
@@ -20,20 +20,30 @@ export function DialogLine({ language, line, index, useCloudTTS, storeAudioOrLin
   
   const handleSpeak = () => {
     console.log('handleSpeak')
-    speak()
+    speak({ text: sentence, speaker, gender, index })
   }
 
   const { speak } = useTTS({
-    text: sentence,
-    gender,
-    index,
     useCloudTTS,
-    store: storeAudioOrLine,
-    cutoff,
     maxCount,
     setMaxCount,
+    cutoff,
+    store: storeAudioOrLine,
     language
   })
+
+// const { speak } = useTTS({
+  //   text: sentence,
+  //   speaker,
+  //   gender,
+  //   index,
+  //   useCloudTTS,
+  //   store: storeAudioOrLine,
+  //   cutoff,
+  //   maxCount,
+  //   setMaxCount,
+  //   language
+  // })
 
   // console.log('useCloudTTS', useCloudTTS, index, line)
 

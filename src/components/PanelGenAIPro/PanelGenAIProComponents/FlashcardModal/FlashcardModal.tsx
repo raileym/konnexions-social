@@ -10,6 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { useTTS } from '../useTTS/useTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
+import { GENDER } from '@cknTypes/constants'
 
 type FlashcardProps = {
   fronts: string[]
@@ -45,13 +46,24 @@ export function FlashcardModal({
 
   const currentText = showBack ? shuffled[current].back : shuffled[current].front
   const { speak, stop } = useTTS({
-    text: currentText,
     useCloudTTS,
-    cutoff,
     maxCount,
     setMaxCount,
+    cutoff,
+    // store: storeAudioOrLine,
     language: targetLanguage
   })
+
+  // const { speak, stop } = useTTS({
+  //   text: currentText,
+  //   gender,
+  //   index,
+  //   useCloudTTS,
+  //   cutoff,
+  //   maxCount,
+  //   setMaxCount,
+  //   language: targetLanguage
+  // })
 
   const handleNext = useCallback(() => {
     stop()
@@ -93,9 +105,13 @@ export function FlashcardModal({
 
   useEffect(() => {
     if (soundEnabled) {
-      speak()
+      speak({
+        text: currentText,
+        speaker: 'unknown',
+        gender: GENDER.M,
+      })
     }
-  }, [current, showBack, speak, soundEnabled])
+  }, [current, currentText, showBack, speak, soundEnabled])
 
   return (
     <Dialog.Root 

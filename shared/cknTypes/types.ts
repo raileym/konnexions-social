@@ -768,7 +768,7 @@ export type Cutoff = boolean
 export type FetchTTSProps = {
   text: string
   speaker: string
-  gender?: string
+  gender: string
   maxCount: number
   setMaxCount: SetMaxCount
   cutoff: boolean

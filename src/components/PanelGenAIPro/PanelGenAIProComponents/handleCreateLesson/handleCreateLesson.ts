@@ -29,6 +29,8 @@ export const handleCreateLesson = async ({
 }: HandleCreateLessonProps) => {
   const { participantList } = getScenarioDetails({ scenario, language: targetLanguage });
 
+  setLessonComplete(false);
+
   const initialLesson_0 = {
     ...lesson,
     targetLanguage,
