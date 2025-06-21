@@ -10,7 +10,8 @@ import {
   type TestMode,
   type UseMyself,
   scenarioDescriptions,
-  defaultLesson
+  defaultLesson,
+  type CreatingLesson
 } from '@cknTypes/types'
 import {
   VERB_FORMATS,
@@ -36,12 +37,14 @@ import { handleCreateLesson } from '@PanelGenAIProComponents/handleCreateLesson/
 import PromptToggle from '../PromptToggle/PromptToggle'
 import Hr from '@components/Hr'
 import LessonElementToggle from '../LessonElementToggle/LessonElementToggle'
+import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus'
 // import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPanel: React.FC = () => {
   const [useMyself, setUseMyself] = useState<UseMyself>(false)
-  const [lessonComplete, setLessonComplete] = useState<LessonComplete>(false)
+  const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
+  const [creatingLesson, setCreatingLesson] = useState<CreatingLesson>(false)
   const [testMode, setTestMode] = useState<TestMode>(false)
   const [showDialogPrompt, setShowDialogPrompt] = useState(false)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
@@ -164,21 +167,36 @@ const RightPanel: React.FC = () => {
             <div>
               <button
                 className={`f3 pa3 br4 bn ${testMode ? 'bg-black white' : 'bg-brand white'} pointer`}
-                onClick={() => handleCreateLesson({
-                  scenarioData,
-                  scenario,
-                  language,
-                  lesson,
-                  setLessons,
-                  setLessonComplete,
-                  selectedLessonId,
-                  testMode
-                })}
+                onClick={() => {
+                  setCreatingLesson(true)
+                  
+                  handleCreateLesson({
+                    scenarioData,
+                    scenario,
+                    language,
+                    lesson,
+                    setLessons,
+                    setLessonComplete,
+                    selectedLessonId,
+                    testMode
+                  })
+
+                  setCreatingLesson(false)
+                }}
               >
                 Create Lesson {testMode ? '(Test Mode)' : ''}
               </button>
             </div>
           </div>
+
+          <div className="flex flex-column items-center w-100">
+            <div className={`w-100 f3 mt3X mb3 ${lessonComplete ? 'o-100' : 'o-60'}`}>
+              {/* <LessonStatus isLoading={!lessonComplete} /> */}
+              <LessonStatus isLoading={!lessonComplete && creatingLesson} />
+              {/* <LessonStatus isLoading={!lessonComplete} /> */}
+            </div>
+          </div>
+
 
           <div className="flex flex-column items-center w-100">
             <div className="mt3 mb1">
@@ -206,6 +224,7 @@ const RightPanel: React.FC = () => {
               Lesson Complete
             </div>
           </div>
+
           {/* 
           <div className="mv3">
             <button

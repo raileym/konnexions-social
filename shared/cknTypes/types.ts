@@ -84,6 +84,7 @@ export type AppContextType = {
 }
 
 export type LessonComplete = boolean
+export type CreatingLesson = boolean
 
 export type LanguageValue = (typeof LANGUAGE)[keyof typeof LANGUAGE]
 export type LanguageKey = keyof typeof LANGUAGE

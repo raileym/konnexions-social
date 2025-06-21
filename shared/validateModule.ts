@@ -7,6 +7,7 @@ import {
   type Line
 } from '@cknTypes/types'
 import { lintJsonArrayStructure } from '@shared/lintJsonArrayStructure'
+import { postCleanLines } from '@shared/postCleanLines/postCleanLines'
 
 export const addError = ({
   errorLabel,
@@ -140,7 +141,9 @@ export const validateModule = ({
     }
   }
 
-  const structured = lines.map((original): RichParsedLine => {
+  const linesCleaned = postCleanLines({lines})
+
+  const structured = linesCleaned.map((original): RichParsedLine => {
     const fields = original.split('|')
     const reasons: string[] = []
 
