@@ -1,5 +1,5 @@
 import { useAppContext } from '@context/AppContext/AppContext'
-import { getCurrentWeek } from './Util'
+import { getCurrentWeek } from '@components/getCurrentWeek'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { APP_PANEL } from '@cknTypes/constants'

@@ -63,9 +63,9 @@ const handler: Handler = async (event) => {
     }
 
     const languageCode = GOOGLE_LANGUAGE_MAP[language] || 'es-US'
-    const normalized = text.trim().toLowerCase()
-    const signature = crypto.createHash('sha256').update(normalized).digest('hex')
     const voice = getVoiceForSpeaker({speaker, language, gender})
+    const normalized = `${voice}:${text.trim().toLowerCase()}`
+    const signature = crypto.createHash('sha256').update(normalized).digest('hex')
 
     // const voiceKey = GENDER[gender as keyof typeof GENDER] // converts "M" → "m"
     // const voice = voiceMap[voiceKey] || voiceMap.m

@@ -8,10 +8,9 @@ import ParticipantToggle from '../../../ParticipantToggle'
 import {
   type LessonComplete,
   type TestMode,
-  type UseMyself,
   scenarioDescriptions,
   defaultLesson,
-  type CreatingLesson
+  type UseMyself,
 } from '@cknTypes/types'
 import {
   VERB_FORMATS,
@@ -21,8 +20,7 @@ import {
 } from '@cknTypes/constants'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
-// import { getArticle, getScenarioDetails } from '../../../Util'
-import { getScenarioDetails } from '../../../Util'
+import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails'
 // import handleModule from '../handleModule/handleModule'
 // import { resolveDialog } from '../resolveDialog/resolveDialog'
 // import { resolveNouns } from '../resolveNouns/resolveNouns'
@@ -44,11 +42,10 @@ import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPanel: React.FC = () => {
-  const [useMyself, setUseMyself] = useState<UseMyself>(false)
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
-  const [creatingLesson, setCreatingLesson] = useState<CreatingLesson>(false)
   const [testMode, setTestMode] = useState<TestMode>(false)
   // const [showDialogPrompt, setShowDialogPrompt] = useState(false)
+  const [useMyself, setUseMyself] = useState<UseMyself>(false)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [showVerbsPrompt, setShowVerbsPrompt] = useState(false)
   const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)
@@ -88,7 +85,6 @@ const RightPanel: React.FC = () => {
     scenarioData,
     targetLanguage,
     sourceLanguage
-    // generateTTSCount
   } = useAppContext()
   
 // export type ScenarioData = {
@@ -176,8 +172,6 @@ const RightPanel: React.FC = () => {
               <button
                 className={`f3 pa3 br4 bn ${testMode ? 'bg-black white' : 'bg-brand white'} pointer`}
                 onClick={() => {
-                  setCreatingLesson(true)
-                  
                   handleCreateLesson({
                     scenarioData,
                     scenario,
@@ -187,10 +181,9 @@ const RightPanel: React.FC = () => {
                     setLessons,
                     setLessonComplete,
                     selectedLessonId,
+                    useMyself,
                     testMode
                   })
-
-                  setCreatingLesson(false)
                 }}
               >
                 Create Lesson {testMode ? '(Test Mode)' : ''}
@@ -218,7 +211,7 @@ const RightPanel: React.FC = () => {
               <SelectorScenario custom={false} />
             </div>
             <div className="mt1 mb3">
-              <ParticipantToggle useMyself={useMyself} onClick={setUseMyself} />
+              <ParticipantToggle useMyself={useMyself} setUseMyself={setUseMyself} />
             </div>
           </div>
 

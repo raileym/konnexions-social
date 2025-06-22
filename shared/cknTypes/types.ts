@@ -29,8 +29,6 @@ export type AppContextType = {
   inputText: InputText
   isHelpOpen: IsHelpOpen
   isTransitioning: IsTransitioning
-  targetLanguage: Language
-  sourceLanguage: Language
   lesson: Lesson
   lessons: Lessons
   lineNumber: LineNumber
@@ -74,12 +72,14 @@ export type AppContextType = {
   setScenario: SetScenario
   setScenarioData: SetScenarioData
   setSelectedLessonId: SetLessonId
-  setTargetLanguage: SetTargetLanguage
   setSourceLanguage: SetSourceLanguage
+  setTargetLanguage: SetTargetLanguage
   setTtsAvgChars: SetTtsAvgChars
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
+  sourceLanguage: Language
+  targetLanguage: Language
   ttsAvgChars: TtsAvgChars
   ttsBudget: TtsBudget
   ttsCharUsage: TtsCharUsage
@@ -87,7 +87,6 @@ export type AppContextType = {
 }
 
 export type LessonComplete = boolean
-export type CreatingLesson = boolean
 
 export type LanguageValue = (typeof LANGUAGE)[keyof typeof LANGUAGE]
 export type LanguageKey = keyof typeof LANGUAGE
@@ -159,6 +158,7 @@ export type SetTtsAvgChars = React.Dispatch<React.SetStateAction<TtsAvgChars>>
 export type SetTtsBudget = React.Dispatch<React.SetStateAction<TtsBudget>>
 export type SetTtsCharUsage = React.Dispatch<React.SetStateAction<TtsCharUsage>>
 export type SetUseCloudTTS = React.Dispatch<React.SetStateAction<UseCloudTTS>>
+export type SetUseMyself = React.Dispatch<React.SetStateAction<UseMyself>>
 
 export type SwitchPanel = (newPanel: ActivePanel) => void
 
@@ -667,7 +667,6 @@ export type GetGenAIExampleOptions = {
 
 export type GetConstraintsProps = {
   language: Language
-  scenario: Scenario
 }
 
 export type GenerateExampleProps = {
@@ -698,6 +697,7 @@ export type GetVerbsReviewProps = {
 }
 
 export type GetScenarioDetailsProps = {
+  useMyself: UseMyself
   scenario: Scenario,
   language: Language
 }
@@ -851,6 +851,7 @@ export type HandleCreateLessonProps = {
   setLessonComplete: SetLessonComplete
   setLessons: SetLessons
   selectedLessonId: SelectedLessonId
+  useMyself: UseMyself
   testMode: TestMode
 }
 

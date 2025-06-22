@@ -6,7 +6,7 @@ import {
 import {
   MODULE_NAME
 } from '@cknTypes/constants'
-import { getScenarioDetails } from '@components/Util';
+import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails';
 import { resolveDialog } from '@PanelGenAIProComponents/resolveDialog/resolveDialog'
 import { runModule } from '@PanelGenAIProComponents/runModule/runModule';
 import { resolveNounsOnly } from '@PanelGenAIProComponents/resolveNounsOnly/resolveNounsOnly';
@@ -26,9 +26,10 @@ export const handleCreateLesson = async ({
   setLessons,
   setLessonComplete,
   selectedLessonId,
+  useMyself,
   testMode
 }: HandleCreateLessonProps) => {
-  const { participantList } = getScenarioDetails({ scenario, language: targetLanguage });
+  const { participantList } = getScenarioDetails({ useMyself, scenario, language: targetLanguage });
 
   setLessonComplete(false);
 
@@ -127,6 +128,7 @@ export const handleCreateLesson = async ({
 
 
 
+  console.log('dialogLessonUpdated_4translation', dialogLessonUpdated_4translation)
   //
   // Nouns Only
   //

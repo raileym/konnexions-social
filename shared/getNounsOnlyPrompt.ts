@@ -10,7 +10,7 @@ export const getNounsOnlyPrompt: GetNounsOnlyPrompt = ({lesson, errors}: GetNoun
   
   // console.log('dialogLines',dialogLines)
   return (`
-REQUEST: Extract a list of ${LANGUAGE_TITLE[lesson.targetLanguage]} nouns from the dialog below:
+REQUEST: Extractx a list of ${lesson.targetLanguage} ${LANGUAGE_TITLE[lesson.targetLanguage]} nouns from the dialog below:
 
 DIALOG: The following dialog is appropriate for a beginning language instruction. This dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between ${lesson.participantList}.
   
