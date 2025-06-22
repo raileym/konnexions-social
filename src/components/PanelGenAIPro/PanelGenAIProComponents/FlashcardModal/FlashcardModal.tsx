@@ -11,6 +11,7 @@ import {
 import { useTTS } from '../useTTS/useTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { GENDER } from '@cknTypes/constants'
+import type { DebugLog } from '@cknTypes/types'
 
 type FlashcardProps = {
   fronts: string[]
@@ -18,6 +19,7 @@ type FlashcardProps = {
   useCloudTTS: boolean
   buttonClassName?: string
   title?: string | ReactNode
+  debugLog: DebugLog
 }
 
 export function FlashcardModal({
@@ -25,7 +27,8 @@ export function FlashcardModal({
   backs,
   useCloudTTS,
   title = '',
-  buttonClassName = ''
+  buttonClassName = '',
+  debugLog
 }: FlashcardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
 
@@ -51,7 +54,8 @@ export function FlashcardModal({
     setMaxCount,
     cutoff,
     // store: storeAudioOrLine,
-    language: targetLanguage
+    language: targetLanguage,
+    debugLog
   })
 
   // const { speak, stop } = useTTS({

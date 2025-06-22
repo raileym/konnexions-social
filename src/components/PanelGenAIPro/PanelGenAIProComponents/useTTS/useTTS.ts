@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import type { Language, MaxCount, SetMaxCount } from '@cknTypes/types'
+import type { DebugLog, Language, MaxCount, SetMaxCount } from '@cknTypes/types'
 import { fetchTTS } from '@PanelGenAIProComponents/fetchTTS/fetchTTS'
 
 type SpeakArgs = {
@@ -17,6 +17,7 @@ type UseTTSOptions = {
   cutoff: boolean
   store?: (index: number, value: string) => void
   language: Language
+  debugLog: DebugLog
 }
 
 const LANG_TAG_MAP: Record<string, string> = {
@@ -32,7 +33,8 @@ export function useTTS({
   setMaxCount,
   cutoff,
   store,
-  language
+  language,
+  debugLog
 }: UseTTSOptions) {
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -63,7 +65,7 @@ export function useTTS({
       fetchingRef.current = true
 
       try {
-        const url = await fetchTTS({ speaker, language, text, gender, maxCount, setMaxCount, cutoff })
+        const url = await fetchTTS({ debugLog, speaker, language, text, gender, maxCount, setMaxCount, cutoff })
         if (url) {
           setAudioUrl(url)
           if (store) store(index, url)

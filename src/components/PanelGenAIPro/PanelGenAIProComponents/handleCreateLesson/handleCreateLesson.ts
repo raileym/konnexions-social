@@ -15,7 +15,9 @@ import { resolveNounsMissing } from '@PanelGenAIProComponents/resolveNounsMissin
 import { resolveVerbsMissing } from '@PanelGenAIProComponents/resolveVerbsMissing/resolveVerbsMissing';
 import { pushMissingToDB } from '@PanelGenAIProComponents/pushMissingToDB/pushMissingToDB';
 import { runTranslation } from '@PanelGenAIProComponents/runTranslation/runTranslation';
-import { generateVerbLists } from '../generateVerbLists/generateVerbLists';
+// import { generateVerbLists } from '../generateVerbLists/generateVerbLists';
+import { rebuildVerbLines } from '@PanelGenAIProComponents/rebuildVerbLines/rebuildVerbLines'
+import { rebuildNounLines } from '@PanelGenAIProComponents/rebuildNounLines/rebuildNounLines';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -42,34 +44,33 @@ export const handleCreateLesson = async ({
     participantList,
   };
 
-  //
+  // ***********************************************************************************
   // Dialog
+  // ***********************************************************************************
   //
   const dialogLesson_1 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.DIALOG, lesson: initialLesson_0})
   if (!dialogLesson_1) return
 
-  // cXonsole.log('dialogLesson_1', dialogLesson_1)
-  
-  //
+  // ***********************************************************************************
   // Dialog Review
+  // ***********************************************************************************
   //
   const dialogReviewLesson_2 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson_1})
   if (!dialogReviewLesson_2) return
 
-  // cXonsole.log('dialogReviewLesson', dialogReviewLesson_2)
-  
-  //
+  // ***********************************************************************************
   // Dialog Resolve
+  // ***********************************************************************************
   //
   const { dialogLinesResolved: dialogLinesResolved_3 } = resolveDialog({
     dialogReviewLines: dialogReviewLesson_2.dialog.lines, 
     dialogLines: dialogLesson_1.dialog.lines
   })
 
-  // cXonsole.log('dialogLesson_1.dialog.lines', dialogLesson_1.dialog.lines)
-  // cXonsole.log('dialogReviewLesson_2.dialog.lines', dialogReviewLesson_2.dialog.lines)
-  // cXonsole.log('dialogLinesResolved_3', dialogLinesResolved_3)
-  
+  // ***********************************************************************************
+  // Dialog Restatement
+  // ***********************************************************************************
+  //
   const prose = dialogLinesResolved_3?.join(' ') ?? ''
   const dialogLessonUpdated_4 = {
     ...dialogReviewLesson_2,
@@ -81,9 +82,10 @@ export const handleCreateLesson = async ({
   }
 
 
-
-
-
+  // ***********************************************************************************
+  // Dialog Translate To English
+  // ***********************************************************************************
+  //
   const originalLines = dialogLessonUpdated_4?.dialog?.lines ?? []
 
   // Step 1: Separate speaker and dialog fields
@@ -117,40 +119,35 @@ export const handleCreateLesson = async ({
     }
   }
 
-  
-  // const dialogLinesOnly = dialogLessonUpdated_4.dialog.lines.map((line: string) => {
-  //   const parts = line.split('|')
-  //   return parts[2] // the third field: actual dialog text
-  // })
-
-  // cXonsole.log(dialogLinesOnly)
-
-
-
-
-
   debugLog('dialogLessonUpdated_4translation', dialogLessonUpdated_4translation)
 
-  //
-  // Nouns Only
+  // ***********************************************************************************
+  // Nouns Only ... Just list the nouns, ma'am
+  // ***********************************************************************************
   //
   const nounsOnlyLesson_a5 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_ONLY, lesson: dialogLessonUpdated_4translation})
   if (!nounsOnlyLesson_a5) return
 
-  //
+  // ***********************************************************************************
   // Nouns Only Review
+  // ***********************************************************************************
   //
   const nounsOnlyReviewLesson_a6 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, lesson: nounsOnlyLesson_a5})
   if (!nounsOnlyReviewLesson_a6) return
 
-  //
+  // ***********************************************************************************
   // Nouns Only Resolve
+  // ***********************************************************************************
   //
   const { nounsOnlyLinesResolved: nounsOnlyLinesResolved_a7 } = resolveNounsOnly({
     nounsOnlyReviewLines: nounsOnlyReviewLesson_a6.nounsOnlyReview.lines, 
     nounsOnlyLines: nounsOnlyLesson_a5.nounsOnly.lines
   })
 
+  // ***********************************************************************************
+  // Nouns Only Restatement
+  // ***********************************************************************************
+  //
   const nounsOnlyLessonUpdated_a8 = {
     ...nounsOnlyReviewLesson_a6,
     [MODULE_NAME.NOUNS_ONLY]: {
@@ -160,8 +157,10 @@ export const handleCreateLesson = async ({
   }
 
 
-
-
+  // ***********************************************************************************
+  // Nouns Only -- Distinguish nouns in scenarioData from those missing
+  // ***********************************************************************************
+  //
   const extractedNouns = nounsOnlyLessonUpdated_a8.nounsOnly.lines.map(n => n.trim().toLowerCase())
 
   const allowedNounForms = new Set<string>()
@@ -180,6 +179,10 @@ export const handleCreateLesson = async ({
     }
   }
 
+  // ***********************************************************************************
+  // Nouns Missing -- Fill in the details
+  // ***********************************************************************************
+  //
   let nounsMissingLesson_b5: Lesson | null
 
   if (unmatchedNouns.length === 0) {
@@ -189,20 +192,26 @@ export const handleCreateLesson = async ({
     }
   if (!nounsMissingLesson_b5) return
 
-  //
-  // Nouns Missing Review
+  // ***********************************************************************************
+  // Nouns Missing Review - Check the details
+  // ***********************************************************************************
   //
   const nounsMissingReviewLesson_b6 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, lesson: nounsMissingLesson_b5})
   if (!nounsMissingReviewLesson_b6) return
 
-  //
-  // Nouns Missing Resolve
+  // ***********************************************************************************
+  // Nouns Missing Resolve - Resolve the details
+  // ***********************************************************************************
   //
   const { nounsMissingLinesResolved: nounsMissingLinesResolved_b7 } = resolveNounsMissing({
     nounsMissingReviewLines: nounsMissingReviewLesson_b6.nounsMissingReview.lines, 
     nounsMissingLines: nounsMissingLesson_b5.nounsMissing.lines
   })
 
+  // ***********************************************************************************
+  // Nouns Missing Restartement - Restatement now with the details for missing nouns
+  // ***********************************************************************************
+  //
   const nounsMissingLessonUpdated_b8 = {
     ...nounsMissingReviewLesson_b6,
     [MODULE_NAME.NOUNS_MISSING]: {
@@ -240,23 +249,33 @@ export const handleCreateLesson = async ({
   //   }
   // }
 
-  //
-  // Verbs
+  // ***********************************************************************************
+  // Verbs Only ... Just list the verbs, ma'am
+  // ***********************************************************************************
   //
   const verbsOnlyLesson_9 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_ONLY, lesson: nounsMissingLessonUpdated_b8})
   if (!verbsOnlyLesson_9) return
 
-  //
-  // Verbs Review
+  // ***********************************************************************************
+  // Verbs Only Review
+  // ***********************************************************************************
   //
   const verbsOnlyReviewLesson_10 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_ONLY_REVIEW, lesson: verbsOnlyLesson_9})
   if (!verbsOnlyReviewLesson_10) return
 
+  // ***********************************************************************************
+  // Verbs Only Resolve
+  // ***********************************************************************************
+  //
   const { verbsOnlyLinesResolved: verbsOnlyLinesResolved_11 } = resolveVerbsOnly({
     verbsOnlyReviewLines: verbsOnlyReviewLesson_10.verbsOnlyReview.lines, 
     verbsOnlyLines: verbsOnlyLesson_9.verbsOnly.lines
   })
 
+  // ***********************************************************************************
+  // Verbs Only Restatement
+  // ***********************************************************************************
+  //
   const verbsOnlyLessonUpdated_12 = {
     ...verbsOnlyReviewLesson_10,
     [MODULE_NAME.VERBS_ONLY]: {
@@ -268,7 +287,10 @@ export const handleCreateLesson = async ({
 
 
 
-
+  // ***********************************************************************************
+  // Verbs Only -- Distinguish verbs in scenarioData from those missing
+  // ***********************************************************************************
+  //
   const extractedVerbs = verbsOnlyLessonUpdated_12.verbsOnly.lines.map(n => n.trim().toLowerCase())
 
   const allowedVerbForms = new Set<string>()
@@ -292,6 +314,10 @@ export const handleCreateLesson = async ({
     }
   }
 
+  // ***********************************************************************************
+  // Verbs Missing -- Fill in the details
+  // ***********************************************************************************
+  //
   let verbsMissingLesson_b13: Lesson | null
 
   if (unmatchedVerbs.length === 0) {
@@ -301,20 +327,26 @@ export const handleCreateLesson = async ({
     }
   if (!verbsMissingLesson_b13) return
 
-  //
-  // Verbs Missing Review
+  // ***********************************************************************************
+  // Verbs Missing Review - Check the details
+  // ***********************************************************************************
   //
   const verbsMissingReviewLesson_b14 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_MISSING_REVIEW, lesson: verbsMissingLesson_b13})
   if (!verbsMissingReviewLesson_b14) return
 
-  //
-  // Verbs Missing Resolve
+  // ***********************************************************************************
+  // Verbs Missing Resolve - Resolve the details
+  // ***********************************************************************************
   //
   const { verbsMissingLinesResolved: verbsMissingLinesResolved_b15 } = resolveVerbsMissing({
     verbsMissingReviewLines: verbsMissingReviewLesson_b14?.verbsMissingReview?.lines ?? [], 
     verbsMissingLines: verbsMissingLesson_b13?.verbsMissing?.lines ?? []
   })
 
+  // ***********************************************************************************
+  // Verbs Missing Restartement - Restatement now with the details for missing nouns
+  // ***********************************************************************************
+  //
   const verbsMissingLessonUpdated_b16 = {
     ...verbsMissingReviewLesson_b14,
     [MODULE_NAME.VERBS_MISSING]: {
@@ -324,6 +356,10 @@ export const handleCreateLesson = async ({
   }
 
 
+  // ***********************************************************************************
+  // Push Missing Verbs and Nouns to the database
+  // ***********************************************************************************
+  //
   try {
     await pushMissingToDB(verbsMissingLessonUpdated_b16)
     debugLog('✅ Successfully inserted missing nouns and verbs into the database.')
@@ -332,48 +368,91 @@ export const handleCreateLesson = async ({
   }
 
 
+  // ***********************************************************************************
+  // Repackage Verbs Only, Verbs Missing, and the database
+  // ***********************************************************************************
+  //
+  const mergedVerbLines = rebuildVerbLines({
+    verbsOnly: verbsMissingLessonUpdated_b16.verbsOnly.lines,
+    verbsMissing: verbsMissingLessonUpdated_b16.verbsMissing.lines,
+    verbByInfinitive: scenarioData.verbByInfinitive
+  })
+  
+  // ***********************************************************************************
+  // Add repackaged verbs back into the fold of the lesson
+  // ***********************************************************************************
+  //
+  const verbsMissingLessonUpdated_c16 = {
+    ...verbsMissingLessonUpdated_b16,
+    [MODULE_NAME.VERBS]: {
+      ...(verbsMissingLessonUpdated_b16[MODULE_NAME.VERBS as keyof Lesson] as Module),
+      lines: mergedVerbLines
+    }
+  }
 
+  // ***********************************************************************************
+  // Repackage Nouns Only, Nouns Missing, and the database
+  // ***********************************************************************************
+  //
+  const mergedNounLines = rebuildNounLines({
+    nounsOnly: verbsMissingLessonUpdated_c16.nounsOnly.lines,
+    nounsMissing: verbsMissingLessonUpdated_c16.nounsMissing.lines,
+    nounBySingular: scenarioData.nounBySingular
+  })
+  
+  // ***********************************************************************************
+  // Add repackaged venounsrbs back into the fold of the lesson
+  // ***********************************************************************************
+  //
+  const nounsMissingLessonUpdated_c16 = {
+    ...verbsMissingLessonUpdated_c16,
+    [MODULE_NAME.NOUNS]: {
+      ...(verbsMissingLessonUpdated_c16[MODULE_NAME.NOUNS as keyof Lesson] as Module),
+      lines: mergedNounLines
+    }
+  }
 
+  
   //
   // Verbs Expanded and Verbs Expanded In-Complete (Sentences)
   //
   // const verbsLists_13 = generateVerbLists(verbsLessonUpdated_12)
-  const verbsLists_13 = generateVerbLists(verbsMissingLessonUpdated_b16)
+  // const verbsLists_13 = generateVerbLists(verbsMissingLessonUpdated_c16)
   
-  const verbsExpandedLesson_15 = {
-    ...verbsMissingLessonUpdated_b16,
+  // const verbsExpandedLesson_15 = {
+  //   ...verbsMissingLessonUpdated_c16,
 
-    [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: {
-      ...(verbsMissingLessonUpdated_b16[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
-      lines: verbsLists_13.incomplete
-    }
-  }
+  //   [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: {
+  //     ...(verbsMissingLessonUpdated_c16[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
+  //     lines: verbsLists_13.incomplete
+  //   }
+  // }
 
-  const verbsExpandedCompleteLesson_16 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson_15})
-  if (!verbsExpandedCompleteLesson_16) return
+  // const verbsExpandedCompleteLesson_16 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson_15})
+  // if (!verbsExpandedCompleteLesson_16) return
 
   //
   // Verbs Expanded Triple
   //
-  const verbsLists_17 = generateVerbLists(verbsExpandedCompleteLesson_16)
+  // const verbsLists_17 = generateVerbLists(verbsExpandedCompleteLesson_16)
 
-  const verbsExpandedTripleLesson_18 = {
-    ...verbsExpandedCompleteLesson_16,
+  // const verbsExpandedTripleLesson_18 = {
+  //   ...verbsExpandedCompleteLesson_16,
 
-    [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: {
-      ...(verbsExpandedCompleteLesson_16[MODULE_NAME.VERBS_EXPANDED_TRIPLE as keyof Lesson] as Module),
-      lines: verbsLists_17.triple
-    }
-  }
+  //   [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: {
+  //     ...(verbsExpandedCompleteLesson_16[MODULE_NAME.VERBS_EXPANDED_TRIPLE as keyof Lesson] as Module),
+  //     lines: verbsLists_17.triple
+  //   }
+  // }
 
 
   setLessons((prev) => {
     debugLog('🔄 Updating lesson list...');
-    debugLog('▶️ verbsExpandedTripleLesson_18:', verbsExpandedTripleLesson_18);
+    debugLog('▶️ nounsMissingLessonUpdated_c16:', nounsMissingLessonUpdated_c16);
     const next = prev.map((lsn) => {
       if (lsn.id === selectedLessonId) {
         debugLog(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...verbsExpandedTripleLesson_18, id: lsn.id, name: lsn.name };
+        const updated = { ...nounsMissingLessonUpdated_c16, id: lsn.id, name: lsn.name };
         debugLog('🆕 Updated lesson:', updated);
         return updated;
       }

@@ -41,6 +41,7 @@ import {
   defaultLesson,
   defaultMaxCount,
   defaultScenarioData,
+  defaultDebugMode,
 } from '@cknTypes/types'
 import {
   APP_HOME,
@@ -111,7 +112,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       typeof l.name === 'string'
     )
   )  
-  const [debugMode, setDebugMode] = useState<DebugMode>(false)
+  const [debugMode, setDebugMode] = usePersistentState<DebugMode>('debugMode', defaultDebugMode)
   const [lineNumber, setLineNumber] = useState<LineNumber>(0)
   const [activeHome, setActiveHome] = useState<ActiveHome>(APP_HOME.GEN_AI_PRO)
   const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)

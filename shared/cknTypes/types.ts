@@ -822,15 +822,21 @@ export type VerbDetails = {
   curated: Curated
 }
 
+export type VerbByInfinitive = Map<string, VerbDetails>
+export type NounBySingular = Map<string, NounDetails>
+export type NounByPlural = Map<string, NounDetails>
+
 export type ScenarioData = {
   nounsChooseN: NounDetails[]
   nouns: NounDetails[]
   verbs: VerbDetails[]
-  nounBySingular: Map<string, NounDetails>
-  nounByPlural: Map<string, NounDetails>
-  singularNounList: string[]
-  verbByInfinitive: Map<string, VerbDetails>
+  nounBySingular: NounBySingular
+  nounByPlural: NounByPlural
+  singularNounList: Lines
+  verbByInfinitive: VerbByInfinitive
 }
+
+export const defaultDebugMode = false
 
 export const defaultScenarioData: ScenarioData = {
   nounsChooseN: [],
@@ -874,3 +880,26 @@ export type VoicePool = Record<Language, Record<Gender, Voices>>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type DebugLog = (...args: any[]) => void
+
+export type RebuildNounLinesProps = {
+  nounsOnly: Lines
+  nounsMissing: Lines
+  nounBySingular: NounBySingular
+}
+
+export type RebuildVerbLinesProps = {
+  verbsOnly: Lines
+  verbsMissing: Lines
+  verbByInfinitive: VerbByInfinitive
+}
+
+export type DialogLineProps = {
+  debugLog: DebugLog
+  line: string
+  index: number
+  useCloudTTS: boolean
+  storeAudioOrLine: (index: number, value: string) => void
+  className?: string
+  language: Language
+}
+

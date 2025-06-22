@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import SelectorScenario from '../../../SelectorScenario'
+import SelectorScenario from '@components/SelectorScenario'
 import { getPrompt } from '@shared/getPrompt'
-import ParticipantToggle from '../../../ParticipantToggle'
+import ParticipantToggle from '@components/ParticipantToggle'
 // import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '@cknTypes/types'
 import {
   type LessonComplete,
@@ -26,18 +26,20 @@ import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDe
 // import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
 import { DialogList } from '../DialogList/DialogList'
 // import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
-import { FlashcardModal } from '../FlashcardModal/FlashcardModal'
+import { FlashcardModal } from '@PanelGenAIProComponents/FlashcardModal/FlashcardModal'
 // import { DebugVerbLists } from '../DebugVerbLists/DebugVerbLists'
-import { generateVerbLists } from '../generateVerbLists/generateVerbLists'
+import { generateVerbLists } from '@PanelGenAIProComponents/generateVerbLists/generateVerbLists'
 // import CutoffToggle from '../../../CutoffToggle'
 // import ShowMaxCount from '../../../ShowMaxCount'
 import SelectorLanguage from '../../../SelectorLanguage'
 import { handleCreateLesson } from '@PanelGenAIProComponents/handleCreateLesson/handleCreateLesson'
-import PromptToggle from '../PromptToggle/PromptToggle'
+import PromptToggle from '@PanelGenAIProComponents/PromptToggle/PromptToggle'
 import Hr from '@components/Hr'
-import LessonElementToggle from '../LessonElementToggle/LessonElementToggle'
+import LessonElementToggle from '@PanelGenAIProComponents/LessonElementToggle/LessonElementToggle'
 import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus'
 import { useDebugLogger } from '@hooks/useDebugLogger'
+import { rebuildVerbLines } from '@PanelGenAIProComponents/rebuildVerbLines/rebuildVerbLines'
+import { rebuildNounLines } from '@PanelGenAIProComponents/rebuildNounLines/rebuildNounLines'
 // import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
@@ -128,18 +130,27 @@ const RightPanel: React.FC = () => {
       
       // cXonsole.log('lesson', JSON.stringify(lesson, null, 2))
 
-      const verbListsNoIndex = generateVerbLists(lesson, true)
+      // const verbListsNoIndex = generateVerbLists(lesson, true)
 
 
       debugLog('lesson', lesson)
-      debugLog('verbListsNoIndex', verbListsNoIndex)
+      // debugLog('verbListsNoIndex', verbListsNoIndex)
 
+      // const mergedVerbLines = rebuildVerbLines({
+      //   verbsOnly: lesson.verbsOnly.lines,
+      //   verbsMissing: lesson.verbsMissing.lines,
+      //   verbByInfinitive: scenarioData.verbByInfinitive
+      // })
 
+      // const mergedNounLines = rebuildNounLines({
+      //   nounsOnly: lesson.nounsOnly.lines,
+      //   nounsMissing: lesson.nounsMissing.lines,
+      //   nounBySingular: scenarioData.nounBySingular
+      // })
 
+      // console.log('mergedVerbLines', mergedVerbLines)
+      // console.log('mergedNounLines', mergedNounLines)
 
-
-
-  
       // const extractedNouns = lesson.nounsOnly.lines.map(n => n.trim().toLowerCase())
 
       // const allowedForms = new Set<string>()
@@ -458,6 +469,7 @@ const RightPanel: React.FC = () => {
             </div>
           )}
 
+          {/*
           { verbListsNoIndex && 
             Array.isArray(verbListsNoIndex[VERB_FORMATS.CONJUGATION]) && verbListsNoIndex[VERB_FORMATS.CONJUGATION].length > 0 &&
             Array.isArray(verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION]) && verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION].length > 0 &&
@@ -470,6 +482,7 @@ const RightPanel: React.FC = () => {
                   useCloudTTS={true}
                   buttonClassName="mr2"
                   title=<div>Open Flashcard</div>
+                  debugLog={debugLog}
                 />
                 <FlashcardModal
                   fronts={verbListsNoIndex[VERB_FORMATS.INCOMPLETE]}
@@ -477,10 +490,12 @@ const RightPanel: React.FC = () => {
                   useCloudTTS={true}
                   buttonClassName="mh2"
                   title=<div>Open Flashcard</div>
+                  debugLog={debugLog}
                 />
               </div>
             )
           }
+          */}
 
           {/* <DebugVerbLists lesson={lesson} /> */}
 
