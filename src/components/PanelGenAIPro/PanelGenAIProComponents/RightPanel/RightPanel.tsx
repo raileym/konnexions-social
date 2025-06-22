@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '../../../SelectorScenario'
@@ -18,8 +17,8 @@ import {
   MODULE_NAME,
   LANGUAGE_TITLE
 } from '@cknTypes/constants'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails'
 // import handleModule from '../handleModule/handleModule'
 // import { resolveDialog } from '../resolveDialog/resolveDialog'
@@ -38,12 +37,13 @@ import PromptToggle from '../PromptToggle/PromptToggle'
 import Hr from '@components/Hr'
 import LessonElementToggle from '../LessonElementToggle/LessonElementToggle'
 import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus'
+import { useDebugLogger } from '@hooks/useDebugLogger'
 // import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPanel: React.FC = () => {
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
-  const [testMode, setTestMode] = useState<TestMode>(false)
+  const [testMode,] = useState<TestMode>(false)
   // const [showDialogPrompt, setShowDialogPrompt] = useState(false)
   const [useMyself, setUseMyself] = useState<UseMyself>(true)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
@@ -51,6 +51,8 @@ const RightPanel: React.FC = () => {
   const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)
   const [showNounsReviewPrompt, setShowNounsReviewPrompt] = useState(false)
   const [showVerbsReviewPrompt, setShowVerbsReviewPrompt] = useState(false)
+
+  const debugLog = useDebugLogger()
 
   // const toggleShowDialogPrompt = () => {
   //   setShowDialogPrompt(prev => !prev)
@@ -84,7 +86,9 @@ const RightPanel: React.FC = () => {
     cutoff,
     scenarioData,
     targetLanguage,
-    sourceLanguage
+    sourceLanguage,
+    debugMode,
+    setDebugMode
   } = useAppContext()
   
 // export type ScenarioData = {
@@ -97,7 +101,7 @@ const RightPanel: React.FC = () => {
 //   verbByInfinitive: Map<string, VerbDetails>
 // }
 
-  // console.log(JSON.stringify(scenarioData.nouns), null, 2)
+  // cXonsole.log(JSON.stringify(scenarioData.nouns), null, 2)
 
   // const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[language]}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or in a taxi.</div>
   const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[targetLanguage]}</b> {scenarioDescriptions[scenario]}</div>
@@ -109,24 +113,26 @@ const RightPanel: React.FC = () => {
       scenario,
       targetLanguage,
       sourceLanguage,
-      participantList: getScenarioDetails({ scenario, language: targetLanguage }).participantList
+      participantList: getScenarioDetails({ useMyself, scenario, language: targetLanguage }).participantList
   }
   
+  const alwaysFalse = false
+
   let content
   if (selectedLessonId != null && Array.isArray(lessons)) {
     if (!lesson) {
       content = <p>Lesson not found.</p>
     } else {
-      // console.log('lesson', lesson)
-      // console.log('prompt', prompt)
+      // cXonsole.log('lesson', lesson)
+      // cXonsole.log('prompt', prompt)
       
-      // console.log('lesson', JSON.stringify(lesson, null, 2))
+      // cXonsole.log('lesson', JSON.stringify(lesson, null, 2))
 
       const verbListsNoIndex = generateVerbLists(lesson, true)
 
 
-      console.log('lesson', lesson)
-      console.log('verbListsNoIndex', verbListsNoIndex)
+      debugLog('lesson', lesson)
+      debugLog('verbListsNoIndex', verbListsNoIndex)
 
 
 
@@ -144,7 +150,7 @@ const RightPanel: React.FC = () => {
 
       // const unmatchedNouns = extractedNouns.filter(n => !allowedForms.has(n))
 
-      // console.log('🚫 Nouns in lesson but not in scenarioData:', unmatchedNouns)
+      // cXonsole.log('🚫 Nouns in lesson but not in scenarioData:', unmatchedNouns)
 
       // const extractedVerbs = lesson.verbsOnly.lines.map(v => v.trim().toLowerCase())
 
@@ -155,14 +161,38 @@ const RightPanel: React.FC = () => {
 
       // const unmatchedVerbs = extractedVerbs.filter(v => !allowedVerbs.has(v))
 
-      // console.log('🚫 Verbs in lesson but not in scenarioData:', unmatchedVerbs)
+      // cXonsole.log('🚫 Verbs in lesson but not in scenarioData:', unmatchedVerbs)
 
 
 
 
       content = (
         <>
-          <h2 className="f2 pa3 pb0 mt5 w-100 tc">{LANGUAGE_TITLE[targetLanguage]}: Premium</h2>
+          <div className="mv3X flex baX justify-center">
+            <button
+              onClick={() => setDebugMode(prev => !prev)}
+              className={`w-30 pa3 br2 bn ${debugMode ? 'bg-brand' : 'bg-black'} white pointer`}
+            >
+              <div className="flex items-center" >
+                <div className="ph1 bg-redX"><FontAwesomeIcon icon={debugMode ? faLock : faLockOpen} /></div>
+                <div className="ml2">{debugMode ? 'Disable' : 'Enable'} Debug Mode</div>
+              </div>
+            </button>
+          </div>
+         
+          {/* <div className="mv3X flex baX justify-center">
+            <button
+              onClick={() => setTestMode(prev => !prev)}
+              className={`w-30 pa3 br2 bn ${testMode ? 'bg-brand' : 'bg-black'} white pointer`}
+            >
+              <div className="flex items-center" >
+                <div className="ph1 bg-redX"><FontAwesomeIcon icon={testMode ? faLock : faLockOpen} /></div>
+                <div className="ml2">{testMode ? 'Disable' : 'Enable'} Test Mode</div>
+              </div>
+            </button>
+          </div> */}
+         
+          <h2 className="f2 pa3 pb0 mt4 w-100 tc">{LANGUAGE_TITLE[targetLanguage]}: Premium</h2>
           <div className="w-100 flex justify-center pt3 pb4">
             <div className="f3 pv3 pt0 mt0 w-80">{headline}</div>
           </div>
@@ -170,7 +200,7 @@ const RightPanel: React.FC = () => {
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
-                className={`f3 pa3 br4 bn ${testMode ? 'bg-black white' : 'bg-brand white'} pointer`}
+                className={`f3 pa3 br4 bn ${debugMode ? 'bg-black white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   handleCreateLesson({
                     scenarioData,
@@ -182,11 +212,12 @@ const RightPanel: React.FC = () => {
                     setLessonComplete,
                     selectedLessonId,
                     useMyself,
-                    testMode
+                    testMode,
+                    debugLog
                   })
                 }}
               >
-                Create Lesson {testMode ? '(Test Mode)' : ''}
+                Create Lesson {debugMode ? '(Debug Mode)' : ''}
               </button>
             </div>
           </div>
@@ -223,59 +254,111 @@ const RightPanel: React.FC = () => {
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
 
-          <div className="flex flex-column items-center w-100">
-            <div className={`f3 mt3 mb1 ${lessonComplete ? 'o-100' : 'o-20'}`}>
-              Lesson Complete
-            </div>
-          </div>
+          {
+            debugMode && (
+              <>
+                <PromptToggle className='bg-yellow black' title={'Proposed Dialog Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Dialog Prompt'} prompt={lesson.dialog.prompt} />
 
-          {/* 
-          <div className="mv3">
-            <button
-              onClick={() => setTestMode(prev => !prev)}
-              className={`w-30 pa3 br2 bn ${testMode ? 'bg-brand' : 'bg-black'} white pointer`}
-            >
-              <div className="flex items-center" >
-                <div className="ph1 bg-redX"><FontAwesomeIcon icon={testMode ? faLock : faLockOpen} /></div>
-                <div className="ml2">{testMode ? 'Disable' : 'Enable'} Test Mode</div>
-              </div>
-            </button>
-          </div>
-          */}
+                <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Dialog Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Dialog Prompt'} prompt={lesson.dialog.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Nouns Only Prompt'} prompt={lesson.nounsOnly.prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Nouns Only Review Prompt'} prompt={lesson.nounsOnlyReview.prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Nouns Only Prompt'} prompt={lesson.nounsOnly.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Verbs Only Prompt'} prompt={lesson.verbsOnly.prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Nouns Only Review Prompt'} prompt={lesson.nounsOnlyReview.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Verbs Review Prompt'} prompt={lesson.verbsOnlyReview.prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Verbs Only Prompt'} prompt={lesson.verbsOnly.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Missing Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_MISSING, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Nouns Missing Prompt'} prompt={lesson?.nounsMissing.prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Verbs Review Prompt'} prompt={lesson.verbsOnlyReview.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Missing Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Nouns Missing Review Prompt'} prompt={lesson?.nounsMissingReview?.prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Nouns Missing Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_MISSING, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Nouns Missing Prompt'} prompt={lesson?.nounsMissing.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Missing Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_MISSING, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Verbs Missing Prompt'} prompt={lesson?.verbsMissing?.prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Nouns Missing Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Nouns Missing Review Prompt'} prompt={lesson?.nounsMissingReview?.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Missing Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_MISSING_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Verbs Missing Review Prompt'} prompt={lesson?.verbsMissingReview?.prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Verbs Missing Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_MISSING, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Verbs Missing Prompt'} prompt={lesson?.verbsMissing?.prompt} />
+                <div className="mt4 b">NounsConstraint ({scenarioData?.nouns?.length ?? 0})</div>
+                <ul className="mt0 pt0 black">
+                  {scenarioData?.nouns
+                    ?.slice()
+                    .sort((a, b) => a.noun_base.localeCompare(b.noun_base))
+                    .map((noun, index) => (
+                      <li key={index} className={`${noun.curated ? 'black' : 'red'}`}>
+                        {noun.noun_base}: {noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}
+                      </li>
+                    ))}
+                </ul>
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Verbs Missing Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_MISSING_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Verbs Missing Review Prompt'} prompt={lesson?.verbsMissingReview?.prompt} />
+                <div className="mt4 b">VerbsConstraint  ({scenarioData?.verbs?.length ?? 0})</div>
+                <ul className="mt0 pt0 black">
+                  {scenarioData?.verbs
+                    ?.slice()
+                    .sort((a, b) => a.verb_infinitive.localeCompare(b.verb_infinitive))
+                    .map((verb, index) => (
+                      <li key={index} className={`${verb.curated ? 'black' : 'red'}`}>
+                        {verb.verb_base}|{verb.verb_infinitive}|{verb.verb_nosotros}
+                      </li>
+                    ))}
+                </ul>
+
+                <div className="mt4 b">NounsOnly</div>
+                <ul className="mt0 pt0 black">
+                  {lesson.nounsOnly?.lines
+                    ?.slice()
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                </ul>
+
+                <div className="mt4 b">VerbsOnly</div>
+                <ul className="mt0 pt0 black">
+                  {lesson.verbsOnly?.lines
+                    ?.slice()
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                </ul>
+
+                <div className="mt4 b">NounsMissing</div>
+                <ul className="mt0 pt0 black">
+                  {lesson.nounsMissing?.lines
+                    ?.slice()
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                </ul>
+
+                <div className="mt4 b">VerbsMissing</div>
+                <ul className="mt0 pt0 black">
+                  {lesson.verbsMissing?.lines
+                    ?.slice()
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                </ul>
+
+                <Hr />
+              </>
+            )
+          }
 
           <LessonElementToggle title={'Nouns'} content={lesson.nouns.lines} testMode={testMode} />
 
-          { testMode && (
+          { testMode && alwaysFalse && (
             <div className="w-100">
               <button
                 onClick={toggleShowNounsPrompt}
@@ -286,7 +369,7 @@ const RightPanel: React.FC = () => {
             </div>
           )}
 
-          {testMode && showNounsPrompt && (
+          {testMode && alwaysFalse && showNounsPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Prompt</div>
@@ -295,7 +378,7 @@ const RightPanel: React.FC = () => {
             </div>
           )}
           
-          { testMode && (
+          { testMode && alwaysFalse && (
             <div className="w-100">
               <button
                 onClick={toggleShowVerbsPrompt}
@@ -306,7 +389,7 @@ const RightPanel: React.FC = () => {
             </div>
           )}
 
-          {testMode && showVerbsPrompt && (
+          {testMode && alwaysFalse && showVerbsPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Prompt</div>
@@ -315,7 +398,7 @@ const RightPanel: React.FC = () => {
             </div>
           )}
           
-          { testMode && (
+          { testMode && alwaysFalse && (
             <div className="w-100">
               <button
                 onClick={toggleShowDialogReviewPrompt}
@@ -326,7 +409,7 @@ const RightPanel: React.FC = () => {
             </div>
           )}
 
-          {testMode && showDialogReviewPrompt && (
+          {testMode && alwaysFalse && showDialogReviewPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Review Prompt</div>
@@ -335,7 +418,7 @@ const RightPanel: React.FC = () => {
             </div>
           )}
 
-          { testMode && (
+          { testMode && alwaysFalse && (
             <div className="w-100">
               <button
                 onClick={toggleShowNounsReviewPrompt}
@@ -346,7 +429,7 @@ const RightPanel: React.FC = () => {
             </div>
           )}
 
-          {testMode && showNounsReviewPrompt && (
+          {testMode && alwaysFalse && showNounsReviewPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Review Prompt</div>
@@ -355,7 +438,7 @@ const RightPanel: React.FC = () => {
             </div>
           )}
 
-          { testMode && (
+          { testMode && alwaysFalse && (
             <div className="w-100">
               <button
                 onClick={toggleShowVerbsReviewPrompt}
@@ -366,7 +449,7 @@ const RightPanel: React.FC = () => {
             </div>
           )}
 
-          {testMode && showVerbsReviewPrompt && (
+          {testMode && alwaysFalse && showVerbsReviewPrompt && (
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Review Prompt</div>
@@ -375,8 +458,6 @@ const RightPanel: React.FC = () => {
             </div>
           )}
 
-          <Hr />
-          
           { verbListsNoIndex && 
             Array.isArray(verbListsNoIndex[VERB_FORMATS.CONJUGATION]) && verbListsNoIndex[VERB_FORMATS.CONJUGATION].length > 0 &&
             Array.isArray(verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION]) && verbListsNoIndex[VERB_FORMATS.PRONOUN_AND_CONJUGATION].length > 0 &&
@@ -406,75 +487,6 @@ const RightPanel: React.FC = () => {
           {/* <DialogList lines={(lesson?.dialog?.lines ?? []).slice(0, 3)} useCloudTTS={true} /> */}
           {/* <DialogList lines={lesson?.dialog?.lines ?? []} useCloudTTS={true} /> */}
           
-
-          
-          <div className="mt4 b">NounsConstraint ({scenarioData?.nouns?.length ?? 0})</div>
-          <ul className="mt0 pt0 black">
-            {scenarioData?.nouns
-              ?.slice()
-              .sort((a, b) => a.noun_base.localeCompare(b.noun_base))
-              .map((noun, index) => (
-                <li key={index} className={`${noun.curated ? 'black' : 'red'}`}>
-                  {noun.noun_base}: {noun.noun_gender}|{noun.noun_singular}|{noun.noun_plural}
-                </li>
-              ))}
-          </ul>
-
-          <div className="mt4 b">VerbsConstraint  ({scenarioData?.verbs?.length ?? 0})</div>
-          <ul className="mt0 pt0 black">
-            {scenarioData?.verbs
-              ?.slice()
-              .sort((a, b) => a.verb_infinitive.localeCompare(b.verb_infinitive))
-              .map((verb, index) => (
-                <li key={index} className={`${verb.curated ? 'black' : 'red'}`}>
-                  {verb.verb_base}|{verb.verb_infinitive}|{verb.verb_nosotros}
-                </li>
-              ))}
-          </ul>
-
-
-
-          <div className="mt4 b">NounsOnly</div>
-          <ul className="mt0 pt0 black">
-            {lesson.nounsOnly?.lines
-              ?.slice()
-              .sort((a, b) => a.localeCompare(b))
-              .map((line, index) => (
-                <li key={index}>{line}</li>
-              ))}
-          </ul>
-
-          <div className="mt4 b">VerbsOnly</div>
-          <ul className="mt0 pt0 black">
-            {lesson.verbsOnly?.lines
-              ?.slice()
-              .sort((a, b) => a.localeCompare(b))
-              .map((line, index) => (
-                <li key={index}>{line}</li>
-              ))}
-          </ul>
-
-        
-          <div className="mt4 b">NounsMissing</div>
-          <ul className="mt0 pt0 black">
-            {lesson.nounsMissing?.lines
-              ?.slice()
-              .sort((a, b) => a.localeCompare(b))
-              .map((line, index) => (
-                <li key={index}>{line}</li>
-              ))}
-          </ul>
-
-          <div className="mt4 b">VerbsMissing</div>
-          <ul className="mt0 pt0 black">
-            {lesson.verbsMissing?.lines
-              ?.slice()
-              .sort((a, b) => a.localeCompare(b))
-              .map((line, index) => (
-                <li key={index}>{line}</li>
-              ))}
-          </ul>
-
           {/* 
           <div className="mt4 b">Nouns</div>
           <ul className="mt0 pt0 black">
@@ -491,6 +503,7 @@ const RightPanel: React.FC = () => {
           </ul>
           */}
 
+          {/*
           <h2>{lesson.name}</h2>
           <p>{lesson.description}</p>
 
@@ -498,7 +511,8 @@ const RightPanel: React.FC = () => {
             {lesson.dialog?.lines?.map((line, index) => (
               <li key={index}>{line}</li>
             ))}
-          </ul>          
+          </ul>
+          */}
         </>
       )
     }
@@ -512,11 +526,12 @@ const RightPanel: React.FC = () => {
   }
 
   useEffect(() => {
-    console.log('lesson', lesson)
+    debugLog('lesson', lesson)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[lesson])
 
   return (
-    <div className={`w-70 vh-100 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+    <div className={`w-70 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )

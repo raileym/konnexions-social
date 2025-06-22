@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { type Language } from '@cknTypes/types'
+import { type Language, type UseMyself } from '@cknTypes/types'
 import { APP_HOME, LANGUAGE, SCENARIO_LABELS } from '@cknTypes/constants'
 import Button from './Button'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +12,8 @@ import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { usePanel } from '@hooks/usePanel'
 
 const PanelGenAI: React.FC = () => {
-    const [language, ] = useState<Language>(LANGUAGE.SPANISH)
+  const [language, ] = useState<Language>(LANGUAGE.SPANISH)
+  const [useMyself, ] = useState<UseMyself>(true)
   
   const { activeHome } = useAppContext()
   const isActive = activeHome === APP_HOME.GEN_AI
@@ -66,7 +67,7 @@ const PanelGenAI: React.FC = () => {
     }
   }
 
-  const {participantList} = getScenarioDetails({scenario, language})
+  const {participantList} = getScenarioDetails({useMyself, scenario, language})
 
   const fullPrompt = (
     <div>

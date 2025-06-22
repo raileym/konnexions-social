@@ -10,7 +10,7 @@ export const handleModule = async ({
 }: HandleModuleProps): Promise<Module | null> => {
 
   if (testMode) {
-    // console.log(`'${moduleName}': ${JSON.stringify(lesson[moduleName as keyof Lesson], null, 2)}`)
+    // cXonsole.log(`'${moduleName}': ${JSON.stringify(lesson[moduleName as keyof Lesson], null, 2)}`)
   }
 
   const module = await getModule({scenarioData, testMode, lesson, moduleName })

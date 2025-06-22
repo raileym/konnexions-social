@@ -33,7 +33,8 @@ import type {
   Cutoff,
   ScenarioData,
   Language,
-  LineNumber
+  LineNumber,
+  DebugMode
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -110,6 +111,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       typeof l.name === 'string'
     )
   )  
+  const [debugMode, setDebugMode] = useState<DebugMode>(false)
   const [lineNumber, setLineNumber] = useState<LineNumber>(0)
   const [activeHome, setActiveHome] = useState<ActiveHome>(APP_HOME.GEN_AI_PRO)
   const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
@@ -145,22 +147,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [sourceLanguage, setSourceLanguage] = usePersistentState<Language>('sourceLanguage', LANGUAGE.ENGLISH)
 
 useEffect(() => {
-  // console.log('useEffect', scenario)
+  // cXonsole.log('useEffect', scenario)
   async function fetchScenarioData() {
-    // console.log('fetchScenarioData', scenario)
+    // cXonsole.log('fetchScenarioData', scenario)
     const data = await handleGetScenarioData({scenario, language: targetLanguage})
     if (!data) {
       console.log('fetchScenarioData', 'no data returned')
       return
     }
 
-    // console.log('fetchScenarioData', JSON.stringify(data, null, 2))
+    // cXonsole.log('fetchScenarioData', JSON.stringify(data, null, 2))
 
     const nounBySingular = new Map()
     const nounByPlural = new Map()
     const singularNounList: string[] = []
 
-    // console.log('data',data)
+    // cXonsole.log('data',data)
 
     for (const noun of data.nouns) {
       nounBySingular.set(noun.noun_singular, noun)
@@ -197,6 +199,7 @@ const AppContextValue = {
     audioUrl,
     cleanedText,
     cutoff,
+    debugMode,
     gcpKey,
     generateTTSCount,
     helpPanel,
@@ -225,6 +228,7 @@ const AppContextValue = {
     setAudioUrl,
     setCleanedText,
     setCutoff,
+    setDebugMode,
     setGcpKey,
     setGenerateTTSCount,
     setHelpPanel,

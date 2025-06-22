@@ -7,6 +7,7 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { LANGUAGE_TITLE, SCENARIO_LABELS } from '@cknTypes/constants'
 import type { Language } from '@cknTypes/types'
 import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
+import { useDebugLogger } from '@hooks/useDebugLogger'
 
 type DialogListProps = {
   lines: string[]
@@ -23,6 +24,8 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const isPlayingRef = useRef(false)
   const iRef = useRef(0) // controls current index across calls
+
+  const debugLog = useDebugLogger()
 
   const {
     maxCount,
@@ -54,18 +57,18 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
   }, [selectedLessonId, cutoff])
 
   useEffect(() => {
-    // console.log('Invoking useEffect in DialogList')
+    // cXonsole.log('Invoking useEffect in DialogList')
     if (!useCloudTTS || cutoff) return
-    // console.log('Passing through useEffect in DialogList')
+    // cXonsole.log('Passing through useEffect in DialogList')
 
     const preloadSequentially = async () => {
       for (let i = 0; i < lines.length; i++) {
         if (audioItemsRef.current[i]) {
-          // console.log(`audio line found, no. ${i}`)
+          // cXonsole.log(`audio line found, no. ${i}`)
           continue
         }
 
-        // console.log(`audio line not found, no. ${i}`)
+        // cXonsole.log(`audio line not found, no. ${i}`)
 
         const [gender, speaker, sentence] = lines[i].split('|')
 
@@ -77,7 +80,8 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
             cutoff,
             maxCount,
             setMaxCount,
-            language
+            language,
+            debugLog
           })
 
           if (maybeAudio !== null) {
@@ -94,7 +98,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
   }, [selectedLessonId, cutoff])
 
   const resetPlayback = () => {
-    // console.log('Resetting playback')
+    // cXonsole.log('Resetting playback')
     isPlayingRef.current = false
     iRef.current = 0
     setCurrentIndex(null)
@@ -103,7 +107,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
 
   const playAll = () => {
     if (isPlayingRef.current) {
-      // console.log('playAll: already playing')
+      // cXonsole.log('playAll: already playing')
       return
     }
 
@@ -119,7 +123,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
       const i = iRef.current
 
       if (!isPlayingRef.current || i >= lines.length) {
-        // console.log(`playAll: done or stopped. isPlaying: ${isPlayingRef.current}, i: ${i}, len: ${lines.length}`)
+        // cXonsole.log(`playAll: done or stopped. isPlaying: ${isPlayingRef.current}, i: ${i}, len: ${lines.length}`)
         resetPlayback()
         return
       }
@@ -133,11 +137,11 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
       const [gender, speaker, sentence] = line.split('|')
       
       if (!value) {
-        // console.log(`playAll: audioItemsRef.current[${i}] is empty. Fetch: ${sentence}`)
+        // cXonsole.log(`playAll: audioItemsRef.current[${i}] is empty. Fetch: ${sentence}`)
 
         try {
           value = (useCloudTTS && !cutoff && maxCount > 0)
-            ? await fetchTTS({ language, speaker, text: sentence, gender, maxCount, setMaxCount, cutoff }) ?? ''
+            ? await fetchTTS({ debugLog, language, speaker, text: sentence, gender, maxCount, setMaxCount, cutoff }) ?? ''
             : sentence
 
           storeAudioOrLine(i, value)
@@ -147,8 +151,8 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
         }
       }
 
-      // console.log('value', value)
-      // console.log(`No ${i}: ${value}`)
+      // cXonsole.log('value', value)
+      // cXonsole.log(`No ${i}: ${value}`)
 
       if (value.startsWith('http')) {
         const audio = new Audio(value)

@@ -5,7 +5,7 @@ import { LANGUAGE_TITLE, SCENARIO_LABELS } from '@cknTypes/constants'
 export const getDialogPrompt: GetDialogPrompt = ({scenarioData, lesson, errors}: GetDialogPromptProps) => {
   const dialogExample = generateExample({language: lesson.targetLanguage, moduleName: 'dialog', options: { asString: true }  })
   
-  // console.log('scenarioData.nouns', scenarioData?.nouns)
+  // cXonsole.log('scenarioData.nouns', scenarioData?.nouns)
 
   const constrainedNouns = scenarioData?.nouns?.map((noun) => (`'${noun.noun_singular}'`))
   const requiredNouns = scenarioData?.nounsChooseN?.map((noun) => (`'${noun.noun_singular}'`))

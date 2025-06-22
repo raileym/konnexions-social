@@ -94,7 +94,7 @@ const handler: Handler = async (event) => {
 
     const streamlinedModule = streamlineModule({moduleName, module: validModule})
 
-    // console.log('streamlinedModule', JSON.stringify(streamlinedModule.lines))
+    // cXonsole.log('streamlinedModule', JSON.stringify(streamlinedModule.lines))
 
     // First, I add my validModule to the incoming Lesson. Our goal is not
     // only add the validModule, but also add the Dialog's validModule, if

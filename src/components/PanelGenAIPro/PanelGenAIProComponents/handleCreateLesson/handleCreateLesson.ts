@@ -27,7 +27,8 @@ export const handleCreateLesson = async ({
   setLessonComplete,
   selectedLessonId,
   useMyself,
-  testMode
+  testMode,
+  debugLog
 }: HandleCreateLessonProps) => {
   const { participantList } = getScenarioDetails({ useMyself, scenario, language: targetLanguage });
 
@@ -47,7 +48,7 @@ export const handleCreateLesson = async ({
   const dialogLesson_1 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.DIALOG, lesson: initialLesson_0})
   if (!dialogLesson_1) return
 
-  // console.log('dialogLesson_1', dialogLesson_1)
+  // cXonsole.log('dialogLesson_1', dialogLesson_1)
   
   //
   // Dialog Review
@@ -55,7 +56,7 @@ export const handleCreateLesson = async ({
   const dialogReviewLesson_2 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson_1})
   if (!dialogReviewLesson_2) return
 
-  // console.log('dialogReviewLesson', dialogReviewLesson_2)
+  // cXonsole.log('dialogReviewLesson', dialogReviewLesson_2)
   
   //
   // Dialog Resolve
@@ -65,9 +66,9 @@ export const handleCreateLesson = async ({
     dialogLines: dialogLesson_1.dialog.lines
   })
 
-  // console.log('dialogLesson_1.dialog.lines', dialogLesson_1.dialog.lines)
-  // console.log('dialogReviewLesson_2.dialog.lines', dialogReviewLesson_2.dialog.lines)
-  // console.log('dialogLinesResolved_3', dialogLinesResolved_3)
+  // cXonsole.log('dialogLesson_1.dialog.lines', dialogLesson_1.dialog.lines)
+  // cXonsole.log('dialogReviewLesson_2.dialog.lines', dialogReviewLesson_2.dialog.lines)
+  // cXonsole.log('dialogLinesResolved_3', dialogLinesResolved_3)
   
   const prose = dialogLinesResolved_3?.join(' ') ?? ''
   const dialogLessonUpdated_4 = {
@@ -122,13 +123,14 @@ export const handleCreateLesson = async ({
   //   return parts[2] // the third field: actual dialog text
   // })
 
-  // console.log(dialogLinesOnly)
+  // cXonsole.log(dialogLinesOnly)
 
 
 
 
 
-  console.log('dialogLessonUpdated_4translation', dialogLessonUpdated_4translation)
+  debugLog('dialogLessonUpdated_4translation', dialogLessonUpdated_4translation)
+
   //
   // Nouns Only
   //
@@ -324,7 +326,7 @@ export const handleCreateLesson = async ({
 
   try {
     await pushMissingToDB(verbsMissingLessonUpdated_b16)
-    console.log('✅ Successfully inserted missing nouns and verbs into the database.')
+    debugLog('✅ Successfully inserted missing nouns and verbs into the database.')
   } catch (err) {
     console.error('❌ Error inserting missing nouns/verbs into DB:', (err as Error).message)
   }
@@ -366,18 +368,18 @@ export const handleCreateLesson = async ({
 
 
   setLessons((prev) => {
-    console.log('🔄 Updating lesson list...');
-    console.log('▶️ verbsExpandedTripleLesson_18:', verbsExpandedTripleLesson_18);
+    debugLog('🔄 Updating lesson list...');
+    debugLog('▶️ verbsExpandedTripleLesson_18:', verbsExpandedTripleLesson_18);
     const next = prev.map((lsn) => {
       if (lsn.id === selectedLessonId) {
-        console.log(`✅ Match found: lesson.id = ${lsn.id}`);
+        debugLog(`✅ Match found: lesson.id = ${lsn.id}`);
         const updated = { ...verbsExpandedTripleLesson_18, id: lsn.id, name: lsn.name };
-        console.log('🆕 Updated lesson:', updated);
+        debugLog('🆕 Updated lesson:', updated);
         return updated;
       }
       return lsn;
     });
-    console.log('📦 New lessons array:', next);
+    debugLog('📦 New lessons array:', next);
     return next;
   });
 

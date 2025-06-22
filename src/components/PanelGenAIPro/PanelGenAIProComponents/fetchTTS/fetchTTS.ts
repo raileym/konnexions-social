@@ -7,14 +7,15 @@ export async function fetchTTS({
   maxCount,
   setMaxCount,
   cutoff,
-  language
+  language,
+  debugLog
 }: FetchTTSProps): Promise<FetchTTSResult> {
   if (!text || cutoff || maxCount <= 0) return null
 
   setMaxCount(prev => prev-1)
 
   try {
-    // console.log(`Pause before ask generate-tts-cache: ${text}`)
+    // cXonsole.log(`Pause before ask generate-tts-cache: ${text}`)
     // await new Promise(resolve => setTimeout(resolve, 2000)) // 200–400ms jitter
     
     const res = await fetch('/.netlify/functions/generate-tts-cache', {
@@ -24,7 +25,7 @@ export async function fetchTTS({
     })
     
     const { audioUrl, cacheStatus } = await res.json()
-    console.log(`TTS (${cacheStatus}): ${text}`)
+    debugLog(`TTS (${cacheStatus}): ${text}`)
 
     return audioUrl ?? null
   } catch (err) {

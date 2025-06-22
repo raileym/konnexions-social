@@ -23,6 +23,7 @@ export type AppContextType = {
   audioUrl: AudioUrl
   cleanedText: CleanedText
   cutoff: Cutoff
+  debugMode: DebugMode
   gcpKey: GcpKey
   generateTTSCount: GenerateTTSCount
   helpPanel: HelpPanel
@@ -51,6 +52,7 @@ export type AppContextType = {
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
   setCutoff: SetCutoff
+  setDebugMode: SetDebugMode
   setGcpKey: SetGcpKey
   setGenerateTTSCount: SetGenerateTTSCount
   setHelpPanel: SetHelpPanel
@@ -118,6 +120,7 @@ export type OpenAiUsage = number
 export type Question = string
 export type QuestionContext = string
 export type LineNumber = number
+export type DebugMode = boolean
 
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
 export type SetActivePanel = React.Dispatch<React.SetStateAction<ActivePanel>>
@@ -126,6 +129,7 @@ export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetCutoff = React.Dispatch<React.SetStateAction<Cutoff>>
+export type SetDebugMode = React.Dispatch<React.SetStateAction<DebugMode>>
 export type SetDialogPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
 export type SetGenerateTTSCount = React.Dispatch<React.SetStateAction<GenerateTTSCount>>
@@ -773,6 +777,7 @@ export type FetchTTSProps = {
   setMaxCount: SetMaxCount
   cutoff: boolean
   language: Language
+  debugLog: DebugLog
 }
 export type FetchTTSResult = string | null
 
@@ -853,6 +858,7 @@ export type HandleCreateLessonProps = {
   selectedLessonId: SelectedLessonId
   useMyself: UseMyself
   testMode: TestMode
+  debugLog: DebugLog
 }
 
 export type RunModuleProps = {
@@ -865,3 +871,6 @@ export type RunModuleProps = {
 export type Voice = string
 export type Voices = Voice[]
 export type VoicePool = Record<Language, Record<Gender, Voices>>
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type DebugLog = (...args: any[]) => void

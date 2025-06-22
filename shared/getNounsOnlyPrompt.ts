@@ -8,7 +8,7 @@ export const getNounsOnlyPrompt: GetNounsOnlyPrompt = ({lesson, errors}: GetNoun
   const nounsOnlyExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS_ONLY, options: { asString: true }  })
   const dialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
   
-  // console.log('dialogLines',dialogLines)
+  // cXonsole.log('dialogLines',dialogLines)
   return (`
 REQUEST: Extractx a list of ${lesson.targetLanguage} ${LANGUAGE_TITLE[lesson.targetLanguage]} nouns from the dialog below:
 
