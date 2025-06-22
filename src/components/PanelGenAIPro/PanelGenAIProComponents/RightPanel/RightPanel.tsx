@@ -210,9 +210,7 @@ const RightPanel: React.FC = () => {
             <div className="mt3 mb1">
               <SelectorScenario custom={false} />
             </div>
-            <div className="mt1 mb3">
-              <ParticipantToggle useMyself={useMyself} setUseMyself={setUseMyself} />
-            </div>
+            <ParticipantToggle useMyself={useMyself} setUseMyself={setUseMyself} />
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">

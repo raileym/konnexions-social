@@ -9,18 +9,22 @@ type ParticipantToggleProps = {
 const ParticipantToggle = ({useMyself, setUseMyself}: ParticipantToggleProps) => {
   const icon = useMyself ? faToggleOn : faToggleOff
   const label = useMyself
-    ? 'I am a participant in the conversation'
-    : 'I am <b>not</b> a participant in the conversation'
+    ? <div>I am a participant in the conversation</div>
+    : <div>I am <b>not</b> a participant in the conversation</div>
 
   return (
-    <div className="ml4">
-      <button
-        onClick={() => setUseMyself(prev => !prev)}
-        className="flex items-center gap-2 bg-transparent bn pointer f5"
-      >
-        <FontAwesomeIcon icon={icon} className="f2 mh3" />
-        <span dangerouslySetInnerHTML={{ __html: label }} />
-      </button>
+    <div className="w-100 flex justify-center">
+      <div className="baX br2 ph3 pv2 flex items-center gap-3">
+        <button
+          onClick={() => setUseMyself(prev => !prev)}
+          className="bg-transparent bn pointer f5 flex items-center"
+        >
+          <FontAwesomeIcon icon={icon} className="f2 mr2" />
+        </button>
+        <div className="baX f5" style={{ width: '19rem', textAlign: 'left' }}>
+          {label}
+        </div>
+      </div>
     </div>
   )
 }
