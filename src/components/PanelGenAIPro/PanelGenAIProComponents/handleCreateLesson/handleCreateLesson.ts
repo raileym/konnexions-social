@@ -15,6 +15,7 @@ import { resolveNounsMissing } from '@PanelGenAIProComponents/resolveNounsMissin
 import { resolveVerbsMissing } from '@PanelGenAIProComponents/resolveVerbsMissing/resolveVerbsMissing';
 import { pushMissingToDB } from '@PanelGenAIProComponents/pushMissingToDB/pushMissingToDB';
 import { runTranslation } from '@PanelGenAIProComponents/runTranslation/runTranslation';
+import { generateVerbLists } from '../generateVerbLists/generateVerbLists';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -333,41 +334,42 @@ export const handleCreateLesson = async ({
   // Verbs Expanded and Verbs Expanded In-Complete (Sentences)
   //
   // const verbsLists_13 = generateVerbLists(verbsLessonUpdated_12)
+  const verbsLists_13 = generateVerbLists(verbsMissingLessonUpdated_b16)
   
-  // const verbsExpandedLesson_15 = {
-  //   ...verbsLessonUpdated_12,
+  const verbsExpandedLesson_15 = {
+    ...verbsMissingLessonUpdated_b16,
 
-  //   [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: {
-  //     ...(verbsLessonUpdated_12[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
-  //     lines: verbsLists_13.incomplete
-  //   }
-  // }
+    [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: {
+      ...(verbsMissingLessonUpdated_b16[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE as keyof Lesson] as Module),
+      lines: verbsLists_13.incomplete
+    }
+  }
 
-  // const verbsExpandedCompleteLesson_16 = await runModule({moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson_15})
-  // if (!verbsExpandedCompleteLesson_16) return
+  const verbsExpandedCompleteLesson_16 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson_15})
+  if (!verbsExpandedCompleteLesson_16) return
 
   //
   // Verbs Expanded Triple
   //
-  // const verbsLists_17 = generateVerbLists(verbsExpandedCompleteLesson_16)
+  const verbsLists_17 = generateVerbLists(verbsExpandedCompleteLesson_16)
 
-  // const verbsExpandedTripleLesson_18 = {
-  //   ...verbsExpandedCompleteLesson_16,
+  const verbsExpandedTripleLesson_18 = {
+    ...verbsExpandedCompleteLesson_16,
 
-  //   [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: {
-  //     ...(verbsExpandedCompleteLesson_16[MODULE_NAME.VERBS_EXPANDED_TRIPLE as keyof Lesson] as Module),
-  //     lines: verbsLists_17.triple
-  //   }
-  // }
+    [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: {
+      ...(verbsExpandedCompleteLesson_16[MODULE_NAME.VERBS_EXPANDED_TRIPLE as keyof Lesson] as Module),
+      lines: verbsLists_17.triple
+    }
+  }
 
 
   setLessons((prev) => {
     console.log('🔄 Updating lesson list...');
-    console.log('▶️ verbsMissingLessonUpdated_b16:', verbsMissingLessonUpdated_b16);
+    console.log('▶️ verbsExpandedTripleLesson_18:', verbsExpandedTripleLesson_18);
     const next = prev.map((lsn) => {
       if (lsn.id === selectedLessonId) {
         console.log(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...verbsMissingLessonUpdated_b16, id: lsn.id, name: lsn.name };
+        const updated = { ...verbsExpandedTripleLesson_18, id: lsn.id, name: lsn.name };
         console.log('🆕 Updated lesson:', updated);
         return updated;
       }

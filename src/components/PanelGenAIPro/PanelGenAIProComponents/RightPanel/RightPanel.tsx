@@ -129,6 +129,10 @@ const RightPanel: React.FC = () => {
       const verbListsNoIndex = generateVerbLists(lesson, true)
 
 
+      console.log('lesson', lesson)
+      console.log('verbListsNoIndex', verbListsNoIndex)
+
+
 
 
 

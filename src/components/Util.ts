@@ -228,7 +228,7 @@ const chooseParticipantLines = ({ participantLines, targetLanguage, n, useMyself
 
 
 export function getScenarioDetails({scenario, language}: GetScenarioDetailsProps) {
-  const participantList = chooseParticipantLines({ participantLines: scenarioParticipants[scenario].participantLinesByLanguage[LANGUAGE.SPANISH], n: 2, useMyself: false, language })
+  const participantList = chooseParticipantLines({ participantLines: scenarioParticipants[scenario].participantLinesByLanguage[LANGUAGE.SPANISH], n: 2, useMyself: false, targetLanguage: language })
 
   return {
     scenarioTitle: scenarioTitles[scenario],
