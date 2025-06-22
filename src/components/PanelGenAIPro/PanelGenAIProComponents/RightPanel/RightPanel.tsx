@@ -45,7 +45,7 @@ const RightPanel: React.FC = () => {
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
   const [testMode, setTestMode] = useState<TestMode>(false)
   // const [showDialogPrompt, setShowDialogPrompt] = useState(false)
-  const [useMyself, setUseMyself] = useState<UseMyself>(false)
+  const [useMyself, setUseMyself] = useState<UseMyself>(true)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [showVerbsPrompt, setShowVerbsPrompt] = useState(false)
   const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)

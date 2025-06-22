@@ -186,7 +186,7 @@ useEffect(() => {
   }
 
   fetchScenarioData()
-}, [scenario, targetLanguage])
+}, [scenario, targetLanguage, lessons])
 
 
 const AppContextValue = {
