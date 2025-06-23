@@ -914,3 +914,24 @@ export type DialogLineProps = {
   language: Language
 }
 
+export type ResolveResult = {
+  linesResolved: Lines
+  linesResolutions: Lines
+}
+
+export type ResolveProps = {
+  reviewLines: Lines,
+  lines: Lines
+}
+
+export type Resolve = (props: ResolveProps) => ResolveResult
+
+export type RunPipelineProps = {
+  lesson: Lesson
+  scenarioData: ScenarioData
+  testMode: boolean
+  doModule: ModuleName
+  reviewModule: ModuleName
+  resolve: Resolve
+}
+

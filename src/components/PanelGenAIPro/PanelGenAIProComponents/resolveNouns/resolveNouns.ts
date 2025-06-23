@@ -1,47 +1,37 @@
-import type { Lines } from '@cknTypes/types'
+import type { Lines, ResolveProps, ResolveResult } from '@cknTypes/types'
 
-type ResolveNounsProps = {
-  nounsLines: Lines
-  nounsReviewLines: Lines
-}
-
-type ResolveNounsResult = {
-  nounsLinesResolved: Lines
-  nounsLinesResolutions: Lines
-}
-
-export function resolveNouns({
-  nounsLines,
-  nounsReviewLines
-}: ResolveNounsProps): ResolveNounsResult {
-  const nounsLinesResolved: Lines = []
-  const nounsLinesResolutions: Lines = []
+export const resolveNouns = ({
+  reviewLines,
+  lines
+}: ResolveProps): ResolveResult => {
+  const linesResolved: Lines = []
+  const linesResolutions: Lines = []
 
   const isNoCorrections =
-    nounsReviewLines.length === 1 &&
-    nounsReviewLines[0].toLowerCase().includes('no corrections')
+    reviewLines.length === 1 &&
+    reviewLines[0].toLowerCase().includes('no corrections')
 
   if (isNoCorrections) {
     return {
-      nounsLinesResolved: [...nounsLines],
-      nounsLinesResolutions: ['✅ No corrections found. Kept original nounsLines.']
+      linesResolved: [...lines],
+      linesResolutions: ['✅ No corrections found. Kept original lines.']
     }
   }
 
   // Build a map keyed by singular noun
   const reviewMap = new Map<string, string>()
-  for (const entry of nounsReviewLines) {
+  for (const entry of reviewLines) {
     const [gender, singular] = entry.split('|')
     if (gender && singular) {
       reviewMap.set(singular.trim(), entry.trim())
     }
   }
 
-  for (const original of nounsLines) {
+  for (const original of lines) {
     const parts = original.split('|')
     if (parts.length !== 4) {
-      nounsLinesResolved.push(original)
-      nounsLinesResolutions.push(`⚠️ Malformed line: kept as-is -> '${original}'`)
+      linesResolved.push(original)
+      linesResolutions.push(`⚠️ Malformed line: kept as-is -> '${original}'`)
       continue
     }
 
@@ -49,11 +39,11 @@ export function resolveNouns({
     const reviewed = reviewMap.get(singular)
 
     if (!reviewed) {
-      nounsLinesResolved.push(original)
-      nounsLinesResolutions.push(`✅ No correction for: '${singular}'`)
+      linesResolved.push(original)
+      linesResolutions.push(`✅ No correction for: '${singular}'`)
     } else if (reviewed === original) {
-      nounsLinesResolved.push(original)
-      nounsLinesResolutions.push(`🔁 Same in review: kept original -> '${original}'`)
+      linesResolved.push(original)
+      linesResolutions.push(`🔁 Same in review: kept original -> '${original}'`)
     } else {
       const [newGender, , newPlural, newPrepositions] = reviewed.split('|').map(part => part.trim())
 
@@ -64,13 +54,13 @@ export function resolveNouns({
         newPrepositions || prepositions
       ].join('|')
 
-      nounsLinesResolved.push(resolvedLine)
-      nounsLinesResolutions.push(`✏️ Corrected: "${original}" → "${resolvedLine}"`)
+      linesResolved.push(resolvedLine)
+      linesResolutions.push(`✏️ Corrected: "${original}" → "${resolvedLine}"`)
     }
   }
 
   return {
-    nounsLinesResolved,
-    nounsLinesResolutions
+    linesResolved,
+    linesResolutions
   }
 }

@@ -1,47 +1,37 @@
-import type { Lines } from '@cknTypes/types'
+import type { Lines, ResolveProps, ResolveResult } from '@cknTypes/types'
 
-type ResolveVerbsProps = {
-  verbsLines: Lines
-  verbsReviewLines: Lines
-}
-
-type ResolveVerbsResult = {
-  verbsLinesResolved: Lines
-  verbsLinesResolutions: Lines
-}
-
-export function resolveVerbs({
-  verbsLines,
-  verbsReviewLines
-}: ResolveVerbsProps): ResolveVerbsResult {
-  const verbsLinesResolved: Lines = []
-  const verbsLinesResolutions: Lines = []
+export const resolveVerbs = ({
+  reviewLines,
+  lines,
+}: ResolveProps): ResolveResult => {
+  const linesResolved: Lines = []
+  const linesResolutions: Lines = []
 
   const isNoCorrections =
-    verbsReviewLines.length === 1 &&
-    verbsReviewLines[0].toLowerCase().includes('no corrections')
+    reviewLines.length === 1 &&
+    reviewLines[0].toLowerCase().includes('no corrections')
 
   if (isNoCorrections) {
     return {
-      verbsLinesResolved: [...verbsLines],
-      verbsLinesResolutions: ['✅ No corrections found. Kept original verbsLines.']
+      linesResolved: [...lines],
+      linesResolutions: ['✅ No corrections found. Kept original lines.']
     }
   }
 
   // Build a review map keyed by infinitive
   const reviewMap = new Map<string, string>()
-  for (const entry of verbsReviewLines) {
+  for (const entry of reviewLines) {
     const [infinitive] = entry.split('|').map(s => s.trim())
     if (infinitive) {
       reviewMap.set(infinitive, entry.trim())
     }
   }
 
-  for (const original of verbsLines) {
+  for (const original of lines) {
     const parts = original.split('|').map(s => s.trim())
     if (parts.length !== 7) {
-      verbsLinesResolved.push(original)
-      verbsLinesResolutions.push(`⚠️ Malformed line: kept as-is -> '${original}'`)
+      linesResolved.push(original)
+      linesResolutions.push(`⚠️ Malformed line: kept as-is -> '${original}'`)
       continue
     }
 
@@ -50,27 +40,27 @@ export function resolveVerbs({
     const reviewed = reviewMap.get(infinitive)
 
     if (!reviewed) {
-      verbsLinesResolved.push(original)
-      verbsLinesResolutions.push(`✅ No correction for: '${infinitive}'`)
+      linesResolved.push(original)
+      linesResolutions.push(`✅ No correction for: '${infinitive}'`)
     } else if (reviewed === original) {
-      verbsLinesResolved.push(original)
-      verbsLinesResolutions.push(`🔁 Same in review: kept original -> '${original}'`)
+      linesResolved.push(original)
+      linesResolutions.push(`🔁 Same in review: kept original -> '${original}'`)
     } else {
       const reviewedParts = reviewed.split('|').map(s => s.trim())
       if (reviewedParts.length !== 7) {
-        verbsLinesResolved.push(original)
-        verbsLinesResolutions.push(`⚠️ Malformed review line: kept original -> '${original}'`)
+        linesResolved.push(original)
+        linesResolutions.push(`⚠️ Malformed review line: kept original -> '${original}'`)
         continue
       }
 
       const resolvedLine = reviewedParts.join('|')
-      verbsLinesResolved.push(resolvedLine)
-      verbsLinesResolutions.push(`✏️ Corrected: "${original}" → "${resolvedLine}"`)
+      linesResolved.push(resolvedLine)
+      linesResolutions.push(`✏️ Corrected: "${original}" → "${resolvedLine}"`)
     }
   }
 
   return {
-    verbsLinesResolved,
-    verbsLinesResolutions
+    linesResolved,
+    linesResolutions
   }
 }

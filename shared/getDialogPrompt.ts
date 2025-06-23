@@ -11,7 +11,7 @@ export const getDialogPrompt: GetDialogPrompt = ({scenarioData, lesson, errors}:
   const requiredNouns = scenarioData?.nounsChooseN?.map((noun) => (`'${noun.noun_singular}'`))
 
   return (`
-DIALOG: Create a dialog in ${LANGUAGE_TITLE[lesson.targetLanguage]} appropriate for a beginning language instruction, where the dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between participants, ${lesson.participantList}. The dialog must contain between 6 to 8 lines, reflecting a natural dialog exchange.
+DIALOG: Create a dialog in ${LANGUAGE_TITLE[lesson.targetLanguage]} appropriate for a beginning language instruction, where the dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between participants, ${lesson.participantList}. The dialog must contain between 8 to 12 lines, reflecting a natural dialog exchange. The dialog should contain no fewer than 8 lines. The dialog should not end on a question -- the dialog should always resolve.
 
 REQUIRED NOUNS: Your dialog must strongly prefer to include at least one of the following nouns:
 
