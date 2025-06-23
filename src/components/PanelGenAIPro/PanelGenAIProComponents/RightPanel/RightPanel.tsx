@@ -12,7 +12,7 @@ import {
   type UseMyself,
 } from '@cknTypes/types'
 import {
-  VERB_FORMATS,
+  // VERB_FORMATS,
   // SCENARIO,
   MODULE_NAME,
   LANGUAGE_TITLE
@@ -26,9 +26,9 @@ import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDe
 // import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
 import { DialogList } from '../DialogList/DialogList'
 // import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
-import { FlashcardModal } from '@PanelGenAIProComponents/FlashcardModal/FlashcardModal'
+// import { FlashcardModal } from '@PanelGenAIProComponents/FlashcardModal/FlashcardModal'
 // import { DebugVerbLists } from '../DebugVerbLists/DebugVerbLists'
-import { generateVerbLists } from '@PanelGenAIProComponents/generateVerbLists/generateVerbLists'
+// import { generateVerbLists } from '@PanelGenAIProComponents/generateVerbLists/generateVerbLists'
 // import CutoffToggle from '../../../CutoffToggle'
 // import ShowMaxCount from '../../../ShowMaxCount'
 import SelectorLanguage from '../../../SelectorLanguage'
@@ -38,8 +38,8 @@ import Hr from '@components/Hr'
 import LessonElementToggle from '@PanelGenAIProComponents/LessonElementToggle/LessonElementToggle'
 import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus'
 import { useDebugLogger } from '@hooks/useDebugLogger'
-import { rebuildVerbLines } from '@PanelGenAIProComponents/rebuildVerbLines/rebuildVerbLines'
-import { rebuildNounLines } from '@PanelGenAIProComponents/rebuildNounLines/rebuildNounLines'
+// import { rebuildVerbLines } from '@PanelGenAIProComponents/rebuildVerbLines/rebuildVerbLines'
+// import { rebuildNounLines } from '@PanelGenAIProComponents/rebuildNounLines/rebuildNounLines'
 // import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
 // import { getPrompt } from '../../../../../shared/getPrompt'
 
@@ -256,12 +256,18 @@ const RightPanel: React.FC = () => {
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
+            <DialogList language={lesson.targetLanguage} lines={(lesson?.dialog?.lines ?? [])} useCloudTTS={true} />
+          </div>
+
+          {/*
+          <div className="pa3 mt3 ba bg-white w-100">
             <DialogList language={lesson.targetLanguage} lines={(lesson?.translation[lesson.targetLanguage] ?? [])} useCloudTTS={true} />
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
             <DialogList language={lesson.sourceLanguage} lines={(lesson?.translation[lesson.sourceLanguage]  ?? [])} useCloudTTS={true} />
           </div>
+          */}
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
 
@@ -274,6 +280,13 @@ const RightPanel: React.FC = () => {
                 <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
 
+                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Nouns Prompt'} prompt={lesson.nouns.prompt} />
+
+                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Verbs Prompt'} prompt={lesson.verbs.prompt} />
+
+                {/*
                 <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Nouns Only Prompt'} prompt={lesson.nounsOnly.prompt} />
 
@@ -297,6 +310,7 @@ const RightPanel: React.FC = () => {
 
                 <PromptToggle className='bg-yellow black' title={'Proposed Verbs Missing Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_MISSING_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Verbs Missing Review Prompt'} prompt={lesson?.verbsMissingReview?.prompt} />
+                */}
 
                 <div className="mt4 b">NounsConstraint ({scenarioData?.nouns?.length ?? 0})</div>
                 <ul className="mt0 pt0 black">

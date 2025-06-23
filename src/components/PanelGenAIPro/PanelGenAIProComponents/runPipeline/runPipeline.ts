@@ -34,13 +34,13 @@ export const runPipeline = async ({
   })
 
   // RESTATE
-  const prose = linesResolved?.join(' ') ?? ''
+  // const prose = linesResolved?.join(' ') ?? ''
   return {
     ...lessonReviewed,
     [doModule]: {
       ...(lessonReviewed[doModule as keyof Lesson] as Module),
       lines: linesResolved
-    },
-    prose
+    } //,
+    // prose
   }
 }
