@@ -172,8 +172,20 @@ useEffect(() => {
     }
 
     const verbByInfinitive = new Map()
+    const verbBy1stPersonSingular = new Map()
+    const verbBy2ndPersonSingular = new Map()
+    const verbBy3rdPersonSingular = new Map()
+    const verbBy1stPersonPlural = new Map()
+    const verbBy2ndPersonPlural = new Map()
+    const verbBy3rdPersonPlural = new Map()
     for (const verb of data.verbs) {
       verbByInfinitive.set(verb.verb_infinitive, verb)
+      verbBy1stPersonSingular.set(verb.verb_yo, verb)
+      verbBy2ndPersonSingular.set(verb.verb_tu, verb)
+      verbBy3rdPersonSingular.set(verb.verb_el_ella_usted, verb)
+      verbBy1stPersonPlural.set(verb.verb_nosotros, verb)
+      verbBy2ndPersonPlural.set(verb.verb_vosotros, verb)
+      verbBy3rdPersonPlural.set(verb.verb_ellos_ellas_ustedes, verb)
     }
 
     const N = 2
@@ -184,7 +196,13 @@ useEffect(() => {
       nounBySingular,
       nounByPlural,
       singularNounList,
-      verbByInfinitive
+      verbByInfinitive,
+      verbBy1stPersonSingular,
+      verbBy2ndPersonSingular,
+      verbBy3rdPersonSingular,
+      verbBy1stPersonPlural,
+      verbBy2ndPersonPlural,
+      verbBy3rdPersonPlural
     })
   }
 

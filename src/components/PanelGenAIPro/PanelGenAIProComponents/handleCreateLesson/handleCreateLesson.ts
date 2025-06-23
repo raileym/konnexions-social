@@ -375,7 +375,7 @@ export const handleCreateLesson = async ({
   const mergedVerbLines = rebuildVerbLines({
     verbsOnly: verbsMissingLessonUpdated_b16.verbsOnly.lines,
     verbsMissing: verbsMissingLessonUpdated_b16.verbsMissing.lines,
-    verbByInfinitive: scenarioData.verbByInfinitive
+    scenarioData
   })
   
   // ***********************************************************************************

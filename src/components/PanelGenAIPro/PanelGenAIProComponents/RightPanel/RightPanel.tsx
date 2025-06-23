@@ -133,7 +133,7 @@ const RightPanel: React.FC = () => {
       // const verbListsNoIndex = generateVerbLists(lesson, true)
 
 
-      debugLog('lesson', lesson)
+      // debugLog('lesson', lesson)
       // debugLog('verbListsNoIndex', verbListsNoIndex)
 
       // const mergedVerbLines = rebuildVerbLines({

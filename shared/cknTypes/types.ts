@@ -822,18 +822,23 @@ export type VerbDetails = {
   curated: Curated
 }
 
-export type VerbByInfinitive = Map<string, VerbDetails>
-export type NounBySingular = Map<string, NounDetails>
-export type NounByPlural = Map<string, NounDetails>
+export type VerbByForm = Map<string, VerbDetails>
+export type NounByForm = Map<string, NounDetails>
 
 export type ScenarioData = {
   nounsChooseN: NounDetails[]
   nouns: NounDetails[]
   verbs: VerbDetails[]
-  nounBySingular: NounBySingular
-  nounByPlural: NounByPlural
+  nounBySingular: NounByForm
+  nounByPlural: NounByForm
   singularNounList: Lines
-  verbByInfinitive: VerbByInfinitive
+  verbByInfinitive: VerbByForm
+  verbBy1stPersonSingular: VerbByForm
+  verbBy2ndPersonSingular: VerbByForm
+  verbBy3rdPersonSingular: VerbByForm
+  verbBy1stPersonPlural: VerbByForm
+  verbBy2ndPersonPlural: VerbByForm
+  verbBy3rdPersonPlural: VerbByForm
 }
 
 export const defaultDebugMode = false
@@ -845,7 +850,13 @@ export const defaultScenarioData: ScenarioData = {
   nounBySingular: new Map(),
   nounByPlural: new Map(),
   singularNounList: [],
-  verbByInfinitive: new Map()
+  verbByInfinitive: new Map(),
+  verbBy1stPersonSingular: new Map(),
+  verbBy2ndPersonSingular: new Map(),
+  verbBy3rdPersonSingular: new Map(),
+  verbBy1stPersonPlural: new Map(),
+  verbBy2ndPersonPlural: new Map(),
+  verbBy3rdPersonPlural: new Map()
 }
 
 export type HandleGetScenarioDataProps = {
@@ -884,13 +895,13 @@ export type DebugLog = (...args: any[]) => void
 export type RebuildNounLinesProps = {
   nounsOnly: Lines
   nounsMissing: Lines
-  nounBySingular: NounBySingular
+  nounBySingular: NounByForm
 }
 
 export type RebuildVerbLinesProps = {
   verbsOnly: Lines
   verbsMissing: Lines
-  verbByInfinitive: VerbByInfinitive
+  scenarioData: ScenarioData
 }
 
 export type DialogLineProps = {
