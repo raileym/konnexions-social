@@ -2,6 +2,7 @@
 import type { Handler } from '@netlify/functions'
 import { resolveNouns } from '@shared/resolveNouns_cb/resolveNouns_cb'
 import { resolveVerbs } from '@shared/resolveVerbs_cb/resolveVerbs_cb'
+import { resolveDialog } from '@shared/resolveDialog_cb/resolveDialog_cb'
 import { MODULE_NAME, PIPELINE_TYPE } from '@cknTypes/constants'
 import { runPipelineCb } from '@shared/runPipelineCb/runPipelineCb'
 import type { PipelineConfigMap, RunPipelineCbBody } from '@cknTypes/types'
@@ -18,6 +19,12 @@ const handler: Handler = async (event) => {
     }
 
     const pipelineConfigMap: PipelineConfigMap = {
+      [PIPELINE_TYPE.DIALOG]: {
+        doModule: MODULE_NAME.DIALOG,
+        reviewModule: MODULE_NAME.DIALOG_REVIEW,
+        resolveModule: MODULE_NAME.DIALOG_RESOLVE,
+        resolve: resolveDialog
+      },
       [PIPELINE_TYPE.NOUNS]: {
         doModule: MODULE_NAME.NOUNS,
         reviewModule: MODULE_NAME.NOUNS_REVIEW,

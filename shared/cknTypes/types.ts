@@ -978,3 +978,8 @@ export type RunPipelineCbBody = {
   lesson: Lesson
   pipelineType: PipelineType
 }
+
+export type RunPipelineCbClientProps = {
+  lesson: Lesson
+  pipelineType: PipelineType
+}

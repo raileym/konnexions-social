@@ -27,6 +27,7 @@ export const MODULE_NAME = {
 } as const
 
 export const PIPELINE_TYPE = {
+  DIALOG: 'dialog',
   NOUNS: 'nouns',
   VERBS: 'verbs'
 } as const

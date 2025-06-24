@@ -4,10 +4,11 @@ import {
   // type Module
 } from '@cknTypes/types';
 import {
-  MODULE_NAME
+  MODULE_NAME,
+  PIPELINE_TYPE
 } from '@cknTypes/constants'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails';
-import { dialogResolve } from '@PanelGenAIProComponents/dialogResolve/dialogResolve'
+// import { dialogResolve } from '@PanelGenAIProComponents/dialogResolve/dialogResolve'
 // import { runModule } from '@PanelGenAIProComponents/runModule/runModule';
 // import { resolveVerbsOnly } from '@PanelGenAIProComponents/resolveVerbsOnly/resolveVerbsOnly';
 // import { nounsMissingResolve } from '@PanelGenAIProComponents/nounsMissingResolve/nounsMissingResolve';
@@ -20,6 +21,7 @@ import { dialogResolve } from '@PanelGenAIProComponents/dialogResolve/dialogReso
 import { runPipeline } from '@PanelGenAIProComponents/runPipeline/runPipeline';
 // import { nounsOnlyResolve } from '@PanelGenAIProComponents/nounsOnlyResolve/nounsOnlyResolve';
 import { resolveNouns } from '@PanelGenAIProComponents/resolveNouns/resolveNouns';
+import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClient/runPipelineCbClient';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -84,16 +86,23 @@ export const handleCreateLesson = async ({
   //   prose
   // }
 
-  const dialogLessonUpdated_4 = await runPipeline({
+  // const dialogLessonUpdated_4 = await runPipeline({
+  //   lesson: initialLesson_0,
+  //   scenarioData,
+  //   testMode,
+  //   doModule: MODULE_NAME.DIALOG,
+  //   reviewModule: MODULE_NAME.DIALOG_REVIEW,
+  //   resolveModule: MODULE_NAME.DIALOG_RESOLVE,
+  //   resolve: dialogResolve
+  // })
+  // if (!dialogLessonUpdated_4) return
+
+  const dialogLessonUpdated_4 = await runPipelineCbClient({
     lesson: initialLesson_0,
-    scenarioData,
-    testMode,
-    doModule: MODULE_NAME.DIALOG,
-    reviewModule: MODULE_NAME.DIALOG_REVIEW,
-    resolveModule: MODULE_NAME.DIALOG_RESOLVE,
-    resolve: dialogResolve
+    pipelineType: PIPELINE_TYPE.DIALOG
   })
   if (!dialogLessonUpdated_4) return
+
 
   // ***********************************************************************************
   // Dialog Translate To English
@@ -294,28 +303,39 @@ export const handleCreateLesson = async ({
   //   }
   // }
 
-  const nounsLessonUpdated_8 = await runPipeline({
+  // const nounsLessonUpdated_8 = await runPipeline({
+  //   lesson: dialogLessonUpdated_4,
+  //   scenarioData,
+  //   testMode,
+  //   doModule: MODULE_NAME.NOUNS,
+  //   reviewModule: MODULE_NAME.NOUNS_REVIEW,
+  //   resolveModule: MODULE_NAME.NOUNS_RESOLVE,
+  //   resolve: resolveNouns
+  // })
+  // if (!nounsLessonUpdated_8) return
+
+  // const verbsLessonUpdated_8 = await runPipeline({
+  //   lesson: nounsLessonUpdated_8,
+  //   scenarioData,
+  //   testMode,
+  //   doModule: MODULE_NAME.VERBS,
+  //   reviewModule: MODULE_NAME.VERBS_REVIEW,
+  //   resolveModule: MODULE_NAME.VERBS_RESOLVE,
+  //   resolve: resolveNouns
+  // })
+  // if (!verbsLessonUpdated_8) return
+
+  const nounsLessonUpdated_8 = await runPipelineCbClient({
     lesson: dialogLessonUpdated_4,
-    scenarioData,
-    testMode,
-    doModule: MODULE_NAME.NOUNS,
-    reviewModule: MODULE_NAME.NOUNS_REVIEW,
-    resolveModule: MODULE_NAME.NOUNS_RESOLVE,
-    resolve: resolveNouns
+    pipelineType: PIPELINE_TYPE.NOUNS
   })
   if (!nounsLessonUpdated_8) return
 
-  const verbsLessonUpdated_8 = await runPipeline({
+  const verbsLessonUpdated_8 = await runPipelineCbClient({
     lesson: nounsLessonUpdated_8,
-    scenarioData,
-    testMode,
-    doModule: MODULE_NAME.VERBS,
-    reviewModule: MODULE_NAME.VERBS_REVIEW,
-    resolveModule: MODULE_NAME.VERBS_RESOLVE,
-    resolve: resolveNouns
+    pipelineType: PIPELINE_TYPE.VERBS
   })
   if (!verbsLessonUpdated_8) return
-
 
   // ***********************************************************************************
   // Verbs Only ... Just list the verbs, ma'am
