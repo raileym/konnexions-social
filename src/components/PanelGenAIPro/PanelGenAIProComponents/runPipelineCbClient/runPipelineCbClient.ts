@@ -4,13 +4,18 @@ import type { Lesson, RunPipelineCbClientProps } from '@cknTypes/types'
 
 export const runPipelineCbClient = async ({
   lesson,
-  pipelineType
+  pipelineType,
+  scenarioData
 }: RunPipelineCbClientProps): Promise<Lesson | null> => {
   try {
     const res = await fetch('/.netlify/functions/runPipeline_cb', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lesson, pipelineType })
+      body: JSON.stringify({
+        lesson,
+        scenarioData,
+        pipelineType
+      })
     })
 
     if (!res.ok) {
@@ -19,7 +24,8 @@ export const runPipelineCbClient = async ({
     }
 
     const data = await res.json()
-    return data as Lesson
+    console.log('runPipeline_cb', lesson)
+    return data.lesson as Lesson
   } catch (err) {
     console.error('Network error calling runPipelineCb:', err)
     return null

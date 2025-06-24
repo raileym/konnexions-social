@@ -272,7 +272,7 @@ const RightPanel: React.FC = () => {
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
 
           {
-            debugMode && (
+            debugMode && alwaysFalse && (
               <>
                 <PromptToggle className='bg-yellow black' title={'Proposed Dialog Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Dialog Prompt'} prompt={lesson.dialog.prompt} />
@@ -389,7 +389,11 @@ const RightPanel: React.FC = () => {
             )
           }
 
-          <LessonElementToggle title={'Nouns'} content={lesson.nouns.lines} testMode={testMode} />
+          {
+            alwaysFalse && (
+              <LessonElementToggle title={'Nouns'} content={lesson.nouns.lines} testMode={testMode} />
+            )
+          }
 
           { testMode && alwaysFalse && (
             <div className="w-100">

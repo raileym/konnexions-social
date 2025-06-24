@@ -43,6 +43,8 @@ export async function fetchOpenAI({ prompt }: FetchOpenAIProps): Promise<string>
     throw new Error('Missing OpenAI API key in environment')
   }
 
+  console.log('before fetch)')
+
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -55,7 +57,19 @@ export async function fetchOpenAI({ prompt }: FetchOpenAIProps): Promise<string>
     })
   })
 
+  // console.log('after fetch)')
+
+  // console.log(response)
+
   const data = await response.json()
+  // console.log('fetch data', JSON.stringify(data, null, 2))
+
+  // if (!data.choices || !Array.isArray(data.choices)) {
+  //   throw new Error(`Unexpected OpenAI response: ${JSON.stringify(data)}`)
+  // }
+
+  // console.log(data.choices?.[0]?.message?.content?.trim() ?? '')
+
   return data.choices?.[0]?.message?.content?.trim() ?? ''
 }
 

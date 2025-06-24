@@ -42,7 +42,12 @@ const handler: Handler = async (event) => {
     let fieldCount: number = defaultFieldCount
     let errorLabel: ErrorLabel = defaultErrorLabel
 
-    ;({ prompt, fieldCount, errorLabel } = getPrompt({moduleName, scenarioData, lesson, errors: [] }))
+    ;({ prompt, fieldCount, errorLabel } = getPrompt({
+      moduleName,
+      scenarioData,
+      lesson,
+      errors: []
+    }))
 
     let response: string
 
@@ -68,7 +73,12 @@ const handler: Handler = async (event) => {
 
     if (!validModule.success) {
 
-      ;({ prompt, fieldCount, errorLabel } = getPrompt({moduleName, scenarioData, lesson, errors: validModule.errors ?? []}))
+      ;({ prompt, fieldCount, errorLabel } = getPrompt({
+        moduleName,
+        scenarioData,
+        lesson,
+        errors: validModule.errors ?? []
+      }))
 
       if (testMode) {
         response = generateExample({

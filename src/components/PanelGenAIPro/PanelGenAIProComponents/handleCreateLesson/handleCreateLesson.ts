@@ -4,7 +4,6 @@ import {
   // type Module
 } from '@cknTypes/types';
 import {
-  MODULE_NAME,
   PIPELINE_TYPE
 } from '@cknTypes/constants'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails';
@@ -18,9 +17,9 @@ import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDe
 // import { generateVerbLists } from '../generateVerbLists/generateVerbLists';
 // import { rebuildVerbLines } from '@PanelGenAIProComponents/rebuildVerbLines/rebuildVerbLines'
 // import { rebuildNounLines } from '@PanelGenAIProComponents/rebuildNounLines/rebuildNounLines';
-import { runPipeline } from '@PanelGenAIProComponents/runPipeline/runPipeline';
+// import { runPipeline } from '@PanelGenAIProComponents/runPipeline/runPipeline';
 // import { nounsOnlyResolve } from '@PanelGenAIProComponents/nounsOnlyResolve/nounsOnlyResolve';
-import { resolveNouns } from '@PanelGenAIProComponents/resolveNouns/resolveNouns';
+// import { resolveNouns } from '@PanelGenAIProComponents/resolveNouns/resolveNouns';
 import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClient/runPipelineCbClient';
 
 export const handleCreateLesson = async ({
@@ -33,7 +32,7 @@ export const handleCreateLesson = async ({
   setLessonComplete,
   selectedLessonId,
   useMyself,
-  testMode,
+  // testMode,
   debugLog
 }: HandleCreateLessonProps) => {
   const { participantList } = getScenarioDetails({ useMyself, scenario, language: targetLanguage });
@@ -99,7 +98,8 @@ export const handleCreateLesson = async ({
 
   const dialogLessonUpdated_4 = await runPipelineCbClient({
     lesson: initialLesson_0,
-    pipelineType: PIPELINE_TYPE.DIALOG
+    pipelineType: PIPELINE_TYPE.DIALOG,
+    scenarioData
   })
   if (!dialogLessonUpdated_4) return
 
@@ -327,13 +327,15 @@ export const handleCreateLesson = async ({
 
   const nounsLessonUpdated_8 = await runPipelineCbClient({
     lesson: dialogLessonUpdated_4,
-    pipelineType: PIPELINE_TYPE.NOUNS
+    pipelineType: PIPELINE_TYPE.NOUNS,
+    scenarioData
   })
   if (!nounsLessonUpdated_8) return
 
   const verbsLessonUpdated_8 = await runPipelineCbClient({
     lesson: nounsLessonUpdated_8,
-    pipelineType: PIPELINE_TYPE.VERBS
+    pipelineType: PIPELINE_TYPE.VERBS,
+    scenarioData
   })
   if (!verbsLessonUpdated_8) return
 

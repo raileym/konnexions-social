@@ -213,6 +213,7 @@ export type Module = {
     success: Success
     sentinel: Sentinel
     moduleProse: Prose
+    linesResolutions: Lines
     // formatDialogLines: Lines
 }
 
@@ -467,6 +468,7 @@ export const defaultErrorLabel = ERROR_LABEL.NO_ERROR
 export const defaultErrors = []
 export const defaultFieldCount = 0
 export const defaultLines = []
+export const defaultLinesResolution = []
 export const defaultFormatDialogLines = []
 export const defaultMaxCount = 20
 export const defaultModuleName = MODULE_NAME.DIALOG
@@ -487,7 +489,8 @@ export const defaultModule: Module = {
   signature: defaultSignature,
   success: false,
   sentinel: defaultSentinel,
-  moduleProse: defaultProse //,
+  moduleProse: defaultProse,
+  linesResolutions: defaultLines
   // formatDialogLines: defaultFormatDialogLines
 }
 
@@ -956,6 +959,7 @@ export type RunPipelineProps = {
 
 export type RunPipelineCbProps = {
   lesson: Lesson
+  scenarioData: ScenarioData
   pipelineConfig: PipelineConfig
 }
 
@@ -963,6 +967,7 @@ export type GetModuleCbProps = {
   testMode: TestMode
   lesson: Lesson
   moduleName: ModuleName
+  scenarioData: ScenarioData
 }
 
 export type PipelineConfig = {
@@ -976,10 +981,12 @@ export type PipelineConfigMap = Record<PipelineType, PipelineConfig>
 
 export type RunPipelineCbBody = {
   lesson: Lesson
+  scenarioData: ScenarioData
   pipelineType: PipelineType
 }
 
 export type RunPipelineCbClientProps = {
   lesson: Lesson
+  scenarioData: ScenarioData
   pipelineType: PipelineType
 }

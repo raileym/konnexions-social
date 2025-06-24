@@ -9,12 +9,12 @@ import type { PipelineConfigMap, RunPipelineCbBody } from '@cknTypes/types'
 
 const handler: Handler = async (event) => {
   try {
-    const { lesson, pipelineType }: RunPipelineCbBody = JSON.parse(event.body || '{}')
+    const { lesson, pipelineType, scenarioData }: RunPipelineCbBody = JSON.parse(event.body || '{}')
 
-    if (!lesson || !pipelineType) {
+    if (!lesson || !pipelineType || !scenarioData) {
       return {
         statusCode: 400,
-        body: 'Missing required fields: lesson and pipelineType'
+        body: 'Missing required fields: lesson, pipelineType, or scenarioData'
       }
     }
 
@@ -49,6 +49,7 @@ const handler: Handler = async (event) => {
 
     const updatedLesson = await runPipelineCb({
       lesson,
+      scenarioData,
       pipelineConfig
     })
 

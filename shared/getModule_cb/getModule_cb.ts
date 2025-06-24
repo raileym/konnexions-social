@@ -3,19 +3,27 @@ import type {
   Module
 } from '@cknTypes/types'
 
-export const getModuleCb = async ({
+export const getModule_cb = async ({
   lesson,
   moduleName,
-  testMode
+  testMode,
+  scenarioData
 }: GetModuleCbProps): Promise<Module | null> => {
   try {
-    const res = await fetch('/.netlify/functions/genai-module-cb', {
+    const isServer = typeof window === 'undefined'
+
+    const baseURL = isServer
+      ? process.env.URL || 'http://localhost:8888' // fallback for local testing
+      : ''
+
+    const res = await fetch(`${baseURL}/.netlify/functions/genai-module-cb`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         testMode,
         lesson,
-        moduleName
+        moduleName,
+        scenarioData
       })
     })
 
@@ -32,4 +40,4 @@ export const getModuleCb = async ({
   }
 }
 
-export default getModuleCb
+export default getModule_cb

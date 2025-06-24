@@ -38,6 +38,8 @@ where the vertical bar '|' delineates three fields:
     - the gender of the speaking participant using "m" for masculine and "f" for feminine,
     - the title of the participant, ${lesson.participantList.replace(/and/g, 'or')}, and 
     - the particular dialog line spoken.
+
+Formatting rules
 ${getJsonQualification({responseType: 'dialog'})}
 A complete example of a dialog response follows:
 
