@@ -31,10 +31,10 @@ export function generateExample({
       'm|Cliente|Gracias.'
     ],
     nouns: [
-      'restaurante|restaurantes|masculino|a, en, desde, sobre',
-      'noche|noches|femenino|en, durante, por',
-      'ensalada|ensaladas|femenino|con, sin, de, para',
-      'pollo|pollos|masculino|con, sin, de, para'
+      'restaurant|restaurante|restaurantes|m',
+      'night|noche|noches|f',
+      'salad|ensalada|ensaladas|f',
+      'chicken|pollo|pollos|m'
     ],
     nounsMissing: [
       'restaurant|restaurante|restaurantes|m',
@@ -56,9 +56,9 @@ export function generateExample({
       'comida'
     ],
     verbs: [
-      'gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
-      'ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
-      'pedir|pido|pides|pide|pedimos|pedís|piden'
+      'like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
+      'order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
+      'ask for|pedir|pido|pides|pide|pedimos|pedís|piden'
     ],
     verbsMissing: [
       'like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
@@ -81,10 +81,10 @@ export function generateExample({
       '3. En un momento le traigo su bebida.'
     ],
     nounsReview: [
-      'masculino|restaurante|restaurantes|a, en, desde, sobre',
-      'femenino|noche|noches|en, durante, por',
-      'femenino|ensalada|ensaladas|con, sin, de, para',
-      'masculino|pollo|pollos|con, sin, de, para'
+      '1. restaurant|restaurante|restaurantes|m',
+      '2. night|noche|noches|f',
+      '3. salad|ensalada|ensaladas|f',
+      '4. chicken|pollo|pollos|m'
     ],
     nounsOnlyReview: [
       'mesa',
@@ -94,9 +94,9 @@ export function generateExample({
       'comida'
     ],
     verbsReview: [
-      'gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
-      'ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
-      'pedir|pido|pides|pide|pedimos|pedís|piden'
+      '1. like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
+      '2. order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
+      '3. ask for|pedir|pido|pides|pide|pedimos|pedís|piden'
     ],
     verbsOnlyReview: [
       'gustar',

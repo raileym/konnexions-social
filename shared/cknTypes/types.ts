@@ -212,6 +212,7 @@ export type Module = {
     success: Success
     sentinel: Sentinel
     moduleProse: Prose
+    // formatDialogLines: Lines
 }
 
 export type Name = string
@@ -453,20 +454,21 @@ export type ErrorLabelKey = keyof typeof ERROR_LABEL
 export type ErrorLabel = ErrorLabelValue
 
 export const defaultErrorLabel = ERROR_LABEL.NO_ERROR
+export const defaultErrors = []
 export const defaultFieldCount = 0
 export const defaultLines = []
-export const defaultPrompt = ''
-export const defaultSignature = ''
-export const defaultErrors = []
-export const defaultSentinel = ''
-export const defaultProse = ''
-export const defaultModuleName = MODULE_NAME.DIALOG
-export const defaultScenarioLabel = SCENARIO_LABELS[SCENARIO.RESTAURANT]
-export const defaultTargetLanguage = LANGUAGE.SPANISH
-export const defaultSourceLanguage = LANGUAGE.ENGLISH
-export const defaultParticipantList = ''
+export const defaultFormatDialogLines = []
 export const defaultMaxCount = 20
+export const defaultModuleName = MODULE_NAME.DIALOG
+export const defaultParticipantList = ''
+export const defaultPrompt = ''
+export const defaultProse = ''
 export const defaultScenario = SCENARIO.RESTAURANT
+export const defaultScenarioLabel = SCENARIO_LABELS[SCENARIO.RESTAURANT]
+export const defaultSentinel = ''
+export const defaultSignature = ''
+export const defaultSourceLanguage = LANGUAGE.ENGLISH
+export const defaultTargetLanguage = LANGUAGE.SPANISH
 
 export const defaultModule: Module = {
   lines: defaultLines,
@@ -475,7 +477,8 @@ export const defaultModule: Module = {
   signature: defaultSignature,
   success: false,
   sentinel: defaultSentinel,
-  moduleProse: defaultProse
+  moduleProse: defaultProse //,
+  // formatDialogLines: defaultFormatDialogLines
 }
 
 export const defaultLesson: Lesson = {

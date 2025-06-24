@@ -2,35 +2,39 @@ import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsPrompt, GetNounsPromptProps } from '@cknTypes/types'
 import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
+import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getNounsPrompt: GetNounsPrompt = ({lesson, errors}: GetNounsPromptProps) => {
   const nounsExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS, options: { asString: true }  })
-  
+  const formatDialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
+
   return (`
 REQUEST: Extract the ${LANGUAGE_TITLE[lesson.targetLanguage]} nouns from the dialog below:
 
-DIALOG: ${lesson.prose}
+DIALOG:
 
-${getJsonQualification({responseType: 'nouns'})}
+  ${formatDialogLines.join('\n  ')}
 
-NOUNS RESPONSE: A nouns response is an array of strings that takes the form,
+NOUNS RESPONSE: Your nouns response should be a well-formed JSON array of strings in the following format:
 
   [
-    "noun(singular)|noun(plural)|gender|common prepositions",
-    "noun(singular)|noun(plural)|gender|common prepositions",
-    "noun(singular)|noun(plural)|gender|common prepositions"
-  ]
+    "english(translation)|noun(singular)|noun(plural)|gender",
+    "english(translation)|noun(singular)|noun(plural)|gender",
+    "english(translation)|noun(singular)|noun(plural)|gender"
+  ].
 
-where
+Guidelines:
 
-  - the vertical bar '|' delineates the four fields
-  - use a single vertical bar ('|') with no extra spaces to separate your fields
-  - gender must be 'masculino' or 'femenino'
-  - common prepositions must be at least 3 valid Spanish prepositions, separated by commas
-  - use lowercase throughout
-  - all content must be in lowercase, including nouns and prepositions
+  - Each noun occupies one string in the array of strings.
+  - All nouns use lowercase throughout.
+  - The English translation is for the noun(singular) form expressed in lower case.
+  - Include only nouns (e.g., people, places, things, or ideas).
+  - Do not include verbs, adjectives, expressions, or other parts of speech.
 
-EXAMPLE RESPONSE:
+Formatting rules:
+${getJsonQualification({responseType: 'nouns'})}
+EXAMPLE NOUNS RESPONSE:
+
 ${nounsExample}
 
 ${errors.length > 0 ? `AVOID THESE ERRORS:\n\n${errors.map(error => `    - ${error.detail}`).join('\n')}` : ''}

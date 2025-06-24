@@ -15,6 +15,7 @@ import {
   type Prompt
 } from '@cknTypes/types'
 import { streamlineModule } from '@shared/streamlineModule'
+// import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 const handler: Handler = async (event) => {
   try {
@@ -119,6 +120,7 @@ const handler: Handler = async (event) => {
     // with the prose. Post handleModule in the vacinity
     // of the nouns logic is where we assign prose.
 
+    // const formatDialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
     const prose = updatedLesson.dialog.lines.join(' ')
     const signature = generateSignature(prose)
 
@@ -131,7 +133,8 @@ const handler: Handler = async (event) => {
           ...streamlinedModule,
           prompt,
           signature,
-          moduleProse: prose
+          moduleProse: prose //,
+          // formatDialogLines
         }
       })
     }

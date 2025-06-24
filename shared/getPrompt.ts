@@ -76,7 +76,7 @@ const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, 
   }),
   verbs: ({ scenarioData, lesson, errors }) => ({
     prompt: getVerbsPrompt({ scenarioData, lesson, errors }),
-    fieldCount: 7,
+    fieldCount: 8,
     errorLabel: ERROR_LABEL.VERBS_ERROR
   }),
   verbsOnly: ({ scenarioData, lesson, errors }) => ({
@@ -101,7 +101,7 @@ const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, 
   }),
   verbsReview: ({ scenarioData, lesson, errors }) => ({
     prompt: getVerbsReviewPrompt({ scenarioData, lesson, errors }),
-    fieldCount: 7,
+    fieldCount: 8,
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
   }),
   verbsOnlyReview: ({ scenarioData, lesson, errors }) => ({

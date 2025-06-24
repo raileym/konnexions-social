@@ -1,56 +1,55 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import type { GetNounsReviewPrompt, GetNounsReviewPromptProps } from '@cknTypes/types'
-import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
+import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getNounsReviewPrompt: GetNounsReviewPrompt = ({lesson, errors}: GetNounsReviewPromptProps) => {
   const nounsReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
+  const formatDialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
   
+// ${JSON.stringify(lesson.nouns.lines, null, 2)}
+
   return (`
-GIVEN:
+REQUEST: Review the list of ${LANGUAGE_TITLE[lesson.targetLanguage]} nouns below in relation to the dialog that follows. Your task is to ensure that the list contains only nouns that appear in the dialog and that the details for the nouns are correct as to each noun's English translation, singular form, plural form, and grammatical gender ('m' for masculine or 'f' for feminine).
 
-nounsArray = ${JSON.stringify(lesson.nouns.lines, null, 2)}
+NOUNS TO REVIEW:
 
-where the nounsArray takes the form:
+${JSON.stringify(lesson.nouns.lines, null, 2)}
+
+DIALOG: The following beginner-level Spanish dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between ${lesson.participantList}.
+
+  ${formatDialogLines.join('\n  ')}
+
+NOUNS RESPONSE: Rewrite the list of nouns above so that it includes only nouns that explicitly appear in the dialog above, and excludes all others. Correct any errors in the details of the nouns.
+
+NOUNS RESPONSE FORMAT: Return your result as a single valid JSON array in the following structure:
 
   [
-    "noun(singular)|noun(plural)|gender|common prepositions",
-    "noun(singular)|noun(plural)|gender|common prepositions",
-    "noun(singular)|noun(plural)|gender|common prepositions"
-  ]
+    "1. english(translation)|noun(singular)|noun(plural)|gender",
+    "2. english(translation)|noun(singular)|noun(plural)|gender",
+    "3. english(translation)|noun(singular)|noun(plural)|gender"
+  ].
 
-with
+where
 
-  - Field no 1: gender must be 'm' or 'f' for masculine and feminine, respectively
-  - Field no 2: singular form of the noun
-  - Field no 3: plural form of the noun, grammatically correct and commonly accepted in ${LANGUAGE_TITLE[lesson.targetLanguage]}
-  - Field no 4: common prepositions frequently used with the noun. Include at least 3 valid ${LANGUAGE_TITLE[lesson.targetLanguage]} prepositions, separated by commas
+  - Field no 1 is the English translation for the singular form of the noun.
+  - Field no 2 is the singular form of the noun.
+  - Field no 3 is the plural form of the noun, grammatically correct and commonly accepted in ${LANGUAGE_TITLE[lesson.targetLanguage]}.
+  - Field no 4 is gender of the noun using 'm' to denote grammatical masculine nouns and 'f' to denote grammatical feminine nouns.
 
-and
+Guidelines:
 
-  - the vertical bar '|' delineates the four fields
-  - use a single vertical bar ('|') with no extra spaces to separate your fields
-  - use lowercase throughout
-  - all content must be in lowercase, including nouns and prepositions
-
-REQUEST: Review the given Spanish-language nounsArray for grammatical correctness as to each noun's
-
-  - proper gender,
-  - singular form,
-  - plural form,
-  - common prepositions used with the noun,
-
-expressing minor corrections in your response only when necessary. All corrections offered for the 
-${LANGUAGE_TITLE[lesson.targetLanguage]} content must reflect language appropriate for beginning ${LANGUAGE_TITLE[lesson.targetLanguage]} learners.
-${getJsonQualification({responseType: 'nounsReview'})}
-
-Only include lines from nounsArray that require corrections. Your response, an updated nounsArray, will mimic the original format of nounsArray. Do not include unchanged lines. If no lines require corrections or updates, return a JSON array with one entry,
-
-  [ 'No corrections needed' ]
- 
-A complete example of a sample response follows:
-
-EXAMPLE RESPONSE:
+  - Each noun occupies one string in the array of strings.
+  - All nouns use lowercase throughout.
+  - The English translation is for the noun(singular) form expressed in lower case.
+  - Use the noun form as it appears in the dialog (singular or plural).
+  - Include only nouns (e.g., people, places, things, or ideas).
+  - Do not include verbs, adjectives, expressions, or other parts of speech.
+  
+Formatting rules:
+${getJsonQualification({responseType: 'nouns'})}
+EXAMPLE NOUNS RESPONSE:
 
 ${nounsReviewExample}
 

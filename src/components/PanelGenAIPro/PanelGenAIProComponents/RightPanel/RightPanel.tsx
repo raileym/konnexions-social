@@ -283,8 +283,14 @@ const RightPanel: React.FC = () => {
                 <PromptToggle className='bg-yellow black' title={'Proposed Nouns Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS, scenarioData, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Nouns Prompt'} prompt={lesson.nouns.prompt} />
 
+                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Nouns Review Prompt'} prompt={lesson.nounsReview.prompt} />
+
                 <PromptToggle className='bg-yellow black' title={'Proposed Verbs Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS, scenarioData, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Verbs Prompt'} prompt={lesson.verbs.prompt} />
+
+                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Verbs Review Prompt'} prompt={lesson.verbsReview.prompt} />
 
                 {/*
                 <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
@@ -312,6 +318,7 @@ const RightPanel: React.FC = () => {
                 <PromptToggle title={'Actual Verbs Missing Review Prompt'} prompt={lesson?.verbsMissingReview?.prompt} />
                 */}
 
+                {/*
                 <div className="mt4 b">NounsConstraint ({scenarioData?.nouns?.length ?? 0})</div>
                 <ul className="mt0 pt0 black">
                   {scenarioData?.nouns
@@ -377,6 +384,7 @@ const RightPanel: React.FC = () => {
                 </ul>
 
                 <Hr />
+                */}
               </>
             )
           }
