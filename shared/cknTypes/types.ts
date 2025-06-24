@@ -12,7 +12,8 @@ import {
   ERROR_LABEL,
   GENDER,
   SCENARIO_LABELS,
-  CURATED
+  CURATED,
+  PIPELINE_TYPE
 } from '@cknTypes/constants'
 
 export type AppContextType = {
@@ -244,19 +245,19 @@ export type Lesson = {
   verbsReview: Module
   verbsResolve: Module
 
-  nounsMissing: Module
-  nounsMissingReview: Module
-  nounsOnly: Module
-  nounsOnlyMissing: Module
-  nounsOnlyReview: Module
+  // nounsMissing: Module
+  // nounsMissingReview: Module
+  // nounsOnly: Module
+  // nounsOnlyMissing: Module
+  // nounsOnlyReview: Module
   verbsExpandedComplete: Module
   verbsExpandedInComplete: Module
   verbsExpandedTriple: Module
-  verbsMissing: Module
-  verbsMissingReview: Module
-  verbsOnly: Module
-  verbsOnlyMissing: Module
-  verbsOnlyReview: Module
+  // verbsMissing: Module
+  // verbsMissingReview: Module
+  // verbsOnly: Module
+  // verbsOnlyMissing: Module
+  // verbsOnlyReview: Module
 }
 
 export type LessonId = number
@@ -450,6 +451,10 @@ export const defaultDialogReviewLines: DialogLines = [
   'Mesero: En seguida.|Mesero: En un momento le traigo su bebida.'
 ]
 
+export type PipelineTypeValue = (typeof PIPELINE_TYPE)[keyof typeof PIPELINE_TYPE]
+export type PipelineTypeKey = keyof typeof PIPELINE_TYPE
+export type PipelineType = PipelineTypeValue
+
 export type NounArticlesValue = (typeof NOUN_ARTICLES)[keyof typeof NOUN_ARTICLES]
 export type NounArticlesKey = keyof typeof NOUN_ARTICLES
 export type NounArticles = NounArticlesValue
@@ -509,19 +514,19 @@ export const defaultLesson: Lesson = {
   verbsReview: defaultModule,
   verbsResolve: defaultModule,
 
-  nounsMissing: defaultModule,
-  nounsMissingReview: defaultModule,
-  nounsOnly: defaultModule,
-  nounsOnlyMissing: defaultModule,
-  nounsOnlyReview: defaultModule,
+  // nounsMissing: defaultModule,
+  // nounsMissingReview: defaultModule,
+  // nounsOnly: defaultModule,
+  // nounsOnlyMissing: defaultModule,
+  // nounsOnlyReview: defaultModule,
   verbsExpandedComplete: defaultModule,
   verbsExpandedInComplete: defaultModule,
   verbsExpandedTriple: defaultModule,
-  verbsMissing: defaultModule,
-  verbsMissingReview: defaultModule,
-  verbsOnly: defaultModule,
-  verbsOnlyMissing: defaultModule,
-  verbsOnlyReview: defaultModule
+  // verbsMissing: defaultModule,
+  // verbsMissingReview: defaultModule,
+  // verbsOnly: defaultModule,
+  // verbsOnlyMissing: defaultModule,
+  // verbsOnlyReview: defaultModule
 }
 
 export const dXfaultNounsLines: NounsLines = [
@@ -949,3 +954,27 @@ export type RunPipelineProps = {
   resolve: Resolve
 }
 
+export type RunPipelineCbProps = {
+  lesson: Lesson
+  pipelineConfig: PipelineConfig
+}
+
+export type GetModuleCbProps = {
+  testMode: TestMode
+  lesson: Lesson
+  moduleName: ModuleName
+}
+
+export type PipelineConfig = {
+  doModule: ModuleName
+  reviewModule: ModuleName
+  resolveModule: ModuleName
+  resolve: Resolve
+}
+
+export type PipelineConfigMap = Record<PipelineType, PipelineConfig>
+
+export type RunPipelineCbBody = {
+  lesson: Lesson
+  pipelineType: PipelineType
+}

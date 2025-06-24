@@ -11,21 +11,25 @@ export const MODULE_NAME = {
   VERBS_REVIEW: 'verbsReview',
   VERBS_RESOLVE: 'verbsResolve',
 
-  NOUNS_MISSING: 'nounsMissing',
-  NOUNS_MISSING_REVIEW: 'nounsMissingReview',
-  NOUNS_ONLY: 'nounsOnly',
-  NOUNS_ONLY_MISSING: 'nounsOnlyMissing',
-  NOUNS_ONLY_REVIEW: 'nounsOnlyReview',
+  // NOUNS_MISSING: 'nounsMissing',
+  // NOUNS_MISSING_REVIEW: 'nounsMissingReview',
+  // NOUNS_ONLY: 'nounsOnly',
+  // NOUNS_ONLY_MISSING: 'nounsOnlyMissing',
+  // NOUNS_ONLY_REVIEW: 'nounsOnlyReview',
   VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete',
   VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
-  VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple',
-  VERBS_MISSING: 'verbsMissing',
-  VERBS_MISSING_REVIEW: 'verbsMissingReview',
-  VERBS_ONLY: 'verbsOnly',
-  VERBS_ONLY_MISSING: 'verbsOnlyMissing',
-  VERBS_ONLY_REVIEW: 'verbsOnlyReview'
+  VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple' //,
+  // VERBS_MISSING: 'verbsMissing',
+  // VERBS_MISSING_REVIEW: 'verbsMissingReview',
+  // VERBS_ONLY: 'verbsOnly',
+  // VERBS_ONLY_MISSING: 'verbsOnlyMissing',
+  // VERBS_ONLY_REVIEW: 'verbsOnlyReview'
 } as const
 
+export const PIPELINE_TYPE = {
+  NOUNS: 'nouns',
+  VERBS: 'verbs'
+} as const
 
 
 // export const LANGUAGE_CODE = {
