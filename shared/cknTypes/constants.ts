@@ -3,14 +3,19 @@ import type { Gender, NounArticlesValue, ScenarioLabels } from './types'
 export const MODULE_NAME = {
   DIALOG: 'dialog',
   DIALOG_REVIEW: 'dialogReview',
+  DIALOG_RESOLVE: 'dialogResolve',
   NOUNS: 'nouns',
+  NOUNS_REVIEW: 'nounsReview',
+  NOUNS_RESOLVE: 'nounsResolve',
+  VERBS: 'verbs',
+  VERBS_REVIEW: 'verbsReview',
+  VERBS_RESOLVE: 'verbsResolve',
+
   NOUNS_MISSING: 'nounsMissing',
   NOUNS_MISSING_REVIEW: 'nounsMissingReview',
   NOUNS_ONLY: 'nounsOnly',
   NOUNS_ONLY_MISSING: 'nounsOnlyMissing',
   NOUNS_ONLY_REVIEW: 'nounsOnlyReview',
-  NOUNS_REVIEW: 'nounsReview',
-  VERBS: 'verbs',
   VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete',
   VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
   VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple',
@@ -18,8 +23,7 @@ export const MODULE_NAME = {
   VERBS_MISSING_REVIEW: 'verbsMissingReview',
   VERBS_ONLY: 'verbsOnly',
   VERBS_ONLY_MISSING: 'verbsOnlyMissing',
-  VERBS_ONLY_REVIEW: 'verbsOnlyReview',
-  VERBS_REVIEW: 'verbsReview'
+  VERBS_ONLY_REVIEW: 'verbsOnlyReview'
 } as const
 
 

@@ -90,6 +90,7 @@ export const handleCreateLesson = async ({
     testMode,
     doModule: MODULE_NAME.DIALOG,
     reviewModule: MODULE_NAME.DIALOG_REVIEW,
+    resolveModule: MODULE_NAME.DIALOG_RESOLVE,
     resolve: dialogResolve
   })
   if (!dialogLessonUpdated_4) return
@@ -299,6 +300,7 @@ export const handleCreateLesson = async ({
     testMode,
     doModule: MODULE_NAME.NOUNS,
     reviewModule: MODULE_NAME.NOUNS_REVIEW,
+    resolveModule: MODULE_NAME.NOUNS_RESOLVE,
     resolve: resolveNouns
   })
   if (!nounsLessonUpdated_8) return
@@ -309,6 +311,7 @@ export const handleCreateLesson = async ({
     testMode,
     doModule: MODULE_NAME.VERBS,
     reviewModule: MODULE_NAME.VERBS_REVIEW,
+    resolveModule: MODULE_NAME.VERBS_RESOLVE,
     resolve: resolveNouns
   })
   if (!verbsLessonUpdated_8) return

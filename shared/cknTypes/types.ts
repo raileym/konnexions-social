@@ -233,16 +233,22 @@ export type Lesson = {
   signature: Signature
 
   translation: Translation
+
   dialog: Module
   dialogReview: Module
+  dialogResolve: Module
   nouns: Module
+  nounsReview: Module
+  nounsResolve: Module
+  verbs: Module
+  verbsReview: Module
+  verbsResolve: Module
+
   nounsMissing: Module
   nounsMissingReview: Module
   nounsOnly: Module
   nounsOnlyMissing: Module
   nounsOnlyReview: Module
-  nounsReview: Module
-  verbs: Module
   verbsExpandedComplete: Module
   verbsExpandedInComplete: Module
   verbsExpandedTriple: Module
@@ -251,7 +257,6 @@ export type Lesson = {
   verbsOnly: Module
   verbsOnlyMissing: Module
   verbsOnlyReview: Module
-  verbsReview: Module
 }
 
 export type LessonId = number
@@ -493,16 +498,22 @@ export const defaultLesson: Lesson = {
   prose: defaultProse,
 
   translation: defaultTranslation,
+
   dialog: defaultModule,
   dialogReview: defaultModule,
+  dialogResolve: defaultModule,
   nouns: defaultModule,
+  nounsReview: defaultModule,
+  nounsResolve: defaultModule,
+  verbs: defaultModule,
+  verbsReview: defaultModule,
+  verbsResolve: defaultModule,
+
   nounsMissing: defaultModule,
   nounsMissingReview: defaultModule,
   nounsOnly: defaultModule,
   nounsOnlyMissing: defaultModule,
   nounsOnlyReview: defaultModule,
-  nounsReview: defaultModule,
-  verbs: defaultModule,
   verbsExpandedComplete: defaultModule,
   verbsExpandedInComplete: defaultModule,
   verbsExpandedTriple: defaultModule,
@@ -510,8 +521,7 @@ export const defaultLesson: Lesson = {
   verbsMissingReview: defaultModule,
   verbsOnly: defaultModule,
   verbsOnlyMissing: defaultModule,
-  verbsOnlyReview: defaultModule,
-  verbsReview: defaultModule
+  verbsOnlyReview: defaultModule
 }
 
 export const dXfaultNounsLines: NounsLines = [
@@ -935,6 +945,7 @@ export type RunPipelineProps = {
   testMode: boolean
   doModule: ModuleName
   reviewModule: ModuleName
+  resolveModule: ModuleName
   resolve: Resolve
 }
 

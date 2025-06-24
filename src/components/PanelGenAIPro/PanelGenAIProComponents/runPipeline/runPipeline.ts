@@ -7,6 +7,7 @@ export const runPipeline = async ({
   testMode,
   doModule,
   reviewModule,
+  resolveModule,
   resolve
 }: RunPipelineProps): Promise<Lesson | null> => {
   // DO
@@ -37,8 +38,8 @@ export const runPipeline = async ({
   // const prose = linesResolved?.join(' ') ?? ''
   return {
     ...lessonReviewed,
-    [doModule]: {
-      ...(lessonReviewed[doModule as keyof Lesson] as Module),
+    [resolveModule]: {
+      ...(lessonReviewed[resolveModule as keyof Lesson] as Module),
       lines: linesResolved
     } //,
     // prose

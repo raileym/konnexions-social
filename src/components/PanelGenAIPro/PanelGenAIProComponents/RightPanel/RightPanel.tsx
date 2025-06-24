@@ -256,7 +256,7 @@ const RightPanel: React.FC = () => {
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
-            <DialogList language={lesson.targetLanguage} lines={(lesson?.dialog?.lines ?? [])} useCloudTTS={true} />
+            <DialogList language={lesson.targetLanguage} lines={(lesson?.dialogResolve?.lines ?? [])} useCloudTTS={true} />
           </div>
 
           {/*
