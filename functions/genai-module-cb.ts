@@ -20,8 +20,6 @@ import {
   type ScenarioData
 } from '@cknTypes/types'
 
-// const alwaysTrue = true
-
 const handler: Handler = async (event) => {
   try {
     const { lesson, scenarioData, moduleName }: { scenarioData: ScenarioData, lesson: Lesson; moduleName: ModuleName } = JSON.parse(event.body ?? '{}')
@@ -32,19 +30,6 @@ const handler: Handler = async (event) => {
         body: 'Missing required fields: lesson, moduleName, or scenarioData'
       }
     }
-
-    console.log('ONE')
-
-    // if (alwaysTrue) {
-    //   return {
-    //     statusCode: 200,
-    //     body: JSON.stringify({
-    //       [moduleName]: {
-    //         ...lesson[moduleName]
-    //       }
-    //     })
-    //   }
-    // }
 
     let prompt: Prompt = defaultPrompt
     let fieldCount: number = defaultFieldCount
@@ -57,14 +42,8 @@ const handler: Handler = async (event) => {
       errors: []
     }))
 
-    console.log('TWO')
-    
-    // console.log('prompt', prompt)
-
     let response: string = await fetchOpenAI({ prompt })
 
-    console.log('THREE')
-    
     let validModule = validateModule({
       response,
       errorLabel,
@@ -73,8 +52,6 @@ const handler: Handler = async (event) => {
       moduleName
     })
 
-    console.log('FOUR')
-    
     // Retry if validation failed
     if (!validModule.success) {
       ;({ prompt, fieldCount, errorLabel } = getPrompt({
@@ -84,11 +61,7 @@ const handler: Handler = async (event) => {
         errors: validModule.errors ?? []
       }))
 
-      console.log('FIVE')
-
       response = await fetchOpenAI({ prompt })
-
-      console.log('SIX')
 
       validModule = validateModule({
         response,
@@ -97,16 +70,9 @@ const handler: Handler = async (event) => {
         language: lesson.targetLanguage,
         moduleName
       })
-
-      console.log('SEVEN')
-
     }
 
-    console.log('EIGHT')
-
     const streamlinedModule = streamlineModule({ moduleName, module: validModule })
-
-    console.log('NINE')
 
     const updatedLesson: Lesson = {
       ...lesson,
@@ -118,8 +84,6 @@ const handler: Handler = async (event) => {
 
     const prose = updatedLesson.dialog?.lines?.join(' ') ?? ''
     const signature = generateSignature(prose)
-
-    console.log('TEN')
 
     return {
       statusCode: 200,

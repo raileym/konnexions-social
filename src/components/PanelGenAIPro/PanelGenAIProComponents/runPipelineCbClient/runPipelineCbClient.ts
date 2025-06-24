@@ -24,7 +24,6 @@ export const runPipelineCbClient = async ({
     }
 
     const data = await res.json()
-    console.log('runPipeline_cb', lesson)
     return data.lesson as Lesson
   } catch (err) {
     console.error('Network error calling runPipelineCb:', err)

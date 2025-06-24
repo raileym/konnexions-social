@@ -29,9 +29,9 @@ export const resolveVerbs = ({
 
   for (const original of lines) {
     const parts = original.split('|').map(s => s.trim())
-    if (parts.length !== 7) {
+    if (parts.length !== 8) {
       linesResolved.push(original)
-      linesResolutions.push(`⚠️ Malformed line: kept as-is -> '${original}'`)
+      linesResolutions.push(`⚠️ Malformed line: expected 8 fields, got ${parts.length} -> '${original}'`)
       continue
     }
 

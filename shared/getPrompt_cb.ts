@@ -1,10 +1,11 @@
 import {
   defaultErrorLabel,
-  defaultFieldCount,
   defaultPrompt,
 } from '@cknTypes/types'
 import {
-  ERROR_LABEL
+  ERROR_LABEL,
+  FIELD_COUNT,
+  MODULE_NAME
 } from '@cknTypes/constants'
 type PromptWithMeta = {
   prompt: string
@@ -21,64 +22,64 @@ import { getVerbsReviewPrompt } from '@shared/getVerbsReviewPrompt'
 import { getVerbsExpandedCompletePrompt } from '@shared/getVerbsExpandedCompletePrompt'
 
 const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => PromptWithMeta> = {
-  dialog: ({ scenarioData, lesson, errors }) => ({
+  [MODULE_NAME.DIALOG]: ({ scenarioData, lesson, errors }) => ({
     prompt: getDialogPrompt({ scenarioData, lesson, errors }),
-    fieldCount: 3,
+    fieldCount: FIELD_COUNT[MODULE_NAME.DIALOG],
     errorLabel: ERROR_LABEL.DIALOG_ERROR
   }),
-  nouns: ({ scenarioData, lesson, errors }) => ({
+  [MODULE_NAME.NOUNS]: ({ scenarioData, lesson, errors }) => ({
     prompt: getNounsPrompt({ scenarioData, lesson, errors }),
-    fieldCount: 4,
+    fieldCount: FIELD_COUNT[MODULE_NAME.NOUNS],
     errorLabel: ERROR_LABEL.NOUNS_ERROR
   }),
-  verbs: ({ scenarioData, lesson, errors }) => ({
+  [MODULE_NAME.VERBS]: ({ scenarioData, lesson, errors }) => ({
     prompt: getVerbsPrompt({ scenarioData, lesson, errors }),
-    fieldCount: 8,
+    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS],
     errorLabel: ERROR_LABEL.VERBS_ERROR
   }),
-  dialogReview: ({ scenarioData, lesson, errors }) => ({
+  [MODULE_NAME.DIALOG_REVIEW]: ({ scenarioData, lesson, errors }) => ({
     prompt: getDialogReviewPrompt({ scenarioData, lesson, errors }),
-    fieldCount: 1,
+    fieldCount: FIELD_COUNT[MODULE_NAME.DIALOG_REVIEW],
     errorLabel: ERROR_LABEL.DIALOG_REVIEW_ERROR
   }),
-  nounsReview: ({ scenarioData, lesson, errors }) => ({
+  [MODULE_NAME.NOUNS_REVIEW]: ({ scenarioData, lesson, errors }) => ({
     prompt: getNounsReviewPrompt({ scenarioData, lesson, errors }),
-    fieldCount: 4,
+    fieldCount: FIELD_COUNT[MODULE_NAME.NOUNS_REVIEW],
     errorLabel: ERROR_LABEL.NOUNS_REVIEW_ERROR
   }),
-  verbsReview: ({ scenarioData, lesson, errors }) => ({
+  [MODULE_NAME.VERBS_REVIEW]: ({ scenarioData, lesson, errors }) => ({
     prompt: getVerbsReviewPrompt({ scenarioData, lesson, errors }),
-    fieldCount: 8,
+    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_REVIEW],
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
   }),
-  verbsExpandedInComplete: () => ({
+  [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: () => ({
     prompt: defaultPrompt,
-    fieldCount: defaultFieldCount,
+    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE],
     errorLabel: defaultErrorLabel
   }),
-  verbsExpandedComplete: ({ scenarioData, lesson, errors }) => ({
+  [MODULE_NAME.VERBS_EXPANDED_COMPLETE]: ({ scenarioData, lesson, errors }) => ({
     prompt: getVerbsExpandedCompletePrompt({ scenarioData, lesson, errors }),
-    fieldCount: 1,
+    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_EXPANDED_COMPLETE],
     errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
   }),
-  verbsExpandedTriple: () => ({
+  [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: () => ({
     prompt: defaultPrompt,
-    fieldCount: defaultFieldCount,
+    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_EXPANDED_TRIPLE],
     errorLabel: defaultErrorLabel
   }),
-  nounsResolve: () => ({
+  [MODULE_NAME.NOUNS_RESOLVE]: () => ({
     prompt: defaultPrompt,
-    fieldCount: defaultFieldCount,
+    fieldCount: FIELD_COUNT[MODULE_NAME.NOUNS_RESOLVE],
     errorLabel: defaultErrorLabel
   }),
-  verbsResolve: () => ({
+  [MODULE_NAME.VERBS_RESOLVE]: () => ({
     prompt: defaultPrompt,
-    fieldCount: defaultFieldCount,
+    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_RESOLVE],
     errorLabel: defaultErrorLabel
   }),
-  dialogResolve: () => ({
+  [MODULE_NAME.DIALOG_RESOLVE]: () => ({
     prompt: defaultPrompt,
-    fieldCount: defaultFieldCount,
+    fieldCount: FIELD_COUNT[MODULE_NAME.DIALOG_RESOLVE],
     errorLabel: defaultErrorLabel
   }),
 }

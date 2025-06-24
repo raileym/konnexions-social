@@ -1,4 +1,4 @@
-import type { Gender, NounArticlesValue, ScenarioLabels } from './types'
+import { type Gender, type ModuleName, type NounArticlesValue, type ScenarioLabels } from './types'
 
 export const MODULE_NAME = {
   DIALOG: 'dialog',
@@ -32,6 +32,20 @@ export const PIPELINE_TYPE = {
   VERBS: 'verbs'
 } as const
 
+export const FIELD_COUNT: Record<ModuleName, number> = {
+  [MODULE_NAME.DIALOG]: 3,
+  [MODULE_NAME.DIALOG_RESOLVE]: 0, 
+  [MODULE_NAME.DIALOG_REVIEW]: 1, 
+  [MODULE_NAME.NOUNS]: 4,
+  [MODULE_NAME.NOUNS_RESOLVE]: 0,
+  [MODULE_NAME.NOUNS_REVIEW]: 4,
+  [MODULE_NAME.VERBS]: 8,
+  [MODULE_NAME.VERBS_EXPANDED_COMPLETE]: 0,
+  [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: 0,
+  [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: 0,
+  [MODULE_NAME.VERBS_RESOLVE]: 0,
+  [MODULE_NAME.VERBS_REVIEW]: 8
+} as const
 
 // export const LANGUAGE_CODE = {
 //   [LANGUAGE.ENGLISH]: 'en',
