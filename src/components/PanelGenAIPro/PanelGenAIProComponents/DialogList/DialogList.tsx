@@ -49,7 +49,8 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
     setMaxCount,
     cutoff,
     store: storeAudioOrLine,
-    language
+    language,
+    debugLog
   })
 
   useEffect(() => {
