@@ -6,7 +6,7 @@ import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getNounsReviewPrompt: GetNounsReviewPrompt = ({lesson, errors}: GetNounsReviewPromptProps) => {
   const nounsReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
-  const formatDialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
+  const formatDialogLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_RESOLVE].lines)  
   
 // ${JSON.stringify(lesson.nouns.lines, null, 2)}
 
@@ -15,7 +15,7 @@ REQUEST: Review the list of ${LANGUAGE_TITLE[lesson.targetLanguage]} nouns below
 
 NOUNS TO REVIEW:
 
-${JSON.stringify(lesson.nouns.lines, null, 2)}
+${JSON.stringify(lesson[MODULE_NAME.NOUNS_DRAFT].lines, null, 2)}
 
 DIALOG: The following beginner-level Spanish dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between ${lesson.participantList}.
 

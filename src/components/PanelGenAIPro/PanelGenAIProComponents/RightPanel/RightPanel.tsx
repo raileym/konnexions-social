@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '@components/SelectorScenario'
-import { getPrompt } from '@shared/getPrompt'
+import { getPrompt_cb } from '@shared/getPrompt_cb'
 import ParticipantToggle from '@components/ParticipantToggle'
 // import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '@cknTypes/types'
 import {
@@ -20,10 +20,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails'
-// import handleModule from '../handleModule/handleModule'
-// import { dialogResolve } from '../dialogResolve/dialogResolve'
-// import { resolveNouns } from '../resolveNouns/resolveNouns'
-// import { resolveVerbs } from '../resolveVerbs/resolveVerbs'
 import { DialogList } from '../DialogList/DialogList'
 // import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
 // import { FlashcardModal } from '@PanelGenAIProComponents/FlashcardModal/FlashcardModal'
@@ -38,15 +34,11 @@ import PromptToggle from '@PanelGenAIProComponents/PromptToggle/PromptToggle'
 import LessonElementToggle from '@PanelGenAIProComponents/LessonElementToggle/LessonElementToggle'
 import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus'
 import { useDebugLogger } from '@hooks/useDebugLogger'
-// import { rebuildVerbLines } from '@PanelGenAIProComponents/rebuildVerbLines/rebuildVerbLines'
-// import { rebuildNounLines } from '@PanelGenAIProComponents/rebuildNounLines/rebuildNounLines'
-// import { resolveNounsOnly } from '../resolveNounsOnly/resolveNounsOnly'
-// import { getPrompt } from '../../../../../shared/getPrompt'
 
 const RightPanel: React.FC = () => {
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
   const [testMode,] = useState<TestMode>(false)
-  // const [showDialogPrompt, setShowDialogPrompt] = useState(false)
+  // const [showDialogDraftPrompt, setShowDialogDraftPrompt] = useState(false)
   const [useMyself, setUseMyself] = useState<UseMyself>(true)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [showVerbsPrompt, setShowVerbsPrompt] = useState(false)
@@ -56,8 +48,8 @@ const RightPanel: React.FC = () => {
 
   const debugLog = useDebugLogger()
 
-  // const toggleShowDialogPrompt = () => {
-  //   setShowDialogPrompt(prev => !prev)
+  // const toggleShowDialogDraftPrompt = () => {
+  //   setShowDialogDraftPrompt(prev => !prev)
   // }
     
   const toggleShowNounsPrompt = () => {
@@ -274,49 +266,23 @@ const RightPanel: React.FC = () => {
           {
             debugMode && alwaysFalse && (
               <>
-                <PromptToggle className='bg-yellow black' title={'Proposed Dialog Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Dialog Prompt'} prompt={lesson.dialog.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Dialog Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_DRAFT, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Dialog Prompt'} prompt={lesson[MODULE_NAME.DIALOG_DRAFT].prompt} />
 
-                <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
 
-                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS, scenarioData, lesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Nouns Prompt'} prompt={lesson.nouns.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.NOUNS_DRAFT, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Nouns Prompt'} prompt={lesson[MODULE_NAME.NOUNS_DRAFT].prompt} />
 
-                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.NOUNS_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Nouns Review Prompt'} prompt={lesson.nounsReview.prompt} />
 
-                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS, scenarioData, lesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Verbs Prompt'} prompt={lesson.verbs.prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.VERBS_DRAFT, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle title={'Actual Verbs Prompt'} prompt={lesson[MODULE_NAME.VERBS_DRAFT].prompt} />
 
-                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
+                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.VERBS_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Verbs Review Prompt'} prompt={lesson.verbsReview.prompt} />
-
-                {/*
-                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Nouns Only Prompt'} prompt={lesson.nounsOnly.prompt} />
-
-                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Nouns Only Review Prompt'} prompt={lesson.nounsOnlyReview.prompt} />
-
-                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY, scenarioData, lesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Verbs Only Prompt'} prompt={lesson.verbsOnly.prompt} />
-
-                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Only Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_ONLY_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Verbs Review Prompt'} prompt={lesson.verbsOnlyReview.prompt} />
-
-                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Missing Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_MISSING, scenarioData, lesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Nouns Missing Prompt'} prompt={lesson?.nounsMissing.prompt} />
-
-                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Missing Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Nouns Missing Review Prompt'} prompt={lesson?.nounsMissingReview?.prompt} />
-
-                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Missing Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_MISSING, scenarioData, lesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Verbs Missing Prompt'} prompt={lesson?.verbsMissing?.prompt} />
-
-                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Missing Review Prompt'} prompt={getPrompt({ moduleName: MODULE_NAME.VERBS_MISSING_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-                <PromptToggle title={'Actual Verbs Missing Review Prompt'} prompt={lesson?.verbsMissingReview?.prompt} />
-                */}
 
                 {/*
                 <div className="mt4 b">NounsConstraint ({scenarioData?.nouns?.length ?? 0})</div>
@@ -391,7 +357,7 @@ const RightPanel: React.FC = () => {
 
           {
             alwaysFalse && (
-              <LessonElementToggle title={'Nouns'} content={lesson.nouns.lines} testMode={testMode} />
+              <LessonElementToggle title={'Nouns'} content={lesson[MODULE_NAME.NOUNS_DRAFT].lines} testMode={testMode} />
             )
           }
 
@@ -410,7 +376,7 @@ const RightPanel: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.nouns.prompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson[MODULE_NAME.NOUNS_DRAFT].prompt}</div>
               </div>
             </div>
           )}
@@ -430,7 +396,7 @@ const RightPanel: React.FC = () => {
             <div className="w-100 flex justify-center flex-column">
               <div className="mt4 ba pa3 bg-white">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Prompt</div>
-                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.verbs.prompt}</div>
+                <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson[MODULE_NAME.VERBS_DRAFT].prompt}</div>
               </div>
             </div>
           )}

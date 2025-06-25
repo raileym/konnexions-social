@@ -39,22 +39,25 @@ const handler: Handler = async (event) => {
 
     const pipelineConfigMap: PipelineConfigMap = {
       [PIPELINE_TYPE.DIALOG]: {
-        doModule: MODULE_NAME.DIALOG,
+        draftModule: MODULE_NAME.DIALOG_DRAFT,
         reviewModule: MODULE_NAME.DIALOG_REVIEW,
         resolveModule: MODULE_NAME.DIALOG_RESOLVE,
-        resolve: resolveDialog
+        resolve: resolveDialog,
+        pipelineType: PIPELINE_TYPE.DIALOG
       },
       [PIPELINE_TYPE.NOUNS]: {
-        doModule: MODULE_NAME.NOUNS,
+        draftModule: MODULE_NAME.NOUNS_DRAFT,
         reviewModule: MODULE_NAME.NOUNS_REVIEW,
         resolveModule: MODULE_NAME.NOUNS_RESOLVE,
-        resolve: resolveNouns
+        resolve: resolveNouns,
+        pipelineType: PIPELINE_TYPE.NOUNS
       },
       [PIPELINE_TYPE.VERBS]: {
-        doModule: MODULE_NAME.VERBS,
+        draftModule: MODULE_NAME.VERBS_DRAFT,
         reviewModule: MODULE_NAME.VERBS_REVIEW,
         resolveModule: MODULE_NAME.VERBS_RESOLVE,
-        resolve: resolveVerbs
+        resolve: resolveVerbs,
+        pipelineType: PIPELINE_TYPE.VERBS
       }
     }
 
@@ -92,15 +95,15 @@ const handler: Handler = async (event) => {
 
         arg_dialog_draft: updatedLesson.dialogDraft,
         arg_dialog_review: updatedLesson.dialogReview,
-        arg_dialog: updatedLesson.dialog,
+        arg_dialog_resolve: updatedLesson.dialogResolve,
 
         arg_nouns_draft: updatedLesson.nounsDraft,
         arg_nouns_review: updatedLesson.nounsReview,
-        arg_nouns: updatedLesson.nouns,
+        arg_nouns_resolve: updatedLesson.nounsResolve,
 
         arg_verbs_draft: updatedLesson.verbsDraft,
         arg_verbs_review: updatedLesson.verbsReview,
-        arg_verbs: updatedLesson.verbs,
+        arg_verbs_resolve: updatedLesson.verbsResolve,
 
         arg_verbs_expanded_complete: updatedLesson.verbsExpandedComplete,
         arg_verbs_expanded_incomplete: updatedLesson.verbsExpandedInComplete,

@@ -1,14 +1,14 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
-import { type GetVerbsPrompt, type GetVerbsPromptProps } from '@cknTypes/types'
+import { type GetVerbsDraftPrompt, type GetVerbsDraftPromptProps } from '@cknTypes/types'
 import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
-export const getVerbsPrompt: GetVerbsPrompt = ({lesson, errors}: GetVerbsPromptProps) => {
+export const getVerbsDraftPrompt: GetVerbsDraftPrompt = ({lesson, errors}: GetVerbsDraftPromptProps) => {
         
-  const verbsExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: true }  })
+  const verbsExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_DRAFT, options: { asString: true }  })
 
-  const formatDialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
+  const formatDialogLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_RESOLVE].lines)  
   
   return (`
 REQUEST: Extract the ${LANGUAGE_TITLE[lesson.targetLanguage]} verbs from the dialog below. Only include present-tense verbs, not greetings (e.g., “buenos días”), nouns, or fixed expressions. Do not include repeated phrases unless they are valid present-tense conjugations of the same verb.

@@ -7,8 +7,8 @@ import { formatNounLinesForReview } from '@shared/formatNounLinesForReview'
 
 export const getVerbsReviewPrompt: GetVerbsReviewPrompt = ({lesson, errors}: GetVerbsReviewPromptProps) => {
   const verbsReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: true }  })
-  const formatDialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
-  const formatVerbsLines = formatNounLinesForReview(lesson.verbs.lines)  
+  const formatDialogLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_RESOLVE].lines)  
+  const formatVerbsLines = formatNounLinesForReview(lesson[MODULE_NAME.VERBS_DRAFT].lines)  
   
 // REQUEST: Review the following Spanish-language verbs for grammatical correctness and natural usage, making minor corrections only when necessary. These verbs are intended for beginning Spanish learners.
 

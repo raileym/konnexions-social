@@ -1,12 +1,12 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
-import type { GetNounsPrompt, GetNounsPromptProps } from '@cknTypes/types'
+import type { GetNounsDraftPrompt, GetNounsDraftPromptProps } from '@cknTypes/types'
 import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
-export const getNounsPrompt: GetNounsPrompt = ({lesson, errors}: GetNounsPromptProps) => {
-  const nounsExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS, options: { asString: true }  })
-  const formatDialogLines = formatDialogLinesForReview(lesson.dialog.lines)  
+export const getNounsDraftPrompt: GetNounsDraftPrompt = ({lesson, errors}: GetNounsDraftPromptProps) => {
+  const nounsExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS_DRAFT, options: { asString: true }  })
+  const formatDialogLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_RESOLVE].lines)  
 
   return (`
 REQUEST: Extract the ${LANGUAGE_TITLE[lesson.targetLanguage]} nouns from the dialog below:

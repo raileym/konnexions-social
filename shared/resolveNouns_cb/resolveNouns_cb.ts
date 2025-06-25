@@ -3,7 +3,7 @@ import type { Lines, ResolveProps, ResolveResult } from '@cknTypes/types'
 
 export const resolveNouns = ({
   reviewLines,
-  lines
+  draftLines
 }: ResolveProps): ResolveResult => {
   const linesResolved: Lines = []
   const linesResolutions: Lines = []
@@ -14,8 +14,8 @@ export const resolveNouns = ({
 
   if (isNoCorrections) {
     return {
-      linesResolved: [...lines],
-      linesResolutions: ['✅ No corrections found. Kept original lines.']
+      linesResolved: [...draftLines],
+      linesResolutions: ['✅ No corrections found. Kept original draftLines.']
     }
   }
 
@@ -28,9 +28,9 @@ export const resolveNouns = ({
     }
   }
 
-  for (const original of lines) {
+  for (const original of draftLines) {
     const parts = original.split('|')
-    if (parts.length !== FIELD_COUNT[MODULE_NAME.NOUNS]) {
+    if (parts.length !== FIELD_COUNT[MODULE_NAME.NOUNS_DRAFT]) {
       linesResolved.push(original)
       linesResolutions.push(`⚠️ Malformed line: kept as-is -> '${original}'`)
       continue

@@ -1,9 +1,10 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
-import { type GetDialogPrompt, type GetDialogPromptProps } from '@cknTypes/types'
-import { LANGUAGE_TITLE, SCENARIO_LABELS } from '@cknTypes/constants'
-export const getDialogPrompt: GetDialogPrompt = ({scenarioData, lesson, errors}: GetDialogPromptProps) => {
-  const dialogExample = generateExample({language: lesson.targetLanguage, moduleName: 'dialog', options: { asString: true }  })
+import { type GetDialogDraftPrompt, type GetDialogDraftPromptProps } from '@cknTypes/types'
+import { LANGUAGE_TITLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
+
+export const getDialogDraftPrompt: GetDialogDraftPrompt = ({scenarioData, lesson, errors}: GetDialogDraftPromptProps) => {
+  const dialogDraftExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.DIALOG_DRAFT, options: { asString: true }  })
   
   // cXonsole.log('scenarioData.nouns', scenarioData?.nouns)
 
@@ -43,7 +44,7 @@ Formatting rules
 ${getJsonQualification({responseType: 'dialog'})}
 A complete example of a dialog response follows:
 
-${dialogExample}
+${dialogDraftExample}
 
 ${errors.length > 0 ? `AVOID THESE ERRORS:\n\n${errors.map(error => `    - ${error.detail}`).join('\n')}` : ''}
 `

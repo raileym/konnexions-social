@@ -1,5 +1,4 @@
 import {
-  defaultErrorLabel,
   defaultPrompt,
 } from '@cknTypes/types'
 import {
@@ -13,90 +12,42 @@ type PromptWithMeta = {
   errorLabel: ErrorLabel
 }
 import type { Lesson, ErrorLabel, GetPromptProps, HandleLLMError, ModuleName, ScenarioData } from '@cknTypes/types'
-import { getDialogPrompt } from '@shared/getDialogPrompt'
-import { getNounsPrompt } from '@shared/getNounsPrompt'
-import { getVerbsPrompt } from '@shared/getVerbsPrompt'
+import { getDialogDraftPrompt } from '@shared/getDialogDraftPrompt'
+import { getNounsDraftPrompt } from '@shared/getNounsDraftPrompt'
+import { getVerbsDraftPrompt } from '@shared/getVerbsDraftPrompt'
 import { getDialogReviewPrompt } from '@shared/getDialogReviewPrompt'
 import { getNounsReviewPrompt } from '@shared/getNounsReviewPrompt'
 import { getVerbsReviewPrompt } from '@shared/getVerbsReviewPrompt'
 import { getVerbsExpandedCompletePrompt } from '@shared/getVerbsExpandedCompletePrompt'
 
+const makePromptGenerator = (
+  moduleName: ModuleName,
+  promptFn: (args: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => string
+) => ({ scenarioData, lesson, errors }: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => ({
+  prompt: promptFn({ scenarioData, lesson, errors }),
+  fieldCount: FIELD_COUNT[moduleName],
+  errorLabel: ERROR_LABEL[moduleName]
+})
+
+const makeStaticPromptGenerator = (moduleName: ModuleName) => () => ({
+  prompt: defaultPrompt,
+  fieldCount: FIELD_COUNT[moduleName],
+  errorLabel: ERROR_LABEL[moduleName]
+})
+
 const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => PromptWithMeta> = {
-  [MODULE_NAME.DIALOG]: ({ scenarioData, lesson, errors }) => ({
-    prompt: getDialogPrompt({ scenarioData, lesson, errors }),
-    fieldCount: FIELD_COUNT[MODULE_NAME.DIALOG],
-    errorLabel: ERROR_LABEL.DIALOG_ERROR
-  }),
-  [MODULE_NAME.NOUNS]: ({ scenarioData, lesson, errors }) => ({
-    prompt: getNounsPrompt({ scenarioData, lesson, errors }),
-    fieldCount: FIELD_COUNT[MODULE_NAME.NOUNS],
-    errorLabel: ERROR_LABEL.NOUNS_ERROR
-  }),
-  [MODULE_NAME.VERBS]: ({ scenarioData, lesson, errors }) => ({
-    prompt: getVerbsPrompt({ scenarioData, lesson, errors }),
-    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS],
-    errorLabel: ERROR_LABEL.VERBS_ERROR
-  }),
-  [MODULE_NAME.DIALOG_REVIEW]: ({ scenarioData, lesson, errors }) => ({
-    prompt: getDialogReviewPrompt({ scenarioData, lesson, errors }),
-    fieldCount: FIELD_COUNT[MODULE_NAME.DIALOG_REVIEW],
-    errorLabel: ERROR_LABEL.DIALOG_REVIEW_ERROR
-  }),
-  [MODULE_NAME.NOUNS_REVIEW]: ({ scenarioData, lesson, errors }) => ({
-    prompt: getNounsReviewPrompt({ scenarioData, lesson, errors }),
-    fieldCount: FIELD_COUNT[MODULE_NAME.NOUNS_REVIEW],
-    errorLabel: ERROR_LABEL.NOUNS_REVIEW_ERROR
-  }),
-  [MODULE_NAME.VERBS_REVIEW]: ({ scenarioData, lesson, errors }) => ({
-    prompt: getVerbsReviewPrompt({ scenarioData, lesson, errors }),
-    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_REVIEW],
-    errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
-  }),
-  [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: () => ({
-    prompt: defaultPrompt,
-    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_EXPANDED_INCOMPLETE],
-    errorLabel: defaultErrorLabel
-  }),
-  [MODULE_NAME.VERBS_EXPANDED_COMPLETE]: ({ scenarioData, lesson, errors }) => ({
-    prompt: getVerbsExpandedCompletePrompt({ scenarioData, lesson, errors }),
-    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_EXPANDED_COMPLETE],
-    errorLabel: ERROR_LABEL.VERBS_REVIEW_ERROR
-  }),
-  [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: () => ({
-    prompt: defaultPrompt,
-    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_EXPANDED_TRIPLE],
-    errorLabel: defaultErrorLabel
-  }),
-  [MODULE_NAME.NOUNS_RESOLVE]: () => ({
-    prompt: defaultPrompt,
-    fieldCount: FIELD_COUNT[MODULE_NAME.NOUNS_RESOLVE],
-    errorLabel: defaultErrorLabel
-  }),
-  [MODULE_NAME.VERBS_RESOLVE]: () => ({
-    prompt: defaultPrompt,
-    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_RESOLVE],
-    errorLabel: defaultErrorLabel
-  }),
-  [MODULE_NAME.DIALOG_RESOLVE]: () => ({
-    prompt: defaultPrompt,
-    fieldCount: FIELD_COUNT[MODULE_NAME.DIALOG_RESOLVE],
-    errorLabel: defaultErrorLabel
-  }),
-  [MODULE_NAME.NOUNS_DRAFT]: () => ({
-    prompt: defaultPrompt,
-    fieldCount: FIELD_COUNT[MODULE_NAME.NOUNS_DRAFT],
-    errorLabel: defaultErrorLabel
-  }),
-  [MODULE_NAME.VERBS_DRAFT]: () => ({
-    prompt: defaultPrompt,
-    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_DRAFT],
-    errorLabel: defaultErrorLabel
-  }),
-  [MODULE_NAME.DIALOG_DRAFT]: () => ({
-    prompt: defaultPrompt,
-    fieldCount: FIELD_COUNT[MODULE_NAME.DIALOG_DRAFT],
-    errorLabel: defaultErrorLabel
-  })
+  [MODULE_NAME.DIALOG_DRAFT]: makePromptGenerator(MODULE_NAME.DIALOG_DRAFT, getDialogDraftPrompt),
+  [MODULE_NAME.DIALOG_RESOLVE]: makeStaticPromptGenerator(MODULE_NAME.DIALOG_RESOLVE),
+  [MODULE_NAME.DIALOG_REVIEW]: makePromptGenerator(MODULE_NAME.DIALOG_REVIEW, getDialogReviewPrompt),
+  [MODULE_NAME.NOUNS_DRAFT]: makePromptGenerator(MODULE_NAME.NOUNS_DRAFT, getNounsDraftPrompt),
+  [MODULE_NAME.NOUNS_RESOLVE]: makeStaticPromptGenerator(MODULE_NAME.NOUNS_RESOLVE),
+  [MODULE_NAME.NOUNS_REVIEW]: makePromptGenerator(MODULE_NAME.NOUNS_REVIEW, getNounsReviewPrompt),
+  [MODULE_NAME.VERBS_DRAFT]: makePromptGenerator(MODULE_NAME.VERBS_DRAFT, getVerbsDraftPrompt),
+  [MODULE_NAME.VERBS_EXPANDED_COMPLETE]: makePromptGenerator(MODULE_NAME.VERBS_EXPANDED_COMPLETE, getVerbsExpandedCompletePrompt),
+  [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: makeStaticPromptGenerator(MODULE_NAME.VERBS_EXPANDED_INCOMPLETE),
+  [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: makeStaticPromptGenerator(MODULE_NAME.VERBS_EXPANDED_TRIPLE),
+  [MODULE_NAME.VERBS_RESOLVE]: makeStaticPromptGenerator(MODULE_NAME.VERBS_RESOLVE),
+  [MODULE_NAME.VERBS_REVIEW]: makePromptGenerator(MODULE_NAME.VERBS_REVIEW, getVerbsReviewPrompt)
 }
 
 export const getPrompt_cb = ({ moduleName, scenarioData, lesson, errors }: GetPromptProps & { moduleName: ModuleName, scenarioData: ScenarioData }): PromptWithMeta =>

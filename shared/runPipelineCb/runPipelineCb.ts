@@ -17,41 +17,46 @@ export const runPipelineCb = async ({
   scenarioData,
   pipelineConfig
 }: RunPipelineCbProps): Promise<Lesson | null> => {
-  // DO
-  const moduleDone = await getModule_cb({
+  // DRAFT
+  const moduleDraft = await getModule_cb({
     scenarioData,
     testMode: false,
-    moduleName: pipelineConfig.doModule,
+    moduleName: pipelineConfig.draftModule,
     lesson
   })
-  if (!moduleDone) return null
+  if (!moduleDraft) return null
 
-  const lessonDone = {
+  const lessonDraft = {
     ...lesson,
-    [pipelineConfig.doModule]: moduleDone
+    [pipelineConfig.draftModule]: moduleDraft
   }
 
-  console.log('moduleDone', JSON.stringify(moduleDone, null, 2))
+  console.log(`${pipelineConfig.pipelineType}: moduleDraft`, JSON.stringify(moduleDraft, null, 2))
 
   // REVIEW
   const moduleReviewed = await getModule_cb({
-    lesson: lessonDone,
+    lesson: lessonDraft,
     moduleName: pipelineConfig.reviewModule,
     testMode: false,
     scenarioData,
   })
   if (!moduleReviewed) return null
 
+  console.log(`${pipelineConfig.pipelineType}: moduleReview`, JSON.stringify(moduleReviewed, null, 2))
+
   const lessonReviewed = {
-    ...lessonDone,
+    ...lessonDraft,
     [pipelineConfig.reviewModule]: moduleReviewed
   }
 
   // RESOLVE
   const { linesResolved, linesResolutions } = pipelineConfig.resolve({
     reviewLines: lessonReviewed[pipelineConfig.reviewModule].lines,
-    lines: lessonReviewed[pipelineConfig.doModule].lines
+    draftLines: lessonReviewed[pipelineConfig.draftModule].lines
   })
+
+  console.log(`${pipelineConfig.pipelineType}: linesResolved`, JSON.stringify(linesResolved, null, 2))
+  console.log(`${pipelineConfig.pipelineType}: linesResolutions`, JSON.stringify(linesResolutions, null, 2))
 
   const lessonResolved = {
     ...lessonReviewed,
@@ -63,18 +68,4 @@ export const runPipelineCb = async ({
   }
 
   return lessonResolved
-
-  // // RESTATE
-  // return {
-  //   ...lessonReviewed,
-  //   [pipelineConfig.resolveModule]: {
-  //     ...lessonReviewed[pipelineConfig.resolveModule],
-  //     lines: resolved.linesResolved
-  //   },
-  //   [pipelineConfig.reviewModule]: lessonReviewed,
-  //   [pipelineConfig.resolveModule]: {
-  //     ...lessonReviewed,
-  //     lines: resolved.linesResolved
-  //   }
-  // }
 }

@@ -131,7 +131,7 @@ export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetCutoff = React.Dispatch<React.SetStateAction<Cutoff>>
 export type SetDebugMode = React.Dispatch<React.SetStateAction<DebugMode>>
-export type SetDialogPrompt = React.Dispatch<React.SetStateAction<Prompt>>
+export type SetDialogDraftPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
 export type SetGenerateTTSCount = React.Dispatch<React.SetStateAction<GenerateTTSCount>>
 export type SetHandleDialogErrors = React.Dispatch<React.SetStateAction<HandleDialogErrors>>
@@ -150,7 +150,7 @@ export type SetLineNumber = React.Dispatch<React.SetStateAction<LineNumber>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
 export type SetMaxCount = React.Dispatch<React.SetStateAction<MaxCount>>
-export type SetNounsPrompt = React.Dispatch<React.SetStateAction<Prompt>>
+export type SetNounsDraftPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetOpenAiAvgTokens = React.Dispatch<React.SetStateAction<OpenAiAvgTokens>>
 export type SetOpenAiBudget = React.Dispatch<React.SetStateAction<OpenAiBudget>>
 export type SetOpenAiKey = React.Dispatch<React.SetStateAction<OpenAiKey>>
@@ -235,15 +235,15 @@ export type Lesson = {
 
   translation: Translation
 
-  dialog: Module
+  // dialog: Module
   dialogDraft: Module
   dialogReview: Module
   dialogResolve: Module
-  nouns: Module
+  // nouns: Module
   nounsDraft: Module
   nounsReview: Module
   nounsResolve: Module
-  verbs: Module
+  // verbs: Module
   verbsDraft: Module
   verbsReview: Module
   verbsResolve: Module
@@ -403,9 +403,9 @@ export type GetPromptProps = {
   errors: HandleLLMError[]
 }
 
-export type GetDialogPromptProps = GetPromptProps
+export type GetDialogDraftPromptProps = GetPromptProps
 export type GetDialogReviewPromptProps = GetPromptProps
-export type GetNounsPromptProps = GetPromptProps
+export type GetNounsDraftPromptProps = GetPromptProps
 export type GetNounsMissingPromptProps = GetPromptProps
 export type GetVerbsMissingPromptProps = GetPromptProps
 export type GetNounsReviewPromptProps = GetPromptProps
@@ -414,14 +414,14 @@ export type GetVerbsMissingReviewPromptProps = GetPromptProps
 export type GetNounsOnlyPromptProps = GetPromptProps
 export type GetNounsOnlyReviewPromptProps = GetPromptProps
 export type GetVerbsExpandedCompletePromptProps = GetPromptProps
-export type GetVerbsPromptProps = GetPromptProps
+export type GetVerbsDraftPromptProps = GetPromptProps
 export type GetVerbsReviewPromptProps = GetPromptProps
 export type GetVerbsOnlyPromptProps = GetPromptProps
 export type GetVerbsOnlyReviewPromptProps = GetPromptProps
 
-export type GetDialogPrompt = (props: GetDialogPromptProps) => string
+export type GetDialogDraftPrompt = (props: GetDialogDraftPromptProps) => string
 export type GetDialogReviewPrompt = (props: GetDialogReviewPromptProps) => string
-export type GetNounsPrompt = (props: GetNounsPromptProps) => string
+export type GetNounsDraftPrompt = (props: GetNounsDraftPromptProps) => string
 export type GetNounsMissingPrompt = (props: GetNounsMissingPromptProps) => string
 export type GetVerbsMissingPrompt = (props: GetVerbsMissingPromptProps) => string
 export type GetNounsReviewPrompt = (props: GetNounsReviewPromptProps) => string
@@ -430,7 +430,7 @@ export type GetVerbsMissingReviewPrompt = (props: GetVerbsMissingReviewPromptPro
 export type GetNounsOnlyPrompt = (props: GetNounsOnlyPromptProps) => string
 export type GetNounsOnlyReviewPrompt = (props: GetNounsOnlyReviewPromptProps) => string
 export type GetVerbsExpandedCompletePrompt = (props: GetVerbsExpandedCompletePromptProps) => string
-export type GetVerbsPrompt = (props: GetVerbsPromptProps) => string
+export type GetVerbsDraftPrompt = (props: GetVerbsDraftPromptProps) => string
 export type GetVerbsReviewPrompt = (props: GetVerbsReviewPromptProps) => string
 export type GetVerbsOnlyPrompt = (props: GetVerbsOnlyPromptProps) => string
 export type GetVerbsOnlyReviewPrompt = (props: GetVerbsOnlyReviewPromptProps) => string
@@ -466,14 +466,13 @@ export type ErrorLabelValue = (typeof ERROR_LABEL)[keyof typeof ERROR_LABEL]
 export type ErrorLabelKey = keyof typeof ERROR_LABEL
 export type ErrorLabel = ErrorLabelValue
 
-export const defaultErrorLabel = ERROR_LABEL.NO_ERROR
 export const defaultErrors = []
 export const defaultFieldCount = 0
 export const defaultLines = []
 export const defaultLinesResolution = []
 export const defaultFormatDialogLines = []
 export const defaultMaxCount = 20
-export const defaultModuleName = MODULE_NAME.DIALOG
+export const defaultModuleName = MODULE_NAME.DIALOG_DRAFT
 export const defaultParticipantList = ''
 export const defaultPrompt = ''
 export const defaultProse = ''
@@ -509,15 +508,15 @@ export const defaultLesson: Lesson = {
 
   translation: defaultTranslation,
 
-  dialog: defaultModule,
+  // dialog: defaultModule,
   dialogDraft: defaultModule,
   dialogReview: defaultModule,
   dialogResolve: defaultModule,
-  nouns: defaultModule,
+  // nouns: defaultModule,
   nounsDraft: defaultModule,
   nounsReview: defaultModule,
   nounsResolve: defaultModule,
-  verbs: defaultModule,
+  // verbs: defaultModule,
   verbsDraft: defaultModule,
   verbsReview: defaultModule,
   verbsResolve: defaultModule,
@@ -947,20 +946,20 @@ export type ResolveResult = {
 
 export type ResolveProps = {
   reviewLines: Lines,
-  lines: Lines
+  draftLines: Lines
 }
 
 export type Resolve = (props: ResolveProps) => ResolveResult
 
-export type RunPipelineProps = {
-  lesson: Lesson
-  scenarioData: ScenarioData
-  testMode: boolean
-  doModule: ModuleName
-  reviewModule: ModuleName
-  resolveModule: ModuleName
-  resolve: Resolve
-}
+// export type RunPipelineProps = {
+//   lesson: Lesson
+//   scenarioData: ScenarioData
+//   testMode: boolean
+//   draftModule: ModuleName
+//   reviewModule: ModuleName
+//   resolveModule: ModuleName
+//   resolve: Resolve
+// }
 
 export type RunPipelineCbProps = {
   lesson: Lesson
@@ -976,10 +975,11 @@ export type GetModuleCbProps = {
 }
 
 export type PipelineConfig = {
-  doModule: ModuleName
+  draftModule: ModuleName
   reviewModule: ModuleName
   resolveModule: ModuleName
   resolve: Resolve
+  pipelineType: PipelineType
 }
 
 export type PipelineConfigMap = Record<PipelineType, PipelineConfig>

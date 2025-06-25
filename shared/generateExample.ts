@@ -24,13 +24,13 @@ export function generateExample({
   }
 
   const examples: Record<ModuleName, string[]> = {
-    dialog: [
+    dialogDraft: [
       'f|Camarera|¡Bienvenidos al restaurante! ¿Cuántos son en su grupo?',
       'm|Cliente|Somos cuatro. ¿Podemos sentarnos cerca de la ventana?',
       'f|Camarera|Por supuesto. Síganme, por favor.',
       'm|Cliente|Gracias.'
     ],
-    nouns: [
+    nounsDraft: [
       'restaurant|restaurante|restaurantes|m',
       'night|noche|noches|f',
       'salad|ensalada|ensaladas|f',
@@ -55,7 +55,7 @@ export function generateExample({
     //   'menú',
     //   'comida'
     // ],
-    verbs: [
+    verbsDraft: [
       'like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
       'order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
       'ask for|pedir|pido|pides|pide|pedimos|pedís|piden'

@@ -7,12 +7,12 @@ import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const resolveDialog = ({
   reviewLines,
-  lines
+  draftLines
 }: ResolveProps): ResolveResult => {
   const linesResolved: Lines = []
   const linesResolutions: Lines = []
 
-  const formattedOriginalLines = formatDialogLinesForReview(lines)
+  const formattedOriginalLines = formatDialogLinesForReview(draftLines)
 
   const isNoCorrections =
     reviewLines.length === 1 &&
@@ -20,12 +20,12 @@ export const resolveDialog = ({
 
   if (isNoCorrections) {
     return {
-      linesResolved: [...lines],
-      linesResolutions: ['✅ No corrections found. Kept original lines.']
+      linesResolved: [...draftLines],
+      linesResolutions: ['✅ No corrections found. Kept original draftLines.']
     }
   }
 
-  // Build a Map<number, string> for review lines
+  // Build a Map<number, string> for review draftLines
   const reviewMap = new Map<number, string>()
 
   for (const entry of reviewLines) {
@@ -42,8 +42,8 @@ export const resolveDialog = ({
     }
   }
 
-  for (let i = 0; i < lines.length; i++) {
-    const originalLine = lines[i]
+  for (let i = 0; i < draftLines.length; i++) {
+    const originalLine = draftLines[i]
     const parts = originalLine.split('|')
     if (parts.length < 3) {
       linesResolved.push(originalLine)

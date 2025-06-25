@@ -7,7 +7,7 @@ import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 export const getDialogReviewPrompt: GetDialogReviewPrompt = ({lesson, errors}: GetDialogReviewPromptProps) => {
   const dialogReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: true }  })
 
-const dialogReviewLines = formatDialogLinesForReview(lesson.dialog.lines)  
+const dialogReviewLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_DRAFT].lines)  
   
 const example =
 `

@@ -1,15 +1,15 @@
 import { type Gender, type ModuleName, type NounArticlesValue, type ScenarioLabels } from './types'
 
 export const MODULE_NAME = {
-  DIALOG: 'dialog',
+  // DIALOG: 'dialog',
   DIALOG_DRAFT: 'dialogDraft',
   DIALOG_REVIEW: 'dialogReview',
   DIALOG_RESOLVE: 'dialogResolve',
-  NOUNS: 'nouns',
+  // NOUNS: 'nouns',
   NOUNS_DRAFT: 'nounsDraft',
   NOUNS_REVIEW: 'nounsReview',
   NOUNS_RESOLVE: 'nounsResolve',
-  VERBS: 'verbs',
+  // VERBS: 'verbs',
   VERBS_DRAFT: 'verbsDraft',
   VERBS_REVIEW: 'verbsReview',
   VERBS_RESOLVE: 'verbsResolve',
@@ -36,15 +36,15 @@ export const PIPELINE_TYPE = {
 } as const
 
 export const FIELD_COUNT: Record<ModuleName, number> = {
-  [MODULE_NAME.DIALOG]: 3,
+  // [MODULE_NAME.DIALOG]: 3,
   [MODULE_NAME.DIALOG_DRAFT]: 3, 
   [MODULE_NAME.DIALOG_RESOLVE]: 0, 
   [MODULE_NAME.DIALOG_REVIEW]: 1, 
-  [MODULE_NAME.NOUNS]: 4,
+  // [MODULE_NAME.NOUNS]: 4,
   [MODULE_NAME.NOUNS_DRAFT]: 4,
   [MODULE_NAME.NOUNS_RESOLVE]: 0,
   [MODULE_NAME.NOUNS_REVIEW]: 4,
-  [MODULE_NAME.VERBS]: 8,
+  // [MODULE_NAME.VERBS]: 8,
   [MODULE_NAME.VERBS_EXPANDED_COMPLETE]: 0,
   [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: 0,
   [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: 0,
@@ -106,21 +106,22 @@ export const APP_PANEL = {
   GEN_AI_PRO: 'genAIPro'
 } as const
 
-export const ERROR_LABEL = {
-  NO_ERROR: 'noError',
-  DIALOG_ERROR: 'handleDialogError',
-  NOUNS_ERROR: 'handleNounsError',
-  NOUNS_ONLY_ERROR: 'handleNounsOnlyError',
-  VERBS_ERROR: 'handleVerbsError',
-  VERBS_ONLY_ERROR: 'handleVerbsOnlyError',
-  DIALOG_REVIEW_ERROR: 'handleDialogReviewError',
-  NOUNS_REVIEW_ERROR: 'handleNounsReviewError',
-  NOUNS_ONLY_REVIEW_ERROR: 'handleNounsOnlyReviewError',
-  VERBS_REVIEW_ERROR: 'handleVerbsReviewError',
-  VERBS_REVIEW_ONLY_ERROR: 'handleVerbsOnlyReviewError',
-  VERBS_EXPANDED_ERROR: 'handleVerbsExpandedError',
-  VERBS_EXPANDED_INCOMPLETE_ERROR: 'handleVerbsExpandedInCompleteError',
-  VERBS_EXPANDED_COMPLETE_ERROR: 'handleVerbsExpandedCompleteError'
+export const ERROR_LABEL: Record<ModuleName, string> = {
+  // [MODULE_NAME.DIALOG]: 'handleDialogError',
+  [MODULE_NAME.DIALOG_DRAFT]: 'handleDialogDraftError',
+  [MODULE_NAME.DIALOG_RESOLVE]: 'handleDialogResolveError',
+  [MODULE_NAME.DIALOG_REVIEW]: 'handleDialogReviewError',
+  // [MODULE_NAME.NOUNS]: 'handleNounsError',
+  [MODULE_NAME.NOUNS_DRAFT]: 'handleNounsDraftError',
+  [MODULE_NAME.NOUNS_RESOLVE]: 'handleNounsResolveError',
+  [MODULE_NAME.NOUNS_REVIEW]: 'handleNounsReviewError',
+  // [MODULE_NAME.VERBS]: 'handleVerbsError',
+  [MODULE_NAME.VERBS_DRAFT]: 'handleVerbsDraftError',
+  [MODULE_NAME.VERBS_RESOLVE]: 'handleVerbsResolveError',
+  [MODULE_NAME.VERBS_REVIEW]: 'handleVerbsReviewError',
+  [MODULE_NAME.VERBS_EXPANDED_COMPLETE]: 'handleVerbsExpandedCompleteError',
+  [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: 'handleVerbsExpandedTripleError',
+  [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: 'handleVerbsExpandedInCompleteError'
 } as const
 
 export const NOUN_ARTICLES = {

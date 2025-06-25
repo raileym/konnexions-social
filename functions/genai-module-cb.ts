@@ -2,23 +2,19 @@
 
 import { type Handler } from '@netlify/functions'
 import { generateSignature } from '@shared/generateSignature'
-// import { generateExample } from '@shared/generateExample'
 import { fetchOpenAI } from '@shared/fetchLLM'
-import { getPrompt } from '@shared/getPrompt'
+import { getPrompt_cb } from '@shared/getPrompt_cb'
 import { validateModule } from '@shared/validateModule'
 import { streamlineModule } from '@shared/streamlineModule'
 import {
-  defaultErrorLabel,
-  defaultFieldCount,
-  // defaultModule,
   defaultPrompt,
   type ErrorLabel,
   type Lesson,
   type ModuleName,
-  // type Module,
   type Prompt,
   type ScenarioData
 } from '@cknTypes/types'
+import { ERROR_LABEL, FIELD_COUNT, MODULE_NAME } from '@cknTypes/constants'
 
 const handler: Handler = async (event) => {
   try {
@@ -32,15 +28,19 @@ const handler: Handler = async (event) => {
     }
 
     let prompt: Prompt = defaultPrompt
-    let fieldCount: number = defaultFieldCount
-    let errorLabel: ErrorLabel = defaultErrorLabel
+    let fieldCount: number = FIELD_COUNT[moduleName]
+    let errorLabel: ErrorLabel = ERROR_LABEL[moduleName]
 
-    ;({ prompt, fieldCount, errorLabel } = getPrompt({
+    ;({ prompt, fieldCount, errorLabel } = getPrompt_cb({
       moduleName,
-      scenarioData, // scenarioData is omitted in cloud-based version
+      scenarioData,
       lesson,
       errors: []
     }))
+
+    console.log(`genai-module-cb|${moduleName}: Prompt`, prompt)
+    console.log(`genai-module-cb|${moduleName}: fieldCount`, fieldCount)
+    console.log(`genai-module-cb|${moduleName}: errorLabel`, errorLabel)
 
     let response: string = await fetchOpenAI({ prompt })
 
@@ -54,7 +54,7 @@ const handler: Handler = async (event) => {
 
     // Retry if validation failed
     if (!validModule.success) {
-      ;({ prompt, fieldCount, errorLabel } = getPrompt({
+      ;({ prompt, fieldCount, errorLabel } = getPrompt_cb({
         moduleName,
         scenarioData,
         lesson,
@@ -82,7 +82,7 @@ const handler: Handler = async (event) => {
       }
     }
 
-    const prose = updatedLesson.dialog?.lines?.join(' ') ?? ''
+    const prose = updatedLesson[MODULE_NAME.DIALOG_DRAFT]?.lines?.join(' ') ?? ''
     const signature = generateSignature(prose)
 
     return {
