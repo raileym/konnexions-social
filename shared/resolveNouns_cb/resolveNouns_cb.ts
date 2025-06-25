@@ -1,3 +1,4 @@
+import { FIELD_COUNT, MODULE_NAME } from '@cknTypes/constants'
 import type { Lines, ResolveProps, ResolveResult } from '@cknTypes/types'
 
 export const resolveNouns = ({
@@ -29,7 +30,7 @@ export const resolveNouns = ({
 
   for (const original of lines) {
     const parts = original.split('|')
-    if (parts.length !== 4) {
+    if (parts.length !== FIELD_COUNT[MODULE_NAME.NOUNS]) {
       linesResolved.push(original)
       linesResolutions.push(`⚠️ Malformed line: kept as-is -> '${original}'`)
       continue

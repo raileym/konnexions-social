@@ -214,7 +214,6 @@ export type Module = {
     sentinel: Sentinel
     moduleProse: Prose
     linesResolutions: Lines
-    // formatDialogLines: Lines
 }
 
 export type Name = string
@@ -237,12 +236,15 @@ export type Lesson = {
   translation: Translation
 
   dialog: Module
+  dialogDraft: Module
   dialogReview: Module
   dialogResolve: Module
   nouns: Module
+  nounsDraft: Module
   nounsReview: Module
   nounsResolve: Module
   verbs: Module
+  verbsDraft: Module
   verbsReview: Module
   verbsResolve: Module
 
@@ -508,12 +510,15 @@ export const defaultLesson: Lesson = {
   translation: defaultTranslation,
 
   dialog: defaultModule,
+  dialogDraft: defaultModule,
   dialogReview: defaultModule,
   dialogResolve: defaultModule,
   nouns: defaultModule,
+  nounsDraft: defaultModule,
   nounsReview: defaultModule,
   nounsResolve: defaultModule,
   verbs: defaultModule,
+  verbsDraft: defaultModule,
   verbsReview: defaultModule,
   verbsResolve: defaultModule,
 

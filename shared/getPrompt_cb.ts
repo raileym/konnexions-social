@@ -82,6 +82,21 @@ const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, 
     fieldCount: FIELD_COUNT[MODULE_NAME.DIALOG_RESOLVE],
     errorLabel: defaultErrorLabel
   }),
+  [MODULE_NAME.NOUNS_DRAFT]: () => ({
+    prompt: defaultPrompt,
+    fieldCount: FIELD_COUNT[MODULE_NAME.NOUNS_DRAFT],
+    errorLabel: defaultErrorLabel
+  }),
+  [MODULE_NAME.VERBS_DRAFT]: () => ({
+    prompt: defaultPrompt,
+    fieldCount: FIELD_COUNT[MODULE_NAME.VERBS_DRAFT],
+    errorLabel: defaultErrorLabel
+  }),
+  [MODULE_NAME.DIALOG_DRAFT]: () => ({
+    prompt: defaultPrompt,
+    fieldCount: FIELD_COUNT[MODULE_NAME.DIALOG_DRAFT],
+    errorLabel: defaultErrorLabel
+  })
 }
 
 export const getPrompt_cb = ({ moduleName, scenarioData, lesson, errors }: GetPromptProps & { moduleName: ModuleName, scenarioData: ScenarioData }): PromptWithMeta =>

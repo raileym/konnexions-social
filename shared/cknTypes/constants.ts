@@ -2,12 +2,15 @@ import { type Gender, type ModuleName, type NounArticlesValue, type ScenarioLabe
 
 export const MODULE_NAME = {
   DIALOG: 'dialog',
+  DIALOG_DRAFT: 'dialogDraft',
   DIALOG_REVIEW: 'dialogReview',
   DIALOG_RESOLVE: 'dialogResolve',
   NOUNS: 'nouns',
+  NOUNS_DRAFT: 'nounsDraft',
   NOUNS_REVIEW: 'nounsReview',
   NOUNS_RESOLVE: 'nounsResolve',
   VERBS: 'verbs',
+  VERBS_DRAFT: 'verbsDraft',
   VERBS_REVIEW: 'verbsReview',
   VERBS_RESOLVE: 'verbsResolve',
 
@@ -34,15 +37,18 @@ export const PIPELINE_TYPE = {
 
 export const FIELD_COUNT: Record<ModuleName, number> = {
   [MODULE_NAME.DIALOG]: 3,
+  [MODULE_NAME.DIALOG_DRAFT]: 3, 
   [MODULE_NAME.DIALOG_RESOLVE]: 0, 
   [MODULE_NAME.DIALOG_REVIEW]: 1, 
   [MODULE_NAME.NOUNS]: 4,
+  [MODULE_NAME.NOUNS_DRAFT]: 4,
   [MODULE_NAME.NOUNS_RESOLVE]: 0,
   [MODULE_NAME.NOUNS_REVIEW]: 4,
   [MODULE_NAME.VERBS]: 8,
   [MODULE_NAME.VERBS_EXPANDED_COMPLETE]: 0,
   [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: 0,
   [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: 0,
+  [MODULE_NAME.VERBS_DRAFT]: 8,
   [MODULE_NAME.VERBS_RESOLVE]: 0,
   [MODULE_NAME.VERBS_REVIEW]: 8
 } as const

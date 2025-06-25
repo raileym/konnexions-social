@@ -7,6 +7,19 @@ import { MODULE_NAME, PIPELINE_TYPE } from '@cknTypes/constants'
 import { runPipelineCb } from '@shared/runPipelineCb/runPipelineCb'
 import type { PipelineConfigMap, RunPipelineCbBody } from '@cknTypes/types'
 
+import type { PostgrestError } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
+
+type UpsertLessonResponse = {
+  data: null // the function returns VOID, so data is always null
+  error: PostgrestError | null
+}
+
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
+
 const handler: Handler = async (event) => {
   try {
     const { lesson, pipelineType, scenarioData }: RunPipelineCbBody = JSON.parse(event.body || '{}')
@@ -52,6 +65,44 @@ const handler: Handler = async (event) => {
       scenarioData,
       pipelineConfig
     })
+
+    const alwaysFalse = false
+
+    if (updatedLesson !== null && alwaysFalse) {
+
+      const { error: upsertError }: UpsertLessonResponse = await supabase.rpc('ckn_upsert_lesson', {
+        arg_lesson_id: updatedLesson.id,
+        arg_lesson_signature: updatedLesson.signature,
+        arg_lesson_name: updatedLesson.name,
+        arg_lesson_description: updatedLesson.description,
+        arg_lesson_target_language: updatedLesson.targetLanguage,
+        arg_lesson_source_language: updatedLesson.sourceLanguage,
+        arg_lesson_scenario: updatedLesson.scenario,
+        arg_lesson_participant_list: updatedLesson.participantList,
+        arg_lesson_prose: updatedLesson.prose,
+        arg_lesson_translation: updatedLesson.translation,
+  
+        arg_dialog_draft: updatedLesson.dialogDraft,
+        arg_dialog_review: updatedLesson.dialogReview,
+        arg_dialog: updatedLesson.dialog,
+  
+        arg_nouns_draft: updatedLesson.nounsDraft,
+        arg_nouns_review: updatedLesson.nounsReview,
+        arg_nouns: updatedLesson.nouns,
+  
+        arg_verbs_draft: updatedLesson.verbsDraft,
+        arg_verbs_review: updatedLesson.verbsReview,
+        arg_verbs: updatedLesson.verbs,
+  
+        arg_verbs_expanded_complete: updatedLesson.verbsExpandedComplete,
+        arg_verbs_expanded_incomplete: updatedLesson.verbsExpandedInComplete,
+        arg_verbs_expanded_triple: updatedLesson.verbsExpandedTriple
+      })
+  
+      if (upsertError) {
+        console.error('Lesson upsert failed:', upsertError)
+      }
+    }
 
     return {
       statusCode: 200,

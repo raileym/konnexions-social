@@ -1,3 +1,4 @@
+import { FIELD_COUNT, MODULE_NAME } from '@cknTypes/constants'
 import type { Lines, ResolveProps, ResolveResult } from '@cknTypes/types'
 
 export const resolveVerbs = ({
@@ -29,7 +30,7 @@ export const resolveVerbs = ({
 
   for (const original of lines) {
     const parts = original.split('|').map(s => s.trim())
-    if (parts.length !== 8) {
+    if (parts.length !== FIELD_COUNT[MODULE_NAME.DIALOG]) {
       linesResolved.push(original)
       linesResolutions.push(`⚠️ Malformed line: expected 8 fields, got ${parts.length} -> '${original}'`)
       continue
