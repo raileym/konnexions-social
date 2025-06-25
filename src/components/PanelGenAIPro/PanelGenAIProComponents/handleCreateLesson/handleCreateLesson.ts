@@ -47,62 +47,56 @@ export const handleCreateLesson = async ({
     participantList,
   };
 
-
-  // ***********************************************************************************
-  // Dialog
-  // ***********************************************************************************
-  //
-  // const dialogLesson_1 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.DIALOG, lesson: initialLesson_0})
-  // if (!dialogLesson_1) return
-
-  // ***********************************************************************************
-  // Dialog Review
-  // ***********************************************************************************
-  //
-  // const dialogReviewLesson_2 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: dialogLesson_1})
-  // if (!dialogReviewLesson_2) return
-
-  // ***********************************************************************************
-  // Dialog Resolve
-  // ***********************************************************************************
-  //
-  // const { linesResolved: dialogLinesResolved_3 } = dialogResolve({
-  //   reviewLines: dialogReviewLesson_2.dialog.lines, 
-  //   lines: dialogLesson_1.dialog.lines
-  // })
-
-  // ***********************************************************************************
-  // Dialog Restatement
-  // ***********************************************************************************
-  //
-  // const prose = dialogLinesResolved_3?.join(' ') ?? ''
-  // const dialogLessonUpdated_4 = {
-  //   ...dialogReviewLesson_2,
-  //   [MODULE_NAME.DIALOG]: {
-  //     ...(dialogReviewLesson_2[MODULE_NAME.DIALOG as keyof Lesson] as Module),
-  //     lines: dialogLinesResolved_3
-  //   },
-  //   prose
+  // return {
+  //   lesson: data.lesson,
+  //   durationMs: data.durationMs
   // }
 
-  // const dialogLessonUpdated_4 = await runPipeline({
-  //   lesson: initialLesson_0,
-  //   scenarioData,
-  //   testMode,
-  //   doModule: MODULE_NAME.DIALOG,
-  //   reviewModule: MODULE_NAME.DIALOG_REVIEW,
-  //   resolveModule: MODULE_NAME.DIALOG_RESOLVE,
-  //   resolve: dialogResolve
-  // })
-  // if (!dialogLessonUpdated_4) return
-
-  const dialogLessonUpdated_4 = await runPipelineCbClient({
+  const dialogResult = await runPipelineCbClient({
     lesson: initialLesson_0,
     pipelineType: PIPELINE_TYPE.DIALOG,
     scenarioData
   })
-  if (!dialogLessonUpdated_4) return
+  if (!dialogResult) return
+  const { lesson: dialogLesson, durationMs: durationDialog } = dialogResult
+  console.log(`Dialog pipeline took ${durationDialog.toFixed(2)}ms`)
 
+  const nounsResult = await runPipelineCbClient({
+    lesson: dialogLesson,
+    pipelineType: PIPELINE_TYPE.NOUNS,
+    scenarioData
+  })
+  if (!nounsResult) return
+  const { lesson: nounsLesson, durationMs: durationNouns } = nounsResult
+  console.log(`Nouns pipeline took ${durationNouns.toFixed(2)}ms`)
+
+  const verbsResult = await runPipelineCbClient({
+    lesson: nounsLesson,
+    pipelineType: PIPELINE_TYPE.VERBS,
+    scenarioData
+  })
+  if (!verbsResult) return
+  const { lesson: verbsLesson, durationMs: durationVerbs } = verbsResult
+  console.log(`Verbs pipeline took ${durationVerbs.toFixed(2)}ms`)
+
+
+  setLessons((prev) => {
+    debugLog('🔄 Updating lesson list...');
+    debugLog('▶️ verbsLesson:', verbsLesson);
+    const next = prev.map((lsn) => {
+      if (lsn.id === selectedLessonId) {
+        debugLog(`✅ Match found: lesson.id = ${lsn.id}`);
+        const updated = { ...verbsLesson, id: lsn.id, name: lsn.name };
+        debugLog('🆕 Updated lesson:', updated);
+        return updated;
+      }
+      return lsn;
+    });
+    debugLog('📦 New lessons array:', next);
+    return next;
+  });
+
+  setLessonComplete(true);
 
   // ***********************************************************************************
   // Dialog Translate To English
@@ -143,366 +137,6 @@ export const handleCreateLesson = async ({
 
   // debugLog('dialogLessonUpdated_4translation', dialogLessonUpdated_4translation)
 
-  // ***********************************************************************************
-  // Nouns Only ... Just list the nouns, ma'am
-  // ***********************************************************************************
-  //
-  // const nounsOnlyLesson_a5 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_ONLY, lesson: dialogLessonUpdated_4translation})
-  // if (!nounsOnlyLesson_a5) return
-
-  // ***********************************************************************************
-  // Nouns Only Review
-  // ***********************************************************************************
-  //
-  // const nounsOnlyReviewLesson_a6 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_ONLY_REVIEW, lesson: nounsOnlyLesson_a5})
-  // if (!nounsOnlyReviewLesson_a6) return
-
-  // ***********************************************************************************
-  // Nouns Only Resolve
-  // ***********************************************************************************
-  //
-  // const { nounsOnlyLinesResolved: nounsOnlyLinesResolved_a7 } = nounsOnlyResolve({
-  //   nounsOnlyReviewLines: nounsOnlyReviewLesson_a6.nounsOnlyReview.lines, 
-  //   nounsOnlyLines: nounsOnlyLesson_a5.nounsOnly.lines
-  // })
-
-
-  // ***********************************************************************************
-  // Nouns Only Restatement
-  // ***********************************************************************************
-  //
-  // const nounsOnlyLessonUpdated_a8 = {
-  //   ...nounsOnlyReviewLesson_a6,
-  //   [MODULE_NAME.NOUNS_ONLY]: {
-  //     ...(nounsOnlyReviewLesson_a6[MODULE_NAME.NOUNS_ONLY as keyof Lesson] as Module),
-  //     lines: nounsOnlyLinesResolved_a7
-  //   }
-  // }
-
-  // const alwaysFalse = true
-  // if (alwaysFalse) {
-    // const nounsOnlyLessonUpdated_a8 = await runPipeline({
-    //   lesson: dialogLessonUpdated_4translation,
-    //   scenarioData,
-    //   testMode,
-    //   doModule: MODULE_NAME.NOUNS_ONLY,
-    //   reviewModule: MODULE_NAME.NOUNS_ONLY_REVIEW,
-    //   resolve: nounsOnlyResolve
-    // })
-    // if (!nounsOnlyLessonUpdated_a8) return
-
-    // ***********************************************************************************
-    // Nouns Only -- Distinguish nouns in scenarioData from those missing
-    // ***********************************************************************************
-    //
-    // const extractedNouns = nounsOnlyLessonUpdated_a8.nounsOnly.lines.map(n => n.trim().toLowerCase())
-  
-    // const allowedNounForms = new Set<string>()
-    // scenarioData.nouns.forEach(noun => {
-    //   allowedNounForms.add(noun.noun_singular.toLowerCase())
-    //   allowedNounForms.add(noun.noun_plural.toLowerCase())
-    // })
-  
-    // const unmatchedNouns = extractedNouns.filter(n => !allowedNounForms.has(n))
-  
-    // const nounsOnlyMissingLessonUpdated_a8 = {
-    //   ...nounsOnlyLessonUpdated_a8,
-    //   [MODULE_NAME.NOUNS_ONLY_MISSING]: {
-    //     ...(nounsOnlyLessonUpdated_a8[MODULE_NAME.NOUNS_ONLY_MISSING as keyof Lesson] as Module),
-    //     lines: unmatchedNouns
-    //   }
-    // }
-  // }  
-
-
-
-  // ***********************************************************************************
-  // Nouns Missing -- Fill in the details
-  // ***********************************************************************************
-  //
-  // let nounsMissingLesson_b5: Lesson | null
-  // let nounsMissingLessonUpdated_b8: Lesson | null
-
-  // if (unmatchedNouns.length === 0) {
-  //   nounsMissingLesson_b5 = nounsOnlyMissingLessonUpdated_a8
-  //   if (!nounsMissingLesson_b5) return
-  // } else {
-    // ***********************************************************************************
-    // Nouns Missing - Check the details
-    // ***********************************************************************************
-    //
-    // nounsMissingLesson_b5 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_MISSING, lesson: nounsOnlyMissingLessonUpdated_a8})
-    // if (!nounsMissingLesson_b5) return
-
-    // ***********************************************************************************
-    // Nouns Missing Review - Check the details
-    // ***********************************************************************************
-    //
-    // const nounsMissingReviewLesson_b6 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.NOUNS_MISSING_REVIEW, lesson: nounsMissingLesson_b5})
-    // if (!nounsMissingReviewLesson_b6) return
-  
-    // ***********************************************************************************
-    // Nouns Missing Resolve - Resolve the details
-    // ***********************************************************************************
-    //
-    // const { linesResolved: nounsMissingLinesResolved_b7 } = nounsMissingResolve({
-    //   reviewLines: nounsMissingReviewLesson_b6.nounsMissingReview.lines, 
-    //   lines: nounsMissingLesson_b5.nounsMissing.lines
-    // })
-  
-    // ***********************************************************************************
-    // Nouns Missing Restatement - Restatement now with the details for missing nouns
-    // ***********************************************************************************
-    //
-    // nounsMissingLessonUpdated_b8 = {
-    //   ...nounsMissingReviewLesson_b6,
-    //   [MODULE_NAME.NOUNS_MISSING]: {
-    //     ...(nounsMissingReviewLesson_b6[MODULE_NAME.NOUNS_MISSING as keyof Lesson] as Module),
-    //     lines: nounsMissingLinesResolved_b7
-    //   }
-    // }
-
-  //   nounsMissingLessonUpdated_b8 = await runPipeline({
-  //     lesson: nounsOnlyMissingLessonUpdated_a8,
-  //     scenarioData,
-  //     testMode,
-  //     doModule: MODULE_NAME.NOUNS_MISSING,
-  //     reviewModule: MODULE_NAME.NOUNS_MISSING_REVIEW,
-  //     resolve: nounsOnlyResolve
-  //   })
-  //   if (!nounsOnlyLessonUpdated_a8) return
-  // }
-
-
-  //
-  // Nouns
-  //
-  // // const nounsLesson_5 = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: dialogLessonUpdated_4})
-  // const nounsLesson_5 = await runModule({moduleName: MODULE_NAME.NOUNS, lesson: nounsLessonUpdated_a8})
-  // if (!nounsLesson_5) return
-
-  //
-  // Nouns Review
-  //
-  // const nounsReviewLesson_6 = await runModule({moduleName: MODULE_NAME.NOUNS_REVIEW, lesson: nounsLesson_5})
-  // if (!nounsReviewLesson_6) return
-
-  //
-  // Nouns Resolve
-  //
-  // const { nounsLinesResolved: nounsLinesResolved_7 } = resolveNouns({
-  //   nounsReviewLines: nounsReviewLesson_6.nouns.lines, 
-  //   nounsLines: nounsLesson_5.nouns.lines
-  // })
-
-  // const nounsLessonUpdated_8 = {
-  //   ...nounsReviewLesson_6,
-  //   [MODULE_NAME.NOUNS]: {
-  //     ...(nounsReviewLesson_6[MODULE_NAME.NOUNS as keyof Lesson] as Module),
-  //     lines: nounsLinesResolved_7
-  //   }
-  // }
-
-  // const nounsLessonUpdated_8 = await runPipeline({
-  //   lesson: dialogLessonUpdated_4,
-  //   scenarioData,
-  //   testMode,
-  //   doModule: MODULE_NAME.NOUNS,
-  //   reviewModule: MODULE_NAME.NOUNS_REVIEW,
-  //   resolveModule: MODULE_NAME.NOUNS_RESOLVE,
-  //   resolve: resolveNouns
-  // })
-  // if (!nounsLessonUpdated_8) return
-
-  // const verbsLessonUpdated_8 = await runPipeline({
-  //   lesson: nounsLessonUpdated_8,
-  //   scenarioData,
-  //   testMode,
-  //   doModule: MODULE_NAME.VERBS,
-  //   reviewModule: MODULE_NAME.VERBS_REVIEW,
-  //   resolveModule: MODULE_NAME.VERBS_RESOLVE,
-  //   resolve: resolveNouns
-  // })
-  // if (!verbsLessonUpdated_8) return
-
-  const nounsLessonUpdated_8 = await runPipelineCbClient({
-    lesson: dialogLessonUpdated_4,
-    pipelineType: PIPELINE_TYPE.NOUNS,
-    scenarioData
-  })
-  if (!nounsLessonUpdated_8) return
-
-  const verbsLessonUpdated_8 = await runPipelineCbClient({
-    lesson: nounsLessonUpdated_8,
-    pipelineType: PIPELINE_TYPE.VERBS,
-    scenarioData
-  })
-  if (!verbsLessonUpdated_8) return
-
-  // ***********************************************************************************
-  // Verbs Only ... Just list the verbs, ma'am
-  // ***********************************************************************************
-  //
-  // const verbsOnlyLesson_9 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_ONLY, lesson: nounsMissingLessonUpdated_b8})
-  // if (!verbsOnlyLesson_9) return
-
-  // ***********************************************************************************
-  // Verbs Only Review
-  // ***********************************************************************************
-  //
-  // const verbsOnlyReviewLesson_10 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_ONLY_REVIEW, lesson: verbsOnlyLesson_9})
-  // if (!verbsOnlyReviewLesson_10) return
-
-  // ***********************************************************************************
-  // Verbs Only Resolve
-  // ***********************************************************************************
-  //
-  // const { verbsOnlyLinesResolved: verbsOnlyLinesResolved_11 } = resolveVerbsOnly({
-  //   verbsOnlyReviewLines: verbsOnlyReviewLesson_10.verbsOnlyReview.lines, 
-  //   verbsOnlyLines: verbsOnlyLesson_9.verbsOnly.lines
-  // })
-
-  // ***********************************************************************************
-  // Verbs Only Restatement
-  // ***********************************************************************************
-  //
-  // const verbsOnlyLessonUpdated_12 = {
-  //   ...verbsOnlyReviewLesson_10,
-  //   [MODULE_NAME.VERBS_ONLY]: {
-  //     ...(verbsOnlyReviewLesson_10[MODULE_NAME.VERBS_ONLY as keyof Lesson] as Module),
-  //     lines: verbsOnlyLinesResolved_11
-  //   }
-  // }
-
-
-
-
-  // ***********************************************************************************
-  // Verbs Only -- Distinguish verbs in scenarioData from those missing
-  // ***********************************************************************************
-  //
-  // const extractedVerbs = verbsOnlyLessonUpdated_12.verbsOnly.lines.map(n => n.trim().toLowerCase())
-
-  // const allowedVerbForms = new Set<string>()
-  // scenarioData.verbs.forEach(verb => {
-  //   allowedVerbForms.add(verb.verb_el_ella_usted.toLowerCase())
-  //   allowedVerbForms.add(verb.verb_ellos_ellas_ustedes.toLowerCase())
-  //   allowedVerbForms.add(verb.verb_infinitive.toLowerCase())
-  //   allowedVerbForms.add(verb.verb_nosotros.toLowerCase())
-  //   allowedVerbForms.add(verb.verb_tu.toLowerCase())
-  //   allowedVerbForms.add(verb.verb_vosotros.toLowerCase())
-  //   allowedVerbForms.add(verb.verb_yo.toLowerCase())
-  // })
-
-  // const unmatchedVerbs = extractedVerbs.filter(n => !allowedVerbForms.has(n))
-
-  // const verbsOnlyMissingLessonUpdated_b12 = {
-  //   ...verbsOnlyLessonUpdated_12,
-  //   [MODULE_NAME.VERBS_ONLY_MISSING]: {
-  //     ...(verbsOnlyLessonUpdated_12[MODULE_NAME.VERBS_ONLY_MISSING as keyof Lesson] as Module),
-  //     lines: unmatchedVerbs
-  //   }
-  // }
-
-  // ***********************************************************************************
-  // Verbs Missing -- Fill in the details
-  // ***********************************************************************************
-  //
-  // let verbsMissingLesson_b13: Lesson | null
-
-  // if (unmatchedVerbs.length === 0) {
-  //   verbsMissingLesson_b13 = verbsOnlyMissingLessonUpdated_b12
-  // } else {
-  //   verbsMissingLesson_b13 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_MISSING, lesson: verbsOnlyMissingLessonUpdated_b12})
-  //   }
-  // if (!verbsMissingLesson_b13) return
-
-  // ***********************************************************************************
-  // Verbs Missing Review - Check the details
-  // ***********************************************************************************
-  //
-  // const verbsMissingReviewLesson_b14 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_MISSING_REVIEW, lesson: verbsMissingLesson_b13})
-  // if (!verbsMissingReviewLesson_b14) return
-
-  // ***********************************************************************************
-  // Verbs Missing Resolve - Resolve the details
-  // ***********************************************************************************
-  //
-  // const { verbsMissingLinesResolved: verbsMissingLinesResolved_b15 } = resolveVerbsMissing({
-  //   verbsMissingReviewLines: verbsMissingReviewLesson_b14?.verbsMissingReview?.lines ?? [], 
-  //   verbsMissingLines: verbsMissingLesson_b13?.verbsMissing?.lines ?? []
-  // })
-
-  // ***********************************************************************************
-  // Verbs Missing Restatement - Restatement now with the details for missing nouns
-  // ***********************************************************************************
-  //
-  // const verbsMissingLessonUpdated_b16 = {
-  //   ...verbsMissingReviewLesson_b14,
-  //   [MODULE_NAME.VERBS_MISSING]: {
-  //     ...(verbsMissingReviewLesson_b14[MODULE_NAME.VERBS_MISSING as keyof Lesson] as Module),
-  //     lines: verbsMissingLinesResolved_b15
-  //   }
-  // }
-
-
-  // ***********************************************************************************
-  // Push Missing Verbs and Nouns to the database
-  // ***********************************************************************************
-  //
-  // try {
-  //   await pushMissingToDB(verbsMissingLessonUpdated_b16)
-  //   debugLog('✅ Successfully inserted missing nouns and verbs into the database.')
-  // } catch (err) {
-  //   console.error('❌ Error inserting missing nouns/verbs into DB:', (err as Error).message)
-  // }
-
-
-  // ***********************************************************************************
-  // Repackage Verbs Only, Verbs Missing, and the database
-  // ***********************************************************************************
-  //
-  // const mergedVerbLines = rebuildVerbLines({
-  //   verbsOnly: verbsMissingLessonUpdated_b16.verbsOnly.lines,
-  //   verbsMissing: verbsMissingLessonUpdated_b16.verbsMissing.lines,
-  //   scenarioData
-  // })
-  
-  // ***********************************************************************************
-  // Add repackaged verbs back into the fold of the lesson
-  // ***********************************************************************************
-  //
-  // const verbsMissingLessonUpdated_c16 = {
-  //   ...verbsMissingLessonUpdated_b16,
-  //   [MODULE_NAME.VERBS]: {
-  //     ...(verbsMissingLessonUpdated_b16[MODULE_NAME.VERBS as keyof Lesson] as Module),
-  //     lines: mergedVerbLines
-  //   }
-  // }
-
-  // ***********************************************************************************
-  // Repackage Nouns Only, Nouns Missing, and the database
-  // ***********************************************************************************
-  //
-  // const mergedNounLines = rebuildNounLines({
-  //   nounsOnly: verbsMissingLessonUpdated_c16.nounsOnly.lines,
-  //   nounsMissing: verbsMissingLessonUpdated_c16.nounsMissing.lines,
-  //   nounBySingular: scenarioData.nounBySingular
-  // })
-  
-  // ***********************************************************************************
-  // Add repackaged venounsrbs back into the fold of the lesson
-  // ***********************************************************************************
-  //
-  // const nounsMissingLessonUpdated_c16 = {
-  //   ...verbsMissingLessonUpdated_c16,
-  //   [MODULE_NAME.NOUNS]: {
-  //     ...(verbsMissingLessonUpdated_c16[MODULE_NAME.NOUNS as keyof Lesson] as Module),
-  //     lines: mergedNounLines
-  //   }
-  // }
-
-  
   //
   // Verbs Expanded and Verbs Expanded In-Complete (Sentences)
   //
@@ -535,22 +169,4 @@ export const handleCreateLesson = async ({
   //   }
   // }
 
-
-  setLessons((prev) => {
-    debugLog('🔄 Updating lesson list...');
-    debugLog('▶️ verbsLessonUpdated_8:', verbsLessonUpdated_8);
-    const next = prev.map((lsn) => {
-      if (lsn.id === selectedLessonId) {
-        debugLog(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...verbsLessonUpdated_8, id: lsn.id, name: lsn.name };
-        debugLog('🆕 Updated lesson:', updated);
-        return updated;
-      }
-      return lsn;
-    });
-    debugLog('📦 New lessons array:', next);
-    return next;
-  });
-
-  setLessonComplete(true);
 };
