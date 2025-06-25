@@ -33,7 +33,8 @@ export const handleCreateLesson = async ({
   selectedLessonId,
   useMyself,
   // testMode,
-  debugLog
+  debugLog,
+  setLessonTimestamp
 }: HandleCreateLessonProps) => {
   const { participantList } = getScenarioDetails({ useMyself, scenario, language: targetLanguage });
 
@@ -96,6 +97,7 @@ export const handleCreateLesson = async ({
     return next;
   });
 
+  setLessonTimestamp(Date.now())
   setLessonComplete(true);
 
   // ***********************************************************************************

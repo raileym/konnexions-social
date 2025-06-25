@@ -82,7 +82,8 @@ const RightPanel: React.FC = () => {
     targetLanguage,
     sourceLanguage,
     debugMode,
-    setDebugMode
+    setDebugMode,
+    setLessonTimestamp
   } = useAppContext()
   
 // export type ScenarioData = {
@@ -216,7 +217,8 @@ const RightPanel: React.FC = () => {
                     selectedLessonId,
                     useMyself,
                     testMode,
-                    debugLog
+                    debugLog,
+                    setLessonTimestamp
                   })
                 }}
               >

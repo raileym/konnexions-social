@@ -30,6 +30,7 @@ pg_dump --data-only \
   --table=private.ckn_scenarios \
   --table=private.ckn_noun_scenarios \
   --table=private.ckn_verb_scenarios \
+  --table=private.ckn_lesson \
   --column-inserts \
   --dbname="$DIRECT_CONNECT_URL" \
   --file="$SQL_FILE"

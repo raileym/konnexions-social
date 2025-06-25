@@ -34,7 +34,8 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
     selectedLessonId,
     setLineNumber,
     lineNumber,
-    scenario
+    scenario,
+    lessonTimestamp
   } = useAppContext()
 
   const storeAudioOrLine = useCallback((index: number, value: string) => {
@@ -96,7 +97,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
 
     preloadSequentially()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedLessonId, cutoff])
+  }, [selectedLessonId, cutoff, lessonTimestamp])
 
   const resetPlayback = () => {
     // cXonsole.log('Resetting playback')

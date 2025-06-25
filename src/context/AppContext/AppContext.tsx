@@ -34,7 +34,8 @@ import type {
   ScenarioData,
   Language,
   LineNumber,
-  DebugMode
+  DebugMode,
+  LessonTimestamp
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -57,9 +58,9 @@ import { handleGetScenarioData } from './AppContextComponents/handleGetScenarioD
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 const defaultExample = {
-  dialog: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.DIALOG, options: { asString: false }}),
-  nouns: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.NOUNS, options: { asString: false }}),
-  verbs: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}),
+  dialog: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.DIALOG_DRAFT, options: { asString: false }}),
+  nouns: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.NOUNS_DRAFT, options: { asString: false }}),
+  verbs: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS_DRAFT, options: { asString: false }}),
   dialogReview: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: false }}),
   nounsReview: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: false }}),
   verbsReview: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: false }})
@@ -68,15 +69,15 @@ const defaultExample = {
 const updatedDefaultLesson = {
   ...defaultLesson,
   dialog: {
-    ...defaultLesson.dialog,
+    ...defaultLesson.dialogDraft,
     lines: defaultExample.dialog
   },
   nouns: {
-    ...defaultLesson.nouns,
+    ...defaultLesson.nounsDraft,
     lines: defaultExample.nouns
   },
   verbs: {
-    ...defaultLesson.verbs,
+    ...defaultLesson.verbsDraft,
     lines: defaultExample.verbs
   },
   dialogReview: {
@@ -113,6 +114,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )  
   const [debugMode, setDebugMode] = usePersistentState<DebugMode>('debugMode', defaultDebugMode)
+  const [lessonTimestamp, setLessonTimestamp] = usePersistentState<LessonTimestamp>('lessonTimestamp', Date.now())
   const [lineNumber, setLineNumber] = useState<LineNumber>(0)
   const [activeHome, setActiveHome] = useState<ActiveHome>(APP_HOME.GEN_AI_PRO)
   const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
@@ -227,6 +229,7 @@ const AppContextValue = {
     isTransitioning,
     lesson,
     lessons,
+    lessonTimestamp,
     lineNumber,
     maskKey,
     maskOpenAiKey,
@@ -256,6 +259,7 @@ const AppContextValue = {
     setIsTransitioning,
     setLesson,
     setLessons,
+    setLessonTimestamp,
     setLineNumber,
     setMaskKey,
     setMaskOpenAiKey,

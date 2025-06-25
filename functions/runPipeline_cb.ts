@@ -79,7 +79,7 @@ const handler: Handler = async (event) => {
     })
 
     // const alwaysFalse = false
-
+ 
     if (updatedLesson !== null) {
       const { error: upsertError }: UpsertLessonResponse = await supabase.rpc('ckn_upsert_lesson', {
         arg_lesson_id: updatedLesson.id,

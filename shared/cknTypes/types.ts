@@ -33,6 +33,7 @@ export type AppContextType = {
   isTransitioning: IsTransitioning
   lesson: Lesson
   lessons: Lessons
+  lessonTimestamp: LessonTimestamp
   lineNumber: LineNumber
   maskKey: MaskKey
   maskOpenAiKey: MaskOpenAiKey
@@ -62,6 +63,7 @@ export type AppContextType = {
   setIsTransitioning: SetIsTransitioning
   setLesson: SetLesson
   setLessons: SetLessons
+  setLessonTimestamp: SetLessonTimestamp
   setLineNumber: SetLineNumber
   setMaskKey: SetMaskKey
   setMaskOpenAiKey: SetMaskOpenAiKey
@@ -103,6 +105,7 @@ export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]
 export type ScenarioKey = keyof typeof SCENARIO
 export type Scenario = ScenarioValue
 
+export type LessonTimestamp = number
 export type Answer = string
 export type ApiKey = string
 export type AudioUrl = string | null
@@ -145,6 +148,7 @@ export type SetTargetLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetSourceLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetLessonId = React.Dispatch<React.SetStateAction<LessonId>>
 export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
+export type SetLessonTimestamp = React.Dispatch<React.SetStateAction<LessonTimestamp>>
 export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>
 export type SetLineNumber = React.Dispatch<React.SetStateAction<LineNumber>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
@@ -901,6 +905,7 @@ export type HandleCreateLessonProps = {
   useMyself: UseMyself
   testMode: TestMode
   debugLog: DebugLog
+  setLessonTimestamp: SetLessonTimestamp
 }
 
 export type RunModuleProps = {
