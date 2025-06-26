@@ -41,11 +41,11 @@ const handler: Handler = async (event) => {
     let response: string = await fetchOpenAI({ prompt })
     
     // console.log(`genai-module-cb|${moduleName}: lesson`, lesson)
-    console.log(`genai-module-cb|${moduleName}: moduleName`, moduleName)
-    console.log(`genai-module-cb|${moduleName}: Prompt`, prompt)
-    console.log(`genai-module-cb|${moduleName}: fieldCount`, fieldCount)
-    console.log(`genai-module-cb|${moduleName}: errorLabel`, errorLabel)
-    console.log(`genai-module-cb|${moduleName}: response`, response)
+    // console.log(`genai-module-cb|${moduleName}: moduleName`, moduleName)
+    // console.log(`genai-module-cb|${moduleName}: Prompt`, prompt)
+    // console.log(`genai-module-cb|${moduleName}: fieldCount`, fieldCount)
+    // console.log(`genai-module-cb|${moduleName}: errorLabel`, errorLabel)
+    // console.log(`genai-module-cb|${moduleName}: response`, response)
 
     let validModule = validateModule({
       response,

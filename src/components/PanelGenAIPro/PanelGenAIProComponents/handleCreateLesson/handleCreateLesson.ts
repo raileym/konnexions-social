@@ -1,4 +1,5 @@
 import {
+  defaultLesson,
   type HandleCreateLessonProps,
   // type Lesson,
   // type Module
@@ -27,7 +28,7 @@ export const handleCreateLesson = async ({
   scenario,
   targetLanguage,
   sourceLanguage,
-  lesson,
+  // lesson,
   setLessons,
   setLessonComplete,
   selectedLessonId,
@@ -41,7 +42,7 @@ export const handleCreateLesson = async ({
   setLessonComplete(false);
 
   const initialLesson_0 = {
-    ...lesson,
+    ...defaultLesson,
     targetLanguage,
     sourceLanguage,
     scenario,

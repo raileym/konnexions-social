@@ -18,8 +18,8 @@ export const runPipelineCb = async ({
   pipelineConfig
 }: RunPipelineCbProps): Promise<Lesson | null> => {
 
-  console.log('runPipelineCb: pipelineConfig', pipelineConfig)
-  console.log('runPipelineCb: incoming lesson', lesson)
+  // console.log('runPipelineCb: pipelineConfig', pipelineConfig)
+  // console.log('runPipelineCb: incoming lesson', lesson)
 
   // DRAFT
   const moduleDraft = await getModule_cb({
