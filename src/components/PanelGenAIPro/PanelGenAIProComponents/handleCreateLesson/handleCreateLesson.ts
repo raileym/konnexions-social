@@ -62,8 +62,17 @@ export const handleCreateLesson = async ({
   const { lesson: dialogLesson, durationMs: durationDialog } = dialogResult
   console.log(`Dialog pipeline took ${durationDialog.toFixed(2)}ms`)
 
-  const nounsResult = await runPipelineCbClient({
+  const translationResult = await runPipelineCbClient({
     lesson: dialogLesson,
+    pipelineType: PIPELINE_TYPE.TRANSLATION,
+    scenarioData
+  })
+  if (!translationResult) return
+  const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
+  console.log(`Translation pipeline took ${durationTranslation.toFixed(2)}ms`)
+
+  const nounsResult = await runPipelineCbClient({
+    lesson: translationLesson,
     pipelineType: PIPELINE_TYPE.NOUNS,
     scenarioData
   })

@@ -1,50 +1,40 @@
 import { type Gender, type ModuleName, type NounArticlesValue, type ScenarioLabels } from './types'
 
 export const MODULE_NAME = {
-  // DIALOG: 'dialog',
   DIALOG_DRAFT: 'dialogDraft',
   DIALOG_REVIEW: 'dialogReview',
   DIALOG_RESOLVE: 'dialogResolve',
-  // NOUNS: 'nouns',
+  TRANSLATION_DRAFT: 'translationDraft',
+  TRANSLATION_REVIEW: 'translationReview',
+  TRANSLATION_RESOLVE: 'translationResolve',
   NOUNS_DRAFT: 'nounsDraft',
   NOUNS_REVIEW: 'nounsReview',
   NOUNS_RESOLVE: 'nounsResolve',
-  // VERBS: 'verbs',
   VERBS_DRAFT: 'verbsDraft',
   VERBS_REVIEW: 'verbsReview',
   VERBS_RESOLVE: 'verbsResolve',
-
-  // NOUNS_MISSING: 'nounsMissing',
-  // NOUNS_MISSING_REVIEW: 'nounsMissingReview',
-  // NOUNS_ONLY: 'nounsOnly',
-  // NOUNS_ONLY_MISSING: 'nounsOnlyMissing',
-  // NOUNS_ONLY_REVIEW: 'nounsOnlyReview',
   VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete',
   VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
   VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple' //,
-  // VERBS_MISSING: 'verbsMissing',
-  // VERBS_MISSING_REVIEW: 'verbsMissingReview',
-  // VERBS_ONLY: 'verbsOnly',
-  // VERBS_ONLY_MISSING: 'verbsOnlyMissing',
-  // VERBS_ONLY_REVIEW: 'verbsOnlyReview'
 } as const
 
 export const PIPELINE_TYPE = {
   DIALOG: 'dialog',
   NOUNS: 'nouns',
-  VERBS: 'verbs'
+  VERBS: 'verbs',
+  TRANSLATION: 'translation'
 } as const
 
 export const FIELD_COUNT: Record<ModuleName, number> = {
-  // [MODULE_NAME.DIALOG]: 3,
+  [MODULE_NAME.TRANSLATION_DRAFT]: 1, 
+  [MODULE_NAME.TRANSLATION_RESOLVE]: 0, 
+  [MODULE_NAME.TRANSLATION_REVIEW]: 1, 
   [MODULE_NAME.DIALOG_DRAFT]: 3, 
   [MODULE_NAME.DIALOG_RESOLVE]: 0, 
   [MODULE_NAME.DIALOG_REVIEW]: 1, 
-  // [MODULE_NAME.NOUNS]: 4,
   [MODULE_NAME.NOUNS_DRAFT]: 4,
   [MODULE_NAME.NOUNS_RESOLVE]: 0,
   [MODULE_NAME.NOUNS_REVIEW]: 4,
-  // [MODULE_NAME.VERBS]: 8,
   [MODULE_NAME.VERBS_EXPANDED_COMPLETE]: 0,
   [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: 0,
   [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: 0,
@@ -107,15 +97,15 @@ export const APP_PANEL = {
 } as const
 
 export const ERROR_LABEL: Record<ModuleName, string> = {
-  // [MODULE_NAME.DIALOG]: 'handleDialogError',
+  [MODULE_NAME.TRANSLATION_DRAFT]: 'handleTranslationDraftError',
+  [MODULE_NAME.TRANSLATION_RESOLVE]: 'handleTranslationResolveError',
+  [MODULE_NAME.TRANSLATION_REVIEW]: 'handleTranslationReviewError',
   [MODULE_NAME.DIALOG_DRAFT]: 'handleDialogDraftError',
   [MODULE_NAME.DIALOG_RESOLVE]: 'handleDialogResolveError',
   [MODULE_NAME.DIALOG_REVIEW]: 'handleDialogReviewError',
-  // [MODULE_NAME.NOUNS]: 'handleNounsError',
   [MODULE_NAME.NOUNS_DRAFT]: 'handleNounsDraftError',
   [MODULE_NAME.NOUNS_RESOLVE]: 'handleNounsResolveError',
   [MODULE_NAME.NOUNS_REVIEW]: 'handleNounsReviewError',
-  // [MODULE_NAME.VERBS]: 'handleVerbsError',
   [MODULE_NAME.VERBS_DRAFT]: 'handleVerbsDraftError',
   [MODULE_NAME.VERBS_RESOLVE]: 'handleVerbsResolveError',
   [MODULE_NAME.VERBS_REVIEW]: 'handleVerbsReviewError',

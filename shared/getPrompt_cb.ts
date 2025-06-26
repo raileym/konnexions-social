@@ -19,6 +19,8 @@ import { getDialogReviewPrompt } from '@shared/getDialogReviewPrompt'
 import { getNounsReviewPrompt } from '@shared/getNounsReviewPrompt'
 import { getVerbsReviewPrompt } from '@shared/getVerbsReviewPrompt'
 import { getVerbsExpandedCompletePrompt } from '@shared/getVerbsExpandedCompletePrompt'
+import { getTranslationDraftPrompt } from '@shared/getTranslationDraftPrompt'
+import { getTranslationReviewPrompt } from '@shared/getTranslationReviewPrompt'
 
 const makePromptGenerator = (
   moduleName: ModuleName,
@@ -36,6 +38,9 @@ const makeStaticPromptGenerator = (moduleName: ModuleName) => () => ({
 })
 
 const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => PromptWithMeta> = {
+  [MODULE_NAME.TRANSLATION_DRAFT]: makePromptGenerator(MODULE_NAME.TRANSLATION_DRAFT, getTranslationDraftPrompt),
+  [MODULE_NAME.TRANSLATION_RESOLVE]: makeStaticPromptGenerator(MODULE_NAME.TRANSLATION_RESOLVE),
+  [MODULE_NAME.TRANSLATION_REVIEW]: makePromptGenerator(MODULE_NAME.TRANSLATION_REVIEW, getTranslationReviewPrompt),
   [MODULE_NAME.DIALOG_DRAFT]: makePromptGenerator(MODULE_NAME.DIALOG_DRAFT, getDialogDraftPrompt),
   [MODULE_NAME.DIALOG_RESOLVE]: makeStaticPromptGenerator(MODULE_NAME.DIALOG_RESOLVE),
   [MODULE_NAME.DIALOG_REVIEW]: makePromptGenerator(MODULE_NAME.DIALOG_REVIEW, getDialogReviewPrompt),

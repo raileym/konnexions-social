@@ -1,3 +1,4 @@
+import { MODULE_NAME } from '@cknTypes/constants'
 import {
   type AddErrorProps,
   type HandleLLMError,
@@ -143,58 +144,67 @@ export const validateModule = ({
 
   const linesCleaned = postCleanLines({lines})
 
-  const structured = linesCleaned.map((original): RichParsedLine => {
-    const fields = original.split('|')
-    const reasons: string[] = []
+  const structured: RichParsedLine[] = 
+  // moduleName === 'translationReview' || moduleName === 'translationDraft'
+  //   ? linesCleaned.map((line): RichParsedLine => ({
+  //     original: line,
+  //     fields: [line],
+  //     isValid: true,
+  //     reasons: []
+  //   }))
+  // : 
+  linesCleaned.map((original): RichParsedLine => {
+      const fields = original.split('|')
+      const reasons: string[] = []
 
-    if (fields.length !== fieldCount) {
-      reasons.push(`Expected ${fieldCount} fields, got ${fields.length}`)
-    }
-
-    if (fields.some(f => f.trim() === '')) {
-      reasons.push('One or more fields is blank')
-    }
-
-    if (moduleName === 'dialog') {
-      const [gender, speaker, utterance] = fields.map(f => f.trim())
-      if (!['m', 'f'].includes(gender.toLowerCase())) {
-        reasons.push(`Unrecognized gender tag: ${gender}`)
+      if (fields.length !== fieldCount) {
+        reasons.push(`Expected ${fieldCount} fields, got ${fields.length}`)
       }
-      if (speaker.length === 0) {
-        reasons.push('Speaker name is missing')
-      }
-      if (utterance.length < 2) {
-        reasons.push('Utterance too short')
-      }
-    }
 
-    if (moduleName === 'verbs') {
-      const specialCases = ['gustar', 'encantar', 'faltar', 'interesar']
-      const infinitive = fields[0].trim().toLowerCase()
-      if (!specialCases.includes(infinitive) && fields[1].trim() === fields[2].trim()) {
-        // reasons.push('Singular and plural forms are identical')
+      if (fields.some(f => f.trim() === '')) {
+        reasons.push('One or more fields is blank')
       }
-    }
 
-    if (moduleName === 'nouns') {
-      const invariableNouns = ['lunes', 'análisis', 'paraguas', 'virus', 'tórax']
-      const noun = fields[0].trim().toLowerCase()
-      if (
-        fields.length >= 3 &&
-        fields[1].trim() === fields[2].trim() &&
-        !invariableNouns.includes(noun)
-      ) {
-        reasons.push('Singular and plural noun forms are identical (and not in exception list)')
+      if (moduleName === MODULE_NAME.DIALOG_DRAFT) {
+        const [gender, speaker, utterance] = fields.map(f => f.trim())
+        if (!['m', 'f'].includes(gender.toLowerCase())) {
+          reasons.push(`Unrecognized gender tag: ${gender}`)
+        }
+        if (speaker.length === 0) {
+          reasons.push('Speaker name is missing')
+        }
+        if (utterance.length < 2) {
+          reasons.push('Utterance too short')
+        }
       }
-    }
 
-    return {
-      original,
-      fields,
-      isValid: reasons.length === 0,
-      reasons
-    }
-  })
+      if (moduleName === MODULE_NAME.VERBS_DRAFT) {
+        const specialCases = ['gustar', 'encantar', 'faltar', 'interesar']
+        const infinitive = fields[0].trim().toLowerCase()
+        if (!specialCases.includes(infinitive) && fields[1].trim() === fields[2].trim()) {
+          // reasons.push('Singular and plural forms are identical')
+        }
+      }
+
+      if (moduleName === MODULE_NAME.NOUNS_DRAFT) {
+        const invariableNouns = ['lunes', 'análisis', 'paraguas', 'virus', 'tórax']
+        const noun = fields[0].trim().toLowerCase()
+        if (
+          fields.length >= 3 &&
+          fields[1].trim() === fields[2].trim() &&
+          !invariableNouns.includes(noun)
+        ) {
+          reasons.push('Singular and plural noun forms are identical (and not in exception list)')
+        }
+      }
+
+      return {
+        original,
+        fields,
+        isValid: reasons.length === 0,
+        reasons
+      }
+    })
 
   const invalid = structured.filter(s => !s.isValid)
   const valid = structured.filter(s => s.isValid).map(s => s.original as Line)

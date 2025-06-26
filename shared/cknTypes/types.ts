@@ -134,7 +134,6 @@ export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetCutoff = React.Dispatch<React.SetStateAction<Cutoff>>
 export type SetDebugMode = React.Dispatch<React.SetStateAction<DebugMode>>
-export type SetDialogDraftPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
 export type SetGenerateTTSCount = React.Dispatch<React.SetStateAction<GenerateTTSCount>>
 export type SetHandleDialogErrors = React.Dispatch<React.SetStateAction<HandleDialogErrors>>
@@ -154,7 +153,6 @@ export type SetLineNumber = React.Dispatch<React.SetStateAction<LineNumber>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
 export type SetMaxCount = React.Dispatch<React.SetStateAction<MaxCount>>
-export type SetNounsDraftPrompt = React.Dispatch<React.SetStateAction<Prompt>>
 export type SetOpenAiAvgTokens = React.Dispatch<React.SetStateAction<OpenAiAvgTokens>>
 export type SetOpenAiBudget = React.Dispatch<React.SetStateAction<OpenAiBudget>>
 export type SetOpenAiKey = React.Dispatch<React.SetStateAction<OpenAiKey>>
@@ -239,32 +237,25 @@ export type Lesson = {
 
   translation: Translation
 
-  // dialog: Module
   dialogDraft: Module
   dialogReview: Module
   dialogResolve: Module
-  // nouns: Module
+
   nounsDraft: Module
   nounsReview: Module
   nounsResolve: Module
-  // verbs: Module
+
+  translationDraft: Module
+  translationReview: Module
+  translationResolve: Module
+
   verbsDraft: Module
   verbsReview: Module
   verbsResolve: Module
 
-  // nounsMissing: Module
-  // nounsMissingReview: Module
-  // nounsOnly: Module
-  // nounsOnlyMissing: Module
-  // nounsOnlyReview: Module
   verbsExpandedComplete: Module
   verbsExpandedInComplete: Module
   verbsExpandedTriple: Module
-  // verbsMissing: Module
-  // verbsMissingReview: Module
-  // verbsOnly: Module
-  // verbsOnlyMissing: Module
-  // verbsOnlyReview: Module
 }
 
 export type LessonId = number
@@ -407,37 +398,28 @@ export type GetPromptProps = {
   errors: HandleLLMError[]
 }
 
-export type GetDialogDraftPromptProps = GetPromptProps
-export type GetDialogReviewPromptProps = GetPromptProps
-export type GetNounsDraftPromptProps = GetPromptProps
-export type GetNounsMissingPromptProps = GetPromptProps
-export type GetVerbsMissingPromptProps = GetPromptProps
-export type GetNounsReviewPromptProps = GetPromptProps
-export type GetNounsMissingReviewPromptProps = GetPromptProps
-export type GetVerbsMissingReviewPromptProps = GetPromptProps
-export type GetNounsOnlyPromptProps = GetPromptProps
-export type GetNounsOnlyReviewPromptProps = GetPromptProps
-export type GetVerbsExpandedCompletePromptProps = GetPromptProps
-export type GetVerbsDraftPromptProps = GetPromptProps
-export type GetVerbsReviewPromptProps = GetPromptProps
-export type GetVerbsOnlyPromptProps = GetPromptProps
-export type GetVerbsOnlyReviewPromptProps = GetPromptProps
-
 export type GetDialogDraftPrompt = (props: GetDialogDraftPromptProps) => string
+export type GetDialogDraftPromptProps = GetPromptProps
 export type GetDialogReviewPrompt = (props: GetDialogReviewPromptProps) => string
+export type GetDialogReviewPromptProps = GetPromptProps
+
 export type GetNounsDraftPrompt = (props: GetNounsDraftPromptProps) => string
-export type GetNounsMissingPrompt = (props: GetNounsMissingPromptProps) => string
-export type GetVerbsMissingPrompt = (props: GetVerbsMissingPromptProps) => string
+export type GetNounsDraftPromptProps = GetPromptProps
 export type GetNounsReviewPrompt = (props: GetNounsReviewPromptProps) => string
-export type GetNounsMissingReviewPrompt = (props: GetNounsMissingReviewPromptProps) => string
-export type GetVerbsMissingReviewPrompt = (props: GetVerbsMissingReviewPromptProps) => string
-export type GetNounsOnlyPrompt = (props: GetNounsOnlyPromptProps) => string
-export type GetNounsOnlyReviewPrompt = (props: GetNounsOnlyReviewPromptProps) => string
-export type GetVerbsExpandedCompletePrompt = (props: GetVerbsExpandedCompletePromptProps) => string
+export type GetNounsReviewPromptProps = GetPromptProps
+
+export type GetTranslationDraftPrompt = (props: GetTranslationDraftPromptProps) => string
+export type GetTranslationDraftPromptProps = GetPromptProps
+export type GetTranslationReviewPrompt = (props: GetTranslationReviewPromptProps) => string
+export type GetTranslationReviewPromptProps = GetPromptProps
+
 export type GetVerbsDraftPrompt = (props: GetVerbsDraftPromptProps) => string
+export type GetVerbsDraftPromptProps = GetPromptProps
 export type GetVerbsReviewPrompt = (props: GetVerbsReviewPromptProps) => string
-export type GetVerbsOnlyPrompt = (props: GetVerbsOnlyPromptProps) => string
-export type GetVerbsOnlyReviewPrompt = (props: GetVerbsOnlyReviewPromptProps) => string
+export type GetVerbsReviewPromptProps = GetPromptProps
+
+export type GetVerbsExpandedCompletePrompt = (props: GetVerbsExpandedCompletePromptProps) => string
+export type GetVerbsExpandedCompletePromptProps = GetPromptProps
 
 export const defaultTranslation: Translation = {
   [LANGUAGE.ENGLISH]: [],
@@ -512,15 +494,18 @@ export const defaultLesson: Lesson = {
 
   translation: defaultTranslation,
 
-  // dialog: defaultModule,
   dialogDraft: defaultModule,
   dialogReview: defaultModule,
   dialogResolve: defaultModule,
-  // nouns: defaultModule,
+
   nounsDraft: defaultModule,
   nounsReview: defaultModule,
   nounsResolve: defaultModule,
-  // verbs: defaultModule,
+
+  translationDraft: defaultModule,
+  translationReview: defaultModule,
+  translationResolve: defaultModule,
+  
   verbsDraft: defaultModule,
   verbsReview: defaultModule,
   verbsResolve: defaultModule,

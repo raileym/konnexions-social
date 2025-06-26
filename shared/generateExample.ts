@@ -19,7 +19,6 @@ export function generateExample({
   options = {}
 }: GenerateExampleProps): Line | Lines {
   if (language !== LANGUAGE.SPANISH) {
-    // cXnsole.log(`Not Spanish: ${language}`)
     return options.asString ? '[]' : []
   }
 
@@ -36,49 +35,25 @@ export function generateExample({
       'salad|ensalada|ensaladas|f',
       'chicken|pollo|pollos|m'
     ],
-    // nounsMissing: [
-    //   'restaurant|restaurante|restaurantes|m',
-    //   'night|noche|noches|f',
-    //   'salad|ensalada|ensaladas|f',
-    //   'chicken|pollo|pollos|m'
-    // ],
-    // nounsMissingReview: [
-    //   '1. restaurant|restaurante|restaurantes|m',
-    //   '2. night|noche|noches|f',
-    //   '3. salad|ensalada|ensaladas|f',
-    //   '4. pollo|pollos|m'
-    // ],
-    // nounsOnly: [
-    //   'mesa',
-    //   'silla',
-    //   'camarero',
-    //   'menú',
-    //   'comida'
-    // ],
+    translationDraft: [
+      '1. Good afternoon, what would you like to drink?',
+      '2. I would like a lemonade, please.',
+      '3. I’ll bring you your drink in a moment.'
+    ],
     verbsDraft: [
       'like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
       'order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
       'ask for|pedir|pido|pides|pide|pedimos|pedís|piden'
     ],
-    // verbsMissing: [
-    //   'like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
-    //   'order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
-    //   'request|pedir|pido|pides|pide|pedimos|pedís|piden'
-    // ],
-    // verbsMissingReview: [
-    //   '1. like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
-    //   '2. order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
-    //   '3. request|pedir|pido|pides|pide|pedimos|pedís|piden'
-    // ],
-    // verbsOnly: [
-    //   'gustar',
-    //   'ordenar',
-    //   'pedir'
-    // ],
     dialogReview: [
       '1. Buenas tardes, ¿qué le gustaría tomar?',
       '2. Me gustaría una limonada, por favor.',
       '3. En un momento le traigo su bebida.'
+    ],
+    translationReview: [
+      '1. Good afternoon, what would you like to drink?',
+      '2. I would like a lemonade, please.',
+      '3. I’ll bring you your drink in a moment.'
     ],
     nounsReview: [
       '1. restaurant|restaurante|restaurantes|m',
@@ -86,23 +61,11 @@ export function generateExample({
       '3. salad|ensalada|ensaladas|f',
       '4. chicken|pollo|pollos|m'
     ],
-    // nounsOnlyReview: [
-    //   'mesa',
-    //   'silla',
-    //   'camarero',
-    //   'menú',
-    //   'comida'
-    // ],
     verbsReview: [
       '1. like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
       '2. order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
       '3. ask for|pedir|pido|pides|pide|pedimos|pedís|piden'
     ],
-    // verbsOnlyReview: [
-    //   'gustar',
-    //   'ordenar',
-    //   'pedir'
-    // ],
     verbsExpandedComplete: [
       ' 1. yo estoy en casa.',
       ' 2. tú estás en la escuela.',
@@ -116,11 +79,9 @@ export function generateExample({
     verbsExpandedInComplete: [],
     verbsResolve: [],
     nounsResolve: [],
-    dialogResolve: []
-    // verbsOnlyMissing: [],
-    // nounsOnlyMissing: []
+    dialogResolve: [],
+    translationResolve: []
   }
-
   const raw = examples[moduleName]
   return options.asString ? JSON.stringify(raw, null, 2) : raw
 }

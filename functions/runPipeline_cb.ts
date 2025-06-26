@@ -2,6 +2,7 @@ import type { Handler } from '@netlify/functions'
 import { resolveNouns } from '@shared/resolveNouns_cb/resolveNouns_cb'
 import { resolveVerbs } from '@shared/resolveVerbs_cb/resolveVerbs_cb'
 import { resolveDialog } from '@shared/resolveDialog_cb/resolveDialog_cb'
+import { resolveTranslation } from '@shared/resolveTranslation_cb/resolveTranslation_cb'
 import { MODULE_NAME, PIPELINE_TYPE } from '@cknTypes/constants'
 import { runPipelineCb } from '@shared/runPipelineCb/runPipelineCb'
 import type { PipelineConfigMap, RunPipelineCbBody } from '@cknTypes/types'
@@ -51,6 +52,13 @@ const handler: Handler = async (event) => {
         resolveModule: MODULE_NAME.NOUNS_RESOLVE,
         resolve: resolveNouns,
         pipelineType: PIPELINE_TYPE.NOUNS
+      },
+      [PIPELINE_TYPE.TRANSLATION]: {
+        draftModule: MODULE_NAME.TRANSLATION_DRAFT,
+        reviewModule: MODULE_NAME.TRANSLATION_REVIEW,
+        resolveModule: MODULE_NAME.TRANSLATION_RESOLVE,
+        resolve: resolveTranslation,
+        pipelineType: PIPELINE_TYPE.TRANSLATION
       },
       [PIPELINE_TYPE.VERBS]: {
         draftModule: MODULE_NAME.VERBS_DRAFT,
