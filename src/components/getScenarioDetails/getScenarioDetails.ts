@@ -286,6 +286,7 @@ export function getScenarioDetails({useMyself, scenario, language}: GetScenarioD
 
   return {
     scenarioTitle: scenarioTitles[scenario],
-    participantList: selected.map(p => `'${p}'`).join(' and ')
+    // participantList: selected.map(p => `'${p}'`).join(' and ')
+    participantList: selected.map(p => `${p}`).join(' and ')
   }
 }

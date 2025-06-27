@@ -14,9 +14,9 @@ const SelectorLanguage: React.FC = () => {
   ]
 
   return (
-    <div className="mb3">
+    <div className="mb3X">
       <label className="db mb2 f5 b">Choose a language:</label>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap flex-columnX">
         {languages.map((code) => (
           <label key={code} className="mr3 mb2 flex items-center">
             <input

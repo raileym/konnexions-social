@@ -35,7 +35,12 @@ import type {
   Language,
   LineNumber,
   DebugMode,
-  LessonTimestamp
+  LessonTimestamp,
+  CustomScenario,
+  CustomParticipants,
+  CustomSeed,
+  ContentStyle,
+  UseMyself
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -43,6 +48,10 @@ import {
   defaultMaxCount,
   defaultScenarioData,
   defaultDebugMode,
+  defaultCustomScenario,
+  defaultCustomParticipants,
+  defaultCustomSeed,
+  defaultContentStyle,
 } from '@cknTypes/types'
 import {
   APP_HOME,
@@ -112,7 +121,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       typeof l.id === 'number' &&
       typeof l.name === 'string'
     )
-  )  
+  )
+
+  const [contentStyle, setContentStyle] = usePersistentState<ContentStyle>('contentStyle', defaultContentStyle)
+  const [customSeed, setCustomSeed] = usePersistentState<CustomSeed>('customSeed', defaultCustomSeed)
+  const [customScenario, setCustomScenario] = usePersistentState<CustomScenario>('customScenario', defaultCustomScenario)
+  const [customParticipants, setCustomParticipants] = usePersistentState<CustomParticipants>('customParticipants', defaultCustomParticipants)
+
+  const [useMyself, setUseMyself] = usePersistentState<UseMyself>('useMyself', true)
   const [debugMode, setDebugMode] = usePersistentState<DebugMode>('debugMode', defaultDebugMode)
   const [lessonTimestamp, setLessonTimestamp] = usePersistentState<LessonTimestamp>('lessonTimestamp', Date.now())
   const [lineNumber, setLineNumber] = useState<LineNumber>(0)
@@ -219,6 +235,10 @@ const AppContextValue = {
     apiKey,
     audioUrl,
     cleanedText,
+    contentStyle,
+    customParticipants,
+    customScenario,
+    customSeed,
     cutoff,
     debugMode,
     gcpKey,
@@ -249,6 +269,10 @@ const AppContextValue = {
     setApiKey,
     setAudioUrl,
     setCleanedText,
+    setContentStyle,
+    setCustomParticipants,
+    setCustomScenario,
+    setCustomSeed,
     setCutoff,
     setDebugMode,
     setGcpKey,
@@ -279,12 +303,14 @@ const AppContextValue = {
     setTtsBudget,
     setTtsCharUsage,
     setUseCloudTTS,
+    setUseMyself,
     sourceLanguage,
     targetLanguage,
     ttsAvgChars,
     ttsBudget,
     ttsCharUsage,
-    useCloudTTS
+    useCloudTTS,
+    useMyself
   }
 
   return (

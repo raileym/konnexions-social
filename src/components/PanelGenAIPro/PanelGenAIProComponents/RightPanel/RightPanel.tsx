@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '@components/SelectorScenario'
 import { getPrompt_cb } from '@shared/getPrompt_cb'
-import ParticipantToggle from '@components/ParticipantToggle'
-// import { LANGUAGE, MODULE_NAME, VERB_FORMATS, type Language, type Lesson, type LessonComplete, type Module, type ModuleName, type TestMode, type UseMyself } from '@cknTypes/types'
 import {
   type LessonComplete,
   type TestMode,
   scenarioDescriptions,
   defaultLesson,
-  type UseMyself,
 } from '@cknTypes/types'
 import {
   // VERB_FORMATS,
@@ -34,12 +31,13 @@ import PromptToggle from '@PanelGenAIProComponents/PromptToggle/PromptToggle'
 import LessonElementToggle from '@PanelGenAIProComponents/LessonElementToggle/LessonElementToggle'
 import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus'
 import { useDebugLogger } from '@hooks/useDebugLogger'
+import SelectorContentStyle from '@components/SelectorContentStyle'
+import SelectorParticipantRole from '@components/SelectorParticipantRole'
 
 const RightPanel: React.FC = () => {
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
   const [testMode,] = useState<TestMode>(false)
   // const [showDialogDraftPrompt, setShowDialogDraftPrompt] = useState(false)
-  const [useMyself, setUseMyself] = useState<UseMyself>(true)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
   const [showVerbsPrompt, setShowVerbsPrompt] = useState(false)
   const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)
@@ -49,7 +47,7 @@ const RightPanel: React.FC = () => {
   const debugLog = useDebugLogger()
 
   // const toggleShowDialogDraftPrompt = () => {
-  //   setShowDialogDraftPrompt(prev => !prev)
+  //   (prev => !prev)
   // }
     
   const toggleShowNounsPrompt = () => {
@@ -73,17 +71,25 @@ const RightPanel: React.FC = () => {
   }
 
   const {
-    lessons,
-    setLessons,
-    selectedLessonId,
-    scenario,
+    contentStyle,
+    customParticipants,
+    customScenario,
+    customSeed,
     cutoff,
-    scenarioData,
-    targetLanguage,
-    sourceLanguage,
     debugMode,
+    lessons,
+    scenario,
+    scenarioData,
+    selectedLessonId,
+    setCustomParticipants,
+    setCustomScenario,
+    setCustomSeed,
     setDebugMode,
-    setLessonTimestamp
+    setLessonTimestamp,
+    setLessons,
+    sourceLanguage,
+    targetLanguage,
+    useMyself
   } = useAppContext()
   
 // export type ScenarioData = {
@@ -99,7 +105,7 @@ const RightPanel: React.FC = () => {
   // cXonsole.log(JSON.stringify(scenarioData.nouns), null, 2)
 
   // const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[language]}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or in a taxi.</div>
-  const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[targetLanguage]}</b> {scenarioDescriptions[scenario]}</div>
+  // const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[targetLanguage]}</b> {scenarioDescriptions[scenario]}</div>
 
   const lesson = lessons.find(l => l.id === selectedLessonId)
   
@@ -118,58 +124,6 @@ const RightPanel: React.FC = () => {
     if (!lesson) {
       content = <p>Lesson not found.</p>
     } else {
-      // cXonsole.log('lesson', lesson)
-      // cXonsole.log('prompt', prompt)
-      
-      // cXonsole.log('lesson', JSON.stringify(lesson, null, 2))
-
-      // const verbListsNoIndex = generateVerbLists(lesson, true)
-
-
-      // debugLog('lesson', lesson)
-      // debugLog('verbListsNoIndex', verbListsNoIndex)
-
-      // const mergedVerbLines = rebuildVerbLines({
-      //   verbsOnly: lesson.verbsOnly.lines,
-      //   verbsMissing: lesson.verbsMissing.lines,
-      //   verbByInfinitive: scenarioData.verbByInfinitive
-      // })
-
-      // const mergedNounLines = rebuildNounLines({
-      //   nounsOnly: lesson.nounsOnly.lines,
-      //   nounsMissing: lesson.nounsMissing.lines,
-      //   nounBySingular: scenarioData.nounBySingular
-      // })
-
-      // console.log('mergedVerbLines', mergedVerbLines)
-      // console.log('mergedNounLines', mergedNounLines)
-
-      // const extractedNouns = lesson.nounsOnly.lines.map(n => n.trim().toLowerCase())
-
-      // const allowedForms = new Set<string>()
-      // scenarioData.nouns.forEach(noun => {
-      //   allowedForms.add(noun.noun_singular.toLowerCase())
-      //   allowedForms.add(noun.noun_plural.toLowerCase())
-      // })
-
-      // const unmatchedNouns = extractedNouns.filter(n => !allowedForms.has(n))
-
-      // cXonsole.log('🚫 Nouns in lesson but not in scenarioData:', unmatchedNouns)
-
-      // const extractedVerbs = lesson.verbsOnly.lines.map(v => v.trim().toLowerCase())
-
-      // const allowedVerbs = new Set<string>()
-      // scenarioData.verbs.forEach(verb => {
-      //   allowedVerbs.add(verb.verb_infinitive.toLowerCase())
-      // })
-
-      // const unmatchedVerbs = extractedVerbs.filter(v => !allowedVerbs.has(v))
-
-      // cXonsole.log('🚫 Verbs in lesson but not in scenarioData:', unmatchedVerbs)
-
-
-
-
       content = (
         <>
           <div className="mv3X flex baX justify-center">
@@ -196,9 +150,22 @@ const RightPanel: React.FC = () => {
             </button>
           </div> */}
          
-          <h2 className="f2 pa3 pb0 mt4 w-100 tc">{LANGUAGE_TITLE[targetLanguage]}: Premium</h2>
-          <div className="w-100 flex justify-center pt3 pb4">
-            <div className="f3 pv3 pt0 mt0 w-80">{headline}</div>
+          <div className="baX mv4 flex flex-row justify-center">
+            <SelectorLanguage />
+          </div>
+
+          <h2 className="baX f2 pa3 pb0X mt4X w-100 items-center tc">{LANGUAGE_TITLE[targetLanguage]}: Premium</h2>
+
+          <div className="flex flex-row">
+            <SelectorContentStyle />
+            <SelectorScenario custom={true} />
+            <SelectorParticipantRole />
+          </div>
+
+          <div className="ba w-100 flex justify-center pt3X pb3">
+            <div className="f3 pv3 pt0 mt0 w-80">
+              <div className="f3">Create a <b>{contentStyle}</b> in <b>{LANGUAGE_TITLE[targetLanguage]}</b> {scenarioDescriptions[scenario]}.</div>
+            </div>
           </div>
 
           <div className={'mt3 mb4 flex justify-center'}>
@@ -235,19 +202,36 @@ const RightPanel: React.FC = () => {
             </div>
           </div>
 
+          <label className="db mb2 f5 b">Seed or Prompt Description (optional):</label>
+          <textarea
+            value={customSeed}
+            onChange={(e) => setCustomSeed(e.target.value)}
+            className="w-100 ba b--gray br2 pa2"
+            rows={10}
+          />
 
-          <div className="flex flex-column items-center w-100">
-            <div className="mt3 mb1">
-              <SelectorLanguage />
-            </div>
+          <div className="mb3">
+            <label className="db mb2 f5 b">Scenario description:</label>
+            <input
+              type="text"
+              value={customScenario}
+              onChange={(e) => setCustomScenario(e.target.value)}
+              className="input-reset ba b--black-20 pa2 f4 w-100"
+              placeholder="e.g., in a taxi"
+            />
           </div>
 
-          <div className="flex flex-column items-center w-100">
-            <div className="mt3 mb1">
-              <SelectorScenario custom={false} />
-            </div>
-            <ParticipantToggle useMyself={useMyself} setUseMyself={setUseMyself} />
+          <div className="mb3">
+            <label className="db mb2 f5 b">Participants:</label>
+            <input
+              type="text"
+              value={customParticipants}
+              onChange={(e) => setCustomParticipants(e.target.value)}
+              className="input-reset ba b--black-20 pa2 f4 w-100"
+              placeholder="e.g., myself and the driver"
+            />
           </div>
+
 
           <div className="pa3 mt3 ba bg-white w-100">
             <DialogList language={lesson.targetLanguage} lines={(lesson?.dialogResolve?.lines ?? [])} useCloudTTS={true} />
@@ -545,6 +529,19 @@ const RightPanel: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[lesson])
 
+  useEffect(() => {
+    if (!customScenario || !scenario) return
+
+    const { participantList } = getScenarioDetails({
+      useMyself,
+      scenario,
+      language: sourceLanguage
+    })
+
+    setCustomParticipants(participantList)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customScenario])
+  
   return (
     <div className={`w-70 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}

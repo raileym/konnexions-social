@@ -8,6 +8,7 @@ import { LANGUAGE_TITLE, SCENARIO_LABELS } from '@cknTypes/constants'
 import type { Language } from '@cknTypes/types'
 import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useDebugLogger } from '@hooks/useDebugLogger'
+import { capitalize } from '@components/Util'
 
 type DialogListProps = {
   lines: string[]
@@ -35,7 +36,9 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
     setLineNumber,
     lineNumber,
     scenario,
-    lessonTimestamp
+    lessonTimestamp,
+    contentStyle,
+    customScenario
   } = useAppContext()
 
   const storeAudioOrLine = useCallback((index: number, value: string) => {
@@ -195,7 +198,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
 
   return (
     <div>
-      <div className='tc f2 w-100 mt4X b'>Dialog {SCENARIO_LABELS[scenario]}</div>
+      <div className='tc f2 w-100 mt4X b'>{capitalize(contentStyle)} {customScenario}</div>
       <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
       <div className='flex flex-row items-center mt4'>
         <button

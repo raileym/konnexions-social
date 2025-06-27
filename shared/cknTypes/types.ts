@@ -13,7 +13,8 @@ import {
   GENDER,
   SCENARIO_LABELS,
   CURATED,
-  PIPELINE_TYPE
+  PIPELINE_TYPE,
+  CONTENT_STYLE
 } from '@cknTypes/constants'
 
 export type AppContextType = {
@@ -23,6 +24,10 @@ export type AppContextType = {
   apiKey: ApiKey
   audioUrl: AudioUrl
   cleanedText: CleanedText
+  contentStyle: ContentStyle
+  customParticipants: CustomParticipants
+  customScenario: CustomScenario
+  customSeed: CustomSeed
   cutoff: Cutoff
   debugMode: DebugMode
   gcpKey: GcpKey
@@ -53,6 +58,10 @@ export type AppContextType = {
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
+  setContentStyle: SetContentStyle
+  setCustomParticipants: SetCustomParticipants
+  setCustomScenario: SetCustomScenario
+  setCustomSeed: SetCustomSeed
   setCutoff: SetCutoff
   setDebugMode: SetDebugMode
   setGcpKey: SetGcpKey
@@ -83,15 +92,21 @@ export type AppContextType = {
   setTtsBudget: SetTtsBudget
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
+  setUseMyself: SetUseMyself
   sourceLanguage: Language
   targetLanguage: Language
   ttsAvgChars: TtsAvgChars
   ttsBudget: TtsBudget
   ttsCharUsage: TtsCharUsage
   useCloudTTS: UseCloudTTS
+  useMyself: UseMyself
 }
 
 export type LessonComplete = boolean
+
+export type ContentStyleValue = (typeof CONTENT_STYLE)[keyof typeof CONTENT_STYLE]
+export type ContentStyleKey = keyof typeof CONTENT_STYLE
+export type ContentStyle = ContentStyleValue
 
 export type LanguageValue = (typeof LANGUAGE)[keyof typeof LANGUAGE]
 export type LanguageKey = keyof typeof LANGUAGE
@@ -132,6 +147,10 @@ export type SetAnswer = React.Dispatch<React.SetStateAction<Answer>>
 export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
+export type SetContentStyle = React.Dispatch<React.SetStateAction<ContentStyle>>
+export type SetCustomParticipants = React.Dispatch<React.SetStateAction<CustomParticipants>>
+export type SetCustomScenario = React.Dispatch<React.SetStateAction<CustomScenario>>
+export type SetCustomSeed = React.Dispatch<React.SetStateAction<CustomSeed>>
 export type SetCutoff = React.Dispatch<React.SetStateAction<Cutoff>>
 export type SetDebugMode = React.Dispatch<React.SetStateAction<DebugMode>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
@@ -359,6 +378,15 @@ export type HandleModuleProps = {
   moduleName: ModuleName
 }
 
+export type CustomScenario = string
+export type CustomSeed = string
+export type CustomParticipants = string
+
+export const defaultContentStyle: ContentStyle = CONTENT_STYLE.DIALOG
+export const defaultCustomSeed: CustomSeed = ''
+export const defaultCustomScenario: CustomScenario = ''
+export const defaultCustomParticipants: CustomParticipants = ''
+
 export type HandleDialogProps = {
   testMode: TestMode
   lesson: Lesson
@@ -555,7 +583,7 @@ export const scenarioDescriptions: ScenarioDescriptions = {
   restaurant: 'for a dining situation — at a restaurant with hosts, waiters, and other guests',
   hotel: 'for a lodging situation — checking into a hotel, speaking with staff, or addressing room needs',
   airport: 'for a travel scenario — navigating an airport, speaking to agents, or boarding a flight',
-  taxi: 'for ground transportation — riding in a taxi, using a rideshare, or talking to a driver',
+  taxi: 'for a situation involving ground transportation — riding in a taxi, using a rideshare, or talking to a driver',
   custom: 'for a custom situation'
 }
 

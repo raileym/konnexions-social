@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { type Scenario } from '@cknTypes/types'
+import { defaultCustomScenario, type Scenario } from '@cknTypes/types'
 import { SCENARIO } from '@cknTypes/constants'
 
 type SelectorScenarioProps = {
@@ -10,39 +10,59 @@ type SelectorScenarioProps = {
 const SelectorScenario: React.FC<SelectorScenarioProps> = ({ custom }) => {
   const {
     scenario,
-    setScenario
+    setScenario,
+    setCustomScenario,
+    customScenario
   } = useAppContext()
 
-  const scenarios: Scenario[] = [
-    SCENARIO.RESTAURANT,
-    SCENARIO.HOTEL,
-    SCENARIO.AIRPORT,
-    SCENARIO.TAXI,
-    ...(custom ? [SCENARIO.CUSTOM] : [])
-  ]
+  const scenarios = useMemo<Scenario[]>(() => {
+    return [
+      ...(custom ? [SCENARIO.CUSTOM] : []),
+      SCENARIO.RESTAURANT,
+      SCENARIO.HOTEL,
+      SCENARIO.AIRPORT,
+      SCENARIO.TAXI
+    ]
+  }, [custom])
+
+  const scenarioDescriptions = useMemo<Record<Scenario, string>>(() => ({
+    restaurant: 'at a restaurant',
+    hotel: 'at the hotel check-in desk',
+    airport: 'at the airport check-in counter',
+    taxi: 'in a taxi',
+    custom: 'in a custom situation'
+  }), [])
+
+  useEffect(() => {
+    if (!customScenario || customScenario === defaultCustomScenario) {
+      const randomScenario = scenarios[Math.floor(Math.random() * scenarios.length)]
+      setScenario(randomScenario)
+      setCustomScenario(scenarioDescriptions[randomScenario])
+    }
+  }, [setScenario, setCustomScenario, scenarios, scenarioDescriptions, customScenario])
 
   return (
-    <>
-      <div className="mb3">
-        <label className="db mb2 f5 b">Choose a scenario:</label>
-        <div className="flex flex-wrap">
-          {scenarios.map((s) => (
-            <label key={s} className="mr3 mb2 flex items-center">
-              <input
-                type="radio"
-                name={`scenario-${Math.random().toString(36).slice(2)}`}
-                // name="scenario"
-                value={s}
-                checked={scenario === s}
-                onChange={() => setScenario(s)}
-                className="mr1"
-              />
-              {s.charAt(0).toUpperCase() + s.slice(1)}
-            </label>
-          ))}
-        </div>
+    <div className="mb3">
+      <label className="db mb2 f5 b">Choose a scenario:</label>
+      <div className="flex flex-wrap flex-column">
+        {scenarios.map((s) => (
+          <label key={s} className="mh3 mb2 flex items-center">
+            <input
+              type="radio"
+              name="scenario"
+              value={s}
+              checked={scenario === s}
+              onChange={() => {
+                setScenario(s)
+                setCustomScenario(scenarioDescriptions[s])
+              }}
+              className="mr1"
+            />
+            {s.charAt(0).toUpperCase() + s.slice(1)}
+          </label>
+        ))}
       </div>
-    </>
+    </div>
   )
 }
 
