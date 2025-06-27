@@ -54,7 +54,7 @@ const SelectorScenario: React.FC<SelectorScenarioProps> = ({ custom }) => {
               checked={scenario === s}
               onChange={() => {
                 setScenario(s)
-                setCustomScenario(scenarioDescriptions[s])
+                // setCustomScenario(scenarioDescriptions[s])
               }}
               className="mr1"
             />

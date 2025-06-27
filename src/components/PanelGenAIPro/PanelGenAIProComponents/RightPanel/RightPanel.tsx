@@ -513,18 +513,18 @@ const RightPanel: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[lesson])
 
-  useEffect(() => {
-    if (!customScenario || !scenario) return
+  // useEffect(() => {
+  //   if (!customScenario || !scenario) return
 
-    const { participantList } = getScenarioDetails({
-      useMyself,
-      scenario,
-      language: sourceLanguage
-    })
+  //   const { participantList } = getScenarioDetails({
+  //     useMyself,
+  //     scenario,
+  //     language: sourceLanguage
+  //   })
 
-    setCustomParticipants(participantList)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customScenario])
+  //   setCustomParticipants(participantList)
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [customScenario])
   
   return (
     <div className={`w-70 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
