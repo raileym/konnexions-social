@@ -33,6 +33,8 @@ import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus
 import { useDebugLogger } from '@hooks/useDebugLogger'
 import SelectorContentStyle from '@components/SelectorContentStyle'
 import SelectorParticipantRole from '@components/SelectorParticipantRole'
+import InputCustomScenario from '@components/InputCustomScenario'
+import InputCustomParticipants from '@components/InputCustomParticipants'
 
 const RightPanel: React.FC = () => {
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
@@ -162,6 +164,11 @@ const RightPanel: React.FC = () => {
             <SelectorParticipantRole />
           </div>
 
+          <div>
+            <InputCustomScenario />
+            <InputCustomParticipants />
+          </div>
+          
           <div className="ba w-100 flex justify-center pt3X pb3">
             <div className="f3 pv3 pt0 mt0 w-80">
               <div className="f3">Create a <b>{contentStyle}</b> in <b>{LANGUAGE_TITLE[targetLanguage]}</b> {scenarioDescriptions[scenario]}.</div>
@@ -209,29 +216,6 @@ const RightPanel: React.FC = () => {
             className="w-100 ba b--gray br2 pa2"
             rows={10}
           />
-
-          <div className="mb3">
-            <label className="db mb2 f5 b">Scenario description:</label>
-            <input
-              type="text"
-              value={customScenario}
-              onChange={(e) => setCustomScenario(e.target.value)}
-              className="input-reset ba b--black-20 pa2 f4 w-100"
-              placeholder="e.g., in a taxi"
-            />
-          </div>
-
-          <div className="mb3">
-            <label className="db mb2 f5 b">Participants:</label>
-            <input
-              type="text"
-              value={customParticipants}
-              onChange={(e) => setCustomParticipants(e.target.value)}
-              className="input-reset ba b--black-20 pa2 f4 w-100"
-              placeholder="e.g., myself and the driver"
-            />
-          </div>
-
 
           <div className="pa3 mt3 ba bg-white w-100">
             <DialogList language={lesson.targetLanguage} lines={(lesson?.dialogResolve?.lines ?? [])} useCloudTTS={true} />

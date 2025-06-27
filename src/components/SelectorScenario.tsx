@@ -33,17 +33,17 @@ const SelectorScenario: React.FC<SelectorScenarioProps> = ({ custom }) => {
     custom: 'in a custom situation'
   }), [])
 
-  useEffect(() => {
-    if (!customScenario || customScenario === defaultCustomScenario) {
-      const randomScenario = scenarios[Math.floor(Math.random() * scenarios.length)]
-      setScenario(randomScenario)
-      setCustomScenario(scenarioDescriptions[randomScenario])
-    }
-  }, [setScenario, setCustomScenario, scenarios, scenarioDescriptions, customScenario])
+  // useEffect(() => {
+  //   if (!customScenario || customScenario === defaultCustomScenario) {
+  //     const randomScenario = scenarios[Math.floor(Math.random() * scenarios.length)]
+  //     setScenario(randomScenario)
+  //     setCustomScenario(scenarioDescriptions[randomScenario])
+  //   }
+  // }, [setScenario, setCustomScenario, scenarios, scenarioDescriptions, customScenario])
 
   return (
-    <div className="mb3">
-      <label className="db mb2 f5 b">Choose a scenario:</label>
+    <div className="baX mb3">
+      <label className="db mb2 f5 b">Scenario</label>
       <div className="flex flex-wrap flex-column">
         {scenarios.map((s) => (
           <label key={s} className="mh3 mb2 flex items-center">

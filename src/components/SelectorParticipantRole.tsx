@@ -1,16 +1,22 @@
 import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
+import { SCENARIO } from '@cknTypes/constants'
 
 const SelectorParticipantRole: React.FC = () => {
   const {
     useMyself,
-    setUseMyself
+    setUseMyself,
+    contentStyle,
+    scenario
   } = useAppContext()
+
+  const isDisabled = scenario === SCENARIO.CUSTOM
+  const labelClass = isDisabled ? 'o-50' : '' // o-50 = 50% opacity in Tachyons
 
   return (
     <div className="mb3">
-      <label className="db mb2 f5 b">Your Role:</label>
-      <div className="flex flex-column mh3">
+      <label className="db mb2 f5 b">My role</label>
+      <div className={`flex flex-column mh3 ${labelClass}`}>
         <label className="mb1 flex items-center">
           <input
             type="radio"
@@ -19,8 +25,9 @@ const SelectorParticipantRole: React.FC = () => {
             checked={useMyself}
             onChange={() => setUseMyself(true)}
             className="mr2"
+            disabled={isDisabled}
           />
-          I am a participant in the conversation
+          in the {contentStyle}
         </label>
         <label className="mb1 flex items-center">
           <input
@@ -30,8 +37,9 @@ const SelectorParticipantRole: React.FC = () => {
             checked={!useMyself}
             onChange={() => setUseMyself(false)}
             className="mr2"
+            disabled={isDisabled}
           />
-          I am not a participant in the conversation
+          NOT in the {contentStyle}
         </label>
       </div>
     </div>
