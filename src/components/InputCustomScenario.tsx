@@ -13,7 +13,7 @@ const InputCustomScenario: React.FC = () => {
         type="text"
         value={customScenario}
         onChange={(e) => setCustomScenario(e.target.value)}
-        className="input-reset ba b--black-20 pa2 f4 w-100"
+        className={`input-reset ba b--black-20 pa2 f4 w-100 ${customScenario ? 'black' : 'green'}`}
         placeholder="Sitting at an outdoor café in Paris ordering a coffee"
         disabled={disabled}
       />

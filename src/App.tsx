@@ -44,23 +44,6 @@ const App: React.FC = () => {
       handleVoiceLoad()
     }
 
-    const stored = localStorage.getItem('scenario') as Scenario | null
-    if (stored && Object.values(SCENARIO).includes(stored)) {
-      setScenario(stored as Scenario)
-    } else {
-      setScenario(SCENARIO.RESTAURANT)
-      localStorage.setItem('scenario', SCENARIO.RESTAURANT)
-    }    
-    
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('maxCount')
-      const parsed = stored ? JSON.parse(stored) : null
-
-      if (typeof parsed !== 'number') {
-        setMaxCount(defaultMaxCount)
-      }
-    }
-
     loadUsage()
     
   // eslint-disable-next-line react-hooks/exhaustive-deps

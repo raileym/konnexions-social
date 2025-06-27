@@ -16,6 +16,9 @@ const InputCustomParticipants: React.FC = () => {
         className="input-reset ba b--black-20 pa2 f4 w-100"
         placeholder="myself, the waiter"
         disabled={disabled}
+        style={{
+          color: customParticipants ? 'black' : 'blue'
+        }}        
       />
     </div>
   )
