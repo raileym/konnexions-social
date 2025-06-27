@@ -1,28 +1,28 @@
 import React, { useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { type ContentStyle } from '@cknTypes/types'
-import { CONTENT_STYLE } from '@cknTypes/constants'
+import { type LessonPromptStyle } from '@cknTypes/types'
+import { LESSON_PROMPT_STYLE } from '@cknTypes/constants'
 
-const SelectorContentStyle: React.FC = () => {
+const SelectorLessonPromptStyle: React.FC = () => {
   const {
-    contentStyle,
-    setContentStyle
+    lessonPromptStyle,
+    setLessonPromptStyle
   } = useAppContext()
 
-  const contentStyles = useMemo<ContentStyle[]>(() => Object.values(CONTENT_STYLE), [])
+  const lessonPromptStyles = useMemo<LessonPromptStyle[]>(() => Object.values(LESSON_PROMPT_STYLE), [])
 
   return (
     <div className="mb3">
       <label className="db mb2 f5 b">Content Style:</label>
       <div className="flex flex-wrap flex-column">
-        {contentStyles.map((style) => (
+        {lessonPromptStyles.map((style) => (
           <label key={style} className="mh3 mb1 flex items-center">
             <input
               type="radio"
               name="content-style"
               value={style}
-              checked={contentStyle === style}
-              onChange={() => setContentStyle(style)}
+              checked={lessonPromptStyle === style}
+              onChange={() => setLessonPromptStyle(style)}
               className="mr1"
             />
             {style.charAt(0).toUpperCase() + style.slice(1)}
@@ -33,4 +33,4 @@ const SelectorContentStyle: React.FC = () => {
   )
 }
 
-export default SelectorContentStyle
+export default SelectorLessonPromptStyle

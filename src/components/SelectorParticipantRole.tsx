@@ -6,7 +6,7 @@ const SelectorParticipantRole: React.FC = () => {
   const {
     useMyself,
     setUseMyself,
-    contentStyle,
+    lessonPromptStyle,
     scenario
   } = useAppContext()
 
@@ -27,7 +27,7 @@ const SelectorParticipantRole: React.FC = () => {
             className="mr2"
             disabled={isDisabled}
           />
-          in the {contentStyle}
+          in the {lessonPromptStyle}
         </label>
         <label className="mb1 flex items-center">
           <input
@@ -39,7 +39,7 @@ const SelectorParticipantRole: React.FC = () => {
             className="mr2"
             disabled={isDisabled}
           />
-          NOT in the {contentStyle}
+          NOT in the {lessonPromptStyle}
         </label>
       </div>
     </div>

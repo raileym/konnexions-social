@@ -43,7 +43,7 @@ export const FIELD_COUNT: Record<ModuleName, number> = {
   [MODULE_NAME.VERBS_REVIEW]: 8
 } as const
 
-export const CONTENT_STYLE = {
+export const LESSON_PROMPT_STYLE = {
   DIALOG: 'dialog',
   COMMENTARY: 'commentary',
   POEM: 'poem',

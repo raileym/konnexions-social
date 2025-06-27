@@ -39,8 +39,9 @@ import type {
   CustomScenario,
   CustomParticipants,
   CustomSeed,
-  ContentStyle,
-  UseMyself
+  LessonPromptStyle,
+  UseMyself,
+  LessonPrompt
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -51,7 +52,8 @@ import {
   defaultCustomScenario,
   defaultCustomParticipants,
   defaultCustomSeed,
-  defaultContentStyle,
+  defaultLessonPromptStyle,
+  defaultLessonPrompt,
 } from '@cknTypes/types'
 import {
   APP_HOME,
@@ -123,7 +125,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
-  const [contentStyle, setContentStyle] = usePersistentState<ContentStyle>('contentStyle', defaultContentStyle)
+  const [lessonPromptStyle, setLessonPromptStyle] = usePersistentState<LessonPromptStyle>('lessonPromptStyle', defaultLessonPromptStyle)
   const [customSeed, setCustomSeed] = usePersistentState<CustomSeed>('customSeed', defaultCustomSeed)
   const [customScenario, setCustomScenario] = usePersistentState<CustomScenario>('customScenario', defaultCustomScenario)
   const [customParticipants, setCustomParticipants] = usePersistentState<CustomParticipants>('customParticipants', defaultCustomParticipants)
@@ -154,6 +156,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [openAiUsage, setOpenAiUsage] = useState<OpenAiUsage>(0)
   const [question, setQuestion] = useState<Question>('')
   const [questionContext, setQuestionContext] = useState<QuestionContext>('')
+  const [lessonPrompt, setLessonPrompt] = usePersistentState<LessonPrompt>('lessonPrompt', defaultLessonPrompt)
   const [scenario, setScenario] = usePersistentState<Scenario>('scenario', SCENARIO.RESTAURANT)
   const [scenarioData, setScenarioData] = useState<ScenarioData>(defaultScenarioData)
   const [selectedLessonId, setSelectedLessonId] = usePersistentState<LessonId>('lessonCount', 1)
@@ -235,7 +238,7 @@ const AppContextValue = {
     apiKey,
     audioUrl,
     cleanedText,
-    contentStyle,
+    lessonPromptStyle,
     customParticipants,
     customScenario,
     customSeed,
@@ -249,6 +252,7 @@ const AppContextValue = {
     isTransitioning,
     lesson,
     lessons,
+    lessonPrompt,
     lessonTimestamp,
     lineNumber,
     maskKey,
@@ -269,7 +273,7 @@ const AppContextValue = {
     setApiKey,
     setAudioUrl,
     setCleanedText,
-    setContentStyle,
+    setLessonPromptStyle,
     setCustomParticipants,
     setCustomScenario,
     setCustomSeed,
@@ -283,6 +287,7 @@ const AppContextValue = {
     setIsTransitioning,
     setLesson,
     setLessons,
+    setLessonPrompt,
     setLessonTimestamp,
     setLineNumber,
     setMaskKey,

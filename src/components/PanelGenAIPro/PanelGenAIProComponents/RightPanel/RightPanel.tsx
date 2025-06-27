@@ -5,7 +5,6 @@ import { getPrompt_cb } from '@shared/getPrompt_cb'
 import {
   type LessonComplete,
   type TestMode,
-  scenarioDescriptions,
   defaultLesson,
 } from '@cknTypes/types'
 import {
@@ -31,7 +30,7 @@ import PromptToggle from '@PanelGenAIProComponents/PromptToggle/PromptToggle'
 import LessonElementToggle from '@PanelGenAIProComponents/LessonElementToggle/LessonElementToggle'
 import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus'
 import { useDebugLogger } from '@hooks/useDebugLogger'
-import SelectorContentStyle from '@components/SelectorContentStyle'
+import SelectorLessonPromptStyle from '@components/SelectorLessonPromptStyle'
 import SelectorParticipantRole from '@components/SelectorParticipantRole'
 import InputCustomScenario from '@components/InputCustomScenario'
 import InputCustomParticipants from '@components/InputCustomParticipants'
@@ -74,9 +73,6 @@ const RightPanel: React.FC = () => {
   }
 
   const {
-    contentStyle,
-    customParticipants,
-    customScenario,
     customSeed,
     cutoff,
     debugMode,
@@ -84,15 +80,15 @@ const RightPanel: React.FC = () => {
     scenario,
     scenarioData,
     selectedLessonId,
-    setCustomParticipants,
-    setCustomScenario,
     setCustomSeed,
     setDebugMode,
     setLessonTimestamp,
     setLessons,
     sourceLanguage,
     targetLanguage,
-    useMyself
+    useMyself,
+    lessonPrompt,
+    lessonPromptStyle
   } = useAppContext()
   
   const lesson = lessons.find(l => l.id === selectedLessonId)
@@ -102,6 +98,8 @@ const RightPanel: React.FC = () => {
       scenario,
       targetLanguage,
       sourceLanguage,
+      lessonPrompt,
+      lessonPromptStyle: lessonPromptStyle,
       participantList: getScenarioDetails({ useMyself, scenario, language: targetLanguage }).participantList
   }
   
@@ -145,7 +143,7 @@ const RightPanel: React.FC = () => {
           <h2 className="baX f2 pa3 pb0X mt4X w-100 items-center tc">{LANGUAGE_TITLE[targetLanguage]}: Premium</h2>
 
           <div className="flex flex-row">
-            <SelectorContentStyle />
+            <SelectorLessonPromptStyle />
             <SelectorScenario custom={true} />
             <SelectorParticipantRole />
           </div>
@@ -158,7 +156,7 @@ const RightPanel: React.FC = () => {
           {/*
           <div className="ba w-100 flex justify-center pt3X pb3">
             <div className="f3 pv3 pt0 mt0 w-80">
-              <div className="f3">Create a <b>{contentStyle}</b> in <b>{LANGUAGE_TITLE[targetLanguage]}</b> {scenarioDescriptions[scenario]}.</div>
+              <div className="f3">Create a <b>{lessonPromptStyle}</b> in <b>{LANGUAGE_TITLE[targetLanguage]}</b> {scenarioDescriptions[scenario]}.</div>
             </div>
           </div>
           */}
@@ -222,6 +220,9 @@ const RightPanel: React.FC = () => {
           */}
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
+
+          <PromptToggle className='bg-yellow black' title={'Proposed Dialog Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_DRAFT, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
+          <PromptToggle title={'Actual Dialog Draft Prompt'} prompt={lesson[MODULE_NAME.DIALOG_DRAFT].prompt} />
 
           <PromptToggle className='bg-yellow black' title={'Proposed Translation Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.TRANSLATION_DRAFT, scenarioData, lesson, errors: [] }).prompt} />
           {/* <PromptToggle title={'Actual Translation Draft Prompt'} prompt={lesson[MODULE_NAME.TRANSLATION_DRAFT].prompt} /> */}

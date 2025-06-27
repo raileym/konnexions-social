@@ -1,7 +1,7 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import { type GetDialogDraftPrompt, type GetDialogDraftPromptProps } from '@cknTypes/types'
-import { LANGUAGE_TITLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, LESSON_PROMPT_STYLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
 
 export const getDialogDraftPrompt: GetDialogDraftPrompt = ({scenarioData, lesson, errors}: GetDialogDraftPromptProps) => {
   const dialogDraftExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.DIALOG_DRAFT, options: { asString: true }  })
@@ -12,6 +12,9 @@ export const getDialogDraftPrompt: GetDialogDraftPrompt = ({scenarioData, lesson
   const requiredNouns = scenarioData?.nounsChooseN?.map((noun) => (`'${noun.noun_singular}'`))
 
   return (`
+
+${lesson.lessonPromptStyle.toUpperCase()}: ${lesson.lessonPrompt} The ${lesson.lessonPromptStyle} must contain between 8 to 12 lines, reflecting a natural flow for a ${lesson.lessonPromptStyle}. The ${lesson.lessonPromptStyle} should contain no fewer than 8 lines. ${lesson.lessonPromptStyle === LESSON_PROMPT_STYLE.DIALOG ? 'The dialog should not end on a question -- the dialog should always resolve.' : ''}
+
 DIALOG: Create a dialog in ${LANGUAGE_TITLE[lesson.targetLanguage]} appropriate for a beginning language instruction, where the dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between participants, ${lesson.participantList}. The dialog must contain between 8 to 12 lines, reflecting a natural dialog exchange. The dialog should contain no fewer than 8 lines. The dialog should not end on a question -- the dialog should always resolve.
 
 REQUIRED NOUNS: Your dialog must strongly prefer to include at least one of the following nouns:

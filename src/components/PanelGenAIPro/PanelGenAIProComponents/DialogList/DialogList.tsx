@@ -37,7 +37,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
     lineNumber,
     scenario,
     lessonTimestamp,
-    contentStyle,
+    lessonPromptStyle,
     customScenario
   } = useAppContext()
 
@@ -198,7 +198,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
 
   return (
     <div>
-      <div className='tc f2 w-100 mt4X b'>{capitalize(contentStyle)} {customScenario}</div>
+      <div className='tc f2 w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
       <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
       <div className='flex flex-row items-center mt4'>
         <button

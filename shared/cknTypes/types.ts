@@ -14,7 +14,7 @@ import {
   SCENARIO_LABELS,
   CURATED,
   PIPELINE_TYPE,
-  CONTENT_STYLE
+  LESSON_PROMPT_STYLE
 } from '@cknTypes/constants'
 
 export type AppContextType = {
@@ -24,7 +24,7 @@ export type AppContextType = {
   apiKey: ApiKey
   audioUrl: AudioUrl
   cleanedText: CleanedText
-  contentStyle: ContentStyle
+  lessonPromptStyle: LessonPromptStyle
   customParticipants: CustomParticipants
   customScenario: CustomScenario
   customSeed: CustomSeed
@@ -38,6 +38,7 @@ export type AppContextType = {
   isTransitioning: IsTransitioning
   lesson: Lesson
   lessons: Lessons
+  lessonPrompt: LessonPrompt
   lessonTimestamp: LessonTimestamp
   lineNumber: LineNumber
   maskKey: MaskKey
@@ -58,7 +59,7 @@ export type AppContextType = {
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
-  setContentStyle: SetContentStyle
+  setLessonPromptStyle: SetLessonPromptStyle
   setCustomParticipants: SetCustomParticipants
   setCustomScenario: SetCustomScenario
   setCustomSeed: SetCustomSeed
@@ -72,6 +73,7 @@ export type AppContextType = {
   setIsTransitioning: SetIsTransitioning
   setLesson: SetLesson
   setLessons: SetLessons
+  setLessonPrompt: SetLessonPrompt
   setLessonTimestamp: SetLessonTimestamp
   setLineNumber: SetLineNumber
   setMaskKey: SetMaskKey
@@ -104,9 +106,9 @@ export type AppContextType = {
 
 export type LessonComplete = boolean
 
-export type ContentStyleValue = (typeof CONTENT_STYLE)[keyof typeof CONTENT_STYLE]
-export type ContentStyleKey = keyof typeof CONTENT_STYLE
-export type ContentStyle = ContentStyleValue
+export type LessonPromptStyleValue = (typeof LESSON_PROMPT_STYLE)[keyof typeof LESSON_PROMPT_STYLE]
+export type LessonPromptStyleKey = keyof typeof LESSON_PROMPT_STYLE
+export type LessonPromptStyle = LessonPromptStyleValue
 
 export type LanguageValue = (typeof LANGUAGE)[keyof typeof LANGUAGE]
 export type LanguageKey = keyof typeof LANGUAGE
@@ -140,6 +142,7 @@ export type Question = string
 export type QuestionContext = string
 export type LineNumber = number
 export type DebugMode = boolean
+export type LessonPrompt = string
 
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
 export type SetActivePanel = React.Dispatch<React.SetStateAction<ActivePanel>>
@@ -147,7 +150,7 @@ export type SetAnswer = React.Dispatch<React.SetStateAction<Answer>>
 export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
-export type SetContentStyle = React.Dispatch<React.SetStateAction<ContentStyle>>
+export type SetLessonPromptStyle = React.Dispatch<React.SetStateAction<LessonPromptStyle>>
 export type SetCustomParticipants = React.Dispatch<React.SetStateAction<CustomParticipants>>
 export type SetCustomScenario = React.Dispatch<React.SetStateAction<CustomScenario>>
 export type SetCustomSeed = React.Dispatch<React.SetStateAction<CustomSeed>>
@@ -165,6 +168,7 @@ export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitio
 export type SetTargetLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetSourceLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetLessonId = React.Dispatch<React.SetStateAction<LessonId>>
+export type SetLessonPrompt = React.Dispatch<React.SetStateAction<LessonPrompt>>
 export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
 export type SetLessonTimestamp = React.Dispatch<React.SetStateAction<LessonTimestamp>>
 export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>
@@ -253,6 +257,9 @@ export type Lesson = {
   participantList: ParticipantProse
   prose: Prose
   signature: Signature
+
+  lessonPrompt: LessonPrompt
+  lessonPromptStyle: LessonPromptStyle
 
   translation: Translation
 
@@ -382,7 +389,7 @@ export type CustomScenario = string
 export type CustomSeed = string
 export type CustomParticipants = string
 
-export const defaultContentStyle: ContentStyle = CONTENT_STYLE.DIALOG
+export const defaultLessonPromptStyle: LessonPromptStyle = LESSON_PROMPT_STYLE.DIALOG
 export const defaultCustomSeed: CustomSeed = ''
 export const defaultCustomScenario: CustomScenario = ''
 export const defaultCustomParticipants: CustomParticipants = ''
@@ -480,6 +487,8 @@ export type ErrorLabelValue = (typeof ERROR_LABEL)[keyof typeof ERROR_LABEL]
 export type ErrorLabelKey = keyof typeof ERROR_LABEL
 export type ErrorLabel = ErrorLabelValue
 
+export const defaultLessonPrompt = ''
+
 export const defaultErrors = []
 export const defaultFieldCount = 0
 export const defaultLines = []
@@ -519,6 +528,8 @@ export const defaultLesson: Lesson = {
   description: 'Default Lesson - Starter Details',
   participantList: defaultParticipantList,
   prose: defaultProse,
+
+  lessonPrompt: defaultLessonPrompt,
 
   translation: defaultTranslation,
 

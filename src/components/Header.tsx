@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { SCENARIO } from '@cknTypes/constants'
 import { LANGUAGE_TITLE } from '@cknTypes/constants'
@@ -6,11 +6,12 @@ import { scenarioDescriptions } from '@cknTypes/types'
 
 const Header: React.FC = () => {
   const {
-    contentStyle,
     targetLanguage,
     scenario,
     customScenario,
-    customParticipants
+    customParticipants,
+    setLessonPrompt,
+    lessonPromptStyle
   } = useAppContext()
 
   const isCustom = scenario === SCENARIO.CUSTOM
@@ -23,18 +24,21 @@ const Header: React.FC = () => {
 
   const participantLabel = isCustom
     ? customParticipants?.trim()
-      ? ` This ${contentStyle} involves ${customParticipants}.`
-      : ` This ${contentStyle} involves participants to be described above.`
+      ? ` This ${lessonPromptStyle} involves ${customParticipants}.`
+      : ` This ${lessonPromptStyle} involves participants to be described above.`
     : ''
+
+  const prompt = `Create a ${lessonPromptStyle} in ${LANGUAGE_TITLE[targetLanguage]} ${scenarioLabel}.${participantLabel}`
+
+  useEffect(() => {
+    setLessonPrompt(prompt)
+  }, [prompt, setLessonPrompt])
 
   return (
     <div className="ba w-100 flex justify-center pt3X pb3">
       <div className="f3 pv3 pt0 mt0 w-80">
         <div className="f2 b mv3 tc">Lesson Prompt</div>
-        <div className="f3">
-          Create a <b>{contentStyle}</b> in <b>{LANGUAGE_TITLE[targetLanguage]}</b>{' '}
-          {scenarioLabel}.{participantLabel}
-        </div>
+        <div className="f3">{prompt}</div>
       </div>
     </div>
   )
