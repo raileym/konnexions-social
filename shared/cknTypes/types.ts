@@ -587,8 +587,6 @@ export const scenarioDescriptions: ScenarioDescriptions = {
   custom: 'for a custom situation'
 }
 
-
-
 // export type HandleNounsError = {
 //   message: string
 //   detail: string

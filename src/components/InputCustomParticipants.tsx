@@ -8,7 +8,7 @@ const InputCustomParticipants: React.FC = () => {
 
   return (
     <div className="mb3" style={{ opacity: disabled ? 0.5 : 1 }}>
-      <label className="db mb2 f5 b">Participants:</label>
+      <label className="db mb2 f5 b">Custom Participants</label>
       <input
         type="text"
         value={customParticipants}

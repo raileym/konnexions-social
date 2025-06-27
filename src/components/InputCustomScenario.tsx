@@ -8,7 +8,7 @@ const InputCustomScenario: React.FC = () => {
 
   return (
     <div className="mb3" style={{ opacity: disabled ? 0.5 : 1 }}>
-      <label className="db mb2 f5 b">Scenario description:</label>
+      <label className="db mb2 f5 b">Custom Scenario</label>
       <input
         type="text"
         value={customScenario}

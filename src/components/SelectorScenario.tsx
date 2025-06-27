@@ -10,9 +10,8 @@ type SelectorScenarioProps = {
 const SelectorScenario: React.FC<SelectorScenarioProps> = ({ custom }) => {
   const {
     scenario,
-    setScenario,
-    setCustomScenario,
-    customScenario
+    setScenario //,
+    // customScenario
   } = useAppContext()
 
   const scenarios = useMemo<Scenario[]>(() => {
@@ -25,21 +24,13 @@ const SelectorScenario: React.FC<SelectorScenarioProps> = ({ custom }) => {
     ]
   }, [custom])
 
-  const scenarioDescriptions = useMemo<Record<Scenario, string>>(() => ({
-    restaurant: 'at a restaurant',
-    hotel: 'at the hotel check-in desk',
-    airport: 'at the airport check-in counter',
-    taxi: 'in a taxi',
-    custom: 'in a custom situation'
-  }), [])
-
-  // useEffect(() => {
-  //   if (!customScenario || customScenario === defaultCustomScenario) {
-  //     const randomScenario = scenarios[Math.floor(Math.random() * scenarios.length)]
-  //     setScenario(randomScenario)
-  //     setCustomScenario(scenarioDescriptions[randomScenario])
-  //   }
-  // }, [setScenario, setCustomScenario, scenarios, scenarioDescriptions, customScenario])
+  // const scenarioDescriptions = useMemo<Record<Scenario, string>>(() => ({
+  //   restaurant: 'at a restaurant',
+  //   hotel: 'at the hotel check-in desk',
+  //   airport: 'at the airport check-in counter',
+  //   taxi: 'in a taxi',
+  //   custom: customScenario ?? 'a custom situation'
+  // }), [])
 
   return (
     <div className="baX mb3">
@@ -54,7 +45,6 @@ const SelectorScenario: React.FC<SelectorScenarioProps> = ({ custom }) => {
               checked={scenario === s}
               onChange={() => {
                 setScenario(s)
-                // setCustomScenario(scenarioDescriptions[s])
               }}
               className="mr1"
             />

@@ -35,6 +35,7 @@ import SelectorContentStyle from '@components/SelectorContentStyle'
 import SelectorParticipantRole from '@components/SelectorParticipantRole'
 import InputCustomScenario from '@components/InputCustomScenario'
 import InputCustomParticipants from '@components/InputCustomParticipants'
+import Header from '@components/Header'
 
 const RightPanel: React.FC = () => {
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
@@ -94,21 +95,6 @@ const RightPanel: React.FC = () => {
     useMyself
   } = useAppContext()
   
-// export type ScenarioData = {
-//   nounsChooseN: NounDetails[]
-//   nouns: NounDetails[]
-//   verbs: VerbDetails[]
-//   nounBySingular: Map<string, NounDetails>
-//   nounByPlural: Map<string, NounDetails>
-//   singularNounList: string[]
-//   verbByInfinitive: Map<string, VerbDetails>
-// }
-
-  // cXonsole.log(JSON.stringify(scenarioData.nouns), null, 2)
-
-  // const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[language]}</b> for a specific situation — at a restaurant, in a hotel, at the airport, or in a taxi.</div>
-  // const headline = <div className="f3">Create a custom dialog in <b>{LANGUAGE_TITLE[targetLanguage]}</b> {scenarioDescriptions[scenario]}</div>
-
   const lesson = lessons.find(l => l.id === selectedLessonId)
   
   const fakeLesson = {
@@ -169,11 +155,15 @@ const RightPanel: React.FC = () => {
             <InputCustomParticipants />
           </div>
           
+          {/*
           <div className="ba w-100 flex justify-center pt3X pb3">
             <div className="f3 pv3 pt0 mt0 w-80">
               <div className="f3">Create a <b>{contentStyle}</b> in <b>{LANGUAGE_TITLE[targetLanguage]}</b> {scenarioDescriptions[scenario]}.</div>
             </div>
           </div>
+          */}
+
+          <Header />
 
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
