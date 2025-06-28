@@ -25,7 +25,7 @@ export type AppContextType = {
   audioUrl: AudioUrl
   cleanedText: CleanedText
   lessonPromptStyle: LessonPromptStyle
-  customParticipants: CustomParticipants
+  customParticipantList: CustomParticipantList
   customScenario: CustomScenario
   customSeed: CustomSeed
   cutoff: Cutoff
@@ -60,7 +60,7 @@ export type AppContextType = {
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
   setLessonPromptStyle: SetLessonPromptStyle
-  setCustomParticipants: SetCustomParticipants
+  setCustomParticipantList: SetCustomParticipantList
   setCustomScenario: SetCustomScenario
   setCustomSeed: SetCustomSeed
   setCutoff: SetCutoff
@@ -151,7 +151,7 @@ export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetLessonPromptStyle = React.Dispatch<React.SetStateAction<LessonPromptStyle>>
-export type SetCustomParticipants = React.Dispatch<React.SetStateAction<CustomParticipants>>
+export type SetCustomParticipantList = React.Dispatch<React.SetStateAction<CustomParticipantList>>
 export type SetCustomScenario = React.Dispatch<React.SetStateAction<CustomScenario>>
 export type SetCustomSeed = React.Dispatch<React.SetStateAction<CustomSeed>>
 export type SetCutoff = React.Dispatch<React.SetStateAction<Cutoff>>
@@ -387,12 +387,12 @@ export type HandleModuleProps = {
 
 export type CustomScenario = string
 export type CustomSeed = string
-export type CustomParticipants = string
+export type CustomParticipantList = string
 
 export const defaultLessonPromptStyle: LessonPromptStyle = LESSON_PROMPT_STYLE.DIALOG
 export const defaultCustomSeed: CustomSeed = ''
 export const defaultCustomScenario: CustomScenario = ''
-export const defaultCustomParticipants: CustomParticipants = ''
+export const defaultCustomParticipantList: CustomParticipantList = ''
 
 export type HandleDialogProps = {
   testMode: TestMode
@@ -1021,4 +1021,9 @@ export type RunPipelineCbClientProps = {
   lesson: Lesson
   scenarioData: ScenarioData
   pipelineType: PipelineType
+}
+
+export type GetRequiredFormProps = {
+  lesson: Lesson
+  lessonPromptStyle: LessonPromptStyle
 }

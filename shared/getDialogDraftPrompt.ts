@@ -1,51 +1,30 @@
 import { generateExample } from '@shared/generateExample'
 import { getJsonQualification } from '@shared/getJsonQualification'
 import { type GetDialogDraftPrompt, type GetDialogDraftPromptProps } from '@cknTypes/types'
-import { LANGUAGE_TITLE, LESSON_PROMPT_STYLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
+import { LESSON_PROMPT_STYLE, MODULE_NAME } from '@cknTypes/constants'
+import { getRequiredForm } from '@shared/getRequiredForm'
 
-export const getDialogDraftPrompt: GetDialogDraftPrompt = ({scenarioData, lesson, errors}: GetDialogDraftPromptProps) => {
-  const dialogDraftExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.DIALOG_DRAFT, options: { asString: true }  })
+export const getDialogDraftPrompt: GetDialogDraftPrompt = ({lesson, errors}: GetDialogDraftPromptProps) => {
+  const dialogDraftExample = generateExample({
+    language: lesson.targetLanguage, 
+    moduleName: MODULE_NAME.DIALOG_DRAFT, 
+    lessonPromptStyle: lesson.lessonPromptStyle,
+    options: { asString: true } 
+  })
   
-  // cXonsole.log('scenarioData.nouns', scenarioData?.nouns)
-
-  const constrainedNouns = scenarioData?.nouns?.map((noun) => (`'${noun.noun_singular}'`))
-  const requiredNouns = scenarioData?.nounsChooseN?.map((noun) => (`'${noun.noun_singular}'`))
-
+  const requiredForm = getRequiredForm({lesson, lessonPromptStyle: lesson.lessonPromptStyle})
+  
   return (`
 
-${lesson.lessonPromptStyle.toUpperCase()}: ${lesson.lessonPrompt} The ${lesson.lessonPromptStyle} must contain between 8 to 12 lines, reflecting a natural flow for a ${lesson.lessonPromptStyle}. The ${lesson.lessonPromptStyle} should contain no fewer than 8 lines. ${lesson.lessonPromptStyle === LESSON_PROMPT_STYLE.DIALOG ? 'The dialog should not end on a question -- the dialog should always resolve.' : ''}
+${lesson.lessonPromptStyle.toUpperCase()}: ${lesson.lessonPrompt} The ${lesson.lessonPromptStyle} should be appropriate for beginning-level language instruction. The ${lesson.lessonPromptStyle} must contain between 8 to 12 lines, reflecting a natural flow for a ${lesson.lessonPromptStyle}. The ${lesson.lessonPromptStyle} should contain no fewer than 8 lines. ${lesson.lessonPromptStyle === LESSON_PROMPT_STYLE.DIALOG ? 'The dialog should not end on a question -- the dialog should always resolve.' : ''}
 
-DIALOG: Create a dialog in ${LANGUAGE_TITLE[lesson.targetLanguage]} appropriate for a beginning language instruction, where the dialog takes place ${SCENARIO_LABELS[lesson.scenario]} between participants, ${lesson.participantList}. The dialog must contain between 8 to 12 lines, reflecting a natural dialog exchange. The dialog should contain no fewer than 8 lines. The dialog should not end on a question -- the dialog should always resolve.
+${lesson.lessonPromptStyle.toUpperCase()} RESPONSE: Your ${lesson.lessonPromptStyle} response should be an array of strings that takes the form,
 
-REQUIRED NOUNS: Your dialog must strongly prefer to include at least one of the following nouns:
-
-    [
-${requiredNouns.join(', ')}
-    ].
-
-CONSTRAINED NOUNS: Limit your noun usage to the following list. If your dialog uses additional nouns, they must be clearly associated with a typical scenario ${SCENARIO_LABELS[lesson.scenario]}.
-
-    [
-${constrainedNouns.join(', ')}
-    ].
-
-DIALOG RESPONSE: Your dialog response should be an array of strings that takes the form,
-
-  [
-    'm|Participant|Line from the dialog',
-    'f|Participant|Line from the dialog',
-    'm|Participant|Line from the dialog',
-  ],
-
-where the vertical bar '|' delineates three fields:
-
-    - the gender of the speaking participant using "m" for masculine and "f" for feminine,
-    - the title of the participant, ${lesson.participantList.replace(/and/g, 'or')}, and 
-    - the particular dialog line spoken.
-
+  ${requiredForm}
+  
 Formatting rules
-${getJsonQualification({responseType: 'dialog'})}
-A complete example of a dialog response follows:
+${getJsonQualification({responseType: lesson.lessonPromptStyle})}
+A complete example of a ${lesson.lessonPromptStyle} response follows:
 
 ${dialogDraftExample}
 

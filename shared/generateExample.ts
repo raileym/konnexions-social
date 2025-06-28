@@ -1,60 +1,107 @@
 import {
   type GenerateExampleProps,
+  type LessonPromptStyle,
   type Line,
   type Lines,
   type ModuleName
 } from '@cknTypes/types'
 import {
-  LANGUAGE
+  LANGUAGE,
+  LESSON_PROMPT_STYLE
 } from '@cknTypes/constants'
 
 // ✅ Overload declarations — DO NOT use 'const' or 'export'
-export function generateExample(props: GenerateExampleProps & { options: { asString: true } }): string
-export function generateExample(props: GenerateExampleProps & { options?: { asString?: false } }): string[]
+export function generateExample(props: GenerateExampleProps & { options: { asString: true }, lessonPromptStyle: LessonPromptStyle }): string
+export function generateExample(props: GenerateExampleProps & { options?: { asString?: false }, lessonPromptStyle: LessonPromptStyle }): string[]
 
 // ✅ Implementation (this one is exported)
 export function generateExample({
   language,
   moduleName,
+  lessonPromptStyle,
   options = {}
-}: GenerateExampleProps): Line | Lines {
+}: GenerateExampleProps & { lessonPromptStyle: string }): Line | Lines {
   if (language !== LANGUAGE.SPANISH) {
     return options.asString ? '[]' : []
   }
 
-  const examples: Record<ModuleName, string[]> = {
-    dialogDraft: [
+  const dialogExamples: Record<string, string[]> = {
+    [LESSON_PROMPT_STYLE.DIALOG]: [
       'f|Camarera|¡Bienvenidos al restaurante! ¿Cuántos son en su grupo?',
       'm|Cliente|Somos cuatro. ¿Podemos sentarnos cerca de la ventana?',
       'f|Camarera|Por supuesto. Síganme, por favor.',
       'm|Cliente|Gracias.'
     ],
+    [LESSON_PROMPT_STYLE.DESCRIPTION]: [
+      'Estoy sentado en una terraza en París mientras el camarero se acerca.',
+      'El sol brilla suavemente y la calle está llena de vida.',
+      'Pido un café con leche en francés básico.',
+      'El camarero sonríe y toma mi orden con amabilidad.'
+    ],
+    [LESSON_PROMPT_STYLE.COMMENTARY]: [
+      'Llegar a París fue un sueño hecho realidad.',
+      'La cultura del café aquí es completamente diferente.',
+      'Observar a los locales mientras beben espresso es fascinante.',
+      'Este café tiene una atmósfera encantadora.'
+    ],
+    [LESSON_PROMPT_STYLE.POEM]: [
+      'En la calle París al atardecer,',
+      'Pido un café, no puedo creer,',
+      'El aroma flota en el aire sutil,',
+      'El camarero asiente, todo es sutil.'
+    ],
+    [LESSON_PROMPT_STYLE.STORY]: [
+      'Juan llegó a París por primera vez y se sentó en un café.',
+      'Vio a un camarero pasar y decidió pedir un café.',
+      'Mientras esperaba, observaba la vida parisina pasar.',
+      'El café llegó humeante y perfecto para el momento.'
+    ]
+  }
+
+  const translationExamples: Record<string, string[]> = {
+    [LESSON_PROMPT_STYLE.DIALOG]: [
+      '1. Good afternoon, what would you like to drink?',
+      '2. I would like a lemonade, please.',
+      '3. I’ll bring you your drink in a moment.'
+    ],
+    [LESSON_PROMPT_STYLE.DESCRIPTION]: [
+      '1. I am sitting at a café in Paris.',
+      '2. The waiter approaches and I order a coffee.',
+      '3. The atmosphere is calm and relaxed.'
+    ],
+    [LESSON_PROMPT_STYLE.COMMENTARY]: [
+      '1. The coffee culture in Paris is charming.',
+      '2. I noticed how everyone takes their time.',
+      '3. It’s a refreshing change of pace.'
+    ],
+    [LESSON_PROMPT_STYLE.POEM]: [
+      '1. The sun is low, the mood is sweet,',
+      '2. Coffee warms my hands and feet,',
+      '3. A Paris dream beneath my seat.'
+    ],
+    [LESSON_PROMPT_STYLE.STORY]: [
+      '1. He arrived in Paris and sought a café.',
+      '2. He greeted the waiter with a smile.',
+      '3. It was his first real moment of peace.'
+    ]
+  }
+
+  const examples: Record<ModuleName, string[]> = {
+    dialogDraft: dialogExamples[lessonPromptStyle] || [],
     nounsDraft: [
       'restaurant|restaurante|restaurantes|m',
       'night|noche|noches|f',
       'salad|ensalada|ensaladas|f',
       'chicken|pollo|pollos|m'
     ],
-    translationDraft: [
-      '1. Good afternoon, what would you like to drink?',
-      '2. I would like a lemonade, please.',
-      '3. I’ll bring you your drink in a moment.'
-    ],
+    translationDraft: translationExamples[lessonPromptStyle] || [],
     verbsDraft: [
       'like|gustar|me gusta|te gusta|le gusta|nos gusta|os gusta|les gusta',
       'order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
       'ask for|pedir|pido|pides|pide|pedimos|pedís|piden'
     ],
-    dialogReview: [
-      '1. Buenas tardes, ¿qué le gustaría tomar?',
-      '2. Me gustaría una limonada, por favor.',
-      '3. En un momento le traigo su bebida.'
-    ],
-    translationReview: [
-      '1. Good afternoon, what would you like to drink?',
-      '2. I would like a lemonade, please.',
-      '3. I’ll bring you your drink in a moment.'
-    ],
+    dialogReview: dialogExamples[lessonPromptStyle] || [],
+    translationReview: translationExamples[lessonPromptStyle] || [],
     nounsReview: [
       '1. restaurant|restaurante|restaurantes|m',
       '2. night|noche|noches|f',
@@ -73,7 +120,7 @@ export function generateExample({
       ' 4. nosotros/nosotras estamos en el parque.',
       ' 5. vosotros/vosotras estáis en la clase.',
       ' 6. ellos/ellas/ustedes están en el hotel.',
-      ' 7. yo tomo un café por la mañana.',
+      ' 7. yo tomo un café por la mañana.'
     ],
     verbsExpandedTriple: [],
     verbsExpandedInComplete: [],

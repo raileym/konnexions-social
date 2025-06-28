@@ -11,7 +11,8 @@ import {
   // VERB_FORMATS,
   // SCENARIO,
   MODULE_NAME,
-  LANGUAGE_TITLE
+  LANGUAGE_TITLE,
+  SCENARIO
 } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
@@ -33,7 +34,7 @@ import { useDebugLogger } from '@hooks/useDebugLogger'
 import SelectorLessonPromptStyle from '@components/SelectorLessonPromptStyle'
 import SelectorParticipantRole from '@components/SelectorParticipantRole'
 import InputCustomScenario from '@components/InputCustomScenario'
-import InputCustomParticipants from '@components/InputCustomParticipants'
+import InputCustomParticipantList from '@components/InputCustomParticipantList'
 import Header from '@components/Header'
 
 const RightPanel: React.FC = () => {
@@ -88,7 +89,8 @@ const RightPanel: React.FC = () => {
     targetLanguage,
     useMyself,
     lessonPrompt,
-    lessonPromptStyle
+    lessonPromptStyle,
+    customParticipantList
   } = useAppContext()
   
   const lesson = lessons.find(l => l.id === selectedLessonId)
@@ -100,7 +102,7 @@ const RightPanel: React.FC = () => {
       sourceLanguage,
       lessonPrompt,
       lessonPromptStyle: lessonPromptStyle,
-      participantList: getScenarioDetails({ useMyself, scenario, language: targetLanguage }).participantList
+      participantList: scenario === SCENARIO.CUSTOM ? customParticipantList : getScenarioDetails({ useMyself, scenario, language: targetLanguage }).participantList
   }
   
   const alwaysFalse = false
@@ -150,7 +152,7 @@ const RightPanel: React.FC = () => {
 
           <div>
             <InputCustomScenario />
-            <InputCustomParticipants />
+            <InputCustomParticipantList />
           </div>
           
           {/*
@@ -504,19 +506,6 @@ const RightPanel: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[lesson])
 
-  // useEffect(() => {
-  //   if (!customScenario || !scenario) return
-
-  //   const { participantList } = getScenarioDetails({
-  //     useMyself,
-  //     scenario,
-  //     language: sourceLanguage
-  //   })
-
-  //   setCustomParticipants(participantList)
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [customScenario])
-  
   return (
     <div className={`w-70 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}

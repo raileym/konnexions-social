@@ -37,7 +37,7 @@ import type {
   DebugMode,
   LessonTimestamp,
   CustomScenario,
-  CustomParticipants,
+  CustomParticipantList,
   CustomSeed,
   LessonPromptStyle,
   UseMyself,
@@ -50,7 +50,7 @@ import {
   defaultScenarioData,
   defaultDebugMode,
   defaultCustomScenario,
-  defaultCustomParticipants,
+  defaultCustomParticipantList,
   defaultCustomSeed,
   defaultLessonPromptStyle,
   defaultLessonPrompt,
@@ -128,7 +128,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [lessonPromptStyle, setLessonPromptStyle] = usePersistentState<LessonPromptStyle>('lessonPromptStyle', defaultLessonPromptStyle)
   const [customSeed, setCustomSeed] = usePersistentState<CustomSeed>('customSeed', defaultCustomSeed)
   const [customScenario, setCustomScenario] = usePersistentState<CustomScenario>('customScenario', defaultCustomScenario)
-  const [customParticipants, setCustomParticipants] = usePersistentState<CustomParticipants>('customParticipants', defaultCustomParticipants)
+  const [customParticipantList, setCustomParticipantList] = usePersistentState<CustomParticipantList>('customParticipantList', defaultCustomParticipantList)
 
   const [useMyself, setUseMyself] = usePersistentState<UseMyself>('useMyself', true)
   const [debugMode, setDebugMode] = usePersistentState<DebugMode>('debugMode', defaultDebugMode)
@@ -239,7 +239,7 @@ const AppContextValue = {
     audioUrl,
     cleanedText,
     lessonPromptStyle,
-    customParticipants,
+    customParticipantList,
     customScenario,
     customSeed,
     cutoff,
@@ -274,7 +274,7 @@ const AppContextValue = {
     setAudioUrl,
     setCleanedText,
     setLessonPromptStyle,
-    setCustomParticipants,
+    setCustomParticipantList,
     setCustomScenario,
     setCustomSeed,
     setCutoff,

@@ -9,7 +9,7 @@ const Header: React.FC = () => {
     targetLanguage,
     scenario,
     customScenario,
-    customParticipants,
+    customParticipantList,
     setLessonPrompt,
     lessonPromptStyle
   } = useAppContext()
@@ -23,8 +23,8 @@ const Header: React.FC = () => {
     : scenarioDescriptions[scenario]
 
   const participantLabel = isCustom
-    ? customParticipants?.trim()
-      ? ` This ${lessonPromptStyle} involves ${customParticipants}.`
+    ? customParticipantList?.trim()
+      ? ` This ${lessonPromptStyle} involves ${customParticipantList}.`
       : ` This ${lessonPromptStyle} involves participants to be described above.`
     : ''
 
