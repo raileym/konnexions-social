@@ -28,7 +28,7 @@ const Header: React.FC = () => {
       : ` This ${lessonPromptStyle} involves participants to be described above.`
     : ''
 
-  const prompt = `Create a ${lessonPromptStyle} in ${LANGUAGE_TITLE[targetLanguage]} ${scenarioLabel}.${participantLabel}`
+  const prompt = `Create a(an) ${lessonPromptStyle} in ${LANGUAGE_TITLE[targetLanguage]} ${scenarioLabel}.${participantLabel}`
 
   useEffect(() => {
     setLessonPrompt(prompt)

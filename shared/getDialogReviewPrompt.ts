@@ -19,7 +19,7 @@ const example =
 `
 
   return (`
-REQUEST: Create a dialog review for the following ${LANGUAGE_TITLE[lesson.targetLanguage]} dialog for grammatical correctness and natural usage, making minor corrections as appropriate. Please correct grammatical mistakes as appropriate for ${LANGUAGE_TITLE[lesson.targetLanguage]}. This dialog is intended for beginning ${LANGUAGE_TITLE[lesson.targetLanguage]} learners.
+REQUEST: Create a(an) dialog review for the following ${LANGUAGE_TITLE[lesson.targetLanguage]} dialog for grammatical correctness and natural usage, making minor corrections as appropriate. Please correct grammatical mistakes as appropriate for ${LANGUAGE_TITLE[lesson.targetLanguage]}. This dialog is intended for beginning ${LANGUAGE_TITLE[lesson.targetLanguage]} learners.
 
 DIALOG:
 

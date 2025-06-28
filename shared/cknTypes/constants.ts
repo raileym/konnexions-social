@@ -43,12 +43,25 @@ export const FIELD_COUNT: Record<ModuleName, number> = {
   [MODULE_NAME.VERBS_REVIEW]: 8
 } as const
 
+// export const LESSON_PROMPT_STYLE = {
+//   DIALOG: 'dialog',
+//   COMMENTARY: 'commentary',
+//   POEM: 'poem',
+//   DESCRIPTION: 'description',
+//   STORY: 'story'
+// } as const
+
 export const LESSON_PROMPT_STYLE = {
   DIALOG: 'dialog',
   COMMENTARY: 'commentary',
   POEM: 'poem',
   DESCRIPTION: 'description',
-  STORY: 'story'
+  STORY: 'story',
+  INSTRUCTION: 'instruction',
+  OPINION: 'opinion',
+  COMPARISON: 'comparison',
+  LIST: 'list',
+  QUESTION_SET: 'question_set'
 } as const
 
 // export const LANGUAGE_CODE = {

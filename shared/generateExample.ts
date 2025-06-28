@@ -55,6 +55,36 @@ export function generateExample({
       'Vio a un camarero pasar y decidió pedir un café.',
       'Mientras esperaba, observaba la vida parisina pasar.',
       'El café llegó humeante y perfecto para el momento.'
+    ],
+    [LESSON_PROMPT_STYLE.INSTRUCTION]: [
+      'Busca una mesa libre en la terraza del café.',
+      'Saluda al camarero con una sonrisa.',
+      'Pide un café en español claro y simple.',
+      'Agradece cuando te traigan tu bebida.'
+    ],
+    [LESSON_PROMPT_STYLE.OPINION]: [
+      'Creo que los cafés en París tienen un encanto especial.',
+      'Me gusta cómo los camareros son atentos y rápidos.',
+      'Prefiero pedir un café con leche en lugar de espresso.',
+      'En mi opinión, sentarse afuera mejora la experiencia.'
+    ],
+    [LESSON_PROMPT_STYLE.COMPARISON]: [
+      'En París, el café es más fuerte que en mi país.',
+      'Los camareros aquí son más formales.',
+      'El ambiente es más tranquilo que en cafeterías de casa.',
+      'El servicio es más lento, pero también más relajado.'
+    ],
+    [LESSON_PROMPT_STYLE.LIST]: [
+      '1. Encontrar una mesa libre.',
+      '2. Sentarse cómodamente.',
+      '3. Llamar al camarero.',
+      '4. Pedir un café con leche.'
+    ],
+    [LESSON_PROMPT_STYLE.QUESTION_SET]: [
+      '¿Dónde estás sentado?',
+      '¿Qué bebida vas a pedir?',
+      '¿Cómo responde el camarero?',
+      '¿Qué ves alrededor de ti?'
     ]
   }
 
@@ -83,6 +113,31 @@ export function generateExample({
       '1. He arrived in Paris and sought a café.',
       '2. He greeted the waiter with a smile.',
       '3. It was his first real moment of peace.'
+    ],
+    [LESSON_PROMPT_STYLE.INSTRUCTION]: [
+      '1. Find an open seat outside the café.',
+      '2. Say hello to the waiter politely.',
+      '3. Ask for a coffee in simple Spanish.'
+    ],
+    [LESSON_PROMPT_STYLE.OPINION]: [
+      '1. I think Paris cafés are cozy.',
+      '2. I like how people relax with their coffee.',
+      '3. In my opinion, the service is excellent.'
+    ],
+    [LESSON_PROMPT_STYLE.COMPARISON]: [
+      '1. The coffee here is stronger than at home.',
+      '2. Waiters are more formal than I’m used to.',
+      '3. The pace is slower, but more enjoyable.'
+    ],
+    [LESSON_PROMPT_STYLE.LIST]: [
+      '1. Sit down.',
+      '2. Call the waiter.',
+      '3. Order a drink.'
+    ],
+    [LESSON_PROMPT_STYLE.QUESTION_SET]: [
+      '1. Where are you sitting?',
+      '2. What do you order?',
+      '3. What is the waiter like?'
     ]
   }
 

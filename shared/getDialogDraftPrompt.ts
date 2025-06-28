@@ -22,7 +22,7 @@ ${lesson.lessonPromptStyle.toUpperCase()} RESPONSE: Your ${lesson.lessonPromptSt
 
   ${requiredForm}
   
-Formatting rules
+Formatting rules:
 ${getJsonQualification({responseType: lesson.lessonPromptStyle})}
 A complete example of a ${lesson.lessonPromptStyle} response follows:
 
