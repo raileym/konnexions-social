@@ -95,7 +95,7 @@ const RightPanel: React.FC = () => {
   
   const lesson = lessons.find(l => l.id === selectedLessonId)
   
-  console.log('Right Panel: Scenario', scenario, SCENARIO.CUSTOM, customParticipantList)
+  // console.log('Right Panel: Scenario', scenario, SCENARIO.CUSTOM, customParticipantList)
 
   const fakeLesson = {
       ...defaultLesson,
