@@ -1,4 +1,6 @@
-export function formatDialogLinesForReview(lines: string[]): string[] {
+import type { Lines } from '@cknTypes/types'
+
+export function formatDialogLinesForReview(lines: Lines): Lines {
   return lines.map((line, index) => {
     const parts = line.split('|')
     const spokenText = parts[2]?.trim() || ''

@@ -225,14 +225,19 @@ const RightPanel: React.FC = () => {
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
 
+          <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
+          <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
+
           <PromptToggle className='bg-yellow black' title={'Proposed Dialog Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_DRAFT, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Dialog Draft Prompt'} prompt={lesson[MODULE_NAME.DIALOG_DRAFT].prompt} />
 
+          {/*
           <PromptToggle className='bg-yellow black' title={'Proposed Translation Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.TRANSLATION_DRAFT, scenarioData, lesson, errors: [] }).prompt} />
-          {/* <PromptToggle title={'Actual Translation Draft Prompt'} prompt={lesson[MODULE_NAME.TRANSLATION_DRAFT].prompt} /> */}
+          <PromptToggle title={'Actual Translation Draft Prompt'} prompt={lesson[MODULE_NAME.TRANSLATION_DRAFT].prompt} />
 
           <PromptToggle className='bg-yellow black' title={'Proposed Translation Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.TRANSLATION_REVIEW, scenarioData, lesson, errors: [] }).prompt} />
-          {/* <PromptToggle title={'Actual Translation Review Prompt'} prompt={lesson[MODULE_NAME.TRANSLATION_REVIEW].prompt} /> */}
+          <PromptToggle title={'Actual Translation Review Prompt'} prompt={lesson[MODULE_NAME.TRANSLATION_REVIEW].prompt} />
+          */}
 
           {
             debugMode && alwaysFalse && (

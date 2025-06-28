@@ -155,8 +155,8 @@ export function generateExample({
       'order|ordenar|ordeno|ordenas|ordena|ordenamos|ordenáis|ordenan',
       'ask for|pedir|pido|pides|pide|pedimos|pedís|piden'
     ],
-    dialogReview: dialogExamples[lessonPromptStyle] || [],
-    translationReview: translationExamples[lessonPromptStyle] || [],
+    dialogReview: (dialogExamples[lessonPromptStyle] || []).map((line, index) => `${index + 1}. ${line}`),
+    translationReview: (translationExamples[lessonPromptStyle] || []).map((line, index) => `${index + 1}. ${line}`),
     nounsReview: [
       '1. restaurant|restaurante|restaurantes|m',
       '2. night|noche|noches|f',

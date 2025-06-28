@@ -530,6 +530,7 @@ export const defaultLesson: Lesson = {
   prose: defaultProse,
 
   lessonPrompt: defaultLessonPrompt,
+  lessonPromptStyle: defaultLessonPromptStyle,
 
   translation: defaultTranslation,
 
