@@ -103,8 +103,26 @@ const RightPanel: React.FC = () => {
       targetLanguage,
       sourceLanguage,
       lessonPrompt,
-      lessonPromptStyle: lessonPromptStyle,
-      participantList: scenario === SCENARIO.CUSTOM ? customParticipantList : getScenarioDetails({ useMyself, scenario, language: targetLanguage }).participantList
+      lessonPromptStyle,
+      participantList: scenario === SCENARIO.CUSTOM ? customParticipantList : getScenarioDetails({ 
+        useMyself,
+        scenario,
+        language: targetLanguage
+      }).participantList
+  }
+
+  const initialLesson = {
+      ...defaultLesson,
+      scenario,
+      targetLanguage,
+      sourceLanguage,
+      lessonPrompt,
+      lessonPromptStyle,
+      participantList: scenario === SCENARIO.CUSTOM ? customParticipantList : getScenarioDetails({ 
+        useMyself,
+        scenario,
+        language: targetLanguage
+      }).participantList
   }
   
   const alwaysFalse = false
@@ -184,7 +202,8 @@ const RightPanel: React.FC = () => {
                     useMyself,
                     testMode,
                     debugLog,
-                    setLessonTimestamp
+                    setLessonTimestamp,
+                    initialLesson                    
                   })
                 }}
               >
@@ -225,11 +244,11 @@ const RightPanel: React.FC = () => {
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
+          {/* <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_REVIEW, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
 
           <PromptToggle className='bg-yellow black' title={'Proposed Dialog Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_DRAFT, scenarioData, lesson: fakeLesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Dialog Draft Prompt'} prompt={lesson[MODULE_NAME.DIALOG_DRAFT].prompt} />
+          <PromptToggle title={'Actual Dialog Draft Prompt'} prompt={lesson[MODULE_NAME.DIALOG_DRAFT].prompt} /> */}
 
           {/*
           <PromptToggle className='bg-yellow black' title={'Proposed Translation Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.TRANSLATION_DRAFT, scenarioData, lesson, errors: [] }).prompt} />

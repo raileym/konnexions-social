@@ -59,6 +59,7 @@ import {
   APP_HOME,
   APP_PANEL,
   LANGUAGE,
+  LESSON_PROMPT_STYLE,
   MODULE_NAME,
   SCENARIO
 } from '@cknTypes/constants'
@@ -69,12 +70,12 @@ import { handleGetScenarioData } from './AppContextComponents/handleGetScenarioD
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 const defaultExample = {
-  dialog: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.DIALOG_DRAFT, options: { asString: false }}),
-  nouns: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.NOUNS_DRAFT, options: { asString: false }}),
-  verbs: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS_DRAFT, options: { asString: false }}),
-  dialogReview: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: false }}),
-  nounsReview: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: false }}),
-  verbsReview: generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: false }})
+  dialog: generateExample({lessonPromptStyle: LESSON_PROMPT_STYLE.DIALOG, language: defaultTargetLanguage, moduleName: MODULE_NAME.DIALOG_DRAFT, options: { asString: false }}),
+  nouns: generateExample({lessonPromptStyle: LESSON_PROMPT_STYLE.DIALOG, language: defaultTargetLanguage, moduleName: MODULE_NAME.NOUNS_DRAFT, options: { asString: false }}),
+  verbs: generateExample({lessonPromptStyle: LESSON_PROMPT_STYLE.DIALOG, language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS_DRAFT, options: { asString: false }}),
+  dialogReview: generateExample({lessonPromptStyle: LESSON_PROMPT_STYLE.DIALOG, language: defaultTargetLanguage, moduleName: MODULE_NAME.DIALOG_REVIEW, options: { asString: false }}),
+  nounsReview: generateExample({lessonPromptStyle: LESSON_PROMPT_STYLE.DIALOG, language: defaultTargetLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: false }}),
+  verbsReview: generateExample({lessonPromptStyle: LESSON_PROMPT_STYLE.DIALOG, language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: false }})
 }
 
 const updatedDefaultLesson = {

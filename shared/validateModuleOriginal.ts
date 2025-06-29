@@ -1,4 +1,4 @@
-import { LESSON_PROMPT_STYLE, MODULE_NAME } from '@cknTypes/constants'
+import { MODULE_NAME } from '@cknTypes/constants'
 import {
   type AddErrorProps,
   type HandleLLMError,
@@ -10,16 +10,25 @@ import {
 import { lintJsonArrayStructure } from '@shared/lintJsonArrayStructure'
 import { postCleanLines } from '@shared/postCleanLines/postCleanLines'
 
-export const addError = ({ errorLabel, setErrors, error }: AddErrorProps) => {
+export const addError = ({
+  errorLabel,
+  setErrors,
+  error
+}: AddErrorProps) => {
   setErrors(prev => {
     const updated = [...prev, error]
     localStorage.setItem(errorLabel, JSON.stringify(updated))
     return updated
   })
+
+  // cXnsole.log(`${error.message}: ${error.offendingData}`)
 }
+
+// export const looksLikeStringArray = /^\s*\[\s*"(?:[^"\\]|\\.)*"(?:\s*,\s*"(?:[^"\\]|\\.)*")*\s*\]\s*$/s
 
 export const looksLikeStringArray = (str: string): boolean => {
   try {
+    // const cleaned = str.replace(/,(\s*])/, '$1') // remove trailing comma
     const cleaned = str.replace(/,(\s*])/g, '$1')  // global match — all trailing commas
     const parsed = JSON.parse(cleaned)
     return Array.isArray(parsed) && parsed.every(item => typeof item === 'string')
@@ -28,74 +37,28 @@ export const looksLikeStringArray = (str: string): boolean => {
   }
 }
 
-const validateDialogLine = (fields: string[], fieldCount: number): string[] => {
-  const reasons: string[] = []
-
-  if (fields.length !== fieldCount) {
-    reasons.push(`Expected ${fieldCount} fields, got ${fields.length}`)
-  }
-
-  if (fields.some(f => f.trim() === '')) {
-    reasons.push('One or more fields is blank')
-  }
-
-  const [gender, speaker, utterance] = fields.map(f => f.trim())
-  if (!['m', 'f'].includes(gender.toLowerCase())) {
-    reasons.push(`Unrecognized gender tag: ${gender}`)
-  }
-  if (speaker.length === 0) {
-    reasons.push('Speaker name is missing')
-  }
-  if (utterance.length < 2) {
-    reasons.push('Utterance too short')
-  }
-
-  return reasons
-}
-
-const validateDelimitedModule = (lines: string[], fieldCount: number): RichParsedLine[] => {
-  return lines.map(original => {
-    const fields = original.split('|')
-    const reasons: string[] = []
-
-    if (fields.length !== fieldCount) {
-      reasons.push(`Expected ${fieldCount} fields, got ${fields.length}`)
-    }
-
-    if (fields.some(f => f.trim() === '')) {
-      reasons.push('One or more fields is blank')
-    }
-
-    return {
-      original,
-      fields,
-      isValid: reasons.length === 0,
-      reasons
-    }
-  })
-}
-
 export const validateModule = ({
   response,
   fieldCount,
   errorLabel,
-  moduleName,
-  lessonPromptStyle
+  moduleName
 }: ValidateModuleProps): Partial<Module> & { status?: 'valid' | 'warning' | 'error' } => {
   const errors: HandleLLMError[] = []
 
   if (!response) {
-    errors.push({
+    const error: HandleLLMError = {
       message: 'Response from ChatGPT AI is empty or undefined',
       detail: '',
       offendingData: JSON.stringify(response),
       errorLabel,
       timestamp: new Date().toISOString()
-    })
+    }
+    errors.push(error)
     return { success: false, lines: [], errors, sentinel: '', status: 'error' }
   }
 
   const warnings = lintJsonArrayStructure(response)
+
   warnings.forEach(warning => {
     errors.push({
       message: warning,
@@ -110,10 +73,15 @@ export const validateModule = ({
 
   try {
     let parsed = JSON.parse(response)
-    if (typeof parsed === 'string') parsed = JSON.parse(parsed)
+
+    if (typeof parsed === 'string') {
+      parsed = JSON.parse(parsed)
+    }
+
     if (!Array.isArray(parsed) || !parsed.every(item => typeof item === 'string')) {
       throw new Error('Parsed response is not an array of strings')
     }
+
     lines = parsed
   } catch (err1) {
     errors.push({
@@ -125,26 +93,46 @@ export const validateModule = ({
     })
 
     try {
+      const hasTrailingComma = /,(\s*])/.test(response)
+
+      if (hasTrailingComma) {
+        errors.push({
+          message: 'Trailing comma detected and removed from JSON array',
+          detail: 'Output included a trailing comma before the closing bracket',
+          offendingData: response,
+          errorLabel,
+          timestamp: new Date().toISOString()
+        })
+      }
+
       const cleaned = response.replace(/,(\s*])/g, '$1')
       const fallbackParsed = JSON.parse(cleaned)
-      if (Array.isArray(fallbackParsed) && fallbackParsed.every(item => typeof item === 'string')) {
+
+      if (
+        Array.isArray(fallbackParsed) &&
+        fallbackParsed.every(item => typeof item === 'string')
+      ) {
         lines = fallbackParsed
       } else {
         throw new Error('Fallback parsed result is not a valid string array')
       }
     } catch (err2) {
-      errors.push({
+      const error: HandleLLMError = {
         message: 'Failed to parse response as string array (even after fallback)',
-        detail: err2 instanceof Error ? err2.message : 'Unknown error',
+        detail: (err2 instanceof Error ? err2.message : 'Unknown error'),
         offendingData: typeof response === 'string' ? response : JSON.stringify(response),
         errorLabel,
         timestamp: new Date().toISOString()
-      })
+      }
+      errors.push(error)
       return { success: false, lines: [], errors, sentinel: '', status: 'error' }
     }
   }
 
-  if (lines.length === 1 && lines[0].trim().toLowerCase() === 'no corrections needed') {
+  if (
+    lines.length === 1 &&
+    lines[0].trim().toLowerCase() === 'no corrections needed'
+  ) {
     return {
       success: true,
       lines: [],
@@ -154,62 +142,73 @@ export const validateModule = ({
     }
   }
 
-  const linesCleaned = postCleanLines({ lines })
-  let structured: RichParsedLine[]
+  const linesCleaned = postCleanLines({lines})
 
-  switch (moduleName) {
-    case MODULE_NAME.DIALOG_DRAFT:
-      switch (lessonPromptStyle) {
-        case LESSON_PROMPT_STYLE.DIALOG:
-          structured = linesCleaned.map(original => {
-            const fields = original.split('|')
-            const reasons = validateDialogLine(fields, fieldCount)
-            return {
-              original,
-              fields,
-              isValid: reasons.length === 0,
-              reasons
-            }
-          })
-          break
-        default:
-          structured = linesCleaned.map((original): RichParsedLine => ({
-            original,
-            fields: [original],
-            isValid: true,
-            reasons: []
-          }))
-          break
+  const structured: RichParsedLine[] = linesCleaned.map((original): RichParsedLine => {
+      const fields = original.split('|')
+      const reasons: string[] = []
+
+      if (fields.length !== fieldCount) {
+        reasons.push(`Expected ${fieldCount} fields, got ${fields.length}`)
       }
-      break
 
-    case MODULE_NAME.NOUNS_DRAFT:
-    case MODULE_NAME.VERBS_DRAFT:
-    case MODULE_NAME.TRANSLATION_DRAFT:
-      structured = validateDelimitedModule(linesCleaned, fieldCount)
-      break
+      if (fields.some(f => f.trim() === '')) {
+        reasons.push('One or more fields is blank')
+      }
 
-    default:
-      structured = linesCleaned.map((original): RichParsedLine => ({
+      if (moduleName === MODULE_NAME.DIALOG_DRAFT) {
+        const [gender, speaker, utterance] = fields.map(f => f.trim())
+        if (!['m', 'f'].includes(gender.toLowerCase())) {
+          reasons.push(`Unrecognized gender tag: ${gender}`)
+        }
+        if (speaker.length === 0) {
+          reasons.push('Speaker name is missing')
+        }
+        if (utterance.length < 2) {
+          reasons.push('Utterance too short')
+        }
+      }
+
+      if (moduleName === MODULE_NAME.VERBS_DRAFT) {
+        const specialCases = ['gustar', 'encantar', 'faltar', 'interesar']
+        const infinitive = fields[0].trim().toLowerCase()
+        if (!specialCases.includes(infinitive) && fields[1].trim() === fields[2].trim()) {
+          // reasons.push('Singular and plural forms are identical')
+        }
+      }
+
+      if (moduleName === MODULE_NAME.NOUNS_DRAFT) {
+        const invariableNouns = ['lunes', 'análisis', 'paraguas', 'virus', 'tórax']
+        const noun = fields[0].trim().toLowerCase()
+        if (
+          fields.length >= 3 &&
+          fields[1].trim() === fields[2].trim() &&
+          !invariableNouns.includes(noun)
+        ) {
+          reasons.push('Singular and plural noun forms are identical (and not in exception list)')
+        }
+      }
+
+      return {
         original,
-        fields: [original],
-        isValid: true,
-        reasons: []
-      }))
-      break
-  }
+        fields,
+        isValid: reasons.length === 0,
+        reasons
+      }
+    })
 
   const invalid = structured.filter(s => !s.isValid)
   const valid = structured.filter(s => s.isValid).map(s => s.original as Line)
 
   if (invalid.length > 0) {
-    errors.push({
+    const error: HandleLLMError = {
       message: 'Some entries failed validation checks',
       detail: invalid.map(s => `${s.original} ❌ ${s.reasons.join('; ')}`).join('\n'),
       offendingData: JSON.stringify(lines),
       errorLabel,
       timestamp: new Date().toISOString()
-    })
+    }
+    errors.push(error)
   }
 
   const hasBlockingErrors = invalid.length > 0

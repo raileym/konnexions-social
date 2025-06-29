@@ -40,20 +40,23 @@ const handler: Handler = async (event) => {
 
     let response: string = await fetchOpenAI({ prompt })
     
-    // console.log(`genai-module-cb|${moduleName}: lesson`, lesson)
-    // console.log(`genai-module-cb|${moduleName}: moduleName`, moduleName)
-    // console.log(`genai-module-cb|${moduleName}: Prompt`, prompt)
-    // console.log(`genai-module-cb|${moduleName}: fieldCount`, fieldCount)
-    // console.log(`genai-module-cb|${moduleName}: errorLabel`, errorLabel)
-    // console.log(`genai-module-cb|${moduleName}: response`, response)
+    console.log(`genai-module-cb|${moduleName}: lesson`, lesson)
+    console.log(`genai-module-cb|${moduleName}: moduleName`, moduleName)
+    console.log(`genai-module-cb|${moduleName}: Prompt`, prompt)
+    console.log(`genai-module-cb|${moduleName}: fieldCount`, fieldCount)
+    console.log(`genai-module-cb|${moduleName}: errorLabel`, errorLabel)
+    console.log(`genai-module-cb|${moduleName}: response`, response)
 
     let validModule = validateModule({
       response,
       errorLabel,
       fieldCount,
       language: lesson.targetLanguage,
-      moduleName
+      moduleName,
+      lessonPromptStyle: lesson.lessonPromptStyle
     })
+
+    console.log('server-side', 'ONE')
 
     // Retry if validation failed
     if (!validModule.success) {
@@ -66,16 +69,23 @@ const handler: Handler = async (event) => {
 
       response = await fetchOpenAI({ prompt })
 
+      console.log('server-side', 'TWO')
+
       validModule = validateModule({
         response,
         errorLabel,
         fieldCount,
         language: lesson.targetLanguage,
-        moduleName
+        moduleName,
+        lessonPromptStyle: lesson.lessonPromptStyle
       })
     }
 
+    console.log('server-side', 'THREE')
+
     const streamlinedModule = streamlineModule({ moduleName, module: validModule })
+
+    console.log('server-side', 'FOUR')
 
     const updatedLesson: Lesson = {
       ...lesson,

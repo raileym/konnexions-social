@@ -661,6 +661,7 @@ export type ValidateModuleProps = {
   fieldCount: number
   language: Language
   moduleName: ModuleName
+  lessonPromptStyle: LessonPromptStyle
 }
 
 export type ValidateGenAIResponsePropsOLD = {
@@ -929,6 +930,7 @@ export type HandleCreateLessonProps = {
   testMode: TestMode
   debugLog: DebugLog
   setLessonTimestamp: SetLessonTimestamp
+  initialLesson: Lesson
 }
 
 export type RunModuleProps = {

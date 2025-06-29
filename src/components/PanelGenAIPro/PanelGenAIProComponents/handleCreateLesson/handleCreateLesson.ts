@@ -1,13 +1,14 @@
 import {
-  defaultLesson,
+  // defaultLesson,
   type HandleCreateLessonProps,
   // type Lesson,
   // type Module
 } from '@cknTypes/types';
 import {
-  PIPELINE_TYPE
+  PIPELINE_TYPE //,
+  // SCENARIO
 } from '@cknTypes/constants'
-import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails';
+// import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails';
 // import { dialogResolve } from '@PanelGenAIProComponents/dialogResolve/dialogResolve'
 // import { runModule } from '@PanelGenAIProComponents/runModule/runModule';
 // import { resolveVerbsOnly } from '@PanelGenAIProComponents/resolveVerbsOnly/resolveVerbsOnly';
@@ -25,37 +26,46 @@ import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClien
 
 export const handleCreateLesson = async ({
   scenarioData,
-  scenario,
-  targetLanguage,
-  sourceLanguage,
+  // scenario,
+  // targetLanguage,
+  // sourceLanguage,
   // lesson,
   setLessons,
   setLessonComplete,
   selectedLessonId,
-  useMyself,
+  // useMyself,
   // testMode,
   debugLog,
-  setLessonTimestamp
+  setLessonTimestamp,
+  initialLesson
 }: HandleCreateLessonProps) => {
-  const { participantList } = getScenarioDetails({ useMyself, scenario, language: targetLanguage });
+  // const { participantList } = scenario === SCENARIO.CUSTOM ? customParticipantList : getScenarioDetails({
+  //   useMyself,
+  //   scenario,
+  //   language: targetLanguage
+  // });
 
   setLessonComplete(false);
 
-  const initialLesson_0 = {
-    ...defaultLesson,
-    targetLanguage,
-    sourceLanguage,
-    scenario,
-    participantList,
-  };
+  // const initialLesson_0 = {
+  //   ...defaultLesson,
+  //   scenario,
+  //   targetLanguage,
+  //   sourceLanguage,
+  //   lessonPrompt,
+  //   lessonPromptStyle,
+  //   participantList,
+  // };
 
   // return {
   //   lesson: data.lesson,
   //   durationMs: data.durationMs
   // }
 
+  console.log('initialLesson', initialLesson)
+  
   const dialogResult = await runPipelineCbClient({
-    lesson: initialLesson_0,
+    lesson: initialLesson,
     pipelineType: PIPELINE_TYPE.DIALOG,
     scenarioData
   })
