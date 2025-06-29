@@ -1,4 +1,5 @@
-import { LESSON_PROMPT_STYLE, MODULE_NAME } from '@cknTypes/constants'
+// import { LESSON_PROMPT_STYLE, MODULE_NAME } from '@cknTypes/constants'
+import { MODULE_NAME } from '@cknTypes/constants'
 import {
   type AddErrorProps,
   type HandleLLMError,
@@ -40,7 +41,7 @@ const validateDialogLine = (fields: string[], fieldCount: number): string[] => {
   }
 
   const [gender, speaker, utterance] = fields.map(f => f.trim())
-  if (!['m', 'f'].includes(gender.toLowerCase())) {
+  if (!['m', 'f', 'n'].includes(gender.toLowerCase())) {
     reasons.push(`Unrecognized gender tag: ${gender}`)
   }
   if (speaker.length === 0) {
@@ -79,8 +80,7 @@ export const validateModule = ({
   response,
   fieldCount,
   errorLabel,
-  moduleName,
-  lessonPromptStyle
+  moduleName
 }: ValidateModuleProps): Partial<Module> & { status?: 'valid' | 'warning' | 'error' } => {
   const errors: HandleLLMError[] = []
 
@@ -159,28 +159,16 @@ export const validateModule = ({
 
   switch (moduleName) {
     case MODULE_NAME.DIALOG_DRAFT:
-      switch (lessonPromptStyle) {
-        case LESSON_PROMPT_STYLE.DIALOG:
-          structured = linesCleaned.map(original => {
-            const fields = original.split('|')
-            const reasons = validateDialogLine(fields, fieldCount)
-            return {
-              original,
-              fields,
-              isValid: reasons.length === 0,
-              reasons
-            }
-          })
-          break
-        default:
-          structured = linesCleaned.map((original): RichParsedLine => ({
-            original,
-            fields: [original],
-            isValid: true,
-            reasons: []
-          }))
-          break
-      }
+      structured = linesCleaned.map(original => {
+        const fields = original.split('|')
+        const reasons = validateDialogLine(fields, fieldCount)
+        return {
+          original,
+          fields,
+          isValid: reasons.length === 0,
+          reasons
+        }
+      })
       break
 
     case MODULE_NAME.NOUNS_DRAFT:

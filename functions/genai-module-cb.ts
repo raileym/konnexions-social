@@ -52,8 +52,7 @@ const handler: Handler = async (event) => {
       errorLabel,
       fieldCount,
       language: lesson.targetLanguage,
-      moduleName,
-      lessonPromptStyle: lesson.lessonPromptStyle
+      moduleName
     })
 
     console.log('server-side', 'ONE')
@@ -76,8 +75,7 @@ const handler: Handler = async (event) => {
         errorLabel,
         fieldCount,
         language: lesson.targetLanguage,
-        moduleName,
-        lessonPromptStyle: lesson.lessonPromptStyle
+        moduleName
       })
     }
 

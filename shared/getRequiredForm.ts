@@ -10,52 +10,87 @@ export const getRequiredForm = ({ lesson, lessonPromptStyle }: GetRequiredFormPr
   "m|Participant|Line from the ${lessonPromptStyle}"
 ]
 
-Each line uses three fields separated by '|':
+where each line uses three fields separated by '|':
+
 - Gender ("m" or "f"),
 - Role or title (e.g., from ${lesson.participantList}),
 - The line of dialogue.`
 
-    case LESSON_PROMPT_STYLE.INSTRUCTION:
-      return `[
-  "Find a table outside.",
-  "Greet the waiter.",
-  "Order your coffee."
-]
-
-PURPOSE: A(An) ${lessonPromptStyle} lesson prompt consists of clear, imperative instructions as if guiding a learner through the interaction.`
-
+    case LESSON_PROMPT_STYLE.DESCRIPTION:
+    case LESSON_PROMPT_STYLE.STORY:
+    case LESSON_PROMPT_STYLE.COMMENTARY:
+    case LESSON_PROMPT_STYLE.POEM:
     case LESSON_PROMPT_STYLE.OPINION:
-      return `[
-  "I think the café has a great atmosphere.",
-  "I prefer sitting outside.",
-  "I like how the waiter is friendly."
-]
-
-PURPOSE: A(An) ${lessonPromptStyle} lesson prompt expresses personal opinions using simple phrases like "Creo que", "Prefiero", or "Me gusta".`
-
     case LESSON_PROMPT_STYLE.COMPARISON:
       return `[
-  "The coffee here is stronger than at home.",
-  "The waiters are more formal.",
-  "The atmosphere is more relaxed."
+  "n|narrator|Line from the ${lessonPromptStyle}",
+  "n|narrator|Another line from the ${lessonPromptStyle}",
+  "n|narrator|Yet another line from the ${lessonPromptStyle}"
 ]
 
-PURPOSE: A(An) ${lessonPromptStyle} lesson prompt compares two experiences using expressions like "más que", "menos que", or "igual que".`
+where each line uses three fields separated by '|':
+
+- Gender ("n"), which is neutral and fixed for the narrator,
+- Role of narrator, which is fixed for non-dialog lesson prompt styles,
+- The line of ${lessonPromptStyle} content.`
+
+    case LESSON_PROMPT_STYLE.INSTRUCTION:
+      return `[
+  "n|narrator|Find a table outside.",
+  "n|narrator|Greet the waiter.",
+  "n|narrator|Order your coffee."
+]
+
+where each line uses three fields separated by '|':
+
+- Gender ("n"), which is neutral and fixed for the narrator,
+- Role of narrator, which is fixed for non-dialog lesson prompt styles,
+- The line of ${lessonPromptStyle} content.
+
+PURPOSE: An ${lessonPromptStyle} lesson prompt consists of clear, imperative instructions as if guiding a learner through a scenario.`
 
     case LESSON_PROMPT_STYLE.QUESTION_SET:
       return `[
-  "Where are you sitting?",
-  "What do you order?",
-  "What is the waiter like?"
+  "n|narrator|Where are you sitting?",
+  "n|narrator|What do you order?",
+  "n|narrator|What is the waiter like?"
 ]
 
-PURPOSE: A(An) ${lessonPromptStyle} lesson prompt consists of short comprehension or discussion questions relevant to the scenario.`
+where each line uses three fields separated by '|':
+
+- Gender ("n"), which is neutral and fixed for the narrator,
+- Role of narrator, which is fixed for non-dialog lesson prompt styles,
+- The line of ${lessonPromptStyle} content.
+
+PURPOSE: A ${lessonPromptStyle} lesson prompt consists of short comprehension or discussion questions relevant to the scenario.`
+
+    case LESSON_PROMPT_STYLE.LIST:
+      return `[
+  "n|narrator|Order coffee.",
+  "n|narrator|Find your seat.",
+  "n|narrator|Pay the bill."
+]
+
+where each line uses three fields separated by '|':
+
+- Gender ("n"), which is neutral and fixed for the narrator,
+- Role of narrator, which is fixed for non-dialog lesson prompt styles,
+- The line of ${lessonPromptStyle} content.
+
+PURPOSE: A ${lessonPromptStyle} is a checklist-style enumeration of scenario-relevant steps or actions.`
 
     default:
       return `[
-  "Line from the ${lessonPromptStyle}",
-  "Line from the ${lessonPromptStyle}",
-  "Line from the ${lessonPromptStyle}"
-]`
+  "n|narrator|Line from the ${lessonPromptStyle}",
+  "n|narrator|Another line from the ${lessonPromptStyle}",
+  "n|narrator|Yet another line from the ${lessonPromptStyle}"
+]
+
+where each line uses three fields separated by '|':
+
+- Gender ("n"), which is neutral and fixed for the narrator,
+- Role of narrator, which is fixed for non-dialog lesson prompt styles,
+- The line of ${lessonPromptStyle} content.
+- The content line.`
   }
 }

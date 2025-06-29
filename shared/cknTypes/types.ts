@@ -661,7 +661,6 @@ export type ValidateModuleProps = {
   fieldCount: number
   language: Language
   moduleName: ModuleName
-  lessonPromptStyle: LessonPromptStyle
 }
 
 export type ValidateGenAIResponsePropsOLD = {
