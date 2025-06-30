@@ -23,6 +23,8 @@ import {
 // import { nounsOnlyResolve } from '@PanelGenAIProComponents/nounsOnlyResolve/nounsOnlyResolve';
 // import { resolveNouns } from '@PanelGenAIProComponents/resolveNouns/resolveNouns';
 import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClient/runPipelineCbClient';
+import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview';
+import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesForReview';
 
 export const handleCreateLesson = async ({
   scenarioData,
@@ -81,9 +83,19 @@ export const handleCreateLesson = async ({
   if (!translationResult) return
   const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
   console.log(`Translation pipeline took ${durationTranslation.toFixed(2)}ms`)
+  const linesTargetLanguage = formatDialogLinesForReview(translationLesson.dialogResolve.lines)
+  const linesSourceLanguage = formatTranslationLinesForReview(translationLesson.translationResolve.lines)
+  const updatedTranslationLesson = {
+    ...translationLesson,
+    translation: {
+      ...translationLesson.translation,
+      [translationLesson.targetLanguage]: linesTargetLanguage,
+      [translationLesson.sourceLanguage]: linesSourceLanguage
+    }
+  }
 
   const nounsResult = await runPipelineCbClient({
-    lesson: translationLesson,
+    lesson: updatedTranslationLesson,
     pipelineType: PIPELINE_TYPE.NOUNS,
     scenarioData
   })

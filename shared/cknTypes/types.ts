@@ -282,6 +282,8 @@ export type Lesson = {
   verbsExpandedComplete: Module
   verbsExpandedInComplete: Module
   verbsExpandedTriple: Module
+
+  errorModule: Module
 }
 
 export type LessonId = number
@@ -563,6 +565,8 @@ export const defaultLesson: Lesson = {
   // verbsOnly: defaultModule,
   // verbsOnlyMissing: defaultModule,
   // verbsOnlyReview: defaultModule
+
+  errorModule: defaultModule
 }
 
 export const dXfaultNounsLines: NounsLines = [

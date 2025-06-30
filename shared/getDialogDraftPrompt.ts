@@ -13,7 +13,7 @@ export const getDialogDraftPrompt: GetDialogDraftPrompt = ({lesson, errors}: Get
     options: { asString: true } 
   })
   
-  console.log('getDialogDraftPrompt:lesson', lesson)
+  // console.log('getDialogDraftPrompt:lesson', lesson)
   
   const requiredForm = getRequiredForm({lesson, lessonPromptStyle: lesson.lessonPromptStyle})
   

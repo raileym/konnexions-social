@@ -17,8 +17,16 @@ import {
 import { ERROR_LABEL, FIELD_COUNT, MODULE_NAME } from '@cknTypes/constants'
 
 const handler: Handler = async (event) => {
+  let lesson: Lesson | undefined
+  let moduleName: ModuleName | undefined
+  let scenarioData: ScenarioData | undefined
+  let prompt: Prompt = defaultPrompt
+  let response: string = ''
+  let fieldCount: number = 0
+  let errorLabel: ErrorLabel = 'default'
+
   try {
-    const { lesson, scenarioData, moduleName }: { scenarioData: ScenarioData, lesson: Lesson; moduleName: ModuleName } = JSON.parse(event.body ?? '{}')
+    ;({ lesson, scenarioData, moduleName } = JSON.parse(event.body ?? '{}'))
 
     if (!lesson || !moduleName || !scenarioData) {
       return {
@@ -27,9 +35,9 @@ const handler: Handler = async (event) => {
       }
     }
 
-    let prompt: Prompt = defaultPrompt
-    let fieldCount: number = FIELD_COUNT[moduleName]
-    let errorLabel: ErrorLabel = ERROR_LABEL[moduleName]
+    prompt = defaultPrompt
+    fieldCount = FIELD_COUNT[moduleName]
+    errorLabel = ERROR_LABEL[moduleName]
 
     ;({ prompt, fieldCount, errorLabel } = getPrompt_cb({
       moduleName,
@@ -38,7 +46,7 @@ const handler: Handler = async (event) => {
       errors: []
     }))
 
-    let response: string = await fetchOpenAI({ prompt })
+    response = await fetchOpenAI({ prompt })
     
     console.log(`genai-module-cb|${moduleName}: lesson`, lesson)
     console.log(`genai-module-cb|${moduleName}: moduleName`, moduleName)
@@ -108,10 +116,37 @@ const handler: Handler = async (event) => {
       })
     }
   } catch (err) {
-    return {
-      statusCode: 500,
-      body: `Error in genai-module-cb: ${(err as Error).message}`
+
+console.error('Error in genai-module-cb handler:', err)
+  console.error('Captured debug values:', {
+    moduleName,
+    prompt,
+    fieldCount,
+    errorLabel,
+    response: typeof response === 'string' ? response.slice(0, 500) : 'unavailable', // avoid printing long blobs
+    lessonSignature: lesson ? generateSignature(JSON.stringify(lesson).slice(0, 500)) : 'unavailable'
+  })
+
+  return {
+    statusCode: 500,
+    body: JSON.stringify({
+      [MODULE_NAME.ERROR_MODULE] : {
+          error: (err as Error).message,
+          moduleName,
+          debug: {
+            prompt,
+            fieldCount,
+            errorLabel
+            // You could add more here if needed
+          }
+        }
+      })
     }
+  // }    
+  //   return {
+  //     statusCode: 500,      
+  //     body: `Error in genai-module-cb: ${(err as Error).message}`
+  //   }
   }
 }
 

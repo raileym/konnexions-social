@@ -15,7 +15,8 @@ export const MODULE_NAME = {
   VERBS_RESOLVE: 'verbsResolve',
   VERBS_EXPANDED_COMPLETE: 'verbsExpandedComplete',
   VERBS_EXPANDED_INCOMPLETE: 'verbsExpandedInComplete',
-  VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple' //,
+  VERBS_EXPANDED_TRIPLE: 'verbsExpandedTriple',
+  ERROR_MODULE: 'errorModule'
 } as const
 
 export const PIPELINE_TYPE = {
@@ -40,7 +41,8 @@ export const FIELD_COUNT: Record<ModuleName, number> = {
   [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: 0,
   [MODULE_NAME.VERBS_DRAFT]: 8,
   [MODULE_NAME.VERBS_RESOLVE]: 0,
-  [MODULE_NAME.VERBS_REVIEW]: 8
+  [MODULE_NAME.VERBS_REVIEW]: 8,
+  [MODULE_NAME.ERROR_MODULE]: 0
 } as const
 
 // export const LESSON_PROMPT_STYLE = {
@@ -132,7 +134,8 @@ export const ERROR_LABEL: Record<ModuleName, string> = {
   [MODULE_NAME.VERBS_REVIEW]: 'handleVerbsReviewError',
   [MODULE_NAME.VERBS_EXPANDED_COMPLETE]: 'handleVerbsExpandedCompleteError',
   [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: 'handleVerbsExpandedTripleError',
-  [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: 'handleVerbsExpandedInCompleteError'
+  [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: 'handleVerbsExpandedInCompleteError',
+  [MODULE_NAME.ERROR_MODULE]: 'handleErrorModuleError'
 } as const
 
 export const NOUN_ARTICLES = {
