@@ -66,6 +66,14 @@ const handler: Handler = async (event) => {
     const voice = getVoiceForSpeaker({speaker, language, gender})
     const normalized = `${voice}:${text.trim().toLowerCase()}`
     const signature = crypto.createHash('sha256').update(normalized).digest('hex')
+    
+    console.log('******************************************************')
+    console.log('')
+    console.log('languageCode', languageCode)
+    console.log('getVoiceForSpeaker', speaker, language, gender)
+    console.log('voice', voice)
+    console.log('normalized', normalized)
+    console.log('')
 
     // const voiceKey = GENDER[gender as keyof typeof GENDER] // converts "M" → "m"
     // const voice = voiceMap[voiceKey] || voiceMap.m

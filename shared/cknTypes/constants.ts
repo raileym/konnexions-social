@@ -141,6 +141,7 @@ export const NOUN_ARTICLES = {
 } as const
 
 export const GENDER = {
+  N: 'n',
   M: 'm',
   F: 'f'
 } as const
@@ -152,7 +153,8 @@ export const CURATED = {
 
 export const GENDER_TO_ARTICLE: Record<Gender, NounArticlesValue> = {
   [GENDER.F]: NOUN_ARTICLES.LA,
-  [GENDER.M]: NOUN_ARTICLES.EL
+  [GENDER.M]: NOUN_ARTICLES.EL,
+  [GENDER.N]: NOUN_ARTICLES.EL
 } as const
 
 export const VERB_FORMATS = {

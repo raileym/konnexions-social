@@ -36,6 +36,7 @@ import SelectorParticipantRole from '@components/SelectorParticipantRole'
 import InputCustomScenario from '@components/InputCustomScenario'
 import InputCustomParticipantList from '@components/InputCustomParticipantList'
 import Header from '@components/Header'
+import { capitalize } from '@components/Util'
 
 const RightPanel: React.FC = () => {
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
@@ -90,7 +91,8 @@ const RightPanel: React.FC = () => {
     useMyself,
     lessonPrompt,
     lessonPromptStyle,
-    customParticipantList
+    customParticipantList,
+    customScenario
   } = useAppContext()
   
   const lesson = lessons.find(l => l.id === selectedLessonId)
@@ -232,15 +234,26 @@ const RightPanel: React.FC = () => {
             <DialogList language={lesson.targetLanguage} lines={(lesson?.dialogResolve?.lines ?? [])} useCloudTTS={true} />
           </div>
 
-          {/*
           <div className="pa3 mt3 ba bg-white w-100">
+            <div className='tc f3                        w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
+            <ul className="mt0 pt0 black list pl0">
+              {(lesson?.translationDraft.lines ?? [])
+                .map((line, index) => (
+                  <li key={index} className="black">
+                    {line}
+                  </li>
+                ))}
+              </ul>            
+          </div>
+
+          {/* <div className="pa3 mt3 ba bg-white w-100">
             <DialogList language={lesson.targetLanguage} lines={(lesson?.translation[lesson.targetLanguage] ?? [])} useCloudTTS={true} />
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
             <DialogList language={lesson.sourceLanguage} lines={(lesson?.translation[lesson.sourceLanguage]  ?? [])} useCloudTTS={true} />
-          </div>
-          */}
+          </div> */}
+         
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
 
