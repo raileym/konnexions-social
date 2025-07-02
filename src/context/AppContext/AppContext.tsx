@@ -41,7 +41,11 @@ import type {
   CustomSeed,
   LessonPromptStyle,
   UseMyself,
-  LessonPrompt
+  LessonPrompt,
+  ClientUUID,
+  ClientMeter,
+  ClientSignature,
+  ClientEmail
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -106,6 +110,13 @@ const updatedDefaultLesson = {
   }
 }
 
+// const generateUUID = (): string =>
+//   'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+//     const r = (Math.random() * 16) | 0
+//     const v = c === 'x' ? r : (r & 0x3) | 0x8
+//     return v.toString(16)
+// })
+
 // // cXnsole.log(generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}))
 // cXnsole.log(updatedDefaultLesson)
 
@@ -130,6 +141,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [customSeed, setCustomSeed] = usePersistentState<CustomSeed>('customSeed', defaultCustomSeed)
   const [customScenario, setCustomScenario] = usePersistentState<CustomScenario>('customScenario', defaultCustomScenario)
   const [customParticipantList, setCustomParticipantList] = usePersistentState<CustomParticipantList>('customParticipantList', defaultCustomParticipantList)
+
+  const [clientEmail, setClientEmail] = usePersistentState<ClientEmail>('clientEmail', 'public@raileyn.net')
+
+  const [clientUUID, setClientUUID] = usePersistentState<ClientUUID>('clientUUID', '')
+  const [clientMeter, setClientMeter] = usePersistentState<ClientMeter>('clientMeter', 0)
+  const [clientSignature, setClientSignature] = usePersistentState<ClientSignature>('clientSignature', '')
 
   const [useMyself, setUseMyself] = usePersistentState<UseMyself>('useMyself', true)
   const [debugMode, setDebugMode] = usePersistentState<DebugMode>('debugMode', defaultDebugMode)
@@ -169,76 +186,87 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [targetLanguage, setTargetLanguage] = usePersistentState<Language>('targetLanguage', LANGUAGE.SPANISH)
   const [sourceLanguage, setSourceLanguage] = usePersistentState<Language>('sourceLanguage', LANGUAGE.ENGLISH)
 
-useEffect(() => {
-  // cXonsole.log('useEffect', scenario)
-  async function fetchScenarioData() {
-    // cXonsole.log('fetchScenarioData', scenario)
-    const data = await handleGetScenarioData({scenario, language: targetLanguage})
-    if (!data) {
-      console.log('fetchScenarioData', 'no data returned')
-      return
+  // useEffect(() => {
+  //   if (!clientUUID) {
+  //     const newUUID = generateUUID()
+  //     setClientUUID(newUUID)
+  //   }
+  // }, [clientUUID, setClientUUID])
+
+  useEffect(() => {
+    // cXonsole.log('useEffect', scenario)
+    async function fetchScenarioData() {
+      // cXonsole.log('fetchScenarioData', scenario)
+      const data = await handleGetScenarioData({scenario, language: targetLanguage})
+      if (!data) {
+        console.log('fetchScenarioData', 'no data returned')
+        return
+      }
+
+      // cXonsole.log('fetchScenarioData', JSON.stringify(data, null, 2))
+
+      const nounBySingular = new Map()
+      const nounByPlural = new Map()
+      const singularNounList: string[] = []
+
+      // cXonsole.log('data',data)
+
+      for (const noun of data.nouns) {
+        nounBySingular.set(noun.noun_singular, noun)
+        nounByPlural.set(noun.noun_plural, noun)
+        singularNounList.push(noun.noun_singular)
+      }
+
+      const verbByInfinitive = new Map()
+      const verbBy1stPersonSingular = new Map()
+      const verbBy2ndPersonSingular = new Map()
+      const verbBy3rdPersonSingular = new Map()
+      const verbBy1stPersonPlural = new Map()
+      const verbBy2ndPersonPlural = new Map()
+      const verbBy3rdPersonPlural = new Map()
+      for (const verb of data.verbs) {
+        verbByInfinitive.set(verb.verb_infinitive, verb)
+        verbBy1stPersonSingular.set(verb.verb_yo, verb)
+        verbBy2ndPersonSingular.set(verb.verb_tu, verb)
+        verbBy3rdPersonSingular.set(verb.verb_el_ella_usted, verb)
+        verbBy1stPersonPlural.set(verb.verb_nosotros, verb)
+        verbBy2ndPersonPlural.set(verb.verb_vosotros, verb)
+        verbBy3rdPersonPlural.set(verb.verb_ellos_ellas_ustedes, verb)
+      }
+
+      const N = 2
+
+      setScenarioData({
+        ...data,
+        nounsChooseN: data.nouns.sort(() => 0.5 - Math.random()).slice(0, N),
+        nounBySingular,
+        nounByPlural,
+        singularNounList,
+        verbByInfinitive,
+        verbBy1stPersonSingular,
+        verbBy2ndPersonSingular,
+        verbBy3rdPersonSingular,
+        verbBy1stPersonPlural,
+        verbBy2ndPersonPlural,
+        verbBy3rdPersonPlural
+      })
     }
 
-    // cXonsole.log('fetchScenarioData', JSON.stringify(data, null, 2))
-
-    const nounBySingular = new Map()
-    const nounByPlural = new Map()
-    const singularNounList: string[] = []
-
-    // cXonsole.log('data',data)
-
-    for (const noun of data.nouns) {
-      nounBySingular.set(noun.noun_singular, noun)
-      nounByPlural.set(noun.noun_plural, noun)
-      singularNounList.push(noun.noun_singular)
-    }
-
-    const verbByInfinitive = new Map()
-    const verbBy1stPersonSingular = new Map()
-    const verbBy2ndPersonSingular = new Map()
-    const verbBy3rdPersonSingular = new Map()
-    const verbBy1stPersonPlural = new Map()
-    const verbBy2ndPersonPlural = new Map()
-    const verbBy3rdPersonPlural = new Map()
-    for (const verb of data.verbs) {
-      verbByInfinitive.set(verb.verb_infinitive, verb)
-      verbBy1stPersonSingular.set(verb.verb_yo, verb)
-      verbBy2ndPersonSingular.set(verb.verb_tu, verb)
-      verbBy3rdPersonSingular.set(verb.verb_el_ella_usted, verb)
-      verbBy1stPersonPlural.set(verb.verb_nosotros, verb)
-      verbBy2ndPersonPlural.set(verb.verb_vosotros, verb)
-      verbBy3rdPersonPlural.set(verb.verb_ellos_ellas_ustedes, verb)
-    }
-
-    const N = 2
-
-    setScenarioData({
-      ...data,
-      nounsChooseN: data.nouns.sort(() => 0.5 - Math.random()).slice(0, N),
-      nounBySingular,
-      nounByPlural,
-      singularNounList,
-      verbByInfinitive,
-      verbBy1stPersonSingular,
-      verbBy2ndPersonSingular,
-      verbBy3rdPersonSingular,
-      verbBy1stPersonPlural,
-      verbBy2ndPersonPlural,
-      verbBy3rdPersonPlural
-    })
-  }
-
-  fetchScenarioData()
-}, [scenario, targetLanguage, lessons])
+    fetchScenarioData()
+  }, [scenario, targetLanguage, lessons])
 
 
-const AppContextValue = {
+  const AppContextValue = {
     activeHome,
     activePanel,
     answer,
     apiKey,
     audioUrl,
     cleanedText,
+    clientEmail,
+    clientMeter,
+    clientSignature,
+    clientUUID,
     lessonPromptStyle,
     customParticipantList,
     customScenario,
@@ -274,6 +302,10 @@ const AppContextValue = {
     setApiKey,
     setAudioUrl,
     setCleanedText,
+    setClientEmail,
+    setClientMeter,
+    setClientSignature,
+    setClientUUID,
     setLessonPromptStyle,
     setCustomParticipantList,
     setCustomScenario,

@@ -27,7 +27,7 @@ import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview';
 import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesForReview';
 
 export const handleCreateLesson = async ({
-  scenarioData,
+  // scenarioData,
   // scenario,
   // targetLanguage,
   // sourceLanguage,
@@ -39,13 +39,22 @@ export const handleCreateLesson = async ({
   // testMode,
   debugLog,
   setLessonTimestamp,
-  initialLesson
+  initialLesson,
+  clientEmail,
+  clientUUID,
+  setClientUUID
+  // clientSignature,
+  // clientMeter
 }: HandleCreateLessonProps) => {
   // const { participantList } = scenario === SCENARIO.CUSTOM ? customParticipantList : getScenarioDetails({
   //   useMyself,
   //   scenario,
   //   language: targetLanguage
   // });
+
+  // debugLog('clientUUID', clientUUID)
+  // debugLog('clientSignature', clientSignature)
+  // debugLog('clientMeter', clientMeter)
 
   setLessonComplete(false);
 
@@ -65,61 +74,123 @@ export const handleCreateLesson = async ({
   // }
 
   console.log('initialLesson', initialLesson)
-  
-  const dialogResult = await runPipelineCbClient({
-    lesson: initialLesson,
-    pipelineType: PIPELINE_TYPE.DIALOG,
-    scenarioData
-  })
-  if (!dialogResult) return
-  const { lesson: dialogLesson, durationMs: durationDialog } = dialogResult
-  console.log(`Dialog pipeline took ${durationDialog.toFixed(2)}ms`)
 
-  const translationResult = await runPipelineCbClient({
-    lesson: dialogLesson,
-    pipelineType: PIPELINE_TYPE.TRANSLATION,
-    scenarioData
-  })
-  if (!translationResult) return
-  const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
-  console.log(`Translation pipeline took ${durationTranslation.toFixed(2)}ms`)
-  const linesTargetLanguage = formatDialogLinesForReview(translationLesson.dialogResolve.lines)
-  const linesSourceLanguage = formatTranslationLinesForReview(translationLesson.translationResolve.lines)
-  const updatedTranslationLesson = {
-    ...translationLesson,
-    translation: {
-      ...translationLesson.translation,
-      [translationLesson.targetLanguage]: linesTargetLanguage,
-      [translationLesson.sourceLanguage]: linesSourceLanguage
+  // const updatedInitialLesson = {
+  //   ...initialLesson,
+  //   signature: 'x0123456789'
+  // }
+  
+  // 0. Get the clientUUID based on clientEmail
+  const alwaysTrue = true
+  let localClientUUID = clientUUID
+
+  if (localClientUUID === '' || alwaysTrue) {
+    const clientUUIDRes = await fetch('/.netlify/functions/get-client-uuid', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientEmail })
+    })
+  
+    if (!clientUUIDRes.ok) {
+      console.error('Failed to get clientUUID')
+      return
+    }
+  
+    const clientUUIDData = await clientUUIDRes.json()
+    localClientUUID = clientUUIDData.clientUUID
+
+    setClientUUID(localClientUUID)
+  
+    if (!localClientUUID) {
+      console.error('clientUUID missing in response')
+      return
     }
   }
 
-  const nounsResult = await runPipelineCbClient({
-    lesson: updatedTranslationLesson,
-    pipelineType: PIPELINE_TYPE.NOUNS,
-    scenarioData
-  })
-  if (!nounsResult) return
-  const { lesson: nounsLesson, durationMs: durationNouns } = nounsResult
-  console.log(`Nouns pipeline took ${durationNouns.toFixed(2)}ms`)
+  const localLessonTimestamp = Date.now()
+  setLessonTimestamp(localLessonTimestamp)
 
-  const verbsResult = await runPipelineCbClient({
-    lesson: nounsLesson,
-    pipelineType: PIPELINE_TYPE.VERBS,
-    scenarioData
+  // Now you can optionally include clientUUID in your updatedInitialLesson or wherever needed
+  const updatedInitialLesson = {
+    ...initialLesson,
+    timestamp: localLessonTimestamp,
+    uuid: localClientUUID
+  }
+
+  // 1. Insert the base lesson
+  const createRes = await fetch('/.netlify/functions/create-lesson-cb', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedInitialLesson) // no dialog or modules yet
   })
-  if (!verbsResult) return
-  const { lesson: verbsLesson, durationMs: durationVerbs } = verbsResult
-  console.log(`Verbs pipeline took ${durationVerbs.toFixed(2)}ms`)
+
+  if (!createRes.ok) {
+    console.error('Failed to create initial lesson')
+    return
+  }
+
+  const result = await createRes.json()
+  if (!result.success) {
+    console.error('Failed to create initial lesson: success flag missing or false')
+    return
+  }
+
+  console.log('Initial lesson created successfully')
+
+  // const dialogResult = await runPipelineCbClient({
+  //   lesson: initialLesson,
+  //   pipelineType: PIPELINE_TYPE.DIALOG,
+  //   scenarioData
+  // })
+  // if (!dialogResult) return
+  // const { lesson: dialogLesson, durationMs: durationDialog } = dialogResult
+  // console.log(`Dialog pipeline took ${durationDialog.toFixed(2)}ms`)
+
+  // const translationResult = await runPipelineCbClient({
+  //   lesson: dialogLesson,
+  //   pipelineType: PIPELINE_TYPE.TRANSLATION,
+  //   scenarioData
+  // })
+  // if (!translationResult) return
+  // const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
+  // console.log(`Translation pipeline took ${durationTranslation.toFixed(2)}ms`)
+  // const linesTargetLanguage = formatDialogLinesForReview(translationLesson.dialogResolve.lines)
+  // const linesSourceLanguage = formatTranslationLinesForReview(translationLesson.translationResolve.lines)
+  // const updatedTranslationLesson = {
+  //   ...translationLesson,
+  //   translation: {
+  //     ...translationLesson.translation,
+  //     [translationLesson.targetLanguage]: linesTargetLanguage,
+  //     [translationLesson.sourceLanguage]: linesSourceLanguage
+  //   }
+  // }
+
+  // const nounsResult = await runPipelineCbClient({
+  //   lesson: updatedTranslationLesson,
+  //   pipelineType: PIPELINE_TYPE.NOUNS,
+  //   scenarioData
+  // })
+  // if (!nounsResult) return
+  // const { lesson: nounsLesson, durationMs: durationNouns } = nounsResult
+  // console.log(`Nouns pipeline took ${durationNouns.toFixed(2)}ms`)
+
+  // const verbsResult = await runPipelineCbClient({
+  //   lesson: nounsLesson,
+  //   pipelineType: PIPELINE_TYPE.VERBS,
+  //   scenarioData
+  // })
+  // if (!verbsResult) return
+  // const { lesson: verbsLesson, durationMs: durationVerbs } = verbsResult
+  // console.log(`Verbs pipeline took ${durationVerbs.toFixed(2)}ms`)
 
 
   setLessons((prev) => {
     debugLog('🔄 Updating lesson list...');
-    debugLog('▶️ verbsLesson:', verbsLesson);
+    debugLog('▶️ updatedInitialLesson:', updatedInitialLesson);
     const next = prev.map((lsn) => {
       if (lsn.id === selectedLessonId) {
         debugLog(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...verbsLesson, id: lsn.id, name: lsn.name };
+        const updated = { ...updatedInitialLesson, id: lsn.id, name: lsn.name };
         debugLog('🆕 Updated lesson:', updated);
         return updated;
       }
@@ -129,7 +200,7 @@ export const handleCreateLesson = async ({
     return next;
   });
 
-  setLessonTimestamp(Date.now())
+  // setLessonTimestamp(Date.now())
   setLessonComplete(true);
 
   // ***********************************************************************************

@@ -25,6 +25,10 @@ export type AppContextType = {
   audioUrl: AudioUrl
   cleanedText: CleanedText
   lessonPromptStyle: LessonPromptStyle
+  clientEmail: ClientEmail
+  clientMeter: ClientMeter
+  clientSignature: ClientSignature
+  clientUUID: ClientUUID
   customParticipantList: CustomParticipantList
   customScenario: CustomScenario
   customSeed: CustomSeed
@@ -59,6 +63,10 @@ export type AppContextType = {
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
   setCleanedText: SetCleanedText
+  setClientEmail: SetClientEmail
+  setClientMeter: SetClientMeter
+  setClientSignature: SetClientSignature
+  setClientUUID: SetClientUUID
   setLessonPromptStyle: SetLessonPromptStyle
   setCustomParticipantList: SetCustomParticipantList
   setCustomScenario: SetCustomScenario
@@ -122,7 +130,6 @@ export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]
 export type ScenarioKey = keyof typeof SCENARIO
 export type Scenario = ScenarioValue
 
-export type LessonTimestamp = number
 export type Answer = string
 export type ApiKey = string
 export type AudioUrl = string | null
@@ -151,6 +158,10 @@ export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetLessonPromptStyle = React.Dispatch<React.SetStateAction<LessonPromptStyle>>
+export type SetClientMeter = React.Dispatch<React.SetStateAction<ClientMeter>>
+export type SetClientEmail = React.Dispatch<React.SetStateAction<ClientEmail>>
+export type SetClientSignature = React.Dispatch<React.SetStateAction<ClientSignature>>
+export type SetClientUUID = React.Dispatch<React.SetStateAction<ClientUUID>>
 export type SetCustomParticipantList = React.Dispatch<React.SetStateAction<CustomParticipantList>>
 export type SetCustomScenario = React.Dispatch<React.SetStateAction<CustomScenario>>
 export type SetCustomSeed = React.Dispatch<React.SetStateAction<CustomSeed>>
@@ -233,7 +244,7 @@ export type Success = boolean
 export type Module = {
     lines: Lines
     prompt: Prompt
-    signature: Signature
+    // signature: Signature
     errors: HandleLLMError[]
     success: Success
     sentinel: Sentinel
@@ -248,6 +259,9 @@ export type Translation = Record<Language, Lines>
 
 export type Lesson = {
   id: LessonId
+  uuid: ClientUUID
+  number: LessonNumber
+  timestamp: LessonTimestamp
   name: Name
   description: Description
 
@@ -256,7 +270,7 @@ export type Lesson = {
   scenario: Scenario
   participantList: ParticipantProse
   prose: Prose
-  signature: Signature
+  // signature: Signature
 
   lessonPrompt: LessonPrompt
   lessonPromptStyle: LessonPromptStyle
@@ -286,7 +300,9 @@ export type Lesson = {
   errorModule: Module
 }
 
-export type LessonId = number
+export type LessonId = string
+export type LessonTimestamp = string
+export type LessonNumber = number
 export type SelectedLessonId = LessonId
 
 export type Lessons = Lesson[]
@@ -386,6 +402,10 @@ export type HandleModuleProps = {
   lesson: Lesson
   moduleName: ModuleName
 }
+
+export type ClientUUID = string
+export type ClientMeter = number
+export type ClientSignature = string
 
 export type CustomScenario = string
 export type CustomSeed = string
@@ -512,7 +532,7 @@ export const defaultModule: Module = {
   lines: defaultLines,
   prompt: defaultPrompt,
   errors: defaultErrors,
-  signature: defaultSignature,
+  // signature: defaultSignature,
   success: false,
   sentinel: defaultSentinel,
   moduleProse: defaultProse,
@@ -521,13 +541,19 @@ export const defaultModule: Module = {
 }
 
 export const defaultLesson: Lesson = {
+  id: '',
+  number: 1,
+  uuid: '',
+  timestamp: '',
+
+  name: 'Default Lesson',
+  description: 'Default Lesson - Starter Details',
+  
   targetLanguage: defaultTargetLanguage,
   sourceLanguage: defaultSourceLanguage,
   scenario: defaultScenario,
-  signature: defaultSignature,
-  id: 1,
-  name: 'Default Lesson',
-  description: 'Default Lesson - Starter Details',
+  // signature: defaultSignature,
+
   participantList: defaultParticipantList,
   prose: defaultProse,
 
@@ -934,6 +960,11 @@ export type HandleCreateLessonProps = {
   debugLog: DebugLog
   setLessonTimestamp: SetLessonTimestamp
   initialLesson: Lesson
+  clientMeter: ClientMeter,
+  clientSignature: ClientSignature,
+  clientUUID: ClientUUID
+  clientEmail: ClientEmail
+  setClientUUID: SetClientUUID
 }
 
 export type RunModuleProps = {
@@ -1033,3 +1064,9 @@ export type GetRequiredFormProps = {
   lesson: Lesson
   lessonPromptStyle: LessonPromptStyle
 }
+
+export type ClientEmail = string
+export type GetClientUUIDProps = {
+  clientEmail: ClientEmail
+}
+

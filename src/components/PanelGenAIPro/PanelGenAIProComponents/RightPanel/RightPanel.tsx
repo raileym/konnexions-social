@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+// import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '@components/SelectorScenario'
 import { getPrompt_cb } from '@shared/getPrompt_cb'
@@ -92,9 +93,18 @@ const RightPanel: React.FC = () => {
     lessonPrompt,
     lessonPromptStyle,
     customParticipantList,
-    customScenario
+    customScenario,
+    clientMeter,
+    clientSignature,
+    clientUUID,
+    clientEmail,
+    setClientUUID
   } = useAppContext()
   
+  debugLog('clientUUID', clientUUID)
+  // debugLog('clientSignature', clientSignature)
+  // debugLog('clientMeter', clientMeter)
+
   const lesson = lessons.find(l => l.id === selectedLessonId)
   
   // console.log('Right Panel: Scenario', scenario, SCENARIO.CUSTOM, customParticipantList)
@@ -205,7 +215,12 @@ const RightPanel: React.FC = () => {
                     testMode,
                     debugLog,
                     setLessonTimestamp,
-                    initialLesson                    
+                    initialLesson,
+                    clientMeter,
+                    clientSignature,
+                    clientUUID,
+                    clientEmail,
+                    setClientUUID        
                   })
                 }}
               >
@@ -540,10 +555,10 @@ const RightPanel: React.FC = () => {
     )
   }
 
-  useEffect(() => {
-    debugLog('lesson', lesson)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[lesson])
+  // useEffect(() => {
+  //   debugLog('lesson', lesson)
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // },[lesson])
 
   return (
     <div className={`w-70 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>

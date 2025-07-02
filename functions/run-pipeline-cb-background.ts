@@ -1,4 +1,5 @@
-import type { Handler } from '@netlify/functions'
+// /.netlify/functions/run-pipeline-cb-background.ts
+import type { BackgroundHandler } from '@netlify/functions'
 import { resolveNouns } from '@shared/resolveNouns_cb/resolveNouns_cb'
 import { resolveVerbs } from '@shared/resolveVerbs_cb/resolveVerbs_cb'
 import { resolveDialog } from '@shared/resolveDialog_cb/resolveDialog_cb'
@@ -10,7 +11,7 @@ import type { PipelineConfigMap, RunPipelineCbBody } from '@cknTypes/types'
 import type { PostgrestError } from '@supabase/supabase-js'
 import { createClient } from '@supabase/supabase-js'
 
-import { performance } from 'perf_hooks'
+// import { performance } from 'perf_hooks'
 
 type UpsertLessonResponse = {
   data: null
@@ -22,20 +23,20 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-const handler: Handler = async (event) => {
-  const startTime = performance.now()
+const handler: BackgroundHandler = async (event) => {
+  // const startTime = performance.now()
 
   try {
     const { lesson, pipelineType, scenarioData }: RunPipelineCbBody = JSON.parse(event.body || '{}')
 
     if (!lesson || !pipelineType || !scenarioData) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({
-          error: 'Missing required fields: lesson, pipelineType, or scenarioData',
-          durationMs: performance.now() - startTime
-        })
-      }
+      // return {
+      //   statusCode: 400,
+      //   body: JSON.stringify({
+      //     error: 'Missing required fields: lesson, pipelineType, or scenarioData',
+      //     durationMs: performance.now() - startTime
+      //   })
+      // }
     }
 
     const pipelineConfigMap: PipelineConfigMap = {
@@ -71,13 +72,13 @@ const handler: Handler = async (event) => {
 
     const pipelineConfig = pipelineConfigMap[pipelineType]
     if (!pipelineConfig) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({
-          error: `Unknown pipelineType: ${pipelineType}`,
-          durationMs: performance.now() - startTime
-        })
-      }
+      // return {
+      //   statusCode: 400,
+      //   body: JSON.stringify({
+      //     error: `Unknown pipelineType: ${pipelineType}`,
+      //     durationMs: performance.now() - startTime
+      //   })
+      // }
     }
 
     const updatedLesson = await runPipelineCb({
@@ -91,7 +92,7 @@ const handler: Handler = async (event) => {
     if (updatedLesson !== null) {
       const { error: upsertError }: UpsertLessonResponse = await supabase.rpc('ckn_upsert_lesson', {
         arg_lesson_id: updatedLesson.id,
-        arg_lesson_signature: updatedLesson.signature,
+        // arg_lesson_signature: updatedLesson.signature,
         arg_lesson_name: updatedLesson.name,
         arg_lesson_description: updatedLesson.description,
         arg_lesson_target_language: updatedLesson.targetLanguage,
@@ -123,26 +124,26 @@ const handler: Handler = async (event) => {
       }
     }
 
-    const durationMs = performance.now() - startTime
+    // const durationMs = performance.now() - startTime
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        lesson: updatedLesson,
-        durationMs
-      })
-    }
+    // return {
+    //   statusCode: 200,
+    //   body: JSON.stringify({
+    //     lesson: updatedLesson,
+    //     durationMs
+    //   })
+    // }
   } catch (err) {
-    const durationMs = performance.now() - startTime
+    // const durationMs = performance.now() - startTime
     console.error('Pipeline execution failed:', err)
 
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        error: 'Unexpected error in pipeline handler',
-        durationMs
-      })
-    }
+    // return {
+    //   statusCode: 500,
+    //   body: JSON.stringify({
+    //     error: 'Unexpected error in pipeline handlerBackground',
+    //     durationMs
+    //   })
+    // }
   }
 }
 

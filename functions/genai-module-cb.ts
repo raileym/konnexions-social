@@ -102,7 +102,7 @@ const handler: Handler = async (event) => {
     }
 
     const prose = updatedLesson[MODULE_NAME.DIALOG_DRAFT]?.lines?.join(' ') ?? ''
-    const signature = generateSignature(prose)
+    // const signature = generateSignature(prose)
 
     return {
       statusCode: 200,
@@ -110,7 +110,7 @@ const handler: Handler = async (event) => {
         [moduleName]: {
           ...streamlinedModule,
           prompt,
-          signature,
+          // signature,
           moduleProse: prose
         }
       })
