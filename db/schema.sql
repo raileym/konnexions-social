@@ -12,6 +12,7 @@ DROP FUNCTION IF EXISTS private.ckn_lookup_noun_examples;
 DROP FUNCTION IF EXISTS private.ckn_insert_noun_example;
 DROP FUNCTION IF EXISTS private.ckn_get_noun_by_scenario;
 DROP FUNCTION IF EXISTS private.ckn_get_verb_by_scenario;
+DROP FUNCTION IF EXISTS private.ckn_get_module_by_lesson_and_name;
 
 DROP FUNCTION IF EXISTS private.ckn_insert_lesson;
 -- DROP FUNCTION IF EXISTS private.ckn_upsert_lesson;
@@ -25,6 +26,9 @@ DROP FUNCTION IF EXISTS public.ckn_insert_noun;
 DROP FUNCTION IF EXISTS public.ckn_insert_verb;
 DROP FUNCTION IF EXISTS public.ckn_get_noun_by_scenario;
 DROP FUNCTION IF EXISTS public.ckn_get_verb_by_scenario;
+DROP FUNCTION IF EXISTS public.ckn_get_module_by_lesson_and_name;
+
+DROP FUNCTION IF EXISTS public.ckn_upsert_module;
 
 -- DROP FUNCTION IF EXISTS public.ckn_upsert_lesson;
 -- DROP FUNCTION IF EXISTS public.ckn_get_lesson_by_signature;
@@ -1036,6 +1040,44 @@ JOIN private.ckn_verb_example e ON vf.verb_key = e.verb_key
 WHERE vf.verb_key = arg_verb_key;
 $$;
 
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_get_module_by_lesson_and_name
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_get_module_by_lesson_and_name(
+  lesson_id TEXT,
+  module_name TEXT
+)
+RETURNS JSONB
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = private, public
+AS $$
+  SELECT module_content FROM private.ckn_module
+  WHERE lesson_id = $1 AND module_name = $2
+$$;
+
+-- ************************************************************************
+-- FUNCTION SHIMS: public.ckn_upsert_module
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_upsert_module(
+  arg_lesson_id TEXT,
+  arg_module_name TEXT,
+  arg_module_content JSONB
+)
+RETURNS VOID
+LANGUAGE SQL
+SECURITY DEFINER
+AS $$
+  SELECT private.ckn_upsert_module(
+    arg_lesson_id,
+    arg_module_name,
+    arg_module_content
+  );
+$$;
+
 -- ************************************************************************
 -- FUNCTION SHIMS: public.ckn_insert_lesson
 -- ************************************************************************
@@ -1215,6 +1257,22 @@ AS $$
 $$;
 
 -- ************************************************************************
+-- FUNCTION SHIMS: public.ckn_get_module_by_lesson_and_name
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_get_module_by_lesson_and_name(
+  lesson_id TEXT,
+  module_name TEXT
+)
+RETURNS JSONB
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = private, public
+AS $$
+  SELECT private.ckn_get_module_by_lesson_and_name(lesson_id, module_name);
+$$;
+
+-- ************************************************************************
 -- FUNCTION SHIMS: public.ckn_upsert_lesson
 -- ************************************************************************
 
@@ -1323,69 +1381,19 @@ GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA private TO service_role;
 ALTER DEFAULT PRIVILEGES IN SCHEMA private
 GRANT EXECUTE ON FUNCTIONS TO service_role;
 
--- Scenario-based lookup
+GRANT EXECUTE ON FUNCTION private.ckn_get_module_by_lesson_and_name(TEXT, TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_get_noun_by_scenario(TEXT, TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_get_verb_by_scenario(TEXT, TEXT) TO service_role;
-
--- TTS cache operations
-GRANT EXECUTE ON FUNCTION private.ckn_lookup_tts_cache(TEXT) TO service_role;
-GRANT EXECUTE ON FUNCTION private.ckn_insert_tts_cache(TEXT, TEXT, TEXT, TEXT) TO service_role;
-
--- Noun insert
-GRANT EXECUTE ON FUNCTION private.ckn_insert_noun(TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, BOOLEAN) TO service_role;
-
--- Verb insert
-GRANT EXECUTE ON FUNCTION private.ckn_insert_verb(TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, BOOLEAN) TO service_role;
-
--- Noun example insert + lookup
+GRANT EXECUTE ON FUNCTION private.ckn_insert_lesson(TEXT, INTEGER, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_insert_noun_example(INTEGER, JSONB) TO service_role;
-GRANT EXECUTE ON FUNCTION private.ckn_lookup_noun_examples(INTEGER) TO service_role;
-
--- Verb example insert + lookup
+GRANT EXECUTE ON FUNCTION private.ckn_insert_noun(TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, BOOLEAN) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_insert_tts_cache(TEXT, TEXT, TEXT, TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_insert_verb_example(INTEGER, JSONB) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_insert_verb(TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, BOOLEAN) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_lookup_noun_examples(INTEGER) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_lookup_tts_cache(TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_lookup_verb_example(INTEGER) TO service_role;
-
-GRANT EXECUTE ON FUNCTION private.ckn_insert_lesson(
-  TEXT,
-  INTEGER,
-  TEXT,
-  TEXT,
-  TEXT,
-  TEXT,
-  TEXT,
-  TEXT,
-  TEXT,
-  TEXT,
-  TEXT
-) TO service_role;
-
-
--- GRANT EXECUTE ON FUNCTION private.ckn_upsert_lesson(
---   INTEGER,
---   TEXT,
---   TEXT,
---   TEXT,
---   TEXT,
---   TEXT,
---   TEXT,
---   TEXT,
---   TEXT,
---   JSONB,
---   JSONB,
---   JSONB,
---   JSONB,
---   JSONB,
---   JSONB,
---   JSONB,
---   JSONB,
---   JSONB,
---   JSONB,
---   JSONB,
---   JSONB,
---   JSONB
--- ) TO service_role;
-
--- GRANT EXECUTE ON FUNCTION private.ckn_get_lesson_by_signature(TEXT) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_upsert_module(TEXT, TEXT, JSONB) TO service_role;
 
 ALTER ROLE service_role SET search_path = private, public;
 

@@ -1,0 +1,37 @@
+import { MODULE_NAME, PIPELINE_TYPE } from '@cknTypes/constants';
+import type { PipelineConfigMap } from '@cknTypes/types';
+import { resolveDialog } from '@shared/resolveDialog_cb/resolveDialog_cb';
+import { resolveNouns } from '@shared/resolveNouns_cb/resolveNouns_cb';
+import { resolveTranslation } from '@shared/resolveTranslation_cb/resolveTranslation_cb';
+import { resolveVerbs } from '@shared/resolveVerbs_cb/resolveVerbs_cb';
+
+export const pipelineConfigMap: PipelineConfigMap = {
+  [PIPELINE_TYPE.DIALOG]: {
+    draftModule: MODULE_NAME.DIALOG_DRAFT,
+    reviewModule: MODULE_NAME.DIALOG_REVIEW,
+    resolveModule: MODULE_NAME.DIALOG_RESOLVE,
+    resolve: resolveDialog,
+    pipelineType: PIPELINE_TYPE.DIALOG
+  },
+  [PIPELINE_TYPE.NOUNS]: {
+    draftModule: MODULE_NAME.NOUNS_DRAFT,
+    reviewModule: MODULE_NAME.NOUNS_REVIEW,
+    resolveModule: MODULE_NAME.NOUNS_RESOLVE,
+    resolve: resolveNouns,
+    pipelineType: PIPELINE_TYPE.NOUNS
+  },
+  [PIPELINE_TYPE.TRANSLATION]: {
+    draftModule: MODULE_NAME.TRANSLATION_DRAFT,
+    reviewModule: MODULE_NAME.TRANSLATION_REVIEW,
+    resolveModule: MODULE_NAME.TRANSLATION_RESOLVE,
+    resolve: resolveTranslation,
+    pipelineType: PIPELINE_TYPE.TRANSLATION
+  },
+  [PIPELINE_TYPE.VERBS]: {
+    draftModule: MODULE_NAME.VERBS_DRAFT,
+    reviewModule: MODULE_NAME.VERBS_REVIEW,
+    resolveModule: MODULE_NAME.VERBS_RESOLVE,
+    resolve: resolveVerbs,
+    pipelineType: PIPELINE_TYPE.VERBS
+  }
+}

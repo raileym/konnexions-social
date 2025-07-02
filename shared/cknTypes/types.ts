@@ -247,6 +247,7 @@ export type Module = {
     sentinel: Sentinel
     moduleProse: Prose
     linesResolutions: Lines
+    moduleDurationMs: number
 }
 
 export type Name = string
@@ -527,12 +528,11 @@ export const defaultModule: Module = {
   lines: defaultLines,
   prompt: defaultPrompt,
   errors: defaultErrors,
-  // signature: defaultSignature,
   success: false,
   sentinel: defaultSentinel,
   moduleProse: defaultProse,
-  linesResolutions: defaultLines
-  // formatDialogLines: defaultFormatDialogLines
+  linesResolutions: defaultLines,
+  moduleDurationMs: 0
 }
 
 export const defaultLesson: Lesson = {
@@ -1059,4 +1059,16 @@ export type GetClientUUIDProps = {
 export type CreateLessonResult = {
   success: boolean
   lessonId: LessonId
+}
+
+export type PollPipelineModulesProps = {
+  lesson: Lesson
+  pipelineConfig: PipelineConfig
+}
+
+export type PollModuleByLessonAndNameProps = {
+  lessonId: string
+  moduleName: string
+  pollIntervalMs?: number
+  timeoutMs?: number
 }

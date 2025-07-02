@@ -1,71 +1,108 @@
-// shared/runPipelineCb.ts
-
+import { createClient } from '@supabase/supabase-js'
 import type {
   Lesson,
-  // Module,
-  // ScenarioData,
-  RunPipelineCbProps,
-  // ResolveFunction
+  RunPipelineCbProps
 } from '@cknTypes/types'
+import getModule_cb from '@shared/getModule_cb/getModule_cb'
 
-import { getModule_cb } from '@shared/getModule_cb/getModule_cb'
-// import { resolveNouns } from '@shared/resolveNouns_cb/resolveNouns_cb'
-// import { resolveVerbs } from '@shared/resolveVerbs_cb/resolveVerbs_cb'
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
 export const runPipelineCb = async ({
   lesson,
   pipelineConfig
 }: RunPipelineCbProps): Promise<Lesson | null> => {
-
-  // console.log('runPipelineCb: pipelineConfig', pipelineConfig)
-  // console.log('runPipelineCb: incoming lesson', lesson)
-
   // DRAFT
+  const draftStart = performance.now()
   const moduleDraft = await getModule_cb({
     testMode: false,
     moduleName: pipelineConfig.draftModule,
     lesson
   })
   if (!moduleDraft) return null
+  const draftDuration = performance.now() - draftStart
+
+  // Include duration in module content
+  const draftContentWithDuration = {
+    ...moduleDraft,
+    moduleDurationMs: draftDuration
+  }
+
+  const { error: draftError } = await supabase.rpc('ckn_upsert_module', {
+    arg_lesson_id: lesson.id,
+    arg_module_name: pipelineConfig.draftModule,
+    arg_module_content: draftContentWithDuration
+  })
+  if (draftError) {
+    console.error('Failed to upsert draft module:', draftError)
+    return null
+  }
 
   const lessonDraft = {
     ...lesson,
-    [pipelineConfig.draftModule]: moduleDraft
+    [pipelineConfig.draftModule]: draftContentWithDuration
   }
 
-  console.log(`${pipelineConfig.pipelineType}: moduleDraft`, JSON.stringify(moduleDraft, null, 2))
-
   // REVIEW
+  const reviewStart = performance.now()
   const moduleReviewed = await getModule_cb({
     lesson: lessonDraft,
     moduleName: pipelineConfig.reviewModule,
     testMode: false
   })
   if (!moduleReviewed) return null
+  const reviewDuration = performance.now() - reviewStart
 
-  console.log(`${pipelineConfig.pipelineType}: moduleReview`, JSON.stringify(moduleReviewed, null, 2))
+  const reviewContentWithDuration = {
+    ...moduleReviewed,
+    moduleDurationMs: reviewDuration
+  }
+
+  const { error: reviewError } = await supabase.rpc('ckn_upsert_module', {
+    arg_lesson_id: lesson.id,
+    arg_module_name: pipelineConfig.reviewModule,
+    arg_module_content: reviewContentWithDuration
+  })
+  if (reviewError) {
+    console.error('Failed to upsert review module:', reviewError)
+    return null
+  }
 
   const lessonReviewed = {
     ...lessonDraft,
-    [pipelineConfig.reviewModule]: moduleReviewed
+    [pipelineConfig.reviewModule]: reviewContentWithDuration
   }
 
   // RESOLVE
+  const resolveStart = performance.now()
   const { linesResolved, linesResolutions } = pipelineConfig.resolve({
     reviewLines: lessonReviewed[pipelineConfig.reviewModule].lines,
     draftLines: lessonReviewed[pipelineConfig.draftModule].lines
   })
+  const resolveDuration = performance.now() - resolveStart
 
-  console.log(`${pipelineConfig.pipelineType}: linesResolved`, JSON.stringify(linesResolved, null, 2))
-  console.log(`${pipelineConfig.pipelineType}: linesResolutions`, JSON.stringify(linesResolutions, null, 2))
+  const resolvedModule = {
+    ...lessonReviewed[pipelineConfig.resolveModule],
+    lines: linesResolved,
+    linesResolutions: linesResolutions,
+    moduleDurationMs: resolveDuration
+  }
+
+  const { error: resolveError } = await supabase.rpc('ckn_upsert_module', {
+    arg_lesson_id: lesson.id,
+    arg_module_name: pipelineConfig.resolveModule,
+    arg_module_content: resolvedModule
+  })
+  if (resolveError) {
+    console.error('Failed to upsert resolve module:', resolveError)
+    return null
+  }
 
   const lessonResolved = {
     ...lessonReviewed,
-    [pipelineConfig.resolveModule]: {
-      ...lessonReviewed[pipelineConfig.resolveModule],
-      lines: linesResolved,
-      linesResolutions: linesResolutions
-    }
+    [pipelineConfig.resolveModule]: resolvedModule
   }
 
   return lessonResolved

@@ -145,7 +145,7 @@ export const handleCreateLesson = async ({
   console.log('Initial lesson created successfully')
 
   const dialogResult = await runPipelineCbClient({
-    lesson: initialLesson,
+    lesson: updatedInitialLesson,
     pipelineType: PIPELINE_TYPE.DIALOG //,
   })
   if (!dialogResult) return
@@ -189,11 +189,11 @@ export const handleCreateLesson = async ({
 
   setLessons((prev) => {
     debugLog('🔄 Updating lesson list...');
-    debugLog('▶️ updatedInitialLesson:', updatedInitialLesson);
+    debugLog('▶️ dialogLesson:', dialogLesson);
     const next = prev.map((lsn) => {
       if (lsn.number === selectedLessonNumber) {
         debugLog(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...updatedInitialLesson, id: lsn.id, name: lsn.name };
+        const updated = { ...dialogLesson, id: lsn.id, name: lsn.name };
         debugLog('🆕 Updated lesson:', updated);
         return updated;
       }
