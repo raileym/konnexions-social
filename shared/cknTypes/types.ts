@@ -56,7 +56,7 @@ export type AppContextType = {
   questionContext: QuestionContext
   scenario: Scenario
   scenarioData: ScenarioData
-  selectedLessonId: LessonId
+  selectedLessonNumber: LessonNumber
   setActiveHome: SetActiveHome
   setActivePanel: SetActivePanel
   setAnswer: SetAnswer
@@ -95,7 +95,7 @@ export type AppContextType = {
   setQuestionContext: SetQuestionContext
   setScenario: SetScenario
   setScenarioData: SetScenarioData
-  setSelectedLessonId: SetLessonId
+  setSelectedLessonNumber: SetLessonNumber
   setSourceLanguage: SetSourceLanguage
   setTargetLanguage: SetTargetLanguage
   setTtsAvgChars: SetTtsAvgChars
@@ -178,7 +178,7 @@ export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
 export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
 export type SetTargetLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetSourceLanguage = React.Dispatch<React.SetStateAction<Language>>
-export type SetLessonId = React.Dispatch<React.SetStateAction<LessonId>>
+export type SetLessonNumber = React.Dispatch<React.SetStateAction<LessonNumber>>
 export type SetLessonPrompt = React.Dispatch<React.SetStateAction<LessonPrompt>>
 export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
 export type SetLessonTimestamp = React.Dispatch<React.SetStateAction<LessonTimestamp>>
@@ -303,7 +303,7 @@ export type Lesson = {
 export type LessonId = string
 export type LessonTimestamp = string
 export type LessonNumber = number
-export type SelectedLessonId = LessonId
+export type SelectedLessonNumber = LessonNumber
 
 export type Lessons = Lesson[]
 
@@ -548,7 +548,7 @@ export const defaultLesson: Lesson = {
 
   name: 'Default Lesson',
   description: 'Default Lesson - Starter Details',
-  
+
   targetLanguage: defaultTargetLanguage,
   sourceLanguage: defaultSourceLanguage,
   scenario: defaultScenario,
@@ -954,7 +954,7 @@ export type HandleCreateLessonProps = {
   lesson: Lesson
   setLessonComplete: SetLessonComplete
   setLessons: SetLessons
-  selectedLessonId: SelectedLessonId
+  selectedLessonNumber: SelectedLessonNumber
   useMyself: UseMyself
   testMode: TestMode
   debugLog: DebugLog

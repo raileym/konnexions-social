@@ -8,22 +8,22 @@ const LeftPane: React.FC = () => {
   const {
     lessons,
     setLessons,
-    selectedLessonId,
-    setSelectedLessonId
+    selectedLessonNumber,
+    setSelectedLessonNumber
   } = useAppContext()
   
 const handleAddLesson = () => {
-  const newId = lessons.length + 1
+  const newNumber = lessons.length + 1
   const newLesson: Lesson = {
     ...defaultLesson,
     
-    id: newId,
-    name: `Lesson ${newId}`,
-    description: `This is the content for Lesson ${newId}`
+    number: newNumber,
+    name: `Lesson ${newNumber}`,
+    description: `This is the content for Lesson ${newNumber}`
   }
 
   setLessons([...lessons, newLesson])
-  setSelectedLessonId(newId) // optionally auto-select new lesson
+  setSelectedLessonNumber(newNumber) // optionally auto-select new lesson
 }
 
 
@@ -44,9 +44,9 @@ const handleAddLesson = () => {
           lessons.map((lesson) => (
             <li
               key={lesson.id}
-              onClick={() => setSelectedLessonId(lesson.id)}
+              onClick={() => setSelectedLessonNumber(lesson.number)}
               className={`pa2 pointer br2 ${
-                selectedLessonId === lesson.id ? 'bg-light-green b' : 'hover-bg-light-gray'
+                selectedLessonNumber === lesson.number ? 'bg-light-green b' : 'hover-bg-light-gray'
               }`}
             >
               {lesson.name}

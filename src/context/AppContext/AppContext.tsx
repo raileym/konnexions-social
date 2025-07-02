@@ -27,7 +27,6 @@ import type {
   ActiveHome,
   Lesson,
   Lessons,
-  LessonId,
   GenerateTTSCount,
   MaxCount,
   Cutoff,
@@ -45,7 +44,8 @@ import type {
   ClientUUID,
   ClientMeter,
   ClientSignature,
-  ClientEmail
+  ClientEmail,
+  LessonNumber
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -150,7 +150,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [useMyself, setUseMyself] = usePersistentState<UseMyself>('useMyself', true)
   const [debugMode, setDebugMode] = usePersistentState<DebugMode>('debugMode', defaultDebugMode)
-  const [lessonTimestamp, setLessonTimestamp] = usePersistentState<LessonTimestamp>('lessonTimestamp', Date.now())
+  const [lessonTimestamp, setLessonTimestamp] = usePersistentState<LessonTimestamp>('lessonTimestamp', Date.now().toString())
   const [lineNumber, setLineNumber] = useState<LineNumber>(0)
   const [activeHome, setActiveHome] = useState<ActiveHome>(APP_HOME.GEN_AI_PRO)
   const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.BASIC)
@@ -177,7 +177,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [lessonPrompt, setLessonPrompt] = usePersistentState<LessonPrompt>('lessonPrompt', defaultLessonPrompt)
   const [scenario, setScenario] = usePersistentState<Scenario>('scenario', SCENARIO.RESTAURANT)
   const [scenarioData, setScenarioData] = useState<ScenarioData>(defaultScenarioData)
-  const [selectedLessonId, setSelectedLessonId] = usePersistentState<LessonId>('lessonCount', 1)
+  const [selectedLessonNumber, setSelectedLessonNumber] = usePersistentState<LessonNumber>('lessonNumber', 1)
   const [ttsAvgChars, setTtsAvgChars] = useState<TtsAvgChars>(80)
   const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
   const [ttsCharUsage, setTtsCharUsage] = useState<TtsCharUsage>(0)
@@ -295,7 +295,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     questionContext,
     scenario,
     scenarioData,
-    selectedLessonId,
+    selectedLessonNumber,
     setActiveHome,
     setActivePanel,
     setAnswer,
@@ -334,7 +334,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setQuestionContext,
     setScenario,
     setScenarioData,
-    setSelectedLessonId,
+    setSelectedLessonNumber,
     setSourceLanguage,
     setTargetLanguage,
     setTtsAvgChars,

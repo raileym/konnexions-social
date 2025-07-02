@@ -155,7 +155,7 @@ CREATE TABLE private.ckn_lesson (
   lesson_id TEXT UNIQUE,
   lesson_number INTEGER,
   lesson_uuid TEXT,
-  lesson_timestamp TIMESTAMP,
+  lesson_timestamp TEXT,
 
   lesson_name TEXT,
   lesson_description TEXT,
@@ -323,9 +323,10 @@ CREATE INDEX idx_ckn_tts_cache_last_used ON private.ckn_tts_cache(tts_cache_last
 -- ************************************************************************
 
 CREATE FUNCTION private.ckn_insert_lesson(
-  arg_lesson_id INTEGER,
+  arg_lesson_id TEXT,
+  arg_lesson_number INTEGER,
   arg_lesson_uuid TEXT,
-  arg_lesson_signature TEXT,
+  arg_lesson_timestamp TEXT,
   arg_lesson_name TEXT,
   arg_lesson_description TEXT,
   arg_lesson_target_language TEXT,
@@ -365,7 +366,7 @@ BEGIN
     arg_lesson_participant_list,
     arg_lesson_prose
   )
-  ON CONFLICT (lesson_signature) DO NOTHING;
+  ON CONFLICT (lesson_id) DO NOTHING;
 END;
 $$;
 
@@ -458,7 +459,7 @@ $$;
 -- ************************************************************************
 
 CREATE FUNCTION private.ckn_upsert_module(
-  arg_lesson_signature TEXT,
+  arg_lesson_id TEXT,
   arg_module_name TEXT,
   arg_module_content JSONB
 )
@@ -469,15 +470,15 @@ SET search_path = private, public
 AS $$
 BEGIN
   INSERT INTO private.ckn_module (
-    lesson_signature,
+    lesson_id,
     module_name,
     module_content
   ) VALUES (
-    arg_lesson_signature,
+    arg_lesson_id,
     arg_module_name,
     arg_module_content
   )
-  ON CONFLICT (lesson_signature, module_name) DO UPDATE SET
+  ON CONFLICT (lesson_id, module_name) DO UPDATE SET
     module_content = EXCLUDED.module_content,
     updated_at = now();
 END;
@@ -1040,9 +1041,10 @@ $$;
 -- ************************************************************************
 
 CREATE FUNCTION public.ckn_insert_lesson(
-  arg_lesson_id INTEGER,
+  arg_lesson_id TEXT,
+  arg_lesson_number INTEGER,
   arg_lesson_uuid TEXT,
-  arg_lesson_signature TEXT,
+  arg_lesson_timestamp TEXT,
   arg_lesson_name TEXT,
   arg_lesson_description TEXT,
   arg_lesson_target_language TEXT,
@@ -1057,8 +1059,9 @@ SECURITY DEFINER
 AS $$
   SELECT private.ckn_insert_lesson(
     arg_lesson_id,
+    arg_lesson_number,
     arg_lesson_uuid,
-    arg_lesson_signature,
+    arg_lesson_timestamp,
     arg_lesson_name,
     arg_lesson_description,
     arg_lesson_target_language,
@@ -1343,6 +1346,7 @@ GRANT EXECUTE ON FUNCTION private.ckn_insert_verb_example(INTEGER, JSONB) TO ser
 GRANT EXECUTE ON FUNCTION private.ckn_lookup_verb_example(INTEGER) TO service_role;
 
 GRANT EXECUTE ON FUNCTION private.ckn_insert_lesson(
+  TEXT,
   INTEGER,
   TEXT,
   TEXT,

@@ -82,7 +82,7 @@ const RightPanel: React.FC = () => {
     lessons,
     scenario,
     scenarioData,
-    selectedLessonId,
+    selectedLessonNumber,
     setCustomSeed,
     setDebugMode,
     setLessonTimestamp,
@@ -105,7 +105,7 @@ const RightPanel: React.FC = () => {
   // debugLog('clientSignature', clientSignature)
   // debugLog('clientMeter', clientMeter)
 
-  const lesson = lessons.find(l => l.id === selectedLessonId)
+  const lesson = lessons.find(l => l.number === selectedLessonNumber)
   
   // console.log('Right Panel: Scenario', scenario, SCENARIO.CUSTOM, customParticipantList)
 
@@ -140,7 +140,7 @@ const RightPanel: React.FC = () => {
   const alwaysFalse = false
 
   let content
-  if (selectedLessonId != null && Array.isArray(lessons)) {
+  if (selectedLessonNumber != null && Array.isArray(lessons)) {
     if (!lesson) {
       content = <p>Lesson not found.</p>
     } else {
@@ -210,7 +210,7 @@ const RightPanel: React.FC = () => {
                     lesson,
                     setLessons,
                     setLessonComplete,
-                    selectedLessonId,
+                    selectedLessonNumber,
                     useMyself,
                     testMode,
                     debugLog,

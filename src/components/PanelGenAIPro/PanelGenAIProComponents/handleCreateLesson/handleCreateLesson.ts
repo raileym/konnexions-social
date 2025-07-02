@@ -5,7 +5,7 @@ import {
   // type Module
 } from '@cknTypes/types';
 import {
-  PIPELINE_TYPE //,
+  // PIPELINE_TYPE
   // SCENARIO
 } from '@cknTypes/constants'
 // import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails';
@@ -22,9 +22,9 @@ import {
 // import { runPipeline } from '@PanelGenAIProComponents/runPipeline/runPipeline';
 // import { nounsOnlyResolve } from '@PanelGenAIProComponents/nounsOnlyResolve/nounsOnlyResolve';
 // import { resolveNouns } from '@PanelGenAIProComponents/resolveNouns/resolveNouns';
-import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClient/runPipelineCbClient';
-import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview';
-import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesForReview';
+// import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClient/runPipelineCbClient';
+// import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview';
+// import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesForReview';
 
 export const handleCreateLesson = async ({
   // scenarioData,
@@ -34,7 +34,7 @@ export const handleCreateLesson = async ({
   // lesson,
   setLessons,
   setLessonComplete,
-  selectedLessonId,
+  selectedLessonNumber,
   // useMyself,
   // testMode,
   debugLog,
@@ -73,7 +73,7 @@ export const handleCreateLesson = async ({
   //   durationMs: data.durationMs
   // }
 
-  console.log('initialLesson', initialLesson)
+  // console.log('initialLesson', initialLesson)
 
   // const updatedInitialLesson = {
   //   ...initialLesson,
@@ -108,12 +108,14 @@ export const handleCreateLesson = async ({
   }
 
   const localLessonTimestamp = Date.now()
-  setLessonTimestamp(localLessonTimestamp)
+  setLessonTimestamp(localLessonTimestamp.toString())
 
   // Now you can optionally include clientUUID in your updatedInitialLesson or wherever needed
   const updatedInitialLesson = {
     ...initialLesson,
-    timestamp: localLessonTimestamp,
+    // id, Unknown as yet ... will come back with a value
+    number: selectedLessonNumber,
+    timestamp: localLessonTimestamp.toString(),
     uuid: localClientUUID
   }
 
@@ -188,7 +190,7 @@ export const handleCreateLesson = async ({
     debugLog('🔄 Updating lesson list...');
     debugLog('▶️ updatedInitialLesson:', updatedInitialLesson);
     const next = prev.map((lsn) => {
-      if (lsn.id === selectedLessonId) {
+      if (lsn.number === selectedLessonNumber) {
         debugLog(`✅ Match found: lesson.id = ${lsn.id}`);
         const updated = { ...updatedInitialLesson, id: lsn.id, name: lsn.name };
         debugLog('🆕 Updated lesson:', updated);
