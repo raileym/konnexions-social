@@ -16,8 +16,8 @@ const supabase = createClient(
 
 const handler: BackgroundHandler = async (event) => {
   try {
-    const { lesson, pipelineType, scenarioData }: RunPipelineCbBody = JSON.parse(event.body || '{}')
-    if (!lesson || !pipelineType || !scenarioData) return
+    const { lesson, pipelineType }: RunPipelineCbBody = JSON.parse(event.body || '{}')
+    if (!lesson || !pipelineType ) return
 
     const pipelineConfigMap: PipelineConfigMap = {
       [PIPELINE_TYPE.DIALOG]: {
@@ -51,7 +51,7 @@ const handler: BackgroundHandler = async (event) => {
     }
 
     const pipelineConfig = pipelineConfigMap[pipelineType]
-    const updatedLesson = await runPipelineCb({ lesson, scenarioData, pipelineConfig })
+    const updatedLesson = await runPipelineCb({ lesson, pipelineConfig })
     if (!updatedLesson) return
 
     const moduleData = {

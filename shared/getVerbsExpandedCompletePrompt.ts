@@ -4,7 +4,7 @@ import { type GetVerbsExpandedCompletePrompt, type GetVerbsExpandedCompletePromp
 import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 
 export const getVerbsExpandedCompletePrompt: GetVerbsExpandedCompletePrompt = ({lesson, errors}: GetVerbsExpandedCompletePromptProps) => {
-  const verbsExpandedCompleteExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, options: { asString: true }  })
+  const verbsExpandedCompleteExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lessonPromptStyle: lesson.lessonPromptStyle, options: { asString: true }  })
   
   return (`
 REQUEST: Complete the sentences below as appropriate for a beginner's lesson in ${LANGUAGE_TITLE[lesson.targetLanguage]}.

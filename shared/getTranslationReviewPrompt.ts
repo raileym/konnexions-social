@@ -5,7 +5,7 @@ import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getTranslationReviewPrompt: GetTranslationReviewPrompt = ({lesson, errors}: GetTranslationReviewPromptProps) => {
-  const translationDraftExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.TRANSLATION_DRAFT, options: { asString: true }  })
+  const translationDraftExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.TRANSLATION_DRAFT, lessonPromptStyle: lesson.lessonPromptStyle, options: { asString: true }  })
   const formatDialogLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_RESOLVE].lines)  
 
 return (`

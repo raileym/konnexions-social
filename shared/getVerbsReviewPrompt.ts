@@ -6,7 +6,7 @@ import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 import { formatNounLinesForReview } from '@shared/formatNounLinesForReview'
 
 export const getVerbsReviewPrompt: GetVerbsReviewPrompt = ({lesson, errors}: GetVerbsReviewPromptProps) => {
-  const verbsReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, options: { asString: true }  })
+  const verbsReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, lessonPromptStyle: lesson.lessonPromptStyle, options: { asString: true }  })
   const formatDialogLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_RESOLVE].lines)  
   const formatVerbsLines = formatNounLinesForReview(lesson[MODULE_NAME.VERBS_DRAFT].lines)  
   

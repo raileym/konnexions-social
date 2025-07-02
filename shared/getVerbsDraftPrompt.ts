@@ -6,7 +6,7 @@ import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getVerbsDraftPrompt: GetVerbsDraftPrompt = ({lesson, errors}: GetVerbsDraftPromptProps) => {
         
-  const verbsExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_DRAFT, options: { asString: true }  })
+  const verbsExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_DRAFT, lessonPromptStyle: lesson.lessonPromptStyle, options: { asString: true }  })
 
   const formatDialogLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_RESOLVE].lines)  
   

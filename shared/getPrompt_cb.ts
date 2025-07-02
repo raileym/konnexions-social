@@ -11,7 +11,7 @@ type PromptWithMeta = {
   fieldCount: number
   errorLabel: ErrorLabel
 }
-import type { Lesson, ErrorLabel, GetPromptProps, HandleLLMError, ModuleName, ScenarioData } from '@cknTypes/types'
+import type { Lesson, ErrorLabel, GetPromptProps, HandleLLMError, ModuleName } from '@cknTypes/types'
 import { getDialogDraftPrompt } from '@shared/getDialogDraftPrompt'
 import { getNounsDraftPrompt } from '@shared/getNounsDraftPrompt'
 import { getVerbsDraftPrompt } from '@shared/getVerbsDraftPrompt'
@@ -24,9 +24,9 @@ import { getTranslationReviewPrompt } from '@shared/getTranslationReviewPrompt'
 
 const makePromptGenerator = (
   moduleName: ModuleName,
-  promptFn: (args: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => string
-) => ({ scenarioData, lesson, errors }: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => ({
-  prompt: promptFn({ scenarioData, lesson, errors }),
+  promptFn: (args: { lesson: Lesson, errors: HandleLLMError[] }) => string
+) => ({ lesson, errors }: { lesson: Lesson, errors: HandleLLMError[] }) => ({
+  prompt: promptFn({ lesson, errors }),
   fieldCount: FIELD_COUNT[moduleName],
   errorLabel: ERROR_LABEL[moduleName]
 })
@@ -37,7 +37,7 @@ const makeStaticPromptGenerator = (moduleName: ModuleName) => () => ({
   errorLabel: ERROR_LABEL[moduleName]
 })
 
-const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, lesson: Lesson, errors: HandleLLMError[] }) => PromptWithMeta> = {
+const promptGenerators: Record<ModuleName, (args: { lesson: Lesson, errors: HandleLLMError[] }) => PromptWithMeta> = {
   [MODULE_NAME.TRANSLATION_DRAFT]: makePromptGenerator(MODULE_NAME.TRANSLATION_DRAFT, getTranslationDraftPrompt),
   [MODULE_NAME.TRANSLATION_RESOLVE]: makeStaticPromptGenerator(MODULE_NAME.TRANSLATION_RESOLVE),
   [MODULE_NAME.TRANSLATION_REVIEW]: makePromptGenerator(MODULE_NAME.TRANSLATION_REVIEW, getTranslationReviewPrompt),
@@ -52,8 +52,9 @@ const promptGenerators: Record<ModuleName, (args: { scenarioData: ScenarioData, 
   [MODULE_NAME.VERBS_EXPANDED_INCOMPLETE]: makeStaticPromptGenerator(MODULE_NAME.VERBS_EXPANDED_INCOMPLETE),
   [MODULE_NAME.VERBS_EXPANDED_TRIPLE]: makeStaticPromptGenerator(MODULE_NAME.VERBS_EXPANDED_TRIPLE),
   [MODULE_NAME.VERBS_RESOLVE]: makeStaticPromptGenerator(MODULE_NAME.VERBS_RESOLVE),
-  [MODULE_NAME.VERBS_REVIEW]: makePromptGenerator(MODULE_NAME.VERBS_REVIEW, getVerbsReviewPrompt)
+  [MODULE_NAME.VERBS_REVIEW]: makePromptGenerator(MODULE_NAME.VERBS_REVIEW, getVerbsReviewPrompt),
+  [MODULE_NAME.ERROR_MODULE]: makeStaticPromptGenerator(MODULE_NAME.ERROR_MODULE)
 }
 
-export const getPrompt_cb = ({ moduleName, scenarioData, lesson, errors }: GetPromptProps & { moduleName: ModuleName, scenarioData: ScenarioData }): PromptWithMeta =>
-  promptGenerators[moduleName]({ scenarioData, lesson, errors })
+export const getPrompt_cb = ({ moduleName, lesson, errors }: GetPromptProps & { moduleName: ModuleName }): PromptWithMeta =>
+  promptGenerators[moduleName]({ lesson, errors })

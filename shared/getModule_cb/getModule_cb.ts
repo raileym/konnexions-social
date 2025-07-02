@@ -6,8 +6,7 @@ import type {
 export const getModule_cb = async ({
   lesson,
   moduleName,
-  testMode,
-  scenarioData
+  testMode
 }: GetModuleCbProps): Promise<Module | null> => {
   try {
     const isServer = typeof window === 'undefined'
@@ -22,8 +21,7 @@ export const getModule_cb = async ({
       body: JSON.stringify({
         testMode,
         lesson,
-        moduleName,
-        scenarioData
+        moduleName
       })
     })
 

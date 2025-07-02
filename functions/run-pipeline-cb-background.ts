@@ -27,13 +27,13 @@ const handler: BackgroundHandler = async (event) => {
   // const startTime = performance.now()
 
   try {
-    const { lesson, pipelineType, scenarioData }: RunPipelineCbBody = JSON.parse(event.body || '{}')
+    const { lesson, pipelineType }: RunPipelineCbBody = JSON.parse(event.body || '{}')
 
-    if (!lesson || !pipelineType || !scenarioData) {
+    if (!lesson || !pipelineType ) {
       // return {
       //   statusCode: 400,
       //   body: JSON.stringify({
-      //     error: 'Missing required fields: lesson, pipelineType, or scenarioData',
+      //     error: 'Missing required fields: lesson or pipelineType',
       //     durationMs: performance.now() - startTime
       //   })
       // }
@@ -83,7 +83,6 @@ const handler: BackgroundHandler = async (event) => {
 
     const updatedLesson = await runPipelineCb({
       lesson,
-      scenarioData,
       pipelineConfig
     })
 

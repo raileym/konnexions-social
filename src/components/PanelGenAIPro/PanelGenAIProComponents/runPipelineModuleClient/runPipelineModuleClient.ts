@@ -1,9 +1,8 @@
-import type { Lesson, ScenarioData } from '@cknTypes/types'
+import type { Lesson } from '@cknTypes/types'
 
 export const runPipelineModuleClient = async (
   lesson: Lesson,
-  pipelineType: string,
-  scenarioData: ScenarioData
+  pipelineType: string
 ): Promise<boolean> => {
   try {
     const res = await fetch('/.netlify/functions/runPipeline_cb-background', {
@@ -11,8 +10,7 @@ export const runPipelineModuleClient = async (
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         lesson,
-        pipelineType,
-        scenarioData
+        pipelineType
       })
     })
 

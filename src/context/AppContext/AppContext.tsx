@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import type {
   Answer,
   ApiKey,
@@ -30,7 +30,6 @@ import type {
   GenerateTTSCount,
   MaxCount,
   Cutoff,
-  ScenarioData,
   Language,
   LineNumber,
   DebugMode,
@@ -51,7 +50,6 @@ import {
   defaultTargetLanguage,
   defaultLesson,
   defaultMaxCount,
-  defaultScenarioData,
   defaultDebugMode,
   defaultCustomScenario,
   defaultCustomParticipantList,
@@ -69,7 +67,6 @@ import {
 } from '@cknTypes/constants'
 import { usePersistentState } from '@hooks/usePersistentState'
 import { generateExample } from '@shared/generateExample'
-import { handleGetScenarioData } from './AppContextComponents/handleGetScenarioData/handleGetScenarioData'
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
@@ -132,7 +129,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       l =>
         typeof l === 'object' &&
       l !== null &&
-      typeof l.id === 'number' &&
+      typeof l.id === 'string' &&
       typeof l.name === 'string'
     )
   )
@@ -176,7 +173,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [questionContext, setQuestionContext] = useState<QuestionContext>('')
   const [lessonPrompt, setLessonPrompt] = usePersistentState<LessonPrompt>('lessonPrompt', defaultLessonPrompt)
   const [scenario, setScenario] = usePersistentState<Scenario>('scenario', SCENARIO.RESTAURANT)
-  const [scenarioData, setScenarioData] = useState<ScenarioData>(defaultScenarioData)
   const [selectedLessonNumber, setSelectedLessonNumber] = usePersistentState<LessonNumber>('lessonNumber', 1)
   const [ttsAvgChars, setTtsAvgChars] = useState<TtsAvgChars>(80)
   const [ttsBudget, setTtsBudget] = useState<TtsBudget>(1)
@@ -192,69 +188,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   //     setClientUUID(newUUID)
   //   }
   // }, [clientUUID, setClientUUID])
-
-  useEffect(() => {
-    // cXonsole.log('useEffect', scenario)
-    async function fetchScenarioData() {
-      // cXonsole.log('fetchScenarioData', scenario)
-      const data = await handleGetScenarioData({scenario, language: targetLanguage})
-      if (!data) {
-        console.log('fetchScenarioData', 'no data returned')
-        return
-      }
-
-      // cXonsole.log('fetchScenarioData', JSON.stringify(data, null, 2))
-
-      const nounBySingular = new Map()
-      const nounByPlural = new Map()
-      const singularNounList: string[] = []
-
-      // cXonsole.log('data',data)
-
-      for (const noun of data.nouns) {
-        nounBySingular.set(noun.noun_singular, noun)
-        nounByPlural.set(noun.noun_plural, noun)
-        singularNounList.push(noun.noun_singular)
-      }
-
-      const verbByInfinitive = new Map()
-      const verbBy1stPersonSingular = new Map()
-      const verbBy2ndPersonSingular = new Map()
-      const verbBy3rdPersonSingular = new Map()
-      const verbBy1stPersonPlural = new Map()
-      const verbBy2ndPersonPlural = new Map()
-      const verbBy3rdPersonPlural = new Map()
-      for (const verb of data.verbs) {
-        verbByInfinitive.set(verb.verb_infinitive, verb)
-        verbBy1stPersonSingular.set(verb.verb_yo, verb)
-        verbBy2ndPersonSingular.set(verb.verb_tu, verb)
-        verbBy3rdPersonSingular.set(verb.verb_el_ella_usted, verb)
-        verbBy1stPersonPlural.set(verb.verb_nosotros, verb)
-        verbBy2ndPersonPlural.set(verb.verb_vosotros, verb)
-        verbBy3rdPersonPlural.set(verb.verb_ellos_ellas_ustedes, verb)
-      }
-
-      const N = 2
-
-      setScenarioData({
-        ...data,
-        nounsChooseN: data.nouns.sort(() => 0.5 - Math.random()).slice(0, N),
-        nounBySingular,
-        nounByPlural,
-        singularNounList,
-        verbByInfinitive,
-        verbBy1stPersonSingular,
-        verbBy2ndPersonSingular,
-        verbBy3rdPersonSingular,
-        verbBy1stPersonPlural,
-        verbBy2ndPersonPlural,
-        verbBy3rdPersonPlural
-      })
-    }
-
-    fetchScenarioData()
-  }, [scenario, targetLanguage, lessons])
-
 
   const AppContextValue = {
     activeHome,
@@ -294,7 +227,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     question,
     questionContext,
     scenario,
-    scenarioData,
     selectedLessonNumber,
     setActiveHome,
     setActivePanel,
@@ -333,7 +265,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setQuestion,
     setQuestionContext,
     setScenario,
-    setScenarioData,
     setSelectedLessonNumber,
     setSourceLanguage,
     setTargetLanguage,

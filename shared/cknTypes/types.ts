@@ -55,7 +55,6 @@ export type AppContextType = {
   question: Question
   questionContext: QuestionContext
   scenario: Scenario
-  scenarioData: ScenarioData
   selectedLessonNumber: LessonNumber
   setActiveHome: SetActiveHome
   setActivePanel: SetActivePanel
@@ -94,7 +93,6 @@ export type AppContextType = {
   setQuestion: SetQuestion
   setQuestionContext: SetQuestionContext
   setScenario: SetScenario
-  setScenarioData: SetScenarioData
   setSelectedLessonNumber: SetLessonNumber
   setSourceLanguage: SetSourceLanguage
   setTargetLanguage: SetTargetLanguage
@@ -194,7 +192,6 @@ export type SetOpenAiUsage = React.Dispatch<React.SetStateAction<OpenAiUsage>>
 export type SetQuestion = React.Dispatch<React.SetStateAction<Question>>
 export type SetQuestionContext = React.Dispatch<React.SetStateAction<QuestionContext>>
 export type SetScenario = React.Dispatch<React.SetStateAction<Scenario>>
-export type SetScenarioData = React.Dispatch<React.SetStateAction<ScenarioData>>
 export type SetTtsAvgChars = React.Dispatch<React.SetStateAction<TtsAvgChars>>
 export type SetTtsBudget = React.Dispatch<React.SetStateAction<TtsBudget>>
 export type SetTtsCharUsage = React.Dispatch<React.SetStateAction<TtsCharUsage>>
@@ -397,7 +394,6 @@ export type TestMode = boolean
 export type Prompt = string
 
 export type HandleModuleProps = {
-  scenarioData: ScenarioData
   testMode: TestMode
   lesson: Lesson
   moduleName: ModuleName
@@ -450,7 +446,6 @@ export type HandleNounsReviewProps = {
 }
 
 export type GetPromptProps = {
-  scenarioData: ScenarioData
   lesson: Lesson
   errors: HandleLLMError[]
 }
@@ -799,7 +794,6 @@ export type GetPartialLessonProps = {
 }
   
 export type GetModuleProps = {
-  scenarioData: ScenarioData,
   testMode: TestMode,
   lesson: Lesson
   moduleName: ModuleName
@@ -907,39 +901,39 @@ export type VerbDetails = {
 export type VerbByForm = Map<string, VerbDetails>
 export type NounByForm = Map<string, NounDetails>
 
-export type ScenarioData = {
-  nounsChooseN: NounDetails[]
-  nouns: NounDetails[]
-  verbs: VerbDetails[]
-  nounBySingular: NounByForm
-  nounByPlural: NounByForm
-  singularNounList: Lines
-  verbByInfinitive: VerbByForm
-  verbBy1stPersonSingular: VerbByForm
-  verbBy2ndPersonSingular: VerbByForm
-  verbBy3rdPersonSingular: VerbByForm
-  verbBy1stPersonPlural: VerbByForm
-  verbBy2ndPersonPlural: VerbByForm
-  verbBy3rdPersonPlural: VerbByForm
-}
+// export type ScenarioData = {
+//   nounsChooseN: NounDetails[]
+//   nouns: NounDetails[]
+//   verbs: VerbDetails[]
+//   nounBySingular: NounByForm
+//   nounByPlural: NounByForm
+//   singularNounList: Lines
+//   verbByInfinitive: VerbByForm
+//   verbBy1stPersonSingular: VerbByForm
+//   verbBy2ndPersonSingular: VerbByForm
+//   verbBy3rdPersonSingular: VerbByForm
+//   verbBy1stPersonPlural: VerbByForm
+//   verbBy2ndPersonPlural: VerbByForm
+//   verbBy3rdPersonPlural: VerbByForm
+// }
 
 export const defaultDebugMode = false
 
-export const defaultScenarioData: ScenarioData = {
-  nounsChooseN: [],
-  nouns: [],
-  verbs: [],
-  nounBySingular: new Map(),
-  nounByPlural: new Map(),
-  singularNounList: [],
-  verbByInfinitive: new Map(),
-  verbBy1stPersonSingular: new Map(),
-  verbBy2ndPersonSingular: new Map(),
-  verbBy3rdPersonSingular: new Map(),
-  verbBy1stPersonPlural: new Map(),
-  verbBy2ndPersonPlural: new Map(),
-  verbBy3rdPersonPlural: new Map()
-}
+// export const defaultScenarioData: ScenarioData = {
+//   nounsChooseN: [],
+//   nouns: [],
+//   verbs: [],
+//   nounBySingular: new Map(),
+//   nounByPlural: new Map(),
+//   singularNounList: [],
+//   verbByInfinitive: new Map(),
+//   verbBy1stPersonSingular: new Map(),
+//   verbBy2ndPersonSingular: new Map(),
+//   verbBy3rdPersonSingular: new Map(),
+//   verbBy1stPersonPlural: new Map(),
+//   verbBy2ndPersonPlural: new Map(),
+//   verbBy3rdPersonPlural: new Map()
+// }
 
 export type HandleGetScenarioDataProps = {
   scenario: Scenario,
@@ -947,7 +941,6 @@ export type HandleGetScenarioDataProps = {
 }
 
 export type HandleCreateLessonProps = {
-  scenarioData: ScenarioData
   scenario: Scenario
   sourceLanguage: Language
   targetLanguage: Language
@@ -968,7 +961,6 @@ export type HandleCreateLessonProps = {
 }
 
 export type RunModuleProps = {
-  scenarioData: ScenarioData
   testMode: TestMode
   moduleName: ModuleName
   lesson: Lesson
@@ -990,7 +982,6 @@ export type RebuildNounLinesProps = {
 export type RebuildVerbLinesProps = {
   verbsOnly: Lines
   verbsMissing: Lines
-  scenarioData: ScenarioData
 }
 
 export type DialogLineProps = {
@@ -1017,7 +1008,6 @@ export type Resolve = (props: ResolveProps) => ResolveResult
 
 // export type RunPipelineProps = {
 //   lesson: Lesson
-//   scenarioData: ScenarioData
 //   testMode: boolean
 //   draftModule: ModuleName
 //   reviewModule: ModuleName
@@ -1027,7 +1017,6 @@ export type Resolve = (props: ResolveProps) => ResolveResult
 
 export type RunPipelineCbProps = {
   lesson: Lesson
-  scenarioData: ScenarioData
   pipelineConfig: PipelineConfig
 }
 
@@ -1035,7 +1024,6 @@ export type GetModuleCbProps = {
   testMode: TestMode
   lesson: Lesson
   moduleName: ModuleName
-  scenarioData: ScenarioData
 }
 
 export type PipelineConfig = {
@@ -1050,13 +1038,11 @@ export type PipelineConfigMap = Record<PipelineType, PipelineConfig>
 
 export type RunPipelineCbBody = {
   lesson: Lesson
-  scenarioData: ScenarioData
   pipelineType: PipelineType
 }
 
 export type RunPipelineCbClientProps = {
   lesson: Lesson
-  scenarioData: ScenarioData
   pipelineType: PipelineType
 }
 
@@ -1070,3 +1056,7 @@ export type GetClientUUIDProps = {
   clientEmail: ClientEmail
 }
 
+export type CreateLessonResult = {
+  success: boolean
+  lessonId: LessonId
+}

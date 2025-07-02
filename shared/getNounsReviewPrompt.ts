@@ -5,7 +5,7 @@ import { LANGUAGE_TITLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constant
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 
 export const getNounsReviewPrompt: GetNounsReviewPrompt = ({lesson, errors}: GetNounsReviewPromptProps) => {
-  const nounsReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, options: { asString: true }  })
+  const nounsReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.NOUNS_REVIEW, lessonPromptStyle: lesson.lessonPromptStyle, options: { asString: true }  })
   const formatDialogLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_RESOLVE].lines)  
   
 // ${JSON.stringify(lesson.nouns.lines, null, 2)}

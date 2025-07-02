@@ -1,11 +1,12 @@
 import {
+  type CreateLessonResult,
   // defaultLesson,
   type HandleCreateLessonProps,
   // type Lesson,
   // type Module
 } from '@cknTypes/types';
 import {
-  // PIPELINE_TYPE
+  PIPELINE_TYPE
   // SCENARIO
 } from '@cknTypes/constants'
 // import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails';
@@ -22,12 +23,11 @@ import {
 // import { runPipeline } from '@PanelGenAIProComponents/runPipeline/runPipeline';
 // import { nounsOnlyResolve } from '@PanelGenAIProComponents/nounsOnlyResolve/nounsOnlyResolve';
 // import { resolveNouns } from '@PanelGenAIProComponents/resolveNouns/resolveNouns';
-// import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClient/runPipelineCbClient';
+import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClient/runPipelineCbClient';
 // import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview';
 // import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesForReview';
 
 export const handleCreateLesson = async ({
-  // scenarioData,
   // scenario,
   // targetLanguage,
   // sourceLanguage,
@@ -111,7 +111,7 @@ export const handleCreateLesson = async ({
   setLessonTimestamp(localLessonTimestamp.toString())
 
   // Now you can optionally include clientUUID in your updatedInitialLesson or wherever needed
-  const updatedInitialLesson = {
+  const newLesson = {
     ...initialLesson,
     // id, Unknown as yet ... will come back with a value
     number: selectedLessonNumber,
@@ -120,38 +120,41 @@ export const handleCreateLesson = async ({
   }
 
   // 1. Insert the base lesson
-  const createRes = await fetch('/.netlify/functions/create-lesson-cb', {
+  const createLessonResult = await fetch('/.netlify/functions/create-lesson-cb', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updatedInitialLesson) // no dialog or modules yet
+    body: JSON.stringify(newLesson) // no dialog or modules yet
   })
 
-  if (!createRes.ok) {
+  if (!createLessonResult.ok) {
     console.error('Failed to create initial lesson')
     return
   }
 
-  const result = await createRes.json()
+  const result = await createLessonResult.json() as CreateLessonResult
   if (!result.success) {
     console.error('Failed to create initial lesson: success flag missing or false')
     return
   }
 
+  const updatedInitialLesson = {
+    ...newLesson,
+    id: result.lessonId
+  }
+
   console.log('Initial lesson created successfully')
 
-  // const dialogResult = await runPipelineCbClient({
-  //   lesson: initialLesson,
-  //   pipelineType: PIPELINE_TYPE.DIALOG,
-  //   scenarioData
-  // })
-  // if (!dialogResult) return
-  // const { lesson: dialogLesson, durationMs: durationDialog } = dialogResult
-  // console.log(`Dialog pipeline took ${durationDialog.toFixed(2)}ms`)
+  const dialogResult = await runPipelineCbClient({
+    lesson: initialLesson,
+    pipelineType: PIPELINE_TYPE.DIALOG //,
+  })
+  if (!dialogResult) return
+  const { lesson: dialogLesson, durationMs: durationDialog } = dialogResult
+  console.log(`Dialog pipeline took ${durationDialog.toFixed(2)}ms`)
 
   // const translationResult = await runPipelineCbClient({
   //   lesson: dialogLesson,
-  //   pipelineType: PIPELINE_TYPE.TRANSLATION,
-  //   scenarioData
+  //   pipelineType: PIPELINE_TYPE.TRANSLATION
   // })
   // if (!translationResult) return
   // const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
@@ -169,8 +172,7 @@ export const handleCreateLesson = async ({
 
   // const nounsResult = await runPipelineCbClient({
   //   lesson: updatedTranslationLesson,
-  //   pipelineType: PIPELINE_TYPE.NOUNS,
-  //   scenarioData
+  //   pipelineType: PIPELINE_TYPE.NOUNS
   // })
   // if (!nounsResult) return
   // const { lesson: nounsLesson, durationMs: durationNouns } = nounsResult
@@ -178,8 +180,7 @@ export const handleCreateLesson = async ({
 
   // const verbsResult = await runPipelineCbClient({
   //   lesson: nounsLesson,
-  //   pipelineType: PIPELINE_TYPE.VERBS,
-  //   scenarioData
+  //   pipelineType: PIPELINE_TYPE.VERBS
   // })
   // if (!verbsResult) return
   // const { lesson: verbsLesson, durationMs: durationVerbs } = verbsResult
@@ -259,7 +260,7 @@ export const handleCreateLesson = async ({
   //   }
   // }
 
-  // const verbsExpandedCompleteLesson_16 = await runModule({scenarioData, testMode, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson_15})
+  // const verbsExpandedCompleteLesson_16 = await runModule({testMode, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lesson: verbsExpandedLesson_15})
   // if (!verbsExpandedCompleteLesson_16) return
 
   //

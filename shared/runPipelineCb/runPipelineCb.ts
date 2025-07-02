@@ -14,7 +14,6 @@ import { getModule_cb } from '@shared/getModule_cb/getModule_cb'
 
 export const runPipelineCb = async ({
   lesson,
-  scenarioData,
   pipelineConfig
 }: RunPipelineCbProps): Promise<Lesson | null> => {
 
@@ -23,7 +22,6 @@ export const runPipelineCb = async ({
 
   // DRAFT
   const moduleDraft = await getModule_cb({
-    scenarioData,
     testMode: false,
     moduleName: pipelineConfig.draftModule,
     lesson
@@ -41,8 +39,7 @@ export const runPipelineCb = async ({
   const moduleReviewed = await getModule_cb({
     lesson: lessonDraft,
     moduleName: pipelineConfig.reviewModule,
-    testMode: false,
-    scenarioData,
+    testMode: false
   })
   if (!moduleReviewed) return null
 

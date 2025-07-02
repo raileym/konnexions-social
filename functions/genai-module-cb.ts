@@ -12,26 +12,24 @@ import {
   type Lesson,
   type ModuleName,
   type Prompt,
-  type ScenarioData
 } from '@cknTypes/types'
 import { ERROR_LABEL, FIELD_COUNT, MODULE_NAME } from '@cknTypes/constants'
 
 const handler: Handler = async (event) => {
   let lesson: Lesson | undefined
   let moduleName: ModuleName | undefined
-  let scenarioData: ScenarioData | undefined
   let prompt: Prompt = defaultPrompt
   let response: string = ''
   let fieldCount: number = 0
   let errorLabel: ErrorLabel = 'default'
 
   try {
-    ;({ lesson, scenarioData, moduleName } = JSON.parse(event.body ?? '{}'))
+    ;({ lesson, moduleName } = JSON.parse(event.body ?? '{}'))
 
-    if (!lesson || !moduleName || !scenarioData) {
+    if (!lesson || !moduleName ) {
       return {
         statusCode: 400,
-        body: 'Missing required fields: lesson, moduleName, or scenarioData'
+        body: 'Missing required fields: lesson or moduleName'
       }
     }
 
@@ -41,7 +39,6 @@ const handler: Handler = async (event) => {
 
     ;({ prompt, fieldCount, errorLabel } = getPrompt_cb({
       moduleName,
-      scenarioData,
       lesson,
       errors: []
     }))
@@ -69,7 +66,6 @@ const handler: Handler = async (event) => {
     if (!validModule.success) {
       ;({ prompt, fieldCount, errorLabel } = getPrompt_cb({
         moduleName,
-        scenarioData,
         lesson,
         errors: validModule.errors ?? []
       }))

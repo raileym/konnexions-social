@@ -46,7 +46,10 @@ const handler: Handler = async (event) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ success: true })
+      body: JSON.stringify({
+        success: true,
+        lessonId
+      })
     }
   } catch (err) {
     console.error('Insert failed:', err)

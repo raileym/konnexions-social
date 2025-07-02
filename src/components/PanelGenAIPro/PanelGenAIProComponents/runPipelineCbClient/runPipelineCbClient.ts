@@ -7,8 +7,7 @@ export type RunPipelineCbClientResponse = {
 
 export const runPipelineCbClient = async ({
   lesson,
-  pipelineType,
-  scenarioData
+  pipelineType
 }: RunPipelineCbClientProps): Promise<RunPipelineCbClientResponse | null> => {
   try {
     const res = await fetch('/.netlify/functions/runPipeline_cb', {
@@ -16,7 +15,6 @@ export const runPipelineCbClient = async ({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         lesson,
-        scenarioData,
         pipelineType
       })
     })
