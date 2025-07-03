@@ -24,8 +24,8 @@ import {
 // import { nounsOnlyResolve } from '@PanelGenAIProComponents/nounsOnlyResolve/nounsOnlyResolve';
 // import { resolveNouns } from '@PanelGenAIProComponents/resolveNouns/resolveNouns';
 import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClient/runPipelineCbClient';
-// import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview';
-// import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesForReview';
+import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview';
+import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesForReview';
 
 export const handleCreateLesson = async ({
   // scenario,
@@ -144,6 +144,11 @@ export const handleCreateLesson = async ({
 
   console.log('Initial lesson created successfully')
 
+
+  // ********************************************
+  // Drive for the Dialog
+  // ********************************************
+
   const dialogResult = await runPipelineCbClient({
     lesson: updatedInitialLesson,
     pipelineType: PIPELINE_TYPE.DIALOG //,
@@ -152,48 +157,66 @@ export const handleCreateLesson = async ({
   const { lesson: dialogLesson, durationMs: durationDialog } = dialogResult
   console.log(`Dialog pipeline took ${durationDialog.toFixed(2)}ms`)
 
-  // const translationResult = await runPipelineCbClient({
-  //   lesson: dialogLesson,
-  //   pipelineType: PIPELINE_TYPE.TRANSLATION
-  // })
-  // if (!translationResult) return
-  // const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
-  // console.log(`Translation pipeline took ${durationTranslation.toFixed(2)}ms`)
-  // const linesTargetLanguage = formatDialogLinesForReview(translationLesson.dialogResolve.lines)
-  // const linesSourceLanguage = formatTranslationLinesForReview(translationLesson.translationResolve.lines)
-  // const updatedTranslationLesson = {
-  //   ...translationLesson,
-  //   translation: {
-  //     ...translationLesson.translation,
-  //     [translationLesson.targetLanguage]: linesTargetLanguage,
-  //     [translationLesson.sourceLanguage]: linesSourceLanguage
-  //   }
-  // }
 
-  // const nounsResult = await runPipelineCbClient({
-  //   lesson: updatedTranslationLesson,
-  //   pipelineType: PIPELINE_TYPE.NOUNS
-  // })
-  // if (!nounsResult) return
-  // const { lesson: nounsLesson, durationMs: durationNouns } = nounsResult
-  // console.log(`Nouns pipeline took ${durationNouns.toFixed(2)}ms`)
+  // ********************************************
+  // Drive for the Translation
+  // ********************************************
 
-  // const verbsResult = await runPipelineCbClient({
-  //   lesson: nounsLesson,
-  //   pipelineType: PIPELINE_TYPE.VERBS
-  // })
-  // if (!verbsResult) return
-  // const { lesson: verbsLesson, durationMs: durationVerbs } = verbsResult
-  // console.log(`Verbs pipeline took ${durationVerbs.toFixed(2)}ms`)
+  const translationResult = await runPipelineCbClient({
+    lesson: dialogLesson,
+    pipelineType: PIPELINE_TYPE.TRANSLATION
+  })
+  if (!translationResult) return
+  const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
+  console.log(`Translation pipeline took ${durationTranslation.toFixed(2)}ms`)
 
+  const linesTargetLanguage = formatDialogLinesForReview(translationLesson.dialogResolve.lines)
+  const linesSourceLanguage = formatTranslationLinesForReview(translationLesson.translationResolve.lines)
+
+  const updatedTranslationLesson = {
+    ...translationLesson,
+    translation: {
+      ...translationLesson.translation,
+      [translationLesson.targetLanguage]: linesTargetLanguage,
+      [translationLesson.sourceLanguage]: linesSourceLanguage
+    }
+  }
+
+  // ********************************************
+  // Drive for the Nouns
+  // ********************************************
+
+  const nounsResult = await runPipelineCbClient({
+    lesson: updatedTranslationLesson,
+    pipelineType: PIPELINE_TYPE.NOUNS
+  })
+  if (!nounsResult) return
+  const { lesson: nounsLesson, durationMs: durationNouns } = nounsResult
+  console.log(`Nouns pipeline took ${durationNouns.toFixed(2)}ms`)
+
+  // ********************************************
+  // Drive for the Verbs
+  // ********************************************
+
+  const verbsResult = await runPipelineCbClient({
+    lesson: nounsLesson,
+    pipelineType: PIPELINE_TYPE.VERBS
+  })
+  if (!verbsResult) return
+  const { lesson: verbsLesson, durationMs: durationVerbs } = verbsResult
+  console.log(`Verbs pipeline took ${durationVerbs.toFixed(2)}ms`)
+
+  // ********************************************
+  // We made it this far. Store our final lesson.
+  // ********************************************
 
   setLessons((prev) => {
     debugLog('🔄 Updating lesson list...');
-    debugLog('▶️ dialogLesson:', dialogLesson);
+    debugLog('▶️ verbsLesson:', verbsLesson);
     const next = prev.map((lsn) => {
       if (lsn.number === selectedLessonNumber) {
         debugLog(`✅ Match found: lesson.id = ${lsn.id}`);
-        const updated = { ...dialogLesson, id: lsn.id, name: lsn.name };
+        const updated = { ...verbsLesson, id: lsn.id, name: lsn.name };
         debugLog('🆕 Updated lesson:', updated);
         return updated;
       }
