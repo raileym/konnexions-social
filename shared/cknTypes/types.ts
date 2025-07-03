@@ -417,6 +417,7 @@ export type CustomSeed = string
 export type CustomParticipantList = string
 
 export const defaultLessonPromptStyle: LessonPromptStyle = LESSON_PROMPT_STYLE.DIALOG
+export const defaultFlexLesson: FlexLesson = ''
 export const defaultCustomSeed: CustomSeed = ''
 export const defaultCustomScenario: CustomScenario = ''
 export const defaultCustomParticipantList: CustomParticipantList = ''

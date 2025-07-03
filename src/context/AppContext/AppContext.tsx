@@ -58,6 +58,7 @@ import {
   defaultCustomSeed,
   defaultLessonPromptStyle,
   defaultLessonPrompt,
+  defaultFlexLesson,
 } from '@cknTypes/types'
 import {
   APP_HOME,
@@ -136,8 +137,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
-  const [flexLesson, setFlexLesson] = usePersistentState<FlexLesson>('flexLesson', defaultCustomSeed)
-  const [formattedLesson, setFormattedLesson] = usePersistentState<FormattedLesson>('flexLesson', [])
+  const [flexLesson, setFlexLesson] = usePersistentState<FlexLesson>('flexLesson', defaultFlexLesson)
+  const [formattedLesson, setFormattedLesson] = usePersistentState<FormattedLesson>('formattedLesson', [])
 
   const [lessonPromptStyle, setLessonPromptStyle] = usePersistentState<LessonPromptStyle>('lessonPromptStyle', defaultLessonPromptStyle)
   const [customSeed, setCustomSeed] = usePersistentState<CustomSeed>('customSeed', defaultCustomSeed)

@@ -141,6 +141,8 @@ const RightPanel: React.FC = () => {
   
   const alwaysFalse = false
 
+  console.log('flexLesson type:', typeof flexLesson)
+
   let content
   if (selectedLessonNumber != null && Array.isArray(lessons)) {
     if (!lesson) {
