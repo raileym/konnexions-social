@@ -225,9 +225,9 @@ export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) =>
           <FontAwesomeIcon icon={faStop} /> Stop
         </button>
       </div>
-      <ul className='mt3'>
+      <ul className='mt3 ml0 pl3'>
         {lines.map((line, i) => (
-          <li key={i} className={'mb2 pl3 flex items-center'}>
+          <li key={i} className={'mb2 pl3X flex items-center'}>
             <DialogLine
               key={i}
               line={line}

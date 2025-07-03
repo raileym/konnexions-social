@@ -38,6 +38,7 @@ import { capitalize } from '@components/Util'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TextareaFlexLesson } from '@PanelGenAIProComponents/TextareaFlexLesson/TextareaFlexLesson'
 import { formatFlexLesson } from '@PanelGenAIProComponents/formatFlexLesson/formatFlexLesson'
+import { FormatSentence } from '../FormatSentence/FormatSentence'
 
 const RightPanel: React.FC = () => {
   // const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
@@ -271,10 +272,10 @@ const RightPanel: React.FC = () => {
           <div className="pa3 mt3 ba bg-white w-100">
             <div className='tc f3 w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
             <ul className="mt0 pt0 black list pl0">
-              {(lesson?.translationDraft.lines ?? [])
+              {(lesson?.translationResolve.lines ?? [])
                 .map((line, index) => (
                   <li key={index} className="black">
-                    {line}
+                    <FormatSentence sentence={line} />
                   </li>
                 ))}
               </ul>            

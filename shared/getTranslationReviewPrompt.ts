@@ -16,7 +16,7 @@ REQUEST: Review the ${LANGUAGE_TITLE[lesson.sourceLanguage]} translation below. 
     - faithful to the original ${LANGUAGE_TITLE[lesson.targetLanguage]} meaning,
     - and suitable for beginning-level learners of ${LANGUAGE_TITLE[lesson.targetLanguage]}. 
 
-Make minor corrections to improve clarity or proper usage, while preserving the original meaning and tone.
+Make minor corrections to improve clarity or proper usage, while preserving the original meaning and tone. Retain any/all Markdown-like punctuation marks, such as asterisks, double asterisks, dashes, double dashes, and triple dashes.
 
 IMPORTANT: Do not rewrite the ${LANGUAGE_TITLE[lesson.targetLanguage]}. Only revise the ${LANGUAGE_TITLE[lesson.sourceLanguage]} translation.
 

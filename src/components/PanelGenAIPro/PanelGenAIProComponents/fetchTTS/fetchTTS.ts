@@ -1,4 +1,5 @@
 import type { FetchTTSProps, FetchTTSResult } from '@cknTypes/types'
+import { cleanTextForTTS } from '@components/Util';
 
 export async function fetchTTS({
   text,
@@ -14,6 +15,8 @@ export async function fetchTTS({
 
   setMaxCount(prev => prev-1)
 
+  const processedText = cleanTextForTTS(text);
+  
   try {
     // cXonsole.log(`Pause before ask generate-tts-cache: ${text}`)
     // await new Promise(resolve => setTimeout(resolve, 2000)) // 200–400ms jitter
@@ -21,7 +24,7 @@ export async function fetchTTS({
     const res = await fetch('/.netlify/functions/generate-tts-cache', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, speaker, gender, maxCount, cutoff, language })
+      body: JSON.stringify({ text: processedText, speaker, gender, maxCount, cutoff, language })
     })
     
     const { audioUrl, cacheStatus } = await res.json()

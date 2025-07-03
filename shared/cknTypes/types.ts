@@ -1023,6 +1023,7 @@ export type DialogLineProps = {
   storeAudioOrLine: (index: number, value: string) => void
   className?: string
   language: Language
+  noSpeaker?: boolean
 }
 
 export type ResolveResult = {
@@ -1113,3 +1114,6 @@ export type CreateFlexLessonProps = {
   formattedFlexLesson: FormattedFlexLesson
 }
 
+export type FormatSentenceProps = {
+  sentence: string
+}

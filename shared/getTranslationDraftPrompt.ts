@@ -20,7 +20,7 @@ export const getTranslationDraftPrompt: GetTranslationDraftPrompt = ({lesson, er
 `
 
   return (`
-REQUEST: Translate the following dialog from ${LANGUAGE_TITLE[lesson.targetLanguage]} into ${LANGUAGE_TITLE[lesson.sourceLanguage]}. Ensure the translation is grammatically correct, natural-sounding, and suitable for beginning-level learners of ${LANGUAGE_TITLE[lesson.targetLanguage]}. Make minor corrections to improve clarity or proper usage, while preserving the original meaning and tone.
+REQUEST: Translate the following dialog from ${LANGUAGE_TITLE[lesson.targetLanguage]} into ${LANGUAGE_TITLE[lesson.sourceLanguage]}. Ensure the translation is grammatically correct, natural-sounding, and suitable for beginning-level learners of ${LANGUAGE_TITLE[lesson.targetLanguage]}. Make minor corrections to improve clarity or proper usage, while preserving the original meaning and tone. Retain any/all Markdown-like punctuation marks, such as asterisks, double asterisks, dashes, double dashes, and triple dashes.
 
 DIALOG:
 

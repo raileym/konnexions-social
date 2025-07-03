@@ -3,16 +3,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
 import type { DialogLineProps } from '@cknTypes/types'
+import { FormatSentence } from '../FormatSentence/FormatSentence'
 
-export function DialogLine({ debugLog, language, line, index, useCloudTTS, storeAudioOrLine, className='' }: DialogLineProps) {
+export const DialogLine = ({
+  debugLog,
+  language,
+  line,
+  index,
+  useCloudTTS,
+  storeAudioOrLine,
+  className = '',
+  noSpeaker = true
+}: DialogLineProps) => {
   const [gender, speaker, sentence] = line.split('|')
 
   const { cutoff, maxCount, setMaxCount } = useAppContext()
-  
-  const handleSpeak = () => {
-    console.log('handleSpeak')
-    speak({ text: sentence, speaker, gender, index })
-  }
 
   const { speak } = useTTS({
     useCloudTTS,
@@ -24,29 +29,23 @@ export function DialogLine({ debugLog, language, line, index, useCloudTTS, store
     debugLog
   })
 
-// const { speak } = useTTS({
-  //   text: sentence,
-  //   speaker,
-  //   gender,
-  //   index,
-  //   useCloudTTS,
-  //   store: storeAudioOrLine,
-  //   cutoff,
-  //   maxCount,
-  //   setMaxCount,
-  //   language
-  // })
-
-  // cXonsole.log('useCloudTTS', useCloudTTS, index, line)
+  const handleSpeak = () => {
+    speak({ text: sentence, speaker, gender, index })
+  }
 
   return (
     <>
-      <div className={`ph3 flex-auto ${className}`}>
-        <strong>{speaker}</strong>: {sentence}
-      </div>
+      {noSpeaker ? (
+        <div className={`pr3 flex-auto ${className}`}>
+          <FormatSentence sentence={sentence} />
+        </div>
+      ) : (
+        <div className={`ph3 flex-auto ${className}`}>
+          <strong>{speaker}</strong>: <FormatSentence sentence={sentence} />
+        </div>
+      )}
       <button
         onClick={handleSpeak}
-        // onClick={speak}
         className="ml3 f6 br2 ph2 pv1 dib white bg-dark-blue hover:bg-blue no-outline"
       >
         <FontAwesomeIcon icon={faPlay} />
@@ -54,3 +53,4 @@ export function DialogLine({ debugLog, language, line, index, useCloudTTS, store
     </>
   )
 }
+
