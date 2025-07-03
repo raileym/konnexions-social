@@ -46,7 +46,7 @@ import type {
   ClientEmail,
   LessonNumber,
   FlexLesson,
-  FormattedLesson,
+  FormattedFlexLesson,
   LessonComplete
 } from '@cknTypes/types'
 import {
@@ -141,7 +141,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
   
   const [flexLesson, setFlexLesson] = usePersistentState<FlexLesson>('flexLesson', defaultFlexLesson)
-  const [formattedLesson, setFormattedLesson] = usePersistentState<FormattedLesson>('formattedLesson', [])
+  const [formattedFlexLesson, setFormattedFlexLesson] = usePersistentState<FormattedFlexLesson>('formattedFlexLesson', [])
 
   const [lessonPromptStyle, setLessonPromptStyle] = usePersistentState<LessonPromptStyle>('lessonPromptStyle', defaultLessonPromptStyle)
   const [customSeed, setCustomSeed] = usePersistentState<CustomSeed>('customSeed', defaultCustomSeed)
@@ -216,7 +216,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     cutoff,
     debugMode,
     flexLesson,
-    formattedLesson,
+    formattedFlexLesson,
     gcpKey,
     generateTTSCount,
     helpPanel,
@@ -257,7 +257,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCutoff,
     setDebugMode,
     setFlexLesson,
-    setFormattedLesson,
+    setFormattedFlexLesson,
     setGcpKey,
     setGenerateTTSCount,
     setHelpPanel,

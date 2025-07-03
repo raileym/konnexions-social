@@ -35,7 +35,7 @@ export type AppContextType = {
   cutoff: Cutoff
   debugMode: DebugMode
   flexLesson: FlexLesson
-  formattedLesson: FormattedLesson
+  formattedFlexLesson: FormattedFlexLesson
   gcpKey: GcpKey
   generateTTSCount: GenerateTTSCount
   helpPanel: HelpPanel
@@ -76,7 +76,7 @@ export type AppContextType = {
   setCutoff: SetCutoff
   setDebugMode: SetDebugMode
   setFlexLesson: SetFlexLesson
-  setFormattedLesson: SetFormattedLesson
+  setFormattedFlexLesson: SetFormattedFlexLesson
   setGcpKey: SetGcpKey
   setGenerateTTSCount: SetGenerateTTSCount
   setHelpPanel: SetHelpPanel
@@ -155,7 +155,7 @@ export type LineNumber = number
 export type DebugMode = boolean
 export type LessonPrompt = string
 export type FlexLesson = string
-export type FormattedLesson = Lines
+export type FormattedFlexLesson = Lines
 
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
 export type SetActivePanel = React.Dispatch<React.SetStateAction<ActivePanel>>
@@ -174,7 +174,7 @@ export type SetCustomSeed = React.Dispatch<React.SetStateAction<CustomSeed>>
 export type SetCutoff = React.Dispatch<React.SetStateAction<Cutoff>>
 export type SetDebugMode = React.Dispatch<React.SetStateAction<DebugMode>>
 export type SetFlexLesson = React.Dispatch<React.SetStateAction<FlexLesson>>
-export type SetFormattedLesson = React.Dispatch<React.SetStateAction<FormattedLesson>>
+export type SetFormattedFlexLesson = React.Dispatch<React.SetStateAction<FormattedFlexLesson>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
 export type SetGenerateTTSCount = React.Dispatch<React.SetStateAction<GenerateTTSCount>>
 export type SetHandleDialogErrors = React.Dispatch<React.SetStateAction<HandleDialogErrors>>
@@ -971,25 +971,25 @@ export type HandleCreateLessonProps = {
   setClientUUID: SetClientUUID
 }
 
-export type HandleFlexLessonProps = {
-  scenario: Scenario
-  sourceLanguage: Language
-  targetLanguage: Language
-  lesson: Lesson
-  setLessonComplete: SetLessonComplete
-  setLessons: SetLessons
-  selectedLessonNumber: SelectedLessonNumber
-  useMyself: UseMyself
-  testMode: TestMode
-  debugLog: DebugLog
-  setLessonTimestamp: SetLessonTimestamp
-  initialLesson: Lesson
-  clientMeter: ClientMeter,
-  clientSignature: ClientSignature,
-  clientUUID: ClientUUID
-  clientEmail: ClientEmail
-  setClientUUID: SetClientUUID
-}
+// export type HandleFlexLessonProps = {
+//   scenario: Scenario
+//   sourceLanguage: Language
+//   targetLanguage: Language
+//   lesson: Lesson
+//   setLessonComplete: SetLessonComplete
+//   setLessons: SetLessons
+//   selectedLessonNumber: SelectedLessonNumber
+//   useMyself: UseMyself
+//   testMode: TestMode
+//   debugLog: DebugLog
+//   setLessonTimestamp: SetLessonTimestamp
+//   initialLesson: Lesson
+//   clientMeter: ClientMeter,
+//   clientSignature: ClientSignature,
+//   clientUUID: ClientUUID
+//   clientEmail: ClientEmail
+//   setClientUUID: SetClientUUID
+// }
 
 export type RunModuleProps = {
   testMode: TestMode
@@ -1106,6 +1106,10 @@ export type PollModuleByLessonAndNameProps = {
 
 export type FormatFlexLessonButtonProps = {
   flexLesson: FlexLesson
-  setFormattedLesson: SetFormattedLesson
+  setFormattedFlexLesson: SetFormattedFlexLesson
+}
+
+export type CreateFlexLessonProps = {
+  formattedFlexLesson: FormattedFlexLesson
 }
 

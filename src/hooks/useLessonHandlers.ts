@@ -3,7 +3,7 @@ import { MODULE_NAME, PIPELINE_TYPE, SCENARIO } from '@cknTypes/constants'
 import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClient/runPipelineCbClient'
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesForReview'
-import { defaultLesson, type CreateLessonResult } from '@cknTypes/types'
+import { defaultLesson, type CreateFlexLessonProps, type CreateLessonResult } from '@cknTypes/types'
 import { useDebugLogger } from '@hooks/useDebugLogger'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails'
 
@@ -23,7 +23,7 @@ export const useLessonHandlers = () => {
     clientUUID,
     setClientUUID,
     // flexLesson,
-    // formattedLesson
+    // formattedFlexLesson
     // lessonComplete,
     setLessonComplete,
 
@@ -33,9 +33,7 @@ export const useLessonHandlers = () => {
     lessonPrompt,
     lessonPromptStyle,
     useMyself,
-    customParticipantList,
-
-    formattedLesson
+    customParticipantList
   } = useAppContext()
 
   const createFullLesson = async () => {
@@ -189,7 +187,7 @@ export const useLessonHandlers = () => {
     setLessonComplete(true)
   }
 
-  const handleFlexLesson = async () => {
+  const createFlexLesson = async ({formattedFlexLesson}: CreateFlexLessonProps) => {
     setLessonComplete(false)
 
     // 0. Get clientUUID (same logic)
@@ -274,10 +272,12 @@ export const useLessonHandlers = () => {
       ...updatedInitialLesson,
       [MODULE_NAME.DIALOG_RESOLVE]: {
         ...updatedInitialLesson[MODULE_NAME.DIALOG_RESOLVE],
-        lines: formattedLesson
+        lines: formattedFlexLesson
       }
     }
 
+    console.log('dialogLesson', dialogLesson)
+    
     // ********************************************
     // Translation
     // ********************************************
@@ -321,6 +321,6 @@ export const useLessonHandlers = () => {
 
   return {
     createFullLesson,
-    handleFlexLesson
+    createFlexLesson
   }
 }

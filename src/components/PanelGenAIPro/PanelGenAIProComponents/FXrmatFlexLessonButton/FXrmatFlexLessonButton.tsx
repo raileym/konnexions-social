@@ -3,7 +3,7 @@ import { useAppContext } from '@context/AppContext/AppContext'
 export const FormatFlexLessonButton = ({ onClick }: { onClick?: (lines: string[]) => void }) => {
   const {
     flexLesson,
-    setFormattedLesson
+    setFormattedFlexLesson
   } = useAppContext()
 
   const handleFormat = () => {
@@ -12,7 +12,7 @@ export const FormatFlexLessonButton = ({ onClick }: { onClick?: (lines: string[]
       .map(line => line.trim())
       .filter(line => line.length > 0)
 
-    setFormattedLesson(lines)
+    setFormattedFlexLesson(lines)
     return lines
   }
 

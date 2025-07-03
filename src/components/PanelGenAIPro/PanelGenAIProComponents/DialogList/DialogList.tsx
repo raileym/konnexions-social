@@ -4,7 +4,8 @@ import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchTTS } from '@PanelGenAIProComponents/fetchTTS/fetchTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { LANGUAGE_TITLE, SCENARIO_LABELS } from '@cknTypes/constants'
+// import { LANGUAGE_TITLE, SCENARIO_LABELS } from '@cknTypes/constants'
+import { LANGUAGE_TITLE } from '@cknTypes/constants'
 import type { Language } from '@cknTypes/types'
 import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useDebugLogger } from '@hooks/useDebugLogger'
@@ -16,7 +17,7 @@ type DialogListProps = {
   language: Language
 }
 
-export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
+export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) => {
   // const [audioItems, setAudioItems] = useState<string[]>([])
   const audioItemsRef = useRef<string[]>([])
 
@@ -32,10 +33,10 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
     maxCount,
     setMaxCount,
     cutoff,
-    selectedLessonId,
+    selectedLessonNumber,
     setLineNumber,
     lineNumber,
-    scenario,
+    // scenario,
     lessonTimestamp,
     lessonPromptStyle,
     customScenario
@@ -59,7 +60,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
 
   useEffect(() => {
     audioItemsRef.current = []
-  }, [selectedLessonId, cutoff])
+  }, [selectedLessonNumber, cutoff])
 
   useEffect(() => {
     // cXonsole.log('Invoking useEffect in DialogList')
@@ -100,7 +101,7 @@ export function DialogList({ language, lines, useCloudTTS }: DialogListProps) {
 
     preloadSequentially()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedLessonId, cutoff, lessonTimestamp])
+  }, [selectedLessonNumber, cutoff, lessonTimestamp])
 
   const resetPlayback = () => {
     // cXonsole.log('Resetting playback')

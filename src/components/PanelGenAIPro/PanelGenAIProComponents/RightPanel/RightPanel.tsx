@@ -24,7 +24,6 @@ import { DialogList } from '../DialogList/DialogList'
 // import CutoffToggle from '../../../CutoffToggle'
 // import ShowMaxCount from '../../../ShowMaxCount'
 import SelectorLanguage from '../../../SelectorLanguage'
-import { handleCreateLesson } from '@PanelGenAIProComponents/handleCreateLesson/handleCreateLesson'
 import PromptToggle from '@PanelGenAIProComponents/PromptToggle/PromptToggle'
 // import Hr from '@components/Hr'
 import LessonElementToggle from '@PanelGenAIProComponents/LessonElementToggle/LessonElementToggle'
@@ -36,8 +35,9 @@ import InputCustomScenario from '@components/InputCustomScenario'
 import InputCustomParticipantList from '@components/InputCustomParticipantList'
 import Header from '@components/Header'
 import { capitalize } from '@components/Util'
-import { FormatFlexLessonButton } from '@PanelGenAIProComponents/FormatFlexLessonButton/FormatFlexLessonButton'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
+import { TextareaFlexLesson } from '@PanelGenAIProComponents/TextareaFlexLesson/TextareaFlexLesson'
+import { formatFlexLesson } from '@PanelGenAIProComponents/formatFlexLesson/formatFlexLesson'
 
 const RightPanel: React.FC = () => {
   // const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
@@ -104,8 +104,7 @@ const RightPanel: React.FC = () => {
     // clientEmail,
     // setClientUUID,
     flexLesson,
-    setFlexLesson,
-    formattedLesson,
+    formattedFlexLesson,
     lessonComplete //,
     // setLessonComplete
   } = useAppContext()
@@ -148,8 +147,6 @@ const RightPanel: React.FC = () => {
   
   const alwaysFalse = false
 
-  console.log('flexLesson type:', typeof flexLesson)
-
   let content
   if (selectedLessonNumber != null && Array.isArray(lessons)) {
     if (!lesson) {
@@ -189,22 +186,26 @@ const RightPanel: React.FC = () => {
 
           <h2 className="baX f2 pa3 pb0X mt4X w-100 items-center tc">{LANGUAGE_TITLE[targetLanguage]}: Premium</h2>
 
-          <label className="db mb2 f5 b">Flex Lesson</label>
-          <textarea
-            value={flexLesson}
-            onChange={(e) => setFlexLesson(e.target.value)}
-            className="w-100 ba b--gray br2 pa2"
-            rows={10}
-          />
-
-          <div className="mv3 w-100 flex justify-center">
-            <FormatFlexLessonButton />
+          <TextareaFlexLesson />
+          
+          <div className={'mt3 mb4 flex justify-center'}>
+            <div>
+              <button
+                className={`f3 pa3 br4 bn ${debugMode ? 'bg-black white' : 'bg-brand white'} pointer`}
+                onClick={() => {
+                  const formattedFlexLesson = formatFlexLesson({flexLesson})
+                  createFlexLesson({formattedFlexLesson})
+                }}
+              >
+                Create Flex Lesson {debugMode ? '(Debug Mode)' : ''}
+              </button>
+            </div>
           </div>
           
           <div className="pa3 mt3 mb5 ba bg-white w-100">
             <div className='tc f3 w-100 mt4X b'>Formatted Lesson</div>
             <ul className="mt0 pt0 black list pl0">
-              {(formattedLesson ?? [])
+              {(formattedFlexLesson ?? [])
                 .map((line, index) => (
                   <li key={index} className="black">
                     {index+1}. {line}
@@ -240,25 +241,6 @@ const RightPanel: React.FC = () => {
                 className={`f3 pa3 br4 bn ${debugMode ? 'bg-black white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   createFullLesson()
-                  // handleCreateLesson({
-                  //   scenario,
-                  //   targetLanguage,
-                  //   sourceLanguage,
-                  //   lesson,
-                  //   setLessons,
-                  //   setLessonComplete,
-                  //   selectedLessonNumber,
-                  //   useMyself,
-                  //   testMode,
-                  //   debugLog,
-                  //   setLessonTimestamp,
-                  //   initialLesson,
-                  //   clientMeter,
-                  //   clientSignature,
-                  //   clientUUID,
-                  //   clientEmail,
-                  //   setClientUUID        
-                  // })
                 }}
               >
                 Create Lesson {debugMode ? '(Debug Mode)' : ''}
