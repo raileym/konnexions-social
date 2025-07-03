@@ -206,13 +206,15 @@ const RightPanel: React.FC = () => {
           <div className="pa3 mt3 mb5 ba bg-white w-100">
             <div className='tc f3 w-100 mt4X b'>Formatted Lesson</div>
             <ul className="mt0 pt0 black list pl0">
-              {(formattedFlexLesson ?? [])
-                .map((line, index) => (
+              {(formattedFlexLesson ?? []).map((line, index) => {
+                const [, , sentence] = line.split('|')  // destructure to get the third part
+                return (
                   <li key={index} className="black">
-                    {index+1}. {line}
+                    <FormatSentence sentence={sentence} />
                   </li>
-                ))}
-              </ul>            
+                )
+              })}
+            </ul>
           </div>
 
           <div className="flex flex-row">
