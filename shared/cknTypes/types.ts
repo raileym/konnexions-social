@@ -34,6 +34,8 @@ export type AppContextType = {
   customSeed: CustomSeed
   cutoff: Cutoff
   debugMode: DebugMode
+  flexLesson: FlexLesson
+  formattedLesson: FormattedLesson
   gcpKey: GcpKey
   generateTTSCount: GenerateTTSCount
   helpPanel: HelpPanel
@@ -72,6 +74,8 @@ export type AppContextType = {
   setCustomSeed: SetCustomSeed
   setCutoff: SetCutoff
   setDebugMode: SetDebugMode
+  setFlexLesson: SetFlexLesson
+  setFormattedLesson: SetFormattedLesson
   setGcpKey: SetGcpKey
   setGenerateTTSCount: SetGenerateTTSCount
   setHelpPanel: SetHelpPanel
@@ -148,6 +152,8 @@ export type QuestionContext = string
 export type LineNumber = number
 export type DebugMode = boolean
 export type LessonPrompt = string
+export type FlexLesson = string
+export type FormattedLesson = Lines
 
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
 export type SetActivePanel = React.Dispatch<React.SetStateAction<ActivePanel>>
@@ -165,6 +171,8 @@ export type SetCustomScenario = React.Dispatch<React.SetStateAction<CustomScenar
 export type SetCustomSeed = React.Dispatch<React.SetStateAction<CustomSeed>>
 export type SetCutoff = React.Dispatch<React.SetStateAction<Cutoff>>
 export type SetDebugMode = React.Dispatch<React.SetStateAction<DebugMode>>
+export type SetFlexLesson = React.Dispatch<React.SetStateAction<FlexLesson>>
+export type SetFormattedLesson = React.Dispatch<React.SetStateAction<FormattedLesson>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
 export type SetGenerateTTSCount = React.Dispatch<React.SetStateAction<GenerateTTSCount>>
 export type SetHandleDialogErrors = React.Dispatch<React.SetStateAction<HandleDialogErrors>>
@@ -1072,3 +1080,9 @@ export type PollModuleByLessonAndNameProps = {
   pollIntervalMs?: number
   timeoutMs?: number
 }
+
+export type FormatFlexLessonButtonProps = {
+  flexLesson: FlexLesson
+  setFormattedLesson: SetFormattedLesson
+}
+

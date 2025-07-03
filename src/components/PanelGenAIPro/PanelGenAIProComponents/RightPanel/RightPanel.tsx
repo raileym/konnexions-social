@@ -37,6 +37,7 @@ import InputCustomScenario from '@components/InputCustomScenario'
 import InputCustomParticipantList from '@components/InputCustomParticipantList'
 import Header from '@components/Header'
 import { capitalize } from '@components/Util'
+import { FormatFlexLessonButton } from '@PanelGenAIProComponents/FormatFlexLessonButton/FormatFlexLessonButton'
 
 const RightPanel: React.FC = () => {
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
@@ -96,7 +97,10 @@ const RightPanel: React.FC = () => {
     clientSignature,
     clientUUID,
     clientEmail,
-    setClientUUID
+    setClientUUID,
+    flexLesson,
+    setFlexLesson,
+    formattedLesson
   } = useAppContext()
   
   // debugLog('clientUUID', clientUUID)
@@ -176,6 +180,30 @@ const RightPanel: React.FC = () => {
 
           <h2 className="baX f2 pa3 pb0X mt4X w-100 items-center tc">{LANGUAGE_TITLE[targetLanguage]}: Premium</h2>
 
+          <label className="db mb2 f5 b">Flex Lesson</label>
+          <textarea
+            value={flexLesson}
+            onChange={(e) => setFlexLesson(e.target.value)}
+            className="w-100 ba b--gray br2 pa2"
+            rows={10}
+          />
+
+          <div className="mv3 w-100 flex justify-center">
+            <FormatFlexLessonButton />
+          </div>
+          
+          <div className="pa3 mt3 mb5 ba bg-white w-100">
+            <div className='tc f3 w-100 mt4X b'>Formatted Lesson</div>
+            <ul className="mt0 pt0 black list pl0">
+              {(formattedLesson ?? [])
+                .map((line, index) => (
+                  <li key={index} className="black">
+                    {index+1}. {line}
+                  </li>
+                ))}
+              </ul>            
+          </div>
+
           <div className="flex flex-row">
             <SelectorLessonPromptStyle />
             <SelectorScenario custom={true} />
@@ -249,7 +277,7 @@ const RightPanel: React.FC = () => {
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
-            <div className='tc f3                        w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
+            <div className='tc f3 w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
             <ul className="mt0 pt0 black list pl0">
               {(lesson?.translationDraft.lines ?? [])
                 .map((line, index) => (
