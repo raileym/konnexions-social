@@ -1,5 +1,4 @@
-// import React, { useEffect, useState } from 'react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '@components/SelectorScenario'
 import { getPrompt_cb } from '@shared/getPrompt_cb'
@@ -143,6 +142,8 @@ const RightPanel: React.FC = () => {
     if (!lesson) {
       content = <p>Lesson not found.</p>
     } else {
+      // console.log('current lesson', JSON.stringify(lesson, null, 2))
+
       content = (
         <>
           <div className="mv3X flex baX justify-center">
@@ -529,10 +530,10 @@ const RightPanel: React.FC = () => {
     )
   }
 
-  // useEffect(() => {
-  //   debugLog('lesson', lesson)
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // },[lesson])
+  useEffect(() => {
+    debugLog('lesson', lesson)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[lesson])
 
   return (
     <div className={`w-70 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
