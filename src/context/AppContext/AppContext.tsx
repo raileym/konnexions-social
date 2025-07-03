@@ -46,7 +46,8 @@ import type {
   ClientEmail,
   LessonNumber,
   FlexLesson,
-  FormattedLesson
+  FormattedLesson,
+  LessonComplete
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -137,6 +138,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
+  const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
+  
   const [flexLesson, setFlexLesson] = usePersistentState<FlexLesson>('flexLesson', defaultFlexLesson)
   const [formattedLesson, setFormattedLesson] = usePersistentState<FormattedLesson>('formattedLesson', [])
 
@@ -222,6 +225,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     isTransitioning,
     lesson,
     lessons,
+    lessonComplete,
     lessonPrompt,
     lessonTimestamp,
     lineNumber,
@@ -262,6 +266,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsTransitioning,
     setLesson,
     setLessons,
+    setLessonComplete,
     setLessonPrompt,
     setLessonTimestamp,
     setLineNumber,

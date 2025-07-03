@@ -1,14 +1,13 @@
+import { useAppContext } from '@context/AppContext/AppContext'
 import { useEffect, useState } from 'react'
 
-type Props = {
-  isLoading: boolean
-}
-
-export const LessonStatus = ({ isLoading }: Props) => {
+export const LessonStatus = () => {
   const [dots, setDots] = useState('')
 
+  const { lessonComplete } = useAppContext()
+  
   useEffect(() => {
-    if (!isLoading) {
+    if (lessonComplete) {
       setDots('')
       return
     }
@@ -18,11 +17,11 @@ export const LessonStatus = ({ isLoading }: Props) => {
     }, 500)
 
     return () => clearInterval(interval)
-  }, [isLoading])
+  }, [lessonComplete])
 
   return (
     <div className="baX text-center mt-4X text-lg font-medium text-gray-800X blackX w-100">
-      {isLoading ? 
+      {!lessonComplete ? 
         <div className="flex flex-row justify-center w-100X">
           <div className="baX tr w-30 mr1 black">Creating Lesson</div>
           <div className="baX tl w-10 ml1">{dots}</div>

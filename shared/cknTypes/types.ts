@@ -44,6 +44,7 @@ export type AppContextType = {
   isTransitioning: IsTransitioning
   lesson: Lesson
   lessons: Lessons
+  lessonComplete: LessonComplete
   lessonPrompt: LessonPrompt
   lessonTimestamp: LessonTimestamp
   lineNumber: LineNumber
@@ -84,6 +85,7 @@ export type AppContextType = {
   setIsTransitioning: SetIsTransitioning
   setLesson: SetLesson
   setLessons: SetLessons
+  setLessonComplete: SetLessonComplete
   setLessonPrompt: SetLessonPrompt
   setLessonTimestamp: SetLessonTimestamp
   setLineNumber: SetLineNumber
@@ -950,6 +952,26 @@ export type HandleGetScenarioDataProps = {
 }
 
 export type HandleCreateLessonProps = {
+  scenario: Scenario
+  sourceLanguage: Language
+  targetLanguage: Language
+  lesson: Lesson
+  setLessonComplete: SetLessonComplete
+  setLessons: SetLessons
+  selectedLessonNumber: SelectedLessonNumber
+  useMyself: UseMyself
+  testMode: TestMode
+  debugLog: DebugLog
+  setLessonTimestamp: SetLessonTimestamp
+  initialLesson: Lesson
+  clientMeter: ClientMeter,
+  clientSignature: ClientSignature,
+  clientUUID: ClientUUID
+  clientEmail: ClientEmail
+  setClientUUID: SetClientUUID
+}
+
+export type HandleFlexLessonProps = {
   scenario: Scenario
   sourceLanguage: Language
   targetLanguage: Language

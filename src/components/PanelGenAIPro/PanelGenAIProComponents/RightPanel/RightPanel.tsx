@@ -3,7 +3,6 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '@components/SelectorScenario'
 import { getPrompt_cb } from '@shared/getPrompt_cb'
 import {
-  type LessonComplete,
   type TestMode,
   defaultLesson,
 } from '@cknTypes/types'
@@ -38,9 +37,10 @@ import InputCustomParticipantList from '@components/InputCustomParticipantList'
 import Header from '@components/Header'
 import { capitalize } from '@components/Util'
 import { FormatFlexLessonButton } from '@PanelGenAIProComponents/FormatFlexLessonButton/FormatFlexLessonButton'
+import { useLessonHandlers } from '@hooks/useLessonHandlers'
 
 const RightPanel: React.FC = () => {
-  const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
+  // const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
   const [testMode,] = useState<TestMode>(false)
   // const [showDialogDraftPrompt, setShowDialogDraftPrompt] = useState(false)
   const [showNounsPrompt, setShowNounsPrompt] = useState(false)
@@ -75,6 +75,8 @@ const RightPanel: React.FC = () => {
     setShowVerbsReviewPrompt(prev => !prev)
   }
 
+  const { createFullLesson } = useLessonHandlers()
+
   const {
     customSeed,
     cutoff,
@@ -100,7 +102,9 @@ const RightPanel: React.FC = () => {
     setClientUUID,
     flexLesson,
     setFlexLesson,
-    formattedLesson
+    formattedLesson,
+    lessonComplete,
+    setLessonComplete
   } = useAppContext()
   
   // debugLog('clientUUID', clientUUID)
@@ -232,25 +236,26 @@ const RightPanel: React.FC = () => {
               <button
                 className={`f3 pa3 br4 bn ${debugMode ? 'bg-black white' : 'bg-brand white'} pointer`}
                 onClick={() => {
-                  handleCreateLesson({
-                    scenario,
-                    targetLanguage,
-                    sourceLanguage,
-                    lesson,
-                    setLessons,
-                    setLessonComplete,
-                    selectedLessonNumber,
-                    useMyself,
-                    testMode,
-                    debugLog,
-                    setLessonTimestamp,
-                    initialLesson,
-                    clientMeter,
-                    clientSignature,
-                    clientUUID,
-                    clientEmail,
-                    setClientUUID        
-                  })
+                  createFullLesson()
+                  // handleCreateLesson({
+                  //   scenario,
+                  //   targetLanguage,
+                  //   sourceLanguage,
+                  //   lesson,
+                  //   setLessons,
+                  //   setLessonComplete,
+                  //   selectedLessonNumber,
+                  //   useMyself,
+                  //   testMode,
+                  //   debugLog,
+                  //   setLessonTimestamp,
+                  //   initialLesson,
+                  //   clientMeter,
+                  //   clientSignature,
+                  //   clientUUID,
+                  //   clientEmail,
+                  //   setClientUUID        
+                  // })
                 }}
               >
                 Create Lesson {debugMode ? '(Debug Mode)' : ''}
@@ -261,7 +266,7 @@ const RightPanel: React.FC = () => {
           <div className="flex flex-column items-center w-100">
             <div className={`w-100 f3 mt3X mb3 ${lessonComplete ? 'o-100' : 'o-60'}`}>
               {/* <LessonStatus isLoading={!lessonComplete} /> */}
-              <LessonStatus isLoading={!lessonComplete} />
+              <LessonStatus />
               {/* <LessonStatus isLoading={!lessonComplete} /> */}
             </div>
           </div>
