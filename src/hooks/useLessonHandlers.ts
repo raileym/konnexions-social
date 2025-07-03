@@ -270,6 +270,14 @@ export const useLessonHandlers = () => {
 
     const dialogLesson = {
       ...updatedInitialLesson,
+      [MODULE_NAME.DIALOG_DRAFT]: {
+        ...updatedInitialLesson[MODULE_NAME.DIALOG_DRAFT],
+        lines: formattedFlexLesson
+      },
+      [MODULE_NAME.DIALOG_REVIEW]: {
+        ...updatedInitialLesson[MODULE_NAME.DIALOG_REVIEW],
+        lines: formattedFlexLesson
+      },
       [MODULE_NAME.DIALOG_RESOLVE]: {
         ...updatedInitialLesson[MODULE_NAME.DIALOG_RESOLVE],
         lines: formattedFlexLesson
@@ -277,7 +285,7 @@ export const useLessonHandlers = () => {
     }
 
     console.log('dialogLesson', dialogLesson)
-    
+
     // ********************************************
     // Translation
     // ********************************************

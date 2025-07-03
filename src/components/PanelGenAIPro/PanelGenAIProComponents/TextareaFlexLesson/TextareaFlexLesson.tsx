@@ -1,12 +1,13 @@
 import { useAppContext } from '@context/AppContext/AppContext'
+import { formatFlexLesson } from '@PanelGenAIProComponents/formatFlexLesson/formatFlexLesson'
 
 // Assume you have this helper function somewhere
-const formatFlexLesson = ({ flexLesson }: { flexLesson: string }): string[] => {
-  return flexLesson
-    .split(/\r\n|\n|\r/)
-    .map(line => `n|narrator|${line.trim()}`)
-    .filter(line => line.length > 0)
-}
+// const formatFlexLesson = ({ flexLesson }: { flexLesson: string }): string[] => {
+//   return flexLesson
+//     .split(/\r\n|\n|\r/)
+//     .map(line => `n|narrator|${line.trim()}`)
+//     .filter(line => line.length > 0)
+// }
 
 export const TextareaFlexLesson = () => {
   const { flexLesson, setFlexLesson, setFormattedFlexLesson } = useAppContext()
