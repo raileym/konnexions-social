@@ -35,8 +35,8 @@ const handler: Handler = async (event) => {
 
     if (!data) {
       return {
-        statusCode: 404,
-        body: JSON.stringify({ error: 'Module not found' })
+        statusCode: 200,
+        body: JSON.stringify({ ready: false, message: 'Module not ready' })
       }
     }
 

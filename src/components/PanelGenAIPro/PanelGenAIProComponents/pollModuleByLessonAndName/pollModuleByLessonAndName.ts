@@ -14,22 +14,28 @@ export const pollModuleByLessonAndName = async ({
 
   while (Date.now() - start < timeoutMs) {
     try {
-
       const res = await fetch('/.netlify/functions/get-module', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ lessonId, moduleName })
       })
 
-      // const res = await fetch(`/api/get-module?lessonId=${lessonId}&moduleName=${moduleName}`)
-
       if (res.ok) {
         const moduleContent = await res.json()
-        if (moduleContent) {
+
+        // Check for your custom "not ready" response pattern
+        if (
+          moduleContent &&
+          (moduleContent.ready === false || moduleContent.message === 'Module not ready')
+        ) {
+          console.info(`Waiting for module "${moduleName}" to be ready. Retrying...`)
+          // Don't return, continue polling
+        } else {
+          // Module ready, return it
           return moduleContent as Module
         }
       } else {
-        console.warn(`Polling failed with status ${res.status} for ${moduleName}`)
+        console.info(`Waiting for module "${moduleName}" to be ready. Retrying...`)
       }
     } catch (error) {
       console.error(`Polling error for ${moduleName}:`, error)

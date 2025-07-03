@@ -43,7 +43,7 @@ const handleAddLesson = () => {
         {Array.isArray(lessons) && lessons.length > 0 ? (
           lessons.map((lesson) => (
             <li
-              key={lesson.id}
+              key={lesson.number}
               onClick={() => setSelectedLessonNumber(lesson.number)}
               className={`pa2 pointer br2 ${
                 selectedLessonNumber === lesson.number ? 'bg-light-green b' : 'hover-bg-light-gray'
