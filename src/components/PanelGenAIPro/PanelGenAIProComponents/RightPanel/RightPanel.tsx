@@ -75,7 +75,10 @@ const RightPanel: React.FC = () => {
     setShowVerbsReviewPrompt(prev => !prev)
   }
 
-  const { createFullLesson } = useLessonHandlers()
+  const {
+    createFullLesson,
+    createFlexLesson
+  } = useLessonHandlers()
 
   const {
     customSeed,
@@ -86,8 +89,8 @@ const RightPanel: React.FC = () => {
     selectedLessonNumber,
     setCustomSeed,
     setDebugMode,
-    setLessonTimestamp,
-    setLessons,
+    // setLessonTimestamp,
+    // setLessons,
     sourceLanguage,
     targetLanguage,
     useMyself,
@@ -95,16 +98,16 @@ const RightPanel: React.FC = () => {
     lessonPromptStyle,
     customParticipantList,
     customScenario,
-    clientMeter,
-    clientSignature,
-    clientUUID,
-    clientEmail,
-    setClientUUID,
+    // clientMeter,
+    // clientSignature,
+    // clientUUID,
+    // clientEmail,
+    // setClientUUID,
     flexLesson,
     setFlexLesson,
     formattedLesson,
-    lessonComplete,
-    setLessonComplete
+    lessonComplete //,
+    // setLessonComplete
   } = useAppContext()
   
   // debugLog('clientUUID', clientUUID)
@@ -129,19 +132,19 @@ const RightPanel: React.FC = () => {
       }).participantList
   }
 
-  const initialLesson = {
-      ...defaultLesson,
-      scenario,
-      targetLanguage,
-      sourceLanguage,
-      lessonPrompt,
-      lessonPromptStyle,
-      participantList: scenario === SCENARIO.CUSTOM ? customParticipantList : getScenarioDetails({ 
-        useMyself,
-        scenario,
-        language: targetLanguage
-      }).participantList
-  }
+  // const initialLesson = {
+  //     ...defaultLesson,
+  //     scenario,
+  //     targetLanguage,
+  //     sourceLanguage,
+  //     lessonPrompt,
+  //     lessonPromptStyle,
+  //     participantList: scenario === SCENARIO.CUSTOM ? customParticipantList : getScenarioDetails({ 
+  //       useMyself,
+  //       scenario,
+  //       language: targetLanguage
+  //     }).participantList
+  // }
   
   const alwaysFalse = false
 
