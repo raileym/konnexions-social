@@ -1,3 +1,4 @@
+import type { TextareaFlexLessonProps } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { formatFlexLesson } from '@PanelGenAIProComponents/formatFlexLesson/formatFlexLesson'
 
@@ -9,7 +10,7 @@ import { formatFlexLesson } from '@PanelGenAIProComponents/formatFlexLesson/form
 //     .filter(line => line.length > 0)
 // }
 
-export const TextareaFlexLesson = () => {
+export const TextareaFlexLesson = ({title}: TextareaFlexLessonProps) => {
   const { flexLesson, setFlexLesson, setFormattedFlexLesson } = useAppContext()
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -22,12 +23,12 @@ export const TextareaFlexLesson = () => {
 
   return (
     <>
-      <label className="db mb2 f5 b">Flex Lesson</label>
+      <div className="w-60 center db mb2 f3 mb3">{title}</div>
       <textarea
         value={flexLesson}
         onChange={handleChange}
         className="w-100 ba b--gray br2 pa2"
-        rows={10}
+        rows={20}
       />
     </>
   )

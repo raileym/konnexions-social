@@ -1,7 +1,7 @@
 // src/App.tsx
 import React, { useEffect } from 'react'
 import PanelKeys from './components/PanelKeys'
-import PanelBasic from './components/PanelBasic'
+import PanelBasic from '@components/PanelBasic/PanelBasic'
 import PanelSettings from './components/PanelSettings'
 import PanelHelp from './components/PanelHelp'
 import NavbarTop from './components/NavbarTop'
@@ -15,6 +15,7 @@ import { defaultMaxCount, type Scenario } from '@cknTypes/types'
 import { SCENARIO } from '@cknTypes/constants'
 import PanelGenAIPro from './components/PanelGenAIPro/PanelGenAIPro'
 import AppLeftPanel from '@components/AppLeftPanel/AppLeftPanel'
+import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
 
 const App: React.FC = () => {
   const {
@@ -58,7 +59,8 @@ const App: React.FC = () => {
         <PanelGenAIPro />
         <PanelBasic />
         <PanelGenAI />
-        <PanelSettings />
+        {/* <PanelSettings /> */}
+        <PanelBasicReview />
         <PanelKeys />
         <PanelMenu />
         <PanelHelp />

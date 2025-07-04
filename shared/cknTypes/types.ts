@@ -1117,3 +1117,12 @@ export type CreateFlexLessonProps = {
 export type FormatSentenceProps = {
   sentence: string
 }
+
+export type TextareaFlexLessonProps = {
+  title: string
+}
+
+export type FormattedFlexLessonProps = {
+  title: string
+}
+

@@ -28,7 +28,7 @@ export const AppLeftPanel: React.FC = () => {
   }
 
   return (
-    <div className="app-left-panel w-10 br b--black-10 bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa3 bg-washed-yellow brX b--black-20X bnX" style={{paddingTop: '6em'}}>
+    <div className="app-left-panel w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa3 bg-washed-yellow brX b--black-20X bnX" style={{paddingTop: '6em'}}>
       <button
         onClick={handleAddLesson}
         // onClick={() => {

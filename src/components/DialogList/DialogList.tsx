@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import { DialogLine } from '@PanelGenAIProComponents/DialogLine/DialogLine'
+import { DialogLine } from '@components/DialogLine/DialogLine'
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchTTS } from '@PanelGenAIProComponents/fetchTTS/fetchTTS'

@@ -17,7 +17,8 @@ const NavbarBottom: React.FC = () => {
         <Button buttonClass='w-50X' isActive={activeHome === 'genAI'} switchFn={switchHome} panel='genAI' icon={faRobot} title='GenAI' />
         <Button buttonClass='w-50X' isActive={activeHome === 'genAIPro'} switchFn={switchHome} panel='genAIPro' icon={faRobot} title='GenAI Pro' />
       </div>
-      <Button buttonClass='' isActive={activePanel === 'settings'} switchFn={switchPanel} panel='settings' icon={faGear} title='Settings' />
+      <Button buttonClass='' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faGear} title='Basic Review' />
+      {/* <Button buttonClass='' isActive={activePanel === 'settings'} switchFn={switchPanel} panel='settings' icon={faGear} title='Settings' /> */}
       <Button buttonClass='' isActive={activePanel === 'keys'} switchFn={switchPanel} panel='keys' icon={faKey} title='API Keys' />
       <Button buttonClass='' isActive={activePanel === 'menu'} switchFn={switchPanel} panel='menu' icon={faBars} title='Menu' />
     </nav>

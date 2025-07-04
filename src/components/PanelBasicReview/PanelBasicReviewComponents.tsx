@@ -23,7 +23,7 @@ import { DialogList } from '@components/DialogList/DialogList'
 // import { generateVerbLists } from '@PanelGenAIProComponents/generateVerbLists/generateVerbLists'
 // import CutoffToggle from '../../../CutoffToggle'
 // import ShowMaxCount from '../../../ShowMaxCount'
-import SelectorLanguage from '../../../SelectorLanguage'
+import SelectorLanguage from '@components/SelectorLanguage'
 import PromptToggle from '@PanelGenAIProComponents/PromptToggle/PromptToggle'
 // import Hr from '@components/Hr'
 import LessonElementToggle from '@PanelGenAIProComponents/LessonElementToggle/LessonElementToggle'
@@ -39,8 +39,9 @@ import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TextareaFlexLesson } from '@components/TextareaFlexLesson/TextareaFlexLesson'
 import { formatFlexLesson } from '@PanelGenAIProComponents/formatFlexLesson/formatFlexLesson'
 import { FormatSentence } from '@components/FormatSentence/FormatSentence'
+import { FormattedFlexLesson } from '@components/FormattedFlexLesson/FormattedFlexLesson'
 
-const RightPanel: React.FC = () => {
+const PanelBasicReviewComponents: React.FC = () => {
   // const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
   const [testMode,] = useState<TestMode>(false)
   // const [showDialogDraftPrompt, setShowDialogDraftPrompt] = useState(false)
@@ -149,6 +150,9 @@ const RightPanel: React.FC = () => {
   
   const alwaysFalse = false
 
+  const textareaFlexLessonTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
+
+
   let content
   if (selectedLessonNumber != null && Array.isArray(lessons)) {
     if (!lesson) {
@@ -188,13 +192,12 @@ const RightPanel: React.FC = () => {
 
           <h2 className="baX f2 pa3 pb0X mt4X w-100 items-center tc">
             <div>
-              {LANGUAGE_TITLE[targetLanguage]}: Premium
+              {LANGUAGE_TITLE[targetLanguage]}: Basic
             </div>
           <div className="w-100 black f2">Lesson {selectedLessonNumber}</div>
           </h2>
 
-
-          <TextareaFlexLesson title={'Flex Lesson'}/>
+          <FormattedFlexLesson title={'Review your lesson before creating the corresponding translation and MP3 audio file.'}/>
           
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
@@ -566,10 +569,13 @@ const RightPanel: React.FC = () => {
   },[lesson])
 
   return (
-    <div className={`baX b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+    <div className={'baX bw1X b--moon-grayX blX gen-ai-pro-panel z-0 absolute top-0 left-0 w-100 h-100 bg-light-greenX flex flex-rowX transition-transform translate-x-0'}>
+
+      <div className={`baX b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
+      </div>
     </div>
   )
 }
 
-export default RightPanel
+export default PanelBasicReviewComponents
