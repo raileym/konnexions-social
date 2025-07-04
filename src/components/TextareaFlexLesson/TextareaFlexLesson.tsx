@@ -1,6 +1,6 @@
 import type { TextareaFlexLessonProps } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { formatFlexLesson } from '@PanelGenAIProComponents/formatFlexLesson/formatFlexLesson'
+import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 
 // Assume you have this helper function somewhere
 // const formatFlexLesson = ({ flexLesson }: { flexLesson: string }): string[] => {

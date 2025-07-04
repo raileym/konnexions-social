@@ -3,6 +3,8 @@ import {
   LANGUAGE_TITLE
 } from '@cknTypes/constants'
 import { ToastMarkdownEditor } from '@components/ToastMarkdownEditor/ToastMarkdownEditor'
+import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
+import { useLessonHandlers } from '@hooks/useLessonHandlers'
 
 const RightPanel = () => {
 
@@ -15,6 +17,10 @@ const RightPanel = () => {
     setFlexLesson
   } = useAppContext()
   
+  const {
+    createFlexLesson
+  } = useLessonHandlers()
+
   const lesson = lessons.find(l => l.number === selectedLessonNumber)
   
   const toastMarkdownEditorTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
@@ -36,6 +42,22 @@ const RightPanel = () => {
           <div>
             <ToastMarkdownEditor initialValue={flexLesson} title={toastMarkdownEditorTitle} onChange={setFlexLesson} />
           </div>
+
+          <div className={'mt3 mb4 flex justify-center'}>
+            <div>
+              <button
+                className={'f3 pa3 br4 bn bg-brand white pointer'}
+                onClick={() => {
+                  const formattedFlexLesson = formatFlexLesson({flexLesson})
+                  createFlexLesson({formattedFlexLesson})
+                }}
+              >
+                Create Flex Lesson
+              </button>
+            </div>
+          </div>
+          
+
         </>
       )
     }

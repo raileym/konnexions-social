@@ -47,7 +47,7 @@ export const ToastMarkdownEditor = ({ initialValue = '', onChange, title }: Toas
   return (
     <>
       <div className="w-80 center">
-        <div className="w-80 center db mb2 f3 mb3">{title}</div>
+        <div className="w-80 center db mb4 f3 mb3">{title}</div>
         <Editor
           initialValue={initialValue}
           previewStyle="vertical"

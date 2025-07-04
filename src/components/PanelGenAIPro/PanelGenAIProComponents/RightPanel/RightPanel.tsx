@@ -37,7 +37,7 @@ import Header from '@components/Header'
 import { capitalize } from '@components/Util'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TextareaFlexLesson } from '@components/TextareaFlexLesson/TextareaFlexLesson'
-import { formatFlexLesson } from '@PanelGenAIProComponents/formatFlexLesson/formatFlexLesson'
+import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { FormatSentence } from '@components/FormatSentence/FormatSentence'
 
 const RightPanel: React.FC = () => {
