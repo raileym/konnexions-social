@@ -16,7 +16,7 @@ const CutoffToggle: FC = () => {
   const icon = cutoff ? faToggleOn : faToggleOff
 
   return (
-    <div className="ml4 baX mb2 flex flex-row justify-start items-center">
+    <div className="ml4 baX mb2X flex flex-row justify-center center items-center">
       <button
         onClick={() => onClick()}
         className="flex items-center gap-2 bg-transparent bn pointer f5"

@@ -18,33 +18,31 @@ const ShowMaxCount: FC = () => {
   }
 
   return (
-    <div className="ml4 bg-whiteX">
-      <div className="flex flex-row justify-start items-center">
-        <button
-          onClick={() => handleIncrease()}
-          className="flex items-center gap-2X bg-transparent br4 bnX pointer f5 ph0 mh0"
-        >
-          <FontAwesomeIcon icon={faPlus} className="f3 mh2 ph0" />
-        </button>
-        <div
-          className="b ml3 black f5 baX"
-          style={{
-            width: 130,
-            fontFamily: 'monospace',
-            textAlign: 'left',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          MaxCount: {maxCount}
-        </div>
-        <button
-          onClick={() => handleDecrease()}
-          className="flex items-center gap-2X bg-transparent br4 bnX pointer f5 ph0 mh0"
-        >
-          <FontAwesomeIcon icon={faMinus} className="f3 mh2 ph0" />
-        </button>
+    <div className="flex flex-row justify-center items-center">
+      <button
+        onClick={() => handleIncrease()}
+        className="flex items-center gap-2X bg-transparent br4 bnX pointer f5 ph0 mh0 mv2"
+      >
+        <FontAwesomeIcon icon={faPlus} className="f3 mh2 ph0" />
+      </button>
+      <div
+        className="b ml3X tc black f5 baX"
+        style={{
+          width: 100,
+          fontFamily: 'monospace',
+          // textAlign: 'left',
+          whiteSpace: 'nowrap'
+        }}
+      >
+        Max: {maxCount}
       </div>
-      </div>
+      <button
+        onClick={() => handleDecrease()}
+        className="flex items-center gap-2X bg-transparent br4 bnX pointer f5 ph0 mh0 mv2"
+      >
+        <FontAwesomeIcon icon={faMinus} className="f3 mh2 ph0" />
+      </button>
+    </div>
   )
 }
 

@@ -193,7 +193,7 @@ export default function PanelBasic() {
   )
   
   return (
-    <div className='basic-panel z-0 bg-white w-100 min-vh-100 flex justify-center overflow-y-auto'>
+    <div className='basic-panel left-10 absolute z-0 bg-white w-90 min-vh-100 flex justify-center overflow-y-auto'>
       <div className='pa4 mw7 w-100'>
         <h2 className='f3 pa3 pb0 mt5 w-100 tc'>Spanish: Basic Speech</h2>
         <div className='f3 pv3 pt0 mt0'>{headline}</div>

@@ -4,13 +4,15 @@ import React from 'react'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import Button from './Button'
 import { usePanel } from '@hooks/usePanel'
+import CutoffToggle from '@components/CutoffToggle'
+import ShowMaxCount from '@components/ShowMaxCount'
 
 const NavbarTop: React.FC = () => {
   const { switchPanel } = usePanel()
 
   return (
     <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph3 pv2 z-999">
-      <div className="flex justify-start">
+      <div className="flex justify-start flex-row">
         <div className="bg-brand mr3 ba b--white bw2">
           <img
             src="/logo-blue-transparent-on-white-173x126.png"
@@ -24,6 +26,12 @@ const NavbarTop: React.FC = () => {
           <div className="black-20 f5">Joy of Language - Spanish</div>
         </div>
       </div>
+
+      <div className="flex flex-row">        
+        <CutoffToggle />
+        <ShowMaxCount />
+      </div>
+
       <div>
 
       <Button isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />

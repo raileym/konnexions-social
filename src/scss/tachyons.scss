@@ -439,7 +439,7 @@ $radius-details: 0, 0.125rem, 0.25rem, 0.5rem, 1rem;
     .mb--#{$i} { margin-bottom: -1rem*$i; }
 }
     
-@for $i from 1 through 9 {
+@for $i from 0 through 9 {
     .w-#{$i}5 { width: $i*10% + 5%; }
 }
   

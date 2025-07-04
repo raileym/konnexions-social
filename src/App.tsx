@@ -14,6 +14,7 @@ import { getCurrentWeek } from './components/getCurrentWeek'
 import { defaultMaxCount, type Scenario } from '@cknTypes/types'
 import { SCENARIO } from '@cknTypes/constants'
 import PanelGenAIPro from './components/PanelGenAIPro/PanelGenAIPro'
+import AppLeftPanel from '@components/AppLeftPanel/AppLeftPanel'
 
 const App: React.FC = () => {
   const {
@@ -52,15 +53,19 @@ const App: React.FC = () => {
   return (
     <>
       <div className="flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
+        {/* <div className="bg-yellow absolute z-4 w-10 left-0 top-0 h-100" /> */}
+        <AppLeftPanel />
+        <PanelGenAIPro />
         <PanelBasic />
         <PanelGenAI />
-        <PanelGenAIPro />
+        {/*
 
         <PanelKeys />
         <PanelSettings />
         <PanelMenu />
 
         <PanelHelp />
+        */}
       </div>
       <NavbarTop />
       <NavbarBottom />
