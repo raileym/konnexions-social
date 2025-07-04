@@ -1,19 +1,28 @@
 import { useAppContext } from '@context/AppContext/AppContext'
-import { defaultLesson, type Lesson } from '@cknTypes/types'
+import { defaultLesson, type ActivePanel, type Lesson } from '@cknTypes/types'
 // import CutoffToggle from '@components/CutoffToggle'
 // import ShowMaxCount from '@components/ShowMaxCount'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { APP_PANEL } from '@cknTypes/constants'
+import { usePanel } from '@hooks/usePanel'
 
 export const AppLeftPanel: React.FC = () => {
   const {
     lessons,
     setLessons,
     selectedLessonNumber,
-    setSelectedLessonNumber
+    setSelectedLessonNumber,
+    activePanel
   } = useAppContext()
   
+  const { switchPanel } = usePanel()
+
   const handleAddLesson = () => {
+    if (activePanel === APP_PANEL.BASIC_REVIEW) {
+      switchPanel(activePanel)
+    }
+
     const newNumber = lessons.length + 1
     const newLesson: Lesson = {
       ...defaultLesson,

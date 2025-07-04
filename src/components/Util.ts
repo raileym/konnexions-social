@@ -13,6 +13,9 @@ export function capitalize(word: string): string {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
 }
 
-export const cleanTextForTTS = (text: string) => 
-  text.replace(/\*\*/g, '');
+export const cleanTextForTTS = (text: string) => {
+  const updatedText = text.replace(/\*\*/g, '');
+  const updatedText2 = updatedText.replace(/\*\*/g, '');
+  return updatedText2
+}
 

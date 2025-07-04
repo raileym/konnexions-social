@@ -1,4 +1,5 @@
 // import { generateSignature } from '@shared/generateSignature'
+import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 import {
   APP_HOME,
@@ -1130,5 +1131,14 @@ export type ToastMarkdownEditorProps = {
   initialValue?: string
   onChange?: (markdown: string) => void
   title: string
+}
+
+export type ButtonProps = {
+  panel: ActivePanel | ActiveHome
+  icon: IconProp // IconDefinition
+  title?: string
+  buttonClass?: string
+  switchFn: (target: ActivePanel | ActiveHome) => void
+  isActive: IsActive
 }
 

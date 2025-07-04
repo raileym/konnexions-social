@@ -1,38 +1,13 @@
 // components/Button.tsx
-import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { type ActiveHome, type ActivePanel, type IsActive } from '@cknTypes/types'
+import { type ButtonProps } from '@cknTypes/types'
 import { APP_PANEL } from '@cknTypes/constants'
-// import { usePanel } from '@hooks/usePanel'
 import { useHelpPanel } from '@hooks/useHelpPanel'
-// import type { ActivePanel } from '@cknTypes/types'
 
-// type ButtonProps = {
-//   panel: ActivePanel
-//   // panel: ActivePanel
-//   icon: IconProp
-//   title?: string
-//   buttonClass?: string
-// }
-
-type ButtonProps = {
-  panel: ActivePanel | ActiveHome
-  icon: IconProp // IconDefinition
-  title?: string
-  buttonClass?: string
-  switchFn: (target: ActivePanel | ActiveHome) => void
-  isActive: IsActive
-}
-
-const Button: React.FC<ButtonProps> = ({ panel, icon, title, buttonClass, switchFn, isActive }) => {
+const Button = ({ panel, icon, title, buttonClass, switchFn, isActive }: ButtonProps) => {
   const { isHelpOpen } = useAppContext()
-  // const { activePanel, isHelpOpen } = useAppContext()
-  // const { switchPanel } = usePanel()
   const { openHelp, closeHelp } = useHelpPanel()
-
-  // const isActive = activePanel === panel
 
   const handleClick = () => {
     if (isHelpOpen && panel === APP_PANEL.HELP) {
