@@ -1,16 +1,11 @@
-import { useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import {
   LANGUAGE_TITLE
 } from '@cknTypes/constants'
-import { TextareaFlexLesson } from '@components/TextareaFlexLesson/TextareaFlexLesson'
-import { FormattedFlexLesson } from '@components/FormattedFlexLesson/FormattedFlexLesson'
 import { ToastMarkdownEditor } from '@components/ToastMarkdownEditor/ToastMarkdownEditor'
 
 const RightPanel = () => {
 
-  const [markdown, setMarkdown] = useState('')
-  
   const {
     cutoff,
     lessons,
@@ -22,8 +17,6 @@ const RightPanel = () => {
   
   const lesson = lessons.find(l => l.number === selectedLessonNumber)
   
-  const textareaFlexLessonTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
-
   const toastMarkdownEditorTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
 
   let content
@@ -43,11 +36,6 @@ const RightPanel = () => {
           <div>
             <ToastMarkdownEditor initialValue={flexLesson} title={toastMarkdownEditorTitle} onChange={setFlexLesson} />
           </div>
-    
-
-          <TextareaFlexLesson title={textareaFlexLessonTitle}/>
-
-          <FormattedFlexLesson title={'Review your lesson before creating the corresponding translation and MP3 audio file.'}/>
         </>
       )
     }

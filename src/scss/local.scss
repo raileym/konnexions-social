@@ -1,0 +1,68 @@
+@import './color';
+
+.toastui-editor-main {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  border: 4px solid $brand; // map-get($color-set, 'dark-blue');
+}
+
+.toastui-editor-toolbar {
+  background-color: $brand;
+  display: flex;
+  justify-content: center; /* horizontal centering */
+  align-items: center;     /* vertical centering */
+}
+
+.toastui-editor-defaultUI-toolbar button {
+  border: none;
+  font-weight: bold;
+  // color: white
+}
+
+.toastui-editor-md-preview {
+  background-color: #fafafa;
+  padding: 1rem;
+  border-left: 1px solid #ddd;
+}
+
+.toastui-editor-defaultUI-toolbar {
+  background-color: $brand; // map-get($color-set, 'red');
+}
+
+.toastui-editor-defaultUI button {
+
+}
+
+// .toastui-editor-toolbar-icons .toastui-editor-toolbar-icon-bold,
+// .toastui-editor-toolbar-icons .toastui-editor-toolbar-icon-italic,
+// .toastui-editor-toolbar-icons .toastui-editor-toolbar-icon-underline {
+//   fill: #357edd;             // change icon color to your brand blue
+//   stroke-width: 2;           // make strokes thicker if SVG
+//   font-weight: 700;          // heavier weight if text
+//   font-size: 1.3rem;         // larger size
+// }
+
+.toastui-editor-toolbar-icons-custom {
+  color: white !important;
+  background-color: transparent;
+  font-size: 1.75rem !important;
+  padding: 0px;
+  // margin: 0;
+}
+
+.toastui-editor-toolbar-icons-custom:hover {
+  color: $brand !important;
+  background-color: white;
+  // font-size: 1.75rem !important;
+  padding: 0px;
+  // margin: 0;
+}
+
+.toastui-editor-defaultUI-toolbar {
+    border: none;
+}
+
+.toastui-editor-mode-switch {
+  background-color: $brand;
+  display: none !important;
+}

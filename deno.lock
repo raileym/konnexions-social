@@ -79,6 +79,8 @@
         "npm:@radix-ui/react-dialog@^1.1.14",
         "npm:@reduxjs/toolkit@^2.8.1",
         "npm:@supabase/supabase-js@^2.49.10",
+        "npm:@toast-ui/editor@^3.2.2",
+        "npm:@toast-ui/react-editor@^3.2.3",
         "npm:@types/react-dom@^19.1.2",
         "npm:@types/react-transition-group@^4.4.12",
         "npm:@types/react@^19.1.2",

@@ -15,8 +15,33 @@ export const ToastMarkdownEditor = ({ initialValue = '', onChange, title }: Toas
     }
   }
 
+  // See https://github.com/nhn/tui.editor/blob/master/docs/en/toolbar.md
   const toolbarItems = [
-    ['heading', 'bold', 'italic'], // group 1
+    [
+    {
+      name: 'heading',
+      tooltip: 'heading',
+      command: 'heading',
+      text: 'H',      
+      className: 'toastui-editor-toolbar-icons-custom',
+      style: { fontStyle: 'regular' },
+    },
+    {
+      name: 'italic',
+      tooltip: 'italic',
+      command: 'italic',
+      text: 'I',      
+      className: 'toastui-editor-toolbar-icons-custom',
+      style: { fontStyle: 'italic' },
+    },
+    {
+      name: 'bold',
+      tooltip: 'bold',
+      command: 'bold',
+      text: 'B',
+      className: 'toastui-editor-toolbar-icons-custom',
+    }      
+    ], // group 1
   ]
 
   return (
@@ -27,7 +52,7 @@ export const ToastMarkdownEditor = ({ initialValue = '', onChange, title }: Toas
           initialValue={initialValue}
           previewStyle="vertical"
           height="400px"
-          initialEditType="markdown"
+          initialEditType="wysiwyg"
           useCommandShortcut={true}
           ref={editorRef}
           onChange={handleChange}

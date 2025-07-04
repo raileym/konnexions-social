@@ -150,9 +150,6 @@ const PanelBasicReviewComponents: React.FC = () => {
   
   const alwaysFalse = false
 
-  const textareaFlexLessonTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
-
-
   let content
   if (selectedLessonNumber != null && Array.isArray(lessons)) {
     if (!lesson) {
