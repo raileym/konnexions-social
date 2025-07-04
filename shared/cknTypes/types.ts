@@ -157,6 +157,7 @@ export type DebugMode = boolean
 export type LessonPrompt = string
 export type FlexLesson = string
 export type FormattedFlexLesson = Lines
+export type IsComplete = boolean
 
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
 export type SetActivePanel = React.Dispatch<React.SetStateAction<ActivePanel>>
@@ -273,6 +274,7 @@ export type Lesson = {
   timestamp: LessonTimestamp
   name: Name
   description: Description
+  isComplete: IsComplete
 
   targetLanguage: Language
   sourceLanguage: Language
@@ -552,6 +554,7 @@ export const defaultLesson: Lesson = {
   number: 1,
   uuid: '',
   timestamp: '',
+  isComplete: false,
 
   name: 'Default Lesson',
   description: 'Default Lesson - Starter Details',
@@ -1134,6 +1137,7 @@ export type ToastMarkdownEditorProps = {
 }
 
 export type ButtonProps = {
+  disable?: boolean
   panel: ActivePanel | ActiveHome
   icon: IconProp // IconDefinition
   title?: string

@@ -13,12 +13,17 @@ export const AppLeftPanel: React.FC = () => {
     setLessons,
     selectedLessonNumber,
     setSelectedLessonNumber,
-    activePanel
+    activePanel,
+    // lessonComplete,
+    setLessonComplete,
+    setLesson
   } = useAppContext()
   
   const { switchPanel } = usePanel()
 
   const handleAddLesson = () => {
+    setLessonComplete(false)
+
     if (activePanel === APP_PANEL.BASIC_REVIEW) {
       switchPanel(activePanel)
     }
@@ -27,13 +32,16 @@ export const AppLeftPanel: React.FC = () => {
     const newLesson: Lesson = {
       ...defaultLesson,
       
+      isComplete: false,
       number: newNumber,
       name: `Lesson ${newNumber}`,
       description: `This is the content for Lesson ${newNumber}`
     }
 
     setLessons([...lessons, newLesson])
+    setLesson(newLesson)
     setSelectedLessonNumber(newNumber) // optionally auto-select new lesson
+    setLessonComplete(false)
   }
 
   return (
@@ -54,7 +62,10 @@ export const AppLeftPanel: React.FC = () => {
           lessons.map((lesson) => (
             <li
               key={lesson.number}
-              onClick={() => setSelectedLessonNumber(lesson.number)}
+              onClick={() => {
+                setSelectedLessonNumber(lesson.number)
+                setLessonComplete(lesson.isComplete)
+              }}
               className={`b baX pa2 pointer br2X f3 bw2 bbX tc b--blue ${
                 selectedLessonNumber === lesson.number ? 'bg-light-green b' : 'hover-bg-light-gray'
               }`}

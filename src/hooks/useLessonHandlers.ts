@@ -14,6 +14,7 @@ export const useLessonHandlers = () => {
   const {
     // lessons,
     setLessons,
+    setLesson,
     // setLessonComplete,
     selectedLessonNumber,
     // debugLog,
@@ -173,18 +174,24 @@ export const useLessonHandlers = () => {
     const { lesson: verbsLesson, durationMs: durationVerbs } = verbsResult
     debugLog(`Verbs pipeline took ${durationVerbs.toFixed(2)}ms`)
 
+    const updatedVerbsLesson = {
+      ...verbsLesson,
+      isComplete: true
+    }
+
     // Update lesson list
     setLessons((prev) => {
       debugLog('🔄 Updating lesson list...')
-      debugLog('▶️ verbsLesson:', verbsLesson)
+      debugLog('▶️ updatedVerbsLesson:', updatedVerbsLesson)
       const next = prev.map((lsn) =>
-        lsn.number === selectedLessonNumber ? { ...verbsLesson, id: lsn.id, name: lsn.name } : lsn
+        lsn.number === selectedLessonNumber ? { ...updatedVerbsLesson, id: lsn.id, name: lsn.name } : lsn
       )
       debugLog('📦 New lessons array:', next)
       return next
     })
 
     setLessonComplete(true)
+    setLesson(updatedVerbsLesson)
   }
 
   const createFlexLesson = async ({formattedFlexLesson}: CreateFlexLessonProps) => {
@@ -306,7 +313,8 @@ export const useLessonHandlers = () => {
         ...translationLesson.translation,
         [translationLesson.targetLanguage]: linesTargetLanguage,
         [translationLesson.sourceLanguage]: linesSourceLanguage
-      }
+      },
+      isComplete: true
     }
 
     // ********************************************
@@ -323,7 +331,7 @@ export const useLessonHandlers = () => {
     })
 
     setLessonComplete(true)
-
+    setLesson(updatedTranslationLesson)
     
   }
 

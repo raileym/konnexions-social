@@ -16,6 +16,8 @@ export async function fetchTTS({
   setMaxCount(prev => prev-1)
 
   const processedText = cleanTextForTTS(text);
+
+  console.log('processed text', processedText)
   
   try {
     // cXonsole.log(`Pause before ask generate-tts-cache: ${text}`)

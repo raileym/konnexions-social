@@ -138,7 +138,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
-  const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
+  const [lessonComplete, setLessonComplete] = useState<LessonComplete>(false)
   
   const [flexLesson, setFlexLesson] = usePersistentState<FlexLesson>('flexLesson', defaultFlexLesson)
   const [formattedFlexLesson, setFormattedFlexLesson] = usePersistentState<FormattedFlexLesson>('formattedFlexLesson', [])

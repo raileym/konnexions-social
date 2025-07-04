@@ -52,7 +52,7 @@ const RightPanel = () => {
                   createFlexLesson({formattedFlexLesson})
                 }}
               >
-                Create Flex Lesson
+                Create Lesson
               </button>
             </div>
           </div>

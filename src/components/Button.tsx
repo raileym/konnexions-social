@@ -5,7 +5,7 @@ import { type ButtonProps } from '@cknTypes/types'
 import { APP_PANEL } from '@cknTypes/constants'
 import { useHelpPanel } from '@hooks/useHelpPanel'
 
-const Button = ({ panel, icon, title, buttonClass, switchFn, isActive }: ButtonProps) => {
+const Button = ({ disable, panel, icon, title, buttonClass, switchFn, isActive }: ButtonProps) => {
   const { isHelpOpen } = useAppContext()
   const { openHelp, closeHelp } = useHelpPanel()
 
@@ -21,8 +21,9 @@ const Button = ({ panel, icon, title, buttonClass, switchFn, isActive }: ButtonP
 
   return (
     <button
-      onClick={handleClick}
-      className={`${buttonClass} f2 bn pointer bg-white ${isActive ? 'brand' : 'dark-gray'} mr2X`}
+      onClick={() => { if (!disable) handleClick() }}
+      disabled={disable}
+      className={`${buttonClass} f2 bn pointer bg-white ${isActive ? 'brand' : 'dark-gray'} mr2X ${disable ? 'o-20' : 'o-100'}`}
       // className={`f2 pa2 br2 bn pointer bg-white ${isActive ? 'bg-light-purple white' : 'dark-gray'} mr2`}
       title={title}
     >

@@ -15,7 +15,7 @@ export function capitalize(word: string): string {
 
 export const cleanTextForTTS = (text: string) => {
   const updatedText = text.replace(/\*\*/g, '');
-  const updatedText2 = updatedText.replace(/\*\*/g, '');
+  const updatedText2 = updatedText.replace(/\*/g, '');
   return updatedText2
 }
 
