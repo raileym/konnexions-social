@@ -1126,3 +1126,9 @@ export type FormattedFlexLessonProps = {
   title: string
 }
 
+export type ToastMarkdownEditorProps = {
+  initialValue?: string
+  onChange?: (markdown: string) => void
+  title: string
+}
+
