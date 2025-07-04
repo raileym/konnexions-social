@@ -106,6 +106,7 @@ const RightPanel: React.FC = () => {
     // setClientUUID,
     flexLesson,
     formattedFlexLesson,
+    
     lessonComplete //,
     // setLessonComplete
   } = useAppContext()
@@ -185,7 +186,13 @@ const RightPanel: React.FC = () => {
             <SelectorLanguage />
           </div>
 
-          <h2 className="baX f2 pa3 pb0X mt4X w-100 items-center tc">{LANGUAGE_TITLE[targetLanguage]}: Premium</h2>
+          <h2 className="baX f2 pa3 pb0X mt4X w-100 items-center tc">
+            <div>
+              {LANGUAGE_TITLE[targetLanguage]}: Premium
+            </div>
+          <div className="w-100 black f2">Lesson {selectedLessonNumber}</div>
+          </h2>
+
 
           <TextareaFlexLesson />
           

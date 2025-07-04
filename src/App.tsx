@@ -59,13 +59,9 @@ const App: React.FC = () => {
         <PanelBasic />
         <PanelGenAI />
         <PanelSettings />
-        {/*
-
         <PanelKeys />
         <PanelMenu />
-
         <PanelHelp />
-        */}
       </div>
       <NavbarTop />
       <NavbarBottom />
