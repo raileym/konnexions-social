@@ -80,7 +80,7 @@ const PanelSettings: React.FC = () => {
 
   // <div style={{paddingBottom: '6em'}} className={`settings-panel absolute z-1 pa4 top-0 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX} overflow-y-auto`}>
   return (
-    <div className={`settings-panel z-3 absolute top-0 left-0 w-100 h-100 bg-light-gray transition-transform ${translateX}`}>
+    <div className={`settings-panel z-3 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}>
       <div className='h-100 w-100 overflow-y-auto'>
         <div className='pa4 mw7 w-100 black center mb5'>
           <h2 className='f3 pa3 pb0 mt5 w-100 tc'>Settings Panel</h2>

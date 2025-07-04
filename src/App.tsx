@@ -58,10 +58,10 @@ const App: React.FC = () => {
         <PanelGenAIPro />
         <PanelBasic />
         <PanelGenAI />
+        <PanelSettings />
         {/*
 
         <PanelKeys />
-        <PanelSettings />
         <PanelMenu />
 
         <PanelHelp />
