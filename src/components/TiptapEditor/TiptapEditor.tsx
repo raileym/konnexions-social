@@ -41,7 +41,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
   return (
     <>
       <div className="w-60 center db mb4 f3 mb3">{title}</div>
-      <div className="ba w-80 center pa3X br3 max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
+      <div className="ba w-80 center pa3X br3 max-w-xl mx-auto p-6X bg-white shadow-md rounded-md">
         <div className="flex justify-center mb-6X bg-brandX bb bw1 b--moon-gray h2X pv1" style={{height: '3rem'}}>
           <div className="mh3">
             <button

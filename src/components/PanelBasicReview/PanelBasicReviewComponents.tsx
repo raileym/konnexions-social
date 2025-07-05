@@ -88,6 +88,8 @@ const PanelBasicReviewComponents: React.FC = () => {
     // setLessonComplete
   } = useAppContext()
   
+  const tiptapEditorTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
+
   // debugLog('clientUUID', clientUUID)
   // debugLog('clientSignature', clientSignature)
   // debugLog('clientMeter', clientMeter)
@@ -124,7 +126,7 @@ const PanelBasicReviewComponents: React.FC = () => {
   //     }).participantList
   // }
   
-  const alwaysFalse = false
+  // const alwaysFalse = false
 
   let content
   if (selectedLessonNumber != null && Array.isArray(lessons)) {
@@ -142,6 +144,7 @@ const PanelBasicReviewComponents: React.FC = () => {
           <div className="w-100 black f2">Lesson {selectedLessonNumber}</div>
           </h2>
 
+          <div className="w-60 center db mb4 f3 mb3">{tiptapEditorTitle}</div>
           <div className="pa3 mt3 ba bg-white w-100">
             <DialogList language={lesson.targetLanguage} lines={(lesson?.dialogResolve?.lines ?? [])} useCloudTTS={true} />
           </div>
@@ -163,10 +166,9 @@ const PanelBasicReviewComponents: React.FC = () => {
   },[lesson])
 
   return (
-    <div className={'baX bw1X b--moon-grayX blX gen-ai-pro-panel z-0 absolute top-0 left-0 w-100 h-100 bg-light-greenX flex flex-rowX transition-transform translate-x-0'}>
-
+    <div className={'basic-review-panel z-0 absolute top-0 left-0 w-100 h-100 flex'}>
       <div className={`baX b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
-      {content}
+        {content}
       </div>
     </div>
   )

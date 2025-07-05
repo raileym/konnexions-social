@@ -198,49 +198,54 @@ export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) =>
   }
 
   return (
-    <div>
-      <div className='tc f2 w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
-      <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
-      <div className='flex flex-row items-center mt4'>
-        <button
-          onClick={playAll}
-          className='ml3 f6 br2 ph2 pv1 white bg-dark-blue hover:bg-blue no-outline'
-        >
-          <FontAwesomeIcon icon={faPlay} /> Play All
-        </button>
+    <>
+      <div>
+        <div className='tc f2 w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
+        <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
+            <div className='flex flex-row items-center mt4'>
+              <button
+                onClick={playAll}
+                className='ml3 f6 br2 ph2 pv1 white bg-dark-blue hover:bg-blue no-outline'
+              >
+                <FontAwesomeIcon icon={faPlay} /> Play All
+              </button>
 
-        {/*
-        <button
-          onClick={pauseAll}
-          className='ml2 f6 br2 ph2 pv1 white bg-gold hover:bg-yellow no-outline'
-        >
-          <FontAwesomeIcon icon={faPause} /> Pause
-        </button>
-        */}
+              {/*
+              <button
+                onClick={pauseAll}
+                className='ml2 f6 br2 ph2 pv1 white bg-gold hover:bg-yellow no-outline'
+              >
+                <FontAwesomeIcon icon={faPause} /> Pause
+              </button>
+              */}
 
-        <button
-          onClick={stopAll}
-          className='ml2 f6 br2 ph2 pv1 white bg-dark-red hover:bg-red no-outline'
-        >
-          <FontAwesomeIcon icon={faStop} /> Stop
-        </button>
-      </div>
-      <ul className='mt3 ml0 pl3'>
-        {lines.map((line, i) => (
-          <li key={i} className={'mb2 pl3X flex items-center'}>
-            <DialogLine
-              key={i}
-              line={line}
-              index={i}
-              useCloudTTS={useCloudTTS}
-              storeAudioOrLine={storeAudioOrLine}
-              className={i === lineNumber ? 'bg-brand white ': 'bg-transparent black'}
-              language={language}
-              debugLog={debugLog}
-            />
-          </li>
-        ))}
-      </ul>
-    </div>
+              <button
+                onClick={stopAll}
+                className='ml2 f6 br2 ph2 pv1 white bg-dark-red hover:bg-red no-outline'
+              >
+                <FontAwesomeIcon icon={faStop} /> Stop
+              </button>
+            </div>
+            <hr className="mv3 pv0"/>
+            <div className="h5 overflow-y-auto" style={{height: '30rem'}}>
+              <ul className='mt0 ml0 pl3'>
+                {lines.map((line, i) => (
+                  <li key={i} className={'mb2 pl3X flex items-center'}>
+                    <DialogLine
+                      key={i}
+                      line={line}
+                      index={i}
+                      useCloudTTS={useCloudTTS}
+                      storeAudioOrLine={storeAudioOrLine}
+                      className={i === lineNumber ? 'bg-brand white ': 'bg-transparent black'}
+                      language={language}
+                      debugLog={debugLog}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+        </div>
+    </>
   )
 }

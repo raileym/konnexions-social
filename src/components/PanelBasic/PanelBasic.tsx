@@ -23,7 +23,7 @@ const RightPanel = () => {
 
   const lesson = lessons.find(l => l.number === selectedLessonNumber)
   
-  const toastMarkdownEditorTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
+  const tiptapEditorTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
 
   let content
   if (selectedLessonNumber != null && Array.isArray(lessons)) {
@@ -39,7 +39,7 @@ const RightPanel = () => {
           <div className="w-100 black f2">Lesson {selectedLessonNumber}</div>
           </h2>
 
-          <TiptapEditor initialValue={flexLesson} title={toastMarkdownEditorTitle} onChange={setFlexLesson} />
+          <TiptapEditor initialValue={flexLesson} title={tiptapEditorTitle} onChange={setFlexLesson} />
 
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
