@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "clean": "rm -rf dist",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "yarn clean && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -20,7 +21,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@mdx-js/react": "^3.1.0",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@netlify/functions": "^3.1.9",

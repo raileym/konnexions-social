@@ -26,8 +26,9 @@
     "moduleDetection": "force",
     "composite": true,
     "declaration": true,
-    "outDir": "./dist/app",
+    "outDir": "./build",
     "jsx": "react-jsx",
+    "types": ["react", "react-dom"],
 
     /* Linting */
     "strict": true,
@@ -40,5 +41,11 @@
   "include": [
     "src",
     "shared"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "**/*.js"
   ]
 }

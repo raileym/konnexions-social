@@ -36,5 +36,11 @@
     "shared",
     "functions",
     "vite.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "**/*.js"
   ]
 }
