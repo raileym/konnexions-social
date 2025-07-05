@@ -1,35 +1,30 @@
-import React, { useState } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
 import Underline from '@tiptap/extension-underline'
 import Heading from '@tiptap/extension-heading'
-import type { JSONContent } from '@tiptap/core'
+import { Markdown } from 'tiptap-markdown';
+import type { TiptapEditorProps } from '@cknTypes/types'
+import { useState } from 'react'
 
-export const TiptapEditor: React.FC = () => {
+export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProps ) => {
 
-  const [contentJSON, setContentJSON] = useState<null | JSONContent>(null)
-  const [contentText, setContentText] = useState<null | string>(null)
-  const [contentHTML, setContentHTML] = useState<null | string>(null)
-
+  const [markdownContent, setMarkdownContent] = useState<string | null>(null)
   const editor = useEditor({
     extensions: [
       StarterKit,
       Bold,
       Italic,
       Underline,
-      Heading.configure({ levels: [1, 2, 3] })
+      Heading.configure({ levels: [1, 2, 3] }),
+      Markdown
     ],
-    content: '<p>Hello, <strong>Tiptap</strong>! Try the toolbar buttons.</p>',
+    content: initialValue, // '<p>Hello, <strong>Tiptap</strong>! Try the toolbar buttons.</p>',
     onUpdate: ({ editor }) => {
-      const json = editor.getJSON()
-      setContentJSON(json)
-      const text = editor.getText()
-      setContentText(text)
-      const html = editor.getHTML()
-      setContentHTML(html)
-      // You can also console.log(json) to see the live JSON!
+      const markdown = editor.storage.markdown.getMarkdown()
+      onChange(markdown)
+      setMarkdownContent(markdown)
     }
   })
 
@@ -42,15 +37,32 @@ export const TiptapEditor: React.FC = () => {
 
   return (
     <>
+      <div className="w-80 center db mb4 f3 mb3">{title}</div>
       <div className="ba pa3X br3 max-w-xl mx-auto p-6 bg-white shadow-md rounded-md">
         <div className="flex justify-center mb-6X bg-brandX bb bw1 b--moon-gray h2X pv1" style={{height: '3rem'}}>
-          <button
-            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-            className={'w2 h2 ma1 f3 bg-brand white bn'}
-            // className={buttonClass(editor.isActive('heading', { level: 1 }))}
-          >
-            H1
-          </button>
+          <div className="bg-redX mr4">
+            <button
+              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+              className={'w2 h2 ma1 f4 bg-brand white bn'}
+              // className={buttonClass(editor.isActive('heading', { level: 1 }))}
+            >
+              H1
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+              className={'w2 h2 ma1 f4 bg-brand white bn'}
+              // className={buttonClass(editor.isActive('heading', { level: 2 }))}
+            >
+              H2
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+              className={'w2 h2 ma1 f4 bg-brand white bn'}
+              // className={buttonClass(editor.isActive('heading', { level: 3 }))}
+            >
+              H3
+            </button>
+          </div>
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
             disabled={!editor.can().chain().focus().toggleBold().run()}
@@ -93,9 +105,7 @@ export const TiptapEditor: React.FC = () => {
           className="min-h-[200px] h5 ph3 baX b---black-300X roundedX p-4X focus:outline-none focus:ring-2X focus:ring-blue-400X"
         />
       </div>
-      <pre>{contentHTML}</pre>
-      <pre>{contentText}</pre>
-      <pre>{JSON.stringify(contentJSON, null, 2)}</pre>
+      <pre>{markdownContent}</pre>
     </>
   )
 }

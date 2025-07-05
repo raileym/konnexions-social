@@ -3669,10 +3669,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/linkify-it@npm:^3":
+  version: 3.0.5
+  resolution: "@types/linkify-it@npm:3.0.5"
+  checksum: fac28f41a6e576282300a459d70ea0d33aab70dbb77c3d09582bb0335bb00d862b6de69585792a4d590aae4173fbab0bf28861e2d90ca7b2b1439b52688e9ff6
+  languageName: node
+  linkType: hard
+
 "@types/linkify-it@npm:^5":
   version: 5.0.0
   resolution: "@types/linkify-it@npm:5.0.0"
   checksum: ec98e03aa883f70153a17a1e6ed9e28b39a604049b485daeddae3a1482ec65cac0817520be6e301d99fd1a934b3950cf0f855655aae6ec27da2bb676ba4a148e
+  languageName: node
+  linkType: hard
+
+"@types/markdown-it@npm:^13.0.7":
+  version: 13.0.9
+  resolution: "@types/markdown-it@npm:13.0.9"
+  dependencies:
+    "@types/linkify-it": ^3
+    "@types/mdurl": ^1
+  checksum: 4413860c1e595ad23b5bc500d485774eec1b8ab4339aad4e52b2761460db99915fa7754a7e85d6d7cd8d4a04e501d7097f7d7571776b3e025a3a01f0f5decf4f
   languageName: node
   linkType: hard
 
@@ -3690,6 +3707,13 @@ __metadata:
   version: 4.3.2
   resolution: "@types/marked@npm:4.3.2"
   checksum: c1107079d6c368dd60a668a41aa2101d006cad404b6eb4af6723d419dc869b278928fb769825f11d0d311a8cf437428992729c8a47253b6a3894a6326b1ee4d9
+  languageName: node
+  linkType: hard
+
+"@types/mdurl@npm:^1":
+  version: 1.0.5
+  resolution: "@types/mdurl@npm:1.0.5"
+  checksum: e8e872e8da8f517a9c748b06cec61c947cb73fd3069e8aeb0926670ec5dfac5d30549b3d0f1634950401633e812f9b7263f2d5dbe7e98fce12bcb2c659aa4b21
   languageName: node
   linkType: hard
 
@@ -7550,6 +7574,7 @@ __metadata:
     slate-history: ^0.113.1
     slate-react: ^0.117.3
     tachyons: ^4.12.0
+    tiptap-markdown: ^0.8.10
     typescript: ~5.8.3
     typescript-eslint: ^8.30.1
     vite: ^6.3.5
@@ -7712,7 +7737,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-it@npm:^14.0.0":
+"markdown-it-task-lists@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "markdown-it-task-lists@npm:2.1.1"
+  checksum: 8fc634bfc28a47ed582ca1f68af306f86289bdca0ca654de835bc28ac2c0a286894285fab34af21ec3a87e86fd19236bb0562b2dcb4d2fd34a9c992e3d3f41c2
+  languageName: node
+  linkType: hard
+
+"markdown-it@npm:^14.0.0, markdown-it@npm:^14.1.0":
   version: 14.1.0
   resolution: "markdown-it@npm:14.1.0"
   dependencies:
@@ -8796,7 +8828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prosemirror-markdown@npm:^1.13.1":
+"prosemirror-markdown@npm:^1.11.1, prosemirror-markdown@npm:^1.13.1":
   version: 1.13.2
   resolution: "prosemirror-markdown@npm:1.13.2"
   dependencies:
@@ -10722,6 +10754,20 @@ __metadata:
   dependencies:
     "@popperjs/core": ^2.9.0
   checksum: cac955318a65288e8d2dca05059878b003c6e66f92c94f7810f5bc5448eb6646abdf7dacc9bd00020e2611592598d0aae3a28ec9a45349a159603c3fdddce5fb
+  languageName: node
+  linkType: hard
+
+"tiptap-markdown@npm:^0.8.10":
+  version: 0.8.10
+  resolution: "tiptap-markdown@npm:0.8.10"
+  dependencies:
+    "@types/markdown-it": ^13.0.7
+    markdown-it: ^14.1.0
+    markdown-it-task-lists: ^2.1.1
+    prosemirror-markdown: ^1.11.1
+  peerDependencies:
+    "@tiptap/core": ^2.0.3
+  checksum: 47c4325b91830c244e9763fa77110948235ca8a1f155c5fbe412712db6c3e85a554b2b6e680ce245725b5023936673843c6f851e22ee75e1a4cab7e4b472ade0
   languageName: node
   linkType: hard
 

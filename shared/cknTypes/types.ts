@@ -1136,6 +1136,12 @@ export type ToastMarkdownEditorProps = {
   title: string
 }
 
+export type TiptapEditorProps = {
+  initialValue: string
+  onChange: (markdown: string) => void
+  title: string
+}
+
 export type ButtonProps = {
   disable?: boolean
   panel: ActivePanel | ActiveHome
