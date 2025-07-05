@@ -1,37 +1,37 @@
 @import './color';
 
-.toastui-editor-main {
+.toastui-editor-mainX {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   border: 4px solid $brand; // map-get($color-set, 'dark-blue');
 }
 
-.toastui-editor-toolbar {
-  background-color: $brand;
+.toastui-editor-toolbarX {
+  // background-color: $brand;
   display: flex;
   justify-content: center; /* horizontal centering */
   align-items: center;     /* vertical centering */
 }
 
-.toastui-editor-defaultUI-toolbar button {
+.toastui-editor-defaultUI-toolbar buttonX {
   border: none;
   font-weight: bold;
   // color: white
 }
 
-.toastui-editor-md-preview {
+.toastui-editor-md-previewX {
   background-color: #fafafa;
   padding: 1rem;
   border-left: 1px solid #ddd;
 }
 
-.toastui-editor-defaultUI-toolbar {
+.toastui-editor-defaultUI-toolbarX {
   background-color: $brand; // map-get($color-set, 'red');
 }
 
-.toastui-editor-defaultUI button {
+// .toastui-editor-defaultUI buttonX {
 
-}
+// }
 
 // .toastui-editor-toolbar-icons .toastui-editor-toolbar-icon-bold,
 // .toastui-editor-toolbar-icons .toastui-editor-toolbar-icon-italic,
@@ -42,15 +42,15 @@
 //   font-size: 1.3rem;         // larger size
 // }
 
-.toastui-editor-toolbar-icons-custom {
-  color: white !important;
-  background-color: transparent;
+.toastui-editor-toolbar-icons-customX {
+  // color: white !important;
+  // background-color: transparent;
   font-size: 1.75rem !important;
   padding: 0px;
   // margin: 0;
 }
 
-.toastui-editor-toolbar-icons-custom:hover {
+.toastui-editor-toolbar-icons-custom:hoverX {
   color: $brand !important;
   background-color: white;
   // font-size: 1.75rem !important;
@@ -58,11 +58,11 @@
   // margin: 0;
 }
 
-.toastui-editor-defaultUI-toolbar {
+.toastui-editor-defaultUI-toolbarX {
     border: none;
 }
 
-.toastui-editor-mode-switch {
+.toastui-editor-mode-switchX {
   background-color: $brand;
-  display: none !important;
+  // display: none !important;
 }

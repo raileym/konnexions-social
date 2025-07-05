@@ -5,6 +5,7 @@ import {
 import { ToastMarkdownEditor } from '@components/ToastMarkdownEditor/ToastMarkdownEditor'
 import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
+import { TiptapEditor } from '@components/TiptapEditor/TiptapEditor'
 
 const RightPanel = () => {
 
@@ -38,6 +39,8 @@ const RightPanel = () => {
             </div>
           <div className="w-100 black f2">Lesson {selectedLessonNumber}</div>
           </h2>
+
+          <TiptapEditor />
 
           <div>
             <ToastMarkdownEditor initialValue={flexLesson} title={toastMarkdownEditorTitle} onChange={setFlexLesson} />
