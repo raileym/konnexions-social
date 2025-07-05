@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { defaultCustomScenario, type Scenario } from '@cknTypes/types'
+import { type Scenario } from '@cknTypes/types'
 import { SCENARIO } from '@cknTypes/constants'
 
 type SelectorScenarioProps = {

@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import PanelKeys from './components/PanelKeys'
 import PanelBasic from '@components/PanelBasic/PanelBasic'
-import PanelSettings from './components/PanelSettings'
+// import PanelSettings from './components/PanelSettings'
 import PanelHelp from './components/PanelHelp'
 import NavbarTop from './components/NavbarTop'
 import './App.scss'
@@ -11,8 +11,8 @@ import NavbarBottom from './components/NavbarBottom'
 import PanelMenu from './components/PanelMenu'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { getCurrentWeek } from './components/getCurrentWeek'
-import { defaultMaxCount, type Scenario } from '@cknTypes/types'
-import { SCENARIO } from '@cknTypes/constants'
+// import { defaultMaxCount, type Scenario } from '@cknTypes/types'
+// import { SCENARIO } from '@cknTypes/constants'
 import PanelGenAIPro from './components/PanelGenAIPro/PanelGenAIPro'
 import AppLeftPanel from '@components/AppLeftPanel/AppLeftPanel'
 import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
@@ -20,9 +20,9 @@ import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
 const App: React.FC = () => {
   const {
     setOpenAiUsage,
-    setScenario,
+    // setScenario,
     setTtsCharUsage,
-    setMaxCount
+    // setMaxCount
   } = useAppContext()
 
   const loadUsage = () => {

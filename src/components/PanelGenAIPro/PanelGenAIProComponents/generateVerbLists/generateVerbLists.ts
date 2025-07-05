@@ -6,7 +6,7 @@ import { zipLines } from '../zipLines/zipLines'
 const formats: VerbFormats[] = Object.values(VERB_FORMATS)
 
 export function generateVerbLists(lesson: Lesson, noIndex: boolean = false): Record<VerbFormats, Lines> {
-  if (!Array.isArray(lesson?.verbs?.lines)) return {} as Record<VerbFormats, Lines>
+  if (!Array.isArray(lesson?.verbsResolve?.lines)) return {} as Record<VerbFormats, Lines>
 
   const result = {} as Record<VerbFormats, Lines>
 
@@ -17,14 +17,14 @@ export function generateVerbLists(lesson: Lesson, noIndex: boolean = false): Rec
       lines = (lesson.verbsExpandedComplete?.lines ?? []).map(line => line.replace(/^\s*\d+\.\s*/, ''))
     } else if (format === 'pronounAndConjugation') {
       const pronouns = generateConjugatedLines({
-        verbsLines: lesson.verbs.lines,
+        verbsLines: lesson.verbsResolve.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: 'pronoun',
         noIndex: true,
         noPeriod: true
       })
       const conjugations = generateConjugatedLines({
-        verbsLines: lesson.verbs.lines,
+        verbsLines: lesson.verbsResolve.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: 'conjugation',
         noIndex: true,
@@ -34,14 +34,14 @@ export function generateVerbLists(lesson: Lesson, noIndex: boolean = false): Rec
       lines = zipLines({ left: pronouns, right: conjugations, noIndex, noPeriod: false})
     } else if (format === 'triple') {
       const conjugations = generateConjugatedLines({
-        verbsLines: lesson.verbs.lines,
+        verbsLines: lesson.verbsResolve.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: 'conjugation',
         noIndex: true,
         noPeriod: false
       })
       const pronouns = generateConjugatedLines({
-        verbsLines: lesson.verbs.lines,
+        verbsLines: lesson.verbsResolve.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: 'pronoun',
         noIndex: true,
@@ -53,7 +53,7 @@ export function generateVerbLists(lesson: Lesson, noIndex: boolean = false): Rec
       lines = zipLines({left: linesPre, right: complete, noIndex, noPeriod: true})
     } else if (format === 'incomplete') {
       lines = generateConjugatedLines({
-        verbsLines: lesson.verbs.lines,
+        verbsLines: lesson.verbsResolve.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: format,
         noIndex,
@@ -61,7 +61,7 @@ export function generateVerbLists(lesson: Lesson, noIndex: boolean = false): Rec
       })
     } else if (format === 'conjugation') {
       lines = generateConjugatedLines({
-        verbsLines: lesson.verbs.lines,
+        verbsLines: lesson.verbsResolve.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: format,
         noIndex,
@@ -69,7 +69,7 @@ export function generateVerbLists(lesson: Lesson, noIndex: boolean = false): Rec
       })
     } else {
       lines = generateConjugatedLines({
-        verbsLines: lesson.verbs.lines,
+        verbsLines: lesson.verbsResolve.lines,
         language: LANGUAGE.SPANISH,
         returnFormat: format,
         noIndex

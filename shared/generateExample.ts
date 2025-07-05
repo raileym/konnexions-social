@@ -182,7 +182,8 @@ export function generateExample({
     verbsResolve: [],
     nounsResolve: [],
     dialogResolve: [],
-    translationResolve: []
+    translationResolve: [],
+    errorModule: []
   }
   const raw = examples[moduleName]
   return options.asString ? JSON.stringify(raw, null, 2) : raw

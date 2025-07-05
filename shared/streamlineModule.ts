@@ -8,7 +8,7 @@ export function streamlineModule({
   moduleName: string
   module: Partial<Module>
 }): Partial<Module> {
-  if (moduleName !== MODULE_NAME.DIALOG) return module
+  if (moduleName !== MODULE_NAME.DIALOG_DRAFT) return module
   if (module.lines === undefined) return module
 
   const expandedLines: string[] = []

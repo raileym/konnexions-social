@@ -1,5 +1,5 @@
 import { useAppContext } from '@context/AppContext/AppContext'
-import { defaultLesson, type ActivePanel, type Lesson } from '@cknTypes/types'
+import { defaultLesson, type Lesson } from '@cknTypes/types'
 // import CutoffToggle from '@components/CutoffToggle'
 // import ShowMaxCount from '@components/ShowMaxCount'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
