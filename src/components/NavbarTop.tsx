@@ -1,6 +1,5 @@
 // src/components/NavbarTop.tsx
 import React from 'react'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import Button from './Button'
 import { usePanel } from '@hooks/usePanel'

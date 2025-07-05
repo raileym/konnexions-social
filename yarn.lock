@@ -3461,6 +3461,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-task-item@npm:^2.24.2":
+  version: 2.24.2
+  resolution: "@tiptap/extension-task-item@npm:2.24.2"
+  peerDependencies:
+    "@tiptap/core": ^2.7.0
+    "@tiptap/pm": ^2.7.0
+  checksum: 41282ddecdfa345694dbbc4e920902811afa62c7254eb3ad68a2a601a47b14b7e9788aad049f8167b50310189ed18c486a641e5dc78e5e54e5573ffe60077c35
+  languageName: node
+  linkType: hard
+
+"@tiptap/extension-task-list@npm:^2.24.2":
+  version: 2.24.2
+  resolution: "@tiptap/extension-task-list@npm:2.24.2"
+  peerDependencies:
+    "@tiptap/core": ^2.7.0
+  checksum: cde3537a1e9385f9bfb3f5396d2430e68dc6be846535ec1a335734c63791797a790e53c4704b1d1d1c7b2fa509be9d8af082ce54e754ecde2a90c5fc04758bfd
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-text-style@npm:^2.24.2":
   version: 2.24.2
   resolution: "@tiptap/extension-text-style@npm:2.24.2"
@@ -7546,6 +7565,8 @@ __metadata:
     "@supabase/supabase-js": ^2.49.10
     "@tiptap/extension-bold": ^2.24.2
     "@tiptap/extension-italic": ^2.24.2
+    "@tiptap/extension-task-item": ^2.24.2
+    "@tiptap/extension-task-list": ^2.24.2
     "@tiptap/extension-underline": ^2.24.2
     "@tiptap/react": ^2.24.2
     "@tiptap/starter-kit": ^2.24.2
