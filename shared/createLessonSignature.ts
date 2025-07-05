@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import type { Lesson } from '@cknTypes/types'
+import type { Lesson } from '../shared/cknTypes/types.js'
 
 export const createLessonSignature = (lesson: Partial<Lesson>): string => {
   // Extract only the fields relevant to the signature, providing defaults if missing

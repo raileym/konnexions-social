@@ -4,11 +4,11 @@ import {
   type Line,
   type Lines,
   type ModuleName
-} from '@cknTypes/types'
+} from '../shared/cknTypes/types.js'
 import {
   LANGUAGE,
   LESSON_PROMPT_STYLE
-} from '@cknTypes/constants'
+} from '../shared/cknTypes/constants.js'
 
 // ✅ Overload declarations — DO NOT use 'const' or 'export'
 export function generateExample(props: GenerateExampleProps & { options: { asString: true }, lessonPromptStyle: LessonPromptStyle }): string

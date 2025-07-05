@@ -1,4 +1,4 @@
-import { CURATED } from '@cknTypes/constants'
+import { CURATED } from '../shared/cknTypes/constants.js'
 import { type Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
 

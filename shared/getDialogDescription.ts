@@ -1,5 +1,5 @@
-import { LESSON_PROMPT_STYLE } from '@cknTypes/constants'
-import type { Lesson } from '@cknTypes/types'
+import { LESSON_PROMPT_STYLE } from '../shared/cknTypes/constants.js'
+import type { Lesson } from '../shared/cknTypes/types.js'
 
 export const getDialogDescription = (lesson: Lesson): string => {
   const base = `${lesson.lessonPromptStyle.toUpperCase()}: ${lesson.lessonPrompt} The ${lesson.lessonPromptStyle} should be appropriate for beginning-level language instruction. 

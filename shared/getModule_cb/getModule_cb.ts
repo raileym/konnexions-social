@@ -1,7 +1,7 @@
 import type {
   GetModuleCbProps,
   Module
-} from '@cknTypes/types'
+} from '../cknTypes/types.js'
 
 export const getModule_cb = async ({
   lesson,
@@ -9,11 +9,13 @@ export const getModule_cb = async ({
   testMode
 }: GetModuleCbProps): Promise<Module | null> => {
   try {
-    const isServer = typeof window === 'undefined'
+    // const isServer = typeof window === 'undefined'
 
-    const baseURL = isServer
-      ? process.env.URL || 'http://localhost:8888' // fallback for local testing
-      : ''
+    // const baseURL = isServer
+    //   ? process.env.URL || 'http://localhost:8888' // fallback for local testing
+    //   : ''
+
+    const baseURL = process.env.URL
 
     const res = await fetch(`${baseURL}/.netlify/functions/genai-module-cb`, {
       method: 'POST',
@@ -30,8 +32,8 @@ export const getModule_cb = async ({
       return null
     }
 
-    const data = await res.json()
-    return data[moduleName] as Module
+    const data = (await res.json()) as Record<string, Module>;
+    return data[moduleName] ?? null;
   } catch (err) {
     console.error('Network error:', err)
     return null

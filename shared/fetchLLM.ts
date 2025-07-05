@@ -1,4 +1,4 @@
-import { type Prompt } from '@cknTypes/types'
+import { type Prompt } from '../shared/cknTypes/types.js'
 
 type FetchOpenAIProps = {
   prompt: Prompt
@@ -33,7 +33,10 @@ export async function fetchClaude({ prompt }: UseClaudeProps): Promise<string> {
     throw new Error(`Claude API error: ${response.status} ${text}`)
   }
 
-  const data = await response.json()
+  interface ClaudeResponse {
+    content?: Array<{ text?: string }>
+  }
+  const data = (await response.json()) as ClaudeResponse
   return data.content?.[0]?.text?.trim() ?? ''
 }
 
@@ -55,8 +58,9 @@ export async function fetchOpenAI({ prompt }: FetchOpenAIProps): Promise<string>
     })
   })
 
-  const data = await response.json()
-
+  interface OpenAIResponse {
+    choices?: Array<{ message?: { content?: string } }>
+  }
+  const data = (await response.json()) as OpenAIResponse
   return data.choices?.[0]?.message?.content?.trim() ?? ''
 }
-

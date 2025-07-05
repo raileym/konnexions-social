@@ -2,8 +2,8 @@ import type {
   ResolveProps,
   ResolveResult,
   Lines
-} from '@cknTypes/types'
-import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
+} from '../cknTypes/types.js'
+import { formatDialogLinesForReview } from '../formatDialogLinesForReview.js'
 
 export const resolveDialog = ({
   reviewLines,

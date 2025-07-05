@@ -1,26 +1,26 @@
 import {
   defaultPrompt,
-} from '@cknTypes/types'
+} from '../shared/cknTypes/types.js'
 import {
   ERROR_LABEL,
   FIELD_COUNT,
   MODULE_NAME
-} from '@cknTypes/constants'
+} from '../shared/cknTypes/constants.js'
 type PromptWithMeta = {
   prompt: string
   fieldCount: number
   errorLabel: ErrorLabel
 }
-import type { Lesson, ErrorLabel, GetPromptProps, HandleLLMError, ModuleName } from '@cknTypes/types'
-import { getDialogDraftPrompt } from '@shared/getDialogDraftPrompt'
-import { getNounsDraftPrompt } from '@shared/getNounsDraftPrompt'
-import { getVerbsDraftPrompt } from '@shared/getVerbsDraftPrompt'
-import { getDialogReviewPrompt } from '@shared/getDialogReviewPrompt'
-import { getNounsReviewPrompt } from '@shared/getNounsReviewPrompt'
-import { getVerbsReviewPrompt } from '@shared/getVerbsReviewPrompt'
-import { getVerbsExpandedCompletePrompt } from '@shared/getVerbsExpandedCompletePrompt'
-import { getTranslationDraftPrompt } from '@shared/getTranslationDraftPrompt'
-import { getTranslationReviewPrompt } from '@shared/getTranslationReviewPrompt'
+import type { Lesson, ErrorLabel, GetPromptProps, HandleLLMError, ModuleName } from '../shared/cknTypes/types.js'
+import { getDialogDraftPrompt } from '../shared/getDialogDraftPrompt.js'
+import { getNounsDraftPrompt } from '../shared/getNounsDraftPrompt.js'
+import { getVerbsDraftPrompt } from '../shared/getVerbsDraftPrompt.js'
+import { getDialogReviewPrompt } from '../shared/getDialogReviewPrompt.js'
+import { getNounsReviewPrompt } from '../shared/getNounsReviewPrompt.js'
+import { getVerbsReviewPrompt } from '../shared/getVerbsReviewPrompt.js'
+import { getVerbsExpandedCompletePrompt } from '../shared/getVerbsExpandedCompletePrompt.js'
+import { getTranslationDraftPrompt } from '../shared/getTranslationDraftPrompt.js'
+import { getTranslationReviewPrompt } from '../shared/getTranslationReviewPrompt.js'
 
 const makePromptGenerator = (
   moduleName: ModuleName,

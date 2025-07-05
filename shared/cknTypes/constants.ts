@@ -1,4 +1,4 @@
-import { type Gender, type ModuleName, type NounArticlesValue, type ScenarioLabels } from './types'
+import { type Gender, type ModuleName, type NounArticlesValue, type ScenarioLabels } from './types.js'
 
 export const MODULE_NAME = {
   DIALOG_DRAFT: 'dialogDraft',

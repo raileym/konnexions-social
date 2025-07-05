@@ -1,9 +1,9 @@
-import { FIELD_COUNT, MODULE_NAME } from '@cknTypes/constants'
+import { FIELD_COUNT, MODULE_NAME } from '../cknTypes/constants.js'
 import type {
   ResolveProps,
   ResolveResult,
   Lines
-} from '@cknTypes/types'
+} from '../cknTypes/types.js'
 
 export const resolveTranslation = ({
   reviewLines,

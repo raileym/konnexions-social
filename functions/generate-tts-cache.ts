@@ -1,6 +1,6 @@
-import { GENDER } from '@cknTypes/constants'
+import { GENDER } from '../shared/cknTypes/constants.js'
 import { type Handler } from '@netlify/functions'
-import { getVoiceForSpeaker } from '@shared/getVoiceForSpeaker'
+import { getVoiceForSpeaker } from '../shared/getVoiceForSpeaker.js'
 import { createClient } from '@supabase/supabase-js'
 import crypto from 'crypto'
 

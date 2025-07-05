@@ -1,7 +1,7 @@
-import { generateExample } from '@shared/generateExample'
-import { getJsonQualification } from '@shared/getJsonQualification'
-import { type GetVerbsExpandedCompletePrompt, type GetVerbsExpandedCompletePromptProps } from '@cknTypes/types'
-import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
+import { generateExample } from '../shared/generateExample.js'
+import { getJsonQualification } from '../shared/getJsonQualification.js'
+import { type GetVerbsExpandedCompletePrompt, type GetVerbsExpandedCompletePromptProps } from '../shared/cknTypes/types.js'
+import { LANGUAGE_TITLE, MODULE_NAME } from '../shared/cknTypes/constants.js'
 
 export const getVerbsExpandedCompletePrompt: GetVerbsExpandedCompletePrompt = ({lesson, errors}: GetVerbsExpandedCompletePromptProps) => {
   const verbsExpandedCompleteExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_EXPANDED_COMPLETE, lessonPromptStyle: lesson.lessonPromptStyle, options: { asString: true }  })

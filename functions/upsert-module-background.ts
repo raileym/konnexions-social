@@ -1,12 +1,12 @@
 // /.netlify/functions/runModule_cb-background.ts
 import type { BackgroundHandler } from '@netlify/functions'
-import { runPipelineCb } from '@shared/runPipelineCb/runPipelineCb'
-import { resolveNouns } from '@shared/resolveNouns_cb/resolveNouns_cb'
-import { resolveVerbs } from '@shared/resolveVerbs_cb/resolveVerbs_cb'
-import { resolveDialog } from '@shared/resolveDialog_cb/resolveDialog_cb'
-import { resolveTranslation } from '@shared/resolveTranslation_cb/resolveTranslation_cb'
-import { MODULE_NAME, PIPELINE_TYPE } from '@cknTypes/constants'
-import type { PipelineConfigMap, RunPipelineCbBody } from '@cknTypes/types'
+import { runPipelineCb } from '../shared/runPipelineCb/runPipelineCb.js'
+import { resolveNouns } from '../shared/resolveNouns_cb/resolveNouns_cb.js'
+import { resolveVerbs } from '../shared/resolveVerbs_cb/resolveVerbs_cb.js'
+import { resolveDialog } from '../shared/resolveDialog_cb/resolveDialog_cb.js'
+import { resolveTranslation } from '../shared/resolveTranslation_cb/resolveTranslation_cb.js'
+import { MODULE_NAME, PIPELINE_TYPE } from '../shared/cknTypes/constants.js'
+import type { PipelineConfigMap, RunPipelineCbBody } from '../shared/cknTypes/types.js'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(

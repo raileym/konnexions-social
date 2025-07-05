@@ -1,9 +1,9 @@
-import { generateExample } from '@shared/generateExample'
-import { getJsonQualification } from '@shared/getJsonQualification'
-import { type GetDialogDraftPrompt, type GetDialogDraftPromptProps } from '@cknTypes/types'
-import { MODULE_NAME } from '@cknTypes/constants'
-import { getRequiredForm } from '@shared/getRequiredForm'
-import { getDialogDescription } from '@shared/getDialogDescription'
+import { generateExample } from '../shared/generateExample.js'
+import { getJsonQualification } from '../shared/getJsonQualification.js'
+import { type GetDialogDraftPrompt, type GetDialogDraftPromptProps } from '../shared/cknTypes/types.js'
+import { MODULE_NAME } from '../shared/cknTypes/constants.js'
+import { getRequiredForm } from '../shared/getRequiredForm.js'
+import { getDialogDescription } from '../shared/getDialogDescription.js'
 
 export const getDialogDraftPrompt: GetDialogDraftPrompt = ({lesson, errors}: GetDialogDraftPromptProps) => {
   const dialogDraftExample = generateExample({

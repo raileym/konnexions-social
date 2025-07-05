@@ -1,8 +1,8 @@
 // /.netlify/functions/run-pipeline-cb-background.ts
 import type { BackgroundHandler } from '@netlify/functions'
-import { runPipelineCb } from '@shared/runPipelineCb/runPipelineCb'
-import type { RunPipelineCbBody } from '@cknTypes/types'
-import { pipelineConfigMap } from '@shared/pipelineConfigMap'
+import { runPipelineCb } from '../shared/runPipelineCb/runPipelineCb.js'
+import type { RunPipelineCbBody } from '../shared/cknTypes/types.js'
+import { pipelineConfigMap } from '../shared/pipelineConfigMap.js'
 
 const handler: BackgroundHandler = async (event) => {
   try {

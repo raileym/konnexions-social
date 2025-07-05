@@ -1,8 +1,8 @@
-import { formatDialogLinesForReview } from './formatDialogLinesForReview'
-import { generateExample } from '@shared/generateExample'
-import { getJsonQualificationWithExample } from '@shared/getJsonQualification'
-import { type GetTranslationDraftPrompt, type GetTranslationDraftPromptProps } from '@cknTypes/types'
-import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
+import { formatDialogLinesForReview } from './formatDialogLinesForReview.js'
+import { generateExample } from '../shared/generateExample.js'
+import { getJsonQualificationWithExample } from '../shared/getJsonQualification.js'
+import { type GetTranslationDraftPrompt, type GetTranslationDraftPromptProps } from '../shared/cknTypes/types.js'
+import { LANGUAGE_TITLE, MODULE_NAME } from '../shared/cknTypes/constants.js'
 
 export const getTranslationDraftPrompt: GetTranslationDraftPrompt = ({lesson, errors}: GetTranslationDraftPromptProps) => {
   const translationDraftExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.TRANSLATION_DRAFT, lessonPromptStyle: lesson.lessonPromptStyle, options: { asString: true }  })

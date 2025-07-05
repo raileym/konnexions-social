@@ -2,7 +2,7 @@ import type {
   JsonQualification, 
   GetJsonQualificationProps,
   GetJsonQualificationWithExampleProps
-} from '@cknTypes/types';
+} from '../shared/cknTypes/types.js';
 
 type detailsProps = {
   responseType: string

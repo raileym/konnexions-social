@@ -1,4 +1,4 @@
-import type { Lines } from '@cknTypes/types'
+import type { Lines } from '../shared/cknTypes/types.js'
 
 export function formatDialogLinesForReview(lines: Lines): Lines {
   return lines.map((line, index) => {

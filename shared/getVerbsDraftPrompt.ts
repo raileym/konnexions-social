@@ -1,8 +1,8 @@
-import { generateExample } from '@shared/generateExample'
-import { getJsonQualification } from '@shared/getJsonQualification'
-import { type GetVerbsDraftPrompt, type GetVerbsDraftPromptProps } from '@cknTypes/types'
-import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
-import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
+import { generateExample } from '../shared/generateExample.js'
+import { getJsonQualification } from '../shared/getJsonQualification.js'
+import { type GetVerbsDraftPrompt, type GetVerbsDraftPromptProps } from '../shared/cknTypes/types.js'
+import { LANGUAGE_TITLE, MODULE_NAME } from '../shared/cknTypes/constants.js'
+import { formatDialogLinesForReview } from '../shared/formatDialogLinesForReview.js'
 
 export const getVerbsDraftPrompt: GetVerbsDraftPrompt = ({lesson, errors}: GetVerbsDraftPromptProps) => {
         

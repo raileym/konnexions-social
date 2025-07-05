@@ -16,7 +16,7 @@ import {
   CURATED,
   PIPELINE_TYPE,
   LESSON_PROMPT_STYLE
-} from '@cknTypes/constants'
+} from './constants.js'
 
 export type AppContextType = {
   activeHome: ActiveHome

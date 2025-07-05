@@ -1,9 +1,9 @@
-import { MODULE_NAME, PIPELINE_TYPE } from '@cknTypes/constants';
-import type { PipelineConfigMap } from '@cknTypes/types';
-import { resolveDialog } from '@shared/resolveDialog_cb/resolveDialog_cb';
-import { resolveNouns } from '@shared/resolveNouns_cb/resolveNouns_cb';
-import { resolveTranslation } from '@shared/resolveTranslation_cb/resolveTranslation_cb';
-import { resolveVerbs } from '@shared/resolveVerbs_cb/resolveVerbs_cb';
+import { MODULE_NAME, PIPELINE_TYPE } from '../shared/cknTypes/constants.js'
+import type { PipelineConfigMap } from '../shared/cknTypes/types.js'
+import { resolveDialog } from '../shared/resolveDialog_cb/resolveDialog_cb.js'
+import { resolveNouns } from '../shared/resolveNouns_cb/resolveNouns_cb.js'
+import { resolveTranslation } from '../shared/resolveTranslation_cb/resolveTranslation_cb.js'
+import { resolveVerbs } from '../shared/resolveVerbs_cb/resolveVerbs_cb.js'
 
 export const pipelineConfigMap: PipelineConfigMap = {
   [PIPELINE_TYPE.DIALOG]: {

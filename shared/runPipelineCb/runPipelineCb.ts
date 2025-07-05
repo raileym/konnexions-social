@@ -2,8 +2,8 @@ import { createClient } from '@supabase/supabase-js'
 import type {
   Lesson,
   RunPipelineCbProps
-} from '@cknTypes/types'
-import getModule_cb from '@shared/getModule_cb/getModule_cb'
+} from '../cknTypes/types.js'
+import getModule_cb from '../getModule_cb/getModule_cb.js'
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,

@@ -1,5 +1,5 @@
-import { LESSON_PROMPT_STYLE } from '@cknTypes/constants'
-import type { GetRequiredFormProps } from '@cknTypes/types'
+import { LESSON_PROMPT_STYLE } from '../shared/cknTypes/constants.js'
+import type { GetRequiredFormProps } from '../shared/cknTypes/types.js'
 
 export const getRequiredForm = ({ lesson, lessonPromptStyle }: GetRequiredFormProps): string => {
   switch (lessonPromptStyle) {

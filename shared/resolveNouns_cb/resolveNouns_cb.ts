@@ -1,5 +1,5 @@
-import { FIELD_COUNT, MODULE_NAME } from '@cknTypes/constants'
-import type { Lines, ResolveProps, ResolveResult } from '@cknTypes/types'
+import { FIELD_COUNT, MODULE_NAME } from '../cknTypes/constants.js'
+import type { Lines, ResolveProps, ResolveResult } from '../cknTypes//types.js'
 
 export const resolveNouns = ({
   reviewLines,

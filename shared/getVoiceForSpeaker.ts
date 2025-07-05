@@ -1,5 +1,5 @@
-import type { Gender, Language, VoicePool } from '@cknTypes/types'
-import { getStableHash } from '@shared/getStableHash'
+import type { Gender, Language, VoicePool } from '../shared/cknTypes/types.js'
+import { getStableHash } from '../shared/getStableHash.js'
 
 type GetVoiceForSpeakerProps = {
   speaker: string,

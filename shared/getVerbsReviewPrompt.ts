@@ -1,9 +1,9 @@
-import { generateExample } from '@shared/generateExample'
-import { getJsonQualification } from '@shared/getJsonQualification'
-import { type GetVerbsReviewPrompt, type GetVerbsReviewPromptProps } from '@cknTypes/types'
-import { LANGUAGE_TITLE, MODULE_NAME, SCENARIO_LABELS } from '@cknTypes/constants'
-import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
-import { formatNounLinesForReview } from '@shared/formatNounLinesForReview'
+import { generateExample } from '../shared/generateExample.js'
+import { getJsonQualification } from '../shared/getJsonQualification.js'
+import { type GetVerbsReviewPrompt, type GetVerbsReviewPromptProps } from '../shared/cknTypes/types.js'
+import { LANGUAGE_TITLE, MODULE_NAME, SCENARIO_LABELS } from '../shared/cknTypes/constants.js'
+import { formatDialogLinesForReview } from '../shared/formatDialogLinesForReview.js'
+import { formatNounLinesForReview } from '../shared/formatNounLinesForReview.js'
 
 export const getVerbsReviewPrompt: GetVerbsReviewPrompt = ({lesson, errors}: GetVerbsReviewPromptProps) => {
   const verbsReviewExample = generateExample({language: lesson.targetLanguage, moduleName: MODULE_NAME.VERBS_REVIEW, lessonPromptStyle: lesson.lessonPromptStyle, options: { asString: true }  })

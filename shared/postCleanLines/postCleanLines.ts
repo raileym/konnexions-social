@@ -1,4 +1,4 @@
-import type { Line, Lines } from '@cknTypes/types';
+import type { Line, Lines } from '../cknTypes/types.js'
 
 type CleanedNounLinesProps = {
   lines: Lines;

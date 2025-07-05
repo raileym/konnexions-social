@@ -1,5 +1,5 @@
-// import { LESSON_PROMPT_STYLE, MODULE_NAME } from '@cknTypes/constants'
-import { MODULE_NAME } from '@cknTypes/constants'
+// import { LESSON_PROMPT_STYLE, MODULE_NAME } from '../shared/cknTypes/constants.js'
+import { MODULE_NAME } from '../shared/cknTypes/constants.js'
 import {
   type AddErrorProps,
   type HandleLLMError,
@@ -7,9 +7,9 @@ import {
   type Module,
   type ValidateModuleProps,
   type Line
-} from '@cknTypes/types'
-import { lintJsonArrayStructure } from '@shared/lintJsonArrayStructure'
-import { postCleanLines } from '@shared/postCleanLines/postCleanLines'
+} from '../shared/cknTypes/types.js'
+import { lintJsonArrayStructure } from '../shared/lintJsonArrayStructure.js'
+import { postCleanLines } from '../shared/postCleanLines/postCleanLines.js'
 
 export const addError = ({ errorLabel, setErrors, error }: AddErrorProps) => {
   setErrors(prev => {

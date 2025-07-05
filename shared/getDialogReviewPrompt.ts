@@ -1,9 +1,9 @@
-import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
-import { generateExample } from '@shared/generateExample'
-import { getJsonQualificationWithExample } from '@shared/getJsonQualification'
-import { type GetDialogReviewPrompt, type GetDialogReviewPromptProps } from '@cknTypes/types'
-import { LANGUAGE_TITLE, MODULE_NAME } from '@cknTypes/constants'
-import { formatNounLinesForReview } from '@shared/formatNounLinesForReview'
+import { formatDialogLinesForReview } from '../shared/formatDialogLinesForReview.js'
+import { generateExample } from '../shared/generateExample.js'
+import { getJsonQualificationWithExample } from '../shared/getJsonQualification.js'
+import { type GetDialogReviewPrompt, type GetDialogReviewPromptProps } from '../shared/cknTypes/types.js'
+import { LANGUAGE_TITLE, MODULE_NAME } from '../shared/cknTypes/constants.js'
+import { formatNounLinesForReview } from '../shared/formatNounLinesForReview.js'
 
 export const getDialogReviewPrompt: GetDialogReviewPrompt = ({lesson, errors}: GetDialogReviewPromptProps) => {
   const dialogReviewExample = generateExample({

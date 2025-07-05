@@ -1,19 +1,19 @@
 // File: functions/genai-module-cb.ts
 
 import { type Handler } from '@netlify/functions'
-import { generateSignature } from '@shared/generateSignature'
-import { fetchOpenAI } from '@shared/fetchLLM'
-import { getPrompt_cb } from '@shared/getPrompt_cb'
-import { validateModule } from '@shared/validateModule'
-import { streamlineModule } from '@shared/streamlineModule'
+import { generateSignature } from '../shared/generateSignature.js'
+import { fetchOpenAI } from '../shared/fetchLLM.js'
+import { getPrompt_cb } from '../shared/getPrompt_cb.js'
+import { validateModule } from '../shared/validateModule.js'
+import { streamlineModule } from '../shared/streamlineModule.js'
 import {
   defaultPrompt,
   type ErrorLabel,
   type Lesson,
   type ModuleName,
   type Prompt,
-} from '@cknTypes/types'
-import { ERROR_LABEL, FIELD_COUNT, MODULE_NAME } from '@cknTypes/constants'
+} from '../shared/cknTypes/types.js'
+import { ERROR_LABEL, FIELD_COUNT, MODULE_NAME } from '../shared/cknTypes/constants.js'
 
 const handler: Handler = async (event) => {
   let lesson: Lesson | undefined
