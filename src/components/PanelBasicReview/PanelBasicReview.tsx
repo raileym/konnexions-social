@@ -11,7 +11,7 @@ const PanelSettings: React.FC = () => {
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
   return (
-    <div className={`basic-review-panel bl b--moon-gray bw1 z-3 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}>
+    <div className={`panel-right basic-review-panel bl b--moon-gray bw1 z-3 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}>
       <PanelBasicReviewComponents />
     </div>
   )

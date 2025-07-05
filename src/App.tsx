@@ -53,7 +53,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className="flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
+      <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
         {/* <div className="bg-yellow absolute z-4 w-10 left-0 top-0 h-100" /> */}
         <AppLeftPanel />
         <PanelGenAIPro />

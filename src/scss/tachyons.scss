@@ -245,6 +245,10 @@ $breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
 @each $break in $breaks {
     @media screen and (max-width: #{$break}px) {
 
+        .hide-#{$break} {
+            display: none !important;
+        }
+
         // @for $i from 20 through 4 { .width-#{$i}-#{$break} { width: 1rem*$i !important; } }    
         // @for $i from 10 through 3 { .width-#{10*$i}-#{$break} { width: 10rem*$i !important; } }    
         // @for $i from 40 through 2 { .height-#{$i}-#{$break} { height: 1rem*$i !important; } }

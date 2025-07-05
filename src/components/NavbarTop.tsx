@@ -3,7 +3,7 @@ import React from 'react'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import Button from './Button'
 import { usePanel } from '@hooks/usePanel'
-import CutoffToggle from '@components/CutoffToggle'
+// import CutoffToggle from '@components/CutoffToggle'
 import ShowMaxCount from '@components/ShowMaxCount'
 
 const NavbarTop: React.FC = () => {
@@ -26,8 +26,8 @@ const NavbarTop: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex flex-row">        
-        <CutoffToggle />
+      <div className="flex flex-row hide-1000">        
+        {/* <CutoffToggle /> */}
         <ShowMaxCount />
       </div>
 
