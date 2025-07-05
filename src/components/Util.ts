@@ -14,8 +14,8 @@ export function capitalize(word: string): string {
 }
 
 export const cleanTextForTTS = (text: string) => {
-  const updatedText = text.replace(/\*\*/g, '');
-  const updatedText2 = updatedText.replace(/\*/g, '');
-  return updatedText2
+  const updatedText = text.replace(/\*\*/g, '') // remove double asterisks
+                          .replace(/\*/g, '')   // remove single asterisks
+                          .replace(/#/g, '');   // remove hash marks
+  return updatedText;
 }
-

@@ -36,11 +36,11 @@ export const DialogLine = ({
   return (
     <>
       {noSpeaker ? (
-        <div className={`pr3 flex-auto ${className}`}>
+        <div className={`h2 items-center ph2 flex-autoX flex w-100 ${className}`}>
           <FormatSentence sentence={sentence} />
         </div>
       ) : (
-        <div className={`ph3 flex-auto ${className}`}>
+        <div className={`h2 items-center ph2 flex-autoX flex w-100 ${className}`}>
           <strong>{speaker}</strong>: <FormatSentence sentence={sentence} />
         </div>
       )}

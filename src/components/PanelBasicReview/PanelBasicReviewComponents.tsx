@@ -142,36 +142,8 @@ const PanelBasicReviewComponents: React.FC = () => {
           <div className="w-100 black f2">Lesson {selectedLessonNumber}</div>
           </h2>
 
-          {/* <FormattedFlexLesson title={'Review your lesson before creating the corresponding translation and MP3 audio file.'}/> */}
-          
-          <div className="pa3 mt3 mb5 ba bg-white w-100">
-            <div className='tc f3 w-100 mt4X b'>Formatted Lesson</div>
-            <ul className="mt0 pt0 black list pl0">
-              {(formattedFlexLesson ?? []).map((line, index) => {
-                const [, , sentence] = line.split('|')  // destructure to get the third part
-                return (
-                  <li key={index} className="black">
-                    <FormatSentence sentence={sentence} />
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-
           <div className="pa3 mt3 ba bg-white w-100">
             <DialogList language={lesson.targetLanguage} lines={(lesson?.dialogResolve?.lines ?? [])} useCloudTTS={true} />
-          </div>
-
-          <div className="pa3 mt3 ba bg-white w-100">
-            <div className='tc f3 w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
-            <ul className="mt0 pt0 black list pl0">
-              {(lesson?.translationResolve.lines ?? [])
-                .map((line, index) => (
-                  <li key={index} className="black">
-                    <FormatSentence sentence={line} />
-                  </li>
-                ))}
-              </ul>            
           </div>
         </>
       )
