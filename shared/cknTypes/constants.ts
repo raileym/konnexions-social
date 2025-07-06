@@ -110,10 +110,13 @@ export const GEN_AI_STEP = {
 
 export const APP_PANEL = {
   // HOME: 'home',
-  SETTINGS: 'settings',
   HELP: 'help',
+  
+  SETTINGS: 'settings',
   KEYS: 'keys',
   MENU: 'menu',
+
+  MDX: 'mdx',
   BASIC: 'basic',
   GEN_AI: 'genAI',
   GEN_AI_PRO: 'genAIPro',

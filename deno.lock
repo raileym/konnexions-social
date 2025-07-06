@@ -75,6 +75,9 @@
         "npm:@fortawesome/free-regular-svg-icons@^6.7.2",
         "npm:@fortawesome/free-solid-svg-icons@^6.7.2",
         "npm:@fortawesome/react-fontawesome@^0.2.2",
+        "npm:@mdx-js/loader@^3.1.0",
+        "npm:@mdx-js/react@^3.1.0",
+        "npm:@mdx-js/rollup@^3.1.0",
         "npm:@mui/icons-material@^7.1.0",
         "npm:@mui/material@^7.1.0",
         "npm:@netlify/functions@^3.1.9",
@@ -112,6 +115,7 @@
         "npm:tiptap-markdown@^0.8.10",
         "npm:typescript-eslint@^8.30.1",
         "npm:typescript@latest",
+        "npm:vite-plugin-mdx@^3.6.1",
         "npm:vite-tsconfig-paths@^5.1.4",
         "npm:vite@^6.3.5"
       ]
