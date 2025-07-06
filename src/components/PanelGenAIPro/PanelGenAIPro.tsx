@@ -1,15 +1,14 @@
 import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { APP_HOME } from '@cknTypes/constants'
-// import LeftPanel from '@PanelGenAIProComponents/LeftPanel/LeftPanel'
+import { APP_PANEL } from '@cknTypes/constants'
 import RightPanel from './PanelGenAIProComponents/RightPanel/RightPanel'
 
 const PanelGenAIPro: React.FC = () => {
   const {
-    activeHome
+    activePanel
   } = useAppContext()
 
-  const isActive = activeHome === APP_HOME.GEN_AI_PRO
+  const isActive = activePanel === APP_PANEL.GEN_AI_PRO
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
   return (
