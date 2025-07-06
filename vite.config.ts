@@ -16,11 +16,12 @@ export default defineConfig(async () => {
         '@components': path.resolve(__dirname, 'src/components'),
         '@PanelGenAIPro': path.resolve(__dirname, 'src/components/PanelGenAIPro'),
         '@PanelGenAIProComponents': path.resolve(__dirname, 'src/components/PanelGenAIPro/PanelGenAIProComponents'),
-        '@mdxPages': path.resolve(__dirname, 'src/mdxPages')
+        '@mdxPages': path.resolve(__dirname, 'src/mdxPages'),
       },
     },
     build: {
       outDir: 'build',
-    }
+    },
+    assetsInclude: ['**/*.html'],  // <-- add this line to fix html parsing issue
   }
 })

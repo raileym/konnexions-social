@@ -1,8 +1,11 @@
 // src/App.tsx
 import React, { useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
+import PanelVerifyEmail from '@components/PanelVerifyEmail/PanelVerifyEmail'
+
 import PanelKeys from '@components/PanelKeys/PanelKeys'
 import PanelBasic from '@components/PanelBasic/PanelBasic'
-import PanelSettings from '@components/PanelSettings/PanelSettings'
 import PanelHelp from '@components/PanelHelp/PanelHelp'
 import NavbarTop from '@components/NavbarTop/NavbarTop'
 import './App.scss'
@@ -11,21 +14,16 @@ import NavbarBottom from '@components/NavbarBottom/NavbarBottom'
 import PanelMenu from '@components/PanelMenu/PanelMenu'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { getCurrentWeek } from '@components/getCurrentWeek'
-// import { defaultMaxCount, type Scenario } from '@cknTypes/types'
-// import { SCENARIO } from '@cknTypes/constants'
 import PanelGenAIPro from '@components/PanelGenAIPro/PanelGenAIPro'
-import PanelMDX from '@components/PanelMDX/PanelMDX'
 import LessonBar from '@components/LessonBar/LessonBar'
 import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
+import PanelMDX from '@components/PanelMDX/PanelMDX'
 import PanelRequestEmail from '@components/PanelRequestEmail/PanelRequestEmail'
-import PanelVerifyEmail from '@components/PanelVerifyEmail/PanelVerifyEmail'
 
 const App: React.FC = () => {
   const {
     setOpenAiUsage,
-    // setScenario,
     setTtsCharUsage,
-    // setMaxCount
   } = useAppContext()
 
   const loadUsage = () => {
@@ -40,8 +38,6 @@ const App: React.FC = () => {
   useEffect(() => {
     const handleVoiceLoad = () => {
       void window.speechSynthesis.getVoices()
-
-      // // cXnsole.log('[Chrome] Voices loaded:', voices.map(v => v.lang + ' - ' + v.name))
     }
 
     if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -50,32 +46,39 @@ const App: React.FC = () => {
     }
 
     loadUsage()
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [setOpenAiUsage, setTtsCharUsage])
 
   return (
-    <>
-      <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
-        <PanelMDX />
-        
-        <PanelRequestEmail />
-        <PanelVerifyEmail />
+    <Router>
+      <Routes>
+        {/* Route for email verification, reading token from URL query */}
+        <Route path="/verify" element={<PanelVerifyEmail />} />
 
-        <PanelGenAIPro />
-        <PanelBasic />
-        <PanelGenAI />
-        <PanelSettings />
-        <PanelBasicReview />
-
-        <PanelKeys />
-        <PanelMenu />
-        <PanelHelp />
-        <LessonBar />
-      </div>
-      <NavbarTop />
-      <NavbarBottom />
-      </>
+        {/* Default catch-all route for your app's main UI */}
+        <Route
+          path="/*"
+          element={
+            <>
+              <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
+                <LessonBar />
+                <PanelMDX />
+                <PanelRequestEmail />
+                <PanelVerifyEmail />
+                <PanelGenAIPro />
+                <PanelBasic />
+                <PanelGenAI />
+                <PanelBasicReview />
+                <PanelKeys />
+                <PanelMenu />
+                <PanelHelp />
+              </div>
+              <NavbarTop />
+              <NavbarBottom />
+            </>
+          }
+        />
+      </Routes>
+    </Router>
   )
 }
 

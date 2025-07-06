@@ -1,5 +1,5 @@
 // src/components/PanelKeys.tsx
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { APP_PANEL } from '@cknTypes/constants'
 
@@ -19,10 +19,11 @@ const PanelKeys: React.FC = () => {
   const isActive = activePanel === APP_PANEL.KEYS
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
-  if (isActive) {
-    setActivateLessonBar(true)
-  }
-
+  useEffect(() => {
+    if (isActive) {
+      setActivateLessonBar(true)
+    }
+  }, [isActive, setActivateLessonBar])
 
   const headline = (
     <div>
