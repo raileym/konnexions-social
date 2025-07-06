@@ -32,7 +32,7 @@ const RightPanel = () => {
     } else {
       content = (
         <>
-          <h2 className="baX f2 pa3 pb0X mt4X w-100 items-center tc">
+          <h2 className="baX f2 f3-m pa3 pb0X mt4X w-100 items-center tc">
             <div>
               {LANGUAGE_TITLE[targetLanguage]}: Basic
             </div>

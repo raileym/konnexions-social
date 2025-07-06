@@ -13,6 +13,9 @@ export default defineConfig({
       '@components': path.resolve(__dirname, 'src/components'),
       '@PanelGenAIPro': path.resolve(__dirname, 'src/components/PanelGenAIPro'),
       '@PanelGenAIProComponents': path.resolve(__dirname, 'src/components/PanelGenAIPro/PanelGenAIProComponents')
-    }
+    },
+  },
+  build: {
+    outDir: 'build',  // <-- set this to your desired output folder
   }
 })
