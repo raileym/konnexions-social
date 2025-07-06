@@ -7,7 +7,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { APP_PANEL } from '@cknTypes/constants'
 import { usePanel } from '@hooks/usePanel'
 
-export const AppLeftPanel: React.FC = () => {
+export const LessonBar: React.FC = () => {
   const {
     lessons,
     setLessons,
@@ -45,7 +45,7 @@ export const AppLeftPanel: React.FC = () => {
   }
 
   return (
-    <div className="panel-left app-left-panel w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa3 bg-washed-yellow brX b--black-20X bnX" style={{paddingTop: '6em'}}>
+    <div className="panel-left lesson-bar w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa3 bg-washed-yellow brX b--black-20X bnX" style={{paddingTop: '6em'}}>
       <button
         onClick={handleAddLesson}
         // onClick={() => {
@@ -81,4 +81,4 @@ export const AppLeftPanel: React.FC = () => {
   )
 }
 
-export default AppLeftPanel
+export default LessonBar

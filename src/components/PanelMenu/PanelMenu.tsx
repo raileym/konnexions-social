@@ -8,7 +8,7 @@ const PanelMenu: React.FC = () => {
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
   return (
-    <div className={`panel-right menu-panel z-3 bl b--moon-gray bw1 absolute top-0 left-10 w-90 h-100 bg-light-gray black transition-transform ${translateX}`}>
+    <div className={`panel-right panel-menu z-2 bl b--moon-gray bw1 absolute top-0 left-10 w-90 h-100 bg-light-gray black transition-transform ${translateX}`}>
       <div className="h-100 w-100 overflow-y-auto">
         <div className="pa4 mw7 w-100 center mb5">
           <h2 className="f3 pa3 mt5">Menu Panel</h2>

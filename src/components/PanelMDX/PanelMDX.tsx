@@ -6,7 +6,7 @@ import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TiptapEditor } from '@components/TiptapEditor/TiptapEditor'
 
-const PanelBasic = () => {
+const PanelMDX = () => {
 
   const {
     cutoff,
@@ -69,7 +69,7 @@ const PanelBasic = () => {
   }
 
   return (
-    <div className={'panel-right panel-basic baX bw1 b--moon-gray bl panel-basic z-1 absolute top-0 left-10 w-90 h-100 bg-light-greenX flex flex-rowX transition-transform translate-x-0'}>
+    <div className={'panel-right panel-mdx baX bw1 b--moon-gray bl panel-basic z-0 absolute top-0 left-10 w-90 h-100 bg-light-greenX flex flex-rowX transition-transform translate-x-0'}>
 
       <div className={`baX b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
@@ -78,4 +78,4 @@ const PanelBasic = () => {
   )
 }
 
-export default PanelBasic
+export default PanelMDX

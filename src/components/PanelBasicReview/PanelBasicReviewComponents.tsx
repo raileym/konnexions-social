@@ -58,7 +58,7 @@ const PanelBasicReviewComponents: React.FC = () => {
   },[lesson])
 
   return (
-    <div className={'panel-right basic-review-panel z-0 absolute top-0 left-0 w-100 h-100 flex'}>
+    <div className={'panel-right panel-basic-review-components z-1 absolute top-0 left-0 w-100 h-100 flex'}>
       <div className={`baX b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
         {content}
       </div>

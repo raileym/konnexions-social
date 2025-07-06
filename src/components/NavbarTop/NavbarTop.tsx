@@ -1,7 +1,7 @@
 // src/components/NavbarTop.tsx
 import React from 'react'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
-import Button from './Button'
+import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 // import CutoffToggle from '@components/CutoffToggle'
 import ShowMaxCount from '@components/ShowMaxCount'

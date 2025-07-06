@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import SelectorScenario from '@components/SelectorScenario'
+import SelectorScenario from '@components/SelectorScenario/SelectorScenario'
 import { getPrompt_cb } from '@shared/getPrompt_cb'
 import {
   type TestMode,

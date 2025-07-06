@@ -13,8 +13,8 @@ const PanelGenAIPro: React.FC = () => {
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
   return (
-    // <div className={`flex ba w-90 bg-red absolute z-2 left-10 top-0 h-100 transition-transform ${translateX}}`}>
-    <div className={`panel-right baX bw1 b--moon-gray bl gen-ai-pro-panel z-2 absolute top-0 left-10 w-90 h-100 bg-light-greenX flex flex-rowX transition-transform ${translateX}`}>
+    // <div className={`flex ba w-90 bg-red absolute z-1 left-10 top-0 h-100 transition-transform ${translateX}}`}>
+    <div className={`panel-right panel-gen-ai-pro baX bw1 b--moon-gray bl panel-gen-ai-pro z-1 absolute top-0 left-10 w-90 h-100 bg-light-greenX flex flex-rowX transition-transform ${translateX}`}>
       <RightPanel />
       {/* <div className="bg-green w-100 h-100"></div> */}
     </div>

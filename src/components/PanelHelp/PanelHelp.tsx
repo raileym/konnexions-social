@@ -11,7 +11,7 @@ const PanelHelp: React.FC = () => {
   const translateX = isHelpOpen ? HELP_PANEL_TRANSLATE_X : 'translate-x-full'
 
   return (
-    <div className={`panel-right help-panel absolute bl b--black bw1 z-4 top-0 left-10 w-90 h-100 bg-green white transition-transform ${translateX}`}>
+    <div className={`panel-right panel-help absolute bl b--black bw1 z-3 top-0 left-10 w-90 h-100 bg-green white transition-transform ${translateX}`}>
       <div className="h-100 w-100 overflow-y-auto">
         <div className={`pa4 ${HELP_PANEL_WIDTH_PERCENT} mb5`}>
           <h2 className="f3 pa3 mt5">Help Panel for {helpPanel}</h2>
@@ -30,7 +30,7 @@ export default PanelHelp
 //   const translateX = isHelpOpen ? HELP_PANEL_TRANSLATE_X : 'translate-x-full'
 
 //   return (
-//     <div className={`help-panel absolute z-2 top-0 left-0 h-100 bg-green white transition-transform ${translateX}`}>
+//     <div className={`help-panel absolute z-1 top-0 left-0 h-100 bg-green white transition-transform ${translateX}`}>
 //       <div className="h-100 overflow-y-auto">
 //         <div className={`pa4 ${HELP_PANEL_WIDTH_PERCENT} ml-auto h-100 bg-white`}>
 //           <h2 className="f3 pa3 mt5">Help Panel for {helpPanel}</h2>
