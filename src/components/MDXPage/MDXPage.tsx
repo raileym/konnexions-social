@@ -1,15 +1,15 @@
-import React, { FC, ReactNode } from 'react';
+import type { FC } from 'react'
 
-interface MDXPageProps {
-  children: ReactNode;
+type MDXPageProps = {
+  Component: FC
 }
 
-const MDXPage: FC<MDXPageProps> = ({ children }) => {
+const MDXPage = ({ Component }: MDXPageProps) => {
   return (
     <div className="mdx-content">
-      {children}
+      <Component />
     </div>
-  );
-};
+  )
+}
 
-export default MDXPage;
+export default MDXPage

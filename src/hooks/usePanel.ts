@@ -47,11 +47,13 @@ export const usePanel = () => {
         setActivePanel(activeHome)
         setHelpPanel(activeHome)
       } else {
-        setActivePanel(activeHome)
-        setTimeout(() => {
-          setActivePanel(newPanel)
-          setHelpPanel(newPanel)
-        }, 600)
+        setActivePanel(newPanel)
+        setHelpPanel(newPanel)
+        // setActivePanel(activeHome)
+        // setTimeout(() => {
+        //   setActivePanel(newPanel)
+        //   setHelpPanel(newPanel)
+        // }, 600)
       }
 
       setTimeout(() => {

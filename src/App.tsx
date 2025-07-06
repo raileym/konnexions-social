@@ -1,20 +1,21 @@
 // src/App.tsx
 import React, { useEffect } from 'react'
-import PanelKeys from './components/PanelKeys'
+import PanelKeys from '@components/PanelKeys/PanelKeys'
 import PanelBasic from '@components/PanelBasic/PanelBasic'
-// import PanelSettings from './components/PanelSettings'
-import PanelHelp from './components/PanelHelp'
-import NavbarTop from './components/NavbarTop'
+import PanelSettings from '@components/PanelSettings/PanelSettings'
+import PanelHelp from '@components/PanelHelp/PanelHelp'
+import NavbarTop from '@components/NavbarTop/NavbarTop'
 import './App.scss'
-import PanelGenAI from './components/PanelGenAI'
-import NavbarBottom from './components/NavbarBottom'
-import PanelMenu from './components/PanelMenu'
+import PanelGenAI from '@components/PanelGenAI/PanelGenAI'
+import NavbarBottom from '@components/NavbarBottom/NavbarBottom'
+import PanelMenu from '@components/PanelMenu/PanelMenu'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { getCurrentWeek } from './components/getCurrentWeek'
+import { getCurrentWeek } from '@components/getCurrentWeek'
 // import { defaultMaxCount, type Scenario } from '@cknTypes/types'
 // import { SCENARIO } from '@cknTypes/constants'
-import PanelGenAIPro from './components/PanelGenAIPro/PanelGenAIPro'
-import AppLeftPanel from '@components/AppLeftPanel/AppLeftPanel'
+import PanelGenAIPro from '@components/PanelGenAIPro/PanelGenAIPro'
+import PanelMDX from '@components/PanelMDX/PanelMDX'
+import LessonBar from '@components/LessonBar/LessonBar'
 import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
 
 const App: React.FC = () => {
@@ -54,16 +55,18 @@ const App: React.FC = () => {
   return (
     <>
       <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
-        {/* <div className="bg-yellow absolute z-4 w-10 left-0 top-0 h-100" /> */}
-        <AppLeftPanel />
+        <PanelMDX />
+        
         <PanelGenAIPro />
         <PanelBasic />
         <PanelGenAI />
-        {/* <PanelSettings /> */}
+        <PanelSettings />
         <PanelBasicReview />
+
         <PanelKeys />
         <PanelMenu />
         <PanelHelp />
+        <LessonBar />
       </div>
       <NavbarTop />
       <NavbarBottom />

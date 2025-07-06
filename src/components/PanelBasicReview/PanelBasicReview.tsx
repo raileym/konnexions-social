@@ -3,7 +3,7 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { APP_PANEL } from '@cknTypes/constants'
 import PanelBasicReviewComponents from '@components/PanelBasicReview/PanelBasicReviewComponents'
 
-const PanelSettings: React.FC = () => {
+const PanelBasicReview: React.FC = () => {
   const {
     activePanel
   } = useAppContext()
@@ -17,4 +17,4 @@ const PanelSettings: React.FC = () => {
   )
 }
 
-export default PanelSettings
+export default PanelBasicReview
