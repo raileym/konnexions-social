@@ -17,6 +17,8 @@ import PanelGenAIPro from '@components/PanelGenAIPro/PanelGenAIPro'
 import PanelMDX from '@components/PanelMDX/PanelMDX'
 import LessonBar from '@components/LessonBar/LessonBar'
 import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
+import PanelRequestEmail from '@components/PanelRequestEmail/PanelRequestEmail'
+import PanelVerifyEmail from '@components/PanelVerifyEmail/PanelVerifyEmail'
 
 const App: React.FC = () => {
   const {
@@ -57,6 +59,9 @@ const App: React.FC = () => {
       <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
         <PanelMDX />
         
+        <PanelRequestEmail />
+        <PanelVerifyEmail />
+
         <PanelGenAIPro />
         <PanelBasic />
         <PanelGenAI />

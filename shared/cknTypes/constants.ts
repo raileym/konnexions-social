@@ -111,6 +111,9 @@ export const GEN_AI_STEP = {
 export const APP_PANEL = {
   // HOME: 'home',
   HELP: 'help',
+
+  REQUEST_EMAIL: 'requestEmail',
+  VERIFY_EMAIL: 'verifyEmail',
   
   SETTINGS: 'settings',
   KEYS: 'keys',
