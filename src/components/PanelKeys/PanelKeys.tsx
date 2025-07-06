@@ -13,10 +13,16 @@ const PanelKeys: React.FC = () => {
     setApiKey,
     setMaskKey,
     setMaskOpenAiKey,    
-    setOpenAiKey
+    setOpenAiKey,
+    setActivateLessonBar
   } = useAppContext()
   const isActive = activePanel === APP_PANEL.KEYS
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
+
+  if (isActive) {
+    setActivateLessonBar(true)
+  }
+
 
   const headline = (
     <div>

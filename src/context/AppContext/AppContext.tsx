@@ -138,6 +138,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
+  const [activateLessonBar, setActivateLessonBar] = useState<LessonComplete>(false)
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(false)
   
   const [flexLesson, setFlexLesson] = usePersistentState<FlexLesson>('flexLesson', defaultFlexLesson)
@@ -201,6 +202,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const AppContextValue = {
     activeHome,
     activePanel,
+    activateLessonBar,
     answer,
     apiKey,
     audioUrl,
@@ -242,6 +244,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     selectedLessonNumber,
     setActiveHome,
     setActivePanel,
+    setActivateLessonBar,    
     setAnswer,
     setApiKey,
     setAudioUrl,

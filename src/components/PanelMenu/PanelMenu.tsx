@@ -3,9 +3,13 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { APP_PANEL } from '@cknTypes/constants'
 
 const PanelMenu: React.FC = () => {
-  const { activePanel } = useAppContext()
+  const { activePanel, setActivateLessonBar } = useAppContext()
   const isActive = activePanel === APP_PANEL.MENU
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
+
+  if (isActive) {
+    setActivateLessonBar(true)
+  }
 
   return (
     <div className={`panel-right panel-menu z-2 bl b--moon-gray bw1 absolute top-0 left-10 w-90 h-100 bg-light-gray black transition-transform ${translateX}`}>

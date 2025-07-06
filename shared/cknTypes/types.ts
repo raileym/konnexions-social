@@ -21,6 +21,7 @@ import {
 export type AppContextType = {
   activeHome: ActiveHome
   activePanel: ActivePanel
+  activateLessonBar: ActivateLessonBar
   answer: Answer
   apiKey: ApiKey
   audioUrl: AudioUrl
@@ -62,6 +63,7 @@ export type AppContextType = {
   selectedLessonNumber: LessonNumber
   setActiveHome: SetActiveHome
   setActivePanel: SetActivePanel
+  setActivateLessonBar: SetActivateLessonBar
   setAnswer: SetAnswer
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
@@ -158,9 +160,11 @@ export type LessonPrompt = string
 export type FlexLesson = string
 export type FormattedFlexLesson = Lines
 export type IsComplete = boolean
+export type ActivateLessonBar = boolean
 
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
 export type SetActivePanel = React.Dispatch<React.SetStateAction<ActivePanel>>
+export type SetActivateLessonBar = React.Dispatch<React.SetStateAction<ActivateLessonBar>>
 export type SetAnswer = React.Dispatch<React.SetStateAction<Answer>>
 export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>

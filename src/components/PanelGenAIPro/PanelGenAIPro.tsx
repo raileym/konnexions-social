@@ -5,11 +5,16 @@ import RightPanel from './PanelGenAIProComponents/RightPanel/RightPanel'
 
 const PanelGenAIPro: React.FC = () => {
   const {
-    activePanel
+    activePanel,
+    setActivateLessonBar
   } = useAppContext()
 
   const isActive = activePanel === APP_PANEL.GEN_AI_PRO
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
+
+  if (isActive) {
+    setActivateLessonBar(true)
+  }
 
   return (
     // <div className={`flex ba w-90 bg-red absolute z-1 left-10 top-0 h-100 transition-transform ${translateX}}`}>

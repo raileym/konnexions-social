@@ -20,10 +20,15 @@ const PanelSettings: React.FC = () => {
     apiKey,
     useCloudTTS,
     setUseCloudTTS,
-    openAiKey
+    openAiKey,
+    setActivateLessonBar
   } = useAppContext()
   const isActive = activePanel === APP_PANEL.SETTINGS
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
+
+  if (isActive) {
+    setActivateLessonBar(true)
+  }
 
   const ttsWeeklyLimit = Math.floor((ttsBudget / 16) * 1_000_000 / ttsAvgChars)
   const openAiWeeklyLimit = Math.floor((openAiBudget / 0.0035 / 4.33) * (1000 / openAiAvgTokens))

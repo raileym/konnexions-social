@@ -16,9 +16,12 @@ export const LessonBar: React.FC = () => {
     activePanel,
     // lessonComplete,
     setLessonComplete,
-    setLesson
+    setLesson,
+    activateLessonBar
   } = useAppContext()
   
+  const translateX = activateLessonBar ? 'translateX-0' : 'translateX--100'
+
   const { switchPanel } = usePanel()
 
   const handleAddLesson = () => {
@@ -45,7 +48,7 @@ export const LessonBar: React.FC = () => {
   }
 
   return (
-    <div className="panel-left lesson-bar w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa3 bg-washed-yellow brX b--black-20X bnX" style={{paddingTop: '6em'}}>
+    <div className={`panel-left lesson-bar w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa3 bg-washed-yellow brX b--black-20X bnX transition-transform ${translateX}`} style={{paddingTop: '6em'}}>
       <button
         onClick={handleAddLesson}
         // onClick={() => {
