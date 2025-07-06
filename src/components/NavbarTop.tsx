@@ -26,7 +26,7 @@ const NavbarTop: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex flex-row hide-1000">        
+      <div className="flex flex-row dn-m">        
         {/* <CutoffToggle /> */}
         <ShowMaxCount />
       </div>

@@ -36,7 +36,7 @@ const RightPanel = () => {
             <div>
               {LANGUAGE_TITLE[targetLanguage]}: Basic
             </div>
-          <div className="w-100 black f2">Lesson {selectedLessonNumber}</div>
+          <div className="w-100 black f2 f3-m ">Lesson {selectedLessonNumber}</div>
           </h2>
 
           <TiptapEditor initialValue={flexLesson} title={tiptapEditorTitle} onChange={setFlexLesson} />
