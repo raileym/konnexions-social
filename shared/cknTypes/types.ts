@@ -19,18 +19,18 @@ import {
 } from './constants.js'
 
 export type AppContextType = {
+  activateLessonBar: ActivateLessonBar
   activeHome: ActiveHome
   activePanel: ActivePanel
-  activateLessonBar: ActivateLessonBar
   answer: Answer
   apiKey: ApiKey
   audioUrl: AudioUrl
   cleanedText: CleanedText
-  lessonPromptStyle: LessonPromptStyle
   clientEmail: ClientEmail
   clientMeter: ClientMeter
   clientSignature: ClientSignature
   clientUUID: ClientUUID
+  cookedEmail: CookedEmail
   customParticipantList: CustomParticipantList
   customScenario: CustomScenario
   customSeed: CustomSeed
@@ -45,10 +45,11 @@ export type AppContextType = {
   isHelpOpen: IsHelpOpen
   isTransitioning: IsTransitioning
   lesson: Lesson
-  lessons: Lessons
   lessonComplete: LessonComplete
   lessonPrompt: LessonPrompt
+  lessonPromptStyle: LessonPromptStyle
   lessonTimestamp: LessonTimestamp
+  lessons: Lessons
   lineNumber: LineNumber
   maskKey: MaskKey
   maskOpenAiKey: MaskOpenAiKey
@@ -61,9 +62,9 @@ export type AppContextType = {
   questionContext: QuestionContext
   scenario: Scenario
   selectedLessonNumber: LessonNumber
+  setActivateLessonBar: SetActivateLessonBar
   setActiveHome: SetActiveHome
   setActivePanel: SetActivePanel
-  setActivateLessonBar: SetActivateLessonBar
   setAnswer: SetAnswer
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
@@ -72,7 +73,7 @@ export type AppContextType = {
   setClientMeter: SetClientMeter
   setClientSignature: SetClientSignature
   setClientUUID: SetClientUUID
-  setLessonPromptStyle: SetLessonPromptStyle
+  setCookedEmail: SetCookedEmail
   setCustomParticipantList: SetCustomParticipantList
   setCustomScenario: SetCustomScenario
   setCustomSeed: SetCustomSeed
@@ -87,10 +88,11 @@ export type AppContextType = {
   setIsHelpOpen: SetIsHelpOpen
   setIsTransitioning: SetIsTransitioning
   setLesson: SetLesson
-  setLessons: SetLessons
   setLessonComplete: SetLessonComplete
   setLessonPrompt: SetLessonPrompt
+  setLessonPromptStyle: SetLessonPromptStyle
   setLessonTimestamp: SetLessonTimestamp
+  setLessons: SetLessons
   setLineNumber: SetLineNumber
   setMaskKey: SetMaskKey
   setMaskOpenAiKey: SetMaskOpenAiKey
@@ -110,6 +112,7 @@ export type AppContextType = {
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
   setUseMyself: SetUseMyself
+  setVerificationToken: SetVerificationToken
   sourceLanguage: Language
   targetLanguage: Language
   ttsAvgChars: TtsAvgChars
@@ -117,7 +120,11 @@ export type AppContextType = {
   ttsCharUsage: TtsCharUsage
   useCloudTTS: UseCloudTTS
   useMyself: UseMyself
+  verificationToken: VerificationToken
 }
+
+export type CookedEmail = string
+export type VerificationToken = string
 
 export type LessonComplete = boolean
 
@@ -162,18 +169,18 @@ export type FormattedFlexLesson = Lines
 export type IsComplete = boolean
 export type ActivateLessonBar = boolean
 
+export type SetActivateLessonBar = React.Dispatch<React.SetStateAction<ActivateLessonBar>>
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
 export type SetActivePanel = React.Dispatch<React.SetStateAction<ActivePanel>>
-export type SetActivateLessonBar = React.Dispatch<React.SetStateAction<ActivateLessonBar>>
 export type SetAnswer = React.Dispatch<React.SetStateAction<Answer>>
 export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
-export type SetLessonPromptStyle = React.Dispatch<React.SetStateAction<LessonPromptStyle>>
-export type SetClientMeter = React.Dispatch<React.SetStateAction<ClientMeter>>
 export type SetClientEmail = React.Dispatch<React.SetStateAction<ClientEmail>>
+export type SetClientMeter = React.Dispatch<React.SetStateAction<ClientMeter>>
 export type SetClientSignature = React.Dispatch<React.SetStateAction<ClientSignature>>
 export type SetClientUUID = React.Dispatch<React.SetStateAction<ClientUUID>>
+export type SetCookedEmail = React.Dispatch<React.SetStateAction<CookedEmail>>
 export type SetCustomParticipantList = React.Dispatch<React.SetStateAction<CustomParticipantList>>
 export type SetCustomScenario = React.Dispatch<React.SetStateAction<CustomScenario>>
 export type SetCustomSeed = React.Dispatch<React.SetStateAction<CustomSeed>>
@@ -190,13 +197,12 @@ export type SetHelpPanel = React.Dispatch<React.SetStateAction<HelpPanel>>
 export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
 export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
-export type SetTargetLanguage = React.Dispatch<React.SetStateAction<Language>>
-export type SetSourceLanguage = React.Dispatch<React.SetStateAction<Language>>
+export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>
 export type SetLessonNumber = React.Dispatch<React.SetStateAction<LessonNumber>>
 export type SetLessonPrompt = React.Dispatch<React.SetStateAction<LessonPrompt>>
-export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
+export type SetLessonPromptStyle = React.Dispatch<React.SetStateAction<LessonPromptStyle>>
 export type SetLessonTimestamp = React.Dispatch<React.SetStateAction<LessonTimestamp>>
-export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>
+export type SetLessons = React.Dispatch<React.SetStateAction<Lessons>>
 export type SetLineNumber = React.Dispatch<React.SetStateAction<LineNumber>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
@@ -208,11 +214,14 @@ export type SetOpenAiUsage = React.Dispatch<React.SetStateAction<OpenAiUsage>>
 export type SetQuestion = React.Dispatch<React.SetStateAction<Question>>
 export type SetQuestionContext = React.Dispatch<React.SetStateAction<QuestionContext>>
 export type SetScenario = React.Dispatch<React.SetStateAction<Scenario>>
+export type SetSourceLanguage = React.Dispatch<React.SetStateAction<Language>>
+export type SetTargetLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetTtsAvgChars = React.Dispatch<React.SetStateAction<TtsAvgChars>>
 export type SetTtsBudget = React.Dispatch<React.SetStateAction<TtsBudget>>
 export type SetTtsCharUsage = React.Dispatch<React.SetStateAction<TtsCharUsage>>
 export type SetUseCloudTTS = React.Dispatch<React.SetStateAction<UseCloudTTS>>
 export type SetUseMyself = React.Dispatch<React.SetStateAction<UseMyself>>
+export type SetVerificationToken = React.Dispatch<React.SetStateAction<VerificationToken>>
 
 export type SwitchPanel = (newPanel: ActivePanel) => void
 
@@ -1156,3 +1165,8 @@ export type ButtonProps = {
   isActive: IsActive
 }
 
+export type PanelVerifyEmailComponentsProps = {
+  onVerified?: () => void; // Callback on successful verification
+  token: string;
+  cookedEmail: CookedEmail
+}

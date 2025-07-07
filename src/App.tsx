@@ -19,6 +19,34 @@ import LessonBar from '@components/LessonBar/LessonBar'
 import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
 import PanelMDX from '@components/PanelMDX/PanelMDX'
 import PanelRequestEmail from '@components/PanelRequestEmail/PanelRequestEmail'
+import { useLocation } from 'react-router-dom';
+
+const AppMain = () => {
+  const location = useLocation();
+
+  const isVerifyRoute = location.pathname === '/verify';
+
+  return (
+    <>
+      <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
+        {/* your main panels */}
+        <LessonBar />
+        <PanelMDX />
+        <PanelRequestEmail />
+        <PanelVerifyEmail isRouteMode={isVerifyRoute} />
+        <PanelGenAIPro />
+        <PanelBasic />
+        <PanelGenAI />
+        <PanelBasicReview />
+        <PanelKeys />
+        <PanelMenu />
+        <PanelHelp />
+      </div>
+      <NavbarTop />
+      <NavbarBottom />
+    </>
+  );
+};
 
 const App: React.FC = () => {
   const {
@@ -46,15 +74,27 @@ const App: React.FC = () => {
     }
 
     loadUsage()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setOpenAiUsage, setTtsCharUsage])
 
+const alwaysTrue = true
+if (alwaysTrue) {
   return (
     <Router>
       <Routes>
-        {/* Route for email verification, reading token from URL query */}
-        <Route path="/verify" element={<PanelVerifyEmail />} />
+        <Route path="/*" element={<AppMain />} />
+      </Routes>
+    </Router>    
+  )
+}
 
-        {/* Default catch-all route for your app's main UI */}
+return (
+    <Router>
+      <Routes>
+        {/* /verify route: renders PanelVerifyEmail always visible */}
+        <Route path="/verify" element={<PanelVerifyEmail isRouteMode={true} />} />
+
+        {/* Main app UI - NO PanelVerifyEmail here */}
         <Route
           path="/*"
           element={
@@ -63,7 +103,7 @@ const App: React.FC = () => {
                 <LessonBar />
                 <PanelMDX />
                 <PanelRequestEmail />
-                <PanelVerifyEmail />
+                {/* Remove PanelVerifyEmail from here */}
                 <PanelGenAIPro />
                 <PanelBasic />
                 <PanelGenAI />

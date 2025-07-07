@@ -47,7 +47,9 @@ import type {
   LessonNumber,
   FlexLesson,
   FormattedFlexLesson,
-  LessonComplete
+  LessonComplete,
+  CookedEmail,
+  VerificationToken
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -138,6 +140,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
+  const [cookedEmail, setCookedEmail] = usePersistentState<CookedEmail>('cookedEmail', '')
+  const [verificationToken, setVerificationToken] = usePersistentState<VerificationToken>('verificationToken', '')
+
   const [activateLessonBar, setActivateLessonBar] = useState<LessonComplete>(false)
   const [lessonComplete, setLessonComplete] = useState<LessonComplete>(false)
   
@@ -200,9 +205,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // }, [clientUUID, setClientUUID])
 
   const AppContextValue = {
+    activateLessonBar,
     activeHome,
     activePanel,
-    activateLessonBar,
     answer,
     apiKey,
     audioUrl,
@@ -211,7 +216,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     clientMeter,
     clientSignature,
     clientUUID,
-    lessonPromptStyle,
+    cookedEmail,
     customParticipantList,
     customScenario,
     customSeed,
@@ -226,10 +231,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     isHelpOpen,
     isTransitioning,
     lesson,
-    lessons,
     lessonComplete,
     lessonPrompt,
+    lessonPromptStyle,
     lessonTimestamp,
+    lessons,
     lineNumber,
     maskKey,
     maskOpenAiKey,
@@ -242,9 +248,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     questionContext,
     scenario,
     selectedLessonNumber,
+    setActivateLessonBar,    
     setActiveHome,
     setActivePanel,
-    setActivateLessonBar,    
     setAnswer,
     setApiKey,
     setAudioUrl,
@@ -253,7 +259,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setClientMeter,
     setClientSignature,
     setClientUUID,
-    setLessonPromptStyle,
+    setCookedEmail,
     setCustomParticipantList,
     setCustomScenario,
     setCustomSeed,
@@ -268,10 +274,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsHelpOpen,
     setIsTransitioning,
     setLesson,
-    setLessons,
     setLessonComplete,
     setLessonPrompt,
+    setLessonPromptStyle,
     setLessonTimestamp,
+    setLessons,
     setLineNumber,
     setMaskKey,
     setMaskOpenAiKey,
@@ -291,13 +298,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setTtsCharUsage,
     setUseCloudTTS,
     setUseMyself,
+    setVerificationToken,
     sourceLanguage,
     targetLanguage,
     ttsAvgChars,
     ttsBudget,
     ttsCharUsage,
     useCloudTTS,
-    useMyself
+    useMyself,
+    verificationToken
   }
 
   return (

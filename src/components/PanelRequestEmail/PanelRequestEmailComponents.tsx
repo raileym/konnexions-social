@@ -1,3 +1,4 @@
+import { useAppContext } from '@context/AppContext/AppContext'
 import React, { useState } from 'react'
 
 type PanelRequestEmailComponentsProps = {
@@ -10,10 +11,14 @@ const PanelRequestEmailComponents: React.FC<PanelRequestEmailComponentsProps> = 
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
+  const { setCookedEmail, setVerificationToken } = useAppContext()
+  
   const sendEmail = async () => {
     setLoading(true)
     setError(null)
 
+    console.log('email', email)
+    
     try {
       const response = await fetch('/.netlify/functions/sendVerificationEmail', {
         method: 'POST',
@@ -26,9 +31,17 @@ const PanelRequestEmailComponents: React.FC<PanelRequestEmailComponentsProps> = 
       }
 
       setSuccess(true)
+
+      const data = await response.json()
+      const cookedEmail = data.cookedEmail || ''
+      setCookedEmail(cookedEmail)
+      const verificationToken = data.token || ''
+      setVerificationToken(verificationToken)
       onEmailSent?.()
+
     } catch (err) {
       setError((err as Error).message || 'Unexpected error')
+      setCookedEmail('')
     } finally {
       setLoading(false)
     }
