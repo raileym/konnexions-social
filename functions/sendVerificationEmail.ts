@@ -45,7 +45,7 @@ export const handler: Handler = async (event) => {
         Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
       },
       body: JSON.stringify({
-        arg_email_cooked: cookedEmail,
+        arg_cooked_email: cookedEmail,
         arg_code: code,
         arg_expires_at: expiry.toISOString(),
       }),

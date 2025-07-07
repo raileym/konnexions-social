@@ -44,6 +44,7 @@ export type AppContextType = {
   inputText: InputText
   isHelpOpen: IsHelpOpen
   isTransitioning: IsTransitioning
+  isUserValidated: IsUserValidated
   lesson: Lesson
   lessonComplete: LessonComplete
   lessonPrompt: LessonPrompt
@@ -87,6 +88,7 @@ export type AppContextType = {
   setInputText: SetInputText
   setIsHelpOpen: SetIsHelpOpen
   setIsTransitioning: SetIsTransitioning
+  setIsUserValidated: SetIsUserValidated
   setLesson: SetLesson
   setLessonComplete: SetLessonComplete
   setLessonPrompt: SetLessonPrompt
@@ -123,6 +125,7 @@ export type AppContextType = {
   verificationToken: VerificationToken
 }
 
+export type IsUserValidated = boolean
 export type CookedEmail = string
 export type VerificationToken = string
 
@@ -196,6 +199,7 @@ export type SetHandleVerbsErrors = React.Dispatch<React.SetStateAction<HandleVer
 export type SetHelpPanel = React.Dispatch<React.SetStateAction<HelpPanel>>
 export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
+export type SetIsUserValidated = React.Dispatch<React.SetStateAction<IsUserValidated>>
 export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
 export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>
 export type SetLessonNumber = React.Dispatch<React.SetStateAction<LessonNumber>>

@@ -29,6 +29,9 @@ DROP FUNCTION IF EXISTS private.ckn_insert_lesson;
 DROP FUNCTION IF EXISTS private.ckn_upsert_module;
 DROP FUNCTION IF EXISTS private.ckn_upsert_email_code;
 DROP FUNCTION IF EXISTS private.ckn_verify_email_code;
+DROP FUNCTION IF EXISTS private.ckn_verify_cooked_email;
+DROP FUNCTION IF EXISTS private.ckn_get_email_user_data;
+DROP FUNCTION IF EXISTS private.ckn_upsert_email_user_data;
 
 DROP FUNCTION IF EXISTS public.ckn_lookup_tts_cache;
 DROP FUNCTION IF EXISTS public.ckn_insert_tts_cache;
@@ -41,9 +44,11 @@ DROP FUNCTION IF EXISTS public.ckn_get_module_by_lesson_and_name;
 DROP FUNCTION IF EXISTS public.ckn_upsert_module;
 DROP FUNCTION IF EXISTS public.ckn_upsert_email_code;
 DROP FUNCTION IF EXISTS public.ckn_verify_email_code;
+DROP FUNCTION IF EXISTS public.ckn_verify_cooked_email;
+DROP FUNCTION IF EXISTS public.ckn_get_email_user_data;
+DROP FUNCTION IF EXISTS public.ckn_upsert_email_user_data;
 
 DROP FUNCTION IF EXISTS public.ckn_insert_lesson;
-
 
 DROP VIEW IF EXISTS private.ckn_verb_forms;
 DROP VIEW IF EXISTS private.ckn_noun_forms;
@@ -68,6 +73,8 @@ DROP TABLE IF EXISTS private.ckn_verb_base;
 
 DROP TABLE IF EXISTS private.ckn_module;
 DROP TABLE IF EXISTS private.ckn_lesson;
+
+DROP TABLE IF EXISTS private.ckn_email_user_data;
 
 DROP TYPE IF EXISTS private.ckn_noun_record;
 DROP TYPE IF EXISTS private.ckn_verb_record;
@@ -108,16 +115,30 @@ CREATE TYPE private.ckn_verb_record AS (
 -- CREATE TABLES
 -- ************************************************************************
 
+CREATE TABLE private.ckn_email_user_data (
+  email_user_key UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email_user_cooked_email TEXT NOT NULL UNIQUE,
+  email_user_client_uuid TEXT,
+  email_user_flex_lesson TEXT,
+  email_user_current_lesson JSONB,
+  email_user_lessons JSONB,
+  email_user_lesson_number INT,
+  email_user_lesson_prompt TEXT,
+  email_user_lesson_timestamp TEXT,
+  email_user_created_at TIMESTAMPTZ DEFAULT now(),
+  email_user_updated_at TIMESTAMPTZ DEFAULT now()
+);
+
 CREATE TABLE private.ckn_email_code (
   email_code_key UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email_code_email_cooked TEXT NOT NULL UNIQUE,
+  email_code_cooked_email TEXT NOT NULL UNIQUE,
   email_code_code TEXT NOT NULL,
   email_code_created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   email_code_expires_at TIMESTAMPTZ NOT NULL,
   email_code_verified BOOLEAN DEFAULT FALSE
 );
 
-CREATE INDEX ckn_email_code_index ON private.ckn_email_code (email_code_email_cooked);
+CREATE INDEX ckn_email_code_index ON private.ckn_email_code (email_code_cooked_email);
 
 CREATE TABLE private.ckn_tts_cache (
   tts_cache_key SERIAL PRIMARY KEY,
@@ -435,6 +456,79 @@ $$;
 --   SELECT * FROM private.ckn_lesson
 --   WHERE lesson_signature = arg_lesson_signature;
 -- $$;
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_get_email_user_data
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_get_email_user_data(
+  arg_cooked_email TEXT
+)
+RETURNS TABLE (
+  email_user_key UUID,
+  email_user_cooked_email TEXT,
+  email_user_client_uuid TEXT,
+  email_user_flex_lesson TEXT,
+  email_user_current_lesson JSONB,
+  email_user_lessons JSONB,
+  email_user_lesson_number INT,
+  email_user_lesson_prompt TEXT,
+  email_user_lesson_timestamp TEXT,
+  email_user_created_at TIMESTAMPTZ,
+  email_user_updated_at TIMESTAMPTZ
+)
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = private, public
+AS $$
+  SELECT *
+  FROM private.ckn_email_user_data
+  WHERE email_user_cooked_email = arg_cooked_email;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_upsert_email_user_data
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_upsert_email_user_data(
+  arg_cooked_email TEXT,
+  arg_current_lesson JSONB,
+  arg_lessons JSONB,
+  arg_lesson_number INT,
+  arg_lesson_prompt TEXT,
+  arg_lesson_timestamp TEXT
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  INSERT INTO private.ckn_email_user_data (
+    email_user_cooked_email,
+    email_user_current_lesson,
+    email_user_lessons,
+    email_user_lesson_number,
+    email_user_lesson_prompt,
+    email_user_lesson_timestamp
+  )
+  VALUES (
+    arg_cooked_email,
+    arg_current_lesson,
+    arg_lessons,
+    arg_lesson_number,
+    arg_lesson_prompt,
+    arg_lesson_timestamp
+  )
+  ON CONFLICT (email_user_cooked_email)
+  DO UPDATE SET
+    email_user_current_lesson = EXCLUDED.email_user_current_lesson,
+    email_user_lessons = EXCLUDED.email_user_lessons,
+    email_user_lesson_number = EXCLUDED.email_user_lesson_number,
+    email_user_lesson_prompt = EXCLUDED.email_user_lesson_prompt,
+    email_user_lesson_timestamp = EXCLUDED.email_user_lesson_timestamp,
+    email_user_updated_at = now();
+END;
+$$;
 
 -- ************************************************************************
 -- FUNCTION: ckn_get_noun_by_scenario
@@ -864,7 +958,7 @@ $$;
 -- ************************************************************************
 
 CREATE FUNCTION private.ckn_upsert_email_code(
-  arg_email_cooked text,
+  arg_cooked_email text,
   arg_code text,
   arg_expires_at timestamptz
 )
@@ -875,20 +969,43 @@ SET search_path = private, public
 AS $$
 BEGIN
   INSERT INTO private.ckn_email_code (
-    email_code_email_cooked,
+    email_code_cooked_email,
     email_code_code,
     email_code_expires_at
   ) VALUES (
-    arg_email_cooked,
+    arg_cooked_email,
     arg_code,
     arg_expires_at
   )
-  ON CONFLICT (email_code_email_cooked)
+  ON CONFLICT (email_code_cooked_email)
   DO UPDATE SET
     email_code_code = excluded.email_code_code,
     email_code_expires_at = excluded.email_code_expires_at,
     email_code_created_at = now(),
     email_code_verified = false;
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_verify_cooked_email
+-- ************************************************************************
+CREATE FUNCTION private.ckn_verify_cooked_email(
+  arg_cooked_email TEXT
+)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = private, public
+AS $$
+DECLARE
+  exists_and_verified BOOLEAN;
+BEGIN
+  SELECT TRUE INTO exists_and_verified
+  FROM private.ckn_email_code
+  WHERE email_code_cooked_email = arg_cooked_email
+    AND email_code_verified = TRUE;
+
+  RETURN COALESCE(exists_and_verified, FALSE);
 END;
 $$;
 
@@ -902,7 +1019,7 @@ $$;
   )
   RETURNS TABLE (
     email_code_key UUID,
-    email_code_email_cooked TEXT,
+    email_code_cooked_email TEXT,
     email_code_code TEXT,
     email_code_verified BOOLEAN,
     email_code_expires_at TIMESTAMPTZ
@@ -916,7 +1033,7 @@ $$;
     WITH to_verify AS (
       SELECT ec.email_code_key
       FROM private.ckn_email_code ec
-      WHERE ec.email_code_email_cooked = arg_cooked_email
+      WHERE ec.email_code_cooked_email = arg_cooked_email
         AND ec.email_code_code = arg_code
         AND ec.email_code_verified = FALSE
         AND ec.email_code_expires_at > NOW()
@@ -928,12 +1045,87 @@ $$;
     WHERE private.ckn_email_code.email_code_key IN (SELECT to_verify.email_code_key FROM to_verify)
     RETURNING 
       private.ckn_email_code.email_code_key,
-      private.ckn_email_code.email_code_email_cooked,
+      private.ckn_email_code.email_code_cooked_email,
       private.ckn_email_code.email_code_code,
       private.ckn_email_code.email_code_verified,
       private.ckn_email_code.email_code_expires_at;
   END;
   $$;
+
+
+-- ************************************************************************
+-- FUNCTION SHIM: public.ckn_get_email_user_data
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_get_email_user_data(
+  arg_cooked_email TEXT
+)
+RETURNS TABLE (
+  email_user_key UUID,
+  email_user_cooked_email TEXT,
+  email_user_client_uuid TEXT,
+  email_user_flex_lesson TEXT,
+  email_user_current_lesson JSONB,
+  email_user_lessons JSONB,
+  email_user_lesson_number INT,
+  email_user_lesson_prompt TEXT,
+  email_user_lesson_timestamp TEXT,
+  email_user_created_at TIMESTAMPTZ,
+  email_user_updated_at TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT *
+  FROM private.ckn_get_email_user_data(arg_cooked_email);
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION SHIM: public.ckn_upsert_email_user_data
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_upsert_email_user_data(
+  arg_cooked_email TEXT,
+  arg_current_lesson JSONB,
+  arg_lessons JSONB,
+  arg_lesson_number INT,
+  arg_lesson_prompt TEXT,
+  arg_lesson_timestamp TEXT
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  PERFORM private.ckn_upsert_email_user_data(
+    arg_cooked_email,
+    arg_current_lesson,
+    arg_lessons,
+    arg_lesson_number,
+    arg_lesson_prompt,
+    arg_lesson_timestamp
+  );
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION SHIM: public.ckn_verify_cooked_email
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_verify_cooked_email(
+  arg_cooked_email TEXT
+)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN private.ckn_verify_cooked_email(arg_cooked_email);
+END;
+$$;
 
 -- ************************************************************************
 -- FUNCTION SHIMS: public.ckn_verify_email_code
@@ -946,7 +1138,7 @@ CREATE FUNCTION public.ckn_verify_email_code(
 )
 RETURNS TABLE (
   email_code_key UUID,
-  email_code_email_cooked TEXT,
+  email_code_cooked_email TEXT,
   email_code_code TEXT,
   email_code_verified BOOLEAN,
   email_code_expires_at TIMESTAMPTZ
@@ -966,7 +1158,7 @@ $$;
 -- ************************************************************************
 
 CREATE FUNCTION public.ckn_upsert_email_code(
-  arg_email_cooked TEXT,
+  arg_cooked_email TEXT,
   arg_code TEXT,
   arg_expires_at TIMESTAMPTZ
 )
@@ -975,7 +1167,7 @@ LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
 BEGIN
-  PERFORM private.ckn_upsert_email_code(arg_email_cooked, arg_code, arg_expires_at);
+  PERFORM private.ckn_upsert_email_code(arg_cooked_email, arg_code, arg_expires_at);
 END;
 $$;
 
@@ -1227,6 +1419,8 @@ GRANT EXECUTE ON FUNCTION private.ckn_lookup_verb_example(INTEGER) TO service_ro
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_module(TEXT, TEXT, JSONB) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_email_code(text, text, timestamptz) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_verify_email_code(text, text) to service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_get_email_user_data(text) to service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_upsert_email_user_data(text, JSONB, JSONB, INT, TEXT, TEXT) to service_role;
 
 ALTER ROLE service_role SET search_path = private, public;
 

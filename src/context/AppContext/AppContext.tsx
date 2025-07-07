@@ -140,6 +140,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
+  const [isUserValidated, setIsUserValidated] = useState<IsUserValidated>(false)
   const [cookedEmail, setCookedEmail] = usePersistentState<CookedEmail>('cookedEmail', '')
   const [verificationToken, setVerificationToken] = usePersistentState<VerificationToken>('verificationToken', '')
 
