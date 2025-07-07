@@ -49,7 +49,9 @@ import type {
   FormattedFlexLesson,
   LessonComplete,
   CookedEmail,
-  VerificationToken
+  VerificationToken,
+  IsUserValidated,
+  UserData
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -62,6 +64,7 @@ import {
   defaultLessonPromptStyle,
   defaultLessonPrompt,
   defaultFlexLesson,
+  defaultUserData,
 } from '@cknTypes/types'
 import {
   APP_HOME,
@@ -140,6 +143,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
+  const [userData, setUserData] = usePersistentState<UserData>('userData', defaultUserData)
   const [isUserValidated, setIsUserValidated] = useState<IsUserValidated>(false)
   const [cookedEmail, setCookedEmail] = usePersistentState<CookedEmail>('cookedEmail', '')
   const [verificationToken, setVerificationToken] = usePersistentState<VerificationToken>('verificationToken', '')
@@ -231,6 +235,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     inputText,
     isHelpOpen,
     isTransitioning,
+    isUserValidated,
     lesson,
     lessonComplete,
     lessonPrompt,
@@ -274,6 +279,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setInputText,
     setIsHelpOpen,
     setIsTransitioning,
+    setIsUserValidated,
     setLesson,
     setLessonComplete,
     setLessonPrompt,
@@ -299,6 +305,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setTtsCharUsage,
     setUseCloudTTS,
     setUseMyself,
+    setUserData,
     setVerificationToken,
     sourceLanguage,
     targetLanguage,
@@ -307,7 +314,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     ttsCharUsage,
     useCloudTTS,
     useMyself,
-    verificationToken
+    verificationToken,
+    userData
   }
 
   return (

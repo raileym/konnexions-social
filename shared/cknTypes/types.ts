@@ -114,6 +114,7 @@ export type AppContextType = {
   setTtsCharUsage: SetTtsCharUsage
   setUseCloudTTS: SetUseCloudTTS
   setUseMyself: SetUseMyself
+  setUserData: SetUserData
   setVerificationToken: SetVerificationToken
   sourceLanguage: Language
   targetLanguage: Language
@@ -123,6 +124,35 @@ export type AppContextType = {
   useCloudTTS: UseCloudTTS
   useMyself: UseMyself
   verificationToken: VerificationToken
+  userData: UserData
+}
+
+// RETURNS TABLE (
+//   email_user_key UUID,
+//   email_user_cooked_email TEXT,
+//   email_user_client_uuid TEXT,
+//   email_user_flex_lesson TEXT,
+//   email_user_current_lesson JSONB,
+//   email_user_lessons JSONB,
+//   email_user_lesson_number INT,
+//   email_user_lesson_prompt TEXT,
+//   email_user_lesson_timestamp TEXT,
+//   email_user_created_at TIMESTAMPTZ,
+//   email_user_updated_at TIMESTAMPTZ
+// )
+
+export type UserData = {
+  email_user_key: string
+  email_user_cooked_email: CookedEmail
+  email_user_client_uuid: ClientUUID,
+  email_user_flex_lesson: FlexLesson,
+  email_user_current_lesson: Lesson,
+  email_user_lessons: Lessons,
+  email_user_lesson_number: LessonNumber,
+  email_user_lesson_prompt: Prompt,
+  email_user_lesson_timestamp: LessonTimestamp,
+  email_user_created_at: string,
+  email_user_updated_at: string
 }
 
 export type IsUserValidated = boolean
@@ -225,6 +255,7 @@ export type SetTtsBudget = React.Dispatch<React.SetStateAction<TtsBudget>>
 export type SetTtsCharUsage = React.Dispatch<React.SetStateAction<TtsCharUsage>>
 export type SetUseCloudTTS = React.Dispatch<React.SetStateAction<UseCloudTTS>>
 export type SetUseMyself = React.Dispatch<React.SetStateAction<UseMyself>>
+export type SetUserData = React.Dispatch<React.SetStateAction<UserData>>
 export type SetVerificationToken = React.Dispatch<React.SetStateAction<VerificationToken>>
 
 export type SwitchPanel = (newPanel: ActivePanel) => void
@@ -620,6 +651,28 @@ export const defaultLesson: Lesson = {
   // verbsOnlyReview: defaultModule
 
   errorModule: defaultModule
+}
+
+export const defaultKey = ''
+export const defaultCookedEmail = ''
+export const defaultClientUUID = ''
+export const defaultLessonNumber = 0
+export const defaultLessonTimestamp = ''
+export const defaultCreatedAt = ''
+export const defaultUpdatedAt = ''
+
+export const defaultUserData = {
+  email_user_key: defaultKey,
+  email_user_cooked_email: defaultCookedEmail,
+  email_user_client_uuid: defaultClientUUID,
+  email_user_flex_lesson: defaultFlexLesson,
+  email_user_current_lesson: defaultLesson,
+  email_user_lessons: [],
+  email_user_lesson_number: defaultLessonNumber,
+  email_user_lesson_prompt: defaultPrompt,
+  email_user_lesson_timestamp: defaultLessonTimestamp,
+  email_user_created_at: defaultCreatedAt,
+  email_user_updated_at: defaultUpdatedAt
 }
 
 export const dXfaultNounsLines: NounsLines = [

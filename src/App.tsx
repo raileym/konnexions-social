@@ -1,8 +1,5 @@
-// src/App.tsx
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-
-// import PanelVerifyEmail from '@components/PanelVerifyEmail/PanelVerifyEmail'
 
 import PanelKeys from '@components/PanelKeys/PanelKeys'
 import PanelBasic from '@components/PanelBasic/PanelBasic'
@@ -19,21 +16,14 @@ import LessonBar from '@components/LessonBar/LessonBar'
 import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
 import PanelMDX from '@components/PanelMDX/PanelMDX'
 import PanelRequestEmail from '@components/PanelRequestEmail/PanelRequestEmail'
-// import { useLocation } from 'react-router-dom';
 
 const AppMain = () => {
-  // const location = useLocation();
-
-  // const isVerifyRoute = location.pathname === '/verify';
-
   return (
     <>
       <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
-        {/* your main panels */}
         <LessonBar />
         <PanelMDX />
         <PanelRequestEmail />
-        {/* <PanelVerifyEmail isRouteMode={isVerifyRoute} /> */}
         <PanelGenAIPro />
         <PanelBasic />
         <PanelGenAI />
@@ -45,78 +35,70 @@ const AppMain = () => {
       <NavbarTop />
       <NavbarBottom />
     </>
-  );
-};
+  )
+}
 
 const App: React.FC = () => {
   const {
     setOpenAiUsage,
     setTtsCharUsage,
+    setCookedEmail,
+    setIsUserValidated,
+    setUserData, // optional
   } = useAppContext()
 
-  const loadUsage = () => {
+  useEffect(() => {
     const week = getCurrentWeek()
     const openAiStored = localStorage.getItem(`openAiUsageW${week}`)
     setOpenAiUsage(openAiStored ? parseInt(openAiStored, 10) : 0)
 
     const ttsStored = localStorage.getItem(`ttsCharUsageW${week}`)
     setTtsCharUsage(ttsStored ? parseInt(ttsStored, 10) : 0)
-  }
-
-  useEffect(() => {
-    const handleVoiceLoad = () => {
-      void window.speechSynthesis.getVoices()
-    }
-
-    if (typeof window !== 'undefined' && window.speechSynthesis) {
-      window.speechSynthesis.onvoiceschanged = handleVoiceLoad
-      handleVoiceLoad()
-    }
-
-    loadUsage()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setOpenAiUsage, setTtsCharUsage])
 
-const alwaysTrue = true
-if (alwaysTrue) {
+  useEffect(() => {
+    const cooked = localStorage.getItem('cookedEmail')
+    if (!cooked) return
+
+    const verifyCooked = async () => {
+      try {
+        const res = await fetch('/.netlify/functions/verifyCookedEmail', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cookedEmail: cooked }),
+        })
+
+        const { valid } = await res.json()
+
+        if (valid) {
+          setCookedEmail(cooked)
+          setIsUserValidated(true)
+
+          const dataRes = await fetch('/.netlify/functions/getEmailUserData', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cookedEmail: cooked }),
+          })
+
+          const userData = await dataRes.json()
+          setUserData(userData)
+        } else {
+          localStorage.removeItem('cookedEmail')
+          setCookedEmail('')
+          setIsUserValidated(false)
+        }
+      } catch (err) {
+        console.error('Failed to verify cookedEmail:', err)
+      }
+    }
+
+    verifyCooked()
+  }, [setCookedEmail, setIsUserValidated, setUserData])
+
   return (
     <Router>
       <Routes>
         <Route path="/*" element={<AppMain />} />
-      </Routes>
-    </Router>    
-  )
-}
-
-return (
-    <Router>
-      <Routes>
-        {/* /verify route: renders PanelVerifyEmail always visible */}
-        <Route path="/verify" element={<PanelVerifyEmail isRouteMode={true} />} />
-
-        {/* Main app UI - NO PanelVerifyEmail here */}
-        <Route
-          path="/*"
-          element={
-            <>
-              <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
-                <LessonBar />
-                <PanelMDX />
-                <PanelRequestEmail />
-                {/* Remove PanelVerifyEmail from here */}
-                <PanelGenAIPro />
-                <PanelBasic />
-                <PanelGenAI />
-                <PanelBasicReview />
-                <PanelKeys />
-                <PanelMenu />
-                <PanelHelp />
-              </div>
-              <NavbarTop />
-              <NavbarBottom />
-            </>
-          }
-        />
       </Routes>
     </Router>
   )
