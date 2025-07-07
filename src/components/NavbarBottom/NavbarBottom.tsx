@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faFilePen, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
-import { faEnvelope, faEnvelopeOpen, faCoffee, faGear, faKey, faRobot, faBars, faFilePen, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
+import { faEnvelope, faCoffee, faGear, faKey, faRobot, faBars, faFilePen, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 import { useAppContext } from '@context/AppContext/AppContext'
@@ -21,7 +21,7 @@ const NavbarBottom: React.FC = () => {
   return (
     <nav className='fixed bottom-0 bt b--black-30 left-0 w-100 bg-white flex items-center justify-around ph3 pv2 z-999'>
       <Button buttonClass='w-50X' isActive={activePanel === APP_PANEL.REQUEST_EMAIL} switchFn={switchPanel} panel={APP_PANEL.REQUEST_EMAIL} icon={faEnvelope} title='Request Email' />
-      <Button buttonClass='w-50X' isActive={activePanel === APP_PANEL.VERIFY_EMAIL} switchFn={switchPanel} panel={APP_PANEL.VERIFY_EMAIL} icon={faEnvelopeOpen} title='Verify Email' />
+      {/* <Button buttonClass='w-50X' isActive={activePanel === APP_PANEL.VERIFY_EMAIL} switchFn={switchPanel} panel={APP_PANEL.VERIFY_EMAIL} icon={faEnvelopeOpen} title='Verify Email' /> */}
 
       {/* Careful here. Note my use of both activePanel (not activeHome) and switchPanel (not switchHome) */}
       <Button buttonClass='w-50X' isActive={activePanel === APP_PANEL.MDX} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faCoffee} title='MDX' />

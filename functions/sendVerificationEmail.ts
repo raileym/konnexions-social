@@ -1,19 +1,21 @@
 import type { Handler } from '@netlify/functions'
 import { Resend } from 'resend'
-import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 
 const resend = new Resend(process.env.RESEND_API_KEY!)
+const EMAIL_SALT = process.env.EMAIL_SALT!
+const SUPABASE_URL = process.env.SUPABASE_URL!
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
-const JWT_SECRET = process.env.JWT_SECRET!
-const EMAIL_SALT = process.env.EMAIL_SALT! // set this in env
-
-// Helper: cook email with salt deterministically
 function cookEmail(email: string): string {
   return crypto
     .createHmac('sha256', EMAIL_SALT)
     .update(email.trim().toLowerCase())
     .digest('hex')
+}
+
+function generateCode(): string {
+  return Math.floor(100000 + Math.random() * 900000).toString() // 6-digit code
 }
 
 export const handler: Handler = async (event) => {
@@ -23,47 +25,62 @@ export const handler: Handler = async (event) => {
       return { statusCode: 400, body: 'Email required' }
     }
 
-    // console.log('email', email)
+    const cookedEmail = cookEmail(email)
+    const code = generateCode()
+    const expiry = new Date(Date.now() + 15 * 60 * 1000) // 15 minutes from now
 
-    const cookedEmail: string = cookEmail(email)
-    
-    // console.log('cookedEmail', cookedEmail)
-    // console.log('JWT_SECRET', JWT_SECRET)
-    // console.log('EMAIL_SALT', EMAIL_SALT)
-    // console.log('process.env', process.env)
+    console.log('verifyCode', JSON.stringify({
+      email,
+      arg_cooked_email: cookedEmail,
+      arg_code: code,
+      arg_expires_at: expiry.toISOString(),
+    }, null, 2))
 
-    // Create a JWT token with cookedEmail and expiry (e.g., 24h)
-    const token = jwt.sign({ cookedEmail }, JWT_SECRET, { expiresIn: '24h' })
+    // Call Supabase to store the code
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/ckn_upsert_email_code`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: SUPABASE_SERVICE_ROLE_KEY,
+        Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      },
+      body: JSON.stringify({
+        arg_email_cooked: cookedEmail,
+        arg_code: code,
+        arg_expires_at: expiry.toISOString(),
+      }),
+    })
 
-    // console.log('token', token)
+    if (!res.ok) {
+      const text = await res.text()
+      console.error('Supabase insert error:', text)
+      return { statusCode: 500, body: 'Supabase insert failed' }
+    }
 
-    const verificationUrl = `https://localhost:8888/verify?token=${token}`
-
+    // Prepare email with actual code
     const html = `
       <h1>Welcome to CKN.SOCIAL</h1>
-      <p>Please verify your email by clicking the link below:</p>
-      <a href="${verificationUrl}">Verify my email</a>
-      <p>This link expires in 24 hours.</p>
+      <p>Enter the following code to verify your email:</p>
+      <h2 style="font-size: 2rem;">${code}</h2>
+      <p>This code will expire in 15 minutes.</p>
     `
 
     await resend.emails.send({
       from: 'Your team at CKN Social <no-reply@ckn.social>',
       to: email,
-      subject: 'Please verify your email',
+      subject: 'Your CKN verification code',
       html,
     })
 
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: 'Verification email sent',
-        cookedEmail,  // returning cooked email here
-        token,        // optionally returning token too
+        message: 'Verification code sent',
+        cookedEmail,
       }),
     }
   } catch (error) {
-    console.error(error)
+    console.error('handler error:', error)
     return { statusCode: 500, body: 'Server error' }
   }
 }
-

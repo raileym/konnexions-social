@@ -24,13 +24,18 @@ SQL_FILE="$1"
 pg_dump --data-only \
   --table=private.ckn_tts_cache \
   --table=private.ckn_noun_base \
-  --table=private.ckn_verb_base \
-  --table=private.ckn_noun \
-  --table=private.ckn_verb \
-  --table=private.ckn_scenarios \
+  --table=private.ckn_noun_example \
   --table=private.ckn_noun_scenarios \
+  --table=private.ckn_noun \
+  --table=private.ckn_noun_forms \
+  --table=private.ckn_verb_base \
+  --table=private.ckn_verb_example \
   --table=private.ckn_verb_scenarios \
+  --table=private.ckn_verb \
+  --table=private.ckn_verb_forms \
+  --table=private.ckn_scenarios \
   --table=private.ckn_lesson \
+  --table=private.ckn_module \
   --column-inserts \
   --dbname="$DIRECT_CONNECT_URL" \
   --file="$SQL_FILE"

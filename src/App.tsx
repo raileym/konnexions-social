@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import PanelVerifyEmail from '@components/PanelVerifyEmail/PanelVerifyEmail'
+// import PanelVerifyEmail from '@components/PanelVerifyEmail/PanelVerifyEmail'
 
 import PanelKeys from '@components/PanelKeys/PanelKeys'
 import PanelBasic from '@components/PanelBasic/PanelBasic'
@@ -19,12 +19,12 @@ import LessonBar from '@components/LessonBar/LessonBar'
 import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
 import PanelMDX from '@components/PanelMDX/PanelMDX'
 import PanelRequestEmail from '@components/PanelRequestEmail/PanelRequestEmail'
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 const AppMain = () => {
-  const location = useLocation();
+  // const location = useLocation();
 
-  const isVerifyRoute = location.pathname === '/verify';
+  // const isVerifyRoute = location.pathname === '/verify';
 
   return (
     <>
@@ -33,7 +33,7 @@ const AppMain = () => {
         <LessonBar />
         <PanelMDX />
         <PanelRequestEmail />
-        <PanelVerifyEmail isRouteMode={isVerifyRoute} />
+        {/* <PanelVerifyEmail isRouteMode={isVerifyRoute} /> */}
         <PanelGenAIPro />
         <PanelBasic />
         <PanelGenAI />

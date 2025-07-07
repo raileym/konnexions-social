@@ -1,4 +1,14 @@
 -- ************************************************************************
+-- ************************************************************************
+
+    -- EXTENSIONS
+
+-- ************************************************************************
+-- ************************************************************************
+
+-- CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- ************************************************************************
 -- DROP EXISTING ENTITIES
 -- ************************************************************************
 
@@ -15,10 +25,10 @@ DROP FUNCTION IF EXISTS private.ckn_get_verb_by_scenario;
 DROP FUNCTION IF EXISTS private.ckn_get_module_by_lesson_and_name;
 
 DROP FUNCTION IF EXISTS private.ckn_insert_lesson;
--- DROP FUNCTION IF EXISTS private.ckn_upsert_lesson;
--- DROP FUNCTION IF EXISTS private.ckn_get_lesson_by_signature;
 
 DROP FUNCTION IF EXISTS private.ckn_upsert_module;
+DROP FUNCTION IF EXISTS private.ckn_upsert_email_code;
+DROP FUNCTION IF EXISTS private.ckn_verify_email_code;
 
 DROP FUNCTION IF EXISTS public.ckn_lookup_tts_cache;
 DROP FUNCTION IF EXISTS public.ckn_insert_tts_cache;
@@ -29,14 +39,18 @@ DROP FUNCTION IF EXISTS public.ckn_get_verb_by_scenario;
 DROP FUNCTION IF EXISTS public.ckn_get_module_by_lesson_and_name;
 
 DROP FUNCTION IF EXISTS public.ckn_upsert_module;
-
--- DROP FUNCTION IF EXISTS public.ckn_upsert_lesson;
--- DROP FUNCTION IF EXISTS public.ckn_get_lesson_by_signature;
+DROP FUNCTION IF EXISTS public.ckn_upsert_email_code;
+DROP FUNCTION IF EXISTS public.ckn_verify_email_code;
 
 DROP FUNCTION IF EXISTS public.ckn_insert_lesson;
 
+
 DROP VIEW IF EXISTS private.ckn_verb_forms;
 DROP VIEW IF EXISTS private.ckn_noun_forms;
+
+DROP INDEX IF EXISTS private.ckn_email_code_index;
+
+DROP TABLE IF EXISTS private.ckn_email_code;
 
 DROP TABLE IF EXISTS private.ckn_tts_cache;
 DROP TABLE IF EXISTS private.ckn_noun_example;
@@ -94,6 +108,17 @@ CREATE TYPE private.ckn_verb_record AS (
 -- CREATE TABLES
 -- ************************************************************************
 
+CREATE TABLE private.ckn_email_code (
+  email_code_key UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email_code_email_cooked TEXT NOT NULL UNIQUE,
+  email_code_code TEXT NOT NULL,
+  email_code_created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  email_code_expires_at TIMESTAMPTZ NOT NULL,
+  email_code_verified BOOLEAN DEFAULT FALSE
+);
+
+CREATE INDEX ckn_email_code_index ON private.ckn_email_code (email_code_email_cooked);
+
 CREATE TABLE private.ckn_tts_cache (
   tts_cache_key SERIAL PRIMARY KEY,
   tts_cache_signature TEXT UNIQUE NOT NULL,
@@ -118,40 +143,6 @@ COMMENT ON COLUMN private.ckn_tts_cache.tts_cache_created IS 'Time this cache en
 -- ==================================================================
 -- LESSON
 -- ==================================================================
-
--- CREATE TABLE private.ckn_lesson (
---   lesson_key SERIAL PRIMARY KEY,
-
---   lesson_id INTEGER,
---   lesson_signature TEXT UNIQUE,
-
---   lesson_name TEXT,
---   lesson_description TEXT,
-
---   lesson_target_language TEXT,
---   lesson_source_language TEXT,
---   lesson_scenario TEXT,
-
---   lesson_participant_list TEXT,
---   lesson_prose TEXT,
---   lesson_translation JSONB,
-
---   dialog_draft JSONB,
---   dialog_review JSONB,
---   dialog_resolve JSONB,
-
---   nouns_draft JSONB,
---   nouns_review JSONB,
---   nouns_resolve JSONB,
-
---   verbs_draft JSONB,
---   verbs_review JSONB,
---   verbs_resolve JSONB,
-
---   verbs_expanded_complete JSONB,
---   verbs_expanded_incomplete JSONB,
---   verbs_expanded_triple JSONB
--- );
 
 CREATE TABLE private.ckn_lesson (
   lesson_key SERIAL PRIMARY KEY,
@@ -374,90 +365,6 @@ BEGIN
 END;
 $$;
 
--- CREATE FUNCTION private.ckn_insert_lesson(
---   arg_lesson_id INTEGER,
---   arg_lesson_signature TEXT,
---   arg_lesson_name TEXT,
---   arg_lesson_description TEXT,
---   arg_lesson_target_language TEXT,
---   arg_lesson_source_language TEXT,
---   arg_lesson_scenario TEXT,
---   arg_lesson_participant_list TEXT,
---   arg_lesson_prose TEXT,
---   arg_lesson_translation JSONB,
-
---   arg_dialog_draft JSONB,
---   arg_dialog_review JSONB,
---   arg_dialog_resolve JSONB,
-
---   arg_nouns_draft JSONB,
---   arg_nouns_review JSONB,
---   arg_nouns_resolve JSONB,
-
---   arg_verbs_draft JSONB,
---   arg_verbs_review JSONB,
---   arg_verbs_resolve JSONB,
-
---   arg_verbs_expanded_complete JSONB,
---   arg_verbs_expanded_incomplete JSONB,
---   arg_verbs_expanded_triple JSONB
--- )
--- RETURNS VOID
--- LANGUAGE plpgsql
--- SECURITY INVOKER
--- AS $$
--- BEGIN
---   INSERT INTO private.ckn_lesson (
---     lesson_id,
---     lesson_signature,
---     lesson_name,
---     lesson_description,
---     lesson_target_language,
---     lesson_source_language,
---     lesson_scenario,
---     lesson_participant_list,
---     lesson_prose,
---     lesson_translation,
---     dialog_draft,
---     dialog_review,
---     dialog_resolve,
---     nouns_draft,
---     nouns_review,
---     nouns_resolve,
---     verbs_draft,
---     verbs_review,
---     verbs_resolve,
---     verbs_expanded_complete,
---     verbs_expanded_incomplete,
---     verbs_expanded_triple
---   ) VALUES (
---     arg_lesson_id,
---     arg_lesson_signature,
---     arg_lesson_name,
---     arg_lesson_description,
---     arg_lesson_target_language,
---     arg_lesson_source_language,
---     arg_lesson_scenario,
---     arg_lesson_participant_list,
---     arg_lesson_prose,
---     arg_lesson_translation,
---     arg_dialog_draft,
---     arg_dialog_review,
---     arg_dialog_resolve,
---     arg_nouns_draft,
---     arg_nouns_review,
---     arg_nouns_resolve,
---     arg_verbs_draft,
---     arg_verbs_review,
---     arg_verbs_resolve,
---     arg_verbs_expanded_complete,
---     arg_verbs_expanded_incomplete,
---     arg_verbs_expanded_triple
---   )
---   ON CONFLICT (lesson_signature) DO NOTHING;
--- END;
--- $$;
-
 -- ************************************************************************
 -- FUNCTION: ckn_upsert_module
 -- ************************************************************************
@@ -491,111 +398,6 @@ $$;
 -- ************************************************************************
 -- FUNCTION: ckn_upsert_lesson
 -- ************************************************************************
-
--- CREATE FUNCTION private.ckn_upsert_lesson(
---   arg_lesson_id INTEGER,
---   arg_lesson_signature TEXT,
---   arg_lesson_name TEXT,
---   arg_lesson_description TEXT,
---   arg_lesson_target_language TEXT,
---   arg_lesson_source_language TEXT,
---   arg_lesson_scenario TEXT,
---   arg_lesson_participant_list TEXT,
---   arg_lesson_prose TEXT,
---   arg_lesson_translation JSONB,
-
---   arg_dialog_draft JSONB,
---   arg_dialog_review JSONB,
---   arg_dialog_resolve JSONB,
-
---   arg_nouns_draft JSONB,
---   arg_nouns_review JSONB,
---   arg_nouns_resolve JSONB,
-
---   arg_verbs_draft JSONB,
---   arg_verbs_review JSONB,
---   arg_verbs_resolve JSONB,
-
---   arg_verbs_expanded_complete JSONB,
---   arg_verbs_expanded_incomplete JSONB,
---   arg_verbs_expanded_triple JSONB
--- )
--- RETURNS VOID
--- LANGUAGE plpgsql
--- SECURITY INVOKER
--- AS $$
--- BEGIN
---   INSERT INTO private.ckn_lesson (
---     lesson_id,
---     lesson_signature,
---     lesson_name,
---     lesson_description,
---     lesson_target_language,
---     lesson_source_language,
---     lesson_scenario,
---     lesson_participant_list,
---     lesson_prose,
---     lesson_translation,
---     dialog_draft,
---     dialog_review,
---     dialog_resolve,
---     nouns_draft,
---     nouns_review,
---     nouns_resolve,
---     verbs_draft,
---     verbs_review,
---     verbs_resolve,
---     verbs_expanded_complete,
---     verbs_expanded_incomplete,
---     verbs_expanded_triple
---   ) VALUES (
---     arg_lesson_id,
---     arg_lesson_signature,
---     arg_lesson_name,
---     arg_lesson_description,
---     arg_lesson_target_language,
---     arg_lesson_source_language,
---     arg_lesson_scenario,
---     arg_lesson_participant_list,
---     arg_lesson_prose,
---     arg_lesson_translation,
---     arg_dialog_draft,
---     arg_dialog_review,
---     arg_dialog_resolve,
---     arg_nouns_draft,
---     arg_nouns_review,
---     arg_nouns_resolve,
---     arg_verbs_draft,
---     arg_verbs_review,
---     arg_verbs_resolve,
---     arg_verbs_expanded_complete,
---     arg_verbs_expanded_incomplete,
---     arg_verbs_expanded_triple
---   )
---   ON CONFLICT (lesson_signature) DO UPDATE SET
---     lesson_id = EXCLUDED.lesson_id,
---     lesson_name = EXCLUDED.lesson_name,
---     lesson_description = EXCLUDED.lesson_description,
---     lesson_target_language = EXCLUDED.lesson_target_language,
---     lesson_source_language = EXCLUDED.lesson_source_language,
---     lesson_scenario = EXCLUDED.lesson_scenario,
---     lesson_participant_list = EXCLUDED.lesson_participant_list,
---     lesson_prose = EXCLUDED.lesson_prose,
---     lesson_translation = EXCLUDED.lesson_translation,
---     dialog_draft = EXCLUDED.dialog_draft,
---     dialog_review = EXCLUDED.dialog_review,
---     dialog_resolve = EXCLUDED.dialog_resolve,
---     nouns_draft = EXCLUDED.nouns_draft,
---     nouns_review = EXCLUDED.nouns_review,
---     nouns_resolve = EXCLUDED.nouns_resolve,
---     verbs_draft = EXCLUDED.verbs_draft,
---     verbs_review = EXCLUDED.verbs_review,
---     verbs_resolve = EXCLUDED.verbs_resolve,
---     verbs_expanded_complete = EXCLUDED.verbs_expanded_complete,
---     verbs_expanded_incomplete = EXCLUDED.verbs_expanded_incomplete,
---     verbs_expanded_triple = EXCLUDED.verbs_expanded_triple;
--- END;
--- $$;
 
 -- ************************************************************************
 -- FUNCTION: ckn_get_lesson_by_signature
@@ -1040,7 +842,6 @@ JOIN private.ckn_verb_example e ON vf.verb_key = e.verb_key
 WHERE vf.verb_key = arg_verb_key;
 $$;
 
-
 -- ************************************************************************
 -- FUNCTION: private.ckn_get_module_by_lesson_and_name
 -- ************************************************************************
@@ -1057,6 +858,127 @@ AS $$
   SELECT module_content FROM private.ckn_module
   WHERE lesson_id = $1 AND module_name = $2
 $$;
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_upsert_email_code
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_upsert_email_code(
+  arg_email_cooked text,
+  arg_code text,
+  arg_expires_at timestamptz
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = private, public
+AS $$
+BEGIN
+  INSERT INTO private.ckn_email_code (
+    email_code_email_cooked,
+    email_code_code,
+    email_code_expires_at
+  ) VALUES (
+    arg_email_cooked,
+    arg_code,
+    arg_expires_at
+  )
+  ON CONFLICT (email_code_email_cooked)
+  DO UPDATE SET
+    email_code_code = excluded.email_code_code,
+    email_code_expires_at = excluded.email_code_expires_at,
+    email_code_created_at = now(),
+    email_code_verified = false;
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_verify_email_code
+-- ************************************************************************
+
+  CREATE FUNCTION private.ckn_verify_email_code(
+    arg_cooked_email TEXT,
+    arg_code TEXT
+  )
+  RETURNS TABLE (
+    email_code_key UUID,
+    email_code_email_cooked TEXT,
+    email_code_code TEXT,
+    email_code_verified BOOLEAN,
+    email_code_expires_at TIMESTAMPTZ
+  )
+  LANGUAGE plpgsql
+  SECURITY DEFINER
+  SET search_path = private, public
+  AS $$
+  BEGIN
+    RETURN QUERY
+    WITH to_verify AS (
+      SELECT ec.email_code_key
+      FROM private.ckn_email_code ec
+      WHERE ec.email_code_email_cooked = arg_cooked_email
+        AND ec.email_code_code = arg_code
+        AND ec.email_code_verified = FALSE
+        AND ec.email_code_expires_at > NOW()
+    )
+    UPDATE private.ckn_email_code
+    SET 
+      email_code_verified = TRUE,
+      email_code_created_at = NOW()
+    WHERE private.ckn_email_code.email_code_key IN (SELECT to_verify.email_code_key FROM to_verify)
+    RETURNING 
+      private.ckn_email_code.email_code_key,
+      private.ckn_email_code.email_code_email_cooked,
+      private.ckn_email_code.email_code_code,
+      private.ckn_email_code.email_code_verified,
+      private.ckn_email_code.email_code_expires_at;
+  END;
+  $$;
+
+-- ************************************************************************
+-- FUNCTION SHIMS: public.ckn_verify_email_code
+-- ************************************************************************
+
+-- PUBLIC SHIM: delegates to private function
+CREATE FUNCTION public.ckn_verify_email_code(
+  arg_cooked_email TEXT,
+  arg_code TEXT
+)
+RETURNS TABLE (
+  email_code_key UUID,
+  email_code_email_cooked TEXT,
+  email_code_code TEXT,
+  email_code_verified BOOLEAN,
+  email_code_expires_at TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT *
+  FROM private.ckn_verify_email_code(arg_cooked_email, arg_code);
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION SHIMS: public.ckn_upsert_email_code
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_upsert_email_code(
+  arg_email_cooked TEXT,
+  arg_code TEXT,
+  arg_expires_at TIMESTAMPTZ
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  PERFORM private.ckn_upsert_email_code(arg_email_cooked, arg_code, arg_expires_at);
+END;
+$$;
+
 
 -- ************************************************************************
 -- FUNCTION SHIMS: public.ckn_upsert_module
@@ -1276,100 +1198,9 @@ $$;
 -- FUNCTION SHIMS: public.ckn_upsert_lesson
 -- ************************************************************************
 
--- CREATE FUNCTION public.ckn_upsert_lesson(
---   -- same signature as the private function
---   arg_lesson_id INTEGER,
---   arg_lesson_signature TEXT,
---   arg_lesson_name TEXT,
---   arg_lesson_description TEXT,
---   arg_lesson_target_language TEXT,
---   arg_lesson_source_language TEXT,
---   arg_lesson_scenario TEXT,
---   arg_lesson_participant_list TEXT,
---   arg_lesson_prose TEXT,
---   arg_lesson_translation JSONB,
-
---   arg_dialog_draft JSONB,
---   arg_dialog_review JSONB,
---   arg_dialog_resolve JSONB,
-
---   arg_nouns_draft JSONB,
---   arg_nouns_review JSONB,
---   arg_nouns_resolve JSONB,
-
---   arg_verbs_draft JSONB,
---   arg_verbs_review JSONB,
---   arg_verbs_resolve JSONB,
-
---   arg_verbs_expanded_complete JSONB,
---   arg_verbs_expanded_incomplete JSONB,
---   arg_verbs_expanded_triple JSONB
--- )
--- RETURNS VOID
--- LANGUAGE SQL
--- SECURITY DEFINER
--- AS $$
---   SELECT private.ckn_upsert_lesson(
---     arg_lesson_id,
---     arg_lesson_signature,
---     arg_lesson_name,
---     arg_lesson_description,
---     arg_lesson_target_language,
---     arg_lesson_source_language,
---     arg_lesson_scenario,
---     arg_lesson_participant_list,
---     arg_lesson_prose,
---     arg_lesson_translation,
---     arg_dialog_draft,
---     arg_dialog_review,
---     arg_dialog_resolve,
---     arg_nouns_draft,
---     arg_nouns_review,
---     arg_nouns_resolve,
---     arg_verbs_draft,
---     arg_verbs_review,
---     arg_verbs_resolve,
---     arg_verbs_expanded_complete,
---     arg_verbs_expanded_incomplete,
---     arg_verbs_expanded_triple
---   );
--- $$;
-
 -- ************************************************************************
 -- FUNCTION SHIMS: public.ckn_get_lesson_by_signature
 -- ************************************************************************
-
--- CREATE FUNCTION public.ckn_get_lesson_by_signature(arg_lesson_signature TEXT)
--- RETURNS TABLE (
---   lesson_key INTEGER,
---   lesson_id INTEGER,
---   lesson_signature TEXT,
---   lesson_name TEXT,
---   lesson_description TEXT,
---   lesson_target_language TEXT,
---   lesson_source_language TEXT,
---   lesson_scenario TEXT,
---   lesson_participant_list TEXT,
---   lesson_prose TEXT,
---   lesson_translation JSONB,
---   dialog_draft JSONB,
---   dialog_review JSONB,
---   dialog_resolve JSONB,
---   nouns_draft JSONB,
---   nouns_review JSONB,
---   nouns_resolve JSONB,
---   verbs_draft JSONB,
---   verbs_review JSONB,
---   verbs_resolve JSONB,
---   verbs_expanded_complete JSONB,
---   verbs_expanded_incomplete JSONB,
---   verbs_expanded_triple JSONB
--- )
--- LANGUAGE SQL
--- SECURITY DEFINER
--- AS $$
---   SELECT * FROM private.ckn_get_lesson_by_signature(arg_lesson_signature);
--- $$;
 
 -- ************************************************************************
 -- FUNCTION EXECUTION PRIVILEGES
@@ -1394,6 +1225,9 @@ GRANT EXECUTE ON FUNCTION private.ckn_lookup_noun_examples(INTEGER) TO service_r
 GRANT EXECUTE ON FUNCTION private.ckn_lookup_tts_cache(TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_lookup_verb_example(INTEGER) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_module(TEXT, TEXT, JSONB) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_upsert_email_code(text, text, timestamptz) to service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_verify_email_code(text, text) to service_role;
 
 ALTER ROLE service_role SET search_path = private, public;
 
+GRANT SELECT, UPDATE ON TABLE private.ckn_email_code TO service_role;

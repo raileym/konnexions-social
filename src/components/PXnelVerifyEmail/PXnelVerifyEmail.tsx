@@ -1,6 +1,6 @@
 // src/components/PanelVerifyEmail/PanelVerifyEmail.tsx
 import { APP_PANEL } from '@cknTypes/constants'
-import PanelVerifyEmailComponents from '@components/PanelVerifyEmail/PanelVerifyEmailComponents'
+import PanelVerifyEmailComponents from '@components/PXnelVerifyEmail/PXnelVerifyEmailComponents'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
