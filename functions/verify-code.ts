@@ -1,19 +1,19 @@
 import type { Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
-import crypto from 'crypto'
+// import crypto from 'crypto'
 
-const EMAIL_SALT = process.env.EMAIL_SALT!
+// const EMAIL_SALT = process.env.EMAIL_SALT!
 const SUPABASE_URL = process.env.SUPABASE_URL!
 const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE)
 
-function cookEmail(email: string): string {
-  return crypto
-    .createHmac('sha256', EMAIL_SALT)
-    .update(email.trim().toLowerCase())
-    .digest('hex')
-}
+// function cookEmail(email: string): string {
+//   return crypto
+//     .createHmac('sha256', EMAIL_SALT)
+//     .update(email.trim().toLowerCase())
+//     .digest('hex')
+// }
 
 export const handler: Handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -64,10 +64,13 @@ export const handler: Handler = async (event) => {
     //   .update({ email_code_verified: true })
     //   .eq('email_code_id', data[0].email_code_id)
 
+    const verified = true
+
     return {
       statusCode: 200,
       body: JSON.stringify({
         message: 'Code verified',
+        verified,
         cookedEmail: cookedEmail,
       }),
     }

@@ -10,7 +10,7 @@ const PanelRequestEmailComponents = () => {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
-  const { setCookedEmail, setActivePanel } = useAppContext()
+  const { setCookedEmail, setActivePanel, setIsUserValidated, setUserData } = useAppContext()
   const [localCookedEmail, setLocalCookedEmail] = useState('')
 
   const sendEmail = async () => {
@@ -31,7 +31,7 @@ const PanelRequestEmailComponents = () => {
       const data = await response.json()
       const cookedEmail = data.cookedEmail || ''
       setLocalCookedEmail(cookedEmail)
-      setCookedEmail(cookedEmail)
+      // setCookedEmail(cookedEmail)
       setStep('verify')
     } catch (err) {
       setError((err as Error).message || 'Unexpected error')
@@ -47,11 +47,13 @@ const PanelRequestEmailComponents = () => {
     setError(null)
 
     try {
-      const response = await fetch('/.netlify/functions/verifyCode', {
+      const response = await fetch('/.netlify/functions/verify-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cookedEmail: localCookedEmail, code }),
       })
+
+      console.log('response', response)
 
       if (!response.ok) {
         const errData = await response.json().catch(() => null)
@@ -59,13 +61,30 @@ const PanelRequestEmailComponents = () => {
         throw new Error(message)
       }
 
+      const { verified } = await response.json()
+
+      console.log('verified', verified)
+
+      // const dataRes = await fetch('/.netlify/functions/getEmailUserData', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ cookedEmail: localCookedEmail }),
+      // })
+
+      // const userData = await dataRes.json()
+      // setUserData(userData)
+
       setSuccess(true)
+      setCookedEmail(localCookedEmail)
+      setIsUserValidated(true)
 
       // Optional: delay before redirect
       setTimeout(() => {
         setActivePanel(APP_PANEL.BASIC)
       }, 1500)
+
     } catch (err) {
+      setIsUserValidated(false)
       setError((err as Error).message)
       setSuccess(false)
     } finally {

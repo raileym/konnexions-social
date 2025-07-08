@@ -23,8 +23,7 @@ const NavbarBottom: React.FC = () => {
     <nav className='fixed bottom-0 bt b--black-30 left-0 w-100 bg-white flex items-center justify-around ph3 pv2 z-999'>
       <Button buttonClass='w-50X' isActive={activePanel === APP_PANEL.MDX} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faCoffee} title='MDX' />
 
-      <Button buttonClass='w-50X' isActive={activePanel === APP_PANEL.REQUEST_EMAIL} switchFn={switchPanel} panel={APP_PANEL.REQUEST_EMAIL} icon={faEnvelope} title='Request Email' />
-
+      <Button disable={isUserValidated} buttonClass='w-50X' isActive={activePanel === APP_PANEL.REQUEST_EMAIL} switchFn={switchPanel} panel={APP_PANEL.REQUEST_EMAIL} icon={faEnvelope} title='Request Email' />
 
       <Button disable={!isUserValidated} buttonClass='w-50X' isActive={activePanel === APP_PANEL.BASIC} switchFn={switchPanel} panel={APP_PANEL.BASIC} icon={faFilePen} title='Create Lesson' />
 

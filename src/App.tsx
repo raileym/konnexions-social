@@ -57,35 +57,41 @@ const App: React.FC = () => {
   }, [setOpenAiUsage, setTtsCharUsage])
 
   useEffect(() => {
-    const cooked = localStorage.getItem('cookedEmail')
-    if (!cooked) return
+    const cookedEmail = localStorage.getItem('cookedEmail')
+    if (!cookedEmail || cookedEmail.trim() === '') {
+      console.log('App: No cookedEmail')
+      return
+    }
 
+    console.log('App: cookedEmail raw value:', JSON.stringify(cookedEmail))
+
+    console.log('XXcookedEmail', cookedEmail)
     const verifyCooked = async () => {
       try {
-        const res = await fetch('/.netlify/functions/verifyCookedEmail', {
+        const res = await fetch('/.netlify/functions/verify-cooked-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ cookedEmail: cooked }),
+          body: JSON.stringify({ cookedEmail: cookedEmail }),
         })
 
         const { valid } = await res.json()
 
         if (valid) {
-          setCookedEmail(cooked)
+          setCookedEmail(cookedEmail)
           setIsUserValidated(true)
 
           const dataRes = await fetch('/.netlify/functions/getEmailUserData', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cookedEmail: cooked }),
+            body: JSON.stringify({ cookedEmail: cookedEmail }),
           })
 
           const userData = await dataRes.json()
           setUserData(userData)
         } else {
-          localStorage.removeItem('cookedEmail')
-          setCookedEmail('')
-          setIsUserValidated(false)
+          // localStorage.removeItem('cookedEmail')
+          // setCookedEmail('')
+          // setIsUserValidated(false)
         }
       } catch (err) {
         console.error('Failed to verify cookedEmail:', err)
