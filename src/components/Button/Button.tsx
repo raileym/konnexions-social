@@ -6,7 +6,7 @@ import { APP_PANEL } from '@cknTypes/constants'
 import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 
-const Button = ({ disable, panel, icon, title, buttonClass, switchFn, isActive }: ButtonProps) => {
+const Button = ({ iconStyle, disable, panel, icon, title, buttonClass, switchFn, isActive }: ButtonProps) => {
   const { isHelpOpen, isMenuOpen } = useAppContext()
   const { openHelp, closeHelp } = useHelpPanel()
   const { openMenu, closeMenu } = useMenuPanel()
@@ -35,7 +35,7 @@ const Button = ({ disable, panel, icon, title, buttonClass, switchFn, isActive }
       // className={`f2 pa2 br2 bn pointer bg-white ${isActive ? 'bg-light-purple white' : 'dark-gray'} mr2`}
       title={title}
     >
-      <FontAwesomeIcon icon={icon} />
+      <FontAwesomeIcon className={iconStyle} icon={icon} />
       <div className="f6 mt1">{title}</div>
     </button>
   )

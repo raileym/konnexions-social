@@ -337,6 +337,7 @@ export type Lesson = {
 
   lessonPrompt: LessonPrompt
   lessonPromptStyle: LessonPromptStyle
+  flexLesson: FlexLesson
 
   translation: Translation
 
@@ -621,6 +622,7 @@ export const defaultLesson: Lesson = {
 
   lessonPrompt: defaultLessonPrompt,
   lessonPromptStyle: defaultLessonPromptStyle,
+  flexLesson: defaultFlexLesson,
 
   translation: defaultTranslation,
 
@@ -1189,6 +1191,7 @@ export type FormatFlexLessonButtonProps = {
 }
 
 export type CreateFlexLessonProps = {
+  flexLesson: FlexLesson
   formattedFlexLesson: FormattedFlexLesson
 }
 
@@ -1224,6 +1227,7 @@ export type ButtonProps = {
   buttonClass?: string
   switchFn: (target: ActivePanel | ActiveHome) => void
   isActive: IsActive
+  iconStyle?: string
 }
 
 export type PanelVerifyEmailComponentsProps = {

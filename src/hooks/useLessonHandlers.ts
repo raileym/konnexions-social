@@ -164,7 +164,7 @@ export const useLessonHandlers = () => {
     setLesson(updatedVerbsLesson)
   }
 
-  const createFlexLesson = async ({formattedFlexLesson}: CreateFlexLessonProps) => {
+  const createFlexLesson = async ({flexLesson, formattedFlexLesson}: CreateFlexLessonProps) => {
     setLessonComplete(false)
 
     const localLessonTimestamp = Date.now()
@@ -172,6 +172,7 @@ export const useLessonHandlers = () => {
 
     const initialLesson = {
         ...defaultLesson,
+        flexLesson,
         scenario,
         targetLanguage,
         sourceLanguage,

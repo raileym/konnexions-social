@@ -27,6 +27,7 @@ const PanelMDXComponents: FC = () => {
 
   return (
     <>
+      {/* 
       <nav className="w-100 h2X flex justify-between pv3 ph3 bg-light-gray absolute top-0 left-0" style={{paddingTop: '6rem', height: '10em'}}>
         {Object.keys(mdxPagesMap).map(key => (
           <button
@@ -39,6 +40,7 @@ const PanelMDXComponents: FC = () => {
           </button>
         ))}
       </nav>
+      */}
       <MDXPage Component={ComponentToRender} />
     </>
   )

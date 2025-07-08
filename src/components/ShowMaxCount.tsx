@@ -6,7 +6,8 @@ import { useAppContext } from '@context/AppContext/AppContext'
 const ShowMaxCount: FC = () => {
   const {
     maxCount,
-    setMaxCount
+    setMaxCount,
+    activePanel
   } = useAppContext()
 
   const handleIncrease = () => {

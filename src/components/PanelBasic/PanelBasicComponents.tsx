@@ -22,6 +22,8 @@ const PanelBasic = () => {
   } = useLessonHandlers()
 
   const lesson = lessons.find(l => l.number === selectedLessonNumber)
+
+  console.log('lesson', lesson)
   
   const tiptapEditorTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
 
@@ -39,7 +41,20 @@ const PanelBasic = () => {
           <div className="w-100 black f2 f3-m ">Lesson {selectedLessonNumber}</div>
           </h2>
 
-          <TiptapEditor initialValue={flexLesson} title={tiptapEditorTitle} onChange={setFlexLesson} />
+          <TiptapEditor
+            initialValue={lesson.flexLesson}
+            title={tiptapEditorTitle}
+            onChange={setFlexLesson}
+            // onChange={(newContent: string) => {
+            //   setFlexLesson(newContent)
+            //   lesson.flexLesson = newContent
+            //   // setLesson(prev => ({
+            //   //   ...prev,
+            //   //   flexLesson: newContent
+            //   // }))
+            // }}
+          />
+
 
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
@@ -47,7 +62,7 @@ const PanelBasic = () => {
                 className={'f3 pa3 br4 bn bg-brand white pointer'}
                 onClick={() => {
                   const formattedFlexLesson = formatFlexLesson({flexLesson})
-                  createFlexLesson({formattedFlexLesson})
+                  createFlexLesson({flexLesson, formattedFlexLesson})
                 }}
               >
                 Create Lesson
