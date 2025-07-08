@@ -26,7 +26,6 @@ const NavbarBottom: React.FC = () => {
       <div className="ba bg-greyX flex justify-center flex-column tc">
         <div className="mb0 pb0">Learn Spanish!</div>
         <div>
-          <Button iconStyle={'f3'} disable={isUserValidated} buttonClass='w-50X mh3' isActive={activePanel === APP_PANEL.REQUEST_EMAIL} switchFn={switchPanel} panel={APP_PANEL.REQUEST_EMAIL} icon={faUserGraduate} title='Sign-In' />
           <Button iconStyle={'f3'} disable={!isUserValidated} buttonClass='w-50X mh3' isActive={activePanel === APP_PANEL.BASIC} switchFn={switchPanel} panel={APP_PANEL.BASIC} icon={faPersonChalkboard} title='Create' />
           <Button iconStyle={'f3'} disable={!isUserValidated || !lesson.isComplete} buttonClass='mh3' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
         </div>
