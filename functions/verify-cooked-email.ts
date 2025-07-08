@@ -24,6 +24,10 @@ export const handler: Handler = async (event) => {
       }
     }
 
+    console.log('verify-cooked-email', JSON.stringify({
+      cookedEmail
+    }, null, 2))
+    
     const { data, error } = await supabase.rpc('ckn_verify_cooked_email', {
       arg_cooked_email: cookedEmail,
     })

@@ -9,12 +9,18 @@ export const usePersistentState = <T>(
 ): [T, React.Dispatch<React.SetStateAction<T>>] => {
   const [value, setValueInternal] = useState<T>(() => {
     if (typeof window === 'undefined') return defaultValue
+
     try {
       const raw = localStorage.getItem(key)
-      const parsed = raw ? JSON.parse(raw) : null
+      if (raw === null) return defaultValue
 
-      if (raw === null) {
-        return defaultValue
+      let parsed: unknown
+
+      try {
+        parsed = JSON.parse(raw)
+      } catch {
+        // Handle raw strings (e.g., cookedEmail), possibly quoted
+        parsed = raw.replace(/^"+|"+$/g, '') // Remove outer quotes if present
       }
 
       if (isValid && !isValid(parsed)) {
@@ -33,11 +39,15 @@ export const usePersistentState = <T>(
       const next = typeof newValue === 'function'
         ? (newValue as (prevState: T) => T)(prev)
         : newValue
+
       try {
-        localStorage.setItem(key, JSON.stringify(next))
+        const toStore =
+          typeof next === 'string' ? next : JSON.stringify(next)
+        localStorage.setItem(key, toStore)
       } catch (err) {
         console.error(`Failed to save ${key} to localStorage:`, err)
       }
+
       return next
     })
   }

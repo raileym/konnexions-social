@@ -75,20 +75,22 @@ const App: React.FC = () => {
         })
 
         const { valid } = await res.json()
-
+        console.log('before check')
         if (valid) {
+          console.log('YES check')
           setCookedEmail(cookedEmail)
           setIsUserValidated(true)
 
-          const dataRes = await fetch('/.netlify/functions/getEmailUserData', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cookedEmail: cookedEmail }),
-          })
+          // const dataRes = await fetch('/.netlify/functions/get-email-user-data', {
+          //   method: 'POST',
+          //   headers: { 'Content-Type': 'application/json' },
+          //   body: JSON.stringify({ cookedEmail: cookedEmail }),
+          // })
 
-          const userData = await dataRes.json()
-          setUserData(userData)
+          // const userData = await dataRes.json()
+          // setUserData(userData)
         } else {
+          console.log('NO check')
           // localStorage.removeItem('cookedEmail')
           // setCookedEmail('')
           // setIsUserValidated(false)

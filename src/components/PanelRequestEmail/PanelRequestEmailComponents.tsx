@@ -65,18 +65,25 @@ const PanelRequestEmailComponents = () => {
 
       console.log('verified', verified)
 
-      // const dataRes = await fetch('/.netlify/functions/getEmailUserData', {
+      setSuccess(true)
+      setCookedEmail(localCookedEmail)
+      setIsUserValidated(true)
+
+      // const dataRes = await fetch('/.netlify/functions/get-email-user-data', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify({ cookedEmail: localCookedEmail }),
       // })
 
-      // const userData = await dataRes.json()
-      // setUserData(userData)
-
-      setSuccess(true)
-      setCookedEmail(localCookedEmail)
-      setIsUserValidated(true)
+      // if (!dataRes.ok) {
+      //   const errData = await response.json().catch(() => null)
+      //   const message = errData?.error || 'Verification failed'
+      //   console.log('get-email-user-data ERROR:', message)
+      //   throw new Error(message)
+      // } else {
+      //   const userData = await dataRes.json()
+      //   setUserData(userData)
+      // }
 
       // Optional: delay before redirect
       setTimeout(() => {

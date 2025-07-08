@@ -83,6 +83,10 @@ export const handleCreateLesson = async ({
   const alwaysTrue = true
   let localClientUUID = clientUUID
 
+  console.log('handleCreateLesson', JSON.stringify({
+    clientEmail
+  }, null, 2))
+  
   if (localClientUUID === '' || alwaysTrue) {
     const clientUUIDRes = await fetch('/.netlify/functions/get-client-uuid', {
       method: 'POST',
