@@ -192,3 +192,6 @@ export const MENU_PANEL_TRANSLATE_X = 'translate-x-60'
 export const PROFILE_PANEL_WIDTH_PERCENT = 'w-40'
 export const PROFILE_PANEL_TRANSLATE_X = 'translate-x-60'
 
+export const USER_EMAIL_VALIDATED = 'User email confirmed'
+export const USER_EMAIL_NOT_VALIDATED = 'User email not confirmed'
+

@@ -1,6 +1,6 @@
+import { USER_EMAIL_NOT_VALIDATED, USER_EMAIL_VALIDATED } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
-import React, { useState } from 'react'
-import { APP_PANEL, MENU_PANEL_WIDTH_PERCENT, PROFILE_PANEL_WIDTH_PERCENT } from '@cknTypes/constants'
+import React, { useEffect, useState } from 'react'
 
 const PanelRequestEmailComponents = () => {
   const [email, setEmail] = useState('')
@@ -9,9 +9,17 @@ const PanelRequestEmailComponents = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-
-  const { setCookedEmail, setActivePanel, setIsUserValidated, setUserData } = useAppContext()
+  const [validationMessage, setValidationMessage] = useState<string>(USER_EMAIL_NOT_VALIDATED)
+  const { setCookedEmail, setIsUserValidated, setUserData, isUserValidated } = useAppContext()
   const [localCookedEmail, setLocalCookedEmail] = useState('')
+
+  useEffect(() => {
+    if (isUserValidated) {
+      setValidationMessage(USER_EMAIL_VALIDATED)
+    } else {
+      setValidationMessage(USER_EMAIL_NOT_VALIDATED)
+    }
+  }, [isUserValidated])
 
   const sendEmail = async () => {
     setLoading(true)
@@ -86,9 +94,9 @@ const PanelRequestEmailComponents = () => {
       // }
 
       // Optional: delay before redirect
-      setTimeout(() => {
-        setActivePanel(APP_PANEL.BASIC)
-      }, 1500)
+      // setTimeout(() => {
+      //   setActivePanel(APP_PANEL.BASIC)
+      // }, 1500)
 
     } catch (err) {
       setIsUserValidated(false)
@@ -119,15 +127,22 @@ const PanelRequestEmailComponents = () => {
   }
 
   return (
-    <div className={`ba b--red w-100X vh-100 bg-purple flex items-center justify-center ${PROFILE_PANEL_WIDTH_PERCENT} pa4`}>
+    <div className={'bl b--black w-100 vh-100 bg-yellow flex flex-column items-center justify-start pa3 mt5'}>
+      <div className="black pl3">
+          <h2 className="f3 pa3 mt5">Profile Panel</h2>
+          <p className="pl3X">When you access paid and free-tier services on this site, including the CKՈ Platform Technologies for the</p>
+          <p className="tc b black">CKՈ Series on Joy,</p>
+          <p>we require and use a validated version of your email address to store lesson materials remotely. We do not store your email in the cloud. </p>
+      </div>
+      <div className="black f3 b mt3 mb4">{validationMessage}</div>
       <form
         onSubmit={handleSubmit}
-        className="bg-white pa5 br3 shadow-5 mw6 w-100"
+        className="bg-black pa3 br3 shadow-5 mw6 w-100"
         aria-label="Email + code form"
       >
         {step === 'request' && (
           <>
-            <label htmlFor="email" className="db mb3 fw6 f5 black-70">
+            <label htmlFor="email" className="db mb3 fw6 f5 white">
               Email:
             </label>
             <input
@@ -145,8 +160,8 @@ const PanelRequestEmailComponents = () => {
 
         {step === 'verify' && (
           <>
-            <label htmlFor="code" className="db mb3 fw6 f5 black-70">
-              Enter the 6-digit code sent to {email}:
+            <label htmlFor="code" className="db mb3 fw6 f5 white">
+              {isUserValidated ? 'Thank you!' : 'Enter the 6-digit code sent to {email}.'}
             </label>
             <input
               id="code"
@@ -179,7 +194,8 @@ const PanelRequestEmailComponents = () => {
         </button>
 
         {error && <div className="mt3 red f6">{error}</div>}
-        {success && <div className="mt3 green f6">Success! Redirecting...</div>}
+        {/* {success && <div className="mt3 white f5 tc">Success!</div>} */}
+        {!error && <div className="baX mt3 white f5 tc"><br /></div>}
       </form>
     </div>
   )

@@ -21,13 +21,13 @@ const NavbarBottom: React.FC = () => {
 
   return (
     <nav className='fixed bottom-0 bt b--black-30 left-0 w-100 bg-white flex items-center justify-around ph3 pv2 z-999'>
-      <Button buttonClass='w-50X' isActive={activePanel === APP_PANEL.MDX} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faCoffee} title='MDX' />
+      {/* <Button buttonClass='w-50X' isActive={activePanel === APP_PANEL.MDX} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faCoffee} title='MDX' /> */}
 
-      <div className="ba bg-greyX flex justify-center flex-column tc">
-        <div className="mb0 pb0">Learn Spanish!</div>
+      <div className="left-10 baX bg-greyX flex justify-center flex-column tc mt0 pt0" style={{marginLeft: '10%'}}>
+        {/* <div className="mb0 pb0">Learn Spanish!</div> */}
         <div>
-          <Button iconStyle={'f3'} disable={!isUserValidated} buttonClass='w-50X mh3' isActive={activePanel === APP_PANEL.BASIC} switchFn={switchPanel} panel={APP_PANEL.BASIC} icon={faPersonChalkboard} title='Create' />
-          <Button iconStyle={'f3'} disable={!isUserValidated || !lesson.isComplete} buttonClass='mh3' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
+          <Button iconStyle={'f2'} disable={!isUserValidated} buttonClass='w-50X mh3' isActive={activePanel === APP_PANEL.BASIC} switchFn={switchPanel} panel={APP_PANEL.BASIC} icon={faPersonChalkboard} title='Create' />
+          <Button iconStyle={'f2'} disable={!isUserValidated || !lesson.isComplete} buttonClass='mh3' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
         </div>
       </div>
 

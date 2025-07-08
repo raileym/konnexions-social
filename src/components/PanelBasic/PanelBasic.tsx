@@ -19,7 +19,7 @@ const PanelBasic: React.FC = () => {
   }, [isActive, setActivateLessonBar])
 
   return (
-    <div className={`panel-right panel-basic-review bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}>
+    <div className={`panel-right panel-basic bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}>
       <PanelBasicComponents />
     </div>
   )
