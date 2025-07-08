@@ -43,6 +43,7 @@ export type AppContextType = {
   helpPanel: HelpPanel
   inputText: InputText
   isHelpOpen: IsHelpOpen
+  isMenuOpen: IsMenuOpen
   isTransitioning: IsTransitioning
   isUserValidated: IsUserValidated
   lesson: Lesson
@@ -87,6 +88,7 @@ export type AppContextType = {
   setHelpPanel: SetHelpPanel
   setInputText: SetInputText
   setIsHelpOpen: SetIsHelpOpen
+  setIsMenuOpen: SetIsMenuOpen
   setIsTransitioning: SetIsTransitioning
   setIsUserValidated: SetIsUserValidated
   setLesson: SetLesson
@@ -185,6 +187,7 @@ export type GcpKey = string
 export type HelpPanel = ActivePanel
 export type InputText = string
 export type IsHelpOpen = boolean
+export type IsMenuOpen = boolean
 export type IsTransitioning = boolean
 export type MaskKey = boolean
 export type MaskOpenAiKey = boolean
@@ -229,6 +232,7 @@ export type SetHandleVerbsErrors = React.Dispatch<React.SetStateAction<HandleVer
 export type SetHelpPanel = React.Dispatch<React.SetStateAction<HelpPanel>>
 export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
+export type SetIsMenuOpen = React.Dispatch<React.SetStateAction<IsMenuOpen>>
 export type SetIsUserValidated = React.Dispatch<React.SetStateAction<IsUserValidated>>
 export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
 export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>

@@ -4,16 +4,24 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { type ButtonProps } from '@cknTypes/types'
 import { APP_PANEL } from '@cknTypes/constants'
 import { useHelpPanel } from '@hooks/useHelpPanel'
+import { useMenuPanel } from '@hooks/useMenuPanel'
 
 const Button = ({ disable, panel, icon, title, buttonClass, switchFn, isActive }: ButtonProps) => {
-  const { isHelpOpen } = useAppContext()
+  const { isHelpOpen, isMenuOpen } = useAppContext()
   const { openHelp, closeHelp } = useHelpPanel()
+  const { openMenu, closeMenu } = useMenuPanel()
 
   const handleClick = () => {
     if (isHelpOpen && panel === APP_PANEL.HELP) {
       closeHelp()
     } else if (!isHelpOpen && panel === APP_PANEL.HELP) {
+      closeMenu()
       openHelp()
+    } else if (isMenuOpen && panel === APP_PANEL.MENU) {
+      closeMenu()
+    } else if (!isMenuOpen && panel === APP_PANEL.MENU) {
+      closeHelp()
+      openMenu()
     } else {
       switchFn(panel)
     }

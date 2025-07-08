@@ -180,6 +180,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [helpPanel, setHelpPanel] = useState<ActivePanel>(APP_PANEL.BASIC)
   const [inputText, setInputText] = useState<InputText>('')
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
+  const [isMenuOpen, setIsMenuOpen] = useState<IsHelpOpen>(false)
   const [isTransitioning, setIsTransitioning] = useState<IsTransitioning>(false)
   const [lesson, setLesson] = usePersistentState<Lesson>('lesson', updatedDefaultLesson)
   const [maskKey, setMaskKey] = useState<MaskKey>(false)
@@ -234,6 +235,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     helpPanel,
     inputText,
     isHelpOpen,
+    isMenuOpen,
     isTransitioning,
     isUserValidated,
     lesson,
@@ -278,6 +280,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setHelpPanel,
     setInputText,
     setIsHelpOpen,
+    setIsMenuOpen,
     setIsTransitioning,
     setIsUserValidated,
     setLesson,
