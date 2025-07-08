@@ -6,6 +6,7 @@ import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesF
 import { defaultLesson, type CreateFlexLessonProps, type CreateLessonResult } from '@cknTypes/types'
 import { useDebugLogger } from '@hooks/useDebugLogger'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails'
+// import type { faFalse } from '@fortawesome/free-solid-svg-icons'
 
 export const useLessonHandlers = () => {
 
@@ -20,9 +21,6 @@ export const useLessonHandlers = () => {
     // debugLog,
     setLessonTimestamp,
     // initialLesson,
-    clientEmail,
-    clientUUID,
-    setClientUUID,
     // flexLesson,
     // formattedFlexLesson
     // lessonComplete,
@@ -34,40 +32,12 @@ export const useLessonHandlers = () => {
     lessonPrompt,
     lessonPromptStyle,
     useMyself,
-    customParticipantList
+    customParticipantList,
+    cookedEmail
   } = useAppContext()
 
   const createFullLesson = async () => {
     setLessonComplete(false)
-
-    // 0. Get clientUUID (same logic)
-    let localClientUUID = clientUUID
-    const alwaysTrue = true
-
-    // **************************************************
-    // Grab my UUID ... Forced to always for now
-    // **************************************************
-    if (localClientUUID === '' || alwaysTrue) {
-      const clientUUIDRes = await fetch('/.netlify/functions/get-client-uuid', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ clientEmail })
-      })
-
-      if (!clientUUIDRes.ok) {
-        console.error('Failed to get clientUUID')
-        return
-      }
-
-      const clientUUIDData = await clientUUIDRes.json()
-      localClientUUID = clientUUIDData.clientUUID
-      setClientUUID(localClientUUID)
-
-      if (!localClientUUID) {
-        console.error('clientUUID missing in response')
-        return
-      }
-    }
 
     const localLessonTimestamp = Date.now()
     setLessonTimestamp(localLessonTimestamp.toString())
@@ -90,7 +60,7 @@ export const useLessonHandlers = () => {
       ...initialLesson,
       number: selectedLessonNumber,
       timestamp: localLessonTimestamp.toString(),
-      uuid: localClientUUID
+      uuid: cookedEmail
     }
 
     // 1. Insert base lesson
@@ -197,35 +167,6 @@ export const useLessonHandlers = () => {
   const createFlexLesson = async ({formattedFlexLesson}: CreateFlexLessonProps) => {
     setLessonComplete(false)
 
-    // 0. Get clientUUID (same logic)
-    let localClientUUID = clientUUID
-    const alwaysTrue = true
-
-    // **************************************************
-    // Grab my UUID ... Forced to always for now
-    // **************************************************
-    if (localClientUUID === '' || alwaysTrue) {
-      const clientUUIDRes = await fetch('/.netlify/functions/get-client-uuid', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ clientEmail })
-      })
-
-      if (!clientUUIDRes.ok) {
-        console.error('Failed to get clientUUID')
-        return
-      }
-
-      const clientUUIDData = await clientUUIDRes.json()
-      localClientUUID = clientUUIDData.clientUUID
-      setClientUUID(localClientUUID)
-
-      if (!localClientUUID) {
-        console.error('clientUUID missing in response')
-        return
-      }
-    }
-
     const localLessonTimestamp = Date.now()
     setLessonTimestamp(localLessonTimestamp.toString())
 
@@ -247,7 +188,7 @@ export const useLessonHandlers = () => {
       ...initialLesson,
       number: selectedLessonNumber,
       timestamp: localLessonTimestamp.toString(),
-      uuid: localClientUUID
+      uuid: cookedEmail
     }
 
     // 1. Insert base lesson

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import PanelKeys from '@components/PanelKeys/PanelKeys'
@@ -39,12 +39,16 @@ const AppMain = () => {
 }
 
 const App: React.FC = () => {
+  const hasLoadedUserData = useRef(false)
+
   const {
     setOpenAiUsage,
     setTtsCharUsage,
     setCookedEmail,
     setIsUserValidated,
-    setUserData, // optional
+    setUserData,
+    cookedEmail,
+    isUserValidated
   } = useAppContext()
 
   useEffect(() => {
@@ -62,7 +66,7 @@ const App: React.FC = () => {
       console.log('App: No cookedEmail')
       return
     }
-
+    
     console.log('App: cookedEmail raw value:', JSON.stringify(cookedEmail))
 
     console.log('XXcookedEmail', cookedEmail)
@@ -102,6 +106,26 @@ const App: React.FC = () => {
 
     verifyCooked()
   }, [setCookedEmail, setIsUserValidated, setUserData])
+
+  useEffect(() => {
+    if (!isUserValidated || !cookedEmail) return
+
+    if (hasLoadedUserData.current) return
+    hasLoadedUserData.current = true
+
+    const fetchUserData = async () => {
+      const res = await fetch('/.netlify/functions/get-email-user-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cookedEmail }),
+      })
+
+      const data = await res.json()
+      setUserData(data)
+    }
+
+    fetchUserData()
+  }, [isUserValidated, cookedEmail, setUserData])
 
   return (
     <Router>
