@@ -12,7 +12,7 @@ import { useAppContext } from '@context/AppContext/AppContext'
 
 const NavbarTop: React.FC = () => {
   const { switchPanel } = usePanel()
-  const { activePanel, isUserValidated } = useAppContext()
+  const { activePanel } = useAppContext()
 
   const alwaysTrue = false
 
@@ -20,9 +20,6 @@ const NavbarTop: React.FC = () => {
     <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph3 pv2 z-999">
       <div className="w-100 flex flex-column">
       <div className="w-100 flex flex-row justify-between">
-
-
-
         <div className="baX w-100X flex justify-start flex-row">
             <div className="ml3 bg-brand mr4 ba b--white bw2">
               <img
@@ -51,9 +48,9 @@ const NavbarTop: React.FC = () => {
           }
 
           <div className="baX">
-            <Button buttonClass='bn w-50X mh3X brand' isActive={activePanel === APP_PANEL.REQUEST_EMAIL} switchFn={switchPanel} panel={APP_PANEL.REQUEST_EMAIL} icon={faUser} title='Sign-In' />
+            <Button buttonClass='bn w-50X mh3X brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Sign-In' />
             <Button buttonClass='bn o-20X mh2 brand' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
-            <Button buttonClass='bn o-20X mr3 brand' isActive={activePanel === APP_PANEL.MENU} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
+            <Button buttonClass='bn o-20X mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
           </div>
         </div>
         <div className="mt2 flex justify-center flex-row">

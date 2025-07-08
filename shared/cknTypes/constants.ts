@@ -112,7 +112,7 @@ export const APP_PANEL = {
   // HOME: 'home',
   HELP: 'help',
 
-  REQUEST_EMAIL: 'requestEmail',
+  PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',
   
   SETTINGS: 'settings',
@@ -186,4 +186,9 @@ export const VERB_FORMATS = {
   taxi: 'in a taxi',
   custom: 'custom'
 } as const
+
+export const MENU_PANEL_WIDTH_PERCENT = 'w-40'
+export const MENU_PANEL_TRANSLATE_X = 'translate-x-60'
+export const PROFILE_PANEL_WIDTH_PERCENT = 'w-40'
+export const PROFILE_PANEL_TRANSLATE_X = 'translate-x-60'
 

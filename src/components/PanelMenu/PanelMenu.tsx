@@ -1,12 +1,11 @@
 import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { APP_PANEL } from '@cknTypes/constants'
-
-const MENU_PANEL_WIDTH_PERCENT = 'w-40'     // could be 'w-60', 'w-80', etc.
-const MENU_PANEL_TRANSLATE_X = 'translate-x-60' // must match the right offset
+import { MENU_PANEL_TRANSLATE_X, MENU_PANEL_WIDTH_PERCENT } from '@cknTypes/constants'
+// import { APP_PANEL } from '@cknTypes/constants'
 
 const PanelMenu: React.FC = () => {
-  const { activePanel, isMenuOpen } = useAppContext()
+  const { isMenuOpen } = useAppContext()
+  // const { activePanel, isMenuOpen } = useAppContext()
   // const isActive = activePanel === APP_PANEL.MENU
   const translateX = isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full'
 

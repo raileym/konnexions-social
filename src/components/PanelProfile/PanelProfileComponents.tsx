@@ -1,6 +1,6 @@
 import { useAppContext } from '@context/AppContext/AppContext'
 import React, { useState } from 'react'
-import { APP_PANEL } from '@cknTypes/constants'
+import { APP_PANEL, MENU_PANEL_WIDTH_PERCENT, PROFILE_PANEL_WIDTH_PERCENT } from '@cknTypes/constants'
 
 const PanelRequestEmailComponents = () => {
   const [email, setEmail] = useState('')
@@ -119,7 +119,7 @@ const PanelRequestEmailComponents = () => {
   }
 
   return (
-    <div className="w-100 vh-100 bg-purple flex items-center justify-center pa4">
+    <div className={`ba b--red w-100X vh-100 bg-purple flex items-center justify-center ${PROFILE_PANEL_WIDTH_PERCENT} pa4`}>
       <form
         onSubmit={handleSubmit}
         className="bg-white pa5 br3 shadow-5 mw6 w-100"

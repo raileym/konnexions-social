@@ -15,7 +15,7 @@ import PanelGenAIPro from '@components/PanelGenAIPro/PanelGenAIPro'
 import LessonBar from '@components/LessonBar/LessonBar'
 import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
 import PanelMDX from '@components/PanelMDX/PanelMDX'
-import PanelRequestEmail from '@components/PanelRequestEmail/PanelRequestEmail'
+import PanelProfile from '@components/PanelProfile/PanelProfile'
 
 const AppMain = () => {
   return (
@@ -23,7 +23,7 @@ const AppMain = () => {
       <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
         <LessonBar />
         <PanelMDX />
-        <PanelRequestEmail />
+        <PanelProfile />
         <PanelGenAIPro />
         <PanelBasic />
         <PanelGenAI />

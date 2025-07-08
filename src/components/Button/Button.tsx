@@ -5,23 +5,33 @@ import { type ButtonProps } from '@cknTypes/types'
 import { APP_PANEL } from '@cknTypes/constants'
 import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useMenuPanel } from '@hooks/useMenuPanel'
+import { useProfilePanel } from '@hooks/useProfilePanel'
 
 const Button = ({ iconStyle, disable, panel, icon, title, buttonClass, switchFn, isActive }: ButtonProps) => {
-  const { isHelpOpen, isMenuOpen } = useAppContext()
+  const { isHelpOpen, isMenuOpen, isProfileOpen } = useAppContext()
+  const { openProfile, closeProfile } = useProfilePanel()
   const { openHelp, closeHelp } = useHelpPanel()
   const { openMenu, closeMenu } = useMenuPanel()
 
   const handleClick = () => {
     if (isHelpOpen && panel === APP_PANEL.HELP) {
       closeHelp()
-    } else if (!isHelpOpen && panel === APP_PANEL.HELP) {
-      closeMenu()
-      openHelp()
     } else if (isMenuOpen && panel === APP_PANEL.MENU) {
       closeMenu()
+    } else if (isProfileOpen && panel === APP_PANEL.PROFILE) {
+      closeProfile()
+    } else if (!isHelpOpen && panel === APP_PANEL.HELP) {
+      closeProfile()
+      closeMenu()
+      openHelp()
     } else if (!isMenuOpen && panel === APP_PANEL.MENU) {
+      closeProfile()
       closeHelp()
       openMenu()
+    } else if (!isProfileOpen && panel === APP_PANEL.PROFILE) {
+      closeMenu()
+      closeHelp()
+      openProfile()
     } else {
       switchFn(panel)
     }

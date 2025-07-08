@@ -51,7 +51,8 @@ import type {
   CookedEmail,
   VerificationToken,
   IsUserValidated,
-  UserData
+  UserData,
+  IsProfileOpen
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -143,6 +144,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
+  const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
+  const [isMenuOpen, setIsMenuOpen] = useState<IsHelpOpen>(false)
+  const [isProfileOpen, setIsProfileOpen] = useState<IsProfileOpen>(false)
+
   const [userData, setUserData] = usePersistentState<UserData>('userData', defaultUserData)
   const [isUserValidated, setIsUserValidated] = useState<IsUserValidated>(false)
   const [cookedEmail, setCookedEmail] = usePersistentState<CookedEmail>('cookedEmail', '')
@@ -179,8 +184,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [gcpKey, setGcpKey] = useState<GcpKey>('')
   const [helpPanel, setHelpPanel] = useState<ActivePanel>(APP_PANEL.BASIC)
   const [inputText, setInputText] = useState<InputText>('')
-  const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
-  const [isMenuOpen, setIsMenuOpen] = useState<IsHelpOpen>(false)
   const [isTransitioning, setIsTransitioning] = useState<IsTransitioning>(false)
   const [lesson, setLesson] = usePersistentState<Lesson>('lesson', updatedDefaultLesson)
   const [maskKey, setMaskKey] = useState<MaskKey>(false)
@@ -236,6 +239,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     inputText,
     isHelpOpen,
     isMenuOpen,
+    isProfileOpen,
     isTransitioning,
     isUserValidated,
     lesson,
@@ -281,6 +285,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setInputText,
     setIsHelpOpen,
     setIsMenuOpen,
+    setIsProfileOpen,
     setIsTransitioning,
     setIsUserValidated,
     setLesson,
