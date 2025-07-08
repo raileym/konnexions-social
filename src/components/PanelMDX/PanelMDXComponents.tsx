@@ -11,16 +11,16 @@ import type { FC } from 'react'
 
 // Map keys to React components (MDX components are React components)
 const mdxPagesMap: Record<string, FC> = {
-  about: About,
-  welcome: Welcome,
-  faq: FAQ,
-  one: One,
-  two: Two,
-  three: Three
+  Welcome: Welcome,
+  About: About,
+  FAQ: FAQ,
+  One: One,
+  Two: Two,
+  Three: Three
 }
 
 const PanelMDXComponents: FC = () => {
-  const [page, setPage] = useState<keyof typeof mdxPagesMap>('about')
+  const [page, setPage] = useState<keyof typeof mdxPagesMap>('Welcome')
 
   // Get the component to render, fallback to About if not found
   const ComponentToRender = mdxPagesMap[page] || About

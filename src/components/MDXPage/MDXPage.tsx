@@ -6,7 +6,7 @@ type MDXPageProps = {
 
 const MDXPage = ({ Component }: MDXPageProps) => {
   return (
-    <div className="mdx-content overflow-y-auto">
+    <div className="mdx-content bg-purple w-100 pa4 white overflow-y-auto" style={{paddingTop: '10em'}}>
       <Component />
     </div>
   )
