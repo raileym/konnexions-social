@@ -71,9 +71,9 @@ const App: React.FC = () => {
       return
     }
     
-    console.log('App: cookedEmail raw value:', JSON.stringify(cookedEmail))
+    // console.log('App: cookedEmail raw value:', JSON.stringify(cookedEmail))
 
-    console.log('XXcookedEmail', cookedEmail)
+    // console.log('XXcookedEmail', cookedEmail)
     const verifyCooked = async () => {
       try {
         const res = await fetch('/.netlify/functions/verify-cooked-email', {
@@ -83,9 +83,9 @@ const App: React.FC = () => {
         })
 
         const { valid } = await res.json()
-        console.log('before check')
+        // console.log('before check')
         if (valid) {
-          console.log('YES check')
+          // console.log('YES check')
           setCookedEmail(cookedEmail)
           setIsUserValidated(true)
 
@@ -98,7 +98,7 @@ const App: React.FC = () => {
           // const userData = await dataRes.json()
           // setUserData(userData)
         } else {
-          console.log('NO check')
+          // console.log('NO check')
           // localStorage.removeItem('cookedEmail')
           // setCookedEmail('')
           // setIsUserValidated(false)

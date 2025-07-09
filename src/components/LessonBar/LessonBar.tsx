@@ -48,7 +48,7 @@ export const LessonBar: React.FC = () => {
   }
 
   return (
-    <div className={`panel-left lesson-bar w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa3 bg-washed-yellow brX b--black-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
+    <div className={`panel-left lesson-bar w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellow brX b--black-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
       <button
         onClick={handleAddLesson}
         // onClick={() => {
@@ -60,7 +60,7 @@ export const LessonBar: React.FC = () => {
         <FontAwesomeIcon className="f1X" icon={faPlus} />
       </button>
       <hr className="bg-black bn" style={{height: '0.15em'}} />
-      <ul className="list pa0">
+      <ul className="ba list pa0">
         {Array.isArray(lessons) && lessons.length > 0 ? (
           lessons.map((lesson) => (
             <li
@@ -75,7 +75,7 @@ export const LessonBar: React.FC = () => {
             >
               <div className="flex flex-column">
                 <div className="bb b--moon-gray">{lesson.number}</div>
-                <div className="f5">{lesson.name}</div>
+                <div className="f8">{lesson.lessonName}</div>
               </div>
             </li>
           ))

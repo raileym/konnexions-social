@@ -121,8 +121,7 @@ import type {
   SetUseCloudTTS,
   SetUseMyself,
   SetUserData,
-  SetVerificationToken,
-  MdxPagesMap
+  SetVerificationToken
 } from '@cknTypes/types'
 
 import {

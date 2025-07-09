@@ -6,6 +6,7 @@ import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TiptapEditor } from '@components/TiptapEditor/TiptapEditor'
 import LessonName from '@components/LessonName/LessonName'
+import { useEffect, useMemo } from 'react'
 
 const PanelBasic = () => {
 
@@ -22,10 +23,22 @@ const PanelBasic = () => {
     createFlexLesson
   } = useLessonHandlers()
 
-  const lesson = lessons.find(l => l.number === selectedLessonNumber)
+  const lesson = useMemo(() => {
+    return lessons.find(l => l.number === selectedLessonNumber)
+  }, [lessons, selectedLessonNumber])
 
-  console.log('lesson', lesson)
+  useEffect(() => {
+    if (lesson) {
+      setFlexLesson(lesson.flexLesson ?? '')
+    }
+  }, [lesson, setFlexLesson])
+
+lessons.forEach(lesson => {
+    console.log(`lesson No ${lesson.number}`, lesson)
+  })
   
+  console.log('Working Lesson: ', lesson?.number ?? 'undefined number')
+
   const tiptapEditorTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
 
   let content
@@ -45,6 +58,7 @@ const PanelBasic = () => {
           <LessonName />
 
           <TiptapEditor
+            key={lesson.number} // forces re-init when lesson changes
             initialValue={lesson.flexLesson}
             title={tiptapEditorTitle}
             onChange={setFlexLesson}

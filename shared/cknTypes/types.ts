@@ -216,6 +216,7 @@ export type Lesson = {
   prose: Prose
   // signature: Signature
 
+  lessonName: LessonName
   lessonPrompt: LessonPrompt
   lessonPromptStyle: LessonPromptStyle
   flexLesson: FlexLesson
@@ -504,6 +505,7 @@ export const defaultLesson: Lesson = {
 
   lessonPrompt: defaultLessonPrompt,
   lessonPromptStyle: defaultLessonPromptStyle,
+  lessonName: defaultLessonName,
   flexLesson: defaultFlexLesson,
 
   translation: defaultTranslation,

@@ -33,8 +33,8 @@ export const useLessonHandlers = () => {
     lessonPromptStyle,
     useMyself,
     customParticipantList,
-    cookedEmail //,
-    // lessonName
+    cookedEmail,
+    lessonName
   } = useAppContext()
 
   const createFullLesson = async () => {
@@ -173,7 +173,7 @@ export const useLessonHandlers = () => {
 
     const initialLesson = {
       ...defaultLesson,
-      // name: lessonName,
+      lessonName,
       flexLesson,
       scenario,
       targetLanguage,
@@ -186,6 +186,9 @@ export const useLessonHandlers = () => {
         language: targetLanguage
       }).participantList
     }
+
+    console.log('lessonName', lessonName)
+    console.log('initialLesson', JSON.stringify(initialLesson, null, 2))
 
     const newLesson = {
       ...initialLesson,
