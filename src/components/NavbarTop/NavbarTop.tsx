@@ -59,6 +59,7 @@ const NavbarTop: React.FC = () => {
             <Button buttonClass='bn o-20X mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
           </div>
         </div>
+        {/*
         <div className="mt2 flex justify-center flex-row">
           <div className="f4 mh3 mv1 moon-gray b">One</div>
           <div className="f4 mh3 mv1 moon-gray b">Two</div>
@@ -66,6 +67,7 @@ const NavbarTop: React.FC = () => {
           <div className="f4 mh3 mv1 moon-gray b">Four</div>
           <div className="f4 mh3 mv1 moon-gray b">Five</div>
         </div>
+        */}
       </div>
     </nav>
 
