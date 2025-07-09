@@ -1,13 +1,13 @@
+// LessonName.tsx
+
 import React from 'react'
-import { useAppContext } from '@context/AppContext/AppContext'
 
-const LessonName: React.FC = () => {
-  const { lessonName, setLessonName } = useAppContext()
+type LessonNameProps = {
+  value: string
+  onChange: (newValue: string) => void
+}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLessonName(e.target.value)
-  }
-
+const LessonName: React.FC<LessonNameProps> = ({ value, onChange }) => {
   return (
     <div className="mv3X flex flex-column items-start w-40 justify-center center mb4">
       <label htmlFor="lessonName" className="f3 db mb2 black">
@@ -16,8 +16,8 @@ const LessonName: React.FC = () => {
       <input
         id="lessonName"
         type="text"
-        value={lessonName}
-        onChange={handleChange}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className="pa2 input-reset ba b--black bg-white black w-100 br2"
         placeholder="Enter a lesson name"
       />

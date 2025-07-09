@@ -71,6 +71,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
       }
     }
     preloadSequentially()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLessonNumber, cutoff, lessonTimestamp])
 
   const resetPlayback = () => {

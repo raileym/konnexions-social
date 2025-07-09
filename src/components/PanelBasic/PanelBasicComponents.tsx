@@ -6,17 +6,20 @@ import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TiptapEditor } from '@components/TiptapEditor/TiptapEditor'
 import LessonName from '@components/LessonName/LessonName'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import type { Lesson, Lines } from '@cknTypes/types'
 
 const PanelBasic = () => {
 
+  const [formattedFlexLesson, setFormattedFlexLesson] = useState<Lines>([])
   const {
     cutoff,
     lessons,
     selectedLessonNumber,
     targetLanguage,
     flexLesson,
-    setFlexLesson
+    setFlexLesson,
+    setLessons
   } = useAppContext()
   
   const {
@@ -27,9 +30,24 @@ const PanelBasic = () => {
     return lessons.find(l => l.number === selectedLessonNumber)
   }, [lessons, selectedLessonNumber])
 
+  const updateLessonField = (partialUpdate: Partial<Lesson>) => {
+    setLessons(prev =>
+      prev.map(lsn =>
+        lsn.number === selectedLessonNumber
+          ? { ...lsn, ...partialUpdate }
+          : lsn
+      )
+    )
+  }
+
   useEffect(() => {
-    if (lesson) {
-      setFlexLesson(lesson.flexLesson ?? '')
+    if (lesson && lesson.flexLesson) {
+      const formattedFlexLesson = formatFlexLesson({flexLesson: lesson.flexLesson})
+      setFlexLesson(lesson.flexLesson)
+      setFormattedFlexLesson(formattedFlexLesson)
+    } else {
+      setFlexLesson('')
+      setFormattedFlexLesson([])
     }
   }, [lesson, setFlexLesson])
 
@@ -55,21 +73,20 @@ const PanelBasic = () => {
           <div className="w-100 black f2 f3-m ">Lesson {selectedLessonNumber}</div>
           </h2>
 
-          <LessonName />
+          <LessonName
+            value={lesson.name ?? ''}
+            onChange={(lessonName) => updateLessonField({ lessonName })}
+          />
 
           <TiptapEditor
-            key={lesson.number} // forces re-init when lesson changes
-            initialValue={lesson.flexLesson}
+            key={lesson.number} // reinitialize when lesson changes
+            initialValue={lesson.flexLesson ?? ''}
             title={tiptapEditorTitle}
-            onChange={setFlexLesson}
-            // onChange={(newContent: string) => {
-            //   setFlexLesson(newContent)
-            //   lesson.flexLesson = newContent
-            //   // setLesson(prev => ({
-            //   //   ...prev,
-            //   //   flexLesson: newContent
-            //   // }))
-            // }}
+            onChange={(flexLesson) => {
+              const formattedFlexLesson = formatFlexLesson({flexLesson})
+              updateLessonField({ flexLesson, formattedFlexLesson })
+              setFormattedFlexLesson(formattedFlexLesson)
+            }}
           />
 
 
@@ -78,7 +95,7 @@ const PanelBasic = () => {
               <button
                 className={'f3 pa3 br4 bn bg-brand white pointer'}
                 onClick={() => {
-                  const formattedFlexLesson = formatFlexLesson({flexLesson})
+                  // const formattedFlexLesson = formatFlexLesson({flexLesson})
                   createFlexLesson({flexLesson, formattedFlexLesson})
                 }}
               >
@@ -86,8 +103,14 @@ const PanelBasic = () => {
               </button>
             </div>
           </div>
-          
 
+          <ul className="pl3">
+            {formattedFlexLesson.map((line, i) => (
+              <li key={i} className="mb2">
+                {line}
+              </li>
+            ))}
+          </ul>
         </>
       )
     }

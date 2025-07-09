@@ -220,6 +220,7 @@ export type Lesson = {
   lessonPrompt: LessonPrompt
   lessonPromptStyle: LessonPromptStyle
   flexLesson: FlexLesson
+  formattedFlexLesson: Lines
 
   translation: Translation
 
@@ -362,6 +363,7 @@ export const defaultCustomSeed: CustomSeed = ''
 export const defaultCustomScenario: CustomScenario = ''
 export const defaultCustomParticipantList: CustomParticipantList = ''
 export const defaultLessonName = ''
+export const defaultFormattedFlexLesson = []
 
 export type HandleDialogProps = {
   testMode: TestMode
@@ -507,6 +509,7 @@ export const defaultLesson: Lesson = {
   lessonPromptStyle: defaultLessonPromptStyle,
   lessonName: defaultLessonName,
   flexLesson: defaultFlexLesson,
+  formattedFlexLesson: defaultFormattedFlexLesson,
 
   translation: defaultTranslation,
 
