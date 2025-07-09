@@ -52,7 +52,8 @@ import type {
   VerificationToken,
   IsUserValidated,
   UserData,
-  IsProfileOpen
+  IsProfileOpen,
+  ShowIsUserValidatedModal
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -127,7 +128,17 @@ const updatedDefaultLesson = {
 // // cXnsole.log(generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}))
 // cXnsole.log(updatedDefaultLesson)
 
+type ModalConfig = {
+  title: string
+  message: string
+  confirmText?: string
+  onConfirm?: () => void
+}
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isModalVisible, setModalVisible] = useState(false)
+  const [modalConfig, setModalConfig] = useState<ModalConfig | null>(null)
+
   const [generateTTSCount, setGenerateTTSCount] = usePersistentState<GenerateTTSCount>('lessons', 0)
   // const [lessons, setLessons] = usePersistentState<Lessons>('lessons', [])
   const [lessons, setLessons] = usePersistentState<Lessons>(
@@ -144,6 +155,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
+  const [showIsUserValidatedModal, setShowIsUserValidatedModal] = useState<ShowIsUserValidatedModal>(false)
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
   const [isMenuOpen, setIsMenuOpen] = useState<IsHelpOpen>(false)
   const [isProfileOpen, setIsProfileOpen] = useState<IsProfileOpen>(false)
@@ -213,7 +225,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   //   }
   // }, [clientUUID, setClientUUID])
 
+  const showModal = (config: ModalConfig) => {
+    setModalConfig(config)
+    setModalVisible(true)
+  }
+
+  const hideModal = () => {
+    setModalVisible(false)
+    setModalConfig(null)
+  }
+
   const AppContextValue = {
+    isModalVisible,
+    modalConfig,
+    showModal,
+    hideModal,
+
     activateLessonBar,
     activeHome,
     activePanel,
@@ -306,6 +333,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setQuestionContext,
     setScenario,
     setSelectedLessonNumber,
+    setShowIsUserValidatedModal,
     setSourceLanguage,
     setTargetLanguage,
     setTtsAvgChars,
@@ -315,6 +343,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setUseMyself,
     setUserData,
     setVerificationToken,
+    showIsUserValidatedModal,
     sourceLanguage,
     targetLanguage,
     ttsAvgChars,

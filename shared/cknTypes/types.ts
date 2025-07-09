@@ -19,6 +19,12 @@ import {
 } from './constants.js'
 
 export type AppContextType = {
+
+  isModalVisible: boolean
+  modalConfig: ModalConfig | null
+  showModal: (config: ModalConfig) => void
+  hideModal: () => void,
+
   activateLessonBar: ActivateLessonBar
   activeHome: ActiveHome
   activePanel: ActivePanel
@@ -120,6 +126,8 @@ export type AppContextType = {
   setUseMyself: SetUseMyself
   setUserData: SetUserData
   setVerificationToken: SetVerificationToken
+  setShowIsUserValidatedModal: SetShowIsUserValidatedModal
+  showIsUserValidatedModal: ShowIsUserValidatedModal
   sourceLanguage: Language
   targetLanguage: Language
   ttsAvgChars: TtsAvgChars
@@ -207,6 +215,7 @@ export type FlexLesson = string
 export type FormattedFlexLesson = Lines
 export type IsComplete = boolean
 export type ActivateLessonBar = boolean
+export type ShowIsUserValidatedModal = boolean
 
 export type SetActivateLessonBar = React.Dispatch<React.SetStateAction<ActivateLessonBar>>
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
@@ -256,6 +265,7 @@ export type SetOpenAiUsage = React.Dispatch<React.SetStateAction<OpenAiUsage>>
 export type SetQuestion = React.Dispatch<React.SetStateAction<Question>>
 export type SetQuestionContext = React.Dispatch<React.SetStateAction<QuestionContext>>
 export type SetScenario = React.Dispatch<React.SetStateAction<Scenario>>
+export type SetShowIsUserValidatedModal = React.Dispatch<React.SetStateAction<ShowIsUserValidatedModal>>
 export type SetSourceLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetTargetLanguage = React.Dispatch<React.SetStateAction<Language>>
 export type SetTtsAvgChars = React.Dispatch<React.SetStateAction<TtsAvgChars>>
@@ -1238,4 +1248,11 @@ export type PanelVerifyEmailComponentsProps = {
   onVerified?: () => void; // Callback on successful verification
   token: string;
   cookedEmail: CookedEmail
+}
+
+export type ModalConfig = {
+  title: string
+  message: React.ReactNode
+  confirmText?: string
+  onConfirm?: () => void
 }

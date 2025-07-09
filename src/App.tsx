@@ -16,10 +16,12 @@ import LessonBar from '@components/LessonBar/LessonBar'
 import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
 import PanelMDX from '@components/PanelMDX/PanelMDX'
 import PanelProfile from '@components/PanelProfile/PanelProfile'
+import ModalGlobal from '@components/ModalGlobal/ModalGlobal'
 
 const AppMain = () => {
   return (
     <>
+      <ModalGlobal />
       <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
         <LessonBar />
         <PanelMDX />

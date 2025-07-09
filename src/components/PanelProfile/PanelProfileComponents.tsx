@@ -130,8 +130,8 @@ const PanelRequestEmailComponents = () => {
     <div className={'bl b--black w-100 vh-100 bg-yellow flex flex-column items-center justify-start pa3 mt5'}>
       <div className="black pl3">
           <h2 className="f3 pa3 mt5">Profile Panel</h2>
-          <p className="pl3X">When you access paid and free-tier services on this site, including the CKՈ Platform Technologies for the</p>
-          <p className="tc b black">CKՈ Series on Joy,</p>
+          <p className="pl3X">When you access paid and free-tier services on this site, including the CKՈ Platform Technologies for</p>
+          <p className="tc b black f4">Learn Spanish!</p>
           <p>we require and use a validated version of your email address to store lesson materials remotely. We do not store your email in the cloud. </p>
       </div>
       <div className="black f3 b mt3 mb4">{validationMessage}</div>
@@ -161,7 +161,7 @@ const PanelRequestEmailComponents = () => {
         {step === 'verify' && (
           <>
             <label htmlFor="code" className="db mb3 fw6 f5 white">
-              {isUserValidated ? 'Thank you!' : 'Enter the 6-digit code sent to {email}.'}
+              {isUserValidated ? 'Thank you!' : `Enter the 6-digit code sent to ${email}.`}
             </label>
             <input
               id="code"
