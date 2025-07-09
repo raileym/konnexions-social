@@ -57,10 +57,10 @@ const NavbarTop: React.FC = () => {
           }
 
           <div className="baX">
-            <Button buttonClass='bn w-50X mh3X brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
-            <Button buttonClass='bn w-50X mh3X brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
+            <Button buttonClass='bn w-50X mh2 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
+            <Button buttonClass='bn w-50X mh2 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
             <Button buttonClass='bn o-20X mh2 brand' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
-            <Button buttonClass='bn o-20X mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
+            <Button buttonClass='bn b--black o-20X ml2 mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
           </div>
         </div>
         {/*

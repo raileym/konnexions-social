@@ -43,7 +43,7 @@ const Button = ({ iconStyle, disable, panel, icon, title, buttonClass, switchFn,
     <button
       onClick={() => { if (!disable) handleClick() }}
       disabled={disable}
-      className={`f2 bn pa1 w3 pointer bg-whiteX ${isActive ? 'bg-brand white' : 'bg-white brand'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
+      className={`f2 bnX pa1 w3 pointer bg-whiteX ${isActive ? 'bg-brand white' : 'bg-white brand'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
       // className={`f2 pa2 br2 bn pointer bg-white ${isActive ? 'bg-light-purple white' : 'dark-gray'} mr2`}
       title={title}
     >
