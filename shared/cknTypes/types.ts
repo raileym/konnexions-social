@@ -1255,6 +1255,7 @@ export type ButtonProps = {
   switchFn: (target: ActivePanel | ActiveHome) => void
   isActive: IsActive
   iconStyle?: string
+  onClick?: () => void   // ← NEW
 }
 
 export type PanelVerifyEmailComponentsProps = {

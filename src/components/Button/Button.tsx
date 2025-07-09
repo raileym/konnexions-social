@@ -7,7 +7,7 @@ import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 
-const Button = ({ iconStyle, disable, panel, icon, title, buttonClass, switchFn, isActive }: ButtonProps) => {
+const Button = ({ iconStyle, disable, panel, icon, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
   const { isHelpOpen, isMenuOpen, isProfileOpen } = useAppContext()
   const { openProfile, closeProfile } = useProfilePanel()
   const { openHelp, closeHelp } = useHelpPanel()
@@ -35,6 +35,8 @@ const Button = ({ iconStyle, disable, panel, icon, title, buttonClass, switchFn,
     } else {
       switchFn(panel)
     }
+
+    if (onClick) onClick()    
   }  
 
   return (
