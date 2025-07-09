@@ -7,7 +7,7 @@ import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 
-const Button = ({ iconStyle, disable, panel, icon, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
+const Button = ({ iconStyle, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
   const { isHelpOpen, isMenuOpen, isProfileOpen } = useAppContext()
   const { openProfile, closeProfile } = useProfilePanel()
   const { openHelp, closeHelp } = useHelpPanel()
@@ -47,7 +47,18 @@ const Button = ({ iconStyle, disable, panel, icon, title, buttonClass, switchFn,
       // className={`f2 pa2 br2 bn pointer bg-white ${isActive ? 'bg-light-purple white' : 'dark-gray'} mr2`}
       title={title}
     >
-      <FontAwesomeIcon className={iconStyle} icon={icon} />
+      { icon && <FontAwesomeIcon className={`${iconStyle} baX`} icon={icon} /> }
+      { img && (
+        <div className="flex items-center justify-center overflow-hiddenX w2X h2 br-100X baX" style={{height: '1.15em'}}>
+          <img
+            src={`/${img}`}
+            alt={title}
+            className="scale-125X h3 w4 mv0 pv0"
+          />
+        </div>
+      )}
+
+
       <div className="f6 mt1">{title}</div>
     </button>
   )

@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faFilePen, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
-import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-svg-icons'   
+import { faPersonChalkboard, faBookOpen, faUser, faGuitar, faPepperHot } from '@fortawesome/free-solid-svg-icons'   
 // import { faUserGraduate, faCoffee, faGear, faKey, faBars, faFilePen, faPersonChalkboard, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
 // import { faUserGraduate, faCoffee, faGear, faKey, faRobot, faBars, faFilePen, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
 import Button from '@components/Button/Button'
@@ -49,7 +49,11 @@ const NavbarBottom: React.FC = () => {
       >
         <div>
           <div className="baX bg-blueX mb0 pb0 w-100X h2 tc brand">Learn Spanish!</div>
-          <Button iconStyle={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} icon={faPersonChalkboard} title='Welcome' />
+          {/*
+          <img src="/icons8-sombrero-48.png" alt="Welcome" width={48} height={48} />
+          <img src="/icons8-mexican-48.png" alt="Welcome" width={48} height={48} /> 
+          */}
+          <Button iconStyle={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Welcome' />
           <Button iconStyle={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC} switchFn={switchPanel} panel={APP_PANEL.BASIC} icon={faPersonChalkboard} title='Create' />
           <Button iconStyle={'f2'} disable={!isUserValidated || !lesson.isComplete} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
         </div>

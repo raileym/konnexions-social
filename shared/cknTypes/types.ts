@@ -1249,7 +1249,8 @@ export type TiptapEditorProps = {
 export type ButtonProps = {
   disable?: boolean
   panel: ActivePanel | ActiveHome
-  icon: IconProp // IconDefinition
+  icon?: IconProp // IconDefinition
+  img?: string
   title?: string
   buttonClass?: string
   switchFn: (target: ActivePanel | ActiveHome) => void
