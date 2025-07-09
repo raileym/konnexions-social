@@ -123,7 +123,8 @@ export const APP_PANEL = {
   BASIC: 'basic',
   GEN_AI: 'genAI',
   GEN_AI_PRO: 'genAIPro',
-  BASIC_REVIEW: 'basicReview'
+  BASIC_REVIEW: 'basicReview',
+  BASIC_WELCOME: 'basicWelcome'
 } as const
 
 export const ERROR_LABEL: Record<ModuleName, string> = {

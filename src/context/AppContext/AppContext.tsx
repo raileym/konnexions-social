@@ -53,7 +53,9 @@ import type {
   IsUserValidated,
   UserData,
   IsProfileOpen,
-  ShowIsUserValidatedModal
+  ShowIsUserValidatedModal,
+  MdxPage,
+  ModalConfig
 } from '@cknTypes/types'
 import {
   defaultTargetLanguage,
@@ -128,13 +130,6 @@ const updatedDefaultLesson = {
 // // cXnsole.log(generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}))
 // cXnsole.log(updatedDefaultLesson)
 
-type ModalConfig = {
-  title: string
-  message: string
-  confirmText?: string
-  onConfirm?: () => void
-}
-
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isModalVisible, setModalVisible] = useState(false)
   const [modalConfig, setModalConfig] = useState<ModalConfig | null>(null)
@@ -154,6 +149,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       typeof l.name === 'string'
     )
   )
+
+  const [mdxPage, setMdxPage] = useState<MdxPage>('Welcome')
 
   const [showIsUserValidatedModal, setShowIsUserValidatedModal] = useState<ShowIsUserValidatedModal>(false)
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
@@ -218,13 +215,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [targetLanguage, setTargetLanguage] = usePersistentState<Language>('targetLanguage', LANGUAGE.SPANISH)
   const [sourceLanguage, setSourceLanguage] = usePersistentState<Language>('sourceLanguage', LANGUAGE.ENGLISH)
 
-  // useEffect(() => {
-  //   if (!clientUUID) {
-  //     const newUUID = generateUUID()
-  //     setClientUUID(newUUID)
-  //   }
-  // }, [clientUUID, setClientUUID])
-
   const showModal = (config: ModalConfig) => {
     setModalConfig(config)
     setModalVisible(true)
@@ -279,6 +269,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     maskKey,
     maskOpenAiKey,
     maxCount,
+    mdxPage,
     openAiAvgTokens,
     openAiBudget,
     openAiKey,
@@ -325,6 +316,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setMaskKey,
     setMaskOpenAiKey,
     setMaxCount,
+    setMdxPage,
     setOpenAiAvgTokens,
     setOpenAiBudget,
     setOpenAiKey,

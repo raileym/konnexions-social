@@ -1,48 +1,19 @@
-import { useState } from 'react'
+// src/components/PanelMDX/PanelMDXComponents.tsx
+
 import About from '@mdxPages/About.mdx'
-import Welcome from '@mdxPages/Welcome.mdx'
-import FAQ from '@mdxPages/FAQ.mdx'
-import One from '@mdxPages/One.mdx'
-import Two from '@mdxPages/Two.mdx'
-import Three from '@mdxPages/Three.mdx'
-
 import MDXPage from '@components/MDXPage/MDXPage'
-import type { FC } from 'react'
+import { mdxPagesMap, type MdxPage } from '@cknTypes/types'
 
-// Map keys to React components (MDX components are React components)
-const mdxPagesMap: Record<string, FC> = {
-  Welcome: Welcome,
-  About: About,
-  FAQ: FAQ,
-  One: One,
-  Two: Two,
-  Three: Three
+type PanelMDXComponentsProps = {
+  page?: MdxPage
 }
 
-const PanelMDXComponents: FC = () => {
-  const [page, setPage] = useState<keyof typeof mdxPagesMap>('Welcome')
-
-  // Get the component to render, fallback to About if not found
-  const ComponentToRender = mdxPagesMap[page] || About
+const PanelMDXComponents = ({ page }: PanelMDXComponentsProps) => {
+  // Use the page prop to determine what to render, fallback to About
+  const ComponentToRender = page ? mdxPagesMap[page] || About : About
 
   return (
-    <>
-      {/* 
-      <nav className="w-100 h2X flex justify-between pv3 ph3 bg-light-gray absolute top-0 left-0" style={{paddingTop: '6rem', height: '10em'}}>
-        {Object.keys(mdxPagesMap).map(key => (
-          <button
-            key={key}
-            onClick={() => setPage(key as keyof typeof mdxPagesMap)}
-            disabled={key === page}
-            className="pa1 bg-black white b--black ma1 w4 b--black"
-          >
-            {key}
-          </button>
-        ))}
-      </nav>
-      */}
-      <MDXPage Component={ComponentToRender} />
-    </>
+    <MDXPage Component={ComponentToRender} />
   )
 }
 

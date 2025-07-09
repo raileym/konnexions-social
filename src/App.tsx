@@ -14,6 +14,7 @@ import { getCurrentWeek } from '@components/getCurrentWeek'
 import PanelGenAIPro from '@components/PanelGenAIPro/PanelGenAIPro'
 import LessonBar from '@components/LessonBar/LessonBar'
 import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
+import PanelBasicWelcome from '@components/PanelBasicWelcome/PanelBasicWelcome'
 import PanelMDX from '@components/PanelMDX/PanelMDX'
 import PanelProfile from '@components/PanelProfile/PanelProfile'
 import ModalGlobal from '@components/ModalGlobal/ModalGlobal'
@@ -29,6 +30,7 @@ const AppMain = () => {
         <PanelGenAIPro />
         <PanelBasic />
         <PanelGenAI />
+        <PanelBasicWelcome />
         <PanelBasicReview />
         <PanelKeys />
         <PanelMenu />

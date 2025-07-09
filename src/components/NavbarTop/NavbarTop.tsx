@@ -39,7 +39,8 @@ const NavbarTop: React.FC = () => {
             <div className="flex items-center">
               <div className="black-30 f3 b lh-title flex flex-column">
                 <div className="f2"><span className="brand">CK</span>Ո Social</div>
-                <div className="black-20 f4">Connecting through language</div>
+                {/* <div className="black-20 f4">Connecting through language</div> */}
+                <div className="black-20 f4">Promoting ways to connect socially</div>
                 {/* <div className="black-20 f5">Strengthen social ties for better health and well-being</div> */}
                 {/* <div className="black-20 f4">Joy of Language - Learn Spanish</div> */}
               </div>

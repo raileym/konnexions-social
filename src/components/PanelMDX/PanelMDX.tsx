@@ -7,19 +7,21 @@ const PanelMDX = () => {
 
   const {
     activePanel,
-    setActivateLessonBar
+    setActivateLessonBar,
+    setMdxPage
   } = useAppContext()
   const isActive = activePanel === APP_PANEL.MDX
 
   useEffect(() => {
     if (isActive) {
       setActivateLessonBar(false)
+      // setMdxPage('Welcome')
     }
-  }, [isActive, setActivateLessonBar])
+  }, [isActive, setActivateLessonBar, setMdxPage])
 
   return (
     <div className={'panel-right panel-mdx bw1 b--moon-gray bl panel-basic z-0 absolute top-0 left-0 w-100 h-100 flex transition-transform translate-x-0'}>
-      <PanelMDXComponents />
+      <PanelMDXComponents page={'Welcome'} />
     </div>
   )
 }

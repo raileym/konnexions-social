@@ -1,6 +1,14 @@
 // import { generateSignature } from '@shared/generateSignature'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 
+import About from '@mdxPages/About.mdx'
+import Welcome from '@mdxPages/Welcome.mdx'
+import FAQ from '@mdxPages/FAQ.mdx'
+import One from '@mdxPages/One.mdx'
+import Two from '@mdxPages/Two.mdx'
+import Three from '@mdxPages/Three.mdx'
+import WelcomeLearnSpanish from '@mdxPages/WelcomeLearnSpanish.mdx'
+
 import {
   APP_HOME,
   VERB_FORMATS,
@@ -17,6 +25,7 @@ import {
   PIPELINE_TYPE,
   LESSON_PROMPT_STYLE
 } from './constants.js'
+import type { FC } from 'react'
 
 export type AppContextType = {
 
@@ -63,6 +72,7 @@ export type AppContextType = {
   maskKey: MaskKey
   maskOpenAiKey: MaskOpenAiKey
   maxCount: MaxCount
+  mdxPage: MdxPage
   openAiAvgTokens: OpenAiAvgTokens
   openAiBudget: OpenAiBudget
   openAiKey: OpenAiKey
@@ -109,6 +119,7 @@ export type AppContextType = {
   setMaskKey: SetMaskKey
   setMaskOpenAiKey: SetMaskOpenAiKey
   setMaxCount: SetMaxCount
+  setMdxPage: SetMdxPage
   setOpenAiAvgTokens: SetOpenAiAvgTokens
   setOpenAiBudget: SetOpenAiBudget
   setOpenAiKey: SetOpenAiKey
@@ -216,6 +227,7 @@ export type FormattedFlexLesson = Lines
 export type IsComplete = boolean
 export type ActivateLessonBar = boolean
 export type ShowIsUserValidatedModal = boolean
+export type MdxPage = keyof typeof mdxPagesMap
 
 export type SetActivateLessonBar = React.Dispatch<React.SetStateAction<ActivateLessonBar>>
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
@@ -258,6 +270,7 @@ export type SetLineNumber = React.Dispatch<React.SetStateAction<LineNumber>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
 export type SetMaxCount = React.Dispatch<React.SetStateAction<MaxCount>>
+export type SetMdxPage = React.Dispatch<React.SetStateAction<MdxPage>>
 export type SetOpenAiAvgTokens = React.Dispatch<React.SetStateAction<OpenAiAvgTokens>>
 export type SetOpenAiBudget = React.Dispatch<React.SetStateAction<OpenAiBudget>>
 export type SetOpenAiKey = React.Dispatch<React.SetStateAction<OpenAiKey>>
@@ -1252,7 +1265,19 @@ export type PanelVerifyEmailComponentsProps = {
 
 export type ModalConfig = {
   title: string
-  message: React.ReactNode
+  message: React.ReactNode  // ← change from `string` to `ReactNode`
   confirmText?: string
+  cancelText?: string
   onConfirm?: () => void
+  onCancel?: () => void
+}
+
+export const mdxPagesMap: Record<string, FC> = {
+  Welcome: Welcome,
+  About: About,
+  FAQ: FAQ,
+  One: One,
+  Two: Two,
+  Three: Three,
+  WelcomeLearnSpanish: WelcomeLearnSpanish
 }
