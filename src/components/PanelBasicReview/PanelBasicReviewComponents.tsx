@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import {
   LANGUAGE_TITLE,
@@ -20,8 +20,12 @@ const PanelBasicReviewComponents: React.FC = () => {
   
   const tiptapEditorTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
 
-  const lesson = lessons.find(l => l.number === selectedLessonNumber)
+  const lesson = useMemo(() => {
+    return lessons.find(l => l.number === selectedLessonNumber)
+  }, [lessons, selectedLessonNumber])
   
+  console.log('PanelBasicReviewComponents', lesson)
+
   let content
   if (selectedLessonNumber != null && Array.isArray(lessons)) {
     if (!lesson) {
@@ -38,8 +42,18 @@ const PanelBasicReviewComponents: React.FC = () => {
 
           <div className="w-60 center db mb4 f3 mb3">{tiptapEditorTitle}</div>
           <div className="pa3 mt3 ba bg-white w-100">
-            <DialogList language={lesson.targetLanguage} lines={(lesson?.dialogResolve?.lines ?? [])} useCloudTTS={true} />
+            <DialogList
+              language={lesson.targetLanguage}
+              lines={(lesson?.dialogResolve?.lines ?? [])}
+              translations={(lesson?.translationResolve?.lines ?? [])} 
+              useCloudTTS={true} />
           </div>
+
+          <ul className="mv3 bg-white black">
+            {lesson.translationResolve.lines.map((line, i) => (
+              <li key={i}>{line}</li>
+            ))}
+          </ul>
         </>
       )
     }

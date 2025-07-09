@@ -4,31 +4,22 @@ import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchTTS } from '@PanelGenAIProComponents/fetchTTS/fetchTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
-// import { LANGUAGE_TITLE, SCENARIO_LABELS } from '@cknTypes/constants'
 import { LANGUAGE_TITLE } from '@cknTypes/constants'
-import type { Language } from '@cknTypes/types'
 import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useDebugLogger } from '@hooks/useDebugLogger'
 import { capitalize } from '@components/Util'
+import type { DialogListProps } from '@cknTypes/types'
 
-type DialogListProps = {
-  lines: string[]
-  useCloudTTS: boolean
-  language: Language
-}
-
-export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) => {
-  // const [audioItems, setAudioItems] = useState<string[]>([])
+export const DialogList = ({ language, lines, translations, useCloudTTS }: DialogListProps) => {
+  const [showTranslations, setShowTranslations] = useState(false)
   const audioItemsRef = useRef<string[]>([])
-
   const [, setCurrentIndex] = useState<number | null>(null)
   const synthRef = useRef(window.speechSynthesis)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const isPlayingRef = useRef(false)
-  const iRef = useRef(0) // controls current index across calls
+  const iRef = useRef(0)
 
   const debugLog = useDebugLogger()
-
   const {
     maxCount,
     setMaxCount,
@@ -36,11 +27,14 @@ export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) =>
     selectedLessonNumber,
     setLineNumber,
     lineNumber,
-    // scenario,
     lessonTimestamp,
     lessonPromptStyle,
     customScenario
   } = useAppContext()
+
+  console.log('lines', lines)
+  console.log('translations', translations)
+  const hasTranslations = translations && translations.length > 0
 
   const storeAudioOrLine = useCallback((index: number, value: string) => {
     const arr = audioItemsRef.current
@@ -63,48 +57,23 @@ export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) =>
   }, [selectedLessonNumber, cutoff])
 
   useEffect(() => {
-    // cXonsole.log('Invoking useEffect in DialogList')
     if (!useCloudTTS || cutoff) return
-    // cXonsole.log('Passing through useEffect in DialogList')
-
     const preloadSequentially = async () => {
       for (let i = 0; i < lines.length; i++) {
-        if (audioItemsRef.current[i]) {
-          // cXonsole.log(`audio line found, no. ${i}`)
-          continue
-        }
-
-        // cXonsole.log(`audio line not found, no. ${i}`)
-
+        if (audioItemsRef.current[i]) continue
         const [gender, speaker, sentence] = lines[i].split('|')
-
         try {
-          const maybeAudio = await fetchTTS({
-            text: sentence,
-            speaker,
-            gender,
-            cutoff,
-            maxCount,
-            setMaxCount,
-            language,
-            debugLog
-          })
-
-          if (maybeAudio !== null) {
-            storeAudioOrLine(i, maybeAudio)
-          }
+          const maybeAudio = await fetchTTS({ text: sentence, speaker, gender, cutoff, maxCount, setMaxCount, language, debugLog })
+          if (maybeAudio !== null) storeAudioOrLine(i, maybeAudio)
         } catch (err) {
           console.error(`Failed to preload TTS for line ${i}:`, err)
         }
       }
     }
-
     preloadSequentially()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLessonNumber, cutoff, lessonTimestamp])
 
   const resetPlayback = () => {
-    // cXonsole.log('Resetting playback')
     isPlayingRef.current = false
     iRef.current = 0
     setCurrentIndex(null)
@@ -112,14 +81,9 @@ export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) =>
   }
 
   const playAll = () => {
-    if (isPlayingRef.current) {
-      // cXonsole.log('playAll: already playing')
-      return
-    }
-
+    if (isPlayingRef.current) return
     isPlayingRef.current = true
     iRef.current = 0
-
     const safeNext = () => {
       iRef.current++
       playNext()
@@ -127,9 +91,7 @@ export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) =>
 
     const playNext = async () => {
       const i = iRef.current
-
       if (!isPlayingRef.current || i >= lines.length) {
-        // cXonsole.log(`playAll: done or stopped. isPlaying: ${isPlayingRef.current}, i: ${i}, len: ${lines.length}`)
         resetPlayback()
         return
       }
@@ -139,17 +101,13 @@ export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) =>
       setLineNumber(i)
 
       let value = audioItemsRef.current[i]
-
       const [gender, speaker, sentence] = line.split('|')
-      
-      if (!value) {
-        // cXonsole.log(`playAll: audioItemsRef.current[${i}] is empty. Fetch: ${sentence}`)
 
+      if (!value) {
         try {
           value = (useCloudTTS && !cutoff && maxCount > 0)
             ? await fetchTTS({ debugLog, language, speaker, text: sentence, gender, maxCount, setMaxCount, cutoff }) ?? ''
             : sentence
-
           storeAudioOrLine(i, value)
         } catch (err) {
           console.error('TTS fetch failed:', err)
@@ -157,33 +115,18 @@ export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) =>
         }
       }
 
-      // cXonsole.log('value', value)
-      // cXonsole.log(`No ${i}: ${value}`)
-
       if (value.startsWith('http')) {
         const audio = new Audio(value)
         audioRef.current = audio
         audio.onended = safeNext
         audio.play()
       } else {
-        speak({
-          text: value,
-          speaker,
-          gender,
-          index: i,
-          onEnd: safeNext
-        })
+        speak({ text: value, speaker, gender, index: i, onEnd: safeNext })
       }
     }
 
     playNext()
   }
-
-
-  // const pauseAll = () => {
-  //   if (audioRef.current) audioRef.current.pause()
-  //   else synthRef.current.pause()
-  // }
 
   const stopAll = () => {
     isPlayingRef.current = false
@@ -199,53 +142,59 @@ export const DialogList = ({ language, lines, useCloudTTS }: DialogListProps) =>
 
   return (
     <>
-      <div>
-        <div className='tc f2 w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
-        <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
-            <div className='flex flex-row items-center mt4'>
-              <button
-                onClick={playAll}
-                className='ml3 f6 br2 ph2 pv1 white bg-dark-blue hover:bg-blue no-outline'
-              >
-                <FontAwesomeIcon icon={faPlay} /> Play All
-              </button>
+      <div className='tc f2 w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
+      <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
 
-              {/*
-              <button
-                onClick={pauseAll}
-                className='ml2 f6 br2 ph2 pv1 white bg-gold hover:bg-yellow no-outline'
-              >
-                <FontAwesomeIcon icon={faPause} /> Pause
-              </button>
-              */}
+      <div className='flex flex-row items-center mt4'>
+        <button onClick={playAll} className='ml3 f6 br2 ph2 pv1 white bg-dark-blue hover:bg-blue'>
+          <FontAwesomeIcon icon={faPlay} /> Play All
+        </button>
+        <button onClick={stopAll} className='ml2 f6 br2 ph2 pv1 white bg-dark-red hover:bg-red'>
+          <FontAwesomeIcon icon={faStop} /> Stop
+        </button>
+        <button
+          onClick={() => setShowTranslations(prev => !prev)}
+          className={`ml2 f6 br2 ph2 pv1 white ${hasTranslations ? 'bg-gray hover:bg-silver' : 'bg-light-silver cursor-not-allowed'}`}
+          disabled={!hasTranslations}
+        >
+          {showTranslations ? 'Hide' : 'Show'} Translations
+        </button>
+      </div>
 
-              <button
-                onClick={stopAll}
-                className='ml2 f6 br2 ph2 pv1 white bg-dark-red hover:bg-red no-outline'
-              >
-                <FontAwesomeIcon icon={faStop} /> Stop
-              </button>
-            </div>
-            <hr className="mv3 pv0"/>
-            <div className="h5 overflow-y-auto" style={{height: '30rem'}}>
-              <ul className='mt0 ml0 pl3'>
-                {lines.map((line, i) => (
-                  <li key={i} className={'mb2 pl3X flex items-center'}>
+      <hr className="mv3 pv0" />
+
+      <div className="h5 overflow-y-auto" style={{ height: '30rem' }}>
+        <ul className='mt0 ml0 pl3'>
+          {lines.map((line, i) => {
+            const rawTranslation = translations && translations[i] ? translations[i] : ''
+            const cleanedTranslation = rawTranslation.replace(/^[-–—]\s*/, '') // removes leading dash/space
+
+            return (
+              <li key={i} className={'mb2 flex flex-col'}>
+                <div className="w-100 flex flex-column">
+                  <div className={'flex justify-between w-100 items-center'}>
                     <DialogLine
-                      key={i}
                       line={line}
                       index={i}
                       useCloudTTS={useCloudTTS}
                       storeAudioOrLine={storeAudioOrLine}
-                      className={i === lineNumber ? 'bg-brand white ': 'bg-transparent black'}
+                      className={i === lineNumber ? 'bg-brand white' : 'bg-transparent black'}
                       language={language}
                       debugLog={debugLog}
                     />
-                  </li>
-                ))}
-              </ul>
-            </div>
-        </div>
+                  </div>
+                  {showTranslations && hasTranslations && (
+                    <div className="pl4 f5 brand">
+                      <span className="ml3"></span>{cleanedTranslation}
+                    </div>
+                  )}
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+
     </>
   )
 }

@@ -33,7 +33,7 @@ const PanelBasic = () => {
     }
   }, [lesson, setFlexLesson])
 
-lessons.forEach(lesson => {
+  lessons.forEach(lesson => {
     console.log(`lesson No ${lesson.number}`, lesson)
   })
   

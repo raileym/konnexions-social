@@ -1130,3 +1130,10 @@ export type ModalConfig = {
   onConfirm?: () => void
   onCancel?: () => void
 }
+
+export type DialogListProps = {
+  lines: Lines
+  translations: Lines
+  useCloudTTS: boolean
+  language: Language
+}
