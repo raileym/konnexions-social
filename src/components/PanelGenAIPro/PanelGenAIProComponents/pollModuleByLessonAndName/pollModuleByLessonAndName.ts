@@ -6,7 +6,7 @@ import type { Module, PollModuleByLessonAndNameProps } from '@cknTypes/types'
 export const pollModuleByLessonAndName = async ({
   lessonId,
   moduleName,
-  pollIntervalMs = 2000,
+  pollIntervalMs = 10000,
   timeoutMs = 30000
 }: PollModuleByLessonAndNameProps
 ): Promise<Module | null> => {
@@ -20,6 +20,8 @@ export const pollModuleByLessonAndName = async ({
         body: JSON.stringify({ lessonId, moduleName })
       })
 
+      console.log('pollModuleByLessonAndName', JSON.stringify({lessonId, moduleName}))
+      
       if (res.ok) {
         const moduleContent = await res.json()
 

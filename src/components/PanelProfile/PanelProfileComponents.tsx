@@ -10,7 +10,7 @@ const PanelRequestEmailComponents = () => {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const [validationMessage, setValidationMessage] = useState<string>(USER_EMAIL_NOT_VALIDATED)
-  const { setCookedEmail, setIsUserValidated, setUserData, isUserValidated } = useAppContext()
+  const { setCookedEmail, setIsUserValidated, isUserValidated } = useAppContext()
   const [localCookedEmail, setLocalCookedEmail] = useState('')
 
   useEffect(() => {

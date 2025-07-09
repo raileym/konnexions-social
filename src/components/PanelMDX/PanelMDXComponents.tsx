@@ -1,14 +1,16 @@
 // src/components/PanelMDX/PanelMDXComponents.tsx
 
-import About from '@mdxPages/About.mdx'
 import MDXPage from '@components/MDXPage/MDXPage'
-import { mdxPagesMap, type MdxPage } from '@cknTypes/types'
+import About from '@mdxPages/About.mdx'
+import { useAppContext, type MdxPage } from '@context/AppContext/AppContext'
 
 type PanelMDXComponentsProps = {
   page?: MdxPage
 }
 
 const PanelMDXComponents = ({ page }: PanelMDXComponentsProps) => {
+  const { mdxPagesMap } = useAppContext()
+  
   // Use the page prop to determine what to render, fallback to About
   const ComponentToRender = page ? mdxPagesMap[page] || About : About
 

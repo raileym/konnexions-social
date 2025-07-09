@@ -5,6 +5,7 @@ import {
 import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TiptapEditor } from '@components/TiptapEditor/TiptapEditor'
+import LessonName from '@components/LessonName/LessonName'
 
 const PanelBasic = () => {
 
@@ -40,6 +41,8 @@ const PanelBasic = () => {
             </div>
           <div className="w-100 black f2 f3-m ">Lesson {selectedLessonNumber}</div>
           </h2>
+
+          <LessonName />
 
           <TiptapEditor
             initialValue={lesson.flexLesson}
@@ -85,7 +88,6 @@ const PanelBasic = () => {
 
   return (
     <div className={'panel-right panel-basic baX bw1 b--moon-gray bl panel-basic z-1 absolute top-0 left-0 w-100 h-100 bg-light-greenX flex flex-rowX transition-transform translate-x-0'}>
-
       <div className={`baX b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
       </div>

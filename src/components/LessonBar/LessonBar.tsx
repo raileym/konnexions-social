@@ -73,7 +73,10 @@ export const LessonBar: React.FC = () => {
                 selectedLessonNumber === lesson.number ? 'bg-light-green b' : 'hover-bg-light-gray'
               }`}
             >
-              {lesson.number}
+              <div className="flex flex-column">
+                <div className="bb b--moon-gray">{lesson.number}</div>
+                <div className="f5">{lesson.name}</div>
+              </div>
             </li>
           ))
         ) : (

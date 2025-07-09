@@ -1,14 +1,6 @@
 // import { generateSignature } from '@shared/generateSignature'
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 
-import About from '@mdxPages/About.mdx'
-import Welcome from '@mdxPages/Welcome.mdx'
-import FAQ from '@mdxPages/FAQ.mdx'
-import One from '@mdxPages/One.mdx'
-import Two from '@mdxPages/Two.mdx'
-import Three from '@mdxPages/Three.mdx'
-import WelcomeLearnSpanish from '@mdxPages/WelcomeLearnSpanish.mdx'
-
 import {
   APP_HOME,
   VERB_FORMATS,
@@ -25,144 +17,6 @@ import {
   PIPELINE_TYPE,
   LESSON_PROMPT_STYLE
 } from './constants.js'
-import type { FC } from 'react'
-
-export type AppContextType = {
-
-  isModalVisible: boolean
-  modalConfig: ModalConfig | null
-  showModal: (config: ModalConfig) => void
-  hideModal: () => void,
-
-  activateLessonBar: ActivateLessonBar
-  activeHome: ActiveHome
-  activePanel: ActivePanel
-  answer: Answer
-  apiKey: ApiKey
-  audioUrl: AudioUrl
-  cleanedText: CleanedText
-  clientEmail: ClientEmail
-  clientMeter: ClientMeter
-  clientSignature: ClientSignature
-  clientUUID: ClientUUID
-  cookedEmail: CookedEmail
-  customParticipantList: CustomParticipantList
-  customScenario: CustomScenario
-  customSeed: CustomSeed
-  cutoff: Cutoff
-  debugMode: DebugMode
-  flexLesson: FlexLesson
-  formattedFlexLesson: FormattedFlexLesson
-  gcpKey: GcpKey
-  generateTTSCount: GenerateTTSCount
-  helpPanel: HelpPanel
-  inputText: InputText
-  isHelpOpen: IsHelpOpen
-  isMenuOpen: IsMenuOpen
-  isProfileOpen: IsProfileOpen
-  isTransitioning: IsTransitioning
-  isUserValidated: IsUserValidated
-  lesson: Lesson
-  lessonComplete: LessonComplete
-  lessonPrompt: LessonPrompt
-  lessonPromptStyle: LessonPromptStyle
-  lessonTimestamp: LessonTimestamp
-  lessons: Lessons
-  lineNumber: LineNumber
-  maskKey: MaskKey
-  maskOpenAiKey: MaskOpenAiKey
-  maxCount: MaxCount
-  mdxPage: MdxPage
-  openAiAvgTokens: OpenAiAvgTokens
-  openAiBudget: OpenAiBudget
-  openAiKey: OpenAiKey
-  openAiUsage: OpenAiUsage
-  question: Question
-  questionContext: QuestionContext
-  scenario: Scenario
-  selectedLessonNumber: LessonNumber
-  setActivateLessonBar: SetActivateLessonBar
-  setActiveHome: SetActiveHome
-  setActivePanel: SetActivePanel
-  setAnswer: SetAnswer
-  setApiKey: SetApiKey
-  setAudioUrl: SetAudioUrl
-  setCleanedText: SetCleanedText
-  setClientEmail: SetClientEmail
-  setClientMeter: SetClientMeter
-  setClientSignature: SetClientSignature
-  setClientUUID: SetClientUUID
-  setCookedEmail: SetCookedEmail
-  setCustomParticipantList: SetCustomParticipantList
-  setCustomScenario: SetCustomScenario
-  setCustomSeed: SetCustomSeed
-  setCutoff: SetCutoff
-  setDebugMode: SetDebugMode
-  setFlexLesson: SetFlexLesson
-  setFormattedFlexLesson: SetFormattedFlexLesson
-  setGcpKey: SetGcpKey
-  setGenerateTTSCount: SetGenerateTTSCount
-  setHelpPanel: SetHelpPanel
-  setInputText: SetInputText
-  setIsHelpOpen: SetIsHelpOpen
-  setIsMenuOpen: SetIsMenuOpen
-  setIsProfileOpen: SetIsProfileOpen
-  setIsTransitioning: SetIsTransitioning
-  setIsUserValidated: SetIsUserValidated
-  setLesson: SetLesson
-  setLessonComplete: SetLessonComplete
-  setLessonPrompt: SetLessonPrompt
-  setLessonPromptStyle: SetLessonPromptStyle
-  setLessonTimestamp: SetLessonTimestamp
-  setLessons: SetLessons
-  setLineNumber: SetLineNumber
-  setMaskKey: SetMaskKey
-  setMaskOpenAiKey: SetMaskOpenAiKey
-  setMaxCount: SetMaxCount
-  setMdxPage: SetMdxPage
-  setOpenAiAvgTokens: SetOpenAiAvgTokens
-  setOpenAiBudget: SetOpenAiBudget
-  setOpenAiKey: SetOpenAiKey
-  setOpenAiUsage: SetOpenAiUsage
-  setQuestion: SetQuestion
-  setQuestionContext: SetQuestionContext
-  setScenario: SetScenario
-  setSelectedLessonNumber: SetLessonNumber
-  setSourceLanguage: SetSourceLanguage
-  setTargetLanguage: SetTargetLanguage
-  setTtsAvgChars: SetTtsAvgChars
-  setTtsBudget: SetTtsBudget
-  setTtsCharUsage: SetTtsCharUsage
-  setUseCloudTTS: SetUseCloudTTS
-  setUseMyself: SetUseMyself
-  setUserData: SetUserData
-  setVerificationToken: SetVerificationToken
-  setShowIsUserValidatedModal: SetShowIsUserValidatedModal
-  showIsUserValidatedModal: ShowIsUserValidatedModal
-  sourceLanguage: Language
-  targetLanguage: Language
-  ttsAvgChars: TtsAvgChars
-  ttsBudget: TtsBudget
-  ttsCharUsage: TtsCharUsage
-  useCloudTTS: UseCloudTTS
-  useMyself: UseMyself
-  verificationToken: VerificationToken
-  userData: UserData
-}
-
-// RETURNS TABLE (
-//   email_user_key UUID,
-//   email_user_cooked_email TEXT,
-//   email_user_client_uuid TEXT,
-//   email_user_flex_lesson TEXT,
-//   email_user_current_lesson JSONB,
-//   email_user_lessons JSONB,
-//   email_user_lesson_number INT,
-//   email_user_lesson_prompt TEXT,
-//   email_user_lesson_timestamp TEXT,
-//   email_user_created_at TIMESTAMPTZ,
-//   email_user_updated_at TIMESTAMPTZ
-// )
 
 export type UserData = {
   email_user_key: string
@@ -227,7 +81,7 @@ export type FormattedFlexLesson = Lines
 export type IsComplete = boolean
 export type ActivateLessonBar = boolean
 export type ShowIsUserValidatedModal = boolean
-export type MdxPage = keyof typeof mdxPagesMap
+export type LessonName = string
 
 export type SetActivateLessonBar = React.Dispatch<React.SetStateAction<ActivateLessonBar>>
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
@@ -261,6 +115,7 @@ export type SetIsProfileOpen = React.Dispatch<React.SetStateAction<IsProfileOpen
 export type SetIsUserValidated = React.Dispatch<React.SetStateAction<IsUserValidated>>
 export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
 export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>
+export type SetLessonName = React.Dispatch<React.SetStateAction<LessonName>>
 export type SetLessonNumber = React.Dispatch<React.SetStateAction<LessonNumber>>
 export type SetLessonPrompt = React.Dispatch<React.SetStateAction<LessonPrompt>>
 export type SetLessonPromptStyle = React.Dispatch<React.SetStateAction<LessonPromptStyle>>
@@ -270,7 +125,6 @@ export type SetLineNumber = React.Dispatch<React.SetStateAction<LineNumber>>
 export type SetMaskKey = React.Dispatch<React.SetStateAction<MaskKey>>
 export type SetMaskOpenAiKey = React.Dispatch<React.SetStateAction<MaskOpenAiKey>>
 export type SetMaxCount = React.Dispatch<React.SetStateAction<MaxCount>>
-export type SetMdxPage = React.Dispatch<React.SetStateAction<MdxPage>>
 export type SetOpenAiAvgTokens = React.Dispatch<React.SetStateAction<OpenAiAvgTokens>>
 export type SetOpenAiBudget = React.Dispatch<React.SetStateAction<OpenAiBudget>>
 export type SetOpenAiKey = React.Dispatch<React.SetStateAction<OpenAiKey>>
@@ -506,6 +360,7 @@ export const defaultFlexLesson: FlexLesson = ''
 export const defaultCustomSeed: CustomSeed = ''
 export const defaultCustomScenario: CustomScenario = ''
 export const defaultCustomParticipantList: CustomParticipantList = ''
+export const defaultLessonName = ''
 
 export type HandleDialogProps = {
   testMode: TestMode
@@ -1272,14 +1127,4 @@ export type ModalConfig = {
   cancelText?: string
   onConfirm?: () => void
   onCancel?: () => void
-}
-
-export const mdxPagesMap: Record<string, FC> = {
-  Welcome: Welcome,
-  About: About,
-  FAQ: FAQ,
-  One: One,
-  Two: Two,
-  Three: Three,
-  WelcomeLearnSpanish: WelcomeLearnSpanish
 }

@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faFilePen, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
-import { faPersonChalkboard, faBookOpen, faUser, faGuitar, faPepperHot } from '@fortawesome/free-solid-svg-icons'   
+import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-svg-icons'   
 // import { faUserGraduate, faCoffee, faGear, faKey, faBars, faFilePen, faPersonChalkboard, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
 // import { faUserGraduate, faCoffee, faGear, faKey, faRobot, faBars, faFilePen, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
 import Button from '@components/Button/Button'

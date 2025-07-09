@@ -1,9 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, type FC } from 'react'
+import About from '@mdxPages/About.mdx'
+import Welcome from '@mdxPages/Welcome.mdx'
+import FAQ from '@mdxPages/FAQ.mdx'
+import One from '@mdxPages/One.mdx'
+import Two from '@mdxPages/Two.mdx'
+import Three from '@mdxPages/Three.mdx'
+import WelcomeLearnSpanish from '@mdxPages/WelcomeLearnSpanish.mdx'
 import type {
   Answer,
   ApiKey,
-  AppContextType,
   ActivePanel,
   AudioUrl,
   CleanedText,
@@ -54,9 +60,71 @@ import type {
   UserData,
   IsProfileOpen,
   ShowIsUserValidatedModal,
-  MdxPage,
-  ModalConfig
+  ModalConfig,
+  LessonName,
+  ActivateLessonBar,
+  HelpPanel,
+  IsMenuOpen,
+  SetActivateLessonBar,
+  SetActiveHome,
+  SetActivePanel,
+  SetAnswer,
+  SetApiKey,
+  SetAudioUrl,
+  SetCleanedText,
+  SetClientEmail,
+  SetClientMeter,
+  SetClientSignature,
+  SetClientUUID,
+  SetCookedEmail,
+  SetCustomParticipantList,
+  SetCustomScenario,
+  SetCustomSeed,
+  SetCutoff,
+  SetDebugMode,
+  SetFlexLesson,
+  SetFormattedFlexLesson,
+  SetGcpKey,
+  SetGenerateTTSCount,
+  SetHelpPanel,
+  SetInputText,
+  SetIsHelpOpen,
+  SetIsMenuOpen,
+  SetIsProfileOpen,
+  SetIsTransitioning,
+  SetIsUserValidated,
+  SetLesson,
+  SetLessonComplete,
+  SetLessonName,
+  SetLessonNumber,
+  SetLessonPrompt,
+  SetLessonPromptStyle,
+  SetLessons,
+  SetLessonTimestamp,
+  SetLineNumber,
+  SetMaskKey,
+  SetMaskOpenAiKey,
+  SetMaxCount,
+  SetOpenAiAvgTokens,
+  SetOpenAiBudget,
+  SetOpenAiKey,
+  SetOpenAiUsage,
+  SetQuestion,
+  SetQuestionContext,
+  SetScenario,
+  SetShowIsUserValidatedModal,
+  SetSourceLanguage,
+  SetTargetLanguage,
+  SetTtsAvgChars,
+  SetTtsBudget,
+  SetTtsCharUsage,
+  SetUseCloudTTS,
+  SetUseMyself,
+  SetUserData,
+  SetVerificationToken,
+  MdxPagesMap
 } from '@cknTypes/types'
+
 import {
   defaultTargetLanguage,
   defaultLesson,
@@ -69,6 +137,7 @@ import {
   defaultLessonPrompt,
   defaultFlexLesson,
   defaultUserData,
+  defaultLessonName,
 } from '@cknTypes/types'
 import {
   APP_HOME,
@@ -120,6 +189,131 @@ const updatedDefaultLesson = {
   }
 }
 
+export type AppContextType = {
+  isModalVisible: boolean
+  modalConfig: ModalConfig | null
+  showModal: (config: ModalConfig) => void
+  hideModal: () => void,
+
+  activateLessonBar: ActivateLessonBar
+  activeHome: ActiveHome
+  activePanel: ActivePanel
+  answer: Answer
+  apiKey: ApiKey
+  audioUrl: AudioUrl
+  cleanedText: CleanedText
+  clientEmail: ClientEmail
+  clientMeter: ClientMeter
+  clientSignature: ClientSignature
+  clientUUID: ClientUUID
+  cookedEmail: CookedEmail
+  customParticipantList: CustomParticipantList
+  customScenario: CustomScenario
+  customSeed: CustomSeed
+  cutoff: Cutoff
+  debugMode: DebugMode
+  flexLesson: FlexLesson
+  formattedFlexLesson: FormattedFlexLesson
+  gcpKey: GcpKey
+  generateTTSCount: GenerateTTSCount
+  helpPanel: HelpPanel
+  inputText: InputText
+  isHelpOpen: IsHelpOpen
+  isMenuOpen: IsMenuOpen
+  isProfileOpen: IsProfileOpen
+  isTransitioning: IsTransitioning
+  isUserValidated: IsUserValidated
+  lesson: Lesson
+  lessonComplete: LessonComplete
+  lessonName: LessonName
+  lessonPrompt: LessonPrompt
+  lessonPromptStyle: LessonPromptStyle
+  lessonTimestamp: LessonTimestamp
+  lessons: Lessons
+  lineNumber: LineNumber
+  maskKey: MaskKey
+  maskOpenAiKey: MaskOpenAiKey
+  maxCount: MaxCount
+  mdxPage: MdxPage
+  mdxPagesMap: MdxPagesMap
+  openAiAvgTokens: OpenAiAvgTokens
+  openAiBudget: OpenAiBudget
+  openAiKey: OpenAiKey
+  openAiUsage: OpenAiUsage
+  question: Question
+  questionContext: QuestionContext
+  scenario: Scenario
+  selectedLessonNumber: LessonNumber
+  setActivateLessonBar: SetActivateLessonBar
+  setActiveHome: SetActiveHome
+  setActivePanel: SetActivePanel
+  setAnswer: SetAnswer
+  setApiKey: SetApiKey
+  setAudioUrl: SetAudioUrl
+  setCleanedText: SetCleanedText
+  setClientEmail: SetClientEmail
+  setClientMeter: SetClientMeter
+  setClientSignature: SetClientSignature
+  setClientUUID: SetClientUUID
+  setCookedEmail: SetCookedEmail
+  setCustomParticipantList: SetCustomParticipantList
+  setCustomScenario: SetCustomScenario
+  setCustomSeed: SetCustomSeed
+  setCutoff: SetCutoff
+  setDebugMode: SetDebugMode
+  setFlexLesson: SetFlexLesson
+  setFormattedFlexLesson: SetFormattedFlexLesson
+  setGcpKey: SetGcpKey
+  setGenerateTTSCount: SetGenerateTTSCount
+  setHelpPanel: SetHelpPanel
+  setInputText: SetInputText
+  setIsHelpOpen: SetIsHelpOpen
+  setIsMenuOpen: SetIsMenuOpen
+  setIsProfileOpen: SetIsProfileOpen
+  setIsTransitioning: SetIsTransitioning
+  setIsUserValidated: SetIsUserValidated
+  setLesson: SetLesson
+  setLessonComplete: SetLessonComplete
+  setLessonName: SetLessonName
+  setLessonPrompt: SetLessonPrompt
+  setLessonPromptStyle: SetLessonPromptStyle
+  setLessonTimestamp: SetLessonTimestamp
+  setLessons: SetLessons
+  setLineNumber: SetLineNumber
+  setMaskKey: SetMaskKey
+  setMaskOpenAiKey: SetMaskOpenAiKey
+  setMaxCount: SetMaxCount
+  setMdxPage: SetMdxPage
+  setOpenAiAvgTokens: SetOpenAiAvgTokens
+  setOpenAiBudget: SetOpenAiBudget
+  setOpenAiKey: SetOpenAiKey
+  setOpenAiUsage: SetOpenAiUsage
+  setQuestion: SetQuestion
+  setQuestionContext: SetQuestionContext
+  setScenario: SetScenario
+  setSelectedLessonNumber: SetLessonNumber
+  setSourceLanguage: SetSourceLanguage
+  setTargetLanguage: SetTargetLanguage
+  setTtsAvgChars: SetTtsAvgChars
+  setTtsBudget: SetTtsBudget
+  setTtsCharUsage: SetTtsCharUsage
+  setUseCloudTTS: SetUseCloudTTS
+  setUseMyself: SetUseMyself
+  setUserData: SetUserData
+  setVerificationToken: SetVerificationToken
+  setShowIsUserValidatedModal: SetShowIsUserValidatedModal
+  showIsUserValidatedModal: ShowIsUserValidatedModal
+  sourceLanguage: Language
+  targetLanguage: Language
+  ttsAvgChars: TtsAvgChars
+  ttsBudget: TtsBudget
+  ttsCharUsage: TtsCharUsage
+  useCloudTTS: UseCloudTTS
+  useMyself: UseMyself
+  verificationToken: VerificationToken
+  userData: UserData
+}
+
 // const generateUUID = (): string =>
 //   'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
 //     const r = (Math.random() * 16) | 0
@@ -129,6 +323,20 @@ const updatedDefaultLesson = {
 
 // // cXnsole.log(generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}))
 // cXnsole.log(updatedDefaultLesson)
+
+export const mdxPagesMap: MdxPagesMap = {
+  Welcome: Welcome,
+  About: About,
+  FAQ: FAQ,
+  One: One,
+  Two: Two,
+  Three: Three,
+  WelcomeLearnSpanish: WelcomeLearnSpanish
+}
+
+export type MdxPage = keyof typeof mdxPagesMap
+export type SetMdxPage = React.Dispatch<React.SetStateAction<MdxPage>>
+export type MdxPagesMap = Record<string, FC>
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isModalVisible, setModalVisible] = useState(false)
@@ -150,6 +358,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
+  const [lessonName, setLessonName] = usePersistentState<LessonName>('lessonName', defaultLessonName)
   const [mdxPage, setMdxPage] = useState<MdxPage>('Welcome')
 
   const [showIsUserValidatedModal, setShowIsUserValidatedModal] = useState<ShowIsUserValidatedModal>(false)
@@ -231,6 +440,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showModal,
     hideModal,
 
+    mdxPagesMap,
+
     activateLessonBar,
     activeHome,
     activePanel,
@@ -261,6 +472,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     isUserValidated,
     lesson,
     lessonComplete,
+    lessonName,
     lessonPrompt,
     lessonPromptStyle,
     lessonTimestamp,
@@ -308,6 +520,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsUserValidated,
     setLesson,
     setLessonComplete,
+    setLessonName,
     setLessonPrompt,
     setLessonPromptStyle,
     setLessonTimestamp,
