@@ -103,15 +103,15 @@ const PanelBasic = () => {
             </div>
           </div>
 
-          <div className="black f2">{lesson.isComplete ? 'Study now' : 'Wait on study'}</div>
+          {/* <div className="black f2">{lesson.isComplete ? 'Study now' : 'Wait on study'}</div> */}
 
-          <ul className="pl3">
+          {/* <ul className="pl3">
             {formattedFlexLesson.map((line, i) => (
               <li key={i} className="mb2">
                 {line}
               </li>
             ))}
-          </ul>
+          </ul> */}
 
         </>
       )
