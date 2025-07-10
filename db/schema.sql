@@ -1,29 +1,27 @@
--- ************************************************************************
--- ************************************************************************
+-- **********************************************************************
+-- *** INITIAL SETUP: DROP FUNCTIONS, TABLES, TYPES, VIEWS, SCHEMAS ***
+-- **********************************************************************
 
-    -- EXTENSIONS
-
--- ************************************************************************
--- ************************************************************************
-
+-- Optional: Uncomment if cryptographic functions are needed
 -- CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
--- ************************************************************************
--- DROP EXISTING ENTITIES
--- ************************************************************************
+-- **********************************************************************
+-- DROP FUNCTIONS (PRIVATE)
+-- **********************************************************************
 
 DROP FUNCTION IF EXISTS private.ckn_lookup_tts_cache;
 DROP FUNCTION IF EXISTS private.ckn_insert_tts_cache;
+
 DROP FUNCTION IF EXISTS private.ckn_insert_noun;
 DROP FUNCTION IF EXISTS private.ckn_insert_verb;
 DROP FUNCTION IF EXISTS private.ckn_lookup_verb_example;
 DROP FUNCTION IF EXISTS private.ckn_insert_verb_example;
 DROP FUNCTION IF EXISTS private.ckn_lookup_noun_examples;
 DROP FUNCTION IF EXISTS private.ckn_insert_noun_example;
+
 DROP FUNCTION IF EXISTS private.ckn_get_noun_by_scenario;
 DROP FUNCTION IF EXISTS private.ckn_get_verb_by_scenario;
 DROP FUNCTION IF EXISTS private.ckn_get_module_by_lesson_and_name;
-
 DROP FUNCTION IF EXISTS private.ckn_insert_lesson;
 
 DROP FUNCTION IF EXISTS private.ckn_upsert_module;
@@ -35,10 +33,16 @@ DROP FUNCTION IF EXISTS private.ckn_upsert_email_user_data;
 
 DROP FUNCTION IF EXISTS private.ckn_insert_prompt_response;
 
+-- **********************************************************************
+-- DROP FUNCTIONS (PUBLIC SHIMS)
+-- **********************************************************************
+
 DROP FUNCTION IF EXISTS public.ckn_lookup_tts_cache;
 DROP FUNCTION IF EXISTS public.ckn_insert_tts_cache;
+
 DROP FUNCTION IF EXISTS public.ckn_insert_noun;
 DROP FUNCTION IF EXISTS public.ckn_insert_verb;
+
 DROP FUNCTION IF EXISTS public.ckn_get_noun_by_scenario;
 DROP FUNCTION IF EXISTS public.ckn_get_verb_by_scenario;
 DROP FUNCTION IF EXISTS public.ckn_get_module_by_lesson_and_name;
@@ -54,10 +58,18 @@ DROP FUNCTION IF EXISTS public.ckn_insert_lesson;
 
 DROP FUNCTION IF EXISTS public.ckn_insert_prompt_response;
 
+-- **********************************************************************
+-- DROP VIEWS AND INDEXES
+-- **********************************************************************
+
 DROP VIEW IF EXISTS private.ckn_verb_forms;
 DROP VIEW IF EXISTS private.ckn_noun_forms;
 
 DROP INDEX IF EXISTS private.ckn_email_code_index;
+
+-- **********************************************************************
+-- DROP TABLES
+-- **********************************************************************
 
 DROP TABLE IF EXISTS private.ckn_email_code;
 
@@ -79,8 +91,11 @@ DROP TABLE IF EXISTS private.ckn_module;
 DROP TABLE IF EXISTS private.ckn_lesson;
 
 DROP TABLE IF EXISTS private.ckn_email_user_data;
-
 DROP TABLE IF EXISTS private.ckn_prompt_response;
+
+-- **********************************************************************
+-- DROP TYPES AND SCHEMA
+-- **********************************************************************
 
 DROP TYPE IF EXISTS private.ckn_noun_record;
 DROP TYPE IF EXISTS private.ckn_verb_record;
@@ -126,6 +141,8 @@ CREATE TABLE private.ckn_prompt_response (
   prompt_response_lesson_id TEXT NOT NULL,
   prompt_response_prompt TEXT NOT NULL,
   prompt_response_get_ai_provider TEXT NOT NULL,
+  prompt_response_version INT DEFAULT 1,
+  prompt_response_updated_at TIMESTAMPTZ DEFAULT NOW()
   prompt_response_created_at TIMESTAMPTZ DEFAULT NOW(),
 
   CONSTRAINT ckn_prompt_response_key PRIMARY KEY (
@@ -144,8 +161,9 @@ CREATE TABLE private.ckn_email_user_data (
   email_user_lesson_number INT,
   email_user_lesson_prompt TEXT,
   email_user_lesson_timestamp TEXT,
-  email_user_created_at TIMESTAMPTZ DEFAULT now(),
-  email_user_updated_at TIMESTAMPTZ DEFAULT now()
+  email_user_version INT DEFAULT 1
+  email_user_updated_at TIMESTAMPTZ DEFAULT now(),
+  email_user_created_at TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE TABLE private.ckn_email_code (
