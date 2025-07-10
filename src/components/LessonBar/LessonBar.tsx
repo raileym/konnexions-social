@@ -64,6 +64,9 @@ export const LessonBar: React.FC = () => {
               onClick={() => {
                 setSelectedLessonNumber(lesson.number)
                 setLessonComplete(lesson.isComplete)
+                if (activePanel === APP_PANEL.BASIC_REVIEW && !lesson.isComplete) {
+                  switchPanel(APP_PANEL.BASIC)
+                }
               }}
               className={`b baX pa2 pointer br2X f3 bw2 bbX tc b--blue ${
                 selectedLessonNumber === lesson.number ? 'bg-light-green b' : 'hover-bg-light-gray'
