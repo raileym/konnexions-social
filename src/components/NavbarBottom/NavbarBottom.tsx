@@ -1,5 +1,5 @@
 // src/components/NavbarBottom.tsx
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faFilePen, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
 import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-svg-icons'   
@@ -12,15 +12,19 @@ import { APP_PANEL } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const NavbarBottom: React.FC = () => {
-  const { activePanel, lesson, isUserValidated, showModal } = useAppContext()
+  const { activePanel, isUserValidated, showModal, lessons, selectedLessonNumber } = useAppContext()
   const { switchPanel } = usePanel()
   // const { activeHome, activePanel, lesson } = useAppContext()
   // const { switchPanel, switchHome } = usePanel()
 
-  useEffect(() =>{
-    console.log('lesson', lesson)
-  }, [lesson])
+  // useEffect(() =>{
+  //   console.log('lesson', lesson)
+  // }, [lesson])
 
+  const lesson = useMemo(() => {
+    return lessons.find(l => l.number === selectedLessonNumber)
+  }, [lessons, selectedLessonNumber])
+  
   return (
     <nav className='fixed bottom-0 bt b--black-30 left-0 w-100 bg-white flex flex-column items-center justify-aroundX ph3 pv2 z-999'>
 
@@ -49,10 +53,6 @@ const NavbarBottom: React.FC = () => {
       >
         <div>
           <div className="baX bg-blueX mb0 pb0 w-100X h2 tc brand">Learn Spanish!</div>
-          {/*
-          <img src="/icons8-sombrero-48.png" alt="Welcome" width={48} height={48} />
-          <img src="/icons8-mexican-48.png" alt="Welcome" width={48} height={48} /> 
-          */}
           <Button iconStyle={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Welcome' />
           <Button iconStyle={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC} switchFn={switchPanel} panel={APP_PANEL.BASIC} icon={faPersonChalkboard} title='Create' />
           <Button iconStyle={'f2'} disable={!isUserValidated || !lesson.isComplete} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />

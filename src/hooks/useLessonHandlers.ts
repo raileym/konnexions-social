@@ -165,16 +165,14 @@ export const useLessonHandlers = () => {
     setLesson(updatedVerbsLesson)
   }
 
-  const createFlexLesson = async ({flexLesson, formattedFlexLesson}: CreateFlexLessonProps) => {
+  const createFlexLesson = async ({lesson}: CreateFlexLessonProps) => {
     setLessonComplete(false)
 
     const localLessonTimestamp = Date.now()
     setLessonTimestamp(localLessonTimestamp.toString())
 
     const initialLesson = {
-      ...defaultLesson,
-      lessonName,
-      flexLesson,
+      ...lesson,
       scenario,
       targetLanguage,
       sourceLanguage,
@@ -226,15 +224,15 @@ export const useLessonHandlers = () => {
       ...updatedInitialLesson,
       [MODULE_NAME.DIALOG_DRAFT]: {
         ...updatedInitialLesson[MODULE_NAME.DIALOG_DRAFT],
-        lines: formattedFlexLesson
+        lines: lesson.formattedFlexLesson
       },
       [MODULE_NAME.DIALOG_REVIEW]: {
         ...updatedInitialLesson[MODULE_NAME.DIALOG_REVIEW],
-        lines: formattedFlexLesson
+        lines: lesson.formattedFlexLesson
       },
       [MODULE_NAME.DIALOG_RESOLVE]: {
         ...updatedInitialLesson[MODULE_NAME.DIALOG_RESOLVE],
-        lines: formattedFlexLesson
+        lines: lesson.formattedFlexLesson
       }
     }
 

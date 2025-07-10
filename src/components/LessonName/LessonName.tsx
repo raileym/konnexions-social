@@ -1,13 +1,14 @@
 // LessonName.tsx
 
+import type { LessonName } from '@cknTypes/types'
 import React from 'react'
 
 type LessonNameProps = {
-  value: string
+  lessonName: LessonName
   onChange: (newValue: string) => void
 }
 
-const LessonName: React.FC<LessonNameProps> = ({ value, onChange }) => {
+const LessonName: React.FC<LessonNameProps> = ({ lessonName, onChange }) => {
   return (
     <div className="mv3X flex flex-column items-start w-40 justify-center center mb4">
       <label htmlFor="lessonName" className="f3 db mb2 black">
@@ -16,7 +17,7 @@ const LessonName: React.FC<LessonNameProps> = ({ value, onChange }) => {
       <input
         id="lessonName"
         type="text"
-        value={value}
+        value={lessonName}
         onChange={(e) => onChange(e.target.value)}
         className="pa2 input-reset ba b--black bg-white black w-100 br2"
         placeholder="Enter a lesson name"

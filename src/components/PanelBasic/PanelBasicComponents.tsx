@@ -17,7 +17,7 @@ const PanelBasic = () => {
     lessons,
     selectedLessonNumber,
     targetLanguage,
-    flexLesson,
+    // flexLesson,
     setFlexLesson,
     setLessons
   } = useAppContext()
@@ -74,8 +74,8 @@ const PanelBasic = () => {
           </h2>
 
           <LessonName
-            value={lesson.name ?? ''}
-            onChange={(lessonName) => updateLessonField({ lessonName })}
+            lessonName={lesson.lessonName ?? ''}
+            onChange={(lessonName) => updateLessonField({ lessonName, isComplete: false })}
           />
 
           <TiptapEditor
@@ -84,7 +84,7 @@ const PanelBasic = () => {
             title={tiptapEditorTitle}
             onChange={(flexLesson) => {
               const formattedFlexLesson = formatFlexLesson({flexLesson})
-              updateLessonField({ flexLesson, formattedFlexLesson })
+              updateLessonField({ flexLesson, formattedFlexLesson, isComplete: false })
               setFormattedFlexLesson(formattedFlexLesson)
             }}
           />
@@ -95,14 +95,15 @@ const PanelBasic = () => {
               <button
                 className={'f3 pa3 br4 bn bg-brand white pointer'}
                 onClick={() => {
-                  // const formattedFlexLesson = formatFlexLesson({flexLesson})
-                  createFlexLesson({flexLesson, formattedFlexLesson})
+                  createFlexLesson({lesson})
                 }}
               >
                 Create Lesson
               </button>
             </div>
           </div>
+
+          <div className="black f2">{lesson.isComplete ? 'Study now' : 'Wait on study'}</div>
 
           <ul className="pl3">
             {formattedFlexLesson.map((line, i) => (
@@ -111,6 +112,7 @@ const PanelBasic = () => {
               </li>
             ))}
           </ul>
+
         </>
       )
     }

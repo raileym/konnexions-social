@@ -1078,8 +1078,7 @@ export type FormatFlexLessonButtonProps = {
 }
 
 export type CreateFlexLessonProps = {
-  flexLesson: FlexLesson
-  formattedFlexLesson: FormattedFlexLesson
+  lesson: Lesson
 }
 
 export type FormatSentenceProps = {
