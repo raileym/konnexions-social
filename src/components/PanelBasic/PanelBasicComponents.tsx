@@ -5,7 +5,7 @@ import {
 import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TiptapEditor } from '@components/TiptapEditor/TiptapEditor'
-import LessonName from '@components/LessonName/LessonName'
+import InputLessonName from '@components/InputLessonName/InputLessonName'
 import { useEffect, useMemo, useState } from 'react'
 import type { Lesson, Lines } from '@cknTypes/types'
 
@@ -73,7 +73,7 @@ const PanelBasic = () => {
           <div className="w-100 black f2 f3-m ">Lesson {selectedLessonNumber}</div>
           </h2>
 
-          <LessonName
+          <InputLessonName
             lessonName={lesson.lessonName ?? ''}
             onChange={(lessonName) => updateLessonField({ lessonName, isComplete: false })}
           />

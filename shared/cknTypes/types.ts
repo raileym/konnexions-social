@@ -983,15 +983,18 @@ export type RebuildVerbLinesProps = {
 }
 
 export type DialogLineProps = {
-  debugLog: DebugLog
   line: string
   index: number
   useCloudTTS: boolean
   storeAudioOrLine: (index: number, value: string) => void
   className?: string
+  debugLog: (...args: unknown[]) => void // formerly (...args: any[])
   language: Language
   noSpeaker?: boolean
+  translation?: string
 }
+
+
 
 export type ResolveResult = {
   linesResolved: Lines

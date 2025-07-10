@@ -13,7 +13,8 @@ export const DialogLine = ({
   useCloudTTS,
   storeAudioOrLine,
   className = '',
-  noSpeaker = true
+  noSpeaker = true,
+  translation
 }: DialogLineProps) => {
   const [gender, speaker, sentence] = line.split('|')
 
@@ -33,24 +34,32 @@ export const DialogLine = ({
     speak({ text: sentence, speaker, gender, index })
   }
 
+  className = ''
   return (
-    <>
-      {noSpeaker ? (
-        <div className={`h2 items-center ph2 flex-autoX flex w-100 ${className}`}>
-          <FormatSentence sentence={sentence} />
+    <div className={'flex flex-column w-100'}>
+      <div className={`baX bg-greenX flex items-center justify-between w-100 ${className}`}>
+        <div className="ph2 flex-auto">
+          {noSpeaker ? (
+            <FormatSentence sentence={sentence} />
+          ) : (
+            <>
+              <strong>{speaker}</strong>: <FormatSentence sentence={sentence} />
+            </>
+          )}
         </div>
-      ) : (
-        <div className={`h2 items-center ph2 flex-autoX flex w-100 ${className}`}>
-          <strong>{speaker}</strong>: <FormatSentence sentence={sentence} />
+        <button
+          onClick={handleSpeak}
+          className="ml3 f6 br2 ph2 pv1 dib white bg-dark-blue hover:bg-blue no-outline"
+        >
+          <FontAwesomeIcon icon={faPlay} />
+        </button>
+      </div>
+      {translation && (
+        <div className="baX pl3 f5 brand ml2 mt1">
+          {translation}
         </div>
       )}
-      <button
-        onClick={handleSpeak}
-        className="ml3 f6 br2 ph2 pv1 dib white bg-dark-blue hover:bg-blue no-outline"
-      >
-        <FontAwesomeIcon icon={faPlay} />
-      </button>
-    </>
+    </div>
   )
 }
 

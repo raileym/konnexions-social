@@ -173,7 +173,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
             return (
               <li key={i} className={'mb2 flex flex-col'}>
                 <div className="w-100 flex flex-column">
-                  <div className={'flex justify-between w-100 items-center'}>
+                  <div className={'translation-set flex justify-between w-100 items-center'}>
                     <DialogLine
                       line={line}
                       index={i}
@@ -182,13 +182,9 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
                       className={i === lineNumber ? 'bg-brand white' : 'bg-transparent black'}
                       language={language}
                       debugLog={debugLog}
+                      translation={showTranslations && hasTranslations ? cleanedTranslation : undefined}
                     />
-                  </div>
-                  {showTranslations && hasTranslations && (
-                    <div className="pl4 f5 brand">
-                      <span className="ml3"></span>{cleanedTranslation}
-                    </div>
-                  )}
+                </div>
                 </div>
               </li>
             )
