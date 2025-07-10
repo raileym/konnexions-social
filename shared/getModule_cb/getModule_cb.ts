@@ -9,12 +9,6 @@ export const getModule_cb = async ({
   testMode
 }: GetModuleCbProps): Promise<Module | null> => {
   try {
-    // const isServer = typeof window === 'undefined'
-
-    // const baseURL = isServer
-    //   ? process.env.URL || 'http://localhost:8888' // fallback for local testing
-    //   : ''
-
     const baseURL = process.env.URL
 
     const res = await fetch(`${baseURL}/.netlify/functions/genai-module-cb`, {

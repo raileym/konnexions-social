@@ -53,6 +53,14 @@ export const FIELD_COUNT: Record<ModuleName, number> = {
 //   STORY: 'story'
 // } as const
 
+export const GEN_AI_PROVIDER = {
+  OPENAI: 'openai',
+  ANTHROPIC: 'anthropic',
+  GROQ: 'groq',
+  MISTRAL: 'mistral',
+  CLAUDE: 'claude'
+} as const
+
 export const LESSON_PROMPT_STYLE = {
   DIALOG: 'dialog',
   COMMENTARY: 'commentary',

@@ -33,6 +33,8 @@ DROP FUNCTION IF EXISTS private.ckn_verify_cooked_email;
 DROP FUNCTION IF EXISTS private.ckn_get_email_user_data;
 DROP FUNCTION IF EXISTS private.ckn_upsert_email_user_data;
 
+DROP FUNCTION IF EXISTS private.ckn_insert_prompt_response;
+
 DROP FUNCTION IF EXISTS public.ckn_lookup_tts_cache;
 DROP FUNCTION IF EXISTS public.ckn_insert_tts_cache;
 DROP FUNCTION IF EXISTS public.ckn_insert_noun;
@@ -49,6 +51,8 @@ DROP FUNCTION IF EXISTS public.ckn_get_email_user_data;
 DROP FUNCTION IF EXISTS public.ckn_upsert_email_user_data;
 
 DROP FUNCTION IF EXISTS public.ckn_insert_lesson;
+
+DROP FUNCTION IF EXISTS public.ckn_insert_prompt_response;
 
 DROP VIEW IF EXISTS private.ckn_verb_forms;
 DROP VIEW IF EXISTS private.ckn_noun_forms;
@@ -75,6 +79,8 @@ DROP TABLE IF EXISTS private.ckn_module;
 DROP TABLE IF EXISTS private.ckn_lesson;
 
 DROP TABLE IF EXISTS private.ckn_email_user_data;
+
+DROP TABLE IF EXISTS private.ckn_prompt_response;
 
 DROP TYPE IF EXISTS private.ckn_noun_record;
 DROP TYPE IF EXISTS private.ckn_verb_record;
@@ -114,6 +120,19 @@ CREATE TYPE private.ckn_verb_record AS (
 -- ************************************************************************
 -- CREATE TABLES
 -- ************************************************************************
+
+CREATE TABLE private.ckn_prompt_response (
+  prompt_response_cooked_email TEXT NOT NULL,
+  prompt_response_lesson_id TEXT NOT NULL,
+  prompt_response_prompt TEXT NOT NULL,
+  prompt_response_get_ai_provider TEXT NOT NULL,
+  prompt_response_created_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT ckn_prompt_response_key PRIMARY KEY (
+    prompt_response_cooked_email,
+    prompt_response_lesson_id
+  )
+);
 
 CREATE TABLE private.ckn_email_user_data (
   email_user_key UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -333,6 +352,40 @@ CREATE POLICY "Service role can insert ckn_tts_cache" ON private.ckn_tts_cache
 
 CREATE INDEX idx_ckn_tts_cache_signature ON private.ckn_tts_cache(tts_cache_signature);
 CREATE INDEX idx_ckn_tts_cache_last_used ON private.ckn_tts_cache(tts_cache_last_used);
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_insert_prompt_response
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_insert_prompt_response(
+  arg_cooked_email TEXT,
+  arg_lesson_id TEXT,
+  arg_prompt TEXT,
+  arg_response TEXT,
+  arg_gen_ai_provider TEXT
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = private, public
+AS $$
+BEGIN
+  INSERT INTO private.ckn_prompt_response (
+    prompt_response_cooked_email,
+    prompt_response_lesson_id,
+    prompt_response_prompt,
+    prompt_response_response,
+    prompt_response_gen_ai_provider
+  )
+  VALUES (arg_cooked_email, arg_lesson_id, arg_prompt, arg_response, arg_gen_ai_provider)
+  ON CONFLICT (prompt_response_cooked_email, prompt_response_lesson_id) DO UPDATE
+  SET prompt_response_prompt = EXCLUDED.prompt_response_prompt,
+      prompt_response_response = EXCLUDED.prompt_response_response,
+      prompt_response_gen_ai_provider = EXCLUDED.prompt_response_gen_ai_provider,
+      prompt_response_created_at = NOW();
+END;
+$$;
+
 
 -- ************************************************************************
 -- FUNCTION: ckn_insert_lesson
@@ -1057,6 +1110,34 @@ $$;
 -- FUNCTION SHIM: public.ckn_get_email_user_data
 -- ************************************************************************
 
+CREATE OR REPLACE FUNCTION public.ckn_insert_prompt_response(
+  arg_cooked_email TEXT,
+  arg_lesson_id TEXT,
+  arg_prompt TEXT,
+  arg_response TEXT,
+  arg_gen_ai_provider TEXT
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  PERFORM private.ckn_insert_prompt_response(
+    arg_cooked_email,
+    arg_lesson_id,
+    arg_prompt,
+    arg_response,
+    arg_gen_ai_provider
+  );
+END;
+$$;
+
+
+
+-- ************************************************************************
+-- FUNCTION SHIM: public.ckn_get_email_user_data
+-- ************************************************************************
+
 CREATE FUNCTION public.ckn_get_email_user_data(
   arg_cooked_email TEXT
 )
@@ -1421,6 +1502,7 @@ GRANT EXECUTE ON FUNCTION private.ckn_upsert_email_code(text, text, timestamptz)
 GRANT EXECUTE ON FUNCTION private.ckn_verify_email_code(text, text) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_get_email_user_data(text) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_email_user_data(text, JSONB, JSONB, INT, TEXT, TEXT) to service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_insert_prompt_response(text, text, text, text, text) to service_role;
 
 ALTER ROLE service_role SET search_path = private, public;
 

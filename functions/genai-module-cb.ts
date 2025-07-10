@@ -90,7 +90,6 @@ const handler: Handler = async (event) => {
     }
 
     const prose = updatedLesson[MODULE_NAME.DIALOG_DRAFT]?.lines?.join(' ') ?? ''
-    // const signature = generateSignature(prose)
 
     return {
       statusCode: 200,
@@ -105,36 +104,31 @@ const handler: Handler = async (event) => {
     }
   } catch (err) {
 
-console.error('Error in genai-module-cb handler:', err)
-  console.error('Captured debug values:', {
-    moduleName,
-    prompt,
-    fieldCount,
-    errorLabel,
-    response: typeof response === 'string' ? response.slice(0, 500) : 'unavailable', // avoid printing long blobs
-    lessonSignature: lesson ? generateSignature(JSON.stringify(lesson).slice(0, 500)) : 'unavailable'
-  })
+    console.error('Error in genai-module-cb handler:', err)
+    console.error('Captured debug values:', {
+      moduleName,
+      prompt,
+      fieldCount,
+      errorLabel,
+      response: typeof response === 'string' ? response.slice(0, 500) : 'unavailable', // avoid printing long blobs
+      lessonSignature: lesson ? generateSignature(JSON.stringify(lesson).slice(0, 500)) : 'unavailable'
+    })
 
-  return {
-    statusCode: 500,
-    body: JSON.stringify({
-      [MODULE_NAME.ERROR_MODULE] : {
-          error: (err as Error).message,
-          moduleName,
-          debug: {
-            prompt,
-            fieldCount,
-            errorLabel
-            // You could add more here if needed
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        [MODULE_NAME.ERROR_MODULE] : {
+            error: (err as Error).message,
+            moduleName,
+            debug: {
+              prompt,
+              fieldCount,
+              errorLabel
+              // You could add more here if needed
+            }
           }
-        }
       })
     }
-  // }    
-  //   return {
-  //     statusCode: 500,      
-  //     body: `Error in genai-module-cb: ${(err as Error).message}`
-  //   }
   }
 }
 

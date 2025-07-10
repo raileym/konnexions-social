@@ -15,7 +15,8 @@ import {
   SCENARIO_LABELS,
   CURATED,
   PIPELINE_TYPE,
-  LESSON_PROMPT_STYLE
+  LESSON_PROMPT_STYLE,
+  GEN_AI_PROVIDER
 } from './constants.js'
 
 export type UserData = {
@@ -37,6 +38,10 @@ export type CookedEmail = string
 export type VerificationToken = string
 
 export type LessonComplete = boolean
+
+export type GenAIProviderKey = keyof typeof GEN_AI_PROVIDER
+export type GenAIProviderValue = (typeof GEN_AI_PROVIDER)[GenAIProviderKey]
+export type GenAIProvider = GenAIProviderValue
 
 export type LessonPromptStyleValue = (typeof LESSON_PROMPT_STYLE)[keyof typeof LESSON_PROMPT_STYLE]
 export type LessonPromptStyleKey = keyof typeof LESSON_PROMPT_STYLE
@@ -1142,3 +1147,23 @@ export type DialogListProps = {
   useCloudTTS: boolean
   language: Language
 }
+
+export type StorePromptResponseProps = {
+  cookedEmail: CookedEmail
+  lessonId: LessonId
+  prompt: Prompt
+  response?: string
+  genAIProvider: GenAIProvider
+}
+
+export type GenAIProps = {
+  prompt: Prompt
+  lessonId: LessonId
+  cookedEmail: CookedEmail
+}
+
+export type FetchOpenAIProps = GenAIProps
+export type FetchClaudeProps = GenAIProps
+export type FetchOpenAIResponse = string
+export type FetchClaudeResponse = string
+

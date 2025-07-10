@@ -1,18 +1,19 @@
-import { type Prompt } from '../shared/cknTypes/types.js'
+import { GEN_AI_PROVIDER } from '@cknTypes/constants.js'
+import type {
+  FetchClaudeProps,
+  FetchClaudeResponse,
+  FetchOpenAIProps,
+  FetchOpenAIResponse,
+} from '../shared/cknTypes/types.js'
+import { storePromptResponse } from './storePromptResponse.js'
 
-type FetchOpenAIProps = {
-  prompt: Prompt
-}
-
-type UseClaudeProps = {
-  prompt: Prompt
-}
-
-export async function fetchClaude({ prompt }: UseClaudeProps): Promise<string> {
+export const fetchClaude = async ({
+  prompt,
+  lessonId,
+  cookedEmail
+}: FetchClaudeProps): Promise<FetchClaudeResponse> => {
   const claudeKey = process.env.CLAUDE_API_KEY
-  if (!claudeKey) {
-    throw new Error('Missing Claude API key in environment')
-  }
+  if (!claudeKey) throw new Error('Missing Claude API key in environment')
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -33,18 +34,34 @@ export async function fetchClaude({ prompt }: UseClaudeProps): Promise<string> {
     throw new Error(`Claude API error: ${response.status} ${text}`)
   }
 
-  interface ClaudeResponse {
+  const data = (await response.json()) as {
     content?: Array<{ text?: string }>
   }
-  const data = (await response.json()) as ClaudeResponse
-  return data.content?.[0]?.text?.trim() ?? ''
+
+  const answer = data.content?.[0]?.text?.trim() ?? ''
+
+  try {
+    await storePromptResponse({
+      cookedEmail,
+      lessonId,
+      prompt,
+      response: answer,
+      genAIProvider: GEN_AI_PROVIDER.CLAUDE
+    })
+  } catch (err) {
+    console.error('Failed to store Claude prompt response:', err)
+  }
+
+  return answer
 }
 
-export async function fetchOpenAI({ prompt }: FetchOpenAIProps): Promise<string> {
+export const fetchOpenAI = async ({
+  prompt,
+  lessonId,
+  cookedEmail
+}: FetchOpenAIProps): Promise<FetchOpenAIResponse> => {
   const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey) {
-    throw new Error('Missing OpenAI API key in environment')
-  }
+  if (!apiKey) throw new Error('Missing OpenAI API key in environment')
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -58,9 +75,23 @@ export async function fetchOpenAI({ prompt }: FetchOpenAIProps): Promise<string>
     })
   })
 
-  interface OpenAIResponse {
+  const data = (await response.json()) as {
     choices?: Array<{ message?: { content?: string } }>
   }
-  const data = (await response.json()) as OpenAIResponse
-  return data.choices?.[0]?.message?.content?.trim() ?? ''
+
+  const answer = data.choices?.[0]?.message?.content?.trim() ?? ''
+
+  try {
+    await storePromptResponse({
+      cookedEmail,
+      lessonId,
+      prompt,
+      response: answer,
+      genAIProvider: GEN_AI_PROVIDER.OPENAI
+    })
+  } catch (err) {
+    console.error('Failed to store OpenAI prompt response:', err)
+  }
+
+  return answer
 }
