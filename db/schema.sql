@@ -29,6 +29,18 @@ CREATE TYPE private.ckn_verb_record AS (
 );
 
 -- ************************************************************************
+-- CREATE TABLE: private.ckn_marketing_data
+-- ************************************************************************
+
+CREATE TABLE private.ckn_marketing_data (
+  marketing_data_client_uuid TEXT PRIMARY KEY,
+  marketing_data_preferences JSONB NOT NULL,
+  marketing_data_version INT DEFAULT 1,
+  marketing_data_updated_at TIMESTAMPTZ DEFAULT NOW(),
+  marketing_data_created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ************************************************************************
 -- CREATE TABLE: private.ckn_prompt_response
 -- ************************************************************************
 
@@ -538,6 +550,124 @@ CREATE INDEX idx_ckn_tts_cache_signature ON private.ckn_tts_cache (tts_cache_sig
 
 -- Improve recency-based purging or revalidation of cached entries
 CREATE INDEX idx_ckn_tts_cache_last_used ON private.ckn_tts_cache (tts_cache_last_used);
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_upsert_marketing_data
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_upsert_marketing_data(
+  arg_client_uuid TEXT,
+  arg_content JSONB
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RAISE LOG '→ FUNC: private.ckn_upsert_marketing_data | uuid=%, content=%',
+    arg_client_uuid, arg_content;
+
+  BEGIN
+    INSERT INTO private.ckn_marketing_data (
+      marketing_data_client_uuid,
+      marketing_data_preferences
+    )
+    VALUES (
+      arg_client_uuid,
+      arg_content
+    )
+    ON CONFLICT (marketing_data_client_uuid) DO UPDATE
+    SET
+      marketing_data_preferences = EXCLUDED.marketing_data_preferences,
+      marketing_data_version = private.ckn_marketing_data.marketing_data_version + 1,
+      marketing_data_updated_at = NOW();
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      RAISE LOG '‼️ ERROR in private.ckn_upsert_marketing_data: %', SQLERRM;
+      RAISE EXCEPTION 'private.ckn_upsert_marketing_data failed';
+  END;
+END;
+$$;
+
+-- ************************************************************************
+-- SHIM FUNCTION: public.ckn_upsert_marketing_data
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_upsert_marketing_data(
+  arg_client_uuid TEXT,
+  arg_content JSONB
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RAISE LOG '→ SHIM: public.ckn_upsert_marketing_data | uuid=%, content=%',
+    arg_client_uuid, arg_content;
+
+  BEGIN
+    PERFORM private.ckn_upsert_marketing_data(arg_client_uuid, arg_content);
+  EXCEPTION
+    WHEN OTHERS THEN
+      RAISE LOG '‼️ ERROR in public.ckn_upsert_marketing_data: %', SQLERRM;
+      RAISE EXCEPTION 'public.ckn_upsert_marketing_data failed';
+  END;
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_get_marketing_data
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_get_marketing_data(
+  arg_client_uuid TEXT
+)
+RETURNS TABLE (
+  marketing_data_client_uuid TEXT,
+  marketing_data_preferences JSONB,
+  marketing_data_version INT,
+  marketing_data_updated_at TIMESTAMPTZ,
+  marketing_data_created_at TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    m.marketing_data_client_uuid,
+    m.marketing_data_preferences,
+    m.marketing_data_version,
+    m.marketing_data_updated_at,
+    m.marketing_data_created_at
+  FROM private.ckn_marketing_data m
+  WHERE m.marketing_data_client_uuid = arg_client_uuid;
+END;
+$$;
+
+-- ************************************************************************
+-- SHIM FUNCTION: public.ckn_get_marketing_data
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_get_marketing_data(
+  arg_client_uuid TEXT
+)
+RETURNS TABLE (
+  marketing_data_client_uuid TEXT,
+  marketing_data_preferences JSONB,
+  marketing_data_version INT,
+  marketing_data_updated_at TIMESTAMPTZ,
+  marketing_data_created_at TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT * FROM private.ckn_get_marketing_data(arg_client_uuid);
+END;
+$$;
 
 -- ************************************************************************
 -- FUNCTION: private.ckn_insert_prompt_response
@@ -1813,10 +1943,10 @@ GRANT EXECUTE ON FUNCTION private.ckn_upsert_user_data(TEXT, TEXT, JSONB, JSONB,
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_module(TEXT, TEXT, JSONB) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_verify_cooked_email(TEXT) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_verify_email_code(TEXT, TEXT) to service_role;
+GRANT EXECUTE ON FUNCTION public.ckn_insert_prompt_response(TEXT, TEXT, TEXT, TEXT, TEXT) TO service_role;
 
 ALTER ROLE service_role SET search_path = private, public;
 
-GRANT SELECT, UPDATE ON TABLE private.ckn_email_code TO service_role;
-GRANT EXECUTE ON FUNCTION public.ckn_insert_prompt_response(
-  TEXT, TEXT, TEXT, TEXT, TEXT
-) TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_email_code TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_marketing_data TO service_role;
+

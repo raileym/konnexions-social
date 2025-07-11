@@ -48,11 +48,11 @@ GROUP_TABLES["all"]="\
 --table=private.ckn_prompt_response \
 --table=private.ckn_scenarios \
 --table=private.ckn_tts_cache \
+--table=private.ckn_user_data \
 --table=private.ckn_verb \
 --table=private.ckn_verb_base \
 --table=private.ckn_verb_example \
 --table=private.ckn_verb_scenarios"
-
 # Process each group
 for GROUP in "$@"; do
   TABLES="${GROUP_TABLES[$GROUP]}"

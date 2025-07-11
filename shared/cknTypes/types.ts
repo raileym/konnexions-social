@@ -1174,3 +1174,21 @@ export type UpsertUserDataProps = {
   lessonPrompt: Prompt
   lessonTimestamp: LessonTimestamp
 }
+
+export type MarketingContent = Record<string, string>
+export type Version = number
+export type UpdatedAt = string
+export type CreatedAt = string
+
+export type MarketingData = {
+  clientUUID: ClientUUID
+  content: MarketingContent,
+  version: Version,
+  updatedAt: UpdatedAt,
+  createdAt: CreatedAt
+}
+
+export type UpsertMarketingProps = {
+  clientUUID: string,
+  marketData: MarketingData
+}
