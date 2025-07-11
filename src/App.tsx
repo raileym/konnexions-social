@@ -18,6 +18,7 @@ import PanelBasicWelcome from '@components/PanelBasicWelcome/PanelBasicWelcome'
 import PanelMDX from '@components/PanelMDX/PanelMDX'
 import PanelProfile from '@components/PanelProfile/PanelProfile'
 import ModalGlobal from '@components/ModalGlobal/ModalGlobal'
+import { getUserData } from '@components/getUserData/getUserData'
 
 const AppMain = () => {
   return (
@@ -121,20 +122,20 @@ const App: React.FC = () => {
     hasLoadedUserData.current = true
 
     const fetchUserData = async () => {
-      const res = await fetch('/.netlify/functions/get-user-data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ clientUUID }),
-      })
+      const { success, data, error } = await getUserData(clientUUID)
 
-      const data = await res.json()
+      if (!success) {
+        console.error('❌ Failed to get user data:', error)
+        return
+      }
+
       setUserData(data)
-      console.log('userData', data)
+      console.log('✅ userData', data)
     }
 
     fetchUserData()
-
   }, [isUserValidated, clientUUID, setUserData])
+
 
   return (
     <Router>
