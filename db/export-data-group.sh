@@ -11,6 +11,7 @@ if [[ $# -lt 2 ]]; then
   echo "Groups:"
   echo "  tts      → private.ckn_tts_cache"
   echo "  cost     → private.ckn_prompt_response"
+  echo "  user     → user login tables"
   echo "  all      → all major tables"
   echo ""
   echo "Example:"
@@ -35,6 +36,7 @@ STAMP=$(date +%Y-%m-%d-%H%M)
 declare -A GROUP_TABLES
 GROUP_TABLES["tts"]="--table=private.ckn_tts_cache"
 GROUP_TABLES["cost"]="--table=private.ckn_prompt_response"
+GROUP_TABLES["user"]="--table=private.ckn_email_code"
 GROUP_TABLES["all"]="\
 --table=private.ckn_email_code \
 --table=private.ckn_lesson \

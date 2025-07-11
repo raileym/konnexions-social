@@ -11,8 +11,7 @@ const supabase = createClient(
 const handler: Handler = async (event) => {
   try {
     const {
-      // id,
-      uuid,
+      clientUUID,
       number,
       timestamp,
       name,
@@ -25,13 +24,13 @@ const handler: Handler = async (event) => {
     } = JSON.parse(event.body || '{}')
 
     const salt = 'joy-of-language'
-    const normalized = `${uuid.trim().toLowerCase()}:${number}:${salt}`
+    const normalized = `${clientUUID.trim().toLowerCase()}:${number}:${salt}`
     const lessonId = crypto.createHash('sha256').update(normalized).digest('hex')
 
     const { error } = await supabase.rpc('ckn_insert_lesson', {
       arg_lesson_id: lessonId,
       arg_lesson_number: number,
-      arg_lesson_uuid: uuid,
+      arg_lesson_client_uuid: clientUUID,
       arg_lesson_timestamp: timestamp,
       arg_lesson_name: name,
       arg_lesson_description: description,

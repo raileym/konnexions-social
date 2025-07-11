@@ -21,7 +21,6 @@ import {
 
 export type UserData = {
   email_user_key: string
-  email_user_cooked_email: CookedEmail
   email_user_client_uuid: ClientUUID,
   email_user_flex_lesson: FlexLesson,
   email_user_current_lesson: Lesson,
@@ -207,7 +206,7 @@ export type Translation = Record<Language, Lines>
 
 export type Lesson = {
   id: LessonId
-  uuid: ClientUUID
+  clientUUID: ClientUUID
   number: LessonNumber
   timestamp: LessonTimestamp
   name: Name
@@ -495,7 +494,7 @@ export const defaultModule: Module = {
 export const defaultLesson: Lesson = {
   id: '',
   number: 1,
-  uuid: '',
+  clientUUID: '',
   timestamp: '',
   isComplete: false,
 
@@ -561,7 +560,6 @@ export const defaultUpdatedAt = ''
 
 export const defaultUserData = {
   email_user_key: defaultKey,
-  email_user_cooked_email: defaultCookedEmail,
   email_user_client_uuid: defaultClientUUID,
   email_user_flex_lesson: defaultFlexLesson,
   email_user_current_lesson: defaultLesson,
@@ -1149,7 +1147,7 @@ export type DialogListProps = {
 }
 
 export type StorePromptResponseProps = {
-  cookedEmail: CookedEmail
+  clientUUID: ClientUUID
   lessonId: LessonId
   prompt: Prompt
   response?: string
@@ -1159,7 +1157,7 @@ export type StorePromptResponseProps = {
 export type GenAIProps = {
   prompt: Prompt
   lessonId: LessonId
-  cookedEmail: CookedEmail
+  clientUUID: ClientUUID
 }
 
 export type FetchOpenAIProps = GenAIProps

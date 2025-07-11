@@ -33,6 +33,9 @@ const Button = ({ iconStyle, disable, panel, icon, img, title, buttonClass, swit
       closeHelp()
       openProfile()
     } else {
+      closeMenu()
+      closeHelp()
+      closeProfile()
       switchFn(panel)
     }
 

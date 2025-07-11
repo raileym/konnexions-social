@@ -26,6 +26,10 @@ const handler: Handler = async (event) => {
   try {
     ;({ lesson, moduleName } = JSON.parse(event.body ?? '{}'))
 
+  // prompt,
+  // lessonId,
+  // cookedEmail
+
     if (!lesson || !moduleName ) {
       return {
         statusCode: 400,
@@ -43,7 +47,7 @@ const handler: Handler = async (event) => {
       errors: []
     }))
 
-    response = await fetchOpenAI({ prompt })
+    response = await fetchOpenAI({ lessonId: lesson.id, clientUUID: lesson.clientUUID, prompt })
     
     // cXnsole.log(`genai-module-cb|${moduleName}: lesson`, lesson)
     // cXnsole.log(`genai-module-cb|${moduleName}: moduleName`, moduleName)
@@ -68,7 +72,7 @@ const handler: Handler = async (event) => {
         errors: validModule.errors ?? []
       }))
 
-      response = await fetchOpenAI({ prompt })
+      response = await fetchOpenAI({ lessonId: lesson.id, clientUUID: lesson.clientUUID, prompt })
 
       validModule = validateModule({
         response,

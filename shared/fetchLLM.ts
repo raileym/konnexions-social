@@ -10,7 +10,7 @@ import { storePromptResponse } from './storePromptResponse.js'
 export const fetchClaude = async ({
   prompt,
   lessonId,
-  cookedEmail
+  clientUUID
 }: FetchClaudeProps): Promise<FetchClaudeResponse> => {
   const claudeKey = process.env.CLAUDE_API_KEY
   if (!claudeKey) throw new Error('Missing Claude API key in environment')
@@ -40,9 +40,16 @@ export const fetchClaude = async ({
 
   const answer = data.content?.[0]?.text?.trim() ?? ''
 
+  // console.log('storePromptResponse', JSON.stringify({
+  //     clientUUID,
+  //     lessonId,
+  //     prompt,
+  //     response: answer,
+  //     genAIProvider: GEN_AI_PROVIDER.CLAUDE
+  //   }, null, 2))
   try {
     await storePromptResponse({
-      cookedEmail,
+      clientUUID,
       lessonId,
       prompt,
       response: answer,
@@ -58,7 +65,7 @@ export const fetchClaude = async ({
 export const fetchOpenAI = async ({
   prompt,
   lessonId,
-  cookedEmail
+  clientUUID
 }: FetchOpenAIProps): Promise<FetchOpenAIResponse> => {
   const apiKey = process.env.OPENAI_API_KEY
   if (!apiKey) throw new Error('Missing OpenAI API key in environment')
@@ -81,9 +88,16 @@ export const fetchOpenAI = async ({
 
   const answer = data.choices?.[0]?.message?.content?.trim() ?? ''
 
+  // console.log('storePromptResponse', JSON.stringify({
+  //     clientUUID,
+  //     lessonId,
+  //     prompt,
+  //     response: answer,
+  //     genAIProvider: GEN_AI_PROVIDER.OPENAI
+  //   }, null, 2))  
   try {
     await storePromptResponse({
-      cookedEmail,
+      clientUUID,
       lessonId,
       prompt,
       response: answer,

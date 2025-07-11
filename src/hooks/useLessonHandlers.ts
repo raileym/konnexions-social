@@ -13,17 +13,10 @@ export const useLessonHandlers = () => {
   const debugLog = useDebugLogger()
   
   const {
-    // lessons,
     setLessons,
     setLesson,
-    // setLessonComplete,
     selectedLessonNumber,
-    // debugLog,
     setLessonTimestamp,
-    // initialLesson,
-    // flexLesson,
-    // formattedFlexLesson
-    // lessonComplete,
     setLessonComplete,
 
     scenario,
@@ -33,8 +26,8 @@ export const useLessonHandlers = () => {
     lessonPromptStyle,
     useMyself,
     customParticipantList,
-    cookedEmail,
-    lessonName
+    lessonName,
+    clientUUID
   } = useAppContext()
 
   const createFullLesson = async () => {
@@ -61,7 +54,7 @@ export const useLessonHandlers = () => {
       ...initialLesson,
       number: selectedLessonNumber,
       timestamp: localLessonTimestamp.toString(),
-      uuid: cookedEmail
+      clientUUID
     }
 
     // 1. Insert base lesson
@@ -192,7 +185,7 @@ export const useLessonHandlers = () => {
       ...initialLesson,
       number: selectedLessonNumber,
       timestamp: localLessonTimestamp.toString(),
-      uuid: cookedEmail
+      clientUUID
     }
 
     // 1. Insert base lesson

@@ -12,7 +12,7 @@ const PanelRequestEmailComponents = () => {
   const [validationMessage, setValidationMessage] = useState<string>(USER_EMAIL_NOT_VALIDATED)
   const [localCookedEmail, setLocalCookedEmail] = useState('')
   
-  const { setCookedEmail, setIsUserValidated, isUserValidated } = useAppContext()
+  const { setCookedEmail, setClientUUID, setIsUserValidated, isUserValidated } = useAppContext()
 
   useEffect(() => {
     if (isUserValidated) {
@@ -76,6 +76,7 @@ const PanelRequestEmailComponents = () => {
 
       setSuccess(true)
       setCookedEmail(localCookedEmail)
+      setClientUUID(localCookedEmail)
       setIsUserValidated(true)
 
       // const dataRes = await fetch('/.netlify/functions/get-email-user-data', {
@@ -125,6 +126,16 @@ const PanelRequestEmailComponents = () => {
       }
       await verifyCode()
     }
+  }
+
+  const clearLocalStorageExceptEssential = () => {
+    const preserveKeys = ['debugMode']
+    Object.keys(localStorage).forEach(key => {
+      if (!preserveKeys.includes(key)) {
+        localStorage.removeItem(key)
+      }
+    })
+    alert('Local storage (except cookedEmail and debugMode) cleared.')
   }
 
   return (
@@ -198,6 +209,14 @@ const PanelRequestEmailComponents = () => {
         {/* {success && <div className="mt3 white f5 tc">Success!</div>} */}
         {!error && <div className="baX mt3 white f5 tc"><br /></div>}
       </form>
+      <button
+        type="button"
+        onClick={clearLocalStorageExceptEssential}
+        className="mt4 b ph4 pv3 input-reset ba b--red bg-white red grow pointer f6 br3 dib"
+      >
+        Clear Local Storage<br/>(except debugMode + cookedEmail)
+      </button>
+
     </div>
   )
 }

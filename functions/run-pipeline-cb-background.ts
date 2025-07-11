@@ -19,12 +19,16 @@ const handler: BackgroundHandler = async (event) => {
       return
     }
 
-    const updatedLesson = await runPipelineCb({
+    await runPipelineCb({
       lesson,
       pipelineConfig
     })
+    // const updatedLesson = await runPipelineCb({
+    //   lesson,
+    //   pipelineConfig
+    // })
 
-    console.log('cloud: updatedLesson', updatedLesson)
+    // console.log('cloud: updatedLesson', updatedLesson)
     
   } catch (err) {
     console.error('Pipeline execution failed:', err)
