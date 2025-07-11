@@ -42,7 +42,7 @@ const NavbarTop: React.FC = () => {
                 {/* <div className="black-20 f4">Connecting through language</div> */}
                 <div className="black-20 f4">Promoting ways to connect socially</div>
                 {/* <div className="black-20 f5">Strengthen social ties for better health and well-being</div> */}
-                {/* <div className="black-20 f4">Joy of Language - Learn Spanish</div> */}
+                {/* <div className="black-20 f4">Joy of Language - Let's connect - through Spanish</div> */}
               </div>
             </div>
           </div>

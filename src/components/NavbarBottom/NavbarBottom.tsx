@@ -46,7 +46,7 @@ const NavbarBottom: React.FC = () => {
                     <div className="brand f5 mt1">Profile</div>
                   </div>
 
-                  <div>before beginning with <span className="brand">Learn Spanish!</span>. See the user Profile button at the top right.</div>
+                  <div>before beginning with <span className="brand">Let's connect - through Spanish!</span>. See the user Profile button at the top right.</div>
                 </div>,
               confirmText: 'Okay',
             })
@@ -54,8 +54,8 @@ const NavbarBottom: React.FC = () => {
         }}        
       >
         <div>
-          <div className="baX bg-blueX mb0 pb0 w-100X h2 tc brand">Learn Spanish!</div>
-          <Button iconStyle={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Welcome' />
+          <div className="baX bg-blueX mb0 pb0 w-100X h2 tc brand">Let's connect - through Spanish!</div>
+          <Button iconStyle={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Bienvenido!' />
           <Button iconStyle={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC} switchFn={switchPanel} panel={APP_PANEL.BASIC} icon={faPersonChalkboard} title='Create' />
           <Button iconStyle={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
         </div>

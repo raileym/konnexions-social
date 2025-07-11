@@ -46,9 +46,8 @@ const Button = ({ iconStyle, disable, panel, icon, img, title, buttonClass, swit
     <button
       onClick={() => { if (!disable) handleClick() }}
       disabled={disable}
-      className={`f2 bnX pa1 w3 pointer bg-whiteX ${isActive ? 'bg-brand white' : 'bg-white brand'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
-      style={{width: '2em'}}
-      // className={`f2 pa2 br2 bn pointer bg-white ${isActive ? 'bg-light-purple white' : 'dark-gray'} mr2`}
+      className={`f2 pa1 pointer ${isActive ? 'bg-brand white' : 'bg-white brand'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
+      style={{width: '2.5em'}}
       title={title}
     >
       { icon && <FontAwesomeIcon className={`${iconStyle} baX`} icon={icon} /> }
@@ -57,13 +56,13 @@ const Button = ({ iconStyle, disable, panel, icon, img, title, buttonClass, swit
           <img
             src={`/${img}`}
             alt={title}
-            className="scale-125X h3 w4 mv0 pv0"
+            className="scale-125X h3 w3 mv0 pv0"
           />
         </div>
       )}
 
 
-      <div className="f6 mt1">{title}</div>
+      <div className="f6 mt1 tc">{title}</div>
     </button>
   )
 }
