@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '@components/SelectorScenario/SelectorScenario'
 import { getPrompt_cb } from '@shared/getPrompt_cb'
@@ -28,7 +28,7 @@ import PromptToggle from '@PanelGenAIProComponents/PromptToggle/PromptToggle'
 // import Hr from '@components/Hr'
 import LessonElementToggle from '@PanelGenAIProComponents/LessonElementToggle/LessonElementToggle'
 import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus'
-import { useDebugLogger } from '@hooks/useDebugLogger'
+// import { useDebugLogger } from '@hooks/useDebugLogger'
 import SelectorLessonPromptStyle from '@components/SelectorLessonPromptStyle'
 import SelectorParticipantRole from '@components/SelectorParticipantRole'
 import InputCustomScenario from '@components/InputCustomScenario'
@@ -50,7 +50,7 @@ const RightPanel: React.FC = () => {
   const [showNounsReviewPrompt, setShowNounsReviewPrompt] = useState(false)
   const [showVerbsReviewPrompt, setShowVerbsReviewPrompt] = useState(false)
 
-  const debugLog = useDebugLogger()
+  // const debugLog = useDebugLogger()
 
   // const toggleShowDialogDraftPrompt = () => {
   //   (prev => !prev)
@@ -117,7 +117,7 @@ const RightPanel: React.FC = () => {
 
   const lesson = lessons.find(l => l.number === selectedLessonNumber)
   
-  // console.log('Right Panel: Scenario', scenario, SCENARIO.CUSTOM, customParticipantList)
+  // cXonsole.log('Right Panel: Scenario', scenario, SCENARIO.CUSTOM, customParticipantList)
 
   const fakeLesson = {
       ...defaultLesson,
@@ -154,7 +154,7 @@ const RightPanel: React.FC = () => {
     if (!lesson) {
       content = <p>Lesson not found.</p>
     } else {
-      // console.log('current lesson', JSON.stringify(lesson, null, 2))
+      // cXonsole.log('current lesson', JSON.stringify(lesson, null, 2))
 
       content = (
         <>
@@ -202,7 +202,11 @@ const RightPanel: React.FC = () => {
                 className={`f3 pa3 br4 bn ${debugMode ? 'bg-black white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   const formattedFlexLesson = formatFlexLesson({flexLesson})
-                  createFlexLesson({formattedFlexLesson})
+                  const updatedLesson = {
+                    ...lesson,
+                    formattedFlexLesson
+                  }
+                  createFlexLesson({lesson: updatedLesson})
                 }}
               >
                 Create Flex Lesson {debugMode ? '(Debug Mode)' : ''}
@@ -275,7 +279,12 @@ const RightPanel: React.FC = () => {
           />
 
           <div className="pa3 mt3 ba bg-white w-100">
-            <DialogList language={lesson.targetLanguage} lines={(lesson?.dialogResolve?.lines ?? [])} useCloudTTS={true} />
+            <DialogList
+              language={lesson.targetLanguage}
+              translations={(lesson?.translationResolve?.lines ?? [])}
+              lines={(lesson?.dialogResolve?.lines ?? [])}
+              useCloudTTS={true}
+            />
           </div>
 
           <div className="pa3 mt3 ba bg-white w-100">
@@ -560,10 +569,10 @@ const RightPanel: React.FC = () => {
     )
   }
 
-  useEffect(() => {
-    debugLog('lesson', lesson)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[lesson])
+  // useEffect(() => {
+  //   debugLog('lesson', lesson)
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // },[lesson])
 
   return (
     <div className={`baX b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>

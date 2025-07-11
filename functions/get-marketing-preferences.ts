@@ -31,7 +31,9 @@ export const handler: Handler = async (event) => {
     }
   }
 
-  const preferences = data?.[0]?.marketing_data_preferences ?? {}
+  console.log('preferences', data)
+
+  const preferences = data ?? {}
 
   return {
     statusCode: 200,

@@ -20,7 +20,7 @@ export const getDialogReviewPrompt: GetDialogReviewPrompt = ({lesson, errors}: G
     options: { asString: false }
   })
 
-  // console.log('dialogExample', dialogExample)
+  // cXonsole.log('dialogExample', dialogExample)
 
   const dialogReviewLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_DRAFT].lines) 
   const fakeDialogReviewLines = formatNounLinesForReview(dialogExample) 

@@ -28,7 +28,7 @@ const handler: BackgroundHandler = async (event) => {
     //   pipelineConfig
     // })
 
-    // console.log('cloud: updatedLesson', updatedLesson)
+    // cXonsole.log('cloud: updatedLesson', updatedLesson)
     
   } catch (err) {
     console.error('Pipeline execution failed:', err)

@@ -51,11 +51,11 @@ const PanelBasic = () => {
     }
   }, [lesson, setFlexLesson])
 
-  lessons.forEach(lesson => {
-    console.log(`lesson No ${lesson.number}`, lesson)
-  })
+  // lessons.forEach(lesson => {
+  //   cXnsole.log(`lesson No ${lesson.number}`, lesson)
+  // })
   
-  console.log('Working Lesson: ', lesson?.number ?? 'undefined number')
+  // cXnsole.log('Working Lesson: ', lesson?.number ?? 'undefined number')
 
   const tiptapEditorTitle = 'Transform your Spanish text into high-quality speech using a cloud-based Text-to-Speech (TTS) service, or into standard quality speech using the built-in voice on your device.'
 

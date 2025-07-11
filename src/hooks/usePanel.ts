@@ -22,7 +22,7 @@ export const usePanel = () => {
 
     setIsTransitioning(true)
 
-    console.log('new active panel', newPanel)
+    // cXonsole.log('new active panel', newPanel)
     if (isHelpOpen) {
       closeHelp()
 

@@ -17,7 +17,7 @@ const handler: Handler = async (event) => {
     const { cookedEmail, token } = JSON.parse(event.body || '{}')
 
     if (!cookedEmail || !token) {
-      console.log('Missing cookedEmail or token:', { cookedEmail, token })
+      // cXonsole.log('Missing cookedEmail or token:', { cookedEmail, token })
       return {
         statusCode: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -56,7 +56,7 @@ const handler: Handler = async (event) => {
       message = 'Bad token'
     }
 
-    console.log('message', message)
+    // cXonsole.log('message', message)
 
     return {
       statusCode: 403,

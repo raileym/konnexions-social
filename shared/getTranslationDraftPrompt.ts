@@ -10,8 +10,8 @@ export const getTranslationDraftPrompt: GetTranslationDraftPrompt = ({lesson, er
 
   const dialogReviewLines = formatDialogLinesForReview(lesson[MODULE_NAME.DIALOG_RESOLVE].lines)  
   
-  console.log('lesson[MODULE_NAME.DIALOG_RESOLVE].lines', lesson[MODULE_NAME.DIALOG_RESOLVE].lines)
-  console.log('dialogReviewLines', dialogReviewLines)
+  // cXonsole.log('lesson[MODULE_NAME.DIALOG_RESOLVE].lines', lesson[MODULE_NAME.DIALOG_RESOLVE].lines)
+  // cXonsole.log('dialogReviewLines', dialogReviewLines)
 
   const example =
 `

@@ -52,7 +52,6 @@ const App: React.FC = () => {
     setCookedEmail,
     setIsUserValidated,
     setUserData,
-    cookedEmail,
     clientUUID,
     setClientUUID,
     isUserValidated
@@ -70,13 +69,13 @@ const App: React.FC = () => {
   useEffect(() => {
     const cookedEmail = localStorage.getItem('cookedEmail')
     if (!cookedEmail || cookedEmail.trim() === '') {
-      console.log('App: No cookedEmail')
+      // cXonsole.log('App: No cookedEmail')
       return
     }
     
-    // console.log('App: cookedEmail raw value:', JSON.stringify(cookedEmail))
+    // cXonsole.log('App: cookedEmail raw value:', JSON.stringify(cookedEmail))
 
-    // console.log('XXcookedEmail', cookedEmail)
+    // cXonsole.log('XXcookedEmail', cookedEmail)
     const verifyCooked = async () => {
       try {
         const res = await fetch('/.netlify/functions/verify-cooked-email', {
@@ -86,9 +85,9 @@ const App: React.FC = () => {
         })
 
         const { valid } = await res.json()
-        // console.log('before check')
+        // cXonsole.log('before check')
         if (valid) {
-          console.log('YES check')
+          // cXonsole.log('YES check')
           setCookedEmail(cookedEmail)
           setClientUUID(cookedEmail)
           setIsUserValidated(true)
@@ -102,7 +101,7 @@ const App: React.FC = () => {
           // const userData = await dataRes.json()
           // setUserData(userData)
         } else {
-          console.log('NO check')
+          // cXonsole.log('NO check')
           // localStorage.removeItem('cookedEmail')
           // setCookedEmail('')
           // setIsUserValidated(false)
@@ -113,6 +112,7 @@ const App: React.FC = () => {
     }
 
     verifyCooked()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setCookedEmail, setIsUserValidated, setUserData])
 
   useEffect(() => {
@@ -129,8 +129,12 @@ const App: React.FC = () => {
         return
       }
 
+      if (!data) {
+        return
+      }
+      
       setUserData(data)
-      console.log('✅ userData', data)
+      // cXonsole.log('✅ userData', data)
     }
 
     fetchUserData()

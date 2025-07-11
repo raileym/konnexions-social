@@ -40,7 +40,7 @@ export const fetchClaude = async ({
 
   const answer = data.content?.[0]?.text?.trim() ?? ''
 
-  // console.log('storePromptResponse', JSON.stringify({
+  // cXonsole.log('storePromptResponse', JSON.stringify({
   //     clientUUID,
   //     lessonId,
   //     prompt,
@@ -88,7 +88,7 @@ export const fetchOpenAI = async ({
 
   const answer = data.choices?.[0]?.message?.content?.trim() ?? ''
 
-  // console.log('storePromptResponse', JSON.stringify({
+  // cXonsole.log('storePromptResponse', JSON.stringify({
   //     clientUUID,
   //     lessonId,
   //     prompt,

@@ -4,14 +4,14 @@ import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClien
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesForReview'
 import { defaultLesson, type CreateFlexLessonProps, type CreateLessonResult } from '@cknTypes/types'
-import { useDebugLogger } from '@hooks/useDebugLogger'
+// import { useDebugLogger } from '@hooks/useDebugLogger'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails'
 import { upsertUserData } from '@components/upsertUserData/upsertUserData'
 // import type { faFalse } from '@fortawesome/free-solid-svg-icons'
 
 export const useLessonHandlers = () => {
 
-  const debugLog = useDebugLogger()
+  // const debugLog = useDebugLogger()
   
   const {
     setLessons,
@@ -27,7 +27,6 @@ export const useLessonHandlers = () => {
     lessonPromptStyle,
     useMyself,
     customParticipantList,
-    lessonName,
     clientUUID,
     lessons,
     flexLesson
@@ -83,7 +82,7 @@ export const useLessonHandlers = () => {
       id: result.lessonId
     }
 
-    debugLog('Initial lesson created successfully')
+    // debugLog('Initial lesson created successfully')
 
     // ********************************************
     // Dialog
@@ -93,8 +92,9 @@ export const useLessonHandlers = () => {
       pipelineType: PIPELINE_TYPE.DIALOG
     })
     if (!dialogResult) return
-    const { lesson: dialogLesson, durationMs: durationDialog } = dialogResult
-    debugLog(`Dialog pipeline took ${durationDialog.toFixed(2)}ms`)
+    const { lesson: dialogLesson } = dialogResult
+    // const { lesson: dialogLesson, durationMs: durationDialog } = dialogResult
+    // debugLog(`Dialog pipeline took ${durationDialog.toFixed(2)}ms`)
 
     // ********************************************
     // Translation
@@ -104,8 +104,9 @@ export const useLessonHandlers = () => {
       pipelineType: PIPELINE_TYPE.TRANSLATION
     })
     if (!translationResult) return
-    const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
-    debugLog(`Translation pipeline took ${durationTranslation.toFixed(2)}ms`)
+    const { lesson: translationLesson } = translationResult
+    // const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
+    // debugLog(`Translation pipeline took ${durationTranslation.toFixed(2)}ms`)
 
     const linesTargetLanguage = formatDialogLinesForReview(translationLesson.dialogResolve.lines)
     const linesSourceLanguage = formatTranslationLinesForReview(translationLesson.translationResolve.lines)
@@ -127,8 +128,9 @@ export const useLessonHandlers = () => {
       pipelineType: PIPELINE_TYPE.NOUNS
     })
     if (!nounsResult) return
-    const { lesson: nounsLesson, durationMs: durationNouns } = nounsResult
-    debugLog(`Nouns pipeline took ${durationNouns.toFixed(2)}ms`)
+    const { lesson: nounsLesson } = nounsResult
+    // const { lesson: nounsLesson, durationMs: durationNouns } = nounsResult
+    // debugLog(`Nouns pipeline took ${durationNouns.toFixed(2)}ms`)
 
     // ********************************************
     // Verbs
@@ -138,8 +140,9 @@ export const useLessonHandlers = () => {
       pipelineType: PIPELINE_TYPE.VERBS
     })
     if (!verbsResult) return
-    const { lesson: verbsLesson, durationMs: durationVerbs } = verbsResult
-    debugLog(`Verbs pipeline took ${durationVerbs.toFixed(2)}ms`)
+    const { lesson: verbsLesson } = verbsResult
+    // const { lesson: verbsLesson, durationMs: durationVerbs } = verbsResult
+    // debugLog(`Verbs pipeline took ${durationVerbs.toFixed(2)}ms`)
 
     const updatedVerbsLesson = {
       ...verbsLesson,
@@ -148,12 +151,12 @@ export const useLessonHandlers = () => {
 
     // Update lesson list
     setLessons((prev) => {
-      debugLog('🔄 Updating lesson list...')
-      debugLog('▶️ updatedVerbsLesson:', updatedVerbsLesson)
+      // debugLog('🔄 Updating lesson list...')
+      // debugLog('▶️ updatedVerbsLesson:', updatedVerbsLesson)
       const next = prev.map((lsn) =>
         lsn.number === selectedLessonNumber ? { ...updatedVerbsLesson, id: lsn.id, name: lsn.name } : lsn
       )
-      debugLog('📦 New lessons array:', next)
+      // debugLog('📦 New lessons array:', next)
       return next
     })
 
@@ -181,8 +184,8 @@ export const useLessonHandlers = () => {
       }).participantList
     }
 
-    console.log('lessonName', lessonName)
-    console.log('initialLesson', JSON.stringify(initialLesson, null, 2))
+    // cXonsole.log('lessonName', lessonName)
+    // cXonsole.log('initialLesson', JSON.stringify(initialLesson, null, 2))
 
     const newLesson = {
       ...initialLesson,
@@ -214,7 +217,7 @@ export const useLessonHandlers = () => {
       id: result.lessonId
     }
 
-    debugLog('Initial lesson created successfully')
+    // debugLog('Initial lesson created successfully')
 
     const dialogLesson = {
       ...updatedInitialLesson,
@@ -232,7 +235,7 @@ export const useLessonHandlers = () => {
       }
     }
 
-    console.log('dialogLesson', dialogLesson)
+    // cXonsole.log('dialogLesson', dialogLesson)
 
     // ********************************************
     // Translation
@@ -242,8 +245,9 @@ export const useLessonHandlers = () => {
       pipelineType: PIPELINE_TYPE.TRANSLATION
     })
     if (!translationResult) return
-    const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
-    debugLog(`Translation pipeline took ${durationTranslation.toFixed(2)}ms`)
+    const { lesson: translationLesson } = translationResult
+    // const { lesson: translationLesson, durationMs: durationTranslation } = translationResult
+    // debugLog(`Translation pipeline took ${durationTranslation.toFixed(2)}ms`)
 
     const linesTargetLanguage = formatDialogLinesForReview(translationLesson.dialogResolve.lines)
     const linesSourceLanguage = formatTranslationLinesForReview(translationLesson.translationResolve.lines)
@@ -262,12 +266,12 @@ export const useLessonHandlers = () => {
     // Update lesson list
     // ********************************************
     setLessons((prev) => {
-      debugLog('🔄 Updating lesson list...')
-      debugLog('▶️ updatedTranslationLesson:', updatedTranslationLesson)
+      // debugLog('🔄 Updating lesson list...')
+      // debugLog('▶️ updatedTranslationLesson:', updatedTranslationLesson)
       const next = prev.map((lsn) =>
         lsn.number === selectedLessonNumber ? { ...updatedTranslationLesson, id: lsn.id, name: lsn.name } : lsn
       )
-      debugLog('📦 New lessons array:', next)
+      // debugLog('📦 New lessons array:', next)
       return next
     })
 
@@ -286,8 +290,8 @@ export const useLessonHandlers = () => {
 
     if (!resultUpsertUserData.success) {
       console.error('Failed to upsert user data:', resultUpsertUserData.error)
-    } else {
-      console.log('✅ User data saved')
+    // } else {
+      // cXonsole.log('✅ User data saved')
     }    
   }
 

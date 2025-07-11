@@ -32,8 +32,8 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
     customScenario
   } = useAppContext()
 
-  console.log('lines', lines)
-  console.log('translations', translations)
+  // cXonsole.log('lines', lines)
+  // cXonsole.log('translations', translations)
   const hasTranslations = translations && translations.length > 0
 
   const storeAudioOrLine = useCallback((index: number, value: string) => {

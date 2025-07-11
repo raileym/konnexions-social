@@ -17,8 +17,8 @@ const handler: Handler = async (event) => {
       }
     }
 
-    console.log(`server-side scenario: ${scenario}`)
-    console.log(`server-side language: ${language}`)
+    // cXonsole.log(`server-side scenario: ${scenario}`)
+    // cXonsole.log(`server-side language: ${language}`)
     
     const { data: nouns, error: nounErr } = await supabase
       .rpc('ckn_get_noun_by_scenario', {

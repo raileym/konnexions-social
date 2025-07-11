@@ -35,12 +35,12 @@ export const handler: Handler = async (event) => {
 
     // const cookedEmail = cookEmail(email)
 
-    console.log('verifyCode', JSON.stringify({
-      cookedEmail,
-      code,
-      arg_cooked_email: cookedEmail,
-      arg_code: code,
-    }, null, 2))
+    // cXnsole.log('verifyCode', JSON.stringify({
+    //   cookedEmail,
+    //   code,
+    //   arg_cooked_email: cookedEmail,
+    //   arg_code: code,
+    // }, null, 2))
 
     // 🟢 Pass cooked email here
     const { data, error } = await supabase.rpc('ckn_verify_email_code', {
@@ -50,7 +50,7 @@ export const handler: Handler = async (event) => {
 
     if (error || !data || data.length === 0) {
       console.error('error', error)
-      console.log('data', data)
+      // cXonsole.log('data', data)
       return {
         statusCode: 401,
         body: JSON.stringify({ error: 'Invalid or expired code' }),

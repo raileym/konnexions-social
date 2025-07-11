@@ -16,6 +16,7 @@ export const getMarketingPreferences = async (
     }
 
     const json = await res.json()
+    console.log('json', JSON.stringify(json, null, 2))
     return { success: true, data: json.data as MarketingPreferences}
   } catch (err) {
     return { success: false, error: err instanceof Error ? err.message : String(err) }

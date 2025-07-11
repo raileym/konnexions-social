@@ -63,7 +63,7 @@ const PanelRequestEmailComponents = () => {
         body: JSON.stringify({ cookedEmail: localCookedEmail, code }),
       })
 
-      console.log('response', response)
+      // cXonsole.log('response', response)
 
       if (!response.ok) {
         const errData = await response.json().catch(() => null)
@@ -71,9 +71,10 @@ const PanelRequestEmailComponents = () => {
         throw new Error(message)
       }
 
-      const { verified } = await response.json()
+      await response.json()
+      // const { verified } = await response.json()
 
-      console.log('verified', verified)
+      // cXonsole.log('verified', verified)
 
       setSuccess(true)
       setCookedEmail(localCookedEmail)
@@ -107,15 +108,15 @@ const PanelRequestEmailComponents = () => {
     }
   }
 
-  const clearLocalStorageExceptEssential = () => {
-    const preserveKeys = ['debugMode']
-    Object.keys(localStorage).forEach(key => {
-      if (!preserveKeys.includes(key)) {
-        localStorage.removeItem(key)
-      }
-    })
-    alert('Local storage (except cookedEmail and debugMode) cleared.')
-  }
+  // const clearLocalStorageExceptEssential = () => {
+  //   const preserveKeys = ['debugMode']
+  //   Object.keys(localStorage).forEach(key => {
+  //     if (!preserveKeys.includes(key)) {
+  //       localStorage.removeItem(key)
+  //     }
+  //   })
+  //   alert('Local storage (except cookedEmail and debugMode) cleared.')
+  // }
 
   return (
     <div className={'bl b--black w-100 vh-100 bg-yellow flex flex-column items-center justify-start pa3 mt5'}>

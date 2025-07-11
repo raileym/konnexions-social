@@ -18,14 +18,14 @@ const NavbarBottom: React.FC = () => {
   // const { switchPanel, switchHome } = usePanel()
 
   // useEffect(() =>{
-  //   console.log('lesson', lesson)
+  //   cXnsole.log('lesson', lesson)
   // }, [lesson])
 
   const lesson = useMemo(() => {
     return lessons.find(l => l.number === selectedLessonNumber)
   }, [lessons, selectedLessonNumber])
   
-  console.log('isUserValidated', isUserValidated)
+  // cXonsole.log('isUserValidated', isUserValidated)
   
   return (
     <nav className='fixed bottom-0 bt b--black-30 left-0 w-100 bg-white flex flex-column items-center justify-aroundX ph3 pv2 z-999'>

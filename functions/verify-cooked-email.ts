@@ -24,11 +24,11 @@ export const handler: Handler = async (event) => {
       }
     }
 
-    console.log('verify-cooked-email', JSON.stringify({
-      cookedEmail
-    }, null, 2))
+    // cXnsole.log('verify-cooked-email', JSON.stringify({
+    //   cookedEmail
+    // }, null, 2))
     
-    console.log('ckn_verify_cooked_email:cookedEmail', cookedEmail)
+    // cXonsole.log('ckn_verify_cooked_email:cookedEmail', cookedEmail)
 
     const { data, error } = await supabase.rpc('ckn_verify_cooked_email', {
       arg_cooked_email: cookedEmail,
@@ -42,8 +42,8 @@ export const handler: Handler = async (event) => {
       }
     }
 
-    console.log('data', data)
-    console.log('error', error)
+    // cXonsole.log('data', data)
+    // cXonsole.log('error', error)
 
     const valid = data === true
 

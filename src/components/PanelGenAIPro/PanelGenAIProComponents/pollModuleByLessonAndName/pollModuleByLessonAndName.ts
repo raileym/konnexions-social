@@ -20,7 +20,7 @@ export const pollModuleByLessonAndName = async ({
         body: JSON.stringify({ lessonId, moduleName })
       })
 
-      console.log('pollModuleByLessonAndName', JSON.stringify({lessonId, moduleName}))
+      // cXonsole.log('pollModuleByLessonAndName', JSON.stringify({lessonId, moduleName}))
       
       if (res.ok) {
         const moduleContent = await res.json()

@@ -8,8 +8,8 @@ export async function fetchTTS({
   maxCount,
   setMaxCount,
   cutoff,
-  language,
-  debugLog
+  language //,
+  // debugLog
 }: FetchTTSProps): Promise<FetchTTSResult> {
   if (!text || cutoff || maxCount <= 0) return null
 
@@ -17,7 +17,7 @@ export async function fetchTTS({
 
   const processedText = cleanTextForTTS(text);
 
-  console.log('processed text', processedText)
+  // cXonsole.log('processed text', processedText)
   
   try {
     // cXonsole.log(`Pause before ask generate-tts-cache: ${text}`)
@@ -29,8 +29,9 @@ export async function fetchTTS({
       body: JSON.stringify({ text: processedText, speaker, gender, maxCount, cutoff, language })
     })
     
-    const { audioUrl, cacheStatus } = await res.json()
-    debugLog(`TTS (${cacheStatus}): ${text}`)
+    const { audioUrl } = await res.json()
+    // const { audioUrl, cacheStatus } = await res.json()
+    // debugLog(`TTS (${cacheStatus}): ${text}`)
 
     return audioUrl ?? null
   } catch (err) {

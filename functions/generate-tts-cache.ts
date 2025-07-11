@@ -28,7 +28,7 @@ const handler: Handler = async (event) => {
 
     if (cutoff) {
 
-      console.log('Issue No 1, Cut-off engaged.')
+      // cXonsole.log('Issue No 1, Cut-off engaged.')
 
       return {
         statusCode: 400, 
@@ -40,7 +40,7 @@ const handler: Handler = async (event) => {
 
     if (maxCount <= 0) {
 
-      console.log('Issue No 2, maxCount exceeded.')
+      // cXonsole.log('Issue No 2, maxCount exceeded.')
 
       return {
         statusCode: 401, 
@@ -52,7 +52,7 @@ const handler: Handler = async (event) => {
 
     if (!text) {
 
-      console.log(`Issue No 3 with generate-tts-cache: ${text}, ${gender}, ${language}`)
+      // cXonsole.log(`Issue No 3 with generate-tts-cache: ${text}, ${gender}, ${language}`)
 
       return {
         statusCode: 402, 
@@ -67,13 +67,13 @@ const handler: Handler = async (event) => {
     const normalized = `${voice}:${text.trim().toLowerCase()}`
     const signature = crypto.createHash('sha256').update(normalized).digest('hex')
     
-    console.log('******************************************************')
-    console.log('')
-    console.log('languageCode', languageCode)
-    console.log('getVoiceForSpeaker', speaker, language, gender)
-    console.log('voice', voice)
-    console.log('normalized', normalized)
-    console.log('')
+    // cXonsole.log('******************************************************')
+    // cXonsole.log('')
+    // cXonsole.log('languageCode', languageCode)
+    // cXonsole.log('getVoiceForSpeaker', speaker, language, gender)
+    // cXonsole.log('voice', voice)
+    // cXonsole.log('normalized', normalized)
+    // cXonsole.log('')
 
     // const voiceKey = GENDER[gender as keyof typeof GENDER] // converts "M" → "m"
     // const voice = voiceMap[voiceKey] || voiceMap.m
@@ -106,7 +106,7 @@ const handler: Handler = async (event) => {
 
     if (!lookupError && isCacheMetaHit && isAudioFileHit) {
 
-      console.log(`Cache HIT (${maxCount}): ${text}`)
+      // cXonsole.log(`Cache HIT (${maxCount}): ${text}`)
 
       const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)
       return {
@@ -131,7 +131,7 @@ const handler: Handler = async (event) => {
 
     if (!res.ok) {
       const error = await res.text()
-      console.log(`Issue No 2 with generate-tts-cache: ${error}`)
+      // cXonsole.log(`Issue No 2 with generate-tts-cache: ${error}`)
 
       return { 
         statusCode: res.status, 
@@ -147,7 +147,7 @@ const handler: Handler = async (event) => {
     // 2+. Introduce a short randomized delay to spread load
     // await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
 
-    console.log(`Cache STORE: ${text}`)
+    // cXonsole.log(`Cache STORE: ${text}`)
 
     // 3. Upload MP3 to Supabase
     const { error: uploadError } = await supabase
@@ -159,7 +159,7 @@ const handler: Handler = async (event) => {
       })
 
     if (uploadError) {
-      console.log(`Issue No 3 with generate-tts-cache: ${uploadError.message}`)
+      // cXonsole.log(`Issue No 3 with generate-tts-cache: ${uploadError.message}`)
 
       return {
         statusCode: 500,
@@ -172,25 +172,32 @@ const handler: Handler = async (event) => {
     // 3+. Introduce a short randomized delay to spread load
     // await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
 
-    console.log(`Supabase cache STORE META: ${text}`)
+    // cXonsole.log(`Supabase cache STORE META: ${text}`)
 
     // 4. Insert metadata
-    const { error: insertError } = await supabase.rpc('ckn_insert_tts_cache', {
+    await supabase.rpc('ckn_insert_tts_cache', {
       arg_tts_cache_signature: signature,
       arg_tts_cache_text: normalized,
       arg_tts_cache_voice: voice,
       arg_tts_cache_language: language
     })
 
-    if (insertError) {
-      console.log(`Issue No 5: Insert failed for ${text}: ${insertError.message}`)
-    } else {
-      console.log(`Supabase cache INSERT META success: ${text}`)
-    }
+    // const { error: insertError } = await supabase.rpc('ckn_insert_tts_cache', {
+    //   arg_tts_cache_signature: signature,
+    //   arg_tts_cache_text: normalized,
+    //   arg_tts_cache_voice: voice,
+    //   arg_tts_cache_language: language
+    // })
+
+    // if (insertError) {
+    //   cXnsole.log(`Issue No 5: Insert failed for ${text}: ${insertError.message}`)
+    // } else {
+    //   cXnsole.log(`Supabase cache INSERT META success: ${text}`)
+    // }
 
     // 5. Return MP3 URL
     const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)
-    console.log(`Cache MISS: ${text}`)
+    // cXonsole.log(`Cache MISS: ${text}`)
 
     return {
       statusCode: 200,
@@ -201,7 +208,7 @@ const handler: Handler = async (event) => {
     }
 
   } catch (err) {
-      console.log(`Issue No 4 with generate-tts-cache: ${err instanceof Error ? err.message : 'Unknown error'}`)
+      // cXonsole.log(`Issue No 4 with generate-tts-cache: ${err instanceof Error ? err.message : 'Unknown error'}`)
 
       return {
         statusCode: 500,

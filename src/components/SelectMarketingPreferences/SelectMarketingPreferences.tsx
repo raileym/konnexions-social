@@ -19,9 +19,13 @@ export const SelectMarketingPreferences = () => {
       const res = await getMarketingPreferences({ clientUUID })
 
       if (res.success) {
+        console.log('WINNER')
+        // console.log(res)
         const prefs = res.data ?? defaultMarketingPreferences
         setPreferences(prefs)
+        console.log(prefs)
       } else {
+        console.log('LOSER')
         setError(res.error || 'Failed to load preferences')
         setPreferences(defaultMarketingPreferences)
       }
@@ -67,16 +71,16 @@ export const SelectMarketingPreferences = () => {
     <div className="mv4">
       <div className="b f3 mv3 black">Email preferences</div>
       {Object.entries(MARKETING_PREFERENCE).map(([key, label]) => {
-        const checked = preferences[label]
+        // const checked = preferences[label]
 
         return (
           <label key={key} className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              checked={checked}
-              onChange={() => handleToggle(key as keyof typeof MARKETING_PREFERENCE)}
-              className="form-checkbox h2 mh3 black"
-            />
+          <input
+            type="checkbox"
+            checked={preferences[label] ?? false}
+            onChange={() => handleToggle(key as keyof typeof MARKETING_PREFERENCE)}
+            className="form-checkbox h2 mh3 black"
+          />
             <span className="black">{label}</span>
           </label>
         )

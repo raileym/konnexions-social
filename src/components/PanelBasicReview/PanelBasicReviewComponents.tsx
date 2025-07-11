@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import {
   LANGUAGE_TITLE,
 } from '@cknTypes/constants'
 import { DialogList } from '@components/DialogList/DialogList'
-import { useDebugLogger } from '@hooks/useDebugLogger'
+// import { useDebugLogger } from '@hooks/useDebugLogger'
 
 const PanelBasicReviewComponents: React.FC = () => {
   // const [showDialogDraftPrompt, setShowDialogDraftPrompt] = useState(false)
 
-  const debugLog = useDebugLogger()
+  // const debugLog = useDebugLogger()
 
   const {
     cutoff,
@@ -24,7 +24,7 @@ const PanelBasicReviewComponents: React.FC = () => {
     return lessons.find(l => l.number === selectedLessonNumber)
   }, [lessons, selectedLessonNumber])
   
-  console.log('PanelBasicReviewComponents', lesson)
+  // cXonsole.log('PanelBasicReviewComponents', lesson)
 
   let content
   if (selectedLessonNumber != null && Array.isArray(lessons)) {
@@ -66,10 +66,10 @@ const PanelBasicReviewComponents: React.FC = () => {
     )
   }
 
-  useEffect(() => {
-    debugLog('lesson', lesson)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[lesson])
+  // useEffect(() => {
+  //   // debugLog('lesson', lesson)
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // },[lesson])
 
   return (
     <div className={'panel-right panel-basic-review-components z-1 absolute top-0 left-0 w-100 h-100 flex'}>

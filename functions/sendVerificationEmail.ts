@@ -29,12 +29,12 @@ export const handler: Handler = async (event) => {
     const code = generateCode()
     const expiry = new Date(Date.now() + 15 * 60 * 1000) // 15 minutes from now
 
-    console.log('verifyCode', JSON.stringify({
-      email,
-      arg_cooked_email: cookedEmail,
-      arg_code: code,
-      arg_expires_at: expiry.toISOString(),
-    }, null, 2))
+    // cXnsole.log('verifyCode', JSON.stringify({
+    //   email,
+    //   arg_cooked_email: cookedEmail,
+    //   arg_code: code,
+    //   arg_expires_at: expiry.toISOString(),
+    // }, null, 2))
 
     // Call Supabase to store the code
     const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/ckn_upsert_email_code`, {

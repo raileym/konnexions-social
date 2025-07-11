@@ -26,6 +26,6 @@ export const storePromptResponse = async ({
     return { success: false, error: error.message }
   }
 
-  console.log('✅ storePromptResponse succeeded')
+  // cXonsole.log('✅ storePromptResponse succeeded')
   return { success: true }
 }
