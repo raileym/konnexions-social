@@ -30,6 +30,8 @@ DROP FUNCTION IF EXISTS private.ckn_verify_cooked_email;
 DROP FUNCTION IF EXISTS private.ckn_verify_email_code;
 DROP FUNCTION IF EXISTS private.ckn_upsert_marketing_data;
 DROP FUNCTION IF EXISTS private.ckn_get_marketing_data;
+DROP FUNCTION IF EXISTS private.ckn_upsert_marketing_preferences;
+DROP FUNCTION IF EXISTS private.ckn_get_marketing_preferences;
 
 -- **********************************************************************
 -- DROP FUNCTIONS (PUBLIC SHIMS)
@@ -56,6 +58,8 @@ DROP FUNCTION IF EXISTS public.ckn_verify_cooked_email;
 DROP FUNCTION IF EXISTS public.ckn_verify_email_code;
 DROP FUNCTION IF EXISTS public.ckn_upsert_marketing_data;
 DROP FUNCTION IF EXISTS public.ckn_get_marketing_data;
+DROP FUNCTION IF EXISTS public.ckn_upsert_marketing_preferences;
+DROP FUNCTION IF EXISTS public.ckn_get_marketing_preferences;
 
 -- **********************************************************************
 -- DROP VIEWS

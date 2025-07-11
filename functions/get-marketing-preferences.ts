@@ -20,7 +20,7 @@ export const handler: Handler = async (event) => {
     }
   }
 
-  const { data, error } = await supabase.rpc('ckn_get_marketing_data', {
+  const { data, error } = await supabase.rpc('ckn_get_marketing_preferences', {
     arg_client_uuid: clientUUID
   })
 
@@ -31,11 +31,10 @@ export const handler: Handler = async (event) => {
     }
   }
 
-  // Optionally simplify response structure
-  const content = data?.[0]?.marketing_data_preferences ?? {}
+  const preferences = data?.[0]?.marketing_data_preferences ?? {}
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ data: content })
+    body: JSON.stringify({ data: preferences })
   }
 }

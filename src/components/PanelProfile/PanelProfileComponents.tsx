@@ -1,4 +1,5 @@
 import { USER_EMAIL_NOT_VALIDATED, USER_EMAIL_VALIDATED } from '@cknTypes/constants'
+import { SelectMarketingPreferences } from '@components/SelectMarketingPreferences/SelectMarketingPreferences'
 import { useAppContext } from '@context/AppContext/AppContext'
 import React, { useEffect, useState } from 'react'
 
@@ -187,6 +188,9 @@ const PanelRequestEmailComponents = () => {
         {/* {success && <div className="mt3 white f5 tc">Success!</div>} */}
         {!error && <div className="baX mt3 white f5 tc"><br /></div>}
       </form>
+
+      <SelectMarketingPreferences />
+
       <button
         type="button"
         onClick={clearLocalStorageExceptEssential}

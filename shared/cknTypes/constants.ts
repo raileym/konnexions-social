@@ -204,3 +204,10 @@ export const PROFILE_PANEL_TRANSLATE_X = 'translate-x-60'
 export const USER_EMAIL_VALIDATED = 'User email confirmed'
 export const USER_EMAIL_NOT_VALIDATED = 'User email not confirmed'
 
+export const MARKETING_PREFERENCE = {
+  EMAIL_NEWSLETTER: 'Email Newsletter',
+  EMAIL_UPDATES: 'Email Updates',
+  EMAIL_ANNOUNCEMENTS: 'Email Announcements',
+  EMAIL_RELATED_STORES: 'Email Related Stories'
+} as const
+

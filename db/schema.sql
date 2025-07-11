@@ -670,6 +670,110 @@ END;
 $$;
 
 -- ************************************************************************
+-- FUNCTION: private.ckn_upsert_marketing_preferences
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_upsert_marketing_preferences(
+  arg_client_uuid TEXT,
+  arg_preferences JSONB
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RAISE LOG '→ FUNC: private.ckn_upsert_marketing_preferences | uuid=%, preferences=%',
+    arg_client_uuid, arg_preferences;
+
+  BEGIN
+    INSERT INTO private.ckn_marketing_data (
+      marketing_data_client_uuid,
+      marketing_data_preferences
+    )
+    VALUES (
+      arg_client_uuid,
+      arg_preferences
+    )
+    ON CONFLICT (marketing_data_client_uuid) DO UPDATE
+    SET
+      marketing_data_preferences = EXCLUDED.marketing_data_preferences,
+      marketing_data_version = private.ckn_marketing_data.marketing_data_version + 1,
+      marketing_data_updated_at = NOW();
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      RAISE LOG '‼️ ERROR in private.ckn_upsert_marketing_preferences: %', SQLERRM;
+      RAISE EXCEPTION 'private.ckn_upsert_marketing_preferences failed';
+  END;
+END;
+$$;
+
+-- ************************************************************************
+-- SHIM FUNCTION: public.ckn_upsert_marketing_preferences
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_upsert_marketing_preferences(
+  arg_client_uuid TEXT,
+  arg_preferences JSONB
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RAISE LOG '→ SHIM: public.ckn_upsert_marketing_preferences | uuid=%, preferences=%',
+    arg_client_uuid, arg_preferences;
+
+  BEGIN
+    PERFORM private.ckn_upsert_marketing_preferences(arg_client_uuid, arg_preferences);
+  EXCEPTION
+    WHEN OTHERS THEN
+      RAISE LOG '‼️ ERROR in public.ckn_upsert_marketing_preferences: %', SQLERRM;
+      RAISE EXCEPTION 'public.ckn_upsert_marketing_preferences failed';
+  END;
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_get_marketing_preferences
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_get_marketing_preferences(
+  arg_client_uuid TEXT
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  prefs JSONB;
+BEGIN
+  SELECT m.marketing_data_preferences
+  INTO prefs
+  FROM private.ckn_marketing_data m
+  WHERE m.marketing_data_client_uuid = arg_client_uuid;
+
+  RETURN COALESCE(prefs, '{}'::JSONB);
+END;
+$$;
+
+-- ************************************************************************
+-- SHIM FUNCTION: public.ckn_get_marketing_preferences
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_get_marketing_preferences(
+  arg_client_uuid TEXT
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN private.ckn_get_marketing_preferences(arg_client_uuid);
+END;
+$$;
+
+-- ************************************************************************
 -- FUNCTION: private.ckn_insert_prompt_response
 -- ************************************************************************
 

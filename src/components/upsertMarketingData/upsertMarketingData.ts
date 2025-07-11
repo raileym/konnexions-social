@@ -1,14 +1,17 @@
-import type { MarketingData } from '@cknTypes/types';
+import type { UpsertMarketingDataProps } from '@cknTypes/types';
 
-export const upsertMarketingData = async (
-  clientUUID: string,
-  marketData: MarketingData
-): Promise<{ success: boolean; error?: string }> => {
+export const upsertMarketingData = async ({
+  clientUUID,
+  marketingData
+}: UpsertMarketingDataProps): Promise<{ success: boolean; error?: string }> => {
   try {
     const res = await fetch('/.netlify/functions/upsert-marketing-data', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clientUUID, marketData })
+      body: JSON.stringify({
+        clientUUID,
+        marketingData
+      })
     })
 
     if (!res.ok) {

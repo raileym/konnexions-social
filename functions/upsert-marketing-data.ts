@@ -11,11 +11,11 @@ export const handler: Handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' }
   }
 
-  const { clientUUID, marketData } = JSON.parse(event.body || '{}')
+  const { clientUUID, marketingData } = JSON.parse(event.body || '{}')
 
   const { error } = await supabase.rpc('ckn_upsert_marketing_data', {
     arg_client_uuid: clientUUID,
-    arg_market_data: marketData
+    arg_market_data: marketingData
   })
 
   if (error) {

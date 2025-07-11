@@ -16,7 +16,8 @@ import {
   CURATED,
   PIPELINE_TYPE,
   LESSON_PROMPT_STYLE,
-  GEN_AI_PROVIDER
+  GEN_AI_PROVIDER,
+  MARKETING_PREFERENCE
 } from './constants.js'
 
 export type UserData = {
@@ -1175,20 +1176,45 @@ export type UpsertUserDataProps = {
   lessonTimestamp: LessonTimestamp
 }
 
-export type MarketingContent = Record<string, string>
 export type Version = number
 export type UpdatedAt = string
 export type CreatedAt = string
 
-export type MarketingData = {
-  clientUUID: ClientUUID
-  content: MarketingContent,
-  version: Version,
-  updatedAt: UpdatedAt,
-  createdAt: CreatedAt
+
+export type MarketingPreferencesKey = keyof typeof MARKETING_PREFERENCE
+export type MarketingPreferencesValue = (typeof MARKETING_PREFERENCE)[MarketingPreferencesKey]
+export type MarketingPreference = MarketingPreferencesValue
+export type MarketingPreferences = Record<MarketingPreference, boolean>
+
+export const defaultMarketingPreferences: MarketingPreferences = {
+  [MARKETING_PREFERENCE.EMAIL_ANNOUNCEMENTS]: true,
+  [MARKETING_PREFERENCE.EMAIL_UPDATES]: true,
+  [MARKETING_PREFERENCE.EMAIL_NEWSLETTER]: true,
+  [MARKETING_PREFERENCE.EMAIL_RELATED_STORES]: true
 }
 
-export type UpsertMarketingProps = {
-  clientUUID: string,
-  marketData: MarketingData
+export type MarketingData = {
+  clientUUID: ClientUUID
+  preferences: MarketingPreferences,
+  version?: Version,
+  updatedAt?: UpdatedAt,
+  createdAt?: CreatedAt
+}
+
+export type UpsertMarketingDataProps = {
+  clientUUID: ClientUUID,
+  marketingData: MarketingData
+}
+
+export type GetMarketingDataProps = {
+  clientUUID: ClientUUID
+}
+
+export type GetMarketingPreferencesProps = {
+  clientUUID: ClientUUID
+}
+
+export type UpsertMarketingPreferencesProps = {
+  clientUUID: ClientUUID
+  marketingPreferences: MarketingPreferences
 }
