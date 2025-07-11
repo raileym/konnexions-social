@@ -1165,3 +1165,12 @@ export type FetchClaudeProps = GenAIProps
 export type FetchOpenAIResponse = string
 export type FetchClaudeResponse = string
 
+export type UpsertUserDataProps = {
+  clientUUID: ClientUUID
+  flexLesson: FlexLesson
+  currentLesson: Lesson // or a stricter type
+  lessons: Lessons       // or a stricter type
+  lessonNumber: LessonNumber
+  lessonPrompt: Prompt
+  lessonTimestamp: LessonTimestamp
+}

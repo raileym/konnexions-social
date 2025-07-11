@@ -6,6 +6,7 @@ import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesF
 import { defaultLesson, type CreateFlexLessonProps, type CreateLessonResult } from '@cknTypes/types'
 import { useDebugLogger } from '@hooks/useDebugLogger'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails'
+import { upsertUserData } from '@components/upsertUserData/upsertUserData'
 // import type { faFalse } from '@fortawesome/free-solid-svg-icons'
 
 export const useLessonHandlers = () => {
@@ -27,7 +28,9 @@ export const useLessonHandlers = () => {
     useMyself,
     customParticipantList,
     lessonName,
-    clientUUID
+    clientUUID,
+    lessons,
+    flexLesson
   } = useAppContext()
 
   const createFullLesson = async () => {
@@ -270,7 +273,22 @@ export const useLessonHandlers = () => {
 
     setLessonComplete(true)
     setLesson(updatedTranslationLesson)
-    
+
+    const resultUpsertUserData = await upsertUserData({
+      clientUUID,
+      flexLesson,
+      currentLesson: updatedTranslationLesson,
+      lessons,
+      lessonNumber: selectedLessonNumber,
+      lessonPrompt,
+      lessonTimestamp: new Date().toISOString()
+    })
+
+    if (!resultUpsertUserData.success) {
+      console.error('Failed to upsert user data:', resultUpsertUserData.error)
+    } else {
+      console.log('✅ User data saved')
+    }    
   }
 
   return {

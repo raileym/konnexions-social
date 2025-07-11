@@ -15,21 +15,21 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const { cookedEmail } = JSON.parse(event.body || '{}')
+    const { clientUUID } = JSON.parse(event.body || '{}')
 
-    if (!cookedEmail || typeof cookedEmail !== 'string' || !cookedEmail.trim()) {
+    if (!clientUUID || typeof clientUUID !== 'string' || !clientUUID.trim()) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: 'Missing or invalid cookedEmail' }),
+        body: JSON.stringify({ error: 'Missing or invalid clientUUID' }),
       }
     }
 
-    const { data, error } = await supabase.rpc('ckn_get_email_user_data', {
-      arg_cooked_email: cookedEmail,
+    const { data, error } = await supabase.rpc('ckn_get_user_data', {
+      arg_client_uuid: clientUUID,
     })
 
     if (error) {
-      console.error('[get-user-email-data] Supabase RPC error:', error)
+      console.error('[get-user-data] Supabase RPC error:', error)
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Supabase error', details: error.message }),

@@ -52,6 +52,8 @@ const App: React.FC = () => {
     setIsUserValidated,
     setUserData,
     cookedEmail,
+    clientUUID,
+    setClientUUID,
     isUserValidated
   } = useAppContext()
 
@@ -87,9 +89,10 @@ const App: React.FC = () => {
         if (valid) {
           console.log('YES check')
           setCookedEmail(cookedEmail)
+          setClientUUID(cookedEmail)
           setIsUserValidated(true)
 
-          // const dataRes = await fetch('/.netlify/functions/get-email-user-data', {
+          // const dataRes = await fetch('/.netlify/functions/get-user-data', {
           //   method: 'POST',
           //   headers: { 'Content-Type': 'application/json' },
           //   body: JSON.stringify({ cookedEmail: cookedEmail }),
@@ -112,24 +115,26 @@ const App: React.FC = () => {
   }, [setCookedEmail, setIsUserValidated, setUserData])
 
   useEffect(() => {
-    if (!isUserValidated || !cookedEmail) return
+    if (!isUserValidated || !clientUUID) return
 
     if (hasLoadedUserData.current) return
     hasLoadedUserData.current = true
 
     const fetchUserData = async () => {
-      const res = await fetch('/.netlify/functions/get-email-user-data', {
+      const res = await fetch('/.netlify/functions/get-user-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cookedEmail }),
+        body: JSON.stringify({ clientUUID }),
       })
 
       const data = await res.json()
       setUserData(data)
+      console.log('userData', data)
     }
 
     fetchUserData()
-  }, [isUserValidated, cookedEmail, setUserData])
+
+  }, [isUserValidated, clientUUID, setUserData])
 
   return (
     <Router>

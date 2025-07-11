@@ -78,28 +78,6 @@ const PanelRequestEmailComponents = () => {
       setCookedEmail(localCookedEmail)
       setClientUUID(localCookedEmail)
       setIsUserValidated(true)
-
-      // const dataRes = await fetch('/.netlify/functions/get-email-user-data', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ cookedEmail: localCookedEmail }),
-      // })
-
-      // if (!dataRes.ok) {
-      //   const errData = await response.json().catch(() => null)
-      //   const message = errData?.error || 'Verification failed'
-      //   console.log('get-email-user-data ERROR:', message)
-      //   throw new Error(message)
-      // } else {
-      //   const userData = await dataRes.json()
-      //   setUserData(userData)
-      // }
-
-      // Optional: delay before redirect
-      // setTimeout(() => {
-      //   setActivePanel(APP_PANEL.BASIC)
-      // }, 1500)
-
     } catch (err) {
       setIsUserValidated(false)
       setError((err as Error).message)
