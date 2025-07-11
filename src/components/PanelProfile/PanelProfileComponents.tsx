@@ -192,6 +192,7 @@ const PanelRequestEmailComponents = () => {
 
       <SelectMarketingPreferences />
 
+      {/*
       <button
         type="button"
         onClick={clearLocalStorageExceptEssential}
@@ -199,6 +200,7 @@ const PanelRequestEmailComponents = () => {
       >
         Clear Local Storage<br/>(except debugMode + cookedEmail)
       </button>
+      */}
 
     </div>
   )
