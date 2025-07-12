@@ -1,12 +1,9 @@
 import { GENDER } from '../shared/cknTypes/constants.js'
 import { type Handler } from '@netlify/functions'
 import { getVoiceForSpeaker } from '../shared/getVoiceForSpeaker.js'
+import { getPaywall } from '../shared/supabase/paywall.js'
 import { createClient } from '@supabase/supabase-js'
 import crypto from 'crypto'
-
-type GoogleTTSResponse = {
-  audioContent: string
-}
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -24,41 +21,35 @@ const bucketName = 'tts-cache'
 
 const handler: Handler = async (event) => {
   try {
-    const { text, speaker, gender = GENDER.M, language = 'es', maxCount = 1, cutoff = false } = JSON.parse(event.body || '{}')
+    const { text, speaker, gender = GENDER.M, language = 'es', clientUUID, cutoff = false } = JSON.parse(event.body || '{}')
 
     if (cutoff) {
-
-      // cXonsole.log('Issue No 1, Cut-off engaged.')
-
       return {
         statusCode: 400, 
-        body: JSON.stringify({ 
-          error: 'Cut-off engaged.'
-        })
-      }
-    }
-
-    if (maxCount <= 0) {
-
-      // cXonsole.log('Issue No 2, maxCount exceeded.')
-
-      return {
-        statusCode: 401, 
-        body: JSON.stringify({ 
-          error: 'maxCount exceeded'
-        })
+        body: JSON.stringify({ error: 'Cut-off engaged.' })
       }
     }
 
     if (!text) {
-
-      // cXonsole.log(`Issue No 3 with generate-tts-cache: ${text}, ${gender}, ${language}`)
-
       return {
         statusCode: 402, 
-        body: JSON.stringify({ 
-          error: 'Missing text'
-        })
+        body: JSON.stringify({ error: 'Missing text' })
+      }
+    }
+
+    if (!clientUUID) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Missing clientUUID' })
+      }
+    }
+
+    const { success, data: paywall, error: paywallError } = await getPaywall(clientUUID)
+
+    if (!success || !paywall) {
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ error: paywallError || 'Unable to retrieve paywall data' })
       }
     }
 
@@ -66,17 +57,6 @@ const handler: Handler = async (event) => {
     const voice = getVoiceForSpeaker({speaker, language, gender})
     const normalized = `${voice}:${text.trim().toLowerCase()}`
     const signature = crypto.createHash('sha256').update(normalized).digest('hex')
-    
-    // cXonsole.log('******************************************************')
-    // cXonsole.log('')
-    // cXonsole.log('languageCode', languageCode)
-    // cXonsole.log('getVoiceForSpeaker', speaker, language, gender)
-    // cXonsole.log('voice', voice)
-    // cXonsole.log('normalized', normalized)
-    // cXonsole.log('')
-
-    // const voiceKey = GENDER[gender as keyof typeof GENDER] // converts "M" → "m"
-    // const voice = voiceMap[voiceKey] || voiceMap.m
     const filePath = `${signature}.mp3`
 
     const { data: cachedData, error: lookupError } = await supabase
@@ -90,35 +70,25 @@ const handler: Handler = async (event) => {
     const isCacheMetaHit = (cachedData?.length ?? 0) > 0
     const isAudioFileHit = (existingFile?.length ?? 0) > 0
 
-    if (!lookupError) {
-      if (!isCacheMetaHit) {
-        console.warn(`🔍 No metadata row found in ckn_tts_cache for: ${text} (${signature})`)
-      }
-    } else {
-      console.error('🧨 Supabase RPC error from ckn_lookup_tts_cache:', lookupError)
-    }
-
-    if (fileError) {
-      console.error('🧨 Supabase Storage error:', fileError)
-    } else if (!isAudioFileHit) {
-      console.warn(`🔍 No audio file found in bucket for: ${filePath}`)
-    }
-
     if (!lookupError && isCacheMetaHit && isAudioFileHit) {
-
-      // cXonsole.log(`Cache HIT (${maxCount}): ${text}`)
-
       const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)
       return {
         statusCode: 200,
         body: JSON.stringify({ 
           audioUrl: data?.publicUrl,
-          cacheStatus: 'hit'
+          cacheStatus: 'hit',
+          decremented: false
         })
       }
     }
 
-    // 2. Call Google TTS
+    if (paywall.paywall_package_yellow_remaining <= 0) {
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ error: 'No yellow package credits remaining' })
+      }
+    }
+
     const res = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${process.env.GOOGLE_API_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -131,25 +101,15 @@ const handler: Handler = async (event) => {
 
     if (!res.ok) {
       const error = await res.text()
-      // cXonsole.log(`Issue No 2 with generate-tts-cache: ${error}`)
-
       return { 
         statusCode: res.status, 
-        body: JSON.stringify({
-          error: `TTS API error: ${error}`
-        })
+        body: JSON.stringify({ error: `TTS API error: ${error}` })
       }
     }
 
-    const { audioContent } = await res.json() as GoogleTTSResponse
+    const { audioContent } = await res.json() as { audioContent: string }
     const audioBuffer = Buffer.from(audioContent, 'base64')
 
-    // 2+. Introduce a short randomized delay to spread load
-    // await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
-
-    // cXonsole.log(`Cache STORE: ${text}`)
-
-    // 3. Upload MP3 to Supabase
     const { error: uploadError } = await supabase
       .storage
       .from(bucketName)
@@ -159,22 +119,12 @@ const handler: Handler = async (event) => {
       })
 
     if (uploadError) {
-      // cXonsole.log(`Issue No 3 with generate-tts-cache: ${uploadError.message}`)
-
       return {
         statusCode: 500,
-        body: JSON.stringify({
-          error: `Storage error: ${uploadError.message}`
-        })
+        body: JSON.stringify({ error: `Storage error: ${uploadError.message}` })
       }
     }
 
-    // 3+. Introduce a short randomized delay to spread load
-    // await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200)) // 200–400ms jitter
-
-    // cXonsole.log(`Supabase cache STORE META: ${text}`)
-
-    // 4. Insert metadata
     await supabase.rpc('ckn_insert_tts_cache', {
       arg_tts_cache_signature: signature,
       arg_tts_cache_text: normalized,
@@ -182,40 +132,30 @@ const handler: Handler = async (event) => {
       arg_tts_cache_language: language
     })
 
-    // const { error: insertError } = await supabase.rpc('ckn_insert_tts_cache', {
-    //   arg_tts_cache_signature: signature,
-    //   arg_tts_cache_text: normalized,
-    //   arg_tts_cache_voice: voice,
-    //   arg_tts_cache_language: language
-    // })
+    await supabase.rpc('ckn_bump_paywall_package_counts', {
+      arg_client_uuid: clientUUID,
+      arg_bump_green_count: 0,
+      arg_bump_yellow_count: -1
+    })
 
-    // if (insertError) {
-    //   cXnsole.log(`Issue No 5: Insert failed for ${text}: ${insertError.message}`)
-    // } else {
-    //   cXnsole.log(`Supabase cache INSERT META success: ${text}`)
-    // }
-
-    // 5. Return MP3 URL
     const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)
-    // cXonsole.log(`Cache MISS: ${text}`)
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         audioUrl: data?.publicUrl,
-        cacheStatus: 'miss'
+        cacheStatus: 'miss',
+        decremented: true
       })
     }
 
   } catch (err) {
-      // cXonsole.log(`Issue No 4 with generate-tts-cache: ${err instanceof Error ? err.message : 'Unknown error'}`)
-
-      return {
-        statusCode: 500,
-        body: JSON.stringify({
-          error: `TTS Server error: ${err instanceof Error ? err.message : 'Unknown error'}`
-        })
-      }
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        error: `TTS Server error: ${err instanceof Error ? err.message : 'Unknown error'}`
+      })
+    }
   }
 }
 

@@ -1238,15 +1238,6 @@ export type StripeMetadata = {
   [key: string]: string | number | boolean | PaywallTier | PaywallPackage[] | undefined
 }
 
-export type GetPaywallProps = {
-  clientUUID: ClientUUID
-}
-
-export type UpsertPaywallProps = {
-  clientUUID: ClientUUID
-  patch: Partial<PaywallUpsertFields>
-}
-
 // Upsertable fields (excluding audit and identity columns)
 export type PaywallUpsertFields = {
   paywall_package_green_remaining: number
@@ -1269,12 +1260,6 @@ export type Paywall = {
   paywall_created_at: CreatedAt
 }
 
-export type BumpPaywallPackageCountsProps = {
-  clientUUID: ClientUUID
-  bumpGreenCount?: number
-  bumpYellowCount?: number
-}
-
 export const defaultPaywall: Paywall = {
   paywall_client_uuid: defaultClientUUID,
   paywall_package_green_remaining: 0,
@@ -1286,3 +1271,36 @@ export const defaultPaywall: Paywall = {
   paywall_updated_at: new Date().toISOString(),
   paywall_created_at: new Date().toISOString()
 }
+
+export type GetPaywallProps = {
+  clientUUID: ClientUUID
+}
+
+export type UpsertPaywallProps = {
+  clientUUID: ClientUUID
+  patch: Partial<PaywallUpsertFields>
+}
+
+export type BumpPaywallPackageCountsProps = {
+  clientUUID: ClientUUID
+  bumpGreenCount: number
+  bumpYellowCount: number
+}
+
+export type SetPaywallPackageCountsProps = {
+  clientUUID: ClientUUID
+  greenCount: number
+  yellowCount: number
+}
+
+export type BumpPackagesProps = {
+  bumpGreenCount: number
+  bumpYellowCount: number
+}  
+
+export type SetPackagesProps = {
+  greenCount: number
+  yellowCount: number
+}
+
+

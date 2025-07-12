@@ -27,6 +27,7 @@ DROP FUNCTION IF EXISTS private.ckn_insert_verb_example;
 DROP FUNCTION IF EXISTS private.ckn_lookup_noun_example;
 DROP FUNCTION IF EXISTS private.ckn_lookup_tts_cache;
 DROP FUNCTION IF EXISTS private.ckn_lookup_verb_example;
+DROP FUNCTION IF EXISTS private.ckn_set_paywall_package_counts;
 DROP FUNCTION IF EXISTS private.ckn_upsert_email_code;
 DROP FUNCTION IF EXISTS private.ckn_upsert_marketing_data;
 DROP FUNCTION IF EXISTS private.ckn_upsert_marketing_preferences;
@@ -40,7 +41,7 @@ DROP FUNCTION IF EXISTS private.ckn_verify_email_code;
 -- DROP FUNCTIONS (PUBLIC SHIMS)
 -- **********************************************************************
 
-DROP FUNCTION IF EXISTS PUBLIC.ckn_lookup_noun_example;
+DROP FUNCTION IF EXISTS public.ckn_lookup_noun_example;
 DROP FUNCTION IF EXISTS public.ckn_bump_paywall_package_counts;
 DROP FUNCTION IF EXISTS public.ckn_get_marketing_data;
 DROP FUNCTION IF EXISTS public.ckn_get_marketing_preferences;
@@ -58,6 +59,7 @@ DROP FUNCTION IF EXISTS public.ckn_insert_verb;
 DROP FUNCTION IF EXISTS public.ckn_insert_verb_example;
 DROP FUNCTION IF EXISTS public.ckn_lookup_tts_cache;
 DROP FUNCTION IF EXISTS public.ckn_lookup_verb_example;
+DROP FUNCTION IF EXISTS public.ckn_set_paywall_package_counts;
 DROP FUNCTION IF EXISTS public.ckn_upsert_email_code;
 DROP FUNCTION IF EXISTS public.ckn_upsert_marketing_data;
 DROP FUNCTION IF EXISTS public.ckn_upsert_marketing_preferences;

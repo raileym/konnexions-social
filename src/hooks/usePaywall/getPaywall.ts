@@ -16,7 +16,7 @@ export const getPaywall = async (
       return { success: false, error: json?.error ?? 'Unexpected error' }
     }
 
-    return { success: true, data: json.data }
+    return { success: true, data: json.data as Paywall}
   } catch (err) {
     return { success: false, error: err instanceof Error ? err.message : String(err) }
   }

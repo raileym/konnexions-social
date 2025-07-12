@@ -1,6 +1,6 @@
 // netlify/functions/get-paywall.ts
 import { type Handler } from '@netlify/functions'
-import { getPaywallForClient } from '@shared/paywall.js'
+import { getPaywall } from '@shared/paywall.js'
 
 export const handler: Handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -12,7 +12,7 @@ export const handler: Handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: 'Missing clientUUID' }) }
   }
 
-  const { success, data, error } = await getPaywallForClient(clientUUID)
+  const { success, data, error } = await getPaywall(clientUUID)
 
   return {
     statusCode: success ? 200 : 500,

@@ -1,6 +1,6 @@
 import { type Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
-import type { Paywall } from '@cknTypes/types.js'
+import type { Paywall } from '../shared/cknTypes/types.js'
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -17,7 +17,7 @@ export const handler: Handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body || '{}')
-    const { clientUUID, bumpGreenCount = 0, bumpYellowCount = 0 } = body
+    const { clientUUID, greenCount = 0, yellowCount = 0 } = body
 
     if (!clientUUID) {
       return {
@@ -26,23 +26,23 @@ export const handler: Handler = async (event) => {
       }
     }
 
-    const { data, error } = await supabase.rpc('ckn_bump_paywall_package_counts', {
+    const { data, error } = await supabase.rpc('ckn_set_paywall_package_counts', {
       arg_client_uuid: clientUUID,
-      arg_bump_green_count: bumpGreenCount,
-      arg_bump_yellow_count: bumpYellowCount,
+      arg_set_green_count: greenCount,
+      arg_set_yellow_count: yellowCount,
     })
 
-    console.log('server-side', data, error)
-    
+    console.log('server-side set result', data, error)
+
     if (error) {
-      console.error('❌ Supabase RPC error:', error.message)
+      console.error('❌ Supabase RPC error (set):', error.message)
       return {
         statusCode: 500,
         body: JSON.stringify({ error: error.message }),
       }
     }
 
-    const paywall: Paywall | undefined = data?.[0] // because Supabase RPC returns an array of rows
+    const paywall: Paywall | undefined = data?.[0]
 
     return {
       statusCode: 200,

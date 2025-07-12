@@ -569,10 +569,77 @@ CREATE INDEX idx_ckn_tts_cache_signature ON private.ckn_tts_cache (tts_cache_sig
 CREATE INDEX idx_ckn_tts_cache_last_used ON private.ckn_tts_cache (tts_cache_last_used);
 
 -- ************************************************************************
+-- FUNCTION: private.ckn_set_paywall_package_counts
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_set_paywall_package_counts(
+  arg_client_uuid TEXT,
+  arg_set_green_count INT,
+  arg_set_yellow_count INT
+)
+RETURNS TABLE (
+  paywall_client_uuid TEXT,
+  paywall_package_green_remaining INT,
+  paywall_package_yellow_remaining INT,
+  paywall_stripe_customer_id TEXT,
+  paywall_stripe_subscription_id TEXT,
+  paywall_stripe_metadata JSONB,
+  paywall_version INT,
+  paywall_updated_at TIMESTAMPTZ,
+  paywall_created_at TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = private, public
+AS $$
+BEGIN
+  UPDATE ckn_paywall AS p
+  SET
+    paywall_package_green_remaining = arg_set_green_count,
+    paywall_package_yellow_remaining = arg_set_yellow_count,
+    paywall_updated_at = NOW()
+  WHERE p.paywall_client_uuid = arg_client_uuid;
+
+  RETURN QUERY
+  SELECT * FROM private.ckn_get_paywall(arg_client_uuid);
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: public.ckn_set_paywall_package_counts
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_set_paywall_package_counts(
+  arg_client_uuid TEXT,
+  arg_set_green_count INT,
+  arg_set_yellow_count INT
+)
+RETURNS TABLE (
+  paywall_client_uuid TEXT,
+  paywall_package_green_remaining INT,
+  paywall_package_yellow_remaining INT,
+  paywall_stripe_customer_id TEXT,
+  paywall_stripe_subscription_id TEXT,
+  paywall_stripe_metadata JSONB,
+  paywall_version INT,
+  paywall_updated_at TIMESTAMPTZ,
+  paywall_created_at TIMESTAMPTZ
+)
+LANGUAGE sql
+SECURITY DEFINER
+AS $$
+  SELECT * FROM private.ckn_set_paywall_package_counts(
+    arg_client_uuid,
+    arg_set_green_count,
+    arg_set_yellow_count
+  );
+$$;
+
+-- ************************************************************************
 -- FUNCTION: private.ckn_bump_paywall_package_counts
 -- ************************************************************************
 
-CREATE OR REPLACE FUNCTION private.ckn_bump_paywall_package_counts(
+CREATE FUNCTION private.ckn_bump_paywall_package_counts(
   arg_client_uuid TEXT,
   arg_bump_green_count INT,
   arg_bump_yellow_count INT
@@ -641,7 +708,7 @@ $$;
 -- FUNCTION: private.ckn_get_paywall
 -- ************************************************************************
 
-CREATE OR REPLACE FUNCTION private.ckn_get_paywall(
+CREATE FUNCTION private.ckn_get_paywall(
   arg_client_uuid TEXT
 )
 RETURNS TABLE (
@@ -680,7 +747,7 @@ $$;
 -- FUNCTION: public.ckn_get_paywall
 -- ************************************************************************
 
-CREATE OR REPLACE FUNCTION public.ckn_get_paywall(
+CREATE FUNCTION public.ckn_get_paywall(
   arg_client_uuid TEXT
 )
 RETURNS TABLE (
@@ -2149,6 +2216,7 @@ GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA private TO service_role;
 ALTER DEFAULT PRIVILEGES IN SCHEMA private
 GRANT EXECUTE ON FUNCTIONS TO service_role;
 
+
 GRANT EXECUTE ON FUNCTION private.ckn_bump_paywall_package_counts(TEXT, INT, INT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_get_marketing_data(TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_get_marketing_preferences(TEXT) TO service_role;
@@ -2167,6 +2235,7 @@ GRANT EXECUTE ON FUNCTION private.ckn_insert_verb_example(INTEGER, JSONB) TO ser
 GRANT EXECUTE ON FUNCTION private.ckn_lookup_noun_example(INTEGER) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_lookup_tts_cache(TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_lookup_verb_example(INTEGER) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_set_paywall_package_counts(TEXT, INT, INT) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_email_code(TEXT, TEXT, TIMESTAMPTZ) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_email_code(TEXT, TEXT, TIMESTAMPTZ) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_marketing_data(TEXT, JSONB) to service_role;

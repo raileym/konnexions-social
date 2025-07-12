@@ -29,9 +29,16 @@ export async function fetchTTS({
       body: JSON.stringify({ text: processedText, speaker, gender, maxCount, cutoff, language })
     })
     
-    const { audioUrl } = await res.json()
+    // const { audioUrl } = await res.json()
     // const { audioUrl, cacheStatus } = await res.json()
     // debugLog(`TTS (${cacheStatus}): ${text}`)
+
+    const { audioUrl, decremented } = await res.json()
+
+    if (decremented) {
+      refreshPaywall() // your client-side re-check function
+    }
+
 
     return audioUrl ?? null
   } catch (err) {

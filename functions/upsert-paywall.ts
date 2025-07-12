@@ -1,6 +1,6 @@
 // netlify/functions/upsert-paywall.ts
 import { type Handler } from '@netlify/functions'
-import { upsertPaywallForClient } from '@shared/paywall.js'
+import { upsertPaywall } from '@shared/paywall.js'
 
 export const handler: Handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -16,7 +16,11 @@ export const handler: Handler = async (event) => {
     }
   }
 
-  const { success, error } = await upsertPaywallForClient(clientUUID, patch)
+  const { success, error } = await upsertPaywall(clientUUID, patch)
+
+  console.log('clientUUID', clientUUID)
+  console.log('patch', patch)
+  console.log('error', error)
 
   return {
     statusCode: success ? 200 : 500,

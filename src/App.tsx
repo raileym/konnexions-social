@@ -20,7 +20,7 @@ import PanelProfile from '@components/PanelProfile/PanelProfile'
 import ModalGlobal from '@components/ModalGlobal/ModalGlobal'
 import { getUserData } from '@components/getUserData/getUserData'
 import { Navigate } from 'react-router-dom'
-import { getPaywall } from '@components/getPaywall/getPaywall'
+import { usePaywall } from '@hooks/usePaywall/usePaywall'
 
 const AppMain = () => {
   const { mdxPagesMap } = useAppContext()
@@ -67,6 +67,7 @@ const AppMain = () => {
 
 const App: React.FC = () => {
   const hasLoadedUserData = useRef(false)
+  const { refreshPaywall } = usePaywall()
 
   const {
     setOpenAiUsage,
@@ -153,16 +154,11 @@ const App: React.FC = () => {
 
       setUserData(data)
 
-      const paywallRes = await getPaywall({ clientUUID })
-      if (paywallRes.success && paywallRes.data) {
-        setPaywall(paywallRes.data)
-      } else {
-        console.error('❌ Failed to fetch paywall:', paywallRes.error)
-      }
+      await refreshPaywall()
     }
 
     fetchUserDataAndPaywall()
-  }, [isUserValidated, clientUUID, setUserData, setPaywall])
+  }, [isUserValidated, clientUUID, setUserData, setPaywall, refreshPaywall])
 
 
   return (

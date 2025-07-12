@@ -7,7 +7,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-export const getPaywallForClient = async (
+export const getPaywall = async (
   clientUUID: string
 ): Promise<{ success: boolean; data?: Paywall; error?: string }> => {
   const { data, error } = await supabase.rpc('ckn_get_paywall', {
@@ -22,7 +22,7 @@ export const getPaywallForClient = async (
   return { success: true, data: paywall }
 }
 
-export const upsertPaywallForClient = async (
+export const upsertPaywall = async (
   clientUUID: string,
   patch: Partial<Paywall>
 ): Promise<{ success: boolean; error?: string }> => {
