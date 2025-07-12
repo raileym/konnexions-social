@@ -1,17 +1,18 @@
 import type { UpsertPaywallProps } from '@cknTypes/types'
 
 export const upsertPaywall = async (
-  { clientUUID, paywallContent }: UpsertPaywallProps
+  { clientUUID, patch }: UpsertPaywallProps
 ): Promise<{ success: boolean; error?: string }> => {
   try {
     const res = await fetch('/.netlify/functions/upsert-paywall', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clientUUID, paywallContent })
+      body: JSON.stringify({ clientUUID, patch })
     })
 
+    const json = await res.json()
+
     if (!res.ok) {
-      const json = await res.json()
       return { success: false, error: json?.error ?? 'Unexpected error' }
     }
 

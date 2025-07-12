@@ -118,7 +118,9 @@ import type {
   SetUseCloudTTS,
   SetUseMyself,
   SetUserData,
-  SetVerificationToken
+  SetVerificationToken,
+  Paywall,
+  SetPaywall
 } from '@cknTypes/types'
 
 import {
@@ -134,6 +136,7 @@ import {
   defaultFlexLesson,
   defaultUserData,
   defaultLessonName,
+  defaultPaywall,
 } from '@cknTypes/types'
 import {
   APP_HOME,
@@ -236,6 +239,7 @@ export type AppContextType = {
   openAiBudget: OpenAiBudget
   openAiKey: OpenAiKey
   openAiUsage: OpenAiUsage
+  paywall: Paywall
   question: Question
   questionContext: QuestionContext
   scenario: Scenario
@@ -283,6 +287,7 @@ export type AppContextType = {
   setOpenAiAvgTokens: SetOpenAiAvgTokens
   setOpenAiBudget: SetOpenAiBudget
   setOpenAiKey: SetOpenAiKey
+  setPaywall: SetPaywall
   setOpenAiUsage: SetOpenAiUsage
   setQuestion: SetQuestion
   setQuestionContext: SetQuestionContext
@@ -332,6 +337,8 @@ export type SetMdxPage = React.Dispatch<React.SetStateAction<MdxPage>>
 export type MdxPagesMap = Record<string, FC>
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const[paywall, setPaywall] = useState<Paywall>(defaultPaywall)
+
   const [isModalVisible, setModalVisible] = useState(false)
   const [modalConfig, setModalConfig] = useState<ModalConfig | null>(null)
 
@@ -479,6 +486,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     openAiBudget,
     openAiKey,
     openAiUsage,
+    paywall,
     question,
     questionContext,
     scenario,
@@ -527,6 +535,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setOpenAiBudget,
     setOpenAiKey,
     setOpenAiUsage,
+    setPaywall,
     setQuestion,
     setQuestionContext,
     setScenario,

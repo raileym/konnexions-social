@@ -573,7 +573,7 @@ CREATE INDEX idx_ckn_tts_cache_last_used ON private.ckn_tts_cache (tts_cache_las
 -- FUNCTION: private.ckn_bump_paywall_package_counts
 -- ************************************************************************
 
-CREATE OR REPLACE FUNCTION private.ckn_bump_paywall_package_counts(
+CREATE FUNCTION private.ckn_bump_paywall_package_counts(
   arg_client_uuid TEXT,
   arg_bump_green_count INT,
   arg_bump_yellow_count INT
@@ -633,24 +633,33 @@ $$;
 -- FUNCTION: private.ckn_get_paywall
 -- ************************************************************************
 
-CREATE FUNCTION private.ckn_get_paywall(
+CREATE OR REPLACE FUNCTION private.ckn_get_paywall(
   arg_client_uuid TEXT
 )
 RETURNS TABLE (
   paywall_client_uuid TEXT,
-  paywall_content JSONB,
+  paywall_package_green_remaining INT,
+  paywall_package_yellow_remaining INT,
+  paywall_stripe_customer_id TEXT,
+  paywall_stripe_subscription_id TEXT,
+  paywall_stripe_metadata JSONB,
   paywall_version INT,
   paywall_updated_at TIMESTAMPTZ,
   paywall_created_at TIMESTAMPTZ
 )
 LANGUAGE plpgsql
 SECURITY DEFINER
+SET search_path = private, public
 AS $$
 BEGIN
   RETURN QUERY
   SELECT
     p.paywall_client_uuid,
-    p.paywall_content,
+    p.paywall_package_green_remaining,
+    p.paywall_package_yellow_remaining,
+    p.paywall_stripe_customer_id,
+    p.paywall_stripe_subscription_id,
+    p.paywall_stripe_metadata,
     p.paywall_version,
     p.paywall_updated_at,
     p.paywall_created_at
@@ -663,12 +672,16 @@ $$;
 -- FUNCTION: public.ckn_get_paywall
 -- ************************************************************************
 
-CREATE FUNCTION public.ckn_get_paywall(
+CREATE OR REPLACE FUNCTION public.ckn_get_paywall(
   arg_client_uuid TEXT
 )
 RETURNS TABLE (
   paywall_client_uuid TEXT,
-  paywall_content JSONB,
+  paywall_package_green_remaining INT,
+  paywall_package_yellow_remaining INT,
+  paywall_stripe_customer_id TEXT,
+  paywall_stripe_subscription_id TEXT,
+  paywall_stripe_metadata JSONB,
   paywall_version INT,
   paywall_updated_at TIMESTAMPTZ,
   paywall_created_at TIMESTAMPTZ
@@ -687,28 +700,45 @@ $$;
 
 CREATE FUNCTION private.ckn_upsert_paywall(
   arg_client_uuid TEXT,
-  arg_content JSONB
+  arg_package_green_remaining INT,
+  arg_package_yellow_remaining INT,
+  arg_stripe_customer_id TEXT DEFAULT NULL,
+  arg_stripe_subscription_id TEXT DEFAULT NULL,
+  arg_stripe_metadata JSONB DEFAULT '{}'::JSONB
 )
 RETURNS VOID
 LANGUAGE plpgsql
 SECURITY DEFINER
+SET search_path = private, public
 AS $$
 BEGIN
-  RAISE LOG '→ FUNC: private.ckn_upsert_paywall | uuid=%, content=%',
-    arg_client_uuid, arg_content;
+  RAISE LOG '→ FUNC: private.ckn_upsert_paywall | uuid=%, green=%, yellow=%',
+    arg_client_uuid, arg_package_green_remaining, arg_package_yellow_remaining;
 
   BEGIN
     INSERT INTO private.ckn_paywall (
       paywall_client_uuid,
-      paywall_content
+      paywall_package_green_remaining,
+      paywall_package_yellow_remaining,
+      paywall_stripe_customer_id,
+      paywall_stripe_subscription_id,
+      paywall_stripe_metadata
     )
     VALUES (
       arg_client_uuid,
-      arg_content
+      arg_package_green_remaining,
+      arg_package_yellow_remaining,
+      arg_stripe_customer_id,
+      arg_stripe_subscription_id,
+      arg_stripe_metadata
     )
     ON CONFLICT (paywall_client_uuid) DO UPDATE
     SET
-      paywall_content = EXCLUDED.paywall_content,
+      paywall_package_green_remaining = EXCLUDED.paywall_package_green_remaining,
+      paywall_package_yellow_remaining = EXCLUDED.paywall_package_yellow_remaining,
+      paywall_stripe_customer_id = EXCLUDED.paywall_stripe_customer_id,
+      paywall_stripe_subscription_id = EXCLUDED.paywall_stripe_subscription_id,
+      paywall_stripe_metadata = EXCLUDED.paywall_stripe_metadata,
       paywall_version = private.ckn_paywall.paywall_version + 1,
       paywall_updated_at = NOW();
 
@@ -721,21 +751,33 @@ END;
 $$;
 
 -- ************************************************************************
--- FUNCTION: public.ckn_upsert_paywall
+-- FUNCTION SHIM: public.ckn_upsert_paywall
 -- ************************************************************************
 
 CREATE FUNCTION public.ckn_upsert_paywall(
   arg_client_uuid TEXT,
-  arg_content JSONB
+  arg_package_green_remaining INT,
+  arg_package_yellow_remaining INT,
+  arg_stripe_customer_id TEXT DEFAULT NULL,
+  arg_stripe_subscription_id TEXT DEFAULT NULL,
+  arg_stripe_metadata JSONB DEFAULT '{}'::JSONB
 )
 RETURNS VOID
 LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
 BEGIN
-  PERFORM private.ckn_upsert_paywall(arg_client_uuid, arg_content);
+  PERFORM private.ckn_upsert_paywall(
+    arg_client_uuid,
+    arg_package_green_remaining,
+    arg_package_yellow_remaining,
+    arg_stripe_customer_id,
+    arg_stripe_subscription_id,
+    arg_stripe_metadata
+  );
 END;
 $$;
+
 
 
 -- ************************************************************************
@@ -2125,7 +2167,7 @@ GRANT EXECUTE ON FUNCTION private.ckn_upsert_email_code(TEXT, TEXT, TIMESTAMPTZ)
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_marketing_data(TEXT, JSONB) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_marketing_preferences(TEXT, JSONB) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_module(TEXT, TEXT, JSONB) TO service_role;
-GRANT EXECUTE ON FUNCTION private.ckn_upsert_paywall(TEXT, JSONB) to service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_upsert_paywall(TEXT, INT, INT, TEXT, TEXT, JSONB) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_user_data(TEXT, TEXT, JSONB, JSONB, INT, TEXT, TEXT) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_verify_cooked_email(TEXT) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_verify_email_code(TEXT, TEXT) to service_role;

@@ -211,3 +211,13 @@ export const MARKETING_PREFERENCE = {
   EMAIL_RELATED_STORES: 'Email Related Stories'
 } as const
 
+export const PAYWALL_TIER = {
+  FREE: 'free',
+  STUDENT: 'student',
+  TEACHER: 'teacher'
+} as const
+
+export const PAYWALL_PACKAGE = {
+  GREEN: 'green',
+  YELLOW: 'yellow'
+} as const

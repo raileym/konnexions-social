@@ -1,3 +1,4 @@
+// netlify/functions/get-paywall.ts
 import { type Handler } from '@netlify/functions'
 import { getPaywallForClient } from '@shared/paywall.js'
 

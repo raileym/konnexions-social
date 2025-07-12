@@ -17,7 +17,9 @@ import {
   PIPELINE_TYPE,
   LESSON_PROMPT_STYLE,
   GEN_AI_PROVIDER,
-  MARKETING_PREFERENCE
+  MARKETING_PREFERENCE,
+  PAYWALL_TIER,
+  PAYWALL_PACKAGE
 } from './constants.js'
 
 export type UserData = {
@@ -146,6 +148,7 @@ export type SetTtsCharUsage = React.Dispatch<React.SetStateAction<TtsCharUsage>>
 export type SetUseCloudTTS = React.Dispatch<React.SetStateAction<UseCloudTTS>>
 export type SetUseMyself = React.Dispatch<React.SetStateAction<UseMyself>>
 export type SetUserData = React.Dispatch<React.SetStateAction<UserData>>
+export type SetPaywall = React.Dispatch<React.SetStateAction<Paywall>>
 export type SetVerificationToken = React.Dispatch<React.SetStateAction<VerificationToken>>
 
 export type SwitchPanel = (newPanel: ActivePanel) => void
@@ -1219,13 +1222,67 @@ export type UpsertMarketingPreferencesProps = {
   marketingPreferences: MarketingPreferences
 }
 
-export type PaywallContent = Record<string, number>  // or a more structured type if needed
+export type PaywallTierValue = (typeof PAYWALL_TIER)[keyof typeof PAYWALL_TIER]
+export type PaywallTierKey = keyof typeof PAYWALL_TIER
+export type PaywallTier = PaywallTierValue
+
+export type PaywallPackageValue = (typeof PAYWALL_PACKAGE)[keyof typeof PAYWALL_PACKAGE]
+export type PaywallPackageKey = keyof typeof PAYWALL_PACKAGE
+export type PaywallPackage = PaywallPackageValue
+
+export type StripeMetadata = {
+  tier?: PaywallTier
+  packages?: PaywallPackage[]
+  origin?: 'stripe' | 'manual' | 'promo'
+  notes?: string
+  [key: string]: string | number | boolean | PaywallTier | PaywallPackage[] | undefined
+}
 
 export type GetPaywallProps = {
-  clientUUID: string
+  clientUUID: ClientUUID
 }
 
 export type UpsertPaywallProps = {
-  clientUUID: string
-  paywallContent: PaywallContent
+  clientUUID: ClientUUID
+  patch: Partial<PaywallUpsertFields>
+}
+
+// Upsertable fields (excluding audit and identity columns)
+export type PaywallUpsertFields = {
+  paywall_package_green_remaining: number
+  paywall_package_yellow_remaining: number
+  paywall_stripe_customer_id?: string | null
+  paywall_stripe_subscription_id?: string | null
+  paywall_stripe_metadata?: StripeMetadata
+}
+
+// Full Paywall structure returned from Supabase
+export type Paywall = {
+  paywall_client_uuid: ClientUUID
+  paywall_package_green_remaining: number
+  paywall_package_yellow_remaining: number
+  paywall_stripe_customer_id?: string | null
+  paywall_stripe_subscription_id?: string | null
+  paywall_stripe_metadata: StripeMetadata
+  paywall_version: Version
+  paywall_updated_at: UpdatedAt
+  paywall_created_at: CreatedAt
+}
+
+export type BumpPaywallPackageCountsProps = {
+  clientUUID: ClientUUID
+  bumpGreenCount?: number
+  bumpYellowCount?: number
+}
+
+export const defaultPaywall: Paywall = {
+  paywall_client_uuid: defaultClientUUID,
+  paywall_package_green_remaining: 0,
+  paywall_package_yellow_remaining: 0,
+  paywall_stripe_customer_id: null,
+  paywall_stripe_subscription_id: null,
+  paywall_stripe_metadata: {},
+  paywall_version: 1,
+  paywall_updated_at: new Date().toISOString(),
+  paywall_created_at: new Date().toISOString()
 }
