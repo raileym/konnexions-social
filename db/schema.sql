@@ -29,6 +29,28 @@ CREATE TYPE private.ckn_verb_record AS (
 );
 
 -- ************************************************************************
+-- CREATE TABLE: private.ckn_paywall
+-- ************************************************************************
+
+CREATE TABLE private.ckn_paywall (
+  paywall_client_uuid TEXT PRIMARY KEY,
+
+  -- Core package counts (used locally)
+  paywall_package_green_remaining INT DEFAULT 0,  -- e.g. GenAI asks
+  paywall_package_yellow_remaining INT DEFAULT 0, -- e.g. TTS usage
+
+  -- Stripe metadata (optional until Stripe is integrated)
+  paywall_stripe_customer_id TEXT,               -- maps to Stripe's customer object
+  paywall_stripe_subscription_id TEXT,           -- maps to active subscription
+  paywall_stripe_metadata JSONB DEFAULT '{}'::JSONB,
+
+  -- Internal versioning + auditing
+  paywall_version INT DEFAULT 1,
+  paywall_updated_at TIMESTAMPTZ DEFAULT NOW(),
+  paywall_created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ************************************************************************
 -- CREATE TABLE: private.ckn_marketing_data
 -- ************************************************************************
 
@@ -45,19 +67,15 @@ CREATE TABLE private.ckn_marketing_data (
 -- ************************************************************************
 
 CREATE TABLE private.ckn_prompt_response (
+  prompt_response_key UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   prompt_response_client_uuid TEXT NOT NULL,
   prompt_response_lesson_id TEXT NOT NULL,
   prompt_response_prompt TEXT NOT NULL,
-  prompt_response_response TEXT NOT NULL,  -- <- THIS WAS MISSING
+  prompt_response_response TEXT NOT NULL,
   prompt_response_gen_ai_provider TEXT NOT NULL,
   prompt_response_version INT DEFAULT 1,
   prompt_response_updated_at TIMESTAMPTZ DEFAULT NOW(),
-  prompt_response_created_at TIMESTAMPTZ DEFAULT NOW(),
-
-  CONSTRAINT ckn_prompt_response_key PRIMARY KEY (
-    prompt_response_client_uuid,
-    prompt_response_lesson_id
-  )
+  prompt_response_created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 COMMENT ON TABLE private.ckn_prompt_response IS 'CKN: Stores AI-generated prompt/response pairs for a specific user and lesson.';
@@ -552,6 +570,175 @@ CREATE INDEX idx_ckn_tts_cache_signature ON private.ckn_tts_cache (tts_cache_sig
 CREATE INDEX idx_ckn_tts_cache_last_used ON private.ckn_tts_cache (tts_cache_last_used);
 
 -- ************************************************************************
+-- FUNCTION: private.ckn_bump_paywall_package_counts
+-- ************************************************************************
+
+CREATE OR REPLACE FUNCTION private.ckn_bump_paywall_package_counts(
+  arg_client_uuid TEXT,
+  arg_bump_green_count INT,
+  arg_bump_yellow_count INT
+)
+RETURNS TABLE (
+  paywall_client_uuid TEXT,
+  paywall_package_green_remaining INT,
+  paywall_package_yellow_remaining INT,
+  paywall_stripe_customer_id TEXT,
+  paywall_stripe_subscription_id TEXT,
+  paywall_stripe_metadata JSONB,
+  paywall_version INT,
+  paywall_updated_at TIMESTAMPTZ,
+  paywall_created_at TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = private, public
+AS $$
+BEGIN
+  -- Apply the bump atomically
+  UPDATE private.ckn_paywall
+  SET
+    paywall_package_green_remaining = paywall_package_green_remaining + arg_bump_green_count,
+    paywall_package_yellow_remaining = paywall_package_yellow_remaining + arg_bump_yellow_count,
+    paywall_version = paywall_version + 1,
+    paywall_updated_at = NOW()
+  WHERE paywall_client_uuid = arg_client_uuid;
+
+  -- Return the updated record via internal get function
+  RETURN QUERY
+  SELECT * FROM private.ckn_get_paywall(arg_client_uuid);
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: public.ckn_bump_paywall_package_counts
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_bump_paywall_package_counts(
+  arg_client_uuid TEXT,
+  arg_bump_green_count INT,
+  arg_bump_yellow_count INT
+)
+RETURNS VOID
+LANGUAGE sql
+SECURITY INVOKER
+AS $$
+  SELECT private.ckn_bump_paywall_package_counts(
+    arg_client_uuid,
+    arg_bump_green_count,
+    arg_bump_yellow_count
+  );
+$$;
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_get_paywall
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_get_paywall(
+  arg_client_uuid TEXT
+)
+RETURNS TABLE (
+  paywall_client_uuid TEXT,
+  paywall_content JSONB,
+  paywall_version INT,
+  paywall_updated_at TIMESTAMPTZ,
+  paywall_created_at TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    p.paywall_client_uuid,
+    p.paywall_content,
+    p.paywall_version,
+    p.paywall_updated_at,
+    p.paywall_created_at
+  FROM private.ckn_paywall p
+  WHERE p.paywall_client_uuid = arg_client_uuid;
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: public.ckn_get_paywall
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_get_paywall(
+  arg_client_uuid TEXT
+)
+RETURNS TABLE (
+  paywall_client_uuid TEXT,
+  paywall_content JSONB,
+  paywall_version INT,
+  paywall_updated_at TIMESTAMPTZ,
+  paywall_created_at TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY SELECT * FROM private.ckn_get_paywall(arg_client_uuid);
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: private.ckn_upsert_paywall
+-- ************************************************************************
+
+CREATE FUNCTION private.ckn_upsert_paywall(
+  arg_client_uuid TEXT,
+  arg_content JSONB
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RAISE LOG '→ FUNC: private.ckn_upsert_paywall | uuid=%, content=%',
+    arg_client_uuid, arg_content;
+
+  BEGIN
+    INSERT INTO private.ckn_paywall (
+      paywall_client_uuid,
+      paywall_content
+    )
+    VALUES (
+      arg_client_uuid,
+      arg_content
+    )
+    ON CONFLICT (paywall_client_uuid) DO UPDATE
+    SET
+      paywall_content = EXCLUDED.paywall_content,
+      paywall_version = private.ckn_paywall.paywall_version + 1,
+      paywall_updated_at = NOW();
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      RAISE LOG '‼️ ERROR in private.ckn_upsert_paywall: %', SQLERRM;
+      RAISE EXCEPTION 'private.ckn_upsert_paywall failed';
+  END;
+END;
+$$;
+
+-- ************************************************************************
+-- FUNCTION: public.ckn_upsert_paywall
+-- ************************************************************************
+
+CREATE FUNCTION public.ckn_upsert_paywall(
+  arg_client_uuid TEXT,
+  arg_content JSONB
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  PERFORM private.ckn_upsert_paywall(arg_client_uuid, arg_content);
+END;
+$$;
+
+
+-- ************************************************************************
 -- FUNCTION: private.ckn_upsert_marketing_data
 -- ************************************************************************
 
@@ -790,8 +977,8 @@ SECURITY DEFINER
 SET search_path = private, public
 AS $$
 BEGIN
-  RAISE LOG '→ FUNC: private.ckn_insert_prompt_response | email=%, lesson=%, prompt=%, response=%, provider=%',
-    arg_client_uuid, arg_lesson_id, arg_prompt, arg_response, arg_gen_ai_provider;
+  -- RAISE LOG '→ FUNC: private.ckn_insert_prompt_response | uuid=%, lesson=%, provider=%',
+  --   arg_client_uuid, arg_lesson_id, arg_gen_ai_provider;
 
   BEGIN
     INSERT INTO private.ckn_prompt_response (
@@ -807,12 +994,7 @@ BEGIN
       arg_prompt,
       arg_response,
       arg_gen_ai_provider
-    )
-    ON CONFLICT (prompt_response_client_uuid, prompt_response_lesson_id) DO UPDATE
-    SET prompt_response_prompt = EXCLUDED.prompt_response_prompt,
-        prompt_response_response = EXCLUDED.prompt_response_response,
-        prompt_response_gen_ai_provider = EXCLUDED.prompt_response_gen_ai_provider,
-        prompt_response_updated_at = NOW();
+    );
 
   EXCEPTION
     WHEN OTHERS THEN
@@ -838,8 +1020,8 @@ LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
 BEGIN
-  RAISE LOG '→ SHIM: public.ckn_insert_prompt_response | email=%, lesson=%, prompt=%, response=%, provider=%',
-    arg_client_uuid, arg_lesson_id, arg_prompt, arg_response, arg_gen_ai_provider;
+  -- RAISE LOG '→ SHIM: public.ckn_insert_prompt_response | email=%, lesson=%, prompt=%, response=%, provider=%',
+  --   arg_client_uuid, arg_lesson_id, arg_prompt, arg_response, arg_gen_ai_provider;
 
   BEGIN
     PERFORM private.ckn_insert_prompt_response(
@@ -857,71 +1039,6 @@ BEGIN
 END;
 $$;
 
-
--- -- ************************************************************************
--- -- FUNCTION: private.ckn_insert_prompt_response
--- -- ************************************************************************
-
--- CREATE FUNCTION private.ckn_insert_prompt_response(
---   arg_client_uuid TEXT,
---   arg_lesson_id TEXT,
---   arg_prompt TEXT,
---   arg_response TEXT,
---   arg_gen_ai_provider TEXT
--- )
--- RETURNS VOID
--- LANGUAGE plpgsql
--- SECURITY DEFINER
--- SET search_path = private, public
--- AS $$
--- BEGIN
---   INSERT INTO private.ckn_prompt_response (
---     prompt_response_client_uuid,
---     prompt_response_lesson_id,
---     prompt_response_prompt,
---     prompt_response_response,
---     prompt_response_gen_ai_provider
---   )
---   VALUES (
---     arg_client_uuid,
---     arg_lesson_id,
---     arg_prompt,
---     arg_response,
---     arg_gen_ai_provider
---   )
---   ON CONFLICT (prompt_response_client_uuid, prompt_response_lesson_id) DO UPDATE
---   SET prompt_response_prompt = EXCLUDED.prompt_response_prompt,
---       prompt_response_response = EXCLUDED.prompt_response_response,
---       prompt_response_gen_ai_provider = EXCLUDED.prompt_response_gen_ai_provider,
---       prompt_response_updated_at = NOW();
--- END;
--- $$;
-
--- -- ************************************************************************
--- -- FUNCTION SHIM: public.ckn_insert_prompt_response
--- -- ************************************************************************
-
--- CREATE FUNCTION public.ckn_insert_prompt_response(
---   arg_client_uuid TEXT,
---   arg_lesson_id TEXT,
---   arg_prompt TEXT,
---   arg_response TEXT,
---   arg_gen_ai_provider TEXT
--- )
--- RETURNS VOID
--- LANGUAGE plpgsql
--- SECURITY DEFINER
--- AS $$
--- BEGIN
---   PERFORM private.ckn_insert_prompt_response(
---     arg_client_uuid,
---     arg_lesson_id,
---     arg_prompt,
---     arg_response,
---     arg_gen_ai_provider
---   );
--- END;
--- $$;
 
 -- ************************************************************************
 -- FUNCTION: private.ckn_insert_lesson
@@ -1924,7 +2041,7 @@ SECURITY DEFINER
 SET search_path = private, public
 AS $$
 BEGIN
-  RAISE LOG '→ ENTERING: private.ckn_verify_email_code | cooked_email=%, code=%', arg_cooked_email, arg_code;
+  -- RAISE LOG '→ ENTERING: private.ckn_verify_email_code | cooked_email=%, code=%', arg_cooked_email, arg_code;
 
   RETURN QUERY
   WITH to_verify AS (
@@ -1948,49 +2065,6 @@ BEGIN
     private.ckn_email_code.email_code_expires_at;
 END;
 $$;
-
--- -- ************************************************************************
--- -- FUNCTION: private.ckn_verify_email_code
--- -- ************************************************************************
-
--- CREATE FUNCTION private.ckn_verify_email_code(
---   arg_cooked_email TEXT,
---   arg_code TEXT
--- )
--- RETURNS TABLE (
---   email_code_key UUID,
---   email_code_cooked_email TEXT,
---   email_code_code TEXT,
---   email_code_verified BOOLEAN,
---   email_code_expires_at TIMESTAMPTZ
--- )
--- LANGUAGE plpgsql
--- SECURITY DEFINER
--- SET search_path = private, public
--- AS $$
--- BEGIN
---   RETURN QUERY
---   WITH to_verify AS (
---     SELECT ec.email_code_key
---     FROM private.ckn_email_code ec
---     WHERE ec.email_code_cooked_email = arg_cooked_email
---       AND ec.email_code_code = arg_code
---       AND ec.email_code_verified = FALSE
---       AND ec.email_code_expires_at > NOW()
---   )
---   UPDATE private.ckn_email_code
---   SET 
---     email_code_verified = TRUE,
---     email_code_created_at = NOW()
---   WHERE private.ckn_email_code.email_code_key IN (SELECT to_verify.email_code_key FROM to_verify)
---   RETURNING 
---     private.ckn_email_code.email_code_key,
---     private.ckn_email_code.email_code_cooked_email,
---     private.ckn_email_code.email_code_code,
---     private.ckn_email_code.email_code_verified,
---     private.ckn_email_code.email_code_expires_at;
--- END;
--- $$;
 
 -- ************************************************************************
 -- FUNCTION SHIMS: public.ckn_verify_email_code
@@ -2028,9 +2102,13 @@ GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA private TO service_role;
 ALTER DEFAULT PRIVILEGES IN SCHEMA private
 GRANT EXECUTE ON FUNCTIONS TO service_role;
 
-GRANT EXECUTE ON FUNCTION private.ckn_get_user_data(TEXT) to service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_bump_paywall_package_counts(TEXT, INT, INT) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_get_marketing_data(TEXT) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_get_marketing_preferences(TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_get_module_by_lesson_and_name(TEXT, TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_get_noun_by_scenario(TEXT, TEXT) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_get_paywall(TEXT) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_get_user_data(TEXT) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_get_verb_by_scenario(TEXT, TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_insert_lesson(TEXT, INTEGER, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_insert_noun(TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, BOOLEAN) TO service_role;
@@ -2043,14 +2121,31 @@ GRANT EXECUTE ON FUNCTION private.ckn_lookup_noun_example(INTEGER) TO service_ro
 GRANT EXECUTE ON FUNCTION private.ckn_lookup_tts_cache(TEXT) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_lookup_verb_example(INTEGER) TO service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_email_code(TEXT, TEXT, TIMESTAMPTZ) to service_role;
-GRANT EXECUTE ON FUNCTION private.ckn_upsert_user_data(TEXT, TEXT, JSONB, JSONB, INT, TEXT, TEXT) to service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_upsert_email_code(TEXT, TEXT, TIMESTAMPTZ) to service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_upsert_marketing_data(TEXT, JSONB) to service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_upsert_marketing_preferences(TEXT, JSONB) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_upsert_module(TEXT, TEXT, JSONB) TO service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_upsert_paywall(TEXT, JSONB) to service_role;
+GRANT EXECUTE ON FUNCTION private.ckn_upsert_user_data(TEXT, TEXT, JSONB, JSONB, INT, TEXT, TEXT) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_verify_cooked_email(TEXT) to service_role;
 GRANT EXECUTE ON FUNCTION private.ckn_verify_email_code(TEXT, TEXT) to service_role;
-GRANT EXECUTE ON FUNCTION public.ckn_insert_prompt_response(TEXT, TEXT, TEXT, TEXT, TEXT) TO service_role;
 
 ALTER ROLE service_role SET search_path = private, public;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_email_code TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_lesson TO service_role;
 GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_marketing_data TO service_role;
-
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_module TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_noun TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_noun_base TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_noun_example TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_noun_scenarios TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_paywall TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_prompt_response TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_scenarios TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_tts_cache TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_user_data TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_verb TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_verb_base TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_verb_example TO service_role;
+GRANT SELECT, INSERT, UPDATE ON TABLE private.ckn_verb_scenarios TO service_role;

@@ -40,11 +40,13 @@ GROUP_TABLES["user"]="--table=private.ckn_email_code"
 GROUP_TABLES["all"]="\
 --table=private.ckn_email_code \
 --table=private.ckn_lesson \
+--table=private.ckn_marketing_data \
 --table=private.ckn_module \
 --table=private.ckn_noun \
 --table=private.ckn_noun_base \
 --table=private.ckn_noun_example \
 --table=private.ckn_noun_scenarios \
+--table=private.ckn_paywall \
 --table=private.ckn_prompt_response \
 --table=private.ckn_scenarios \
 --table=private.ckn_tts_cache \

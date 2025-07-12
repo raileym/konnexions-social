@@ -1218,3 +1218,14 @@ export type UpsertMarketingPreferencesProps = {
   clientUUID: ClientUUID
   marketingPreferences: MarketingPreferences
 }
+
+export type PaywallContent = Record<string, number>  // or a more structured type if needed
+
+export type GetPaywallProps = {
+  clientUUID: string
+}
+
+export type UpsertPaywallProps = {
+  clientUUID: string
+  paywallContent: PaywallContent
+}
