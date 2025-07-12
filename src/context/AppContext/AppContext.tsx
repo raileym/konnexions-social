@@ -3,9 +3,6 @@ import React, { createContext, useContext, useState, type FC } from 'react'
 import About from '@mdxPages/About.mdx'
 import Welcome from '@mdxPages/Welcome.mdx'
 import FAQ from '@mdxPages/FAQ.mdx'
-import One from '@mdxPages/One.mdx'
-import Two from '@mdxPages/Two.mdx'
-import Three from '@mdxPages/Three.mdx'
 import WelcomeLearnSpanish from '@mdxPages/WelcomeLearnSpanish.mdx'
 import type {
   Answer,
@@ -327,9 +324,6 @@ export const mdxPagesMap: MdxPagesMap = {
   Welcome: Welcome,
   About: About,
   FAQ: FAQ,
-  One: One,
-  Two: Two,
-  Three: Three,
   WelcomeLearnSpanish: WelcomeLearnSpanish
 }
 

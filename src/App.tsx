@@ -19,14 +19,34 @@ import PanelMDX from '@components/PanelMDX/PanelMDX'
 import PanelProfile from '@components/PanelProfile/PanelProfile'
 import ModalGlobal from '@components/ModalGlobal/ModalGlobal'
 import { getUserData } from '@components/getUserData/getUserData'
+import { Navigate } from 'react-router-dom'
 
 const AppMain = () => {
+  const { mdxPagesMap } = useAppContext()
+
   return (
     <>
       <ModalGlobal />
       <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
         <LessonBar />
-        <PanelMDX />
+
+        {/* 🧭 ROUTED MDX PANELS */}
+        <Routes>
+          {/* Default route: redirect / to /welcome */}
+          <Route path="/" element={<Navigate to="/about" replace />} />
+
+          {/* Dynamic routes from mdxPagesMap */}
+          {Object.entries(mdxPagesMap).map(([key, Component]) => (
+            <Route
+              key={key}
+              path={`/${key.toLowerCase()}`}
+              element={<Component />}
+            />
+          ))}
+        </Routes>
+
+
+        {/* The rest of your panels remain */}
         <PanelProfile />
         <PanelGenAIPro />
         <PanelBasic />
@@ -36,6 +56,7 @@ const AppMain = () => {
         <PanelKeys />
         <PanelMenu />
         <PanelHelp />
+        <PanelMDX />
       </div>
       <NavbarTop />
       <NavbarBottom />
