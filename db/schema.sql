@@ -508,7 +508,6 @@ COMMENT ON COLUMN private.ckn_verb_forms.base IS 'Infinitive form of the verb.';
 COMMENT ON COLUMN private.ckn_verb_forms.person IS 'Grammatical person (yo, tú, etc.).';
 COMMENT ON COLUMN private.ckn_verb_forms.form IS 'Conjugated form of the verb for the person.';
 
-
 -- ************************************************************************
 -- CREATE VIEW: private.ckn_noun_forms
 -- ************************************************************************
@@ -573,7 +572,7 @@ CREATE INDEX idx_ckn_tts_cache_last_used ON private.ckn_tts_cache (tts_cache_las
 -- FUNCTION: private.ckn_bump_paywall_package_counts
 -- ************************************************************************
 
-CREATE FUNCTION private.ckn_bump_paywall_package_counts(
+CREATE OR REPLACE FUNCTION private.ckn_bump_paywall_package_counts(
   arg_client_uuid TEXT,
   arg_bump_green_count INT,
   arg_bump_yellow_count INT
@@ -594,14 +593,13 @@ SECURITY DEFINER
 SET search_path = private, public
 AS $$
 BEGIN
-  -- Apply the bump atomically
-  UPDATE private.ckn_paywall
+  -- Apply the bump atomically using a FROM subquery to avoid ambiguity
+  UPDATE ckn_paywall AS p
   SET
-    paywall_package_green_remaining = paywall_package_green_remaining + arg_bump_green_count,
-    paywall_package_yellow_remaining = paywall_package_yellow_remaining + arg_bump_yellow_count,
-    paywall_version = paywall_version + 1,
+    paywall_package_green_remaining = p.paywall_package_green_remaining + arg_bump_green_count,
+    paywall_package_yellow_remaining = p.paywall_package_yellow_remaining + arg_bump_yellow_count,
     paywall_updated_at = NOW()
-  WHERE paywall_client_uuid = arg_client_uuid;
+  WHERE p.paywall_client_uuid = arg_client_uuid;
 
   -- Return the updated record via internal get function
   RETURN QUERY
@@ -618,11 +616,21 @@ CREATE FUNCTION public.ckn_bump_paywall_package_counts(
   arg_bump_green_count INT,
   arg_bump_yellow_count INT
 )
-RETURNS VOID
+RETURNS TABLE (
+  paywall_client_uuid TEXT,
+  paywall_package_green_remaining INT,
+  paywall_package_yellow_remaining INT,
+  paywall_stripe_customer_id TEXT,
+  paywall_stripe_subscription_id TEXT,
+  paywall_stripe_metadata JSONB,
+  paywall_version INT,
+  paywall_updated_at TIMESTAMPTZ,
+  paywall_created_at TIMESTAMPTZ
+)
 LANGUAGE sql
 SECURITY INVOKER
 AS $$
-  SELECT private.ckn_bump_paywall_package_counts(
+  SELECT * FROM private.ckn_bump_paywall_package_counts(
     arg_client_uuid,
     arg_bump_green_count,
     arg_bump_yellow_count
@@ -739,7 +747,6 @@ BEGIN
       paywall_stripe_customer_id = EXCLUDED.paywall_stripe_customer_id,
       paywall_stripe_subscription_id = EXCLUDED.paywall_stripe_subscription_id,
       paywall_stripe_metadata = EXCLUDED.paywall_stripe_metadata,
-      paywall_version = private.ckn_paywall.paywall_version + 1,
       paywall_updated_at = NOW();
 
   EXCEPTION
@@ -808,7 +815,6 @@ BEGIN
     ON CONFLICT (marketing_data_client_uuid) DO UPDATE
     SET
       marketing_data_preferences = EXCLUDED.marketing_data_preferences,
-      marketing_data_version = private.ckn_marketing_data.marketing_data_version + 1,
       marketing_data_updated_at = NOW();
 
   EXCEPTION
@@ -926,7 +932,6 @@ BEGIN
     ON CONFLICT (marketing_data_client_uuid) DO UPDATE
     SET
       marketing_data_preferences = EXCLUDED.marketing_data_preferences,
-      marketing_data_version = private.ckn_marketing_data.marketing_data_version + 1,
       marketing_data_updated_at = NOW();
 
   EXCEPTION

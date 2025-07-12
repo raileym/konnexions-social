@@ -32,6 +32,8 @@ export const handler: Handler = async (event) => {
       arg_bump_yellow_count: bumpYellowCount,
     })
 
+    console.log('server-side', data, error)
+    
     if (error) {
       console.error('❌ Supabase RPC error:', error.message)
       return {

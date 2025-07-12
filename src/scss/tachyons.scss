@@ -12,6 +12,7 @@
   * https://www.12devs.co.uk/articles/handy-advanced-sass/
   */
 @use 'sass:list';
+@use 'color.scss' as *;
   
 $font-size-details: 4.5rem, 3rem, 2.25rem, 1.5rem, 1.25rem, 1rem, 0.875rem, 0.75rem, 0.65rem, 0.5rem, 0.45, 0.35;
 $padding-details: 0, 0.25rem, 0.5rem, 1rem, 2rem, 4rem, 8rem, 16rem;     
@@ -36,19 +37,66 @@ $colors: (
   'red': #ff4136
 );
 
-// @each $name, $value in $colors {
-//   .active\:bg-#{$name}:active {
-//     background-color: #{$value};
-//   }
+@each $name, $value in $color-set {
+  .disabled\:bg-#{$name}:disabled {
+    background-color: #{$value};
+  }
 
-//   .hover\:bg-#{$name}:hover {
-//     background-color: #{$value};
-//   }
+  .active\:bg-#{$name}:active {
+    background-color: #{$value};
+  }
 
-//   .focus\:bg-#{$name}:focus {
-//     background-color: #{$value};
-//   }
-// }
+  .hover\:bg-#{$name}:hover {
+    background-color: #{$value};
+  }
+
+  .focus\:bg-#{$name}:focus {
+    background-color: #{$value};
+  }
+
+  .disabled\:#{$name}:disabled {
+    color: #{$value};
+  }
+  .disabled\:#{$name}:disabled {
+    color: #{$value};
+  }
+
+  .active\:#{$name}:active {
+    color: #{$value};
+  }
+
+  .hover\:#{$name}:hover {
+    color: #{$value};
+  }
+
+  .focus\:#{$name}:focus {
+    color: #{$value};
+  }
+
+  .disabled\:b--#{$name}:disabled {
+    border-color: #{$value};
+  }
+
+  .active\:b--#{$name}:active {
+    border-color: #{$value};
+  }
+
+  .hover\:b--#{$name}:hover {
+    border-color: #{$value};
+  }
+
+  .focus\:b--#{$name}:focus {
+    border-color: #{$value};
+  }
+
+  .placeholder\:#{$name}::placeholder {
+    color: #{$value};
+  }
+
+  .placeholder-disabled\:#{$name}:disabled::placeholder {
+    color: #{$value};
+  }
+}
 
 // @each $padding in $padding-details {
 //     $i: list.index($padding-details, $padding)-1;

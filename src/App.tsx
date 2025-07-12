@@ -20,6 +20,7 @@ import PanelProfile from '@components/PanelProfile/PanelProfile'
 import ModalGlobal from '@components/ModalGlobal/ModalGlobal'
 import { getUserData } from '@components/getUserData/getUserData'
 import { Navigate } from 'react-router-dom'
+import { getPaywall } from '@components/getPaywall/getPaywall'
 
 const AppMain = () => {
   const { mdxPagesMap } = useAppContext()
@@ -75,7 +76,8 @@ const App: React.FC = () => {
     setUserData,
     clientUUID,
     setClientUUID,
-    isUserValidated
+    isUserValidated,
+    setPaywall
   } = useAppContext()
 
   useEffect(() => {
@@ -142,24 +144,25 @@ const App: React.FC = () => {
     if (hasLoadedUserData.current) return
     hasLoadedUserData.current = true
 
-    const fetchUserData = async () => {
+    const fetchUserDataAndPaywall = async () => {
       const { success, data, error } = await getUserData(clientUUID)
-
-      if (!success) {
+      if (!success || !data) {
         console.error('❌ Failed to get user data:', error)
         return
       }
 
-      if (!data) {
-        return
-      }
-      
       setUserData(data)
-      // cXonsole.log('✅ userData', data)
+
+      const paywallRes = await getPaywall({ clientUUID })
+      if (paywallRes.success && paywallRes.data) {
+        setPaywall(paywallRes.data)
+      } else {
+        console.error('❌ Failed to fetch paywall:', paywallRes.error)
+      }
     }
 
-    fetchUserData()
-  }, [isUserValidated, clientUUID, setUserData])
+    fetchUserDataAndPaywall()
+  }, [isUserValidated, clientUUID, setUserData, setPaywall])
 
 
   return (

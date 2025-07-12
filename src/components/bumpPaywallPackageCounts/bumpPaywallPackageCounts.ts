@@ -18,6 +18,7 @@ export const bumpPaywallPackageCounts = async ({
 
     const json = await res.json()
 
+    console.log('bumpPaywallPackageCounts', json)
     if (!res.ok) {
       return { success: false, error: json.error ?? 'Unexpected response from bump-paywall-package-counts' }
     }
