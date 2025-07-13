@@ -21,6 +21,7 @@ import ModalGlobal from '@components/ModalGlobal/ModalGlobal'
 import { getUserData } from '@components/getUserData/getUserData'
 import { Navigate } from 'react-router-dom'
 import { usePaywall } from '@hooks/usePaywall/usePaywall'
+import PanelMDXWrapper from '@components/PanelMDXWrapper/PanelMDXWrapper'
 
 const AppMain = () => {
   const { mdxPagesMap } = useAppContext()
@@ -41,7 +42,7 @@ const AppMain = () => {
             <Route
               key={key}
               path={`/${key.toLowerCase()}`}
-              element={<Component />}
+              element={<PanelMDXWrapper><Component /></PanelMDXWrapper>}
             />
           ))}
         </Routes>

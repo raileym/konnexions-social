@@ -21,7 +21,6 @@ export default defineConfig(async () => {
     },
     build: {
       outDir: 'build',
-    },
-    assetsInclude: ['**/*.html'],  // <-- add this line to fix html parsing issue
+    }
   }
 })
