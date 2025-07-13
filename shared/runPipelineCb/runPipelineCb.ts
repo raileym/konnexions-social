@@ -15,7 +15,10 @@ export const runPipelineCb = async ({
   pipelineConfig
 }: RunPipelineCbProps): Promise<Lesson | null> => {
 
+  // *************************************************************************************
   // DRAFT
+  // *************************************************************************************
+
   const draftStart = performance.now()
   const moduleDraft = await getModule_cb({
     testMode: false,
@@ -46,7 +49,10 @@ export const runPipelineCb = async ({
     [pipelineConfig.draftModule]: draftContentWithDuration
   }
 
+  // *************************************************************************************
   // REVIEW
+  // *************************************************************************************
+  
   const reviewStart = performance.now()
   const moduleReviewed = await getModule_cb({
     lesson: lessonDraft,
@@ -76,7 +82,10 @@ export const runPipelineCb = async ({
     [pipelineConfig.reviewModule]: reviewContentWithDuration
   }
 
+  // *************************************************************************************
   // RESOLVE
+  // *************************************************************************************
+  
   const resolveStart = performance.now()
   const { linesResolved, linesResolutions } = pipelineConfig.resolve({
     reviewLines: lessonReviewed[pipelineConfig.reviewModule].lines,
