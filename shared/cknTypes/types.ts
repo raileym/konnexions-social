@@ -834,13 +834,16 @@ export type FetchTTSProps = {
   text: string
   speaker: string
   gender: string
-  maxCount: number
-  setMaxCount: SetMaxCount
+  paywall: Paywall
   cutoff: boolean
   language: Language
   debugLog: DebugLog
+  clientUUID: ClientUUID
 }
-export type FetchTTSResult = string | null
+export type FetchTTSResult = {
+  decremented: boolean
+  audioUrl: string | null
+}
 
 export type NounRecord = {
   noun_base: Noun

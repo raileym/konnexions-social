@@ -5,15 +5,20 @@ export async function fetchTTS({
   text,
   speaker,
   gender,
-  maxCount,
-  setMaxCount,
+  paywall,
   cutoff,
-  language //,
+  language,
+  clientUUID //,
   // debugLog
 }: FetchTTSProps): Promise<FetchTTSResult> {
-  if (!text || cutoff || maxCount <= 0) return null
+  if (!text || cutoff || paywall.paywall_package_yellow_remaining <= 0) {
+    return {
+      audioUrl: null,
+      decremented: false
+    }
+  }
 
-  setMaxCount(prev => prev-1)
+  // setMaxCount(prev => prev-1)
 
   const processedText = cleanTextForTTS(text);
 
@@ -26,7 +31,13 @@ export async function fetchTTS({
     const res = await fetch('/.netlify/functions/generate-tts-cache', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: processedText, speaker, gender, maxCount, cutoff, language })
+      body: JSON.stringify({ 
+        text: processedText, 
+        speaker, 
+        gender,
+        cutoff,
+        clientUUID,
+        language })
     })
     
     // const { audioUrl } = await res.json()
@@ -35,14 +46,19 @@ export async function fetchTTS({
 
     const { audioUrl, decremented } = await res.json()
 
-    if (decremented) {
-      refreshPaywall() // your client-side re-check function
+    // if (decremented) {
+    //   refreshPaywall() // your client-side re-check function
+    // }
+
+    return { 
+      decremented, 
+      audioUrl: audioUrl ?? null
     }
-
-
-    return audioUrl ?? null
   } catch (err) {
     console.error('TTS fetch failed:', err)
-    return null
+    return {
+      decremented: false,
+      audioUrl: null
+    }
   }
 }

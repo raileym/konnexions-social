@@ -9,6 +9,7 @@ import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useDebugLogger } from '@hooks/useDebugLogger'
 import { capitalize } from '@components/Util'
 import type { DialogListProps } from '@cknTypes/types'
+import { usePaywall } from '@hooks/usePaywall/usePaywall'
 
 export const DialogList = ({ language, lines, translations, useCloudTTS }: DialogListProps) => {
   const [showTranslations, setShowTranslations] = useState(false)
@@ -21,16 +22,18 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
 
   const debugLog = useDebugLogger()
   const {
-    maxCount,
-    setMaxCount,
     cutoff,
     selectedLessonNumber,
     setLineNumber,
     lineNumber,
     lessonTimestamp,
     lessonPromptStyle,
-    customScenario
+    customScenario,
+    paywall,
+    clientUUID
   } = useAppContext()
+
+  const { refreshPaywall } = usePaywall()
 
   // cXonsole.log('lines', lines)
   // cXonsole.log('translations', translations)
@@ -44,8 +47,6 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
 
   const { speak } = useTTS({
     useCloudTTS,
-    maxCount,
-    setMaxCount,
     cutoff,
     store: storeAudioOrLine,
     language,
@@ -63,12 +64,13 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
         if (audioItemsRef.current[i]) continue
         const [gender, speaker, sentence] = lines[i].split('|')
         try {
-          const maybeAudio = await fetchTTS({ text: sentence, speaker, gender, cutoff, maxCount, setMaxCount, language, debugLog })
-          if (maybeAudio !== null) storeAudioOrLine(i, maybeAudio)
+          const { audioUrl } = await fetchTTS({ text: sentence, speaker, gender, cutoff, language, paywall, debugLog, clientUUID })
+          if (audioUrl !== null) storeAudioOrLine(i, audioUrl)
         } catch (err) {
           console.error(`Failed to preload TTS for line ${i}:`, err)
         }
       }
+      refreshPaywall()
     }
     preloadSequentially()
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -94,6 +96,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
       const i = iRef.current
       if (!isPlayingRef.current || i >= lines.length) {
         resetPlayback()
+        refreshPaywall()        
         return
       }
 
@@ -101,28 +104,28 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
       setCurrentIndex(i)
       setLineNumber(i)
 
-      let value = audioItemsRef.current[i]
+      const value = audioItemsRef.current[i]
       const [gender, speaker, sentence] = line.split('|')
-
       if (!value) {
         try {
-          value = (useCloudTTS && !cutoff && maxCount > 0)
-            ? await fetchTTS({ debugLog, language, speaker, text: sentence, gender, maxCount, setMaxCount, cutoff }) ?? ''
-            : sentence
-          storeAudioOrLine(i, value)
+          const { audioUrl } = (useCloudTTS && !cutoff && paywall.paywall_package_yellow_remaining > 0)
+            ? await fetchTTS({ debugLog, language, speaker, text: sentence, gender, paywall, cutoff, clientUUID }) ?? ''
+            : {audioUrl: sentence}
+          storeAudioOrLine(i, audioUrl ?? '')
         } catch (err) {
           console.error('TTS fetch failed:', err)
           return safeNext()
         }
       }
 
-      if (value.startsWith('http')) {
-        const audio = new Audio(value)
+      const updatedValue = audioItemsRef.current[i]
+      if (updatedValue.startsWith('http')) {
+        const audio = new Audio(updatedValue)
         audioRef.current = audio
         audio.onended = safeNext
         audio.play()
       } else {
-        speak({ text: value, speaker, gender, index: i, onEnd: safeNext })
+        speak({ text: updatedValue, speaker, gender, index: i, onEnd: safeNext })
       }
     }
 

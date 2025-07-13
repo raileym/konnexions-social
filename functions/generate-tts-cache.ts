@@ -1,7 +1,7 @@
 import { GENDER } from '../shared/cknTypes/constants.js'
 import { type Handler } from '@netlify/functions'
 import { getVoiceForSpeaker } from '../shared/getVoiceForSpeaker.js'
-import { getPaywall } from '../shared/supabase/paywall.js'
+import { getPaywall } from '../shared/paywall.js'
 import { createClient } from '@supabase/supabase-js'
 import crypto from 'crypto'
 
@@ -32,14 +32,14 @@ const handler: Handler = async (event) => {
 
     if (!text) {
       return {
-        statusCode: 402, 
+        statusCode: 401, 
         body: JSON.stringify({ error: 'Missing text' })
       }
     }
 
     if (!clientUUID) {
       return {
-        statusCode: 400,
+        statusCode: 402,
         body: JSON.stringify({ error: 'Missing clientUUID' })
       }
     }
@@ -84,7 +84,7 @@ const handler: Handler = async (event) => {
 
     if (paywall.paywall_package_yellow_remaining <= 0) {
       return {
-        statusCode: 401,
+        statusCode: 404,
         body: JSON.stringify({ error: 'No yellow package credits remaining' })
       }
     }
@@ -151,7 +151,7 @@ const handler: Handler = async (event) => {
 
   } catch (err) {
     return {
-      statusCode: 500,
+      statusCode: 501,
       body: JSON.stringify({
         error: `TTS Server error: ${err instanceof Error ? err.message : 'Unknown error'}`
       })

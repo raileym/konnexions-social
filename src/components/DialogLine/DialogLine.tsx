@@ -18,12 +18,10 @@ export const DialogLine = ({
 }: DialogLineProps) => {
   const [gender, speaker, sentence] = line.split('|')
 
-  const { cutoff, maxCount, setMaxCount } = useAppContext()
+  const { cutoff } = useAppContext()
 
   const { speak } = useTTS({
     useCloudTTS,
-    maxCount,
-    setMaxCount,
     cutoff,
     store: storeAudioOrLine,
     language,

@@ -17,7 +17,8 @@ export const LessonBar: React.FC = () => {
     // lessonComplete,
     setLessonComplete,
     setLesson,
-    activateLessonBar
+    activateLessonBar,
+    paywall
   } = useAppContext()
   
   const translateX = activateLessonBar ? 'translateX-0' : 'translateX--100'
@@ -82,6 +83,15 @@ export const LessonBar: React.FC = () => {
           <li className="pa2 gray">No saved lessons yet.</li>
         )}
       </ul>
+      <hr className="bg-black bn" style={{height: '0.15em'}} />
+      <div className="f6 flex justify-around tc mb3">
+        <div className="green pv1 ph2 bg-black br3 b--black b">Green</div>
+        <div className="pa1 items-center flex justify-center">{paywall.paywall_package_green_remaining}</div>
+      </div>
+      <div className="f6 flex justify-around tc">
+        <div className="yellow pv1 ph2 bg-black br3 b--black b">Yellow</div>
+        <div className="pa1 items-center flex justify-center">{paywall.paywall_package_yellow_remaining}</div>
+      </div>
     </div>
   )
 }

@@ -1,7 +1,9 @@
 import { useRef, useState } from 'react'
-import type { DebugLog, Language, MaxCount, SetMaxCount } from '@cknTypes/types'
+import type { DebugLog, Language } from '@cknTypes/types'
 import { fetchTTS } from '@PanelGenAIProComponents/fetchTTS/fetchTTS'
 import { cleanTextForTTS } from '@components/Util'
+import { useAppContext } from '@context/AppContext/AppContext'
+import { usePaywall } from '@hooks/usePaywall/usePaywall'
 
 type SpeakArgs = {
   text: string
@@ -11,10 +13,8 @@ type SpeakArgs = {
   onEnd?: () => void
 }
 
-type UseTTSOptions = {
+type UseTTSProps = {
   useCloudTTS: boolean
-  maxCount: MaxCount
-  setMaxCount: SetMaxCount
   cutoff: boolean
   store?: (index: number, value: string) => void
   language: Language
@@ -30,16 +30,17 @@ const LANG_TAG_MAP: Record<string, string> = {
 
 export function useTTS({
   useCloudTTS,
-  maxCount,
-  setMaxCount,
   cutoff,
   store,
   language,
   debugLog
-}: UseTTSOptions) {
+}: UseTTSProps) {
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const fetchingRef = useRef(false)
+
+  const { paywall, clientUUID } = useAppContext()
+  const { refreshPaywall } = usePaywall()
 
   const stop = () => {
     window.speechSynthesis.cancel()
@@ -54,7 +55,7 @@ export function useTTS({
     stop();
 
     // Clean text here before TTS
-    if (useCloudTTS && !cutoff && maxCount > 0) {
+    if (useCloudTTS && !cutoff && paywall.paywall_package_yellow_remaining > 0) {
       if (audioUrl) {
         const audio = new Audio(audioUrl);
         audioRef.current = audio;
@@ -67,20 +68,23 @@ export function useTTS({
       fetchingRef.current = true;
 
       try {
-        const url = await fetchTTS({
+        const { audioUrl, decremented } = await fetchTTS({
           debugLog,
           speaker,
           language,
           text,
           gender,
-          maxCount,
-          setMaxCount,
-          cutoff
+          paywall,
+          cutoff,
+          clientUUID
         });
-        if (url) {
-          setAudioUrl(url);
-          if (store) store(index, url);
-          const audio = new Audio(url);
+        if (decremented) {
+          refreshPaywall()
+        }
+        if (audioUrl) {
+          setAudioUrl(audioUrl);
+          if (store) store(index, audioUrl);
+          const audio = new Audio(audioUrl);
           audioRef.current = audio;
           audio.onended = onEnd ?? (() => {});
           audio.play();
