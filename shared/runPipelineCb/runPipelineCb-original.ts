@@ -3,7 +3,7 @@ import type {
   Lesson,
   RunPipelineCbProps
 } from '../cknTypes/types.js'
-import { getModuleContent } from '../getModuleContent.js'
+import getModule_cb from '../getModule_cb/getModule_cb.js'
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -14,15 +14,21 @@ export const runPipelineCb = async ({
   lesson,
   pipelineConfig
 }: RunPipelineCbProps): Promise<Lesson | null> => {
+
   // *************************************************************************************
   // DRAFT
   // *************************************************************************************
 
   const draftStart = performance.now()
-  const moduleDraft = await getModuleContent(lesson, pipelineConfig.draftModule)
+  const moduleDraft = await getModule_cb({
+    testMode: false,
+    moduleName: pipelineConfig.draftModule,
+    lesson
+  })
   if (!moduleDraft) return null
   const draftDuration = performance.now() - draftStart
 
+  // Include duration in module content
   const draftContentWithDuration = {
     ...moduleDraft,
     moduleDurationMs: draftDuration
@@ -46,9 +52,13 @@ export const runPipelineCb = async ({
   // *************************************************************************************
   // REVIEW
   // *************************************************************************************
-
+  
   const reviewStart = performance.now()
-  const moduleReviewed = await getModuleContent(lessonDraft, pipelineConfig.reviewModule)
+  const moduleReviewed = await getModule_cb({
+    lesson: lessonDraft,
+    moduleName: pipelineConfig.reviewModule,
+    testMode: false
+  })
   if (!moduleReviewed) return null
   const reviewDuration = performance.now() - reviewStart
 
@@ -75,7 +85,7 @@ export const runPipelineCb = async ({
   // *************************************************************************************
   // RESOLVE
   // *************************************************************************************
-
+  
   const resolveStart = performance.now()
   const { linesResolved, linesResolutions } = pipelineConfig.resolve({
     reviewLines: lessonReviewed[pipelineConfig.reviewModule].lines,
