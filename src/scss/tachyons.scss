@@ -215,9 +215,9 @@ $colors: (
 //     .width-#{10*$i} { width: 10rem*$i; }
 // }    
     
-// @for $i from 40 through 0 {
-//     .height-#{$i} { height: 1rem*$i; }
-// }
+@for $i from 40 through 0 {
+    .height-#{$i} { height: 1rem*$i; }
+}
 
 // @for $i from 40 through 0 {
 //     .height-#{$i}em { height: 24px*$i; }

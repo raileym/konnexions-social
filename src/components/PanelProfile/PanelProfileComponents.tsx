@@ -245,11 +245,11 @@ const PanelRequestEmailComponents = () => {
           onClick={clearLocalStorageExceptEssential}
           className="mt4 b ph4 pv3 input-reset ba b--red bg-white red grow pointer f6 br3 dib"
         >
-          Clear Local Storage<br/>(except debugMode + cookedEmail)
+          Clear Local Storage<br/>(except debugMode)
         </button>
 
       </div>
-      <div className="h5"></div>
+      <div className="height-20"></div>
     </>
   )
 }
