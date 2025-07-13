@@ -30,6 +30,8 @@ export const getModuleContent = async (
     return null
   }
 
+  console.log('getModuleContent - Paywall', paywall)
+
   if (paywall.paywall_package_green_remaining <= 0) {
     console.error('[getModuleContent] No green package credits remaining')
     return null
@@ -102,10 +104,17 @@ export const getModuleContent = async (
   const prose = updatedLesson[MODULE_NAME.DIALOG_DRAFT]?.lines?.join(' ') ?? ''
 
   if (paywall.paywall_package_green_remaining > 0) {
-    await upsertPaywall(lesson.clientUUID, {
+    console.log('getModuleContent - upsertPaywall')
+
+    const { success, error } = await upsertPaywall(lesson.clientUUID, {
       ...paywall,
       paywall_package_green_remaining: paywall.paywall_package_green_remaining - 1
     })
+    if (!success) {
+      console.error('[getModuleContent] upsertPaywall failed:', error)
+      return null
+    }
+
   }
 
   return {

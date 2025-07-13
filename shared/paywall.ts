@@ -1,6 +1,6 @@
 // supabase/paywall.ts
 import { createClient } from '@supabase/supabase-js'
-import type { Paywall } from '@cknTypes/types'
+import type { ClientUUID, Paywall } from '@cknTypes/types'
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -23,12 +23,16 @@ export const getPaywall = async (
 }
 
 export const upsertPaywall = async (
-  clientUUID: string,
-  patch: Partial<Paywall>
+  clientUUID: ClientUUID,
+  paywall: Paywall
 ): Promise<{ success: boolean; error?: string }> => {
   const { error } = await supabase.rpc('ckn_upsert_paywall', {
     arg_client_uuid: clientUUID,
-    arg_patch: patch
+    arg_package_green_remaining: paywall.paywall_package_green_remaining,
+    arg_package_yellow_remaining: paywall.paywall_package_yellow_remaining,
+    arg_stripe_customer_id: paywall.paywall_stripe_customer_id,
+    arg_stripe_subscription_id: paywall.paywall_stripe_subscription_id,
+    arg_stripe_metadata: paywall.paywall_stripe_metadata
   })
 
   if (error) {
