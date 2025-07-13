@@ -1,5 +1,5 @@
 // shared/getModuleContent.ts
-import { fetchOpenAI } from './fetchLLM.js'
+import { fetchOpenAI, fetchClaude } from './fetchLLM.js'
 import { getPrompt_cb } from './getPrompt_cb.js'
 import { validateModule } from './validateModule.js'
 import { streamlineModule } from './streamlineModule.js'
@@ -8,17 +8,18 @@ import {
   defaultPrompt,
   type ErrorLabel,
   type Lesson,
-  type ModuleName,
   type Prompt,
   type Module,
-  defaultModule
+  defaultModule,
+  type GetModuleContentProps
 } from './cknTypes/types.js'
-import { ERROR_LABEL, FIELD_COUNT, MODULE_NAME } from './cknTypes/constants.js'
+import { ERROR_LABEL, FIELD_COUNT, GEN_AI_PROVIDER, MODULE_NAME } from './cknTypes/constants.js'
 
-export const getModuleContent = async (
-  lesson: Lesson,
-  moduleName: ModuleName
-): Promise<Module | null> => {
+export const getModuleContent = async ({
+  lesson,
+  moduleName,
+  provider
+}: GetModuleContentProps): Promise<Module | null> => {
   let prompt: Prompt = defaultPrompt
   let response: string = ''
   let fieldCount: number = FIELD_COUNT[moduleName]
@@ -43,11 +44,32 @@ export const getModuleContent = async (
     errors: []
   }))
 
-  response = await fetchOpenAI({
-    lessonId: lesson.id,
-    clientUUID: lesson.clientUUID,
-    prompt
-  })
+  switch(provider) {
+    case GEN_AI_PROVIDER.CLAUDE:
+      response = await fetchClaude({
+        lessonId: lesson.id,
+        clientUUID: lesson.clientUUID,
+        prompt,
+        moduleName
+      })
+      break
+
+    default:
+    case GEN_AI_PROVIDER.OPENAI:
+      response = await fetchOpenAI({
+        lessonId: lesson.id,
+        clientUUID: lesson.clientUUID,
+        prompt,
+        moduleName
+      })  
+      break
+  }
+
+  // response = await fetchOpenAI({
+  //   lessonId: lesson.id,
+  //   clientUUID: lesson.clientUUID,
+  //   prompt
+  // })
 
   let validModule = validateModule({
     response,
@@ -64,11 +86,32 @@ export const getModuleContent = async (
       errors: validModule.errors ?? []
     }))
 
-    response = await fetchOpenAI({
-      lessonId: lesson.id,
-      clientUUID: lesson.clientUUID,
-      prompt
-    })
+    switch(provider) {
+      case GEN_AI_PROVIDER.CLAUDE:
+        response = await fetchClaude({
+          lessonId: lesson.id,
+          clientUUID: lesson.clientUUID,
+          prompt,
+          moduleName
+        })
+        break
+
+      default:
+      case GEN_AI_PROVIDER.OPENAI:
+        response = await fetchOpenAI({
+          lessonId: lesson.id,
+          clientUUID: lesson.clientUUID,
+          prompt,
+          moduleName
+        })  
+        break
+    }
+  
+    // response = await fetchOpenAI({
+    //   lessonId: lesson.id,
+    //   clientUUID: lesson.clientUUID,
+    //   prompt
+    // })
 
     validModule = validateModule({
       response,

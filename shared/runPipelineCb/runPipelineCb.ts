@@ -19,7 +19,11 @@ export const runPipelineCb = async ({
   // *************************************************************************************
 
   const draftStart = performance.now()
-  const moduleDraft = await getModuleContent(lesson, pipelineConfig.draftModule)
+  const moduleDraft = await getModuleContent({
+    lesson,
+    moduleName: pipelineConfig.draftModule,
+    provider: pipelineConfig.draftProvider
+  })
   if (!moduleDraft) return null
   const draftDuration = performance.now() - draftStart
 
@@ -48,7 +52,11 @@ export const runPipelineCb = async ({
   // *************************************************************************************
 
   const reviewStart = performance.now()
-  const moduleReviewed = await getModuleContent(lessonDraft, pipelineConfig.reviewModule)
+  const moduleReviewed = await getModuleContent({
+    lesson: lessonDraft,
+    moduleName: pipelineConfig.reviewModule,
+    provider: pipelineConfig.reviewProvider
+  })
   if (!moduleReviewed) return null
   const reviewDuration = performance.now() - reviewStart
 

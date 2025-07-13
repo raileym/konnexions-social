@@ -1040,7 +1040,9 @@ export type GetModuleCbProps = {
 
 export type PipelineConfig = {
   draftModule: ModuleName
+  draftProvider: GenAIProvider
   reviewModule: ModuleName
+  reviewProvider: GenAIProvider
   resolveModule: ModuleName
   resolve: Resolve
   pipelineType: PipelineType
@@ -1165,6 +1167,7 @@ export type GenAIProps = {
   prompt: Prompt
   lessonId: LessonId
   clientUUID: ClientUUID
+  moduleName: ModuleName
 }
 
 export type FetchOpenAIProps = GenAIProps
@@ -1306,4 +1309,8 @@ export type SetPackagesProps = {
   yellowCount: number
 }
 
-
+export type GetModuleContentProps = {
+  lesson: Lesson,
+  moduleName: ModuleName
+  provider: GenAIProvider
+}

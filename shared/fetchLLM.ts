@@ -10,8 +10,11 @@ import { storePromptResponse } from './storePromptResponse.js'
 export const fetchClaude = async ({
   prompt,
   lessonId,
-  clientUUID
+  clientUUID,
+  moduleName
 }: FetchClaudeProps): Promise<FetchClaudeResponse> => {
+  console.log(`Engaging Claude on ${moduleName}`)
+
   const claudeKey = process.env.CLAUDE_API_KEY
   if (!claudeKey) throw new Error('Missing Claude API key in environment')
 
@@ -65,8 +68,11 @@ export const fetchClaude = async ({
 export const fetchOpenAI = async ({
   prompt,
   lessonId,
-  clientUUID
+  clientUUID,
+  moduleName
 }: FetchOpenAIProps): Promise<FetchOpenAIResponse> => {
+  console.log(`Engaging OpenAI on ${moduleName}`)
+
   const apiKey = process.env.OPENAI_API_KEY
   if (!apiKey) throw new Error('Missing OpenAI API key in environment')
 
