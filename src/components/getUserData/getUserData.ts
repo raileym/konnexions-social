@@ -10,13 +10,13 @@ export const getUserData = async (
       body: JSON.stringify({ clientUUID })
     })
 
+    const json = await res.json()
+
     if (!res.ok) {
-      const json = await res.json()
       return { success: false, error: json?.error ?? 'Unexpected error' }
     }
 
-    const data = await res.json() as UserData
-    return { success: true, data }
+    return { success: true, data: json.userData }
   } catch (err) {
     return {
       success: false,

@@ -23,16 +23,16 @@ import {
 } from './constants.js'
 
 export type UserData = {
-  email_user_key: string
-  email_user_client_uuid: ClientUUID,
-  email_user_flex_lesson: FlexLesson,
-  email_user_current_lesson: Lesson,
-  email_user_lessons: Lessons,
-  email_user_lesson_number: LessonNumber,
-  email_user_lesson_prompt: Prompt,
-  email_user_lesson_timestamp: LessonTimestamp,
-  email_user_created_at: string,
-  email_user_updated_at: string
+  user_data_key: string
+  user_data_client_uuid: ClientUUID,
+  user_data_flex_lesson: FlexLesson,
+  user_data_current_lesson: Lesson,
+  user_data_lessons: Lessons,
+  user_data_lesson_number: LessonNumber,
+  user_data_lesson_prompt: Prompt,
+  user_data_lesson_timestamp: LessonTimestamp,
+  user_data_created_at: string,
+  user_data_updated_at: string
 }
 
 export type IsUserValidated = boolean
@@ -563,16 +563,16 @@ export const defaultCreatedAt = ''
 export const defaultUpdatedAt = ''
 
 export const defaultUserData = {
-  email_user_key: defaultKey,
-  email_user_client_uuid: defaultClientUUID,
-  email_user_flex_lesson: defaultFlexLesson,
-  email_user_current_lesson: defaultLesson,
-  email_user_lessons: [],
-  email_user_lesson_number: defaultLessonNumber,
-  email_user_lesson_prompt: defaultPrompt,
-  email_user_lesson_timestamp: defaultLessonTimestamp,
-  email_user_created_at: defaultCreatedAt,
-  email_user_updated_at: defaultUpdatedAt
+  user_data_key: defaultKey,
+  user_data_client_uuid: defaultClientUUID,
+  user_data_flex_lesson: defaultFlexLesson,
+  user_data_current_lesson: defaultLesson,
+  user_data_lessons: [],
+  user_data_lesson_number: defaultLessonNumber,
+  user_data_lesson_prompt: defaultPrompt,
+  user_data_lesson_timestamp: defaultLessonTimestamp,
+  user_data_created_at: defaultCreatedAt,
+  user_data_updated_at: defaultUpdatedAt
 }
 
 export const dXfaultNounsLines: NounsLines = [

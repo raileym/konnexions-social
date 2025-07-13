@@ -16,10 +16,10 @@ export const usePaywall = () => {
   }
 
   const refreshPaywall = async () => {
-    console.log('refreshPaywall')
+    // cXnsole.log('refreshPaywall')
     if (!clientUUID) return
     const { success, data } = await cloudGetPaywall({ clientUUID })
-    console.log('data', data)
+    // cXnsole.log('data', data)
     if (success && data) setPaywall(data)
   }
 

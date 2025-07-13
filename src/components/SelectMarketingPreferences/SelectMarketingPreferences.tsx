@@ -19,13 +19,13 @@ export const SelectMarketingPreferences = () => {
       const res = await getMarketingPreferences({ clientUUID })
 
       if (res.success) {
-        console.log('WINNER')
-        // console.log(res)
+        // cXnsole.log('WINNER')
+        // cXnsole.log(res)
         const prefs = res.data ?? defaultMarketingPreferences
         setPreferences(prefs)
-        console.log(prefs)
+        // console.log(prefs)
       } else {
-        console.log('LOSER')
+        // cXnsole.log('LOSER')
         setError(res.error || 'Failed to load preferences')
         setPreferences(defaultMarketingPreferences)
       }

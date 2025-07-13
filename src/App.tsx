@@ -78,7 +78,13 @@ const App: React.FC = () => {
     clientUUID,
     setClientUUID,
     isUserValidated,
-    setPaywall
+    setPaywall,
+    setFlexLesson,
+    setLesson,
+    setLessons,
+    setSelectedLessonNumber,
+    setLessonPrompt,
+    setLessonTimestamp
   } = useAppContext()
 
   useEffect(() => {
@@ -115,20 +121,6 @@ const App: React.FC = () => {
           setCookedEmail(cookedEmail)
           setClientUUID(cookedEmail)
           setIsUserValidated(true)
-
-          // const dataRes = await fetch('/.netlify/functions/get-user-data', {
-          //   method: 'POST',
-          //   headers: { 'Content-Type': 'application/json' },
-          //   body: JSON.stringify({ cookedEmail: cookedEmail }),
-          // })
-
-          // const userData = await dataRes.json()
-          // setUserData(userData)
-        } else {
-          // cXonsole.log('NO check')
-          // localStorage.removeItem('cookedEmail')
-          // setCookedEmail('')
-          // setIsUserValidated(false)
         }
       } catch (err) {
         console.error('Failed to verify cookedEmail:', err)
@@ -137,7 +129,7 @@ const App: React.FC = () => {
 
     verifyCooked()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setCookedEmail, setIsUserValidated, setUserData])
+  }, [setCookedEmail, setIsUserValidated])
 
   useEffect(() => {
     if (!isUserValidated || !clientUUID) return
@@ -154,11 +146,20 @@ const App: React.FC = () => {
 
       setUserData(data)
 
+      setFlexLesson(data.user_data_flex_lesson)
+      setLesson(data.user_data_current_lesson)
+      setLessons(data.user_data_lessons)
+      setSelectedLessonNumber(data.user_data_lesson_number)
+      setLessonPrompt(data.user_data_lesson_prompt)
+      setLessonTimestamp(data.user_data_lesson_timestamp)
+
+      console.log('userData', data)
+
       await refreshPaywall()
     }
 
     fetchUserDataAndPaywall()
-  }, [isUserValidated, clientUUID, setUserData, setPaywall, refreshPaywall])
+  }, [isUserValidated, clientUUID, setUserData, setPaywall, refreshPaywall, setFlexLesson, setLesson, setLessons, setSelectedLessonNumber, setLessonPrompt, setLessonTimestamp])
 
 
   return (
