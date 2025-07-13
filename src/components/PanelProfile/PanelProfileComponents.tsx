@@ -1,9 +1,11 @@
 import { USER_EMAIL_NOT_VALIDATED, USER_EMAIL_VALIDATED } from '@cknTypes/constants'
+import { getUserData } from '@components/getUserData/getUserData'
 import Paywall from '@components/Paywall/Paywall'
 import { SelectMarketingPreferences } from '@components/SelectMarketingPreferences/SelectMarketingPreferences'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { faSquareCheck } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { usePaywall } from '@hooks/usePaywall/usePaywall'
 import React, { useEffect, useState } from 'react'
 
 const PanelRequestEmailComponents = () => {
@@ -16,7 +18,21 @@ const PanelRequestEmailComponents = () => {
   const [validationMessage, setValidationMessage] = useState<string>(USER_EMAIL_NOT_VALIDATED)
   const [localCookedEmail, setLocalCookedEmail] = useState('')
   
-  const { setCookedEmail, setClientUUID, setIsUserValidated, isUserValidated } = useAppContext()
+  const {
+    setCookedEmail,
+    setClientUUID,
+    setIsUserValidated,
+    isUserValidated,
+    setUserData,
+    setFlexLesson,
+    setLesson,
+    setLessons,
+    setSelectedLessonNumber,
+    setLessonPrompt,
+    setLessonTimestamp
+  } = useAppContext()
+
+  const { refreshPaywall } = usePaywall()
 
   useEffect(() => {
     if (isUserValidated) {
@@ -83,6 +99,28 @@ const PanelRequestEmailComponents = () => {
       setCookedEmail(localCookedEmail)
       setClientUUID(localCookedEmail)
       setIsUserValidated(true)
+
+      // Let miracles happen here
+
+      const { success, data, error } = await getUserData(localCookedEmail)
+      if (!success || !data) {
+        console.error('❌ Failed to get user data:', error)
+        return
+      }
+
+      setUserData(data)
+
+      setFlexLesson(data.user_data_flex_lesson)
+      setLesson(data.user_data_current_lesson)
+      setLessons(data.user_data_lessons)
+      setSelectedLessonNumber(data.user_data_lesson_number)
+      setLessonPrompt(data.user_data_lesson_prompt)
+      setLessonTimestamp(data.user_data_lesson_timestamp)
+
+      console.log('userData', data)
+
+      await refreshPaywall()
+
     } catch (err) {
       setIsUserValidated(false)
       setError((err as Error).message)
@@ -111,15 +149,16 @@ const PanelRequestEmailComponents = () => {
     }
   }
 
-  // const clearLocalStorageExceptEssential = () => {
-  //   const preserveKeys = ['debugMode']
-  //   Object.keys(localStorage).forEach(key => {
-  //     if (!preserveKeys.includes(key)) {
-  //       localStorage.removeItem(key)
-  //     }
-  //   })
-  //   alert('Local storage (except cookedEmail and debugMode) cleared.')
-  // }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const clearLocalStorageExceptEssential = () => {
+    const preserveKeys = ['debugMode']
+    Object.keys(localStorage).forEach(key => {
+      if (!preserveKeys.includes(key)) {
+        localStorage.removeItem(key)
+      }
+    })
+    alert('Local storage (except cookedEmail and debugMode) cleared.')
+  }
 
   return (
     <>
@@ -201,7 +240,6 @@ const PanelRequestEmailComponents = () => {
 
         <Paywall />
 
-        {/*
         <button
           type="button"
           onClick={clearLocalStorageExceptEssential}
@@ -209,7 +247,6 @@ const PanelRequestEmailComponents = () => {
         >
           Clear Local Storage<br/>(except debugMode + cookedEmail)
         </button>
-        */}
 
       </div>
       <div className="h5"></div>
