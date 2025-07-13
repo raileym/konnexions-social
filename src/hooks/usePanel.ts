@@ -44,9 +44,11 @@ export const usePanel = () => {
       }, 1000)
     } else {
       if (newPanel === activePanel) {
-        setActivePanel(activeHome)
-        setHelpPanel(activeHome)
+        // console.log('YEP! RIGHT HERE IS THE PROBLEM.')
+        // setActivePanel(activeHome)
+        // setHelpPanel(activeHome)
       } else {
+        // console.log('NOPE! NOT THE PROBLEM: MOVING TO', newPanel)
         setActivePanel(newPanel)
         setHelpPanel(newPanel)
         // setActivePanel(activeHome)

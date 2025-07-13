@@ -28,9 +28,15 @@ export const LessonBar: React.FC = () => {
   const handleAddLesson = () => {
     setLessonComplete(false)
 
-    if (activePanel === APP_PANEL.BASIC_REVIEW) {
-      switchPanel(activePanel)
-    }
+    console.log('switching panel', APP_PANEL.BASIC)
+    switchPanel(APP_PANEL.BASIC)
+
+    // Not sure the logic below versus a straight
+    // patch through to APP_PANEL.BASIC
+    //
+    // if (activePanel === APP_PANEL.BASIC_REVIEW) {
+    //   switchPanel(activePanel)
+    // }
 
     const newNumber = lessons.length + 1
     const newLesson: Lesson = {

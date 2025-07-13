@@ -7,6 +7,7 @@ import { defaultLesson, type CreateFlexLessonProps, type CreateLessonResult } fr
 // import { useDebugLogger } from '@hooks/useDebugLogger'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails'
 import { upsertUserData } from '@components/upsertUserData/upsertUserData'
+import { usePaywall } from './usePaywall/usePaywall'
 // import type { faFalse } from '@fortawesome/free-solid-svg-icons'
 
 export const useLessonHandlers = () => {
@@ -29,8 +30,11 @@ export const useLessonHandlers = () => {
     customParticipantList,
     clientUUID,
     lessons,
-    flexLesson
+    flexLesson,
+    paywall
   } = useAppContext()
+
+  const { refreshPaywall } = usePaywall()
 
   const createFullLesson = async () => {
     setLessonComplete(false)
@@ -167,6 +171,11 @@ export const useLessonHandlers = () => {
   const createFlexLesson = async ({lesson}: CreateFlexLessonProps) => {
     setLessonComplete(false)
 
+    if (paywall.paywall_package_green_remaining < 0) {
+      console.log('Not enough green packages available')
+      return
+    }
+
     const localLessonTimestamp = Date.now()
     setLessonTimestamp(localLessonTimestamp.toString())
 
@@ -275,6 +284,8 @@ export const useLessonHandlers = () => {
       return next
     })
 
+    refreshPaywall()
+    
     setLessonComplete(true)
     setLesson(updatedTranslationLesson)
 
