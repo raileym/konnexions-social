@@ -1,7 +1,7 @@
 // src/components/NavbarTop.tsx
 import React from 'react'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
-import { faBars, faHome, faUser } from '@fortawesome/free-solid-svg-icons'   
+import { faBars, faGear, faHome, faUser } from '@fortawesome/free-solid-svg-icons'   
 
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
@@ -61,7 +61,8 @@ const NavbarTop: React.FC = () => {
           </div>
 
           <div className="baX">
-            <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage(MDX_PAGE.WELCOME)}/>
+            <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings'/>
+            {/* <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage(MDX_PAGE.WELCOME)}/> */}
             <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
             <Button buttonClass='bn o-20X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
             <Button buttonClass='bn b--black o-20X ml2 mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />

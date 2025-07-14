@@ -121,7 +121,9 @@ import type {
   SetVerificationToken,
   Paywall,
   SetPaywall,
-  MdxPage
+  MdxPage,
+  SetIsSettingsOpen,
+  IsSettingsOpen
 } from '@cknTypes/types'
 
 import {
@@ -222,6 +224,7 @@ export type AppContextType = {
   isHelpOpen: IsHelpOpen
   isMenuOpen: IsMenuOpen
   isProfileOpen: IsProfileOpen
+  isSettingsOpen: IsSettingsOpen
   isTransitioning: IsTransitioning
   isUserValidated: IsUserValidated
   lesson: Lesson
@@ -272,6 +275,7 @@ export type AppContextType = {
   setIsHelpOpen: SetIsHelpOpen
   setIsMenuOpen: SetIsMenuOpen
   setIsProfileOpen: SetIsProfileOpen
+  setIsSettingsOpen: SetIsSettingsOpen
   setIsTransitioning: SetIsTransitioning
   setIsUserValidated: SetIsUserValidated
   setLesson: SetLesson
@@ -368,6 +372,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
   const [isMenuOpen, setIsMenuOpen] = useState<IsHelpOpen>(false)
   const [isProfileOpen, setIsProfileOpen] = useState<IsProfileOpen>(false)
+  const [isSettingsOpen, setIsSettingsOpen] = useState<IsSettingsOpen>(false)
 
   const [userData, setUserData] = usePersistentState<UserData>('userData', defaultUserData)
   const [isUserValidated, setIsUserValidated] = useState<IsUserValidated>(false)
@@ -471,6 +476,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     isHelpOpen,
     isMenuOpen,
     isProfileOpen,
+    isSettingsOpen,
     isTransitioning,
     isUserValidated,
     lesson,
@@ -520,6 +526,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsHelpOpen,
     setIsMenuOpen,
     setIsProfileOpen,
+    setIsSettingsOpen,
     setIsTransitioning,
     setIsUserValidated,
     setLesson,

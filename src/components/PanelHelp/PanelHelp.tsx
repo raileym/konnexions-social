@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useHelpPanel } from '@hooks/useHelpPanel' // Assuming you have this hook
+import { useHelpPanel } from '@hooks/useHelpPanel'
 
-const HELP_PANEL_WIDTH_PERCENT = 'w-40'     // could be 'w-60', 'w-80', etc.
-const HELP_PANEL_TRANSLATE_X = 'translate-x-60' // must match the right offset
+const HELP_PANEL_WIDTH_PERCENT = 'w-40'
+const HELP_PANEL_TRANSLATE_X = 'translate-x-60'
 
 const PanelHelp: React.FC = () => {
   const PanelHelpRef = useRef<HTMLDivElement>(null);
   
   const { helpPanel, isHelpOpen } = useAppContext()
-  const { closeHelp } = useHelpPanel() // Assuming you have this hook with closeHelp function
+  const { closeHelp } = useHelpPanel()
   
   const translateX = isHelpOpen ? HELP_PANEL_TRANSLATE_X : 'translate-x-full'
 
@@ -22,7 +22,12 @@ const PanelHelp: React.FC = () => {
         !PanelHelpRef.current.contains(event.target as Node)
       ) {
         console.log('Click is outside Help Panel, closing Help Panel')
-        closeHelp();
+        
+        // Don't interfere with the event - let it complete naturally
+        // Close panel on next tick
+        requestAnimationFrame(() => {
+          closeHelp();
+        });
       } else {
         console.log('Click is inside Help Panel or ref not available')
       }
@@ -30,14 +35,16 @@ const PanelHelp: React.FC = () => {
 
     if (isHelpOpen) {
       console.log('Adding listener for click outside Help Panel')
-      // Add a small delay to prevent immediate closure if the same click that opened the help
+      
       const timeoutId = setTimeout(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-      }, 100);
+        document.addEventListener('click', handleClickOutside, { 
+          capture: false // Listen in bubbling phase, after other handlers
+        });
+      }, 150); // Slightly longer delay
 
       return () => {
         clearTimeout(timeoutId);
-        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('click', handleClickOutside);
         console.log('Removing listener for click outside Help Panel')
       };
     }

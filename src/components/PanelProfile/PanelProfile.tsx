@@ -21,7 +21,12 @@ const PanelProfile = () => {
         !PanelProfileRef.current.contains(event.target as Node)
       ) {
         console.log('Click is outside Profile Panel, closing Profile Panel')
-        closeProfile();
+        
+        // Don't interfere with the event - let it complete naturally
+        // Close panel on next tick
+        requestAnimationFrame(() => {
+          closeProfile();
+        });
       } else {
         console.log('Click is inside Profile Panel or ref not available')
       }
@@ -29,14 +34,16 @@ const PanelProfile = () => {
 
     if (isProfileOpen) {
       console.log('Adding listener for click outside Profile Panel')
-      // Add a small delay to prevent immediate closure if the same click that opened the profile
+      
       const timeoutId = setTimeout(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-      }, 100);
+        document.addEventListener('click', handleClickOutside, { 
+          capture: false // Listen in bubbling phase, after other handlers
+        });
+      }, 150); // Slightly longer delay
 
       return () => {
         clearTimeout(timeoutId);
-        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('click', handleClickOutside);
         console.log('Removing listener for click outside Profile Panel')
       };
     }

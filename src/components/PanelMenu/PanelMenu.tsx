@@ -26,7 +26,12 @@ const PanelMenu: React.FC = () => {
         !PanelMenuRef.current.contains(event.target as Node)
       ) {
         console.log('Click is outside Menu Panel, closing menu')
-        closeMenu();
+        
+        // Don't interfere with the event - let it complete naturally
+        // Close panel on next tick
+        requestAnimationFrame(() => {
+          closeMenu();
+        });
       } else {
         console.log('Click is inside Menu Panel or ref not available')
       }
@@ -34,14 +39,16 @@ const PanelMenu: React.FC = () => {
 
     if (isMenuOpen) {
       console.log('Adding listener for click outside Menu Panel')
-      // Add a small delay to prevent immediate closure if the same click that opened the menu
+      
       const timeoutId = setTimeout(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-      }, 100);
+        document.addEventListener('click', handleClickOutside, { 
+          capture: false // Listen in bubbling phase, after other handlers
+        });
+      }, 150); // Slightly longer delay
 
       return () => {
         clearTimeout(timeoutId);
-        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('click', handleClickOutside);
         console.log('Removing listener for click outside Menu Panel')
       };
     }
@@ -53,7 +60,6 @@ const PanelMenu: React.FC = () => {
     setIsMenuOpen(false)
   }
 
-  // Remove the early return - let the component render with the translateX animation
   return (
     <div 
       ref={PanelMenuRef}

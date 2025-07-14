@@ -6,12 +6,14 @@ import { APP_PANEL } from '@cknTypes/constants'
 import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
+import { useSettingsPanel } from '@hooks/useSettingsPanel'
 
 const Button = ({ iconClass, titleClass, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
-  const { isHelpOpen, isMenuOpen, isProfileOpen } = useAppContext()
+  const { isHelpOpen, isMenuOpen, isProfileOpen, isSettingsOpen } = useAppContext()
   const { openProfile, closeProfile } = useProfilePanel()
   const { openHelp, closeHelp } = useHelpPanel()
   const { openMenu, closeMenu } = useMenuPanel()
+  const { openSettings, closeSettings } = useSettingsPanel()
 
   const handleClick = () => {
     if (isHelpOpen && panel === APP_PANEL.HELP) {
@@ -20,22 +22,34 @@ const Button = ({ iconClass, titleClass, disable, panel, icon, img, title, butto
       closeMenu()
     } else if (isProfileOpen && panel === APP_PANEL.PROFILE) {
       closeProfile()
+    } else if (isSettingsOpen && panel === APP_PANEL.SETTINGS) {
+      closeSettings()
+
     } else if (!isHelpOpen && panel === APP_PANEL.HELP) {
       closeProfile()
       closeMenu()
+      closeSettings()
       openHelp()
     } else if (!isMenuOpen && panel === APP_PANEL.MENU) {
       closeProfile()
       closeHelp()
+      closeSettings()
       openMenu()
     } else if (!isProfileOpen && panel === APP_PANEL.PROFILE) {
       closeMenu()
       closeHelp()
+      closeSettings()
       openProfile()
+    } else if (!isSettingsOpen && panel === APP_PANEL.SETTINGS) {
+      closeMenu()
+      closeHelp()
+      closeProfile()
+      openSettings()
     } else {
       closeMenu()
       closeHelp()
       closeProfile()
+      closeSettings()
       switchFn(panel)
     }
 

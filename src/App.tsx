@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import PanelKeys from '@components/PanelKeys/PanelKeys'
+import PanelSettings from '@components/PanelSettings/PanelSettings'
 import PanelBasic from '@components/PanelBasic/PanelBasic'
 import PanelHelp from '@components/PanelHelp/PanelHelp'
 import NavbarTop from '@components/NavbarTop/NavbarTop'
@@ -55,7 +55,7 @@ const AppMain = () => {
         <PanelGenAI />
         <PanelBasicWelcome />
         <PanelBasicReview />
-        <PanelKeys />
+        <PanelSettings />
         <PanelMenu />
         <PanelHelp />
         <PanelMDX />
