@@ -19,6 +19,13 @@ export const MODULE_NAME = {
   ERROR_MODULE: 'errorModule'
 } as const
 
+export const MDX_PAGE = {
+  WELCOME: 'Welcome',
+  ABOUT: 'About',
+  FAQ: 'FAQ',
+  WELCOME_LEARN_SPANISH: 'WelcomeLearnSpanish'
+} as const
+
 export const PIPELINE_TYPE = {
   DIALOG: 'dialog',
   NOUNS: 'nouns',

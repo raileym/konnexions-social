@@ -19,7 +19,8 @@ import {
   GEN_AI_PROVIDER,
   MARKETING_PREFERENCE,
   PAYWALL_TIER,
-  PAYWALL_PACKAGE
+  PAYWALL_PACKAGE,
+  MDX_PAGE
 } from './constants.js'
 
 export type UserData = {
@@ -52,6 +53,10 @@ export type LessonPromptStyle = LessonPromptStyleValue
 export type LanguageValue = (typeof LANGUAGE)[keyof typeof LANGUAGE]
 export type LanguageKey = keyof typeof LANGUAGE
 export type Language = LanguageValue
+
+export type MdxPageValue = (typeof MDX_PAGE)[keyof typeof MDX_PAGE]
+export type MdxPageKey = keyof typeof MDX_PAGE
+export type MdxPage = MdxPageValue
 
 export type ModuleNameValue = (typeof MODULE_NAME)[keyof typeof MODULE_NAME]
 export type ModuleNameKey = keyof typeof MODULE_NAME

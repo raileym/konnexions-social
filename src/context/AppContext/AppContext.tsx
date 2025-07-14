@@ -120,7 +120,8 @@ import type {
   SetUserData,
   SetVerificationToken,
   Paywall,
-  SetPaywall
+  SetPaywall,
+  MdxPage
 } from '@cknTypes/types'
 
 import {
@@ -143,6 +144,7 @@ import {
   APP_PANEL,
   LANGUAGE,
   LESSON_PROMPT_STYLE,
+  MDX_PAGE,
   MODULE_NAME,
   SCENARIO
 } from '@cknTypes/constants'
@@ -325,16 +327,17 @@ export type AppContextType = {
 // // cXnsole.log(generateExample({language: defaultTargetLanguage, moduleName: MODULE_NAME.VERBS, options: { asString: false }}))
 // cXnsole.log(updatedDefaultLesson)
 
+export type MdxPagesMap = Record<MdxPage, FC>
+
 export const mdxPagesMap: MdxPagesMap = {
-  Welcome: Welcome,
-  About: About,
-  FAQ: FAQ,
-  WelcomeLearnSpanish: WelcomeLearnSpanish
+  [MDX_PAGE.WELCOME]: Welcome,
+  [MDX_PAGE.ABOUT]: About,
+  [MDX_PAGE.FAQ]: FAQ,
+  [MDX_PAGE.WELCOME_LEARN_SPANISH]: WelcomeLearnSpanish
 }
 
-export type MdxPage = keyof typeof mdxPagesMap
+// export type MdxPage = keyof typeof mdxPagesMap
 export type SetMdxPage = React.Dispatch<React.SetStateAction<MdxPage>>
-export type MdxPagesMap = Record<string, FC>
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const[paywall, setPaywall] = useState<Paywall>(defaultPaywall)
