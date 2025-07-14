@@ -70,7 +70,7 @@ const PanelMenu: React.FC = () => {
           <h2 className="f3 pa3 mt5 tc">Menu Panel</h2>
           <div className="flex justify-between flex-m dn-l">
             <Button titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
-            <Button titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-4 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faGear} title='Settings' />
+            <Button titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-4 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings' />
             <Button titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
             <Button titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn o-20X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
           </div>
