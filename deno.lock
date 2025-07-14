@@ -119,6 +119,7 @@
         "npm:typescript-eslint@^8.30.1",
         "npm:typescript@latest",
         "npm:vite-plugin-mdx@^3.6.1",
+        "npm:vite-plugin-pwa@^1.0.1",
         "npm:vite-tsconfig-paths@^5.1.4",
         "npm:vite@^6.3.5"
       ]
