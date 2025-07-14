@@ -7,7 +7,7 @@ import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 
-const Button = ({ iconStyle, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
+const Button = ({ iconClass, titleClass, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
   const { isHelpOpen, isMenuOpen, isProfileOpen } = useAppContext()
   const { openProfile, closeProfile } = useProfilePanel()
   const { openHelp, closeHelp } = useHelpPanel()
@@ -46,11 +46,11 @@ const Button = ({ iconStyle, disable, panel, icon, img, title, buttonClass, swit
     <button
       onClick={() => { if (!disable) handleClick() }}
       disabled={disable}
-      className={`f2 pa1 pointer ${isActive ? 'bg-brand white' : 'bg-white brand'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
-      style={{width: '2.5em'}}
+      className={`f2 pa1 pointer width-2X ${isActive ? 'bg-brand white' : 'bg-white brand'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
+      // style={{width: '2.5em'}}
       title={title}
     >
-      { icon && <FontAwesomeIcon className={`${iconStyle} baX`} icon={icon} /> }
+      { icon && <FontAwesomeIcon className={`${iconClass} baX`} icon={icon} /> }
       { img && (
         <div className="flex items-center justify-center overflow-hiddenX w2X h2 br-100X baX" style={{height: '1.15em'}}>
           <img
@@ -62,7 +62,7 @@ const Button = ({ iconStyle, disable, panel, icon, img, title, buttonClass, swit
       )}
 
 
-      <div className="f6 mt1 tc">{title}</div>
+      <div className={`f6 mt1 tc ${titleClass}`}>{title}</div>
     </button>
   )
 }

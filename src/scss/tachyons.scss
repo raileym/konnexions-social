@@ -207,9 +207,9 @@ $colors: (
 //     .lh-#{$i}-5 { line-height: 1rem*$i + 0.5rem; p {line-height: 1rem*$i + 0.5rem; }}
 // }    
     
-// @for $i from 20 through 1 {
-//     .width-#{$i} { width: 1rem*$i; }
-// }    
+@for $i from 20 through 1 {
+    .width-#{$i} { width: 1rem*$i; }
+}    
     
 // @for $i from 10 through 3 {
 //     .width-#{10*$i} { width: 10rem*$i; }
@@ -656,3 +656,6 @@ $colors: (
 //     }
 // }
 
+.bullet {
+  list-style-type: disc;
+}

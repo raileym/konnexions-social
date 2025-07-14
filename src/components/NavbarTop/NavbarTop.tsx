@@ -6,15 +6,15 @@ import { faBars, faHome, faUser } from '@fortawesome/free-solid-svg-icons'
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 // import CutoffToggle from '@components/CutoffToggle'
-import ShowMaxCount from '@components/ShowMaxCount'
+// import ShowMaxCount from '@components/ShowMaxCount'
 import { APP_PANEL } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
 
 const NavbarTop: React.FC = () => {
   const { switchPanel } = usePanel()
-  const { activePanel, setMdxPage } = useAppContext()
+  const { setMdxPage } = useAppContext()
 
-  const alwaysTrue = false
+  // const alwaysTrue = false
 
   return (
     <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph3 pv2 z-999">
@@ -29,37 +29,29 @@ const NavbarTop: React.FC = () => {
                 style={{height: '5em'}}
               />
             </div>
-            {/* <div className="black-20 f2 b lh-title flex items-center">
-              <div><span className="brand">CK</span>Ո Social</div>
-            </div> */}
-            {/* <div className="black-30 f3 b lh-title flex items-centerX">
-              <div><span className="brand">CK</span>Ո Series on Joy</div>
-              <div className="black-20 f5">Joy of Language - Spanish</div>
-            </div> */}
             <div className="flex items-center">
               <div className="black-30 f3 b lh-title flex flex-column">
                 <div className="f2"><span className="brand">CK</span>Ո Social</div>
-                {/* <div className="black-20 f4">Connecting through language</div> */}
-                <div className="black-20 f4">Let's connect - Promoting ways to connect socially</div>
-                {/* <div className="black-20 f5">Strengthen social ties for better health and well-being</div> */}
-                {/* <div className="black-20 f4">Joy of Language - Let's connect - through Spanish</div> */}
+                <div className="black-20 f4 dn-m">Let's connect - Promoting ways to connect socially</div>
               </div>
             </div>
           </div>
 
+          {/*
           {
             (activePanel == APP_PANEL.BASIC || activePanel == APP_PANEL.BASIC_REVIEW) && alwaysTrue && (
               <div className="flex flex-row dn-m">        
-                {/* <CutoffToggle /> */}
+                <CutoffToggle />
                 <ShowMaxCount />
               </div>
             )
-          }
+          } 
+           */}
 
           <div className="baX">
-            <Button buttonClass='bn w-50X mh2 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
-            <Button buttonClass='bn w-50X mh2 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
-            <Button buttonClass='bn o-20X mh2 brand' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
+            <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
+            <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
+            <Button buttonClass='bn o-20X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
             <Button buttonClass='bn b--black o-20X ml2 mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
           </div>
         </div>

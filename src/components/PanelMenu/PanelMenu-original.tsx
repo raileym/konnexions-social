@@ -14,51 +14,39 @@ const PanelMenu: React.FC = () => {
   const { switchPanel } = usePanel()
   const { closeMenu } = useMenuPanel()
   
+
   const translateX = isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full'
+
   const navigate = useNavigate()
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      console.log('Click detected, checking if outside Menu Panel ...')
-      
       if (
         PanelMenuRef.current &&
         !PanelMenuRef.current.contains(event.target as Node)
       ) {
-        console.log('Click is outside Menu Panel, closing menu')
-        closeMenu();
-      } else {
-        console.log('Click is inside Menu Panel or ref not available')
+        closeMenu(); // Close the panel
       }
     }
 
     if (isMenuOpen) {
-      console.log('Adding listener for click outside Menu Panel')
-      // Add a small delay to prevent immediate closure if the same click that opened the menu
-      const timeoutId = setTimeout(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-      }, 100);
-
-      return () => {
-        clearTimeout(timeoutId);
-        document.removeEventListener('mousedown', handleClickOutside);
-        console.log('Removing listener for click outside Menu Panel')
-      };
+      console.log('adding listener.')
+      document.addEventListener('mousedown', handleClickOutside);
     }
-  }, [isMenuOpen, closeMenu]);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [closeMenu, isMenuOpen]);
 
   const navigateTo = (route: string) => {
-    navigate(`/${route.toLowerCase()}`)
+    navigate(`/${route.toLowerCase()}`) // e.g. 'Welcome' → '/welcome'
     setActivePanel(APP_PANEL.MDX)
     setIsMenuOpen(false)
   }
 
-  // Remove the early return - let the component render with the translateX animation
   return (
-    <div 
-      ref={PanelMenuRef}
-      className={`panel-right panel-help absolute bl b--black bw1 z-3 top-0 left-10 w-90 h-100 bg-red white pt5 transition-transform ${translateX}`}
-    >
+    <div className={`panel-right panel-help absolute bl b--black bw1 z-3 top-0 left-10 w-90 h-100 bg-red white pt5 transition-transform ${translateX}`}>
       <div className="h-100 w-100 overflow-y-auto">
         <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>
           <h2 className="f3 pa3 mt5 tc">Menu Panel</h2>
@@ -82,3 +70,37 @@ const PanelMenu: React.FC = () => {
 }
 
 export default PanelMenu
+
+// import React from 'react'
+// import { useAppContext } from '@context/AppContext/AppContext'
+// import { APP_PANEL, MENU_PANEL_TRANSLATE_X, MENU_PANEL_WIDTH_PERCENT } from '@cknTypes/constants'
+
+// const PanelMenu: React.FC = () => {
+//   const { isMenuOpen, setActivePanel, setMdxPage, setIsMenuOpen } = useAppContext()
+//   const translateX = isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full'
+
+//   const navigateTo = (page: string) => {
+//     setMdxPage(page)
+//     setActivePanel(APP_PANEL.MDX)
+//     setIsMenuOpen(false)
+//   }
+
+//   return (
+//     <div className={`panel-right panel-help absolute bl b--black bw1 z-3 top-0 left-10 w-90 h-100 bg-red white pt5 transition-transform ${translateX}`}>
+//       <div className="h-100 w-100 overflow-y-auto">
+//         <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>
+//           <h2 className="f3 pa3 mt5">Menu Panel</h2>
+//           <p className="pl3">Click to view:</p>
+//           <ul className="list pl4 lh-copy">
+//             <li className="pointer underline" onClick={() => navigateTo('Welcome')}>Home</li>
+//             <li className="pointer underline" onClick={() => navigateTo('About')}>About</li>
+//             <li className="pointer underline" onClick={() => navigateTo('FAQ')}>FAQ</li>
+//             <li className="pointer underline" onClick={() => navigateTo('Terms')}>Terms & Conditions</li>
+//           </ul>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default PanelMenu

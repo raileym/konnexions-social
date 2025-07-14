@@ -1129,7 +1129,8 @@ export type ButtonProps = {
   buttonClass?: string
   switchFn: (target: ActivePanel | ActiveHome) => void
   isActive: IsActive
-  iconStyle?: string
+  iconClass?: string
+  titleClass?: string
   onClick?: () => void   // ← NEW
 }
 
