@@ -164,7 +164,7 @@ const PanelRequestEmailComponents = () => {
     <>
       <div className={'bl b--black w-100 vh-100 bg-yellow flex flex-column items-center justify-start pa3 mt0X'}>
         <div className="black pl3">
-            <h2 className="f3 pa3 mt5">Profile Panel</h2>
+            <h2 className="f3 pa3 mt5 tc">Profile Panel</h2>
             <p className="pl3X">When you access paid and free-tier services on this site, including the CKՈ Platform Technologies for</p>
             <p className="tc b black f4">Let's connect - through Spanish!</p>
             <p>we require and use a validated version of your email address to store lesson materials remotely. We do not store your email in the cloud. </p>

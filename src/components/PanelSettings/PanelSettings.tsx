@@ -68,7 +68,7 @@ const PanelSettings: React.FC = () => {
     >
       <div className="h-100 w-100 overflow-y-auto">
         <div className={`pa4 ${SETTINGS_PANEL_WIDTH_PERCENT} mb5`}>
-          <div className="f3 tc pt5 b black w-100X">Settings</div>
+          <div className="f3 tc pt5 b black w-100X">Settings Panel</div>
           <h2 className="f5 pa3 mt5">{headline}</h2>
           <p className="pl3">This panel slides in and out correctly based on context.</p>
           <div style={{height: '100em'}} className="bg-blue" />
