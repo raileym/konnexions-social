@@ -5,34 +5,43 @@ import { faBars, faHome, faUser } from '@fortawesome/free-solid-svg-icons'
 
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
-import { APP_PANEL } from '@cknTypes/constants'
+import { APP_PANEL, MDX_PAGE } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
+import { useNavigate } from 'react-router-dom'
 
 const NavbarTop: React.FC = () => {
   const { switchPanel } = usePanel()
-  const { setMdxPage } = useAppContext()
+  const { setMdxPage, setActivePanel, setIsMenuOpen } = useAppContext()
   const { closeMenu } = useMenuPanel()
   const { closeHelp } = useHelpPanel()
   const { closeProfile } = useProfilePanel()
+  const navigate = useNavigate()
   
   // const alwaysTrue = false
+
+  const navigateTo = (route: string) => {
+    navigate(`/${route.toLowerCase()}`)
+    setActivePanel(APP_PANEL.MDX)
+    setIsMenuOpen(false)
+  }
 
   return (
     <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph3 pv2 z-999">
       <div className="w-100 flex flex-column">
         <div className="baX w-100 flex flex-row justify-between">
           <div 
-            className="ba w-100X flex justify-start flex-row" 
+            className="baX w-100X flex justify-start flex-row pointer" 
             onClick={() => {
               console.log('Clicking on upper left icon set.')
               closeMenu()
               closeHelp()
               closeProfile()
-              setMdxPage('Welcome')
               switchPanel(APP_PANEL.MDX)              
+              setMdxPage(MDX_PAGE.WELCOME)
+              navigateTo('Welcome')
             }}
           >
             <div className="ml3 bg-brand mr4 baX b--white bw2">
@@ -52,7 +61,7 @@ const NavbarTop: React.FC = () => {
           </div>
 
           <div className="baX">
-            <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
+            <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage(MDX_PAGE.WELCOME)}/>
             <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
             <Button buttonClass='bn o-20X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
             <Button buttonClass='bn b--black o-20X ml2 mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />

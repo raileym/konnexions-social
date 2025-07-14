@@ -362,7 +362,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   )
 
   const [lessonName, setLessonName] = usePersistentState<LessonName>('lessonName', defaultLessonName)
-  const [mdxPage, setMdxPage] = useState<MdxPage>('Welcome')
+  const [mdxPage, setMdxPage] = useState<MdxPage>(MDX_PAGE.WELCOME)
 
   const [showIsUserValidatedModal, setShowIsUserValidatedModal] = useState<ShowIsUserValidatedModal>(false)
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
