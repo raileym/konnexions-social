@@ -55,16 +55,16 @@ const NavbarTop: React.FC = () => {
             <div className="flex items-center">
               <div className="black-30 f3 b lh-title flex flex-column">
                 <div className="f2"><span className="brand">CK</span>Ո Social</div>
-                <div className="black-20 f4 dn-m">Let's connect - Promoting ways to connect socially</div>
+                <div className="black-20 f4 dn dn-m db-l">Let's connect - Promoting ways to connect socially</div>
               </div>
             </div>
           </div>
 
           <div className="baX">
-            <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings'/>
-            {/* <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage(MDX_PAGE.WELCOME)}/> */}
-            <Button buttonClass='bn w-50X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
-            <Button buttonClass='bn o-20X mh2 brand dn-m' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
+            <Button buttonClass='bn w-50X mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings'/>
+            {/* <Button buttonClass='bn w-50X mh3 brand dn dn-m db-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage(MDX_PAGE.WELCOME)}/> */}
+            <Button buttonClass='bn w-50X mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
+            <Button buttonClass='bn o-20X mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
             <Button buttonClass='bn b--black o-20X ml2 mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
           </div>
         </div>
