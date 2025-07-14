@@ -44,7 +44,7 @@ const NavbarTop: React.FC = () => {
               navigateTo('Welcome')
             }}
           >
-            <div className="ml3 bg-brand mr4 baX b--white bw2">
+            <div className="ml3 bg-brand mr4 baX b--white bw2 dn dn-m dib-l">
               <img
                 src="/logo-blue-transparent-on-white-173x173.png"
                 alt="CKN logo"
@@ -65,7 +65,7 @@ const NavbarTop: React.FC = () => {
             {/* <Button buttonClass='bn w-50X mh3 brand dn dn-m db-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage(MDX_PAGE.WELCOME)}/> */}
             <Button buttonClass='bn w-50X mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
             <Button buttonClass='bn o-20X mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
-            <Button buttonClass='bn b--black o-20X ml2 mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
+            <Button titleClass='dn dn-m db-l' buttonClass='bn b--black o-20X ml2 mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
           </div>
         </div>
       </div>
