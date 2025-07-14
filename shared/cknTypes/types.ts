@@ -66,18 +66,27 @@ export type ScenarioValue = (typeof SCENARIO)[keyof typeof SCENARIO]
 export type ScenarioKey = keyof typeof SCENARIO
 export type Scenario = ScenarioValue
 
+export type ActivateLessonBar = boolean
 export type Answer = string
 export type ApiKey = string
 export type AudioUrl = string | null
 export type CleanedText = string
+export type DebugMode = boolean
+export type EngageSpanish = boolean
+export type FlexLesson = string
+export type FormattedFlexLesson = Lines
 export type GcpKey = string
 export type HelpPanel = ActivePanel
 export type InputText = string
+export type IsComplete = boolean
 export type IsHelpOpen = boolean
 export type IsMenuOpen = boolean
 export type IsProfileOpen = boolean
 export type IsSettingsOpen = boolean
 export type IsTransitioning = boolean
+export type LessonName = string
+export type LessonPrompt = string
+export type LineNumber = number
 export type MaskKey = boolean
 export type MaskOpenAiKey = boolean
 export type OpenAiAvgTokens = number
@@ -86,15 +95,7 @@ export type OpenAiKey = string
 export type OpenAiUsage = number
 export type Question = string
 export type QuestionContext = string
-export type LineNumber = number
-export type DebugMode = boolean
-export type LessonPrompt = string
-export type FlexLesson = string
-export type FormattedFlexLesson = Lines
-export type IsComplete = boolean
-export type ActivateLessonBar = boolean
 export type ShowIsUserValidatedModal = boolean
-export type LessonName = string
 
 export type SetActivateLessonBar = React.Dispatch<React.SetStateAction<ActivateLessonBar>>
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
@@ -113,6 +114,7 @@ export type SetCustomScenario = React.Dispatch<React.SetStateAction<CustomScenar
 export type SetCustomSeed = React.Dispatch<React.SetStateAction<CustomSeed>>
 export type SetCutoff = React.Dispatch<React.SetStateAction<Cutoff>>
 export type SetDebugMode = React.Dispatch<React.SetStateAction<DebugMode>>
+export type SetEngageSpanish = React.Dispatch<React.SetStateAction<EngageSpanish>>
 export type SetFlexLesson = React.Dispatch<React.SetStateAction<FlexLesson>>
 export type SetFormattedFlexLesson = React.Dispatch<React.SetStateAction<FormattedFlexLesson>>
 export type SetGcpKey = React.Dispatch<React.SetStateAction<GcpKey>>
@@ -124,10 +126,10 @@ export type SetHelpPanel = React.Dispatch<React.SetStateAction<HelpPanel>>
 export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
 export type SetIsMenuOpen = React.Dispatch<React.SetStateAction<IsMenuOpen>>
-export type SetIsSettingsOpen = React.Dispatch<React.SetStateAction<IsSettingsOpen>>
 export type SetIsProfileOpen = React.Dispatch<React.SetStateAction<IsProfileOpen>>
-export type SetIsUserValidated = React.Dispatch<React.SetStateAction<IsUserValidated>>
+export type SetIsSettingsOpen = React.Dispatch<React.SetStateAction<IsSettingsOpen>>
 export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>
+export type SetIsUserValidated = React.Dispatch<React.SetStateAction<IsUserValidated>>
 export type SetLessonComplete = React.Dispatch<React.SetStateAction<LessonComplete>>
 export type SetLessonName = React.Dispatch<React.SetStateAction<LessonName>>
 export type SetLessonNumber = React.Dispatch<React.SetStateAction<LessonNumber>>
@@ -143,6 +145,7 @@ export type SetOpenAiAvgTokens = React.Dispatch<React.SetStateAction<OpenAiAvgTo
 export type SetOpenAiBudget = React.Dispatch<React.SetStateAction<OpenAiBudget>>
 export type SetOpenAiKey = React.Dispatch<React.SetStateAction<OpenAiKey>>
 export type SetOpenAiUsage = React.Dispatch<React.SetStateAction<OpenAiUsage>>
+export type SetPaywall = React.Dispatch<React.SetStateAction<Paywall>>
 export type SetQuestion = React.Dispatch<React.SetStateAction<Question>>
 export type SetQuestionContext = React.Dispatch<React.SetStateAction<QuestionContext>>
 export type SetScenario = React.Dispatch<React.SetStateAction<Scenario>>
@@ -155,7 +158,6 @@ export type SetTtsCharUsage = React.Dispatch<React.SetStateAction<TtsCharUsage>>
 export type SetUseCloudTTS = React.Dispatch<React.SetStateAction<UseCloudTTS>>
 export type SetUseMyself = React.Dispatch<React.SetStateAction<UseMyself>>
 export type SetUserData = React.Dispatch<React.SetStateAction<UserData>>
-export type SetPaywall = React.Dispatch<React.SetStateAction<Paywall>>
 export type SetVerificationToken = React.Dispatch<React.SetStateAction<VerificationToken>>
 
 export type SwitchPanel = (newPanel: ActivePanel) => void
@@ -1129,13 +1131,13 @@ export type TiptapEditorProps = {
 
 export type ButtonProps = {
   disable?: boolean
-  panel: ActivePanel | ActiveHome
+  panel?: ActivePanel | ActiveHome
   icon?: IconProp // IconDefinition
   img?: string
   title?: string
   buttonClass?: string
-  switchFn: (target: ActivePanel | ActiveHome) => void
-  isActive: IsActive
+  switchFn?: (target: ActivePanel | ActiveHome) => void
+  isActive?: IsActive
   iconClass?: string
   titleClass?: string
   onClick?: () => void   // ← NEW
@@ -1321,4 +1323,8 @@ export type GetModuleContentProps = {
   lesson: Lesson,
   moduleName: ModuleName
   provider: GenAIProvider
+}
+
+export type PanelMDXComponentsProps = {
+  page?: MdxPage
 }

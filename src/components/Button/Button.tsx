@@ -50,7 +50,7 @@ const Button = ({ iconClass, titleClass, disable, panel, icon, img, title, butto
       closeHelp()
       closeProfile()
       closeSettings()
-      switchFn(panel)
+      switchFn?.(panel ?? APP_PANEL.MDX)
     }
 
     if (onClick) onClick()    

@@ -2,11 +2,8 @@
 
 import MDXPage from '@components/MDXPage/MDXPage'
 import About from '@mdxPages/About.mdx'
-import { useAppContext, type MdxPage } from '@context/AppContext/AppContext'
-
-type PanelMDXComponentsProps = {
-  page?: MdxPage
-}
+import { useAppContext } from '@context/AppContext/AppContext'
+import type { PanelMDXComponentsProps } from '@cknTypes/types'
 
 const PanelMDXComponents = ({ page }: PanelMDXComponentsProps) => {
   const { mdxPagesMap } = useAppContext()

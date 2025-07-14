@@ -123,7 +123,9 @@ import type {
   SetPaywall,
   MdxPage,
   SetIsSettingsOpen,
-  IsSettingsOpen
+  IsSettingsOpen,
+  EngageSpanish,
+  SetEngageSpanish
 } from '@cknTypes/types'
 
 import {
@@ -215,6 +217,7 @@ export type AppContextType = {
   customSeed: CustomSeed
   cutoff: Cutoff
   debugMode: DebugMode
+  engageSpanish: EngageSpanish
   flexLesson: FlexLesson
   formattedFlexLesson: FormattedFlexLesson
   gcpKey: GcpKey
@@ -266,6 +269,7 @@ export type AppContextType = {
   setCustomSeed: SetCustomSeed
   setCutoff: SetCutoff
   setDebugMode: SetDebugMode
+  setEngageSpanish: SetEngageSpanish
   setFlexLesson: SetFlexLesson
   setFormattedFlexLesson: SetFormattedFlexLesson
   setGcpKey: SetGcpKey
@@ -344,6 +348,8 @@ export const mdxPagesMap: MdxPagesMap = {
 export type SetMdxPage = React.Dispatch<React.SetStateAction<MdxPage>>
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [engageSpanish, setEngageSpanish] = useState<EngageSpanish>(false)
+  
   const[paywall, setPaywall] = useState<Paywall>(defaultPaywall)
 
   const [isModalVisible, setModalVisible] = useState(false)
@@ -467,6 +473,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     customSeed,
     cutoff,
     debugMode,
+    engageSpanish,
     flexLesson,
     formattedFlexLesson,
     gcpKey,
@@ -517,6 +524,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCustomSeed,
     setCutoff,
     setDebugMode,
+    setEngageSpanish,
     setFlexLesson,
     setFormattedFlexLesson,
     setGcpKey,

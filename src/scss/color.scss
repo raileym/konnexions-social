@@ -84,6 +84,8 @@ $brand-light : white;// #9F5223; //rgba(142, 89,44,1);//color.scale(peru, $light
 $brand-dark : black;
 $brand-bright: orangered;
 
+$brand-red: #fb0020;
+
 // https://stackoverflow.com/questions/60774409/custom-css-properties-in-lighten-darken-scss-function
 
 // body:not(.mode-light):not(.mode-dark) {
@@ -171,6 +173,7 @@ body,
 body.mode-light {
   
   .brand { color: $brand; }
+  .brand { color: $brand; }
   .brand-dark { color: $brand-dark; }
   .brand-light { color: $brand-light; }
   .brand-grey { color: gray; }
@@ -180,6 +183,8 @@ body.mode-light {
   .bg-brand-dark { background-color: $brand-dark; }
   .bg-brand-light { background-color: $brand-light; }
   
+  .brand-red { color: $brand-red; }
+
 }
 
 body.mode-dark {

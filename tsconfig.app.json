@@ -17,6 +17,7 @@
       "@context/*": ["src/context/*"],
       "@hooks/*": ["src/hooks/*"],
       "@components/*": ["src/components/*"],
+      "@mdxComponents/*": ["src/mdxComponents/*"],
       "@mdxPages/*": ["src/mdxPages/*"],
       "@PanelGenAIPro/*": ["src/components/PanelGenAIPro/*"],
       "@PanelGenAIProComponents/*": ["src/components/PanelGenAIPro/PanelGenAIProComponents/*"]

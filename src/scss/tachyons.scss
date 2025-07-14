@@ -119,6 +119,10 @@ $colors: (
             // .lh#{$i}-#{$break} { line-height: $font-size !important; }
             .f#{$i}-#{$break} { font-size: $font-size !important; }
 
+            @for $i from 10 through 2 {
+                .fz-#{$i}-#{$break} { font-size: 1rem*$i; }
+            }
+
         }
     }
 }
@@ -149,9 +153,9 @@ $colors: (
 //     .text-shadow-drop-#{"" + $shadow}-strong { text-shadow: 2px 2px $shadow; }
 // }
   
-// @for $i from 20 through 2 {
-//     .fz-#{$i} { font-size: 1rem*$i; }
-// }
+@for $i from 20 through 2 {
+    .fz-#{$i} { font-size: 1rem*$i; }
+}
 
 // body.video-mode {
 //     @for $i from 20 through 2 {

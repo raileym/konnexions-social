@@ -1,10 +1,6 @@
 // src/components/NavbarBottom.tsx
 import React, { useMemo } from 'react'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faFilePen, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
 import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-svg-icons'   
-// import { faUserGraduate, faCoffee, faGear, faKey, faBars, faFilePen, faPersonChalkboard, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
-// import { faUserGraduate, faCoffee, faGear, faKey, faRobot, faBars, faFilePen, faBookOpen } from '@fortawesome/free-solid-svg-icons'   
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 import { useAppContext } from '@context/AppContext/AppContext'
@@ -12,7 +8,7 @@ import { APP_PANEL } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const NavbarBottom: React.FC = () => {
-  const { activePanel, isUserValidated, showModal, lessons, selectedLessonNumber } = useAppContext()
+  const { activePanel, isUserValidated, showModal, lessons, selectedLessonNumber, engageSpanish } = useAppContext()
   const { switchPanel } = usePanel()
   // const { activeHome, activePanel, lesson } = useAppContext()
   // const { switchPanel, switchHome } = usePanel()
@@ -28,7 +24,7 @@ const NavbarBottom: React.FC = () => {
   // cXonsole.log('isUserValidated', isUserValidated)
   
   return (
-    <nav className='fixed bottom-0 bt b--black-30 left-0 w-100 bg-white flex flex-column items-center justify-aroundX ph3 pv2 z-999'>
+    <nav className={`fixed bottom-0 bt b--black-30 left-0 w-100 ${engageSpanish ? 'bg-red': 'bg-white'} flex flex-column items-center justify-aroundX ph3 pv2 z-999`}>
 
       <div
         className="icon-learn-spanish left-0X flex justify-center flex-column tc mt0 pt0"

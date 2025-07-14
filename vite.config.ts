@@ -47,6 +47,7 @@ export default defineConfig({
         '@context': path.resolve(__dirname, 'src/context'),
         '@hooks': path.resolve(__dirname, 'src/hooks'),
         '@components': path.resolve(__dirname, 'src/components'),
+        '@mdxComponents': path.resolve(__dirname, 'src/mdxComponents'),
         '@PanelGenAIPro': path.resolve(__dirname, 'src/components/PanelGenAIPro'),
         '@PanelGenAIProComponents': path.resolve(__dirname, 'src/components/PanelGenAIPro/PanelGenAIProComponents'),
         '@mdxPages': path.resolve(__dirname, 'src/mdxPages'),
