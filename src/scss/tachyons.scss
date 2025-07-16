@@ -663,3 +663,41 @@ $colors: (
 .bullet {
   list-style-type: disc;
 }
+
+.grow-large {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    transition: -webkit-transform .25s ease-out;
+    transition: transform .25s ease-out;
+    transition: transform .25s ease-out, -webkit-transform .25s ease-out;
+}
+
+.grow-large:hover,
+.grow-large:focus {
+  transform: scale(1.5);
+}
+
+@keyframes wiggle-effect {
+  0%   { transform: rotate(0deg); }
+  15%  { transform: rotate(-5deg); }
+  30%  { transform: rotate(5deg); }
+  45%  { transform: rotate(-5deg); }
+  60%  { transform: rotate(5deg); }
+  75%  { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.wiggle-effect {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  animation: wiggle 0.5s ease-in-out;
+}
+
+.wiggle:hover {
+  animation: wiggle-effect 0.5s ease-in-out;
+}

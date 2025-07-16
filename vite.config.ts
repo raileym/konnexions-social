@@ -11,9 +11,9 @@ export default defineConfig({
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
         manifest: {
-          name: 'CKՈ Social',
-          short_name: 'CKՈ Social',
-          description: 'Let\'s connect - Promoting ways to connect socially',
+          name: 'Konnections',
+          short_name: 'Konnections',
+          description: 'Let\'s konnect! Promoting ways to connect socially',
           theme_color: '#ffffff',
           background_color: '#ffffff',
           display: 'standalone',

@@ -44,18 +44,22 @@ const NavbarTop: React.FC = () => {
               navigateTo('Welcome')
             }}
           >
-            <div className="ml3 bg-brand mr4 baX b--white bw2 dn dn-m dib-l">
+            {/* <div className="ml3 bg-brand mr4 baX b--white bw2 dn dn-m dib-l">
               <img
                 src="/logo-blue-transparent-on-white-173x173.png"
                 alt="CKN logo"
                 className="db aspect-ratio aspect-ratio--1x mv2X baX h3X"
                 style={{height: '5em'}}
               />
-            </div>
+            </div> */}
             <div className="flex items-center">
               <div className="black-30 f3 b lh-title flex flex-column">
-                <div className="f2"><span className="brand">CK</span>Ո Social</div>
-                <div className="black-20 f4 dn dn-m db-l">Let's connect - Promoting ways to connect socially</div>
+                <div className="f2">My <span className="brand">K</span>onnections </div>
+                {/* <div className="f2"><span className="brand">K</span>onnections <span className="brand">S</span>ocial</div> */}
+                {/* <div className="f2"><span className="brand">Konnections</span></div> */}
+                {/* <div className="f2"><span className="brand">Kon</span>nekt Social</div> */}
+                {/* <div className="f2"><span className="brand">CK</span>Ո Social</div> */}
+                <div className="black-20 f4 dn dn-m db-l">Let's <span className="brand">k</span>onnect! Promoting ways to connect socially</div>
               </div>
             </div>
           </div>

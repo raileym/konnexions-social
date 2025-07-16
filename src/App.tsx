@@ -35,7 +35,7 @@ const AppMain = () => {
         {/* 🧭 ROUTED MDX PANELS */}
         <Routes>
           {/* Default route: redirect / to /welcome */}
-          <Route path="/" element={<Navigate to="/about" replace />} />
+          <Route path="/" element={<Navigate to="/welcome" replace />} />
 
           {/* Dynamic routes from mdxPagesMap */}
           {Object.entries(mdxPagesMap).map(([key, Component]) => (

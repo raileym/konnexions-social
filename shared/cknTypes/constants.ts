@@ -23,7 +23,9 @@ export const MDX_PAGE = {
   WELCOME: 'Welcome',
   ABOUT: 'About',
   FAQ: 'FAQ',
-  WELCOME_LEARN_SPANISH: 'WelcomeLearnSpanish'
+  WELCOME_LEARN_SPANISH: 'WelcomeLearnSpanish',
+  TERMS_AND_CONDITIONS: 'TermsAndConditions',
+  PRIVACY_POLICY: 'PrivacyPolicy'
 } as const
 
 export const PIPELINE_TYPE = {
@@ -207,6 +209,9 @@ export const MENU_PANEL_WIDTH_PERCENT = 'w-40'
 export const MENU_PANEL_TRANSLATE_X = 'translate-x-60'
 export const PROFILE_PANEL_WIDTH_PERCENT = 'w-40'
 export const PROFILE_PANEL_TRANSLATE_X = 'translate-x-60'
+export const NAVBAR_BOTTOM_TRANSLATE_Y = 'translate-y-0'
+export const TERMS_AND_CONDITIONS_PANEL_WIDTH_PERCENT = 'w-100'
+export const TERMS_AND_CONDITIONS_PANEL_TRANSLATE_X = 'translate-x-100'
 
 export const USER_EMAIL_VALIDATED = 'User email confirmed'
 export const USER_EMAIL_NOT_VALIDATED = 'User email not confirmed'

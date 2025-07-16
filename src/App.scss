@@ -212,3 +212,25 @@ button:focus-visible {
 .w-75 { width: 75%; }
 .translate-x-25 { transform: translateX(25%); }
 
+.translate-y-0 {
+  transform: translateY(0%);
+}
+
+// .w-0 { width: 0%; }
+.translate-y-full { transform: translateY(100%); }
+
+.w-25 { width: 25%; }
+.translate-y-75 { transform: translateY(75%); }
+
+// .w-30 { width: 30% }
+.translate-y-70 { transform: translateY(70%); }
+
+// .w-40 { width: 40% }
+.translate-y-60 { transform: translateY(60%); }
+
+// .w-50 { width: 50% }
+.translate-y-50 { transform: translateY(50%); }
+
+.w-75 { width: 75%; }
+.translate-y-25 { transform: translateY(25%); }
+

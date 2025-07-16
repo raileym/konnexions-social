@@ -21,3 +21,7 @@ export const cleanTextForTTS = (text: string) => {
     .replace(/#/g, '');              // remove hash marks
   return updatedText;
 }
+
+export const isOnlyNumbers = (str: string): boolean => {
+  return /^\d+$/.test(str)
+}

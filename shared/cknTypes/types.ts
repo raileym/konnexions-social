@@ -1328,3 +1328,13 @@ export type GetModuleContentProps = {
 export type PanelMDXComponentsProps = {
   page?: MdxPage
 }
+
+export type LegalLabel = string
+export type LegalTitle = string
+
+export type LegalBlockProps = {
+  title?: LegalTitle;
+  label?: LegalLabel;
+  children: React.ReactNode;
+}
+

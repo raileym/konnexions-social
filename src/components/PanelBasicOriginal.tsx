@@ -40,7 +40,7 @@ export default function PanelBasic() {
   //   const speakText = () => {
   //     const voices = synth.getVoices()
   //     const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-  //     const utterance = new SpeechSynthesisUtterance('¡Buenos días! Bienvenido a Let's Connect!')
+  //     const utterance = new SpeechSynthesisUtterance('¡Buenos días! Bienvenido a Let's konnect!')
   //     utterance.voice = spanishVoice
   //     utterance.lang = spanishVoice.lang
   //     utterance.rate = 0.9
@@ -60,7 +60,7 @@ export default function PanelBasic() {
   //   const speakText = () => {
   //     const voices = synth.getVoices()
   //     const spanishVoice = voices.find(v => v.lang.startsWith('es')) || voices[0]
-  //     const utterance = new SpeechSynthesisUtterance('¡Buenos noches! Adios! Bienvenido a Let's Connect!')
+  //     const utterance = new SpeechSynthesisUtterance('¡Buenos noches! Adios! Bienvenido a Let's konnect!')
   //     utterance.voice = spanishVoice
   //     utterance.lang = spanishVoice.lang
   //     utterance.rate = 0.9

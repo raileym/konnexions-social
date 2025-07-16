@@ -6,8 +6,8 @@ const MdxEngageSpanish = () => {
   const { setEngageSpanish } = useAppContext()
   
   return(
-    <div className="flex flex-column">
-      <div className="f5 tc brand">Let's Connect - Through Spanish</div>
+    <div className="mv5 flex flex-column grow-largeW wiggle">
+      <div className="f5 tc brand">Let's konnect! - Through Spanish</div>
       <Button
         iconClass={'f2'}
         buttonClass='mh3 bn grow'

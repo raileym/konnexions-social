@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { APP_PANEL, MENU_PANEL_TRANSLATE_X, MENU_PANEL_WIDTH_PERCENT } from '@cknTypes/constants'
+import { APP_PANEL, MDX_PAGE, MENU_PANEL_TRANSLATE_X, MENU_PANEL_WIDTH_PERCENT } from '@cknTypes/constants'
 import { useNavigate } from 'react-router-dom'
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
@@ -76,10 +76,12 @@ const PanelMenu: React.FC = () => {
           </div>
           <p className="pl3 mt4">Click to view:</p>
           <ul className="list pl4 lh-copy">
-            <li className="pointer bullet underline" onClick={() => navigateTo('Welcome')}>Home</li>
-            <li className="pointer bullet underline" onClick={() => navigateTo('About')}>About</li>
-            <li className="pointer bullet underline" onClick={() => navigateTo('FAQ')}>FAQ</li>
-            <li className="pointer bullet underline" onClick={() => navigateTo('Terms')}>Terms & Conditions</li>
+            <li className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.WELCOME)}>Home</li>
+            <li className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.ABOUT)}>About</li>
+            <li className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}>Terms and conditions</li>
+            <li className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.FAQ)}>FAQ</li>
+            <li className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}>Terms & Conditions</li>
+            <li className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.PRIVACY_POLICY)}>Privacy Policy</li>
           </ul>
         </div>
       </div>

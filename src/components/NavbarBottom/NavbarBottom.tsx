@@ -4,7 +4,7 @@ import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { APP_PANEL } from '@cknTypes/constants'
+import { APP_PANEL, NAVBAR_BOTTOM_TRANSLATE_Y } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const NavbarBottom: React.FC = () => {
@@ -17,6 +17,8 @@ const NavbarBottom: React.FC = () => {
   //   cXnsole.log('lesson', lesson)
   // }, [lesson])
 
+    const translateY = engageSpanish ? NAVBAR_BOTTOM_TRANSLATE_Y : 'translate-y-full'
+  
   const lesson = useMemo(() => {
     return lessons.find(l => l.number === selectedLessonNumber)
   }, [lessons, selectedLessonNumber])
@@ -24,7 +26,7 @@ const NavbarBottom: React.FC = () => {
   // cXonsole.log('isUserValidated', isUserValidated)
   
   return (
-    <nav className={`fixed bottom-0 bt b--black-30 left-0 w-100 ${engageSpanish ? 'bg-red': 'bg-white'} flex flex-column items-center justify-aroundX ph3 pv2 z-999`}>
+    <nav className={`fixed bottom-0 bt b--black-30 left-0 w-100 flex flex-column items-center bg-white justify-aroundX ph3 pv2 transition-transform ${translateY} z-999`}>
 
       <div
         className="icon-learn-spanish left-0X flex justify-center flex-column tc mt0 pt0"
@@ -42,7 +44,7 @@ const NavbarBottom: React.FC = () => {
                     <div className="brand f5 mt1">Profile</div>
                   </div>
 
-                  <div>before beginning with <span className="brand">Let's connect - through Spanish!</span>. See the user Profile button at the top right.</div>
+                  <div>before beginning with <span className="brand">Let's konnect! - through Spanish!</span>. See the user Profile button at the top right.</div>
                 </div>,
               confirmText: 'Okay',
             })
@@ -50,7 +52,7 @@ const NavbarBottom: React.FC = () => {
         }}        
       >
         <div>
-          <div className="baX bg-blueX mb0 pb0 w-100X h2 tc brand">Let's connect - through Spanish!</div>
+          <div className="baX bg-blueX mb0 pb0 w-100X h2 tc brand">Konnect with Spanish!</div>
           <Button iconClass={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Bienvenido!' />
           <Button iconClass={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC} switchFn={switchPanel} panel={APP_PANEL.BASIC} icon={faPersonChalkboard} title='Create' />
           <Button iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />

@@ -4,6 +4,8 @@ import About from '@mdxPages/About.mdx'
 import Welcome from '@mdxPages/Welcome.mdx'
 import FAQ from '@mdxPages/FAQ.mdx'
 import WelcomeLearnSpanish from '@mdxPages/WelcomeLearnSpanish.mdx'
+import TermsAndConditions from '@mdxPages/TermsAndConditions.mdx'
+import PrivacyPolicy from '@mdxPages/PrivacyPolicy.mdx'
 import type {
   Answer,
   ApiKey,
@@ -341,7 +343,9 @@ export const mdxPagesMap: MdxPagesMap = {
   [MDX_PAGE.WELCOME]: Welcome,
   [MDX_PAGE.ABOUT]: About,
   [MDX_PAGE.FAQ]: FAQ,
-  [MDX_PAGE.WELCOME_LEARN_SPANISH]: WelcomeLearnSpanish
+  [MDX_PAGE.WELCOME_LEARN_SPANISH]: WelcomeLearnSpanish,
+  [MDX_PAGE.TERMS_AND_CONDITIONS]: TermsAndConditions,
+  [MDX_PAGE.PRIVACY_POLICY]: PrivacyPolicy
 }
 
 // export type MdxPage = keyof typeof mdxPagesMap
