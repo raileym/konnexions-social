@@ -15,13 +15,13 @@ const PanelHelp: React.FC = () => {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      console.log('Click detected, checking if outside Help Panel ...')
+      // cXonsole.log('Click detected, checking if outside Help Panel ...')
       
       if (
         PanelHelpRef.current &&
         !PanelHelpRef.current.contains(event.target as Node)
       ) {
-        console.log('Click is outside Help Panel, closing Help Panel')
+        // cXonsole.log('Click is outside Help Panel, closing Help Panel')
         
         // Don't interfere with the event - let it complete naturally
         // Close panel on next tick
@@ -29,12 +29,12 @@ const PanelHelp: React.FC = () => {
           closeHelp();
         });
       } else {
-        console.log('Click is inside Help Panel or ref not available')
+        // cXonsole.log('Click is inside Help Panel or ref not available')
       }
     }
 
     if (isHelpOpen) {
-      console.log('Adding listener for click outside Help Panel')
+      // cXonsole.log('Adding listener for click outside Help Panel')
       
       const timeoutId = setTimeout(() => {
         document.addEventListener('click', handleClickOutside, { 
@@ -45,7 +45,7 @@ const PanelHelp: React.FC = () => {
       return () => {
         clearTimeout(timeoutId);
         document.removeEventListener('click', handleClickOutside);
-        console.log('Removing listener for click outside Help Panel')
+        // cXonsole.log('Removing listener for click outside Help Panel')
       };
     }
   }, [isHelpOpen, closeHelp]);

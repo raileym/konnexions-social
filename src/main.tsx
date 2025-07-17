@@ -4,11 +4,14 @@ import { createRoot } from 'react-dom/client'
 import { AppProvider } from '@context/AppContext/AppContext'
 import App from '../src/App'
 import 'tachyons/css/tachyons.min.css' // ← Tachyons global styles
+import { ThemeProvider } from '@context/ThemeContext/ThemeProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AppProvider>
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </AppProvider>
   </StrictMode>
 )

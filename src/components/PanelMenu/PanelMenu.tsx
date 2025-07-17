@@ -19,13 +19,13 @@ const PanelMenu: React.FC = () => {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      console.log('Click detected, checking if outside Menu Panel ...')
+      // cXonsole.log('Click detected, checking if outside Menu Panel ...')
       
       if (
         PanelMenuRef.current &&
         !PanelMenuRef.current.contains(event.target as Node)
       ) {
-        console.log('Click is outside Menu Panel, closing menu')
+        // cXonsole.log('Click is outside Menu Panel, closing menu')
         
         // Don't interfere with the event - let it complete naturally
         // Close panel on next tick
@@ -33,12 +33,12 @@ const PanelMenu: React.FC = () => {
           closeMenu();
         });
       } else {
-        console.log('Click is inside Menu Panel or ref not available')
+        // cXonsole.log('Click is inside Menu Panel or ref not available')
       }
     }
 
     if (isMenuOpen) {
-      console.log('Adding listener for click outside Menu Panel')
+      // cXonsole.log('Adding listener for click outside Menu Panel')
       
       const timeoutId = setTimeout(() => {
         document.addEventListener('click', handleClickOutside, { 
@@ -49,7 +49,7 @@ const PanelMenu: React.FC = () => {
       return () => {
         clearTimeout(timeoutId);
         document.removeEventListener('click', handleClickOutside);
-        console.log('Removing listener for click outside Menu Panel')
+        // cXonsole.log('Removing listener for click outside Menu Panel')
       };
     }
   }, [isMenuOpen, closeMenu]);

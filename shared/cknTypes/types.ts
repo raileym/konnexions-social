@@ -1339,3 +1339,4 @@ export type LegalBlockProps = {
   children: React.ReactNode
 }
 
+// ThemeTypes.ts

@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useSettingsPanel } from '@hooks/useSettingsPanel';
+import { useThemeContext } from '@context/ThemeContext/ThemeContext';
+// import { COLOR_PALETTE } from '@cknTypes/constants';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 
@@ -11,6 +13,7 @@ const PanelSettings: React.FC = () => {
   const PanelSettingsRef = useRef<HTMLDivElement>(null);
   
   const { isSettingsOpen } = useAppContext()
+  const { theme, setTheme } = useThemeContext()
  
   const { closeSettings } = useSettingsPanel()
 
@@ -18,13 +21,13 @@ const PanelSettings: React.FC = () => {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      console.log('Click detected, checking if outside Settings Panel ...')
+      // cXonsole.log('Click detected, checking if outside Settings Panel ...')
       
       if (
         PanelSettingsRef.current &&
         !PanelSettingsRef.current.contains(event.target as Node)
       ) {
-        console.log('Click is outside Settings Panel, closing Settings Panel')
+        // cXonsole.log('Click is outside Settings Panel, closing Settings Panel')
         
         // Don't interfere with the event - let it complete naturally
         // Close panel on next tick
@@ -32,12 +35,12 @@ const PanelSettings: React.FC = () => {
           closeSettings();
         });
       } else {
-        console.log('Click is inside Settings Panel or ref not available')
+        // cXonsole.log('Click is inside Settings Panel or ref not available')
       }
     }
 
     if (isSettingsOpen) {
-      console.log('Adding listener for click outside Settings Panel')
+      // cXonsole.log('Adding listener for click outside Settings Panel')
       
       const timeoutId = setTimeout(() => {
         document.addEventListener('click', handleClickOutside, { 
@@ -48,16 +51,20 @@ const PanelSettings: React.FC = () => {
       return () => {
         clearTimeout(timeoutId);
         document.removeEventListener('click', handleClickOutside);
-        console.log('Removing listener for click outside Settings Panel')
+        // cXonsole.log('Removing listener for click outside Settings Panel')
       };
     }
   }, [isSettingsOpen, closeSettings]);
 
   const headline = (
-    <div>
-      <p className='pa0 ma0'>
+    <div className="flex flex-column">
+      <div className='pa0 ma0'>
       Set your preferences here in regards to whether you are using a local Text-To-Speech (TTS) service or a cloud-based TTS service. Also, you may set your cost metrics here to help you understand rate of usage and potential costs for using cloud-based services, e.g., Google TTS Service or OpenAI's GenAI Service.
-      </p>
+      </div>
+
+      <div className="f2 b">{theme}</div>
+      <button className="mv3" onClick={() => {setTheme('Midnight Sand')}}>Select MIDNIGHT SAND</button>
+      <button className="mv3" onClick={() => {setTheme('Ocean View')}}>Select Theme OCEAN VIEW</button>
     </div>
   )
 

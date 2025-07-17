@@ -14,13 +14,13 @@ const PanelProfile = () => {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      console.log('Click detected, checking if outside Profile Panel ...')
+      // cXonsole.log('Click detected, checking if outside Profile Panel ...')
       
       if (
         PanelProfileRef.current &&
         !PanelProfileRef.current.contains(event.target as Node)
       ) {
-        console.log('Click is outside Profile Panel, closing Profile Panel')
+        // cXonsole.log('Click is outside Profile Panel, closing Profile Panel')
         
         // Don't interfere with the event - let it complete naturally
         // Close panel on next tick
@@ -28,12 +28,12 @@ const PanelProfile = () => {
           closeProfile();
         });
       } else {
-        console.log('Click is inside Profile Panel or ref not available')
+        // cXonsole.log('Click is inside Profile Panel or ref not available')
       }
     }
 
     if (isProfileOpen) {
-      console.log('Adding listener for click outside Profile Panel')
+      // cXonsole.log('Adding listener for click outside Profile Panel')
       
       const timeoutId = setTimeout(() => {
         document.addEventListener('click', handleClickOutside, { 
@@ -44,7 +44,7 @@ const PanelProfile = () => {
       return () => {
         clearTimeout(timeoutId);
         document.removeEventListener('click', handleClickOutside);
-        console.log('Removing listener for click outside Profile Panel')
+        // cXonsole.log('Removing listener for click outside Profile Panel')
       };
     }
   }, [isProfileOpen, closeProfile]);

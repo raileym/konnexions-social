@@ -1,7 +1,7 @@
 // src/components/NavbarTop.tsx
 import React from 'react'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
-import { faBars, faGear, faHome, faUser } from '@fortawesome/free-solid-svg-icons'   
+import { faBars, faGear, faUser } from '@fortawesome/free-solid-svg-icons'   
 
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
