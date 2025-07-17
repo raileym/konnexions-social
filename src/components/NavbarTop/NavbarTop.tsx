@@ -52,8 +52,9 @@ const NavbarTop: React.FC = () => {
                 style={{height: '5em'}}
               />
             </div> */}
+            <div className="br4 f3 b bg-moon-gray h3 w3 white pa2 flex items-center tcX justify-center mr3">My<span className="brand">K</span></div>
             <div className="flex items-center">
-              <div className="black-30 f3 b lh-title flex flex-column">
+              <div className="moon-gray f3 b lh-title flex flex-column">
                 <div className="f2">My <span className="brand">K</span>onnections </div>
                 {/* <div className="f2"><span className="brand">K</span>onnections <span className="brand">S</span>ocial</div> */}
                 {/* <div className="f2"><span className="brand">Konnections</span></div> */}
