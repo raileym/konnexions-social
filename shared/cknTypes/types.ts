@@ -1333,8 +1333,9 @@ export type LegalLabel = string
 export type LegalTitle = string
 
 export type LegalBlockProps = {
-  title?: LegalTitle;
-  label?: LegalLabel;
-  children: React.ReactNode;
+  title?: LegalTitle
+  label?: LegalLabel
+  disable?: boolean
+  children: React.ReactNode
 }
 
