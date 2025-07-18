@@ -26,6 +26,32 @@ $softblue:              rgba(0, 125, 255, 1);
   *
   * https://stackoverflow.com/questions/70411152/sass-detect-colour-darkness-to-determine-styles
   */
+
+  :root {
+    --primary: #00cdff44;
+    --secondary: #ff00bc44;
+    --tertiary: #ffff00aa;
+    --onPrimary: #000;
+    --onSecondary: #000;
+    --onTertiary: #000;
+  }
+
+// $primary: var(--primary);
+$secondary: var(--secondary);
+$tertiary: var(--tertiary);
+$onPrimary: var(--onPrimary);
+$onSecondary: var(--onSecondary);
+$onTertiary: var(--onTertiary);
+
+$color-palette: (
+  "primary": var(--primary),
+  "onPrimary": var(--onPrimary) //,
+  // "secondary": $secondary,
+  // "onSecondary": $onSecondary,
+  // "tertiary": $tertiary,
+  // "onTertiary": $onTertiary
+);
+
 $color-set: ( 
   "highlightblue":   #00cdff44,
   "highlightred":    #ff00bc44,
@@ -230,7 +256,7 @@ body.mode-light {
 
   h1, h2, h3, h4, h5, h6 { color: $brand-dark; }
 
-  @each $name, $hex in $color-set {
+  @each $name, $hex in $color-palette {
     .#{$name} {color: $hex}
     .#{$name} p {color: $hex}
   }
@@ -253,7 +279,7 @@ body.mode-dark {
 
   h1, h2, h3, h4, h5, h6 {color: dimgrey } // { color: $brand-light; }
 
-  @each $name, $hex in $color-set {
+  @each $name, $hex in $color-palette {
     .#{$name} {color: $hex}
   }
   .blue {color: dimgrey}
@@ -276,228 +302,242 @@ body.mode-dark {
 // ***************************************************** 
 // ***************************************************** 
 
-@each $name, $hex in $color-set {
+.primary {
+  --custom-0: var(--primary);
+  --custom-10: color-mix(in srgb, var(--primary) 90%, white 10%);
+  --custom-20: color-mix(in srgb, var(--primary) 80%, white 20%);
+  --custom-30: color-mix(in srgb, var(--primary) 70%, white 30%);
 
-  $custom-0  : $hex;
-  
-  $custom-10 : color.scale($hex, $lightness: 10%);
-  $custom-20 : color.scale($hex, $lightness: 20%);
-  $custom-30 : color.scale($hex, $lightness: 30%);
-  $custom-40 : color.scale($hex, $lightness: 40%);
-  $custom-50 : color.scale($hex, $lightness: 50%);
-  $custom-60 : color.scale($hex, $lightness: 60%);
-  $custom-70 : color.scale($hex, $lightness: 70%);
-  $custom-80 : color.scale($hex, $lightness: 80%);
-  $custom-90 : color.scale($hex, $lightness: 90%);
+  $custom-10: color-mix(in srgb, var(--primary) 90%, white 10%);
+  $custom-20: color-mix(in srgb, var(--primary) 80%, white 20%);
+  $custom-30: color-mix(in srgb, var(--primary) 70%, white 30%);
 
-  $custom--10 : color.scale($hex, $lightness: -10%);
-  $custom--20 : color.scale($hex, $lightness: -20%);
-  $custom--30 : color.scale($hex, $lightness: -30%);
-  $custom--40 : color.scale($hex, $lightness: -40%);
-  $custom--50 : color.scale($hex, $lightness: -50%);
-  $custom--60 : color.scale($hex, $lightness: -60%);
-  $custom--70 : color.scale($hex, $lightness: -70%);
-  $custom--80 : color.scale($hex, $lightness: -80%);
-  $custom--90 : color.scale($hex, $lightness: -90%);
-
-  // Transparent versions of the primary color 
-  // 
-  body.primary-#{$name} {
-
-    @for $i from 1 through 9 {
-      $step: 10 * $i;
-      $lightnessStep: 10% * $i;
-      $alphaStep: -1 * $step * 1%; // Equivalent to -$step%
-    
-      .primary-#{$step}     { color: color.scale($hex, $lightness: $lightnessStep) }
-      .primary--#{$step}    { color: color.scale($hex, $lightness: -$lightnessStep) }
-      .bg-primary-#{$step}  { background-color: color.scale($hex, $alpha: $alphaStep) }
-    }
-
-  }
-  
-  body.secondary-#{$name} {
-
-    @for $i from 1 through 9 {
-      .secondary-#{10*$i}     { color: color.scale($hex, $lightness: 10%*$i)}
-      .secondary--#{10*$i}    { color: color.scale($hex, $lightness: -10%*$i)}
-      .bg-secondary-#{10*$i}  { background-color: color.scale($hex, $lightness: 10%*$i)}
-      .bg-secondary--#{10*$i} { background-color: color.scale($hex, $lightness: -10%*$i)}
-    }
-    
-  }
-  
-  // Assorted backgrounds by transparency
-  //
-  .bg-#{$name}-10 { background-color: color.scale($hex, $alpha: -10%); }
-  .bg-#{$name}-20 { background-color: color.scale($hex, $alpha: -20%); }
-  .bg-#{$name}-30 { background-color: color.scale($hex, $alpha: -30%); }
-  .bg-#{$name}-40 { background-color: color.scale($hex, $alpha: -40%); }
-  .bg-#{$name}-50 { background-color: color.scale($hex, $alpha: -50%); }
-  .bg-#{$name}-60 { background-color: color.scale($hex, $alpha: -60%); }
-  .bg-#{$name}-70 { background-color: color.scale($hex, $alpha: -70%); }
-  .bg-#{$name}-80 { background-color: color.scale($hex, $alpha: -80%); }
-  .bg-#{$name}-90 { background-color: color.scale($hex, $alpha: -90%); }
-  
-
-
-  // All encompassing, regardless of the highest level 
-  // including as high as body.
-  // 
-  .#{$name} { color: $custom-0; }
-
-  .#{$name}--10 { color: $custom--10; }
-  .#{$name}--20 { color: $custom--20; }
-  .#{$name}--30 { color: $custom--30; }
-  .#{$name}--40 { color: $custom--40; }
-  .#{$name}--50 { color: $custom--50; }
-  .#{$name}--60 { color: $custom--60; }
-  .#{$name}--70 { color: $custom--70; }
-  .#{$name}--80 { color: $custom--80; }
-  .#{$name}--90 { color: $custom--90; }
-
-  .#{$name}-0  { color: $custom-0;  }
-  .#{$name}-10 { color: $custom-10; }
-  .#{$name}-20 { color: $custom-20; }
-  .#{$name}-30 { color: $custom-30; }
-  .#{$name}-40 { color: $custom-40; }
-  .#{$name}-50 { color: $custom-50; }
-  .#{$name}-60 { color: $custom-60; }
-  .#{$name}-70 { color: $custom-70; }
-  .#{$name}-80 { color: $custom-80; }
-  .#{$name}-90 { color: $custom-90; }
-
-  .dark-#{$name} { color: $custom--20; }
-  .darkest-#{$name} { color: $custom--40; }
-
-  .bg-#{$name} { background-color: $hex; }
-  .bg-dark-#{$name} { background-color: $custom--20; }
-  .bg-darkest-#{$name} { background-color: $custom--40; }
-
-
-  // Drive from the highest level (body) so that I do 
-  // not confuse WHEN I can use the highest level mark as 
-  // .primary-WHATEVER. Here, lower-level colors and backgrounds 
-  // involve primary.
-  // 
-  // PRIMARY PRIMARY PRIMARY 
-  body.primary-#{$name} .bg-primary { background-color: $hex; }
-  body.primary-dark-#{$name} .bg-primary { background-color: $custom--20; }
-  body.primary-darkest-#{$name} .bg-primary { background-color: $custom--40; }
-  
-  body.primary-#{$name}.mode-dark .bg-primary {background-color: dimgrey;} // { background-color: $hex; }
-  body.primary-dark-#{$name}.mode-dark .bg-primary {background-color: dimgrey;} // { background-color: $custom--20; }
-  body.primary-darkest-#{$name}.mode-dark .bg-primary {background-color: dimgrey;} // { background-color: $custom--40; }
-  
-  body.primary-#{$name} .bg-primary-complement { background-color: color.complement($hex); }
-  body.primary-dark-#{$name} .bg-primary-complement { background-color: color.complement($hex); }
-  body.primary-darkest-#{$name} .bg-primary-complement { background-color: color.complement($hex); }
-  
-  @each $degree in (90deg, 180deg, 270deg) {
-    body.primary-#{$name} .bg-primary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
-    body.primary-dark-#{$name} .bg-primary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
-    body.primary-darkest-#{$name} .bg-primary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
-  }
-  
-  // SECONDARY SECONDARY SECONDARY 
-  body.secondary-#{$name} .secondary { color: $hex; }
-  body.secondary-dark-#{$name} .secondary { color: $custom--20; }
-  body.secondary-darkest-#{$name} .secondary { color: $custom--40; }
-  
-  body.secondary-#{$name} .bg-secondary { background-color: $hex; }
-  body.secondary-dark-#{$name} .bg-secondary { background-color: $custom--20; }
-  body.secondary-darkest-#{$name} .bg-secondary { background-color: $custom--40; }
-  
-  body.secondary-#{$name} .bg-secondary-complement { background-color: color.complement($hex); }
-  body.secondary-dark-#{$name} .bg-secondary-complement { background-color: color.complement($hex); }
-  body.secondary-darkest-#{$name} .bg-secondary-complement { background-color: color.complement($hex); }
-  
-  @each $degree in (90deg, 180deg, 270deg) {
-    body.secondary-#{$name} .bg-secondary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
-    body.secondary-dark-#{$name} .bg-secondary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
-    body.secondary-darkest-#{$name} .bg-secondary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
-  }
-  
-
-
-
-  body.mode-light.#{$name} { color: $brand-dark; }
-  body.mode-light.dark-#{$name} { color: $brand-dark; }
-  body.mode-light.dark-#{$name} { color: $brand-dark; }
-
-  body.mode-light.bg-#{$name} { background-color: $brand-dark; }
-  body.mode-light.bg-dark-#{$name} { background-color: $brand-dark; }
-  body.mode-light.bg-dark-#{$name} { background-color: $brand-dark; }
-
-  body.mode-dark.#{$name} { color: $brand-light; }
-  body.mode-dark.dark-#{$name} { color: $brand-light; }
-  body.mode-dark.dark-#{$name} { color: $brand-light; }
-
-  body.mode-dark.bg-#{$name} { background-color: $brand-light; }
-  body.mode-dark.bg-dark-#{$name} { background-color: $brand-light; }
-  body.mode-dark.bg-dark-#{$name} { background-color: $brand-light; }
-
-
-
-  body.mode-light.#{$name} { color: $custom-0; }
-  body.mode-light.dark-#{$name} { color: $custom--20; }
-  body.mode-light.dark-#{$name} { color: $custom--40; }
-
-  body.mode-light.bg-#{$name} { background-color: $custom-0; }
-  body.mode-light.bg-dark-#{$name} { background-color: $custom--20; }
-  body.mode-light.bg-dark-#{$name} { background-color: $custom--40; }
-
-  body.mode-dark.#{$name} { color: $custom-0; }
-  body.mode-dark.dark-#{$name} { color: $custom--20; }
-  body.mode-dark.dark-#{$name} { color: $custom--40; }
-
-  body.mode-dark.bg-#{$name} { background-color: $custom-0; }
-  body.mode-dark.bg-dark-#{$name} { background-color: $custom--20; }
-  body.mode-dark.bg-dark-#{$name} { background-color: $custom--40; }
-
-
-
-  $shading-set: ( 
-    primary   primary           $hex,
-    primary   primary-dark      $custom--20, 
-    primary   primary-darkest   $custom--40,
-    secondary secondary         $hex,
-    secondary secondary-dark    $custom--20, 
-    secondary secondary-darkest $custom--40,
-  );
-
-  @each $sQualifier, $sName, $sHex in $shading-set {
-
-    body.#{$sName}-#{$name} {
-      .b--#{$sName} { border-color: #{$sHex}; }
-      .b--punch { border-color: #{$sHex}; }
-      .bg-punch { background-color: #{$sHex}; }
-      .#{$sName},
-      .#{$sName}-color { 
-        color: $sHex; 
-        --fa-#{$sName}-color: #{$sHex};
-        --fa-#{$sName}-opacity: 1.0; 
-        p, .P {
-          color: $brand-dark;
-        }
-        h1, h2, h3, h4, h5, h6 { color: #{$sHex}; }
-      }
-      hr { 
-        background-color: #{$sHex}; 
-        border-color: #{$sHex};
-      }
-    }
-
-    body.#{$sName}-#{$name}.mode-dark {
-      hr {
-        background-color: dimgrey;
-        border-color: dimgrey;
-      }
-    }
-  }
-
-
+  background: var(--custom-10);
+  color: var(--onPrimary);
 }
+
+// @each $name, $hex in $color-palette {
+
+//   $custom-0  : $hex;
+  
+//   $custom-10 : color.scale($hex, $lightness: 10%);
+//   $custom-20 : color.scale($hex, $lightness: 20%);
+//   $custom-30 : color.scale($hex, $lightness: 30%);
+//   $custom-40 : color.scale($hex, $lightness: 40%);
+//   $custom-50 : color.scale($hex, $lightness: 50%);
+//   $custom-60 : color.scale($hex, $lightness: 60%);
+//   $custom-70 : color.scale($hex, $lightness: 70%);
+//   $custom-80 : color.scale($hex, $lightness: 80%);
+//   $custom-90 : color.scale($hex, $lightness: 90%);
+
+//   $custom--10 : color.scale($hex, $lightness: -10%);
+//   $custom--20 : color.scale($hex, $lightness: -20%);
+//   $custom--30 : color.scale($hex, $lightness: -30%);
+//   $custom--40 : color.scale($hex, $lightness: -40%);
+//   $custom--50 : color.scale($hex, $lightness: -50%);
+//   $custom--60 : color.scale($hex, $lightness: -60%);
+//   $custom--70 : color.scale($hex, $lightness: -70%);
+//   $custom--80 : color.scale($hex, $lightness: -80%);
+//   $custom--90 : color.scale($hex, $lightness: -90%);
+
+//   // Transparent versions of the primary color 
+//   // 
+//   body.primary-#{$name} {
+
+//     @for $i from 1 through 9 {
+//       $step: 10 * $i;
+//       $lightnessStep: 10% * $i;
+//       $alphaStep: -1 * $step * 1%; // Equivalent to -$step%
+    
+//       .primary-#{$step}     { color: color.scale($hex, $lightness: $lightnessStep) }
+//       .primary--#{$step}    { color: color.scale($hex, $lightness: -$lightnessStep) }
+//       .bg-primary-#{$step}  { background-color: color.scale($hex, $alpha: $alphaStep) }
+//     }
+
+//   }
+  
+//   body.secondary-#{$name} {
+
+//     @for $i from 1 through 9 {
+//       .secondary-#{10*$i}     { color: color.scale($hex, $lightness: 10%*$i)}
+//       .secondary--#{10*$i}    { color: color.scale($hex, $lightness: -10%*$i)}
+//       .bg-secondary-#{10*$i}  { background-color: color.scale($hex, $lightness: 10%*$i)}
+//       .bg-secondary--#{10*$i} { background-color: color.scale($hex, $lightness: -10%*$i)}
+//     }
+    
+//   }
+  
+//   // Assorted backgrounds by transparency
+//   //
+//   .bg-#{$name}-10 { background-color: color.scale($hex, $alpha: -10%); }
+//   .bg-#{$name}-20 { background-color: color.scale($hex, $alpha: -20%); }
+//   .bg-#{$name}-30 { background-color: color.scale($hex, $alpha: -30%); }
+//   .bg-#{$name}-40 { background-color: color.scale($hex, $alpha: -40%); }
+//   .bg-#{$name}-50 { background-color: color.scale($hex, $alpha: -50%); }
+//   .bg-#{$name}-60 { background-color: color.scale($hex, $alpha: -60%); }
+//   .bg-#{$name}-70 { background-color: color.scale($hex, $alpha: -70%); }
+//   .bg-#{$name}-80 { background-color: color.scale($hex, $alpha: -80%); }
+//   .bg-#{$name}-90 { background-color: color.scale($hex, $alpha: -90%); }
+  
+
+
+//   // All encompassing, regardless of the highest level 
+//   // including as high as body.
+//   // 
+//   .#{$name} { color: $custom-0; }
+
+//   .#{$name}--10 { color: $custom--10; }
+//   .#{$name}--20 { color: $custom--20; }
+//   .#{$name}--30 { color: $custom--30; }
+//   .#{$name}--40 { color: $custom--40; }
+//   .#{$name}--50 { color: $custom--50; }
+//   .#{$name}--60 { color: $custom--60; }
+//   .#{$name}--70 { color: $custom--70; }
+//   .#{$name}--80 { color: $custom--80; }
+//   .#{$name}--90 { color: $custom--90; }
+
+//   .#{$name}-0  { color: $custom-0;  }
+//   .#{$name}-10 { color: $custom-10; }
+//   .#{$name}-20 { color: $custom-20; }
+//   .#{$name}-30 { color: $custom-30; }
+//   .#{$name}-40 { color: $custom-40; }
+//   .#{$name}-50 { color: $custom-50; }
+//   .#{$name}-60 { color: $custom-60; }
+//   .#{$name}-70 { color: $custom-70; }
+//   .#{$name}-80 { color: $custom-80; }
+//   .#{$name}-90 { color: $custom-90; }
+
+//   .dark-#{$name} { color: $custom--20; }
+//   .darkest-#{$name} { color: $custom--40; }
+
+//   .bg-#{$name} { background-color: $hex; }
+//   .bg-dark-#{$name} { background-color: $custom--20; }
+//   .bg-darkest-#{$name} { background-color: $custom--40; }
+
+
+//   // Drive from the highest level (body) so that I do 
+//   // not confuse WHEN I can use the highest level mark as 
+//   // .primary-WHATEVER. Here, lower-level colors and backgrounds 
+//   // involve primary.
+//   // 
+//   // PRIMARY PRIMARY PRIMARY 
+//   body.primary-#{$name} .bg-primary { background-color: $hex; }
+//   body.primary-dark-#{$name} .bg-primary { background-color: $custom--20; }
+//   body.primary-darkest-#{$name} .bg-primary { background-color: $custom--40; }
+  
+//   body.primary-#{$name}.mode-dark .bg-primary {background-color: dimgrey;} // { background-color: $hex; }
+//   body.primary-dark-#{$name}.mode-dark .bg-primary {background-color: dimgrey;} // { background-color: $custom--20; }
+//   body.primary-darkest-#{$name}.mode-dark .bg-primary {background-color: dimgrey;} // { background-color: $custom--40; }
+  
+//   body.primary-#{$name} .bg-primary-complement { background-color: color.complement($hex); }
+//   body.primary-dark-#{$name} .bg-primary-complement { background-color: color.complement($hex); }
+//   body.primary-darkest-#{$name} .bg-primary-complement { background-color: color.complement($hex); }
+  
+//   @each $degree in (90deg, 180deg, 270deg) {
+//     body.primary-#{$name} .bg-primary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
+//     body.primary-dark-#{$name} .bg-primary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
+//     body.primary-darkest-#{$name} .bg-primary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
+//   }
+  
+//   // SECONDARY SECONDARY SECONDARY 
+//   body.secondary-#{$name} .secondary { color: $hex; }
+//   body.secondary-dark-#{$name} .secondary { color: $custom--20; }
+//   body.secondary-darkest-#{$name} .secondary { color: $custom--40; }
+  
+//   body.secondary-#{$name} .bg-secondary { background-color: $hex; }
+//   body.secondary-dark-#{$name} .bg-secondary { background-color: $custom--20; }
+//   body.secondary-darkest-#{$name} .bg-secondary { background-color: $custom--40; }
+  
+//   body.secondary-#{$name} .bg-secondary-complement { background-color: color.complement($hex); }
+//   body.secondary-dark-#{$name} .bg-secondary-complement { background-color: color.complement($hex); }
+//   body.secondary-darkest-#{$name} .bg-secondary-complement { background-color: color.complement($hex); }
+  
+//   @each $degree in (90deg, 180deg, 270deg) {
+//     body.secondary-#{$name} .bg-secondary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
+//     body.secondary-dark-#{$name} .bg-secondary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
+//     body.secondary-darkest-#{$name} .bg-secondary-#{$degree} { background-color: color.adjust($hex, $hue: $degree); }
+//   }
+  
+
+
+
+//   body.mode-light.#{$name} { color: $brand-dark; }
+//   body.mode-light.dark-#{$name} { color: $brand-dark; }
+//   body.mode-light.dark-#{$name} { color: $brand-dark; }
+
+//   body.mode-light.bg-#{$name} { background-color: $brand-dark; }
+//   body.mode-light.bg-dark-#{$name} { background-color: $brand-dark; }
+//   body.mode-light.bg-dark-#{$name} { background-color: $brand-dark; }
+
+//   body.mode-dark.#{$name} { color: $brand-light; }
+//   body.mode-dark.dark-#{$name} { color: $brand-light; }
+//   body.mode-dark.dark-#{$name} { color: $brand-light; }
+
+//   body.mode-dark.bg-#{$name} { background-color: $brand-light; }
+//   body.mode-dark.bg-dark-#{$name} { background-color: $brand-light; }
+//   body.mode-dark.bg-dark-#{$name} { background-color: $brand-light; }
+
+
+
+//   body.mode-light.#{$name} { color: $custom-0; }
+//   body.mode-light.dark-#{$name} { color: $custom--20; }
+//   body.mode-light.dark-#{$name} { color: $custom--40; }
+
+//   body.mode-light.bg-#{$name} { background-color: $custom-0; }
+//   body.mode-light.bg-dark-#{$name} { background-color: $custom--20; }
+//   body.mode-light.bg-dark-#{$name} { background-color: $custom--40; }
+
+//   body.mode-dark.#{$name} { color: $custom-0; }
+//   body.mode-dark.dark-#{$name} { color: $custom--20; }
+//   body.mode-dark.dark-#{$name} { color: $custom--40; }
+
+//   body.mode-dark.bg-#{$name} { background-color: $custom-0; }
+//   body.mode-dark.bg-dark-#{$name} { background-color: $custom--20; }
+//   body.mode-dark.bg-dark-#{$name} { background-color: $custom--40; }
+
+
+
+//   $shading-set: ( 
+//     primary   primary           $hex,
+//     primary   primary-dark      $custom--20, 
+//     primary   primary-darkest   $custom--40,
+//     secondary secondary         $hex,
+//     secondary secondary-dark    $custom--20, 
+//     secondary secondary-darkest $custom--40,
+//   );
+
+//   @each $sQualifier, $sName, $sHex in $shading-set {
+
+//     body.#{$sName}-#{$name} {
+//       .b--#{$sName} { border-color: #{$sHex}; }
+//       .b--punch { border-color: #{$sHex}; }
+//       .bg-punch { background-color: #{$sHex}; }
+//       .#{$sName},
+//       .#{$sName}-color { 
+//         color: $sHex; 
+//         --fa-#{$sName}-color: #{$sHex};
+//         --fa-#{$sName}-opacity: 1.0; 
+//         p, .P {
+//           color: $brand-dark;
+//         }
+//         h1, h2, h3, h4, h5, h6 { color: #{$sHex}; }
+//       }
+//       hr { 
+//         background-color: #{$sHex}; 
+//         border-color: #{$sHex};
+//       }
+//     }
+
+//     body.#{$sName}-#{$name}.mode-dark {
+//       hr {
+//         background-color: dimgrey;
+//         border-color: dimgrey;
+//       }
+//     }
+//   }
+
+
+// }
 
 
 #citation-group-set {
