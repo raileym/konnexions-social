@@ -29,7 +29,7 @@ const NavbarTop: React.FC = () => {
   }
 
   return (
-    <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph3 pv2 z-999">
+    <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph3 pt3 pb3 z-999">
       <div className="w-100 flex flex-column">
         <div className="baX w-100 flex flex-row justify-between">
           <div 
@@ -52,15 +52,16 @@ const NavbarTop: React.FC = () => {
                 style={{height: '5em'}}
               />
             </div> */}
-            <div className="br4 f3 b bg-moon-gray h3 w3 white pa2 flex items-center tcX justify-center mr3">My<span className="brand">K</span></div>
+            <div className="br4 f2 b bg-moon-gray h3 w3 white pa2 flex items-center tcX justify-center mr3">Kx</div>
             <div className="flex items-center">
-              <div className="moon-gray f3 b lh-title flex flex-column">
-                <div className="f2">My <span className="brand">K</span>onnections </div>
-                {/* <div className="f2"><span className="brand">K</span>onnections <span className="brand">S</span>ocial</div> */}
-                {/* <div className="f2"><span className="brand">Konnections</span></div> */}
+              <div className="moon-gray f3X b lh-title flex flex-column">
+<span className="konnexions">Konne<span className="konnex"><span className="slash-wrapper"><span className="slash-one f3X">\</span><span className="slash-two">\</span></span></span><span className="ml3 pl2">ions</span></span>
+                {/* <div className="f2">My <span className="brand">K</span>onne<span className="brand">x</span>ions </div> */}
+                {/* <div className="f2"><span className="brand">K</span>onnexions <span className="brand">S</span>ocial</div> */}
+                {/* <div className="f2"><span className="brand">Konnexions</span></div> */}
                 {/* <div className="f2"><span className="brand">Kon</span>nekt Social</div> */}
                 {/* <div className="f2"><span className="brand">CK</span>Ո Social</div> */}
-                <div className="black-20 f4 dn dn-m db-l">Let's <span className="brand">k</span>onnect! Promoting ways to connect socially</div>
+                {/* <div className="black-20 f4 dn dn-m db-l">Let's <span className="brand">k</span>onnect! Promoting ways to connect socially</div> */}
               </div>
             </div>
           </div>

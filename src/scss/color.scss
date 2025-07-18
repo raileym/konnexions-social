@@ -36,7 +36,7 @@ $softblue:              rgba(0, 125, 255, 1);
     --onTertiary: #000;
   }
 
-// $primary: var(--primary);
+$primary: var(--primary);
 $secondary: var(--secondary);
 $tertiary: var(--tertiary);
 $onPrimary: var(--onPrimary);
@@ -51,6 +51,18 @@ $color-palette: (
   // "tertiary": $tertiary,
   // "onTertiary": $onTertiary
 );
+
+.primary { color: var(--primary) }
+.bg-primary { background-color: $primary }
+.b--primary { border-color: $primary }
+
+.secondary { color: var(--secondary) }
+.bg-secondary { background-color: $secondary }
+.b--secondary { border-color: $secondary }
+
+.tertiary { color: var(--tertiary) }
+.bg-tertiary { background-color: $tertiary }
+.b--tertiary { border-color: $tertiary }
 
 $color-set: ( 
   "highlightblue":   #00cdff44,

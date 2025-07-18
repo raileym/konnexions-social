@@ -64,6 +64,9 @@ const PanelSettings: React.FC = () => {
 
       <div className="f2 b">{theme}</div>
       <button className="mv3" onClick={() => {setTheme('Midnight Sand')}}>Select MIDNIGHT SAND</button>
+      <button className="mv3" onClick={() => {setTheme('Dunkin')}}>Select DUNKIN</button>
+      <button className="mv3" onClick={() => {setTheme('McDonalds')}}>Select MCDONALDS</button>
+      <button className="mv3" onClick={() => {setTheme('Starbucks')}}>Select STARBUCKS</button>
       <button className="mv3" onClick={() => {setTheme('Ocean View')}}>Select Theme OCEAN VIEW</button>
     </div>
   )

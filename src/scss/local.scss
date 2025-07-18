@@ -50,3 +50,82 @@ p {
 .privacy-policyX p {
   background-color: blue;
 }
+
+.konnexions {
+  font-family: sans-serif;
+  font-weight: 700;
+  color: #999;
+  font-size: 48px;
+}
+
+.konnex-keeper {
+  position: relative;
+  left: 2%;
+  top: 10%;
+}
+
+.konnex-keeper::after {
+  content: '';
+  position: absolute;
+  top: -20%;         /* fine-tune as needed */
+  left: 100%;         /* center horizontally */
+  width: 7px;
+  height: 160%;      /* longer than the font's height */
+  background: var(--primary);
+  transform: rotate(25deg);
+  transform-origin: center;
+  border-radius: 100%;  /* flatten tips */
+  pointer-events: none; /* so it doesn't interfere */
+}
+
+.slash-one-keeper,
+.slash-two-keeper {
+  position: absolute;
+  top: 10%;
+  left: 100%;
+  font-size: 26pt;
+}
+
+.slash-one-keeper {
+  transform: translateX(-2px); /* adjust for perfect overlap */
+}
+
+.slash-two-keeper {
+  transform: translateX(0px); /* adjust for perfect overlap */
+}
+
+.konnex {
+  position: relative;
+  left: 2%;
+  top: 10%;
+}
+
+.konnex::after {
+  content: '';
+  position: absolute;
+  top: -20%;         /* fine-tune as needed */
+  left: 100%;         /* center horizontally */
+  width: 7px;
+  height: 150%;      /* longer than the font's height */
+  background: var(--primary);
+  transform: rotate(25deg);
+  transform-origin: center;
+  border-radius: 100%;  /* flatten tips */
+  pointer-events: none; /* so it doesn't interfere */
+}
+
+.slash-one,
+.slash-two {
+  position: absolute;
+  top: 20%;
+  left: 100%;
+  font-size: 26pt;
+}
+
+.slash-one {
+  transform: translateX(-2px); /* adjust for perfect overlap */
+}
+
+.slash-two {
+  transform: translateX(0px); /* adjust for perfect overlap */
+}
