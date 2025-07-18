@@ -54,7 +54,7 @@ p {
 .konnexions {
   font-family: sans-serif;
   font-weight: 700;
-  color: #999;
+  color: #ccc;
   font-size: 48px;
 }
 
@@ -94,20 +94,13 @@ p {
   transform: translateX(0px); /* adjust for perfect overlap */
 }
 
-.konnex {
-  position: relative;
-  left: 2%;
-  top: 10%;
-}
-
 .konnex::after {
-  content: '';
+  // content: '';
   position: absolute;
-  top: -20%;         /* fine-tune as needed */
-  left: 100%;         /* center horizontally */
-  width: 7px;
+  // top: 1em;         /* fine-tune as needed */
+  // width: 2em;
   height: 150%;      /* longer than the font's height */
-  background: var(--primary);
+  background: var(--secondary);
   transform: rotate(25deg);
   transform-origin: center;
   border-radius: 100%;  /* flatten tips */
@@ -117,15 +110,22 @@ p {
 .slash-one,
 .slash-two {
   position: absolute;
+  left: 50%;
   top: 20%;
-  left: 100%;
-  font-size: 26pt;
+  font-size: 60%;
 }
 
-.slash-one {
-  transform: translateX(-2px); /* adjust for perfect overlap */
+.a-slash-one::after {
+  content: '';
+  position: absolute;
+  top: -.2em;         
+  left: .16em;
+  width: 0.16em;
+  height: 2.25em;
+  background: var(--primary);
+  transform: rotate(34deg);
+  transform-origin: center;
+  border-radius: 100%;
+  pointer-events: none;
 }
 
-.slash-two {
-  transform: translateX(0px); /* adjust for perfect overlap */
-}

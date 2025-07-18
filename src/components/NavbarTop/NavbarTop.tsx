@@ -52,10 +52,10 @@ const NavbarTop: React.FC = () => {
                 style={{height: '5em'}}
               />
             </div> */}
-            <div className="br4 f2 b bg-moon-gray h3 w3 white pa2 flex items-center tcX justify-center mr3">Kx</div>
+            <div className="br4 f2 b bg-moon-gray h3 w3 white pa2 flex items-center tcX justify-center mr3">K<span className="konnex"><span className="slash-wrapper"><span className="slash-one f3X">\</span><span className="slash-two">\</span></span></span></div>
             <div className="flex items-center">
-              <div className="moon-gray f3X b lh-title flex flex-column">
-<span className="konnexions">Konne<span className="konnex"><span className="slash-wrapper"><span className="slash-one f3X">\</span><span className="slash-two">\</span></span></span><span className="ml3 pl2">ions</span></span>
+              <div className="silver f3X b lh-title flex flex-column">
+<span className="konnexions">My Konne<span className="konnex"><span className="slash-wrapper"><span className="slash-one f3X">\</span><span className="slash-two">\</span></span></span><span className="ml3 pl2">ions</span></span>
                 {/* <div className="f2">My <span className="brand">K</span>onne<span className="brand">x</span>ions </div> */}
                 {/* <div className="f2"><span className="brand">K</span>onnexions <span className="brand">S</span>ocial</div> */}
                 {/* <div className="f2"><span className="brand">Konnexions</span></div> */}
