@@ -17,7 +17,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     const root = document.documentElement
 
     Object.entries(colors).forEach(([key, val]) => {
-      root.style.setProperty(`--${key}`, val)
+      root.style.setProperty(`--kx-${key}`, val)
     })
   }, [theme, mode])
 

@@ -58,7 +58,8 @@ p {
   left: 0.2em; // .16em;
   width: 0.16em;
   height: 2.25em;
-  background: var(--primary);
+  background: var(--slash-color, var(--primary));
+  // background: var(--primary);
   transform: rotate(34deg);
   transform-origin: center;
   border-radius: 100%;

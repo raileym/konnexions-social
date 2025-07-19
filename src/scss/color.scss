@@ -28,39 +28,48 @@ $softblue:              rgba(0, 125, 255, 1);
   */
 
   :root {
-    --primary: #00cdff44;
-    --secondary: #ff00bc44;
-    --tertiary: #ffff00aa;
-    --onPrimary: #000;
-    --onSecondary: #000;
-    --onTertiary: #000;
+    --kx-primary: #00cdff44;
+    --kx-secondary: #ff00bc44;
+    --kx-tertiary: #ffff00aa;
+    --kx-onPrimary: #000;
+    --kx-onSecondary: #000;
+    --kx-onTertiary: #000;
+
+    --kx-brand: #17ADFF;
+    --kx-black: black;
+    --kx-brown: brown;
+    --kx-blue: blue;
+    --kx-crimson: crimson;
+    --kx-cyan: cyan;
+    --kx-peru: peru;
+    --kx-darkorange: darkorange;
   }
 
-$primary: var(--primary);
-$secondary: var(--secondary);
-$tertiary: var(--tertiary);
-$onPrimary: var(--onPrimary);
-$onSecondary: var(--onSecondary);
-$onTertiary: var(--onTertiary);
+$primary: var(--kx-primary);
+$secondary: var(--kx-secondary);
+$tertiary: var(--kx-tertiary);
+$onPrimary: var(--kx-onPrimary);
+$onSecondary: var(--kx-onSecondary);
+$onTertiary: var(--kx-onTertiary);
 
 $color-palette: (
-  "primary": var(--primary),
-  "onPrimary": var(--onPrimary) //,
+  "primary": var(--kx-primary),
+  "onPrimary": var(--kx-onPrimary) //,
   // "secondary": $secondary,
   // "onSecondary": $onSecondary,
   // "tertiary": $tertiary,
   // "onTertiary": $onTertiary
 );
 
-.primary { color: var(--primary) }
+.primary { color: var(--kx-primary) }
 .bg-primary { background-color: $primary }
 .b--primary { border-color: $primary }
 
-.secondary { color: var(--secondary) }
+.secondary { color: var(--kx-secondary) }
 .bg-secondary { background-color: $secondary }
 .b--secondary { border-color: $secondary }
 
-.tertiary { color: var(--tertiary) }
+.tertiary { color: var(--kx-tertiary) }
 .bg-tertiary { background-color: $tertiary }
 .b--tertiary { border-color: $tertiary }
 
@@ -76,13 +85,14 @@ $color-set: (
   "softorange":      $softorange,
   "softblue":        $softblue,
 
-  "black" :          black,
-  "brown" :          brown,
-  "blue" :           blue,
-  "crimson":         crimson,
-  "cyan":            cyan,
-  "peru":            peru,
-  "darkorange":      darkorange,
+  "black" :          var(--kx-black),
+  "brown" :          var(--kx-brown),
+  "blue" :           var(--kx-blue),
+  "crimson":         var(--kx-crimson),
+  "cyan":            var(--kx-cyan),
+  "peru":            var(--kx-peru),
+  "darkorange":      var(--kx-darkorange),
+
   "forestgreen":     forestgreen,
   "ghostwhite":      ghostwhite,
   "gold":            gold,
@@ -117,7 +127,7 @@ $color-set: (
 // ******************************************** 
 // ******************************************** 
 
-$brand : #17ADFF; // blue;
+$brand : var(--kx-brand); // #17ADFF; // blue;
 $brand-light : white;// #9F5223; //rgba(142, 89,44,1);//color.scale(peru, $lightness: -10%);
 $brand-dark : black;
 $brand-bright: orangered;
@@ -222,7 +232,7 @@ body.mode-light {
   .bg-brand-light { background-color: $brand-light; }
   
   .brand-red { color: $brand-red; }
-
+  .bg-brand-red { background-color: $brand-red; }
 }
 
 body.mode-dark {
