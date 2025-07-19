@@ -53,7 +53,7 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
     // mhX = 2
     mMarginLeft = .2
     mMarginRight = .25
-    marginTop = 0.345 + (lineHeight - 1.)/2
+    marginTop = 0.345 + (lineHeight - 1.)/2 + 0.04
   }
 
   if ( asSpan ) {
