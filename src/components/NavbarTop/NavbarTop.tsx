@@ -11,7 +11,8 @@ import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useNavigate } from 'react-router-dom'
-import KonnexionsSlash from '@components/KonnexionsSlash/KonnexionsSlash'
+import MyKonnexionsSlash from '@components/MyKonnexionsSlash/MyKonnexionsSlash'
+import MyKonnexionsIcon from '@components/MyKonnexionsIcon/MyKonnexionsIcon'
 
 const NavbarTop: React.FC = () => {
   const { switchPanel } = usePanel()
@@ -45,13 +46,14 @@ const NavbarTop: React.FC = () => {
               navigateTo('Welcome')
             }}
           >
-            <div className="baX b--silverX bw1 br4 f2 b bg-silver primary h3X w3 pa2X flex items-centerX justify-center mr3" style={{lineHeight: '2em'}}>
-              <div>K</div><KonnexionsSlash color='white' lineHeight={2} />
-            </div>
+            <MyKonnexionsIcon />
+            {/* <div className="baX b--silverX bw1 br4 f2 b bg-silver primary h3X w3 pa2X flex items-centerX justify-center mr3" style={{lineHeight: '2em'}}>
+              <div>K</div><MyKonnexionsSlash color='white' lineHeight={2} />
+            </div> */}
             <div className="flex items-center">
               <div className="silver f1 b lh-title flex flex-column">
                 <div className="flex flex-row f1" style={{lineHeight: '1em'}}>
-                  <div>My <span className="primary">K</span>onne</div><KonnexionsSlash /><div>ions</div>
+                  <div>My <span className="primary">K</span>onne</div><MyKonnexionsSlash /><div>ions</div>
                 </div>
               </div>
             </div>
