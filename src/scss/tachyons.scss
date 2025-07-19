@@ -115,27 +115,45 @@ $break-pairs: (
 // }
 
 $break-pairs: (
-  s: 44.99,
-  vs: 30,
-  vvs: 25,
+  kx-m: 60,
+  kx-s: 44.99,
+  kx-vs: 30,
+  kx-vvs: 25,
 );
 
 @each $name, $break in $break-pairs {
-    @media screen and (max-width: #{$break}em) {
-        // Using this in cards
-        @each $font-size in $font-size-details {
-            $i: list.index($font-size-details, $font-size)-1;
-            
-            // .lh#{$i}-#{$break} { line-height: $font-size !important; }
-            .f#{$i}-#{$name} { font-size: $font-size !important; }
-
-            // @for $i from 10 through 2 {
-            //     .fz-#{$i}-#{$break} { font-size: 1rem*$i; }
-            // }
-
-        }
+  @media screen and (max-width: #{$break}rem) {
+    @each $font-size in $font-size-details {
+      $i: list.index($font-size-details, $font-size)-1;
+      .f#{$i}-#{$name} { font-size: $font-size !important; }
+      .pt#{$i}-#{name} { padding-top: $font-size !important; }
+      .pb#{$i}-#{name} { padding-top: $font-size !important; }
     }
+
+    .dn-#{$name} { display: none !important; }
+    .db-#{$name} { display: block !important; }
+    .dib-#{$name} { display: inline-block !important; }
+    .flex-#{$name} { display: flex !important; }
+
+    @for $i from 4 through 20 { .kx-width-#{$i}-#{$name} { width: #{1rem * $i} !important; } }
+    @for $i from 4 through 20 { .kx-height-#{$i}-#{$name} { height: #{1rem * $i} !important; } }
+    @for $i from 4 through 20 { .kx-line-height-#{$i}-#{$name} { line-height: #{1rem * $i} !important; } }
+    // @for $i from 10 through 3 { .width-#{10*$i}-#{$break} { width: 10rem*$i; } }    
+  }
 }
+
+@for $i from 20 through 1 {
+    .kx-width-#{$i} { width: 1rem*$i; }
+}    
+    
+@for $i from 40 through 0 {
+    .kx-height-#{$i} { height: 1rem*$i; }
+}
+
+@for $i from 40 through 0 {
+    .kx-lh-#{$i} { line-height: 1rem*$i; }
+}
+
 
 // @each $break in $breaks {
 //     @media screen and (max-width: #{$break}px) {
@@ -238,17 +256,17 @@ $break-pairs: (
 //     .lh-#{$i}-5 { line-height: 1rem*$i + 0.5rem; p {line-height: 1rem*$i + 0.5rem; }}
 // }    
     
-@for $i from 20 through 1 {
-    .width-#{$i} { width: 1rem*$i; }
-}    
+// @for $i from 20 through 1 {
+//     .width-#{$i} { width: 1rem*$i; }
+// }    
     
 // @for $i from 10 through 3 {
 //     .width-#{10*$i} { width: 10rem*$i; }
 // }    
     
-@for $i from 40 through 0 {
-    .height-#{$i} { height: 1rem*$i; }
-}
+// @for $i from 40 through 0 {
+//     .height-#{$i} { height: 1rem*$i; }
+// }
 
 // @for $i from 40 through 0 {
 //     .height-#{$i}em { height: 24px*$i; }

@@ -61,8 +61,6 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
       <>
         <span className="baX flex flow-row justify-centerX items-centerX">
           <span className="flex flex-row relative">
-            {/* <span className="bg-black baX b--blue transparent mh2 w1 h1 skew-45" style={{marginRight: '.3em', width: '.15em', height: '0.52em'}}>x</span> */}
-            {/* <span className={`bg-${color} transparent ml${mlX} mrX${mrX} mhX${mhX} skew-45`} style={{marginTop: `${marginTop}em`, marginRight: '.3em', width: '.15em', height: '0.52em', lineHeight: `${lineHeight}`}}>m</span> */}
             <span className={`bg-${color} transparent skew-45`}
               style={{
                 marginTop: `${marginTop}em`,
@@ -94,8 +92,6 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
       <>
         <div className="baX flex flow-row justify-centerX items-centerX">
           <div className="flex flex-row relative">
-            {/* <div className="bg-black baX b--blue transparent mh2 w1 h1 skew-45" style={{marginRight: '.3em', width: '.15em', height: '0.52em'}}>x</div> */}
-            {/* <div className={`bg-${color} transparent ml${mlX} mrX${mrX} mhX${mhX} skew-45`} style={{marginTop: `${marginTop}em`, marginRight: '.3em', width: '.15em', height: '0.52em', lineHeight: `${lineHeight}`}}>m</div> */}
             <div className={`bg-${color} transparent skew-45`}
               style={{
                 marginTop: `${marginTop}em`,
