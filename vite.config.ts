@@ -3,9 +3,11 @@ import react from '@vitejs/plugin-react'
 import * as path from 'path'
 import mdx from '@mdx-js/rollup'
 import { VitePWA } from 'vite-plugin-pwa'
+import svgr from 'vite-plugin-svgr'
 
 export default defineConfig({
     plugins: [react(),
+      svgr(),
       mdx({include: /\.mdx$/}) as PluginOption,
       VitePWA({
         registerType: 'autoUpdate',
@@ -42,6 +44,7 @@ export default defineConfig({
     ],
     resolve: {
       alias: {
+        '@assets': path.resolve(__dirname, 'src/assets'),
         '@cknTypes': path.resolve(__dirname, 'shared/cknTypes'),
         '@shared': path.resolve(__dirname, 'shared'),
         '@context': path.resolve(__dirname, 'src/context'),

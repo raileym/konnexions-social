@@ -12,6 +12,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@assets/*": ["src/assets/*"],
       "@cknTypes/*": ["shared/cknTypes/*"],
       "@shared/*": ["shared/*"],
       "@context/*": ["src/context/*"],
@@ -42,7 +43,8 @@
   },
   "include": [
     "src",
-    "shared"
+    "shared",
+    "src/types"
   ],
   "exclude": [
     "node_modules",

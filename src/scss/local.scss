@@ -51,75 +51,11 @@ p {
   background-color: blue;
 }
 
-.konnexions {
-  font-family: sans-serif;
-  font-weight: 700;
-  color: #ccc;
-  font-size: 48px;
-}
-
-.konnex-keeper {
-  position: relative;
-  left: 2%;
-  top: 10%;
-}
-
-.konnex-keeper::after {
+.konnexion-slash::after {
   content: '';
   position: absolute;
-  top: -20%;         /* fine-tune as needed */
-  left: 100%;         /* center horizontally */
-  width: 7px;
-  height: 160%;      /* longer than the font's height */
-  background: var(--primary);
-  transform: rotate(25deg);
-  transform-origin: center;
-  border-radius: 100%;  /* flatten tips */
-  pointer-events: none; /* so it doesn't interfere */
-}
-
-.slash-one-keeper,
-.slash-two-keeper {
-  position: absolute;
-  top: 10%;
-  left: 100%;
-  font-size: 26pt;
-}
-
-.slash-one-keeper {
-  transform: translateX(-2px); /* adjust for perfect overlap */
-}
-
-.slash-two-keeper {
-  transform: translateX(0px); /* adjust for perfect overlap */
-}
-
-.konnex::after {
-  // content: '';
-  position: absolute;
-  // top: 1em;         /* fine-tune as needed */
-  // width: 2em;
-  height: 150%;      /* longer than the font's height */
-  background: var(--secondary);
-  transform: rotate(25deg);
-  transform-origin: center;
-  border-radius: 100%;  /* flatten tips */
-  pointer-events: none; /* so it doesn't interfere */
-}
-
-.slash-one,
-.slash-two {
-  position: absolute;
-  left: 50%;
-  top: 20%;
-  font-size: 60%;
-}
-
-.a-slash-one::after {
-  content: '';
-  position: absolute;
-  top: -.2em;         
-  left: .16em;
+  top: -.3em; // -.2em;         
+  left: 0.2em; // .16em;
   width: 0.16em;
   height: 2.25em;
   background: var(--primary);
@@ -128,4 +64,40 @@ p {
   border-radius: 100%;
   pointer-events: none;
 }
+
+.b-konnexion-slash::before {
+  content: '';
+  position: absolute;
+  top: -0.3em;
+  left: 0.2em;
+  width: 0.16em;
+  height: 2.25em;
+  background: red; // black; /* dark leg */
+  transform: rotate(-34deg);
+  transform-origin: center;
+  border-radius: 100%;
+  pointer-events: none;
+}
+
+.b-konnexion-slash::after {
+  content: '';
+  position: absolute;
+  top: -0.3em;
+  left: 0.2em;
+  width: 0.16em;
+  height: 2.25em;
+  background: var(--primary); /* bright green leg */
+  transform: rotate(34deg);
+  transform-origin: center;
+  border-radius: 100%;
+  pointer-events: none;
+}
+
+.skew-45 {
+  transform: skew(30deg);
+  vertical-align:text-bottom;
+  margin-top: 0.35em;
+  // display: inline-block;
+}
+
 

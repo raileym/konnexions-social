@@ -1,0 +1,29 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 100 100"
+  width="2em"
+  height="2em"
+>
+  <text
+    x="50"
+    y="55"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-size="60"
+    font-weight="900"
+    fill="black"
+    font-family="sans-serif"
+  >
+    x
+  </text>
+
+  <line
+    x1="20"
+    y1="80"
+    x2="80"
+    y2="20"
+    stroke="#A2E900"
+    stroke-width="10"
+    stroke-linecap="round"
+  />
+</svg>
