@@ -22,6 +22,7 @@ import { getUserData } from '@components/getUserData/getUserData'
 import { Navigate } from 'react-router-dom'
 import { usePaywall } from '@hooks/usePaywall/usePaywall'
 import PanelMDXWrapper from '@components/PanelMDXWrapper/PanelMDXWrapper'
+import ViewportWidthOverlay from '@components/ViewportWidthOverlay/ViewportWidthOverlay'
 
 const AppMain = () => {
   const { mdxPagesMap } = useAppContext()
@@ -62,6 +63,7 @@ const AppMain = () => {
       </div>
       <NavbarTop />
       <NavbarBottom />
+      <ViewportWidthOverlay />
     </>
   )
 }

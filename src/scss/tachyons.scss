@@ -16,7 +16,6 @@
   
 $font-size-details: 4.5rem, 3rem, 2.25rem, 1.5rem, 1.25rem, 1rem, 0.875rem, 0.75rem, 0.65rem, 0.5rem, 0.45, 0.35;
 $padding-details: 0, 0.25rem, 0.5rem, 1rem, 2rem, 4rem, 8rem, 16rem;     
-$breaks: 1200, 1100, 1000, 900, 800, 700, 600, 500, 400;
 $width-details: 1rem, 2rem, 4rem, 8rem, 16rem, 32rem, 64rem;
 $shadows: black, white, red, yellow, cyan, orangered, green, grey, gray, lightgrey, silver;
 $ails: 0, 0.125rem, 0.25rem, 0.5rem, 1rem;
@@ -35,6 +34,11 @@ $colors: (
   'blue': #357edd,
   'yellow': #ffde37,
   'red': #ff4136
+);
+
+$break-pairs: (
+  s: 30,
+  vs: 20,
 );
 
 @each $name, $value in $color-set {
@@ -110,22 +114,45 @@ $colors: (
 //     .k-f#{$i} .katex-display>.katex { font-size: $font-size; }
 // }
 
-@each $break in $breaks {
-    @media screen and (max-width: #{$break}px) {
+$break-pairs: (
+  s: 44.99,
+  vs: 30,
+  vvs: 25,
+);
+
+@each $name, $break in $break-pairs {
+    @media screen and (max-width: #{$break}em) {
         // Using this in cards
         @each $font-size in $font-size-details {
             $i: list.index($font-size-details, $font-size)-1;
             
             // .lh#{$i}-#{$break} { line-height: $font-size !important; }
-            .f#{$i}-#{$break} { font-size: $font-size !important; }
+            .f#{$i}-#{$name} { font-size: $font-size !important; }
 
-            @for $i from 10 through 2 {
-                .fz-#{$i}-#{$break} { font-size: 1rem*$i; }
-            }
+            // @for $i from 10 through 2 {
+            //     .fz-#{$i}-#{$break} { font-size: 1rem*$i; }
+            // }
 
         }
     }
 }
+
+// @each $break in $breaks {
+//     @media screen and (max-width: #{$break}px) {
+//         // Using this in cards
+//         @each $font-size in $font-size-details {
+//             $i: list.index($font-size-details, $font-size)-1;
+            
+//             // .lh#{$i}-#{$break} { line-height: $font-size !important; }
+//             .f#{$i}-#{$break} { font-size: $font-size !important; }
+
+//             @for $i from 10 through 2 {
+//                 .fz-#{$i}-#{$break} { font-size: 1rem*$i; }
+//             }
+
+//         }
+//     }
+// }
 
 // @each $width in $width-details {
 //     $i: list.index($width-details, $width)-1;

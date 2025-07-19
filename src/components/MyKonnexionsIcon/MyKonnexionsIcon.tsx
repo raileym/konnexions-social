@@ -2,13 +2,14 @@ import MyKonnexionsSlash from '@components/MyKonnexionsSlash/MyKonnexionsSlash'
 
 type KonnexionsIconProps = {
   backgroundColor?: string
+  slashColor?: string
 }
 
-const KonnexionsIcon = ({backgroundColor = 'silver'}: KonnexionsIconProps) => {
+const KonnexionsIcon = ({slashColor = 'brand', backgroundColor = 'moon-gray'}: KonnexionsIconProps) => {
   return (    
-  <div className={`baX b--silverX bw1 br4 f2 b bg-${backgroundColor} primary h3X w3X pa2X flex items-centerX justify-center mr3`} style={{width: '2em', lineHeight: '2em'}}>
+  <div className={`baX b--silverX bw1 br4 f2 b bg-${backgroundColor} mhX ${slashColor} h3X w3X pa2X flex items-centerX justify-center mr3`} style={{width: '2em', lineHeight: '2em'}}>
     <div className="baX flex flex-row">
-      <div className="ml0" style={{marginLeft: '-.3em'}}>K</div><MyKonnexionsSlash color='white' lineHeight={2} />
+      <div className="ml0" style={{marginLeft: '-.3em'}}>K</div><MyKonnexionsSlash slashColor={slashColor} color='white' lineHeight={2} />
     </div>
   </div>
   )
