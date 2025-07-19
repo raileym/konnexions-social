@@ -11,7 +11,7 @@ import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useNavigate } from 'react-router-dom'
-import KonnexionsSlash from '@components/konnexionsSlash/KonnexionsSlash'
+import KonnexionsSlash from '@components/KonnexionsSlash/KonnexionsSlash'
 
 const NavbarTop: React.FC = () => {
   const { switchPanel } = usePanel()
@@ -45,26 +45,14 @@ const NavbarTop: React.FC = () => {
               navigateTo('Welcome')
             }}
           >
-            {/* <div className="ml3 bg-brand mr4 baX b--white bw2 dn dn-m dib-l">
-              <img
-                src="/logo-blue-transparent-on-white-173x173.png"
-                alt="CKN logo"
-                className="db aspect-ratio aspect-ratio--1x mv2X baX h3X"
-                style={{height: '5em'}}
-              />
-            </div> */}
-            <div className="br4 f2 b bg-moon-grayX grey h3 w3 whiteX pa2 flex items-center tcX justify-center mr3">K<KonnexionsSlash /></div>
+            <div className="baX b--silverX bw1 br4 f2 b bg-silver primary h3X w3 pa2X flex items-centerX justify-center mr3" style={{lineHeight: '2em'}}>
+              <div>K</div><KonnexionsSlash color='white' lineHeight={2} />
+            </div>
             <div className="flex items-center">
               <div className="silver f1 b lh-title flex flex-column">
-                <div className="flex flex-row f1">
+                <div className="flex flex-row f1" style={{lineHeight: '1em'}}>
                   <div>My <span className="primary">K</span>onne</div><KonnexionsSlash /><div>ions</div>
                 </div>
-                {/* <div className="f2">My <span className="brand">K</span>onne<span className="brand">x</span>ions </div> */}
-                {/* <div className="f2"><span className="brand">K</span>onnexions <span className="brand">S</span>ocial</div> */}
-                {/* <div className="f2"><span className="brand">Konnexions</span></div> */}
-                {/* <div className="f2"><span className="brand">Kon</span>nekt Social</div> */}
-                {/* <div className="f2"><span className="brand">CK</span>Ո Social</div> */}
-                {/* <div className="black-20 f4 dn dn-m db-l">Let's <span className="brand">k</span>onnect! Promoting ways to connect socially</div> */}
               </div>
             </div>
           </div>
