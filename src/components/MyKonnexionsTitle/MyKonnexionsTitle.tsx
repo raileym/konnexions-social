@@ -16,9 +16,8 @@ const MyKonnexionsTitle = ({shorten = false, slashColor = 'brand', color = 'silv
         <div className={`b ${slashColor}`}>K</div>
         {!shorten && <div className={`b  ${color}`}>onne</div>}
         <MyKonnexionsSlash slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
-        {!shorten && <div className={`b  ${color}`}>ions<sup className="f7 relative" style={{ top: '-1.5em' }}>TM</sup></div>}
-        {fontSizeInRem}
-        {nominal ? <div className={`b ${color}`}>{nominal}</div> : null}
+        {!shorten && <div className={`b  ${color}`}>ions<sup className="f7 relative" style={{ top: '-2em' }}>TM</sup></div>}
+        {nominal ? <div className={`ml2 b ${color}`}>{nominal}</div> : null}
       </div>
     </div>
   )
@@ -33,7 +32,7 @@ export const MyKonnexionsTitleSpan = ({slashColor = 'brand', color = 'silver', f
         <span className={`b  ${color}`}>onne</span>
         <MyKonnexionsSlash asSpan={true} slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
         <span className={`b ${color}`}>ions<sup className="f7 relative" style={{ top: '-1em' }}>TM</sup></span>
-        {nominal ? <span className={`b ${color}`}>{nominal}</span> : null}
+        {nominal ? <span className={`ml1 b ${color}`}>{nominal}</span> : null}
       </span>
     </span>
   )
