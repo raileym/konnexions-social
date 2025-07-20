@@ -35,7 +35,7 @@ export const DialogLine = ({
   className = ''
   return (
     <div className={'flex flex-column w-100'}>
-      <div className={`baX bg-greenX flex items-center justify-between w-100 ${className}`}>
+      <div className={`bg-greenX flex items-center justify-between w-100 ${className}`}>
         <div className="ph2 flex-auto">
           {noSpeaker ? (
             <FormatSentence sentence={sentence} />
@@ -53,7 +53,7 @@ export const DialogLine = ({
         </button>
       </div>
       {translation && (
-        <div className="baX pl3 f5 brand ml2 mt1">
+        <div className="pl3 f5 brand ml2 mt1">
           {translation}
         </div>
       )}

@@ -57,8 +57,8 @@ export const FormatSentence = ({ sentence }: FormatSentenceProps) => {
   return (
     <div style={{ paddingLeft: (isDashed||isOrdered) ? '1.5em' : 0 }}>
       {
-        isDashed ? <><div className="baX flex items-center h1"><span className="f2" style={{ marginLeft: '-0.1em' }}>&bull;</span>&nbsp;{parsed}</div></> : 
-        isOrdered ? <><div className="baX flex items-center h1">{parsed}</div></> : parsed
+        isDashed ? <><div className="flex items-center h1"><span className="f2" style={{ marginLeft: '-0.1em' }}>&bull;</span>&nbsp;{parsed}</div></> : 
+        isOrdered ? <><div className="flex items-center h1">{parsed}</div></> : parsed
       }
     </div>
   )

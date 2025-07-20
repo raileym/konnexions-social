@@ -125,7 +125,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
 
         <EditorContent
           editor={editor}
-          className="min-h-[200px] f5 f6-m h5 ph3 baX b---black-300X overflow-auto roundedX p-4X focus:outline-noneX focus:ring-2X focus:ring-blue-400X"
+          className="min-h-[200px] f5 f6-m h5 ph3 b---black-300X overflow-auto roundedX p-4X focus:outline-noneX focus:ring-2X focus:ring-blue-400X"
         />
       </div>
       {/* <pre>{markdownContent}</pre> */}

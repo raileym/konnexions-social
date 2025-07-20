@@ -52,7 +52,7 @@ const NavbarBottom: React.FC = () => {
         }}        
       >
         <div>
-          <div className="baX bg-blueX mb0 pb0 w-100X h2 tc brand">Konnect with Spanish!</div>
+          <div className="bg-blueX mb0 pb0 w-100X h2 tc brand">Konnect with Spanish!</div>
           <Button iconClass={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Bienvenido!' />
           <Button iconClass={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC} switchFn={switchPanel} panel={APP_PANEL.BASIC} icon={faPersonChalkboard} title='Create' />
           <Button iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />

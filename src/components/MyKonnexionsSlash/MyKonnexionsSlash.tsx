@@ -42,13 +42,13 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
   mHeight = '1rem'
 
   switch (fontSizeInRem) {
-    case 3: mMarginTop = '0.5rem'
+    case 3: mMarginTop = '1.2rem' // '0.5rem'
             mWidth = '0.5rem'
             mMarginLeft = '0.5rem' 
             mMarginRight = '0.6rem'
             mHeight = `${ fontSizeInRem * 0.5}rem`
             slashHeight= '3.5rem'
-            slashTop = '0.0rem'
+            slashTop = '0.5rem'
             slashWidth = '0.3rem'
             slashLeft = '0.3rem'
             break;
@@ -89,7 +89,7 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
     if ( asSpan ) {
     return (
       <>
-        <span className="kx-slash-as-span baX flex flow-row justify-centerX items-centerX">
+        <span className="kx-slash-as-span flex flow-row">
           <span className="flex flex-row relative">
             <span className={`bg-${color}X transparent skew-45`}
               style={{
@@ -124,7 +124,7 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
   } else {
     return (
       <>
-        <div className="kx-slash baX flex flow-row justify-centerX items-centerX">
+        <div className="konnexions-slash flex flow-row">
           <div className="flex flex-row relative">
             <div className={`bg-${color} transparent skew-45`}
               style={{

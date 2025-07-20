@@ -115,36 +115,36 @@ $break-pairs: (
 // }
 
 $break-pairs: (
-  kx-60: 59.99,
-  kx-45: 44.99,
-  kx-30: 29.99,
-  kx-25: 24.99,
+ 60: 59.99,
+ 45: 44.99,
+ 30: 29.99,
+ 25: 24.99,
 );
 
 $non-break-pairs: (
-  kx-n60: 60,
-  kx-n45: 45,
-  kx-n30: 30,
-  kx-n25: 25,
+ n60: 60,
+ n45: 45,
+ n30: 30,
+ n25: 25,
 );
 
 @each $name, $break in $non-break-pairs {
   @media screen and (min-width: #{$break}rem) {
     @each $font-size in $font-size-details {
       $i: list.index($font-size-details, $font-size)-1;
-      .f#{$i}-#{$name} { font-size: $font-size !important; }
-      .pt#{$i}-#{name} { padding-top: $font-size !important; }
-      .pb#{$i}-#{name} { padding-top: $font-size !important; }
+      .f#{$i}-kx-#{$name} { font-size: $font-size !important; }
+      .pt#{$i}-kx-#{name} { padding-top: $font-size !important; }
+      .pb#{$i}-kx-#{name} { padding-top: $font-size !important; }
     }
 
-    .dn-#{$name} { display: none !important; }
-    .db-#{$name} { display: block !important; }
-    .dib-#{$name} { display: inline-block !important; }
-    .flex-#{$name} { display: flex !important; }
+    .dn-kx-#{$name} { display: none !important; }
+    .db-kx-#{$name} { display: block !important; }
+    .dib-kx-#{$name} { display: inline-block !important; }
+    .flex-kx-#{$name} { display: flex !important; }
 
-    @for $i from 4 through 20 { .kx-width-#{$i}-#{$name} { width: #{1rem * $i} !important; } }
-    @for $i from 4 through 20 { .kx-height-#{$i}-#{$name} { height: #{1rem * $i} !important; } }
-    @for $i from 4 through 20 { .kx-line-height-#{$i}-#{$name} { line-height: #{1rem * $i} !important; } }
+    @for $i from 4 through 20 { .width-#{$i}-kx-#{$name} { width: #{1rem * $i} !important; } }
+    @for $i from 4 through 20 { .height-#{$i}-kx-#{$name} { height: #{1rem * $i} !important; } }
+    @for $i from 4 through 20 { .lh-#{$i}-kx-#{$name} { line-height: #{1rem * $i} !important; } }
   }
 }  
 
@@ -152,32 +152,32 @@ $non-break-pairs: (
   @media screen and (max-width: #{$break}rem) {
     @each $font-size in $font-size-details {
       $i: list.index($font-size-details, $font-size)-1;
-      .f#{$i}-#{$name} { font-size: $font-size !important; }
-      .pt#{$i}-#{name} { padding-top: $font-size !important; }
-      .pb#{$i}-#{name} { padding-top: $font-size !important; }
+      .f#{$i}-kx-#{$name} { font-size: $font-size !important; }
+      .pt#{$i}-kx-#{name} { padding-top: $font-size !important; }
+      .pb#{$i}-kx-#{name} { padding-top: $font-size !important; }
     }
 
-    .dn-#{$name} { display: none !important; }
-    .db-#{$name} { display: block !important; }
-    .dib-#{$name} { display: inline-block !important; }
-    .flex-#{$name} { display: flex !important; }
+    .dn-kx-#{$name} { display: none !important; }
+    .db-kx-#{$name} { display: block !important; }
+    .dib-kx-#{$name} { display: inline-block !important; }
+    .flex-kx-#{$name} { display: flex !important; }
 
-    @for $i from 4 through 20 { .kx-width-#{$i}-#{$name} { width: #{1rem * $i} !important; } }
-    @for $i from 4 through 20 { .kx-height-#{$i}-#{$name} { height: #{1rem * $i} !important; } }
-    @for $i from 4 through 20 { .kx-line-height-#{$i}-#{$name} { line-height: #{1rem * $i} !important; } }
+    @for $i from 4 through 20 { .width-#{$i}-kx-#{$name} { width: #{1rem * $i} !important; } }
+    @for $i from 4 through 20 { .height-#{$i}-kx-#{$name} { height: #{1rem * $i} !important; } }
+    @for $i from 4 through 20 { .line-height-#{$i}-kx-#{$name} { line-height: #{1rem * $i} !important; } }
   }
 }
 
 @for $i from 20 through 1 {
-    .kx-width-#{$i} { width: 1rem*$i; }
+    .width-#{$i}-kx { width: 1rem*$i; }
 }    
     
 @for $i from 40 through 0 {
-    .kx-height-#{$i} { height: 1rem*$i; }
+    .height-#{$i}-kx { height: 1rem*$i; }
 }
 
 @for $i from 40 through 0 {
-    .kx-lh-#{$i} { line-height: 1rem*$i; }
+    .lh-#{$i}-kx { line-height: 1rem*$i; }
 }
 
 

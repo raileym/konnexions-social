@@ -33,7 +33,7 @@ const SelectorScenario: React.FC<SelectorScenarioProps> = ({ custom }) => {
   // }), [])
 
   return (
-    <div className="baX mb3">
+    <div className="mb3">
       <label className="db mb2 f5 b">Scenario</label>
       <div className="flex flex-wrap flex-column">
         {scenarios.map((s) => (

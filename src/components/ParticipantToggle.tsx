@@ -14,14 +14,14 @@ const ParticipantToggle = ({useMyself, setUseMyself}: ParticipantToggleProps) =>
 
   return (
     <div className="w-100 flex justify-center">
-      <div className="baX br2 ph3 pv2 flex items-center gap-3">
+      <div className="br2 ph3 pv2 flex items-center gap-3">
         <button
           onClick={() => setUseMyself(prev => !prev)}
           className="bg-transparent bn pointer f5 flex items-center"
         >
           <FontAwesomeIcon icon={icon} className="f2 mr2" />
         </button>
-        <div className="baX f5" style={{ width: '19rem', textAlign: 'left' }}>
+        <div className="f5" style={{ width: '19rem', textAlign: 'left' }}>
           {label}
         </div>
       </div>

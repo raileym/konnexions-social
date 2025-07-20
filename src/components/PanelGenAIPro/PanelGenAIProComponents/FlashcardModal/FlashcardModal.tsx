@@ -144,7 +144,7 @@ export function FlashcardModal({
 
           <div className='tc'>
             <div
-              className='pa4 baX pointer no-focus-outline mv5'
+              className='pa4 pointer no-focus-outline mv5'
               onClick={() => setShowBack(s => !s)}
               ref={cardRef}
               tabIndex={-1}

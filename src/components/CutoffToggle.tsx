@@ -16,7 +16,7 @@ const CutoffToggle: FC = () => {
   const icon = cutoff ? faToggleOn : faToggleOff
 
   return (
-    <div className="ml4 baX mb2X flex flex-row justify-center center items-center">
+    <div className="ml4 mb2X flex flex-row justify-center center items-center">
       <button
         onClick={() => onClick()}
         className="flex items-center gap-2 bg-transparent bn pointer f5"
@@ -24,7 +24,7 @@ const CutoffToggle: FC = () => {
         <FontAwesomeIcon icon={icon} className="f2 mr3X" />
       </button>
       <div
-        className="b baX mh3 black f5"
+        className="b mh3 black f5"
         style={{
           width: 130,
           fontFamily: 'monospace',

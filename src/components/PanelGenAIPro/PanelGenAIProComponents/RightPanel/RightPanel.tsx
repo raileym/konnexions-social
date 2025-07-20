@@ -158,7 +158,7 @@ const RightPanel: React.FC = () => {
 
       content = (
         <>
-          <div className="mv3X flex baX justify-center">
+          <div className="mv3X flex justify-center">
             <button
               onClick={() => setDebugMode(prev => !prev)}
               className={`w-30 pa3 br2 bn ${debugMode ? 'bg-brand' : 'bg-black'} white pointer`}
@@ -170,7 +170,7 @@ const RightPanel: React.FC = () => {
             </button>
           </div>
          
-          {/* <div className="mv3X flex baX justify-center">
+          {/* <div className="mv3X flex justify-center">
             <button
               onClick={() => setTestMode(prev => !prev)}
               className={`w-30 pa3 br2 bn ${testMode ? 'bg-brand' : 'bg-black'} white pointer`}
@@ -182,11 +182,11 @@ const RightPanel: React.FC = () => {
             </button>
           </div> */}
          
-          <div className="baX mv4 flex flex-row justify-center">
+          <div className="mv4 flex flex-row justify-center">
             <SelectorLanguage />
           </div>
 
-          <h2 className="baX f2 pa3 pb0X mt4X w-100 items-center tc">
+          <h2 className="f2 pa3 pb0X mt4X w-100 items-center tc">
             <div>
               {LANGUAGE_TITLE[targetLanguage]}: Premium
             </div>
@@ -575,7 +575,7 @@ const RightPanel: React.FC = () => {
   // },[lesson])
 
   return (
-    <div className={`baX b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+    <div className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )

@@ -11,9 +11,7 @@ import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useNavigate } from 'react-router-dom'
-import MyKonnexionsSlash from '@components/MyKonnexionsSlash/MyKonnexionsSlash'
-import MyKonnexionsIcon from '@components/MyKonnexionsIcon/MyKonnexionsIcon'
-import MyKonnexionsTitle, { MyKonnexionsTitleSpan } from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
+import MyKonnexionsTitle from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
 
 const NavbarTop: React.FC = () => {
   const { switchPanel } = usePanel()
@@ -32,11 +30,11 @@ const NavbarTop: React.FC = () => {
   }
 
   return (
-    <nav className="fixed h3X top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph2 kx-lh-4X pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
+    <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
       <div className="w-100 flex flex-column">
         <div className="w-100 flex flex-row justify-between">
           <div 
-            className="flex justify-start flex-row pointer kx-lh-4" 
+            className="flex justify-start flex-row pointer lh-kx-4" 
             onClick={() => {
               console.log('Clicking on upper left icon set.')
               closeMenu()
@@ -47,11 +45,11 @@ const NavbarTop: React.FC = () => {
               navigateTo('Welcome')
             }}
           >
-            <div className="mr3 bg-blueX kx-width-3 kx-height-3 dnX flexX items-center flex-ks-vvs flex-kx-45 flex-kx-60 kx-lh-4">
-              <div className="silver f1X b lh-titleX flex flex-column">
-                <div className="flex flex-row f3 f1-vsX f1-mX f1-nsX">
-                  <div className="dn relative bg-redX kx-width-4 kx-height-3 dn-kx-45 dib-kx-n45 kx-lh-4X">
-                    <div className="absolute top-0 left-0 bg-moon-gray mt2 kx-width-3 br3 kx-height-3"></div>
+            <div className="mr3 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-kx-4">
+              <div className="silver b flex flex-column">
+                <div className="flex flex-row f3">
+                  <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
+                    <div className="absolute top-0 left-0 bg-moon-gray mt2 width-3-kx br3 height-3-kx"></div>
                     <div className="konnexions-title absolute top-0 left-0 ml2">
                       <MyKonnexionsTitle shorten={true} color='white' fontSizeInRem={1}/>
                     </div>
@@ -61,26 +59,23 @@ const NavbarTop: React.FC = () => {
             </div>
 
 
-            <div className="dnX flexX items-center flex-ks-vvs flex-kx-45 flex-kx-60 kx-lh-4">
-              <div className="silver f1 b lh-titleX flex flex-column">
-                <div className="flex flex-row f1 f1-vsX f1-mX f1-nsX">
-                  <div className="dn bg-redX dn-kx-45 dib-kx-n45">
+            <div className="items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-kx-4">
+              <div className="silver f1 b flex flex-column">
+                <div className="flex flex-row f1">
+                  <div className="dn dn-kx-45 dib-kx-n45">
                     <MyKonnexionsTitle color='moon-gray' fontSizeInRem={3}/>
-                  </div>
-                  <div className="db bg-blue db-kx-45 dn-kx-n45">
-                    <MyKonnexionsIcon forwardColor={'silver'} slashColor={'brand'} backgroundColor={'transparent'}/>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="baX">
-            <Button buttonClass='bn w-50X mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings'/>
-            {/* <Button buttonClass='bn w-50X mh3 brand dn dn-m db-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage(MDX_PAGE.WELCOME)}/> */}
-            <Button buttonClass='bn w-50X mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
-            <Button buttonClass='bn o-20X mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
-            <Button titleClass='dn dn-m db-l' buttonClass='bn b--black o-20X ml2 mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
+          <div className="">
+            <Button buttonClass='bn mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings'/>
+            {/* <Button buttonClass='bn mh3 brand dn dn-m db-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage(MDX_PAGE.WELCOME)}/> */}
+            <Button buttonClass='bn mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
+            <Button buttonClass='bn mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
+            <Button titleClass='db' buttonClass='bn b--black ml2 mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
           </div>
         </div>
       </div>

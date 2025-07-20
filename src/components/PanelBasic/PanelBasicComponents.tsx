@@ -66,7 +66,7 @@ const PanelBasic = () => {
     } else {
       content = (
         <>
-          <h2 className="baX f2 f3-m pa3 pb0X mt4X w-100 items-center tc">
+          <h2 className="f2 f3-m pa3 pb0X mt4X w-100 items-center tc">
             <div>
               {LANGUAGE_TITLE[targetLanguage]}: Basic
             </div>
@@ -126,8 +126,8 @@ const PanelBasic = () => {
   }
 
   return (
-    <div className={'panel-right panel-basic baX bw1 b--moon-gray bl panel-basic z-1 absolute top-0 left-0 w-100 h-100 bg-light-greenX flex flex-rowX transition-transform translate-x-0'}>
-      <div className={`baX b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+    <div className={'panel-right panel-basic bw1 b--moon-gray bl panel-basic z-1 absolute top-0 left-0 w-100 h-100 bg-light-greenX flex flex-rowX transition-transform translate-x-0'}>
+      <div className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
       </div>
     </div>

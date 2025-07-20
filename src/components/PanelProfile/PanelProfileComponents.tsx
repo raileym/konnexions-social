@@ -233,7 +233,7 @@ const PanelRequestEmailComponents = () => {
 
           {error && <div className="mt3 red f6">{error}</div>}
           {/* {success && <div className="mt3 white f5 tc">Success!</div>} */}
-          {!error && <div className="baX mt3 white f5 tc"><br /></div>}
+          {!error && <div className="mt3 white f5 tc"><br /></div>}
         </form>
 
         <SelectMarketingPreferences />

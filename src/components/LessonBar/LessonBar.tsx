@@ -75,7 +75,7 @@ export const LessonBar: React.FC = () => {
                   switchPanel(APP_PANEL.BASIC)
                 }
               }}
-              className={`b baX pa2 pointer br2X f3 bw2 bbX tc b--blue ${
+              className={`b pa2 pointer br2X f3 bw2 bbX tc b--blue ${
                 selectedLessonNumber === lesson.number ? 'bg-light-green b' : 'hover-bg-light-gray'
               }`}
             >
