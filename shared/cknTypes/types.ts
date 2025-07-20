@@ -96,6 +96,7 @@ export type OpenAiUsage = number
 export type Question = string
 export type QuestionContext = string
 export type ShowIsUserValidatedModal = boolean
+export type BaseFontSize = number
 
 export type SetActivateLessonBar = React.Dispatch<React.SetStateAction<ActivateLessonBar>>
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
@@ -103,6 +104,7 @@ export type SetActivePanel = React.Dispatch<React.SetStateAction<ActivePanel>>
 export type SetAnswer = React.Dispatch<React.SetStateAction<Answer>>
 export type SetApiKey = React.Dispatch<React.SetStateAction<ApiKey>>
 export type SetAudioUrl = React.Dispatch<React.SetStateAction<AudioUrl>>
+export type SetBaseFontSize = React.Dispatch<React.SetStateAction<BaseFontSize>>
 export type SetCleanedText = React.Dispatch<React.SetStateAction<CleanedText>>
 export type SetClientEmail = React.Dispatch<React.SetStateAction<ClientEmail>>
 export type SetClientMeter = React.Dispatch<React.SetStateAction<ClientMeter>>

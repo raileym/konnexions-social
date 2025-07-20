@@ -127,7 +127,9 @@ import type {
   SetIsSettingsOpen,
   IsSettingsOpen,
   EngageSpanish,
-  SetEngageSpanish
+  SetEngageSpanish,
+  BaseFontSize,
+  SetBaseFontSize
 } from '@cknTypes/types'
 
 import {
@@ -208,6 +210,7 @@ export type AppContextType = {
   answer: Answer
   apiKey: ApiKey
   audioUrl: AudioUrl
+  baseFontSize: BaseFontSize
   cleanedText: CleanedText
   clientEmail: ClientEmail
   clientMeter: ClientMeter
@@ -260,6 +263,7 @@ export type AppContextType = {
   setAnswer: SetAnswer
   setApiKey: SetApiKey
   setAudioUrl: SetAudioUrl
+  setBaseFontSize: SetBaseFontSize
   setCleanedText: SetCleanedText
   setClientEmail: SetClientEmail
   setClientMeter: SetClientMeter
@@ -375,6 +379,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
+  const [baseFontSize, setBaseFontSize] = usePersistentState<BaseFontSize>('baseFontSize', 24)
   const [lessonName, setLessonName] = usePersistentState<LessonName>('lessonName', defaultLessonName)
   const [mdxPage, setMdxPage] = useState<MdxPage>(MDX_PAGE.WELCOME)
 
@@ -466,6 +471,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     answer,
     apiKey,
     audioUrl,
+    baseFontSize,
     cleanedText,
     clientEmail,
     clientMeter,
@@ -517,6 +523,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setAnswer,
     setApiKey,
     setAudioUrl,
+    setBaseFontSize,
     setCleanedText,
     setClientEmail,
     setClientMeter,

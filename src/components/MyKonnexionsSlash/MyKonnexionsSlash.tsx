@@ -23,37 +23,37 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
     // mhX: number,
     // mlX: number,
     // mrX: number,
-    mMarginLeft: number,
-    mMarginRight: number,
-    marginTop: number
+    mMarginLeft: string,
+    mMarginRight: string,
+    marginTop: string
 
   if (lineHeight == 2) {
-    slashTop = `${0.2 + 0.8}em`
-    slashLeft = '0.2em'
+    slashTop = `${0.2 + 0.8}rem`
+    slashLeft = '0.2rem'
     // mhX = 2
     // mlX = 2
     // mrX = 2
-    mMarginLeft = .2
-    mMarginRight = 0
-    marginTop = 0.345 + (lineHeight - 1.)/2
+    mMarginLeft = '.2rem'
+    mMarginRight = '0rem'
+    marginTop = `${0.345 + (lineHeight - 1.)/2}rem`
 
   } else if (lineHeight == 1.5) {
-    slashTop = `${0.2 + 0.4}em`
-    slashLeft = '0.1em'
+    slashTop = `${0.2 + 0.4}rem`
+    slashLeft = '0.1rem'
     // mhX = 1
     // mlX = 2
     // mrX = 0.5
-    mMarginLeft = .2 - 0.04
-    mMarginRight = .2
-    marginTop = 0.345 + (lineHeight - 1.)/2 + 0.01
+    mMarginLeft = '0.3rem' // `${.2 - 0.04}rem`
+    mMarginRight = '0.4rem' // `${.2}rem`
+    marginTop = `${0.9}rem` // 0.345 + (lineHeight - 1.)/2 + 0.01
   } else {
     // lineHeight == 1.0
-    slashTop = '0.2em'
-    slashLeft = '0.1em'
+    slashTop = '0.2rem'
+    slashLeft = '0.1rem'
     // mhX = 2
-    mMarginLeft = .2
-    mMarginRight = .25
-    marginTop = 0.345 + (lineHeight - 1.)/2 + 0.04
+    mMarginLeft = '0.3rem' // `${.2}rem`
+    mMarginRight = '0.6rem' // `${.25}rem`
+    marginTop = `${0.9}rem` // 0.345 + (lineHeight - 1.)/2 + 0.04
   }
 
   if ( asSpan ) {
@@ -61,23 +61,26 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
       <>
         <span className="baX flex flow-row justify-centerX items-centerX">
           <span className="flex flex-row relative">
-            <span className={`bg-${color} transparent skew-45`}
+            <span className={`bg-${color}X transparent skew-45`}
               style={{
-                marginTop: `${marginTop}em`,
-                marginLeft: `${mMarginLeft}em`,
-                marginRight: `${mMarginRight}em`,
-                width: '.15em',
-                height: '0.52em',
-                lineHeight: `${lineHeight}`
+                marginTop: `${marginTop}`,
+                marginLeft: `${mMarginLeft}`,
+                marginRight: `${mMarginRight}`,
+                width: '.22rem',
+                height: '.75rem', // '0.52rem',
+                lineHeight: `${lineHeight}`,
+                backgroundColor: color // 'red'
                 }}
               >m</span>
             <span
               className="konnexion-slash absolute transparent"
               style={{
-                height: '1em',
-                fontSize: '0.6em',
-                top: slashTop, // '1.2em', // '0.2em', // 
+                height: '1rem', // '1rem',
+                fontSize: '0.6rem',
+                top: slashTop, // '1.2rem', // '0.2rem', // 
                 left: slashLeft,
+                '--slash-top': '-.5rem',
+                '--slash-height': '2.25rem',
                 '--slash-color': updatedSlashColor // `var(--${slashColor})`
               } as React.CSSProperties & { [key: string]: string }}
             >
@@ -94,21 +97,23 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
           <div className="flex flex-row relative">
             <div className={`bg-${color} transparent skew-45`}
               style={{
-                marginTop: `${marginTop}em`,
-                marginLeft: `${mMarginLeft}em`,
-                marginRight: `${mMarginRight}em`,
-                width: '.15em',
-                height: '0.52em',
+                marginTop: `${marginTop}`,
+                marginLeft: `${mMarginLeft}`,
+                marginRight: `${mMarginRight}`,
+                width: '.3rem',
+                height: '1.2rem', //'0.52rem',
                 lineHeight: `${lineHeight}`
                 }}
               >m</div>
             <div
               className="konnexion-slash absolute transparent"
               style={{
-                height: '1em',
-                fontSize: '0.6em',
-                top: slashTop, // '1.2em', // '0.2em', // 
+                height: '2rem', // '1rem',
+                fontSize: '0.6rem',
+                top: slashTop, // '1.2rem', // '0.2rem', // 
                 left: slashLeft,
+                '--slash-top': '-.4rem',
+                '--slash-height': '3.5rem',
                 '--slash-color': updatedSlashColor // `var(--${slashColor})`
               } as React.CSSProperties & { [key: string]: string }}
             >

@@ -12,7 +12,7 @@ const MyKonnexionsTitle = ({slashColor = 'brand', color = 'silver', lineHeight =
     <div className="dib">
       <div className="flex flex-row">
         <div className={`b ${color} mr2`}>My</div>
-        <div className={`b ${slashColor}`}>K</div>
+        <div className={`b ${slashColor}`}>K</div>{lineHeight}
         <div className={`b  ${color}`}>onne</div>
         <MyKonnexionsSlash slashColor={slashColor} color={color} lineHeight={lineHeight} />
         <div className={`b  ${color}`}>ions<sup className="f7 relative" style={{ top: '-1.5em' }}>TM</sup></div>

@@ -19,13 +19,13 @@ const ViewportWidthOverlay = () => {
     <div
       style={{
         position: 'fixed',
-        top: '8rem',
+        top: '7rem',
         left: '90%',
         transform: 'translate(-50%, -50%)',
         zIndex: 99999,
-        background: 'white',
+        background: 'transparent',
         color: 'black',
-        fontSize: '1.5rem',
+        fontSize: '1rem',
         padding: '0.5rem 1rem',
         borderRadius: '0.5rem',
         fontFamily: 'monospace',

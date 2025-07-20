@@ -23,6 +23,8 @@ import { Navigate } from 'react-router-dom'
 import { usePaywall } from '@hooks/usePaywall/usePaywall'
 import PanelMDXWrapper from '@components/PanelMDXWrapper/PanelMDXWrapper'
 import ViewportWidthOverlay from '@components/ViewportWidthOverlay/ViewportWidthOverlay'
+import NavbarColor from '@components/NavbarColor/__tests__/NavbarColor'
+import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
 
 const AppMain = () => {
   const { mdxPagesMap } = useAppContext()
@@ -64,6 +66,8 @@ const AppMain = () => {
       <NavbarTop />
       <NavbarBottom />
       <ViewportWidthOverlay />
+      <NavbarColor />
+      <FontSizeControls />
     </>
   )
 }

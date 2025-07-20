@@ -51,7 +51,7 @@ p {
   background-color: blue;
 }
 
-.konnexion-slash::after {
+.konnexion-slash-PRE-REM::after {
   content: '';
   position: absolute;
   top: -.3em; // -.2em;         
@@ -66,33 +66,48 @@ p {
   pointer-events: none;
 }
 
-.b-konnexion-slash::before {
+.konnexion-slash::after {
   content: '';
   position: absolute;
-  top: -0.3em;
-  left: 0.2em;
-  width: 0.16em;
-  height: 2.25em;
-  background: red; // black; /* dark leg */
-  transform: rotate(-34deg);
-  transform-origin: center;
-  border-radius: 100%;
-  pointer-events: none;
-}
-
-.b-konnexion-slash::after {
-  content: '';
-  position: absolute;
-  top: -0.3em;
-  left: 0.2em;
-  width: 0.16em;
-  height: 2.25em;
-  background: var(--primary); /* bright green leg */
+  top: var(--slash-top); // -.5rem;
+  left: 0.2rem;
+  width: 0.16rem;
+  height: var(--slash-height); // 2.25rem; // 2.25rem;
+  background: var(--slash-color, var(--primary));
+  // background: var(--primary);
   transform: rotate(34deg);
   transform-origin: center;
   border-radius: 100%;
   pointer-events: none;
 }
+
+// .b-konnexion-slash::before {
+//   content: '';
+//   position: absolute;
+//   top: -0.3em;
+//   left: 0.2em;
+//   width: 0.16em;
+//   height: 2.25em;
+//   background: red; // black; /* dark leg */
+//   transform: rotate(-34deg);
+//   transform-origin: center;
+//   border-radius: 100%;
+//   pointer-events: none;
+// }
+
+// .b-konnexion-slash::after {
+//   content: '';
+//   position: absolute;
+//   top: -0.3em;
+//   left: 0.2em;
+//   width: 0.16em;
+//   height: 2.25em;
+//   background: var(--primary); /* bright green leg */
+//   transform: rotate(34deg);
+//   transform-origin: center;
+//   border-radius: 100%;
+//   pointer-events: none;
+// }
 
 .skew-45 {
   transform: skew(30deg);
