@@ -115,11 +115,38 @@ $break-pairs: (
 // }
 
 $break-pairs: (
-  kx-m: 60,
-  kx-s: 44.99,
-  kx-vs: 30,
-  kx-vvs: 25,
+  kx-60: 59.99,
+  kx-45: 44.99,
+  kx-30: 29.99,
+  kx-25: 24.99,
 );
+
+$non-break-pairs: (
+  kx-n60: 60,
+  kx-n45: 45,
+  kx-n30: 30,
+  kx-n25: 25,
+);
+
+@each $name, $break in $non-break-pairs {
+  @media screen and (min-width: #{$break}rem) {
+    @each $font-size in $font-size-details {
+      $i: list.index($font-size-details, $font-size)-1;
+      .f#{$i}-#{$name} { font-size: $font-size !important; }
+      .pt#{$i}-#{name} { padding-top: $font-size !important; }
+      .pb#{$i}-#{name} { padding-top: $font-size !important; }
+    }
+
+    .dn-#{$name} { display: none !important; }
+    .db-#{$name} { display: block !important; }
+    .dib-#{$name} { display: inline-block !important; }
+    .flex-#{$name} { display: flex !important; }
+
+    @for $i from 4 through 20 { .kx-width-#{$i}-#{$name} { width: #{1rem * $i} !important; } }
+    @for $i from 4 through 20 { .kx-height-#{$i}-#{$name} { height: #{1rem * $i} !important; } }
+    @for $i from 4 through 20 { .kx-line-height-#{$i}-#{$name} { line-height: #{1rem * $i} !important; } }
+  }
+}  
 
 @each $name, $break in $break-pairs {
   @media screen and (max-width: #{$break}rem) {
@@ -138,7 +165,6 @@ $break-pairs: (
     @for $i from 4 through 20 { .kx-width-#{$i}-#{$name} { width: #{1rem * $i} !important; } }
     @for $i from 4 through 20 { .kx-height-#{$i}-#{$name} { height: #{1rem * $i} !important; } }
     @for $i from 4 through 20 { .kx-line-height-#{$i}-#{$name} { line-height: #{1rem * $i} !important; } }
-    // @for $i from 10 through 3 { .width-#{10*$i}-#{$break} { width: 10rem*$i; } }    
   }
 }
 

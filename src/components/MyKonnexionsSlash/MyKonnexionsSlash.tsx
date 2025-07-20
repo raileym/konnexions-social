@@ -11,7 +11,7 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
 
   switch (slashColor) {
     case 'primary': updatedSlashColor = 'var(--kx-primary)'; break;
-    case 'secondary': updatedSlashColor = 'var(--kx-secondary)'; break;
+    case 'secondary': updatedSlashColor = 'var(--kx-45econdary)'; break;
     case 'tertiary': updatedSlashColor = 'var(--kx-tertiary)'; break;
     case 'blue': updatedSlashColor = 'var(--kx-blue)'; break;
     case 'brand': updatedSlashColor = 'var(--kx-brand)'; break;
@@ -56,10 +56,16 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
     marginTop = `${0.9}rem` // 0.345 + (lineHeight - 1.)/2 + 0.04
   }
 
-  if ( asSpan ) {
+  slashTop = '0.2rem'
+  slashLeft = '0.1rem'
+  mMarginLeft = '0.3rem' 
+  mMarginRight = '0.6rem' 
+  marginTop = '0.5rem' // `${lineHeight * -0.5}rem`
+
+    if ( asSpan ) {
     return (
       <>
-        <span className="baX flex flow-row justify-centerX items-centerX">
+        <span className="kx-slash-as-span baX flex flow-row justify-centerX items-centerX">
           <span className="flex flex-row relative">
             <span className={`bg-${color}X transparent skew-45`}
               style={{
@@ -80,7 +86,7 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
                 top: slashTop, // '1.2rem', // '0.2rem', // 
                 left: slashLeft,
                 '--slash-top': '-.5rem',
-                '--slash-height': '2.25rem',
+                '--slash-height': '2.25rem', // '2.25rem',
                 '--slash-color': updatedSlashColor // `var(--${slashColor})`
               } as React.CSSProperties & { [key: string]: string }}
             >
@@ -93,15 +99,15 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
   } else {
     return (
       <>
-        <div className="baX flex flow-row justify-centerX items-centerX">
+        <div className="kx-slash baX flex flow-row justify-centerX items-centerX">
           <div className="flex flex-row relative">
             <div className={`bg-${color} transparent skew-45`}
               style={{
                 marginTop: `${marginTop}`,
                 marginLeft: `${mMarginLeft}`,
                 marginRight: `${mMarginRight}`,
-                width: '.3rem',
-                height: '1.2rem', //'0.52rem',
+                width: '.5rem',
+                height: `${ lineHeight * 0.5}rem`, // '1.2rem', //'0.52rem',
                 lineHeight: `${lineHeight}`
                 }}
               >m</div>
@@ -113,12 +119,13 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
                 top: slashTop, // '1.2rem', // '0.2rem', // 
                 left: slashLeft,
                 '--slash-top': '-.4rem',
-                '--slash-height': '3.5rem',
+                '--slash-height': '3.5rem', // '3.5rem',
                 '--slash-color': updatedSlashColor // `var(--${slashColor})`
               } as React.CSSProperties & { [key: string]: string }}
             >
               m
             </div>
+            {lineHeight}
           </div>
         </div>
       </>

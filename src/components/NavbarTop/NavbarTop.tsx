@@ -32,11 +32,11 @@ const NavbarTop: React.FC = () => {
   }
 
   return (
-    <nav className="fixed h3X top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph2 pt2 pt2-kx-s pt3-kx-m pb2 pb2-kx-s pb3-kx-m z-999">
+    <nav className="fixed h3X top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph2 kx-lh-4X pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
       <div className="w-100 flex flex-column">
         <div className="w-100 flex flex-row justify-between">
           <div 
-            className="flex justify-start flex-row pointer" 
+            className="flex justify-start flex-row pointer kx-lh-4" 
             onClick={() => {
               console.log('Clicking on upper left icon set.')
               closeMenu()
@@ -47,17 +47,17 @@ const NavbarTop: React.FC = () => {
               navigateTo('Welcome')
             }}
           >
-            <div className="dn-kx-s dib-kx-m">
+            <div className="bg-green dn-kx-45 dib-kx-60">
               <MyKonnexionsIcon />
             </div>
 
-            <div className="dnX flexX items-center flex-ks-vvs flex-kx-s flex-kx-m">
-              <div className="silver f1 b lh-title flex flex-column">
-                <div className="flex flex-row f1 f1-vsX f1-mX f1-nsX" style={{lineHeight: '1.5em'}}>
-                  <div className="dn dn-kx-s dib-kx-m">
-                    <MyKonnexionsTitle color='moon-gray'/>
+            <div className="dnX flexX items-center flex-ks-vvs flex-kx-45 flex-kx-60 kx-lh-4">
+              <div className="silver f1 b lh-titleX flex flex-column">
+                <div className="flex flex-row f1 f1-vsX f1-mX f1-nsX">
+                  <div className="dn bg-redX dn-kx-45 dib-kx-n45">
+                    <MyKonnexionsTitle color='moon-gray' lineHeight={3}/>
                   </div>
-                  <div className="db db-kx-s dn-kx-m">
+                  <div className="db bg-blue db-kx-45 dn-kx-n45">
                     <MyKonnexionsIcon forwardColor={'silver'} slashColor={'brand'} backgroundColor={'transparent'}/>
                   </div>
                 </div>

@@ -29,7 +29,7 @@ $softblue:              rgba(0, 125, 255, 1);
 
   :root {
     --kx-primary: #00cdff44;
-    --kx-secondary: #ff00bc44;
+    --kx-45econdary: #ff00bc44;
     --kx-tertiary: #ffff00aa;
     --kx-onPrimary: #000;
     --kx-onSecondary: #000;
@@ -46,7 +46,7 @@ $softblue:              rgba(0, 125, 255, 1);
   }
 
 $primary: var(--kx-primary);
-$secondary: var(--kx-secondary);
+$secondary: var(--kx-45econdary);
 $tertiary: var(--kx-tertiary);
 $onPrimary: var(--kx-onPrimary);
 $onSecondary: var(--kx-onSecondary);
@@ -65,7 +65,7 @@ $color-palette: (
 .bg-primary { background-color: $primary }
 .b--primary { border-color: $primary }
 
-.secondary { color: var(--kx-secondary) }
+.secondary { color: var(--kx-45econdary) }
 .bg-secondary { background-color: $secondary }
 .b--secondary { border-color: $secondary }
 

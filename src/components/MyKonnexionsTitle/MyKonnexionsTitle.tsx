@@ -9,7 +9,7 @@ type MyKonnexionsTitleProps = {
 
 const MyKonnexionsTitle = ({slashColor = 'brand', color = 'silver', lineHeight = 1, nominal}: MyKonnexionsTitleProps) => {
   return (
-    <div className="dib">
+    <div className="dib kx-lh-2">
       <div className="flex flex-row">
         <div className={`b ${color} mr2`}>My</div>
         <div className={`b ${slashColor}`}>K</div>{lineHeight}
