@@ -1,11 +1,11 @@
 
 type KonnexionsSlashProps = {
-  lineHeight?: number
+  fontSizeInRem?: number
   color?: string
   slashColor?: string
   asSpan?: boolean
 }
-const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silver', asSpan = false}: KonnexionsSlashProps) => {
+const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'silver', asSpan = false}: KonnexionsSlashProps) => {
   
   let updatedSlashColor: string
 
@@ -27,36 +27,8 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
       mWidth: string,
       mMarginLeft: string,
       mMarginRight: string,
-      marginTop: string
-
-  if (lineHeight == 2) {
-    slashTop = `${0.2 + 0.8}rem`
-    slashLeft = '0.2rem'
-    // mhX = 2
-    // mlX = 2
-    // mrX = 2
-    mMarginLeft = '.2rem'
-    mMarginRight = '0rem'
-    marginTop = `${0.345 + (lineHeight - 1.)/2}rem`
-
-  } else if (lineHeight == 1.5) {
-    slashTop = `${0.2 + 0.4}rem`
-    slashLeft = '0.1rem'
-    // mhX = 1
-    // mlX = 2
-    // mrX = 0.5
-    mMarginLeft = '0.3rem' // `${.2 - 0.04}rem`
-    mMarginRight = '0.4rem' // `${.2}rem`
-    marginTop = `${0.9}rem` // 0.345 + (lineHeight - 1.)/2 + 0.01
-  } else {
-    // lineHeight == 1.0
-    slashTop = '0.2rem'
-    slashLeft = '0.1rem'
-    // mhX = 2
-    mMarginLeft = '0.3rem' // `${.2}rem`
-    mMarginRight = '0.6rem' // `${.25}rem`
-    marginTop = `${0.9}rem` // 0.345 + (lineHeight - 1.)/2 + 0.04
-  }
+      mMarginTop: string,
+      mHeight: string
 
   slashTop = '0.2rem'
   slashLeft = '0.1rem'
@@ -64,44 +36,49 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
   mMarginLeft = '0.3rem' 
   mMarginRight = '0.6rem'
   mWidth = '0.3rem'
-  marginTop = '0.5rem'
+  mMarginTop = '0.5rem'
+  mHeight = '1rem'
 
-  switch (lineHeight) {
-    case 3: marginTop = '0.5rem'
+  switch (fontSizeInRem) {
+    case 3: mMarginTop = '0.5rem'
             mWidth = '0.5rem'
             mMarginLeft = '0.5rem' 
             mMarginRight = '0.6rem'
+            mHeight = `${ fontSizeInRem * 0.5}rem`
             slashTop = '0.0rem'
             slashWidth = '0.3rem'
             slashLeft = '0.3rem'
             break;
-    case 2: marginTop = '0.5rem'
+    case 2: mMarginTop = '0.5rem'
             mWidth = '0.3rem'
             mMarginLeft = '0.3rem' 
             mMarginRight = '0.6rem'
+            mHeight = `${ fontSizeInRem * 0.5}rem`
             slashTop = '0.2rem'
             slashWidth = '0.3rem'
             slashLeft = '0.1rem'
             break;
-    case 1.5: marginTop = '0.9rem'
+    case 1.5: mMarginTop = '0.9rem'
             mWidth = '0.3rem'
             mMarginLeft = '0.3rem' 
             mMarginRight = '0.4rem'
+            mHeight = `${ fontSizeInRem * 0.5}rem`
             slashTop = '0.7rem'
             slashWidth = '0.2rem'
             slashLeft = '0.1rem'
             break;
-    case 1: marginTop = '0.5rem'
+    case 1: mMarginTop = '0.5rem'
             mWidth = '0.3rem'
             mMarginLeft = '0.3rem' 
             mMarginRight = '0.6rem'
+            mHeight = `${ fontSizeInRem * 0.5}rem`
             slashWidth = '0.5rem'
             slashTop = '0.2rem'
             slashLeft = '0.1rem'
             break;
   }
 
-  // marginTop = '0.5rem' // `${0.8*lineHeight * 0.5}rem` // '0.5rem' // `${lineHeight * -0.5}rem`
+  // mMarginTop = '0.5rem' // `${0.8*lineHeight * 0.5}rem` // '0.5rem' // `${lineHeight * -0.5}rem`
 
     if ( asSpan ) {
     return (
@@ -110,12 +87,12 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
           <span className="flex flex-row relative">
             <span className={`bg-${color}X transparent skew-45`}
               style={{
-                marginTop: `${marginTop}`,
+                marginTop: `${mMarginTop}`,
                 marginLeft: `${mMarginLeft}`,
                 marginRight: `${mMarginRight}`,
                 width: mWidth,
-                height: `${ lineHeight * 0.5}rem`, // '1.2rem', //'0.52rem',
-                lineHeight: `${lineHeight}`,
+                height: mHeight, // '1.2rem', //'0.52rem',
+                lineHeight: `${fontSizeInRem}`, // MIS-MATCH
                 backgroundColor: color // 'red'
                 }}
               >m</span>
@@ -145,12 +122,12 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
           <div className="flex flex-row relative">
             <div className={`bg-${color} transparent skew-45`}
               style={{
-                marginTop: `${marginTop}`,
+                marginTop: `${mMarginTop}`,
                 marginLeft: `${mMarginLeft}`,
                 marginRight: `${mMarginRight}`,
                 width: mWidth,
-                height: `${ lineHeight * 0.5}rem`, // '1.2rem', //'0.52rem',
-                lineHeight: `${lineHeight}`
+                height: mHeight, // '1.2rem', //'0.52rem',
+                lineHeight: `${fontSizeInRem}` // MIS-MATCH
                 }}
               >m</div>
             <div
@@ -168,6 +145,7 @@ const KonnexionsSlash = ({lineHeight = 1, slashColor = 'primary', color = 'silve
             >
               m
             </div>
+            {fontSizeInRem}
           </div>
         </div>
       </>

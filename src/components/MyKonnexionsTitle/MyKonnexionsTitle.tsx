@@ -3,33 +3,34 @@ import MyKonnexionsSlash from '@components/MyKonnexionsSlash/MyKonnexionsSlash'
 type MyKonnexionsTitleProps = {
   color?: string
   slashColor?: string
-  lineHeight?: number
+  fontSizeInRem?: number
   nominal?: string
+  shorten?: boolean
 }
 
-const MyKonnexionsTitle = ({slashColor = 'brand', color = 'silver', lineHeight = 1, nominal}: MyKonnexionsTitleProps) => {
+const MyKonnexionsTitle = ({shorten = false, slashColor = 'brand', color = 'silver', fontSizeInRem = 1, nominal}: MyKonnexionsTitleProps) => {
   return (
     <div className="dib kx-lh-2">
       <div className="flex flex-row">
-        <div className={`b ${color} mr2`}>My</div>
+        {!shorten && <div className={`b ${color} mr2`}>My</div>}
         <div className={`b ${slashColor}`}>K</div>
-        <div className={`b  ${color}`}>onne</div>
-        <MyKonnexionsSlash slashColor={slashColor} color={color} lineHeight={lineHeight} />
-        <div className={`b  ${color}`}>ions<sup className="f7 relative" style={{ top: '-1.5em' }}>TM</sup></div>
+        {!shorten && <div className={`b  ${color}`}>onne</div>}
+        <MyKonnexionsSlash slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
+        {!shorten && <div className={`b  ${color}`}>ions<sup className="f7 relative" style={{ top: '-1.5em' }}>TM</sup></div>}
         {nominal ? <div className={`b ${color}`}>{nominal}</div> : null}
       </div>
     </div>
   )
 }
 
-export const MyKonnexionsTitleSpan = ({slashColor = 'brand', color = 'silver', lineHeight = 1, nominal}: MyKonnexionsTitleProps) => {
+export const MyKonnexionsTitleSpan = ({slashColor = 'brand', color = 'silver', fontSizeInRem = 1, nominal}: MyKonnexionsTitleProps) => {
   return (
     <span className="dib">
       <span className="inline-flex flex-wrap">
         <span className={`b ${color} mr1`}>My </span>
         <span className={`b ${slashColor}`}>K</span>
         <span className={`b  ${color}`}>onne</span>
-        <MyKonnexionsSlash asSpan={true} slashColor={slashColor} color={color} lineHeight={lineHeight} />
+        <MyKonnexionsSlash asSpan={true} slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
         <span className={`b ${color}`}>ions<sup className="f7 relative" style={{ top: '-1em' }}>TM</sup></span>
         {nominal ? <span className={`b ${color}`}>{nominal}</span> : null}
       </span>

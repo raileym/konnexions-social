@@ -13,7 +13,7 @@ import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useNavigate } from 'react-router-dom'
 import MyKonnexionsSlash from '@components/MyKonnexionsSlash/MyKonnexionsSlash'
 import MyKonnexionsIcon from '@components/MyKonnexionsIcon/MyKonnexionsIcon'
-import MyKonnexionsTitle from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
+import MyKonnexionsTitle, { MyKonnexionsTitleSpan } from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
 
 const NavbarTop: React.FC = () => {
   const { switchPanel } = usePanel()
@@ -47,15 +47,31 @@ const NavbarTop: React.FC = () => {
               navigateTo('Welcome')
             }}
           >
-            <div className="bg-green dn-kx-45 dib-kx-60">
-              <MyKonnexionsIcon />
+            {/* <div className="bg-yellow mr3 kx-height-4X kx-width-4 dn-kx-45 kx-lh-2X dib-kx-60">
+              <div className="flex flex-row baX b--whiteX kx-lh-4X">
+                <div className="f2">
+                  <MyKonnexionsTitle shorten={true} color='moon-gray' fontSizeInRem={2}/>
+                </div>
+                <MyKonnexionsSlash lineHeight={2}/>
+              </div>
+            </div> */}
+
+            <div className="mr3 dnX flexX items-center flex-ks-vvs flex-kx-45 flex-kx-60 kx-lh-4">
+              <div className="silver f1X b lh-titleX flex flex-column">
+                <div className="flex flex-row f3 f1-vsX f1-mX f1-nsX">
+                  <div className="dn bg-redX dn-kx-45 dib-kx-n45 kx-lh-4X">
+                    <MyKonnexionsTitle shorten={true} color='moon-gray' fontSizeInRem={1}/>
+                  </div>
+                </div>
+              </div>
             </div>
+
 
             <div className="dnX flexX items-center flex-ks-vvs flex-kx-45 flex-kx-60 kx-lh-4">
               <div className="silver f1 b lh-titleX flex flex-column">
                 <div className="flex flex-row f1 f1-vsX f1-mX f1-nsX">
                   <div className="dn bg-redX dn-kx-45 dib-kx-n45">
-                    <MyKonnexionsTitle color='moon-gray' lineHeight={3}/>
+                    <MyKonnexionsTitle color='moon-gray' fontSizeInRem={3}/>
                   </div>
                   <div className="db bg-blue db-kx-45 dn-kx-n45">
                     <MyKonnexionsIcon forwardColor={'silver'} slashColor={'brand'} backgroundColor={'transparent'}/>
