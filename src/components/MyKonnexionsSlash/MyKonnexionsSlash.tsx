@@ -42,13 +42,13 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
   mHeight = '1rem'
 
   switch (fontSizeInRem) {
-    case 3: mMarginTop = '1.2rem' // '0.5rem'
+    case 3: mMarginTop = '0.5rem'
             mWidth = '0.5rem'
             mMarginLeft = '0.5rem' 
             mMarginRight = '0.6rem'
             mHeight = `${ fontSizeInRem * 0.5}rem`
             slashHeight= '3.5rem'
-            slashTop = '0.5rem'
+            slashTop = '0.0rem'
             slashWidth = '0.3rem'
             slashLeft = '0.3rem'
             break;

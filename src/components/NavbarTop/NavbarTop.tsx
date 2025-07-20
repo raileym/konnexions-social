@@ -34,7 +34,7 @@ const NavbarTop: React.FC = () => {
       <div className="w-100 flex flex-column">
         <div className="w-100 flex flex-row justify-between">
           <div 
-            className="flex justify-start flex-row pointer lh-kx-4" 
+            className="flex justify-start flex-row pointer lh-4-kx" 
             onClick={() => {
               console.log('Clicking on upper left icon set.')
               closeMenu()
@@ -45,7 +45,7 @@ const NavbarTop: React.FC = () => {
               navigateTo('Welcome')
             }}
           >
-            <div className="mr3 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-kx-4">
+            <div className="mr3 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
               <div className="silver b flex flex-column">
                 <div className="flex flex-row f3">
                   <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
@@ -59,7 +59,7 @@ const NavbarTop: React.FC = () => {
             </div>
 
 
-            <div className="items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-kx-4">
+            <div className="items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
               <div className="silver f1 b flex flex-column">
                 <div className="flex flex-row f1">
                   <div className="dn dn-kx-45 dib-kx-n45">

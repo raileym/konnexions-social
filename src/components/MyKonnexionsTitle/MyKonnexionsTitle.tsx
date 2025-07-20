@@ -10,7 +10,7 @@ type MyKonnexionsTitleProps = {
 
 const MyKonnexionsTitle = ({shorten = false, slashColor = 'brand', color = 'silver', fontSizeInRem = 1, nominal}: MyKonnexionsTitleProps) => {
   return (
-    <div className="konnexions-title dib lh-kx-2">
+    <div className="konnexions-title dib lh-2-kx">
       <div className="flex flex-row">
         {!shorten && <div className={`b ${color} mr2`}>My</div>}
         <div className={`b ${slashColor}`}>K</div>
