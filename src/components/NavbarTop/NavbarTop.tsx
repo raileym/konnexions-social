@@ -47,20 +47,14 @@ const NavbarTop: React.FC = () => {
               navigateTo('Welcome')
             }}
           >
-            {/* <div className="bg-yellow mr3 kx-height-4X kx-width-4 dn-kx-45 kx-lh-2X dib-kx-60">
-              <div className="flex flex-row baX b--whiteX kx-lh-4X">
-                <div className="f2">
-                  <MyKonnexionsTitle shorten={true} color='moon-gray' fontSizeInRem={2}/>
-                </div>
-                <MyKonnexionsSlash lineHeight={2}/>
-              </div>
-            </div> */}
-
-            <div className="mr3 dnX flexX items-center flex-ks-vvs flex-kx-45 flex-kx-60 kx-lh-4">
+            <div className="mr3 bg-blueX kx-width-3 kx-height-3 dnX flexX items-center flex-ks-vvs flex-kx-45 flex-kx-60 kx-lh-4">
               <div className="silver f1X b lh-titleX flex flex-column">
                 <div className="flex flex-row f3 f1-vsX f1-mX f1-nsX">
-                  <div className="dn bg-redX dn-kx-45 dib-kx-n45 kx-lh-4X">
-                    <MyKonnexionsTitle shorten={true} color='moon-gray' fontSizeInRem={1}/>
+                  <div className="dn relative bg-redX kx-width-4 kx-height-3 dn-kx-45 dib-kx-n45 kx-lh-4X">
+                    <div className="absolute top-0 left-0 bg-moon-gray mt2 kx-width-3 br3 kx-height-3"></div>
+                    <div className="konnexions-title absolute top-0 left-0 ml2">
+                      <MyKonnexionsTitle shorten={true} color='white' fontSizeInRem={1}/>
+                    </div>
                   </div>
                 </div>
               </div>
