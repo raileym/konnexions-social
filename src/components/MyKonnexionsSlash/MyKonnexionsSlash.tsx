@@ -21,6 +21,7 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
   let slashTop: string,
       slashWidth: string,
       slashLeft: string,
+      slashHeight: string,
       // mhX: number,
       // mlX: number,
       // mrX: number,
@@ -30,6 +31,7 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
       mMarginTop: string,
       mHeight: string
 
+  slashHeight = '1rem'
   slashTop = '0.2rem'
   slashLeft = '0.1rem'
   slashWidth = '0.5rem'
@@ -45,6 +47,7 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
             mMarginLeft = '0.5rem' 
             mMarginRight = '0.6rem'
             mHeight = `${ fontSizeInRem * 0.5}rem`
+            slashHeight= '3.5rem'
             slashTop = '0.0rem'
             slashWidth = '0.3rem'
             slashLeft = '0.3rem'
@@ -54,6 +57,7 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
             mMarginLeft = '0.3rem' 
             mMarginRight = '0.6rem'
             mHeight = `${ fontSizeInRem * 0.5}rem`
+            slashHeight= '2.25rem'
             slashTop = '0.2rem'
             slashWidth = '0.3rem'
             slashLeft = '0.1rem'
@@ -63,17 +67,19 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
             mMarginLeft = '0.3rem' 
             mMarginRight = '0.4rem'
             mHeight = `${ fontSizeInRem * 0.5}rem`
+            slashHeight= '2.25rem'
             slashTop = '0.7rem'
             slashWidth = '0.2rem'
             slashLeft = '0.1rem'
             break;
-    case 1: mMarginTop = '0.5rem'
+    case 1: mMarginTop = '0.9rem'
             mWidth = '0.3rem'
             mMarginLeft = '0.3rem' 
             mMarginRight = '0.6rem'
-            mHeight = `${ fontSizeInRem * 0.5}rem`
-            slashWidth = '0.5rem'
-            slashTop = '0.2rem'
+            mHeight = `${ fontSizeInRem * 0.7}rem`
+            slashHeight= '2.0rem'
+            slashWidth = '0.2rem'
+            slashTop = '0.7rem'
             slashLeft = '0.1rem'
             break;
   }
@@ -105,7 +111,7 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
                 left: slashLeft,
                 '--slash-width': slashWidth,
                 '--slash-top': '-.5rem',
-                '--slash-height': '2.25rem', // '2.25rem',
+                '--slash-height': slashHeight, // '2.25rem', // '2.25rem',
                 '--slash-color': updatedSlashColor // `var(--${slashColor})`
               } as React.CSSProperties & { [key: string]: string }}
             >
@@ -139,13 +145,12 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
                 left: slashLeft,
                 '--slash-width': slashWidth,
                 '--slash-top': '-.4rem',
-                '--slash-height': '3.5rem', // '3.5rem',
+                '--slash-height': slashHeight, // '3.5rem', // '3.5rem',
                 '--slash-color': updatedSlashColor // `var(--${slashColor})`
               } as React.CSSProperties & { [key: string]: string }}
             >
               m
             </div>
-            {fontSizeInRem}
           </div>
         </div>
       </>
