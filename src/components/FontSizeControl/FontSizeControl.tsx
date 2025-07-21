@@ -16,7 +16,7 @@ const FontSizeControls = () => {
 
   return (
     <div
-      className="fixed top-0 right-0 z-99999 pa2 bg-white ba b--black-10 flex items-center"
+      className="control-font-size fixed top-0 right-0 z-9999 pa2 bg-white ba b--black br3 flex items-center"
       style={{ right: '5%', top: '8rem', fontFamily: 'monospace' }}
     >
       <button onClick={decrement} className="f6 ph2 pv1 mr2 bg-light-gray">−</button>
