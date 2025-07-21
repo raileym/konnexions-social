@@ -17,6 +17,7 @@ const ViewportWidthOverlay = () => {
 
   return (
     <div
+      className="viewport-width-overlay"
       style={{
         position: 'fixed',
         top: '7rem',

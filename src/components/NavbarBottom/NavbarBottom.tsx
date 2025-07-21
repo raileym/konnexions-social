@@ -54,7 +54,7 @@ const NavbarBottom: React.FC = () => {
   }
 
   return (
-    <nav className={`navbar-bottom fixed bottom-0 bt b--black-30 left-0 w-100 flex flex-column items-center bg-brand justify-aroundX ph3 pv2 transition-transform ${translateY} z-999`}>
+    <nav className={`navbar-bottom fixed bottom-0 bt b--black-30 left-0 w-100 flex flex-column items-center bg-secondary justify-aroundX ph3 pv2 transition-transform ${translateY} z-999`}>
 
       <div
         className="icon-learn-spanish left-0X flex justify-center flex-column tc mt0 pt0"
@@ -68,11 +68,11 @@ const NavbarBottom: React.FC = () => {
                   <div>You must first validate your email under the user Profile</div>
 
                   <div className="flex flex-column items-center f2 mv3">
-                    <FontAwesomeIcon icon={faUser} className="f1 brand"/>
-                    <div className="brand f5 mt1">Profile</div>
+                    <FontAwesomeIcon icon={faUser} className="f1 secondary"/>
+                    <div className="secondary f5 mt1">Profile</div>
                   </div>
 
-                  <div>before beginning with <span className="brand">Let's konnect! - through Spanish!</span>. See the user Profile button at the top right.</div>
+                  <div>before beginning with <span className="secondary">Let's konnect! - through Spanish!</span>. See the user Profile button at the top right.</div>
                 </div>,
               confirmText: 'Okay',
             })
@@ -84,10 +84,10 @@ const NavbarBottom: React.FC = () => {
           {/* <Button iconClass={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Bienvenido!' /> */}
           <Button
           reverse={true}
-            iconClass={`f2 ${isSelectedCreate ? 'brand' : 'white'}`}
+            iconClass={`f2 ${isSelectedCreate ? 'secondary' : 'white'}`}
             disable={!isUserValidated}
-            buttonClass={`mh3 bn bg-redX ${isSelectedCreate ? 'bg-white' : 'bg-brand'}`}
-            titleClass={`${isSelectedCreate ? 'brand' : 'white'}`}
+            buttonClass={`mh3 bn bg-redX ${isSelectedCreate ? 'bg-white' : 'bg-secondary'}`}
+            titleClass={`${isSelectedCreate ? 'secondary' : 'white'}`}
             isActive={activePanel === APP_PANEL.BASIC}
             switchFn={switchPanel}
             panel={APP_PANEL.BASIC}

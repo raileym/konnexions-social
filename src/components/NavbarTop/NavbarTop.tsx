@@ -94,7 +94,7 @@ const NavbarTop: React.FC = () => {
               <div className="silver b flex flex-column">
                 <div className="flex flex-row f3">
                   <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
-                    <div className="absolute top-0 left-0 bg-black mt2 width-3-kx br3 height-3-kx"></div>
+                    <div className="absolute top-0 left-0 bg-secondary mt2 width-3-kx br3 height-3-kx"></div>
                     <div className="konnexions-title absolute top-0 left-0 ml2">
                       <MyKonnexionsTitle shorten={true} color='white' fontSizeInRem={1}/>
                     </div>
@@ -108,7 +108,7 @@ const NavbarTop: React.FC = () => {
               <div className="silver f1 b flex flex-column">
                 <div className="flex flex-row f1">
                   <div className="dn dn-kx-45 dib-kx-n45">
-                    <MyKonnexionsTitle color='moon-gray' fontSizeInRem={3}/>
+                    <MyKonnexionsTitle color='secondary' fontSizeInRem={3}/>
                   </div>
                 </div>
               </div>

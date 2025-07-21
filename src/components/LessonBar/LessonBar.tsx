@@ -55,7 +55,7 @@ export const LessonBar: React.FC = () => {
   }
 
   return (
-    <div className={`panel-left lesson-bar w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellow brX b--black-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
+    <div className={`panel-left lesson-bar bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--black-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
       <button
         onClick={handleAddLesson}
         className="mv3X pa2 bn bbX b--blackX bw3 ba bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"

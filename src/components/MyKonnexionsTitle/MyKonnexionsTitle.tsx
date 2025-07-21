@@ -8,7 +8,7 @@ type MyKonnexionsTitleProps = {
   shorten?: boolean
 }
 
-const MyKonnexionsTitle = ({shorten = false, slashColor = 'brand', color = 'silver', fontSizeInRem = 1, nominal}: MyKonnexionsTitleProps) => {
+const MyKonnexionsTitle = ({shorten = false, slashColor = 'primary', color = 'secondary', fontSizeInRem = 1, nominal}: MyKonnexionsTitleProps) => {
   return (
     <div className="konnexions-title dib lh-2-kx">
       <div className="flex flex-row">
@@ -23,7 +23,7 @@ const MyKonnexionsTitle = ({shorten = false, slashColor = 'brand', color = 'silv
   )
 }
 
-export const MyKonnexionsTitleSpan = ({slashColor = 'brand', color = 'silver', fontSizeInRem = 1, nominal}: MyKonnexionsTitleProps) => {
+export const MyKonnexionsTitleSpan = ({slashColor = 'primary', color = 'secondary', fontSizeInRem = 1, nominal}: MyKonnexionsTitleProps) => {
   return (
     <span className="konnexions-title-span dib">
       <span className="inline-flex flex-wrap">
