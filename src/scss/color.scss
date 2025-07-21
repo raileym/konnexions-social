@@ -47,6 +47,20 @@ $softblue:              rgba(0, 125, 255, 1);
     --kx-darkorange: darkorange;
   }
 
+// ******************************************** 
+// ******************************************** 
+//
+// Brand colors
+// 
+// ******************************************** 
+// ******************************************** 
+
+$brand : var(--kx-brand); // #17ADFF; // blue;
+$brand-light : white;// #9F5223; //rgba(142, 89,44,1);//color.scale(peru, $lightness: -10%);
+$brand-dark : black;
+$brand-bright: orangered;
+$brand-red: #fb0020;
+
 $background: var(--kx-background);
 $onBackground: var(--kx-onBackground);
 $primary: var(--kx-primary);
@@ -69,6 +83,14 @@ $palette-color: (
 .transparent { color: transparent }
 .bg-transparent { background-color: transparent }
 .b--transparent { border-color: transparent }
+
+.brand { color: $brand }
+.bg-brand { background-color: $brand }
+.b--brand { border-color: $brand }
+
+.brand-red { color: $brand-red }
+.bg-brand-red { background-color: $brand-red }
+.b--brand-red { border-color: $brand-red }
 
 @each $name, $colors in $palette-color {
   $main: map-get($colors, main);
@@ -127,22 +149,6 @@ $color-set: (
   "white" :          white,
 );
 
-
-
-// ******************************************** 
-// ******************************************** 
-//
-// Brand colors
-// 
-// ******************************************** 
-// ******************************************** 
-
-$brand : var(--kx-brand); // #17ADFF; // blue;
-$brand-light : white;// #9F5223; //rgba(142, 89,44,1);//color.scale(peru, $lightness: -10%);
-$brand-dark : black;
-$brand-bright: orangered;
-
-$brand-red: #fb0020;
 
 // ******************************************** 
 // ******************************************** 

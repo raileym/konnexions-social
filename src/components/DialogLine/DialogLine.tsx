@@ -34,7 +34,7 @@ export const DialogLine = ({
 
   className = ''
   return (
-    <div className={'flex flex-column w-100'}>
+    <div className={'dialog-line flex flex-column w-100'}>
       <div className={`bg-greenX flex items-center justify-between w-100 ${className}`}>
         <div className="ph2 flex-auto">
           {noSpeaker ? (
@@ -47,7 +47,7 @@ export const DialogLine = ({
         </div>
         <button
           onClick={handleSpeak}
-          className="ml3 f6 br2 ph2 pv1 dib on-background bg-dark-blue hover:bg-blue no-outline"
+          className="ml3 f6 br2 ph2 pv1 dib on-background bg-secondary hover:bg-blue no-outline"
         >
           <FontAwesomeIcon icon={faPlay} />
         </button>
