@@ -24,7 +24,7 @@ const CutoffToggle: FC = () => {
         <FontAwesomeIcon icon={icon} className="f2 mr3X" />
       </button>
       <div
-        className="b mh3 black f5"
+        className="b mh3 background f5"
         style={{
           width: 130,
           fontFamily: 'monospace',

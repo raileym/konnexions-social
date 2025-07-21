@@ -36,7 +36,7 @@ const PanelKeys: React.FC = () => {
   return (
     <div className={`panel-right-short panel-keys z-2 absolute bl b--moon-gray bw1 top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}>
       <div className="h-100 w-100 overflow-y-auto">
-        <div className="pa4 mw7 w-100 black center mb5">
+        <div className="pa4 mw7 w-100 background center mb5">
           <h2 className="f3 pa3 pb0 mt5 w-100 tc">API Keys Panel</h2>
           <div className="f3 pv3 pt0 mt0">{headline}</div>
 
@@ -49,7 +49,7 @@ const PanelKeys: React.FC = () => {
                 setApiKey(e.target.value)
                 localStorage.setItem('gcpTTSKey', e.target.value)
               }}
-              className="input-reset ba b--black-20 pa2 mb2 db w-100"
+              className="input-reset ba b--background-20 pa2 mb2 db w-100"
             />
             <button
               onClick={() => {
@@ -57,7 +57,7 @@ const PanelKeys: React.FC = () => {
                 setMaskKey(false)
                 localStorage.removeItem('gcpTTSKey')
               }}
-              className="bg-brand white pa2 f4 br2 bn pointer db mb3 w-100"
+              className="bg-brand on-background pa2 f4 br2 bn pointer db mb3 w-100"
             >
               Clear API Key
             </button>
@@ -70,7 +70,7 @@ const PanelKeys: React.FC = () => {
                 setOpenAiKey(e.target.value)
                 localStorage.setItem('openAiKey', e.target.value)
               }}
-              className="input-reset ba b--black-20 pa2 mb2 db w-100"
+              className="input-reset ba b--background-20 pa2 mb2 db w-100"
             />
             <button
               onClick={() => {
@@ -78,7 +78,7 @@ const PanelKeys: React.FC = () => {
                 setMaskOpenAiKey(false)
                 localStorage.removeItem('openAiKey')
               }}
-              className="bg-brand white pa2 f4 br2 bn pointer db mb3 w-100"
+              className="bg-brand on-background pa2 f4 br2 bn pointer db mb3 w-100"
             >
               Clear OpenAI Key
             </button>          

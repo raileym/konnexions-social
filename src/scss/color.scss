@@ -38,7 +38,7 @@ $softblue:              rgba(0, 125, 255, 1);
     --kx-onBackground: red;
 
     --kx-brand: #17ADFF;
-    --kx-black: black;
+    --kx-background: black;
     --kx-brown: brown;
     --kx-blue: blue;
     --kx-crimson: crimson;
@@ -95,7 +95,7 @@ $color-set: (
   "softorange":      $softorange,
   "softblue":        $softblue,
 
-  "black" :          var(--kx-black),
+  "black" :          var(--kx-background),
   "brown" :          var(--kx-brown),
   "blue" :           var(--kx-blue),
   "crimson":         var(--kx-crimson),
@@ -162,13 +162,13 @@ $brand-red: #fb0020;
 
 .primaryWAITFORIT {
   --custom-0: var(--primary);
-  --custom-10: color-mix(in srgb, var(--primary) 90%, white 10%);
-  --custom-20: color-mix(in srgb, var(--primary) 80%, white 20%);
-  --custom-30: color-mix(in srgb, var(--primary) 70%, white 30%);
+  --custom-10: color-mix(in srgb, var(--primary) 90%, on-background 10%);
+  --custom-20: color-mix(in srgb, var(--primary) 80%, on-background 20%);
+  --custom-30: color-mix(in srgb, var(--primary) 70%, on-background 30%);
 
-  $custom-10: color-mix(in srgb, var(--primary) 90%, white 10%);
-  $custom-20: color-mix(in srgb, var(--primary) 80%, white 20%);
-  $custom-30: color-mix(in srgb, var(--primary) 70%, white 30%);
+  $custom-10: color-mix(in srgb, var(--primary) 90%, on-background 10%);
+  $custom-20: color-mix(in srgb, var(--primary) 80%, on-background 20%);
+  $custom-30: color-mix(in srgb, var(--primary) 70%, on-background 30%);
 
   background: var(--custom-10);
   color: var(--on-primary);

@@ -33,34 +33,29 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
 
   if (!editor) return null
 
-  // const buttonClass = (active: boolean) =>
-  //   `px-3 py-1 mr-2 rounded border ${
-  //     active ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
-  //   } transition-colors duration-200`
-
   return (
     <>
       <div className="mw7 w-60 center db mb4 f3 f4-m mb3">{title}</div>
-      <div className="mw7 mw8-ns ba w-80 w-70-mX center pa3X br3 max-w-xl mx-auto p-6X bg-white shadow-md rounded-md">
+      <div className="mw7 mw8-ns ba w-80 w-70-mX center pa3X br3 max-w-xl mx-auto p-6X bg-on-background shadow-md rounded-md">
         <div className="flex justify-center mb-6X bg-brandX bb bw1 b--moon-gray h2X pv1" style={{height: '3rem'}}>
           <div className="mh2 mh3-m mh4-ns">
             <button
               onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-              className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m b bg-white brand bn'}
+              className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m b bg-on-background brand bn'}
               title="Header 1"
             >
               H1
             </button>
             <button
               onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-              className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m b bg-white brand bn'}
+              className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m b bg-on-background brand bn'}
               title="Header 2"
             >
               H2
             </button>
             <button
               onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-              className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m b bg-white brand bn'}
+              className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m b bg-on-background brand bn'}
               title="Header 3"
             >
               H3
@@ -71,7 +66,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               onClick={() => editor.chain().focus().toggleBold().run()}
               disabled={!editor.can().chain().focus().toggleBold().run()}
-              className={'bn w2 h2 mv1 mv0-ns mh1 mh1-ns f2 f3-m b bg-white brand'}
+              className={'bn w2 h2 mv1 mv0-ns mh1 mh1-ns f2 f3-m b bg-on-background brand'}
               aria-label="Bold"
               title="Bold (Ctrl+B/Cmd+B)"
               type="button"
@@ -82,7 +77,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               onClick={() => editor.chain().focus().toggleItalic().run()}
               disabled={!editor.can().chain().focus().toggleItalic().run()}
-              className={'bn w2 h2 mv1 mv0-ns mh1 mh1-ns f2 f3-m b bg-white brand'}
+              className={'bn w2 h2 mv1 mv0-ns mh1 mh1-ns f2 f3-m b bg-on-background brand'}
               aria-label="Italic"
               title="Italic (Ctrl+I)"
               type="button"
@@ -93,7 +88,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               onClick={() => editor.chain().focus().toggleUnderline().run()}
               disabled={!editor.can().chain().focus().toggleUnderline().run()}
-              className={'bn w2 h2 mv1 mv0-ns mh1 mh1-ns f2 f3-m bg-white brand b'}
+              className={'bn w2 h2 mv1 mv0-ns mh1 mh1-ns f2 f3-m bg-on-background brand b'}
               // className={buttonClass(editor.isActive('underline'))}
               aria-label="Underline"
               title="Underline (Ctrl+U)"
@@ -108,7 +103,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               onClick={() => editor.chain().focus().toggleBulletList().run()}
               disabled={!editor.can().chain().focus().toggleBulletList().run()}
-              className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m bg-white brand bn'}
+              className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m bg-on-background brand bn'}
             >
               <FontAwesomeIcon icon={faListUl} />
             </button>
@@ -116,7 +111,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               onClick={() => editor.chain().focus().toggleOrderedList().run()}
               disabled={!editor.can().chain().focus().toggleOrderedList().run()}
-              className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m bg-white brand bn'}
+              className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m bg-on-background brand bn'}
             >
               <FontAwesomeIcon icon={faListOl} />
             </button>
@@ -125,7 +120,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
 
         <EditorContent
           editor={editor}
-          className="min-h-[200px] f5 f6-m h5 ph3 b---black-300X overflow-auto roundedX p-4X focus:outline-noneX focus:ring-2X focus:ring-blue-400X"
+          className="min-h-[200px] f5 f6-m h5 ph3 b---background-300X overflow-auto roundedX p-4X focus:outline-noneX focus:ring-2X focus:ring-blue-400X"
         />
       </div>
       {/* <pre>{markdownContent}</pre> */}

@@ -83,7 +83,7 @@ const NavbarTop: React.FC = () => {
   }
 
   return (
-    <nav className="navbar-top fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
+    <nav className="navbar-top fixed top-0 shadow-3 left-0 w-100 bg-on-background flex items-center justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
       <div className="w-100 flex flex-column">
         <div className="w-100 flex flex-row justify-between">
           <div 
@@ -118,7 +118,7 @@ const NavbarTop: React.FC = () => {
           <div className="">
             <Button isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bn wiggle'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
             <Button isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-            <Button isActive={isSelectedMenu} title='Menu' buttonClass='bn b--black ph2 ml2 mr3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+            <Button isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
           </div>
         </div>
       </div>

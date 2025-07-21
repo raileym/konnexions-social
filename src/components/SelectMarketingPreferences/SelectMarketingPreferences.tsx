@@ -69,7 +69,7 @@ export const SelectMarketingPreferences = () => {
 
   return (
     <div className="mv4">
-      <div className="b f3 mv3 black">Email preferences</div>
+      <div className="b f3 mv3 background">Email preferences</div>
       {Object.entries(MARKETING_PREFERENCE).map(([key, label]) => {
         // const checked = preferences[label]
 
@@ -79,9 +79,9 @@ export const SelectMarketingPreferences = () => {
             type="checkbox"
             checked={preferences[label] ?? false}
             onChange={() => handleToggle(key as keyof typeof MARKETING_PREFERENCE)}
-            className="form-checkbox h2 mh3 black"
+            className="form-checkbox h2 mh3 background"
           />
-            <span className="black">{label}</span>
+            <span className="background">{label}</span>
           </label>
         )
       })}

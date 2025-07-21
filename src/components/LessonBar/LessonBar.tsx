@@ -55,14 +55,14 @@ export const LessonBar: React.FC = () => {
   }
 
   return (
-    <div className={`panel-left lesson-bar bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--black-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
+    <div className={`panel-left lesson-bar bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--background-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
       <button
         onClick={handleAddLesson}
-        className="mv3X pa2 bn bbX b--blackX bw3 ba bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
+        className="mv3X pa2 bn bbX b--backgroundX bw3 ba bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
       >
         <FontAwesomeIcon className="f1X" icon={faPlus} />
       </button>
-      <hr className="bg-black bn" style={{height: '0.15em'}} />
+      <hr className="bg-background bn" style={{height: '0.15em'}} />
       <ul className="ba list pa0">
         {Array.isArray(lessons) && lessons.length > 0 ? (
           lessons.map((lesson) => (
@@ -89,13 +89,13 @@ export const LessonBar: React.FC = () => {
           <li className="pa2 gray">No saved lessons yet.</li>
         )}
       </ul>
-      <hr className="bg-black bn" style={{height: '0.15em'}} />
+      <hr className="bg-background bn" style={{height: '0.15em'}} />
       <div className="f6 flex justify-around tc mb3">
-        <div className="green pv1 ph2 bg-black br3 b--black b">Green</div>
+        <div className="green pv1 ph2 bg-background br3 b--background b">Green</div>
         <div className="pa1 items-center flex justify-center">{paywall.paywall_package_green_remaining}</div>
       </div>
       <div className="f6 flex justify-around tc">
-        <div className="yellow pv1 ph2 bg-black br3 b--black b">Yellow</div>
+        <div className="yellow pv1 ph2 bg-background br3 b--background b">Yellow</div>
         <div className="pa1 items-center flex justify-center">{paywall.paywall_package_yellow_remaining}</div>
       </div>
     </div>

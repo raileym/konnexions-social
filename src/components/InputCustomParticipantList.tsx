@@ -13,7 +13,7 @@ const InputCustomParticipantList: React.FC = () => {
         type="text"
         value={customParticipantList}
         onChange={(e) => setCustomParticipantList(e.target.value)}
-        className="input-reset ba b--black-20 pa2 f4 w-100"
+        className="input-reset ba b--background-20 pa2 f4 w-100"
         placeholder="myself, the waiter"
         disabled={disabled}
         style={{

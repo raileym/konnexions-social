@@ -53,7 +53,7 @@ const PanelProfile = () => {
     <>
       <div 
         ref={PanelProfileRef}
-        className={`panel-right-short panel-profile absolute bl b--black bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary pt5 white transition-transform ${translateX}`}
+        className={`panel-right-short panel-profile absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary pt5 on-background transition-transform ${translateX}`}
       >
         <div className="h-100 w-100 overflow-y-auto">
           <div className={`pa4X ${PROFILE_PANEL_WIDTH_PERCENT} mb5`}>

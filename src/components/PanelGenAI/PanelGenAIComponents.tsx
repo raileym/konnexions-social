@@ -89,7 +89,7 @@ const PanelGenAI: React.FC = () => {
   return (
     <div className={'panel-right panel-gen-ai-components bw1 b--moon-gray bl z-1 absolute top-0 left-0 w-90 h-100 bg-light-gray transition-transform translate-x-0'}>
       <div className='h-100 w-100 overflow-y-auto'>
-        <div className='pa4 mw7 w-100 black center mb5'>
+        <div className='pa4 mw7 w-100 background center mb5'>
           <h2 className='f3 pa3 pb0 mt5 w-100 tc'>Spanish: Scenarios</h2>
           <div className='f3 pv3 pt0 mt0'>{headline}</div>
 
@@ -120,13 +120,13 @@ const PanelGenAI: React.FC = () => {
               <textarea
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
-                className='o-100 input-reset ba b--black-20 pa2 mb2 db w-100'
+                className='o-100 input-reset ba b--background-20 pa2 mb2 db w-100'
                 rows={8}
                 placeholder='Ask a question...'
               />
               <button
                 onClick={handleAskOpenAI}
-                className='o-100 bg-brand white pa2 br2 bn pointer db mb3 w-100'
+                className='o-100 bg-brand on-background pa2 br2 bn pointer db mb3 w-100'
               >
                 Ask OpenAI
               </button>
@@ -145,7 +145,7 @@ const PanelGenAI: React.FC = () => {
               </div>
               <div className='relative'>
                 {/* Overlay mask (dim layer) */}
-                {/* <div className='absolute top-0 left-0 w-100 h-100 bg-white o-80 z-1 pointer-events-none' /> */}
+                {/* <div className='absolute top-0 left-0 w-100 h-100 bg-on-background o-80 z-1 pointer-events-none' /> */}
 
                 {/* Content to be masked but not removed */}
                 {/* <div className='relative z-1'> */}
@@ -153,14 +153,14 @@ const PanelGenAI: React.FC = () => {
                   <textarea
                     value={questionContext}
                     onChange={(e) => setQuestionContext(e.target.value)}
-                    className='o-50 bg-white input-reset ba b--black-20 pa2 mb2 db w-100'
+                    className='o-50 bg-on-background input-reset ba b--background-20 pa2 mb2 db w-100'
                     rows={8}
                     placeholder='Ask a question...'
                     disabled
                   />
                   <button
                     onClick={handleAskOpenAI}
-                    className='o-30 bg-brand white pa2 br2 bn db mb3 w-100'
+                    className='o-30 bg-brand on-background pa2 br2 bn db mb3 w-100'
                     disabled
                   >
                     Ask OpenAI
@@ -171,7 +171,7 @@ const PanelGenAI: React.FC = () => {
           )}
 
           <label className='db mb2 f6 gray'>OpenAI Response</label>
-          <div className='pa2 bg-near-white mb3' style={{ whiteSpace: 'pre-wrap' }}>{answer}</div>
+          <div className='pa2 bg-on-background mb3' style={{ whiteSpace: 'pre-wrap' }}>{answer}</div>
           <div style={{height: '20em'}} className='mb5X h5X bg-green'></div>
         </div>
       </div>

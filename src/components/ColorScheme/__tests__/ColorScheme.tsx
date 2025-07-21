@@ -5,7 +5,7 @@ const ColorScheme = () => {
   
   return (
     <div
-      className="control-color-scheme on-primary flex flex-row items-center bg-background b--black ba"
+      className="control-color-scheme on-primary flex flex-row items-center bg-background b--background ba"
       style={{
         position: 'fixed', 
         top: '7rem',

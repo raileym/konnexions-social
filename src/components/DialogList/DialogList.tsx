@@ -150,15 +150,15 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
       <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
 
       <div className='flex flex-row items-center mt4'>
-        <button onClick={playAll} className='ml3 f6 br2 ph2 pv1 white bg-dark-blue hover:bg-blue'>
+        <button onClick={playAll} className='ml3 f6 br2 ph2 pv1 on-background bg-dark-blue hover:bg-blue'>
           <FontAwesomeIcon icon={faPlay} /> Play All
         </button>
-        <button onClick={stopAll} className='ml2 f6 br2 ph2 pv1 white bg-dark-red hover:bg-red'>
+        <button onClick={stopAll} className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red'>
           <FontAwesomeIcon icon={faStop} /> Stop
         </button>
         <button
           onClick={() => setShowTranslations(prev => !prev)}
-          className={`ml2 f6 br2 ph2 pv1 white ${hasTranslations ? 'bg-gray hover:bg-silver' : 'bg-light-silver cursor-not-allowed'}`}
+          className={`ml2 f6 br2 ph2 pv1 on-background ${hasTranslations ? 'bg-gray hover:bg-silver' : 'bg-light-silver cursor-not-allowed'}`}
           disabled={!hasTranslations}
         >
           {showTranslations ? 'Hide' : 'Show'} Translations

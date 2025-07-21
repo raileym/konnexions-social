@@ -161,7 +161,7 @@ const RightPanel: React.FC = () => {
           <div className="mv3X flex justify-center">
             <button
               onClick={() => setDebugMode(prev => !prev)}
-              className={`w-30 pa3 br2 bn ${debugMode ? 'bg-brand' : 'bg-black'} white pointer`}
+              className={`w-30 pa3 br2 bn ${debugMode ? 'bg-brand' : 'bg-background'} on-background pointer`}
             >
               <div className="flex items-center" >
                 <div className="ph1 bg-redX"><FontAwesomeIcon icon={debugMode ? faLock : faLockOpen} /></div>
@@ -173,7 +173,7 @@ const RightPanel: React.FC = () => {
           {/* <div className="mv3X flex justify-center">
             <button
               onClick={() => setTestMode(prev => !prev)}
-              className={`w-30 pa3 br2 bn ${testMode ? 'bg-brand' : 'bg-black'} white pointer`}
+              className={`w-30 pa3 br2 bn ${testMode ? 'bg-brand' : 'bg-background'} on-background pointer`}
             >
               <div className="flex items-center" >
                 <div className="ph1 bg-redX"><FontAwesomeIcon icon={testMode ? faLock : faLockOpen} /></div>
@@ -190,7 +190,7 @@ const RightPanel: React.FC = () => {
             <div>
               {LANGUAGE_TITLE[targetLanguage]}: Premium
             </div>
-          <div className="w-100 black f2">Lesson {selectedLessonNumber}</div>
+          <div className="w-100 background f2">Lesson {selectedLessonNumber}</div>
           </h2>
 
 
@@ -199,7 +199,7 @@ const RightPanel: React.FC = () => {
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
-                className={`f3 pa3 br4 bn ${debugMode ? 'bg-black white' : 'bg-brand white'} pointer`}
+                className={`f3 pa3 br4 bn ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   const formattedFlexLesson = formatFlexLesson({flexLesson})
                   const updatedLesson = {
@@ -214,13 +214,13 @@ const RightPanel: React.FC = () => {
             </div>
           </div>
           
-          <div className="pa3 mt3 mb5 ba bg-white w-100">
+          <div className="pa3 mt3 mb5 ba bg-on-background w-100">
             <div className='tc f3 w-100 mt4X b'>Formatted Lesson</div>
-            <ul className="mt0 pt0 black list pl0">
+            <ul className="mt0 pt0 background list pl0">
               {(formattedFlexLesson ?? []).map((line, index) => {
                 const [, , sentence] = line.split('|')  // destructure to get the third part
                 return (
-                  <li key={index} className="black">
+                  <li key={index} className="background">
                     <FormatSentence sentence={sentence} />
                   </li>
                 )
@@ -252,7 +252,7 @@ const RightPanel: React.FC = () => {
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
-                className={`f3 pa3 br4 bn ${debugMode ? 'bg-black white' : 'bg-brand white'} pointer`}
+                className={`f3 pa3 br4 bn ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   createFullLesson()
                 }}
@@ -278,7 +278,7 @@ const RightPanel: React.FC = () => {
             rows={10}
           />
 
-          <div className="pa3 mt3 ba bg-white w-100">
+          <div className="pa3 mt3 ba bg-on-background w-100">
             <DialogList
               language={lesson.targetLanguage}
               translations={(lesson?.translationResolve?.lines ?? [])}
@@ -287,67 +287,67 @@ const RightPanel: React.FC = () => {
             />
           </div>
 
-          <div className="pa3 mt3 ba bg-white w-100">
+          <div className="pa3 mt3 ba bg-on-background w-100">
             <div className='tc f3 w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>
-            <ul className="mt0 pt0 black list pl0">
+            <ul className="mt0 pt0 background list pl0">
               {(lesson?.translationResolve.lines ?? [])
                 .map((line, index) => (
-                  <li key={index} className="black">
+                  <li key={index} className="background">
                     <FormatSentence sentence={line} />
                   </li>
                 ))}
               </ul>            
           </div>
 
-          {/* <div className="pa3 mt3 ba bg-white w-100">
+          {/* <div className="pa3 mt3 ba bg-on-background w-100">
             <DialogList language={lesson.targetLanguage} lines={(lesson?.translation[lesson.targetLanguage] ?? [])} useCloudTTS={true} />
           </div>
 
-          <div className="pa3 mt3 ba bg-white w-100">
+          <div className="pa3 mt3 ba bg-on-background w-100">
             <DialogList language={lesson.sourceLanguage} lines={(lesson?.translation[lesson.sourceLanguage]  ?? [])} useCloudTTS={true} />
           </div> */}
          
 
           {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Dialog Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_DRAFT, lesson: fakeLesson, errors: [] }).prompt} />
+          <PromptToggle className='bg-yellow background' title={'Proposed Dialog Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_DRAFT, lesson: fakeLesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Dialog Draft Prompt'} prompt={lesson[MODULE_NAME.DIALOG_DRAFT].prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: fakeLesson, errors: [] }).prompt} />
+          <PromptToggle className='bg-yellow background' title={'Proposed Dialog Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: fakeLesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
 
           {/*
-          <PromptToggle className='bg-yellow black' title={'Proposed Translation Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.TRANSLATION_DRAFT, lesson, errors: [] }).prompt} />
+          <PromptToggle className='bg-yellow background' title={'Proposed Translation Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.TRANSLATION_DRAFT, lesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Translation Draft Prompt'} prompt={lesson[MODULE_NAME.TRANSLATION_DRAFT].prompt} />
 
-          <PromptToggle className='bg-yellow black' title={'Proposed Translation Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.TRANSLATION_REVIEW, lesson, errors: [] }).prompt} />
+          <PromptToggle className='bg-yellow background' title={'Proposed Translation Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.TRANSLATION_REVIEW, lesson, errors: [] }).prompt} />
           <PromptToggle title={'Actual Translation Review Prompt'} prompt={lesson[MODULE_NAME.TRANSLATION_REVIEW].prompt} />
           */}
 
           {
             debugMode && alwaysFalse && (
               <>
-                <PromptToggle className='bg-yellow black' title={'Proposed Dialog Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_DRAFT, lesson: fakeLesson, errors: [] }).prompt} />
+                <PromptToggle className='bg-yellow background' title={'Proposed Dialog Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_DRAFT, lesson: fakeLesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Dialog Draft Prompt'} prompt={lesson[MODULE_NAME.DIALOG_DRAFT].prompt} />
 
-                <PromptToggle className='bg-yellow black' title={'Proposed Dialog Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_REVIEW, lesson, errors: [] }).prompt} />
+                <PromptToggle className='bg-yellow background' title={'Proposed Dialog Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_REVIEW, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
 
-                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.NOUNS_DRAFT, lesson, errors: [] }).prompt} />
+                <PromptToggle className='bg-yellow background' title={'Proposed Nouns Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.NOUNS_DRAFT, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Nouns Draft Prompt'} prompt={lesson[MODULE_NAME.NOUNS_DRAFT].prompt} />
 
-                <PromptToggle className='bg-yellow black' title={'Proposed Nouns Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.NOUNS_REVIEW, lesson, errors: [] }).prompt} />
+                <PromptToggle className='bg-yellow background' title={'Proposed Nouns Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.NOUNS_REVIEW, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Nouns Review Prompt'} prompt={lesson.nounsReview.prompt} />
 
-                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.VERBS_DRAFT, lesson, errors: [] }).prompt} />
+                <PromptToggle className='bg-yellow background' title={'Proposed Verbs Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.VERBS_DRAFT, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Verbs Draft Prompt'} prompt={lesson[MODULE_NAME.VERBS_DRAFT].prompt} />
 
-                <PromptToggle className='bg-yellow black' title={'Proposed Verbs Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.VERBS_REVIEW, lesson, errors: [] }).prompt} />
+                <PromptToggle className='bg-yellow background' title={'Proposed Verbs Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.VERBS_REVIEW, lesson, errors: [] }).prompt} />
                 <PromptToggle title={'Actual Verbs Review Prompt'} prompt={lesson.verbsReview.prompt} />
 
                 {/*
                 <div className="mt4 b">NounsOnly</div>
-                <ul className="mt0 pt0 black">
+                <ul className="mt0 pt0 background">
                   {lesson.nounsOnly?.lines
                     ?.slice()
                     .sort((a, b) => a.localeCompare(b))
@@ -357,7 +357,7 @@ const RightPanel: React.FC = () => {
                 </ul>
 
                 <div className="mt4 b">VerbsOnly</div>
-                <ul className="mt0 pt0 black">
+                <ul className="mt0 pt0 background">
                   {lesson.verbsOnly?.lines
                     ?.slice()
                     .sort((a, b) => a.localeCompare(b))
@@ -367,7 +367,7 @@ const RightPanel: React.FC = () => {
                 </ul>
 
                 <div className="mt4 b">NounsMissing</div>
-                <ul className="mt0 pt0 black">
+                <ul className="mt0 pt0 background">
                   {lesson.nounsMissing?.lines
                     ?.slice()
                     .sort((a, b) => a.localeCompare(b))
@@ -377,7 +377,7 @@ const RightPanel: React.FC = () => {
                 </ul>
 
                 <div className="mt4 b">VerbsMissing</div>
-                <ul className="mt0 pt0 black">
+                <ul className="mt0 pt0 background">
                   {lesson.verbsMissing?.lines
                     ?.slice()
                     .sort((a, b) => a.localeCompare(b))
@@ -402,7 +402,7 @@ const RightPanel: React.FC = () => {
             <div className="w-100">
               <button
                 onClick={toggleShowNounsPrompt}
-                className="mt3 pa2 br2 bn bg-brand white pointer"
+                className="mt3 pa2 br2 bn bg-brand on-background pointer"
               >
                 {showNounsPrompt ? 'Hide Nouns Prompt' : 'Show Nouns Prompt'}
               </button>
@@ -411,7 +411,7 @@ const RightPanel: React.FC = () => {
 
           {testMode && alwaysFalse && showNounsPrompt && (
             <div className="w-100 flex justify-center flex-column">
-              <div className="mt4 ba pa3 bg-white">
+              <div className="mt4 ba pa3 bg-on-background">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson[MODULE_NAME.NOUNS_DRAFT].prompt}</div>
               </div>
@@ -422,7 +422,7 @@ const RightPanel: React.FC = () => {
             <div className="w-100">
               <button
                 onClick={toggleShowVerbsPrompt}
-                className="mt3 pa2 br2 bn bg-brand white pointer"
+                className="mt3 pa2 br2 bn bg-brand on-background pointer"
               >
                 {showVerbsPrompt ? 'Hide Verbs Prompt' : 'Show Verbs Prompt'}
               </button>
@@ -431,7 +431,7 @@ const RightPanel: React.FC = () => {
 
           {testMode && alwaysFalse && showVerbsPrompt && (
             <div className="w-100 flex justify-center flex-column">
-              <div className="mt4 ba pa3 bg-white">
+              <div className="mt4 ba pa3 bg-on-background">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson[MODULE_NAME.VERBS_DRAFT].prompt}</div>
               </div>
@@ -442,7 +442,7 @@ const RightPanel: React.FC = () => {
             <div className="w-100">
               <button
                 onClick={toggleShowDialogReviewPrompt}
-                className="mt3 pa2 br2 bn bg-brand white pointer"
+                className="mt3 pa2 br2 bn bg-brand on-background pointer"
               >
                 {showDialogReviewPrompt ? 'Hide Dialog Review Prompt' : 'Show Dialog Review Prompt'}
               </button>
@@ -451,7 +451,7 @@ const RightPanel: React.FC = () => {
 
           {testMode && alwaysFalse && showDialogReviewPrompt && (
             <div className="w-100 flex justify-center flex-column">
-              <div className="mt4 ba pa3 bg-white">
+              <div className="mt4 ba pa3 bg-on-background">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Dialog Review Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.dialogReview.prompt}</div>
               </div>
@@ -462,7 +462,7 @@ const RightPanel: React.FC = () => {
             <div className="w-100">
               <button
                 onClick={toggleShowNounsReviewPrompt}
-                className="mt3 pa2 br2 bn bg-brand white pointer"
+                className="mt3 pa2 br2 bn bg-brand on-background pointer"
               >
                 {showNounsReviewPrompt ? 'Hide Nouns Review Prompt' : 'Show Nouns Review Prompt'}
               </button>
@@ -471,7 +471,7 @@ const RightPanel: React.FC = () => {
 
           {testMode && alwaysFalse && showNounsReviewPrompt && (
             <div className="w-100 flex justify-center flex-column">
-              <div className="mt4 ba pa3 bg-white">
+              <div className="mt4 ba pa3 bg-on-background">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Nouns Review Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.nounsReview.prompt}</div>
               </div>
@@ -482,7 +482,7 @@ const RightPanel: React.FC = () => {
             <div className="w-100">
               <button
                 onClick={toggleShowVerbsReviewPrompt}
-                className="mt3 pa2 br2 bn bg-brand white pointer"
+                className="mt3 pa2 br2 bn bg-brand on-background pointer"
               >
                 {showVerbsReviewPrompt ? 'Hide Verbs Review Prompt' : 'Show Verbs Review Prompt'}
               </button>
@@ -491,7 +491,7 @@ const RightPanel: React.FC = () => {
 
           {testMode && alwaysFalse && showVerbsReviewPrompt && (
             <div className="w-100 flex justify-center flex-column">
-              <div className="mt4 ba pa3 bg-white">
+              <div className="mt4 ba pa3 bg-on-background">
                 <div className="b" style={{ whiteSpace: 'pre-wrap' }}>Verbs Review Prompt</div>
                 <div className="db" style={{ whiteSpace: 'pre-wrap' }}>{lesson.verbsReview.prompt}</div>
               </div>
@@ -533,14 +533,14 @@ const RightPanel: React.FC = () => {
           
           {/* 
           <div className="mt4 b">Nouns</div>
-          <ul className="mt0 pt0 black">
+          <ul className="mt0 pt0 background">
             {lesson.nouns.lines.map((line, index) => (
               <li key={index}>{line}</li>
             ))}
           </ul>
         
           <div className="mt4 b">Verbs</div>
-          <ul className="mt0 pt0 black">
+          <ul className="mt0 pt0 background">
             {lesson.verbs.lines.map((line, index) => (
               <li key={index}>{line}</li>
             ))}
@@ -551,7 +551,7 @@ const RightPanel: React.FC = () => {
           <h2>{lesson.name}</h2>
           <p>{lesson.description}</p>
 
-          <ul className="mt0 pt0 black">
+          <ul className="mt0 pt0 background">
             {lesson.dialog?.lines?.map((line, index) => (
               <li key={index}>{line}</li>
             ))}

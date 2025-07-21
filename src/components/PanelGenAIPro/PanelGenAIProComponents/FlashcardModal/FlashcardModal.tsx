@@ -126,13 +126,13 @@ export function FlashcardModal({
       }}
     >
       <Dialog.Trigger asChild>
-        <button className={`bg-brand pa2 mh3X black ${buttonClassName}`}>{title || 'Open Flashcard'}</button>
+        <button className={`bg-brand pa2 mh3X background ${buttonClassName}`}>{title || 'Open Flashcard'}</button>
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className='fixed top-0 left-0 right-0 bottom-0 bg-black-50' style={{ zIndex: 99999 }} />
+        <Dialog.Overlay className='fixed top-0 left-0 right-0 bottom-0 bg-background-50' style={{ zIndex: 99999 }} />
         <Dialog.Content
-          className='fixed top-1/2 left-1/2 bg-white pa4 br3 shadow-5 w-60 w-60-m w-40-l no-focus-outline'
+          className='fixed top-1/2 left-1/2 bg-on-background pa4 br3 shadow-5 w-60 w-60-m w-40-l no-focus-outline'
           style={{ zIndex: 999999, transform: 'translate(-50%, -50%)' }}
         >
           <Dialog.Title className='f4 b mb0 mt0 pt0'>Flashcard {current + 1} / {shuffled.length}</Dialog.Title>

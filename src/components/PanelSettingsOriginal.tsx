@@ -78,11 +78,11 @@ const PanelSettings: React.FC = () => {
     </div>
   )
 
-  // <div style={{paddingBottom: '6em'}} className={`panel-settings absolute z-1 pa4 top-0 left-0 w-100 h-100 bg-light-gray black transition-transform ${translateX} overflow-y-auto`}>
+  // <div style={{paddingBottom: '6em'}} className={`panel-settings absolute z-1 pa4 top-0 left-0 w-100 h-100 bg-light-gray background transition-transform ${translateX} overflow-y-auto`}>
   return (
     <div className={`panel-right panel-settings bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}>
       <div className='h-100 w-100 overflow-y-auto'>
-        <div className='pa4 mw7 w-100 black center mb5'>
+        <div className='pa4 mw7 w-100 background center mb5'>
           <h2 className='f3 pa3 pb0 mt5 w-100 tc'>Settings Panel</h2>
           <div className='f3 pv3 pt0 mt0'>{headline}</div>
           <div className='f3 pt4 pb4 b pt0 mt0'>Choose local or cloud-based TTS services</div>
@@ -104,7 +104,7 @@ const PanelSettings: React.FC = () => {
                     handleWelcomeCloud()
                   }
                 }}
-                className='bg-brand f4 white pa2 br2 bn pointer db mb3 w-100'
+                className='bg-brand f4 on-background pa2 br2 bn pointer db mb3 w-100'
 
               >
                 {!apiKey
@@ -145,16 +145,16 @@ const PanelSettings: React.FC = () => {
               type='number'
               value={ttsBudget}
               onChange={(e) => setTtsBudget(parseFloat(e.target.value))}
-              className='input-reset ba b--black-20 pa2 mb2 db w-100'
+              className='input-reset ba b--background-20 pa2 mb2 db w-100'
             />
             <label className='b db mb2 f6'>Avg chars per TTS</label>
             <input
               type='number'
               value={ttsAvgChars}
               onChange={(e) => setTtsAvgChars(parseInt(e.target.value))}
-              className='input-reset ba b--black-20 pa2 mb2 db w-100'
+              className='input-reset ba b--background-20 pa2 mb2 db w-100'
             />
-            <div className='tc b db mv4 black f4 flex justify-center'>
+            <div className='tc b db mv4 background f4 flex justify-center'>
               <div className='flex flex-row items-center'>
                 <div className='ba w3 mr3 bw2'>
                   {ttsWeeklyLimit - Math.floor(ttsCharUsage / ttsAvgChars)}
@@ -195,18 +195,18 @@ const PanelSettings: React.FC = () => {
               type='number'
               value={openAiBudget}
               onChange={(e) => setOpenAiBudget(parseFloat(e.target.value))}
-              className='input-reset ba b--black-20 pa2 mb2 db w-100'
+              className='input-reset ba b--background-20 pa2 mb2 db w-100'
             />
             <label className='b db mb2 f6'>Avg tokens per Q</label>
             <input
               type='number'
               value={openAiAvgTokens}
               onChange={(e) => setOpenAiAvgTokens(parseInt(e.target.value))}
-              className='input-reset ba b--black-20 pa2 mb2 db w-100'
+              className='input-reset ba b--background-20 pa2 mb2 db w-100'
             />
           </div>
 
-          <div className='tc b db mv4 black f4 flex justify-center'>
+          <div className='tc b db mv4 background f4 flex justify-center'>
             <div className='flex flex-row items-center'>
               <div className='ba w3 mr3 bw2'>
               {openAiWeeklyLimit - openAiUsage} 

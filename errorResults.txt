@@ -1285,7 +1285,7 @@ genai-module-cb|translationDraft: errorLabel handleTranslationDraftError
 genai-module-cb|translationDraft: response [
     "1. I am sitting in an outdoor cafe in Colombia.",
     "2. The waiter approaches my table with a friendly smile.",
-    "3. I order a black coffee with sugar using basic Spanish.",
+    "3. I order a background coffee with sugar using basic Spanish.",
     "4. The aroma of freshly brewed coffee fills the air around me.",
     "5. The waiter takes my order and goes to prepare my drink.",
     "6. I look around while I wait, enjoying the atmosphere.",
@@ -1301,7 +1301,7 @@ translation: moduleDraft {
   "lines": [
     "1. I am sitting in an outdoor cafe in Colombia.",
     "2. The waiter approaches my table with a friendly smile.",
-    "3. I order a black coffee with sugar using basic Spanish.",
+    "3. I order a background coffee with sugar using basic Spanish.",
     "4. The aroma of freshly brewed coffee fills the air around me.",
     "5. The waiter takes my order and goes to prepare my drink.",
     "6. I look around while I wait, enjoying the atmosphere.",
@@ -1524,7 +1524,7 @@ genai-module-cb|translationReview: lesson {
     lines: [
       '1. I am sitting in an outdoor cafe in Colombia.',
       '2. The waiter approaches my table with a friendly smile.',
-      '3. I order a black coffee with sugar using basic Spanish.',
+      '3. I order a background coffee with sugar using basic Spanish.',
       '4. The aroma of freshly brewed coffee fills the air around me.',
       '5. The waiter takes my order and goes to prepare my drink.',
       '6. I look around while I wait, enjoying the atmosphere.',
@@ -1700,7 +1700,7 @@ ENGLISH TRANSLATION TO REVIEW:
 [
   "1. I am sitting in an outdoor cafe in Colombia.",
   "2. The waiter approaches my table with a friendly smile.",
-  "3. I order a black coffee with sugar using basic Spanish.",
+  "3. I order a background coffee with sugar using basic Spanish.",
   "4. The aroma of freshly brewed coffee fills the air around me.",
   "5. The waiter takes my order and goes to prepare my drink.",
   "6. I look around while I wait, enjoying the atmosphere.",
@@ -1749,7 +1749,7 @@ genai-module-cb|translationReview: errorLabel handleTranslationReviewError
 genai-module-cb|translationReview: response [
     "I am sitting in an outdoor cafe in Colombia.",
     "The waiter approaches my table with a friendly smile.",
-    "I order a black coffee with sugar using basic Spanish.",
+    "I order a background coffee with sugar using basic Spanish.",
     "The aroma of freshly brewed coffee fills the air around me.",
     "The waiter takes my order and goes to prepare my drink.",
     "I look around while I wait, enjoying the atmosphere.",
@@ -1765,7 +1765,7 @@ translation: moduleReview {
   "lines": [
     "I am sitting in an outdoor cafe in Colombia.",
     "The waiter approaches my table with a friendly smile.",
-    "I order a black coffee with sugar using basic Spanish.",
+    "I order a background coffee with sugar using basic Spanish.",
     "The aroma of freshly brewed coffee fills the air around me.",
     "The waiter takes my order and goes to prepare my drink.",
     "I look around while I wait, enjoying the atmosphere.",
@@ -1775,14 +1775,14 @@ translation: moduleReview {
   "errors": [],
   "sentinel": "",
   "status": "valid",
-  "prompt": "\nREQUEST: Review the English translation below. It is a translation of the Latin American Spanish dialog that follows. Your task is to revise this English translation to ensure that it is:\n\n    - grammatically correct,\n    - natural-sounding,\n    - faithful to the original Latin American Spanish meaning,\n    - and suitable for beginning-level learners of Latin American Spanish. \n\nMake minor corrections to improve clarity or proper usage, while preserving the original meaning and tone.\n\nIMPORTANT: Do not rewrite the Latin American Spanish. Only revise the English translation.\n\nENGLISH TRANSLATION TO REVIEW:\n\n[\n  \"1. I am sitting in an outdoor cafe in Colombia.\",\n  \"2. The waiter approaches my table with a friendly smile.\",\n  \"3. I order a black coffee with sugar using basic Spanish.\",\n  \"4. The aroma of freshly brewed coffee fills the air around me.\",\n  \"5. The waiter takes my order and goes to prepare my drink.\",\n  \"6. I look around while I wait, enjoying the atmosphere.\",\n  \"7. The hustle and bustle of the street and the warm sun complement the moment.\",\n  \"8. Finally, the waiter returns with my hot coffee.\"\n]\n\nORIGINAL LATIN AMERICAN SPANISH DIALOG: \n\n  1. Estoy sentado en una cafetería al aire libre en Colombia.\n  2. El camarero se acerca a mi mesa con una sonrisa amigable.\n  3. Pido un café negro con azúcar usando español básico.\n  4. El aroma del café recién hecho llena el aire a mi alrededor.\n  5. El camarero toma mi pedido y se va a preparar mi bebida.\n  6. Observo a mi alrededor mientras espero, disfrutando del ambiente.\n  7. El bullicio de la calle y el sol cálido complementan el momento.\n  8. Finalmente, el camarero regresa con mi café caliente.\n\nREVISION OUTPUT FORMAT FOR ENGLISH TRANSLATION\n\n  - Use the same numbering scheme as the original. \n  - output must be well-formed JSON,\n  - no trailing commas,\n  - no single quotes,\n  - use double quotes only,\n  - no Markdown wrappers,\n  - no comments,\n  - no introductions,\n  - no wrapping phrases,\n  - no partial JSON blocks,\n  - no explanatory text or prose, and\n  - no headings, titles, or labels.\n\nImportant: Do not include a comma after the last item in the JSON array. Trailing commas will cause the response to be rejected.\n\nYour translation response must be a single valid JSON array that starts with a left bracket \"[\" and ends with a right bracket \"]\". Do not prepend phrases like “Here is your JSON:”. Assume the consumer is a machine expecting strict JSON compliance.\n\nEXAMPLE REVISION OUTPUT:\n\n[]\n\n\n",
+  "prompt": "\nREQUEST: Review the English translation below. It is a translation of the Latin American Spanish dialog that follows. Your task is to revise this English translation to ensure that it is:\n\n    - grammatically correct,\n    - natural-sounding,\n    - faithful to the original Latin American Spanish meaning,\n    - and suitable for beginning-level learners of Latin American Spanish. \n\nMake minor corrections to improve clarity or proper usage, while preserving the original meaning and tone.\n\nIMPORTANT: Do not rewrite the Latin American Spanish. Only revise the English translation.\n\nENGLISH TRANSLATION TO REVIEW:\n\n[\n  \"1. I am sitting in an outdoor cafe in Colombia.\",\n  \"2. The waiter approaches my table with a friendly smile.\",\n  \"3. I order a background coffee with sugar using basic Spanish.\",\n  \"4. The aroma of freshly brewed coffee fills the air around me.\",\n  \"5. The waiter takes my order and goes to prepare my drink.\",\n  \"6. I look around while I wait, enjoying the atmosphere.\",\n  \"7. The hustle and bustle of the street and the warm sun complement the moment.\",\n  \"8. Finally, the waiter returns with my hot coffee.\"\n]\n\nORIGINAL LATIN AMERICAN SPANISH DIALOG: \n\n  1. Estoy sentado en una cafetería al aire libre en Colombia.\n  2. El camarero se acerca a mi mesa con una sonrisa amigable.\n  3. Pido un café negro con azúcar usando español básico.\n  4. El aroma del café recién hecho llena el aire a mi alrededor.\n  5. El camarero toma mi pedido y se va a preparar mi bebida.\n  6. Observo a mi alrededor mientras espero, disfrutando del ambiente.\n  7. El bullicio de la calle y el sol cálido complementan el momento.\n  8. Finalmente, el camarero regresa con mi café caliente.\n\nREVISION OUTPUT FORMAT FOR ENGLISH TRANSLATION\n\n  - Use the same numbering scheme as the original. \n  - output must be well-formed JSON,\n  - no trailing commas,\n  - no single quotes,\n  - use double quotes only,\n  - no Markdown wrappers,\n  - no comments,\n  - no introductions,\n  - no wrapping phrases,\n  - no partial JSON blocks,\n  - no explanatory text or prose, and\n  - no headings, titles, or labels.\n\nImportant: Do not include a comma after the last item in the JSON array. Trailing commas will cause the response to be rejected.\n\nYour translation response must be a single valid JSON array that starts with a left bracket \"[\" and ends with a right bracket \"]\". Do not prepend phrases like “Here is your JSON:”. Assume the consumer is a machine expecting strict JSON compliance.\n\nEXAMPLE REVISION OUTPUT:\n\n[]\n\n\n",
   "signature": "f214583b25044e860eaa20f8c930b384935f6e19bf9433c420f6533cb522399d",
   "moduleProse": "n|Yo|Estoy sentado en una cafetería al aire libre en Colombia. n|Yo|El camarero se acerca a mi mesa con una sonrisa amigable. n|Yo|Ordeno un café negro con azúcar en español básico. n|Yo|El aroma del café recién hecho llena el aire a mi alrededor. n|Yo|El camarero toma mi pedido y se va a preparar mi bebida. n|Yo|Observo a mi alrededor mientras espero, disfrutando del ambiente. n|Yo|El bullicio de la calle y el sol cálido complementan el momento. n|Yo|Finalmente, el camarero regresa con mi café caliente."
 }
 translation: linesResolved [
   "1. I am sitting in an outdoor cafe in Colombia.",
   "2. The waiter approaches my table with a friendly smile.",
-  "3. I order a black coffee with sugar using basic Spanish.",
+  "3. I order a background coffee with sugar using basic Spanish.",
   "4. The aroma of freshly brewed coffee fills the air around me.",
   "5. The waiter takes my order and goes to prepare my drink.",
   "6. I look around while I wait, enjoying the atmosphere.",
@@ -1792,7 +1792,7 @@ translation: linesResolved [
 translation: linesResolutions [
   "⚠️ Unrecognized format in review line: 'I am sitting in an outdoor cafe in Colombia.'",
   "⚠️ Unrecognized format in review line: 'The waiter approaches my table with a friendly smile.'",
-  "⚠️ Unrecognized format in review line: 'I order a black coffee with sugar using basic Spanish.'",
+  "⚠️ Unrecognized format in review line: 'I order a background coffee with sugar using basic Spanish.'",
   "⚠️ Unrecognized format in review line: 'The aroma of freshly brewed coffee fills the air around me.'",
   "⚠️ Unrecognized format in review line: 'The waiter takes my order and goes to prepare my drink.'",
   "⚠️ Unrecognized format in review line: 'I look around while I wait, enjoying the atmosphere.'",
@@ -1826,7 +1826,7 @@ genai-module-cb|nounsDraft: lesson {
     en: [
       '1. 1. I am sitting in an outdoor cafe in Colombia.',
       '2. 2. The waiter approaches my table with a friendly smile.',
-      '3. 3. I order a black coffee with sugar using basic Spanish.',
+      '3. 3. I order a background coffee with sugar using basic Spanish.',
       '4. 4. The aroma of freshly brewed coffee fills the air around me.',
       '5. 5. The waiter takes my order and goes to prepare my drink.',
       '6. 6. I look around while I wait, enjoying the atmosphere.',
@@ -2041,7 +2041,7 @@ genai-module-cb|nounsDraft: lesson {
     lines: [
       '1. I am sitting in an outdoor cafe in Colombia.',
       '2. The waiter approaches my table with a friendly smile.',
-      '3. I order a black coffee with sugar using basic Spanish.',
+      '3. I order a background coffee with sugar using basic Spanish.',
       '4. The aroma of freshly brewed coffee fills the air around me.',
       '5. The waiter takes my order and goes to prepare my drink.',
       '6. I look around while I wait, enjoying the atmosphere.',
@@ -2113,7 +2113,7 @@ genai-module-cb|nounsDraft: lesson {
     lines: [
       'I am sitting in an outdoor cafe in Colombia.',
       'The waiter approaches my table with a friendly smile.',
-      'I order a black coffee with sugar using basic Spanish.',
+      'I order a background coffee with sugar using basic Spanish.',
       'The aroma of freshly brewed coffee fills the air around me.',
       'The waiter takes my order and goes to prepare my drink.',
       'I look around while I wait, enjoying the atmosphere.',
@@ -2140,7 +2140,7 @@ genai-module-cb|nounsDraft: lesson {
       '[\n' +
       '  "1. I am sitting in an outdoor cafe in Colombia.",\n' +
       '  "2. The waiter approaches my table with a friendly smile.",\n' +
-      '  "3. I order a black coffee with sugar using basic Spanish.",\n' +
+      '  "3. I order a background coffee with sugar using basic Spanish.",\n' +
       '  "4. The aroma of freshly brewed coffee fills the air around me.",\n' +
       '  "5. The waiter takes my order and goes to prepare my drink.",\n' +
       '  "6. I look around while I wait, enjoying the atmosphere.",\n' +
@@ -2190,7 +2190,7 @@ genai-module-cb|nounsDraft: lesson {
     lines: [
       '1. I am sitting in an outdoor cafe in Colombia.',
       '2. The waiter approaches my table with a friendly smile.',
-      '3. I order a black coffee with sugar using basic Spanish.',
+      '3. I order a background coffee with sugar using basic Spanish.',
       '4. The aroma of freshly brewed coffee fills the air around me.',
       '5. The waiter takes my order and goes to prepare my drink.',
       '6. I look around while I wait, enjoying the atmosphere.',
@@ -2206,7 +2206,7 @@ genai-module-cb|nounsDraft: lesson {
     linesResolutions: [
       "⚠️ Unrecognized format in review line: 'I am sitting in an outdoor cafe in Colombia.'",
       "⚠️ Unrecognized format in review line: 'The waiter approaches my table with a friendly smile.'",
-      "⚠️ Unrecognized format in review line: 'I order a black coffee with sugar using basic Spanish.'",
+      "⚠️ Unrecognized format in review line: 'I order a background coffee with sugar using basic Spanish.'",
       "⚠️ Unrecognized format in review line: 'The aroma of freshly brewed coffee fills the air around me.'",
       "⚠️ Unrecognized format in review line: 'The waiter takes my order and goes to prepare my drink.'",
       "⚠️ Unrecognized format in review line: 'I look around while I wait, enjoying the atmosphere.'",
@@ -2409,7 +2409,7 @@ genai-module-cb|nounsReview: lesson {
     en: [
       '1. 1. I am sitting in an outdoor cafe in Colombia.',
       '2. 2. The waiter approaches my table with a friendly smile.',
-      '3. 3. I order a black coffee with sugar using basic Spanish.',
+      '3. 3. I order a background coffee with sugar using basic Spanish.',
       '4. 4. The aroma of freshly brewed coffee fills the air around me.',
       '5. 5. The waiter takes my order and goes to prepare my drink.',
       '6. 6. I look around while I wait, enjoying the atmosphere.',
@@ -2692,7 +2692,7 @@ genai-module-cb|nounsReview: lesson {
     lines: [
       '1. I am sitting in an outdoor cafe in Colombia.',
       '2. The waiter approaches my table with a friendly smile.',
-      '3. I order a black coffee with sugar using basic Spanish.',
+      '3. I order a background coffee with sugar using basic Spanish.',
       '4. The aroma of freshly brewed coffee fills the air around me.',
       '5. The waiter takes my order and goes to prepare my drink.',
       '6. I look around while I wait, enjoying the atmosphere.',
@@ -2764,7 +2764,7 @@ genai-module-cb|nounsReview: lesson {
     lines: [
       'I am sitting in an outdoor cafe in Colombia.',
       'The waiter approaches my table with a friendly smile.',
-      'I order a black coffee with sugar using basic Spanish.',
+      'I order a background coffee with sugar using basic Spanish.',
       'The aroma of freshly brewed coffee fills the air around me.',
       'The waiter takes my order and goes to prepare my drink.',
       'I look around while I wait, enjoying the atmosphere.',
@@ -2791,7 +2791,7 @@ genai-module-cb|nounsReview: lesson {
       '[\n' +
       '  "1. I am sitting in an outdoor cafe in Colombia.",\n' +
       '  "2. The waiter approaches my table with a friendly smile.",\n' +
-      '  "3. I order a black coffee with sugar using basic Spanish.",\n' +
+      '  "3. I order a background coffee with sugar using basic Spanish.",\n' +
       '  "4. The aroma of freshly brewed coffee fills the air around me.",\n' +
       '  "5. The waiter takes my order and goes to prepare my drink.",\n' +
       '  "6. I look around while I wait, enjoying the atmosphere.",\n' +
@@ -2841,7 +2841,7 @@ genai-module-cb|nounsReview: lesson {
     lines: [
       '1. I am sitting in an outdoor cafe in Colombia.',
       '2. The waiter approaches my table with a friendly smile.',
-      '3. I order a black coffee with sugar using basic Spanish.',
+      '3. I order a background coffee with sugar using basic Spanish.',
       '4. The aroma of freshly brewed coffee fills the air around me.',
       '5. The waiter takes my order and goes to prepare my drink.',
       '6. I look around while I wait, enjoying the atmosphere.',
@@ -2857,7 +2857,7 @@ genai-module-cb|nounsReview: lesson {
     linesResolutions: [
       "⚠️ Unrecognized format in review line: 'I am sitting in an outdoor cafe in Colombia.'",
       "⚠️ Unrecognized format in review line: 'The waiter approaches my table with a friendly smile.'",
-      "⚠️ Unrecognized format in review line: 'I order a black coffee with sugar using basic Spanish.'",
+      "⚠️ Unrecognized format in review line: 'I order a background coffee with sugar using basic Spanish.'",
       "⚠️ Unrecognized format in review line: 'The aroma of freshly brewed coffee fills the air around me.'",
       "⚠️ Unrecognized format in review line: 'The waiter takes my order and goes to prepare my drink.'",
       "⚠️ Unrecognized format in review line: 'I look around while I wait, enjoying the atmosphere.'",
@@ -3111,7 +3111,7 @@ genai-module-cb|verbsDraft: lesson {
     en: [
       '1. 1. I am sitting in an outdoor cafe in Colombia.',
       '2. 2. The waiter approaches my table with a friendly smile.',
-      '3. 3. I order a black coffee with sugar using basic Spanish.',
+      '3. 3. I order a background coffee with sugar using basic Spanish.',
       '4. 4. The aroma of freshly brewed coffee fills the air around me.',
       '5. 5. The waiter takes my order and goes to prepare my drink.',
       '6. 6. I look around while I wait, enjoying the atmosphere.',
@@ -3509,7 +3509,7 @@ genai-module-cb|verbsDraft: lesson {
     lines: [
       '1. I am sitting in an outdoor cafe in Colombia.',
       '2. The waiter approaches my table with a friendly smile.',
-      '3. I order a black coffee with sugar using basic Spanish.',
+      '3. I order a background coffee with sugar using basic Spanish.',
       '4. The aroma of freshly brewed coffee fills the air around me.',
       '5. The waiter takes my order and goes to prepare my drink.',
       '6. I look around while I wait, enjoying the atmosphere.',
@@ -3581,7 +3581,7 @@ genai-module-cb|verbsDraft: lesson {
     lines: [
       'I am sitting in an outdoor cafe in Colombia.',
       'The waiter approaches my table with a friendly smile.',
-      'I order a black coffee with sugar using basic Spanish.',
+      'I order a background coffee with sugar using basic Spanish.',
       'The aroma of freshly brewed coffee fills the air around me.',
       'The waiter takes my order and goes to prepare my drink.',
       'I look around while I wait, enjoying the atmosphere.',
@@ -3608,7 +3608,7 @@ genai-module-cb|verbsDraft: lesson {
       '[\n' +
       '  "1. I am sitting in an outdoor cafe in Colombia.",\n' +
       '  "2. The waiter approaches my table with a friendly smile.",\n' +
-      '  "3. I order a black coffee with sugar using basic Spanish.",\n' +
+      '  "3. I order a background coffee with sugar using basic Spanish.",\n' +
       '  "4. The aroma of freshly brewed coffee fills the air around me.",\n' +
       '  "5. The waiter takes my order and goes to prepare my drink.",\n' +
       '  "6. I look around while I wait, enjoying the atmosphere.",\n' +
@@ -3658,7 +3658,7 @@ genai-module-cb|verbsDraft: lesson {
     lines: [
       '1. I am sitting in an outdoor cafe in Colombia.',
       '2. The waiter approaches my table with a friendly smile.',
-      '3. I order a black coffee with sugar using basic Spanish.',
+      '3. I order a background coffee with sugar using basic Spanish.',
       '4. The aroma of freshly brewed coffee fills the air around me.',
       '5. The waiter takes my order and goes to prepare my drink.',
       '6. I look around while I wait, enjoying the atmosphere.',
@@ -3674,7 +3674,7 @@ genai-module-cb|verbsDraft: lesson {
     linesResolutions: [
       "⚠️ Unrecognized format in review line: 'I am sitting in an outdoor cafe in Colombia.'",
       "⚠️ Unrecognized format in review line: 'The waiter approaches my table with a friendly smile.'",
-      "⚠️ Unrecognized format in review line: 'I order a black coffee with sugar using basic Spanish.'",
+      "⚠️ Unrecognized format in review line: 'I order a background coffee with sugar using basic Spanish.'",
       "⚠️ Unrecognized format in review line: 'The aroma of freshly brewed coffee fills the air around me.'",
       "⚠️ Unrecognized format in review line: 'The waiter takes my order and goes to prepare my drink.'",
       "⚠️ Unrecognized format in review line: 'I look around while I wait, enjoying the atmosphere.'",
@@ -3886,7 +3886,7 @@ genai-module-cb|verbsReview: lesson {
     en: [
       '1. 1. I am sitting in an outdoor cafe in Colombia.',
       '2. 2. The waiter approaches my table with a friendly smile.',
-      '3. 3. I order a black coffee with sugar using basic Spanish.',
+      '3. 3. I order a background coffee with sugar using basic Spanish.',
       '4. 4. The aroma of freshly brewed coffee fills the air around me.',
       '5. 5. The waiter takes my order and goes to prepare my drink.',
       '6. 6. I look around while I wait, enjoying the atmosphere.',
@@ -4284,7 +4284,7 @@ genai-module-cb|verbsReview: lesson {
     lines: [
       '1. I am sitting in an outdoor cafe in Colombia.',
       '2. The waiter approaches my table with a friendly smile.',
-      '3. I order a black coffee with sugar using basic Spanish.',
+      '3. I order a background coffee with sugar using basic Spanish.',
       '4. The aroma of freshly brewed coffee fills the air around me.',
       '5. The waiter takes my order and goes to prepare my drink.',
       '6. I look around while I wait, enjoying the atmosphere.',
@@ -4356,7 +4356,7 @@ genai-module-cb|verbsReview: lesson {
     lines: [
       'I am sitting in an outdoor cafe in Colombia.',
       'The waiter approaches my table with a friendly smile.',
-      'I order a black coffee with sugar using basic Spanish.',
+      'I order a background coffee with sugar using basic Spanish.',
       'The aroma of freshly brewed coffee fills the air around me.',
       'The waiter takes my order and goes to prepare my drink.',
       'I look around while I wait, enjoying the atmosphere.',
@@ -4383,7 +4383,7 @@ genai-module-cb|verbsReview: lesson {
       '[\n' +
       '  "1. I am sitting in an outdoor cafe in Colombia.",\n' +
       '  "2. The waiter approaches my table with a friendly smile.",\n' +
-      '  "3. I order a black coffee with sugar using basic Spanish.",\n' +
+      '  "3. I order a background coffee with sugar using basic Spanish.",\n' +
       '  "4. The aroma of freshly brewed coffee fills the air around me.",\n' +
       '  "5. The waiter takes my order and goes to prepare my drink.",\n' +
       '  "6. I look around while I wait, enjoying the atmosphere.",\n' +
@@ -4433,7 +4433,7 @@ genai-module-cb|verbsReview: lesson {
     lines: [
       '1. I am sitting in an outdoor cafe in Colombia.',
       '2. The waiter approaches my table with a friendly smile.',
-      '3. I order a black coffee with sugar using basic Spanish.',
+      '3. I order a background coffee with sugar using basic Spanish.',
       '4. The aroma of freshly brewed coffee fills the air around me.',
       '5. The waiter takes my order and goes to prepare my drink.',
       '6. I look around while I wait, enjoying the atmosphere.',
@@ -4449,7 +4449,7 @@ genai-module-cb|verbsReview: lesson {
     linesResolutions: [
       "⚠️ Unrecognized format in review line: 'I am sitting in an outdoor cafe in Colombia.'",
       "⚠️ Unrecognized format in review line: 'The waiter approaches my table with a friendly smile.'",
-      "⚠️ Unrecognized format in review line: 'I order a black coffee with sugar using basic Spanish.'",
+      "⚠️ Unrecognized format in review line: 'I order a background coffee with sugar using basic Spanish.'",
       "⚠️ Unrecognized format in review line: 'The aroma of freshly brewed coffee fills the air around me.'",
       "⚠️ Unrecognized format in review line: 'The waiter takes my order and goes to prepare my drink.'",
       "⚠️ Unrecognized format in review line: 'I look around while I wait, enjoying the atmosphere.'",

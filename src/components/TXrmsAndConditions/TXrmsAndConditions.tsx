@@ -26,7 +26,7 @@ const Legaldiv: React.FC<LegaldivProps> = ({ children }) => {
 
 const LegalTitle: React.FC<LegalTitleProps> = ({ children }) => {
   return (
-    <div className="black, f6, b">{children}</div>
+    <div className="background, f6, b">{children}</div>
   )
 }
 
@@ -412,7 +412,7 @@ const TermsAndConditionsScreen = (): React.ReactNode => {
       <div className="flex-1, pa3, w-100">
         {legalContent.map((item) => (
           <div key={item.id} className="mb3 flex-row">
-            <div className="f6 black b w_5 mr2 ml0">
+            <div className="f6 background b w_5 mr2 ml0">
               {isOnlyNumbers(item.id) ? item.id : ' '}
             </div>
             <div className="f6 primary w_90">

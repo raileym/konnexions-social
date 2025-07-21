@@ -11,7 +11,7 @@ const DayNightToggle = () => {
 
   return (
     <div
-      className="day-night-toggle fixed top-0 right-0 z-9999 pa2 bg-white ba b--black br3 flex items-center"
+      className="day-night-toggle fixed top-0 right-0 z-9999 pa2 bg-on-background ba b--background br3 flex items-center"
       style={{ right: '5%', top: '11rem', fontFamily: 'monospace' }}
     >
       <button onClick={toggleMode} className="f6 ph2 pv1 bg-light-gray">

@@ -37,11 +37,11 @@ const PanelBasicReviewComponents: React.FC = () => {
             <div>
               {LANGUAGE_TITLE[targetLanguage]}: Basic
             </div>
-          <div className="w-100 black f2">Lesson {selectedLessonNumber}</div>
+          <div className="w-100 background f2">Lesson {selectedLessonNumber}</div>
           </h2>
 
           <div className="w-60 center db mb4 f3 mb3">{tiptapEditorTitle}</div>
-          <div className="pa3 mt3 ba bg-white w-100">
+          <div className="pa3 mt3 ba bg-on-background w-100">
             <DialogList
               language={lesson.targetLanguage}
               lines={(lesson?.dialogResolve?.lines ?? [])}
@@ -49,7 +49,7 @@ const PanelBasicReviewComponents: React.FC = () => {
               useCloudTTS={true} />
           </div>
 
-          <ul className="mv3 bg-white black">
+          <ul className="mv3 bg-on-background background">
             {lesson.translationResolve.lines.map((line, i) => (
               <li key={i}>{line}</li>
             ))}

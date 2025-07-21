@@ -162,25 +162,25 @@ const PanelRequestEmailComponents = () => {
 
   return (
     <>
-      <div className={'bl b--black w-100 vh-100 bg-cyanX flex flex-column items-center justify-start pa3 mt0X'}>
-        <div className="black pl3">
+      <div className={'bl b--background w-100 vh-100 bg-cyanX flex flex-column items-center justify-start pa3 mt0X'}>
+        <div className="background pl3">
             <h2 className="f3 pa3 mt5 tc">Profile Panel</h2>
             <p className="pl3X">When you access paid and free-tier services on this site, including the CKՈ Platform Technologies for</p>
-            <p className="tc b black f4">Let's konnect! - through Spanish!</p>
+            <p className="tc b background f4">Let's konnect! - through Spanish!</p>
             <p>we require and use a validated version of your email address to store lesson materials remotely. We do not store your email in the cloud. </p>
         </div>
         <div 
-          className="black f3 b mt3 mb4">
+          className="background f3 b mt3 mb4">
             {validationMessage}
             {validationMessage == USER_EMAIL_VALIDATED ? <FontAwesomeIcon className="ml2" icon={faSquareCheck} /> : null}</div>
         <form
           onSubmit={handleSubmit}
-          className={`${isUserValidated? 'bg-dimgrey' : 'bg-black'} pa3 br3 shadow-5 mw6 w-100`}
+          className={`${isUserValidated? 'bg-dimgrey' : 'bg-background'} pa3 br3 shadow-5 mw6 w-100`}
           aria-label="Email + code form"
         >
           {step === 'request' && (
             <>
-              <label htmlFor="email" className="db mb3 fw6 f5 white">
+              <label htmlFor="email" className="db mb3 fw6 f5 on-background">
                 Email:
               </label>
               <input
@@ -190,7 +190,7 @@ const PanelRequestEmailComponents = () => {
                 onChange={e => setEmail(e.target.value)}
                 disabled={loading || isUserValidated}
                 required
-                className="input-reset ba b--black-20 pa3 mb4 db w-100 br2 disabledX:yellow disabled:bg-grey placeholder-disabled:white"
+                className="input-reset ba b--background-20 pa3 mb4 db w-100 br2 disabledX:yellow disabled:bg-grey placeholder-disabled:on-background"
                 placeholder="your.email@example.com"
               />
             </>
@@ -198,7 +198,7 @@ const PanelRequestEmailComponents = () => {
 
           {step === 'verify' && (
             <>
-              <label htmlFor="code" className="db mb3 fw6 f5 white">
+              <label htmlFor="code" className="db mb3 fw6 f5 on-background">
                 {isUserValidated ? 'Thank you!' : `Enter the 6-digit code sent to ${email}.`}
               </label>
               <input
@@ -209,7 +209,7 @@ const PanelRequestEmailComponents = () => {
                 onChange={e => setCode(e.target.value.replace(/\D/g, ''))}
                 disabled={loading || success || isUserValidated}
                 required
-                className="input-reset ba b--black-20 pa3 mb4 db w-100 br2 tc f3 tracked"
+                className="input-reset ba b--background-20 pa3 mb4 db w-100 br2 tc f3 tracked"
                 placeholder="123456"
               />
             </>
@@ -218,7 +218,7 @@ const PanelRequestEmailComponents = () => {
           <button
             type="submit"
             disabled={loading || success || isUserValidated}
-            className={`b ph4 pv3 input-reset ba b--purple bg-purple white ${isUserValidated ? '' : 'grow'} pointer f6 br2 dib w-100 disabled:bg-grey disabled:white disabled:b--grey`}
+            className={`b ph4 pv3 input-reset ba b--purple bg-purple on-background ${isUserValidated ? '' : 'grow'} pointer f6 br2 dib w-100 disabled:bg-grey disabled:on-background disabled:b--grey`}
           >
             {loading
               ? step === 'request'
@@ -232,8 +232,8 @@ const PanelRequestEmailComponents = () => {
           </button>
 
           {error && <div className="mt3 red f6">{error}</div>}
-          {/* {success && <div className="mt3 white f5 tc">Success!</div>} */}
-          {!error && <div className="mt3 white f5 tc"><br /></div>}
+          {/* {success && <div className="mt3 on-background f5 tc">Success!</div>} */}
+          {!error && <div className="mt3 on-background f5 tc"><br /></div>}
         </form>
 
         <SelectMarketingPreferences />
@@ -243,7 +243,7 @@ const PanelRequestEmailComponents = () => {
         <button
           type="button"
           onClick={clearLocalStorageExceptEssential}
-          className="mt4 b ph4 pv3 input-reset ba b--red bg-white red grow pointer f6 br3 dib"
+          className="mt4 b ph4 pv3 input-reset ba b--red bg-on-background red grow pointer f6 br3 dib"
         >
           Clear Local Storage<br/>(except debugMode)
         </button>

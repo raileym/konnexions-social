@@ -53,7 +53,7 @@ const PanelHelp: React.FC = () => {
   return (
     <div 
       ref={PanelHelpRef}
-      className={`panel-right-short panel-help absolute bl b--black bw1 z-3 top-0 left-10 w-90 h-100 bg-green white pt5 transition-transform ${translateX}`}
+      className={`panel-right-short panel-help absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-green on-background pt5 transition-transform ${translateX}`}
     >
       <div className="h-100 w-100 overflow-y-auto">
         <div className={`pa4 ${HELP_PANEL_WIDTH_PERCENT} mb5`}>

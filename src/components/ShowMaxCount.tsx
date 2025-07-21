@@ -26,7 +26,7 @@ const ShowMaxCount: FC = () => {
         <FontAwesomeIcon icon={faPlus} className="f3 mh2 ph0" />
       </button>
       <div
-        className="b ml3X tc black f5 baX"
+        className="b ml3X tc background f5 baX"
         style={{
           width: 100,
           fontFamily: 'monospace',

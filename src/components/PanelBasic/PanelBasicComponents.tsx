@@ -70,7 +70,7 @@ const PanelBasic = () => {
             <div>
               {LANGUAGE_TITLE[targetLanguage]}: Basic
             </div>
-          <div className="w-100 black f2 f3-m ">Lesson {selectedLessonNumber}</div>
+          <div className="w-100 background f2 f3-m ">Lesson {selectedLessonNumber}</div>
           </h2>
 
           <InputLessonName
@@ -93,7 +93,7 @@ const PanelBasic = () => {
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
-                className={'f3 pa3 br4 bn bg-brand white pointer'}
+                className={'f3 pa3 br4 bn bg-brand on-background pointer'}
                 onClick={() => {
                   createFlexLesson({lesson})
                 }}
@@ -103,7 +103,7 @@ const PanelBasic = () => {
             </div>
           </div>
 
-          {/* <div className="black f2">{lesson.isComplete ? 'Study now' : 'Wait on study'}</div> */}
+          {/* <div className="background f2">{lesson.isComplete ? 'Study now' : 'Wait on study'}</div> */}
 
           <ul className="pl3">
             {formattedFlexLesson.map((line, i) => (
