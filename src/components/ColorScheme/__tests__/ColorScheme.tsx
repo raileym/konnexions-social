@@ -5,7 +5,7 @@ const ColorScheme = () => {
   
   return (
     <div
-      className="viewport-width-overlay on-primary flex flex-row items-center"
+      className="viewport-width-overlay on-primary flex flex-row items-center bg-background b--black ba"
       style={{
         position: 'fixed', 
         top: '7rem',

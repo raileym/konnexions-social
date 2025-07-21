@@ -74,7 +74,7 @@ const PanelSettings: React.FC = () => {
   return (
     <div
       ref={PanelSettingsRef}
-      className={`panel-right panel-settings pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}
+      className={`panel-right-short panel-settings pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}
     >
       <div className="h-100 w-100 overflow-y-auto">
         <div className={`pa4 ${SETTINGS_PANEL_WIDTH_PERCENT} mb5`}>

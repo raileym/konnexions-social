@@ -162,7 +162,7 @@ const PanelRequestEmailComponents = () => {
 
   return (
     <>
-      <div className={'bl b--black w-100 vh-100 bg-yellow flex flex-column items-center justify-start pa3 mt0X'}>
+      <div className={'bl b--black w-100 vh-100 bg-cyanX flex flex-column items-center justify-start pa3 mt0X'}>
         <div className="black pl3">
             <h2 className="f3 pa3 mt5 tc">Profile Panel</h2>
             <p className="pl3X">When you access paid and free-tier services on this site, including the CKՈ Platform Technologies for</p>
