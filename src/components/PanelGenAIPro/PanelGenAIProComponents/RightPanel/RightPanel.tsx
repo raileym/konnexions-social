@@ -278,7 +278,7 @@ const RightPanel: React.FC = () => {
             rows={10}
           />
 
-          <div className="pa3 mt3 ba bg-on-background w-100">
+          <div className="pa3 mt3 ba bg-red w-100">
             <DialogList
               language={lesson.targetLanguage}
               translations={(lesson?.translationResolve?.lines ?? [])}
