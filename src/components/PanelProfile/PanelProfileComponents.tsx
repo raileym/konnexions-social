@@ -162,12 +162,12 @@ const PanelRequestEmailComponents = () => {
 
   return (
     <>
-      <div className={'bl b--background w-100 vh-100 bg-cyanX flex flex-column items-center justify-start pa3 mt0X'}>
+      <div className={'panel-right-short panel-profile-components bl b--background w-100 vh-100 bg-cyanX flex flex-column items-center justify-start pa3 mt0X'}>
         <div className="background pl3">
             <h2 className="f3 pa3 mt5 tc">Profile Panel</h2>
-            <p className="pl3X">When you access paid and free-tier services on this site, including the CKՈ Platform Technologies for</p>
+            <p className="background pl3X">When you access paid and free-tier services on this site, including the CKՈ Platform Technologies for</p>
             <p className="tc b background f4">Let's konnect! - through Spanish!</p>
-            <p>we require and use a validated version of your email address to store lesson materials remotely. We do not store your email in the cloud. </p>
+            <p className="background">we require and use a validated version of your email address to store lesson materials remotely. We do not store your email in the cloud. </p>
         </div>
         <div 
           className="background f3 b mt3 mb4">
@@ -180,7 +180,7 @@ const PanelRequestEmailComponents = () => {
         >
           {step === 'request' && (
             <>
-              <label htmlFor="email" className="db mb3 fw6 f5 on-background">
+              <label htmlFor="email" className="db mb3 fw6 f5 background">
                 Email:
               </label>
               <input
@@ -218,7 +218,7 @@ const PanelRequestEmailComponents = () => {
           <button
             type="submit"
             disabled={loading || success || isUserValidated}
-            className={`b ph4 pv3 input-reset ba b--purple bg-purple on-background ${isUserValidated ? '' : 'grow'} pointer f6 br2 dib w-100 disabled:bg-grey disabled:on-background disabled:b--grey`}
+            className={`b ph4 pv3 input-reset ba b--purple bg-purple background ${isUserValidated ? '' : 'grow'} pointer f6 br2 dib w-100 disabled:bg-grey disabled:on-background disabled:b--grey`}
           >
             {loading
               ? step === 'request'
