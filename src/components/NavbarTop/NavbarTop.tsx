@@ -1,7 +1,8 @@
 // src/components/NavbarTop.tsx
-import React from 'react'
-import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
-import { faBars, faGear, faUser } from '@fortawesome/free-solid-svg-icons'   
+import React, { useState } from 'react'
+// import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
+// import { faBars, faGear, faUser } from '@fortawesome/free-solid-svg-icons'   
+import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'   
 
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
@@ -14,8 +15,20 @@ import { useNavigate } from 'react-router-dom'
 import MyKonnexionsTitle from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
 
 const NavbarTop: React.FC = () => {
+  const [isSelectedBienVenido, setIsSelectedBienVenido] = useState<boolean>(false)
+  const [isSelectedProfile, setIsSelectedProfile] = useState<boolean>(false)
+  const [isSelectedMenu, setIsSelectedMenu] = useState<boolean>(false)
+
+  const {
+    setMdxPage,
+    setActivePanel,
+    setIsMenuOpen,
+    setEngageSpanish,
+    engageSpanish,
+    setIsSelectedCreate
+  } = useAppContext()
+
   const { switchPanel } = usePanel()
-  const { setMdxPage, setActivePanel, setIsMenuOpen } = useAppContext()
   const { closeMenu } = useMenuPanel()
   const { closeHelp } = useHelpPanel()
   const { closeProfile } = useProfilePanel()
@@ -29,21 +42,42 @@ const NavbarTop: React.FC = () => {
     setIsMenuOpen(false)
   }
 
+  const handleBienVenido = () => {
+    console.log('Clicking on handleBienVenido.')
+    closeMenu()
+    closeHelp()
+    closeProfile()
+    switchPanel(APP_PANEL.BASIC_WELCOME)              
+    // setMdxPage(MDX_PAGE.WELCOME)
+    // navigateTo('Welcome')
+  }
+
+  const handleGoHome = () => {
+    console.log('Clicking on handleGoHome.')
+    closeMenu()
+    closeHelp()
+    closeProfile()
+    switchPanel(APP_PANEL.MDX)              
+    setMdxPage(MDX_PAGE.WELCOME)
+    navigateTo('Welcome')
+  }
+
   return (
-    <nav className="fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
+    <nav className="navbar-top fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
       <div className="w-100 flex flex-column">
         <div className="w-100 flex flex-row justify-between">
           <div 
             className="flex justify-start flex-row pointer lh-4-kx" 
-            onClick={() => {
-              console.log('Clicking on upper left icon set.')
-              closeMenu()
-              closeHelp()
-              closeProfile()
-              switchPanel(APP_PANEL.MDX)              
-              setMdxPage(MDX_PAGE.WELCOME)
-              navigateTo('Welcome')
-            }}
+            onClick={handleGoHome}
+            // onClick={() => {
+            //   console.log('Clicking on upper left icon set.')
+            //   closeMenu()
+            //   closeHelp()
+            //   closeProfile()
+            //   switchPanel(APP_PANEL.MDX)              
+            //   setMdxPage(MDX_PAGE.WELCOME)
+            //   navigateTo('Welcome')
+            // }}
           >
             <div className="mr3 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
               <div className="silver b flex flex-column">
@@ -71,11 +105,34 @@ const NavbarTop: React.FC = () => {
           </div>
 
           <div className="">
-            <Button buttonClass='bn mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings'/>
+          <Button
+            iconClass={'f2'}
+            buttonClass={`mh3 bn wiggle ${isSelectedBienVenido ? 'bg-brand' : 'bg-white'}`}
+            img={'icons8-sombrero-48.png'}
+            title='Bienvenido!'
+            titleClass={`${isSelectedBienVenido ? 'white' : 'brand'}`}
+
+            // switchFn={switchPanel}
+            // panel={APP_PANEL.BASIC_WELCOME}      
+
+            onClick={() => {
+              setEngageSpanish(prev => !prev)
+              if (engageSpanish) {
+                handleGoHome()
+                setIsSelectedBienVenido(false)
+              } else {
+                handleBienVenido()
+                setIsSelectedCreate(false)
+                setIsSelectedBienVenido(true)
+              }
+            }}
+
+            />
+            {/* <Button buttonClass='bn mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings'/> */}
             {/* <Button buttonClass='bn mh3 brand dn dn-m db-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage(MDX_PAGE.WELCOME)}/> */}
-            <Button buttonClass='bn mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
-            <Button buttonClass='bn mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
-            <Button titleClass='db' buttonClass='bn b--black ml2 mr3 brand' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' />
+            <Button buttonClass='bn mh3 ph2 dn dn-m dib-l' isActive={isSelectedProfile} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' onClick={() => setIsSelectedProfile(prev => !prev)} />
+            {/* <Button buttonClass='bn mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" /> */}
+            <Button titleClass='db' buttonClass='bn b--black ph2 ml2 mr3' isActive={isSelectedMenu} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' onClick={() => setIsSelectedMenu(prev => !prev)}/>
           </div>
         </div>
       </div>

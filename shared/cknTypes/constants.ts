@@ -25,7 +25,8 @@ export const MDX_PAGE = {
   FAQ: 'FAQ',
   WELCOME_LEARN_SPANISH: 'WelcomeLearnSpanish',
   TERMS_AND_CONDITIONS: 'TermsAndConditions',
-  PRIVACY_POLICY: 'PrivacyPolicy'
+  PRIVACY_POLICY: 'PrivacyPolicy',
+  CLASSES: 'Classes'
 } as const
 
 export const PIPELINE_TYPE = {

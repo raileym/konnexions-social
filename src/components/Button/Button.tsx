@@ -8,7 +8,7 @@ import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useSettingsPanel } from '@hooks/useSettingsPanel'
 
-const Button = ({ iconClass, titleClass, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
+const Button = ({ reverse = false, iconClass, titleClass, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
   const { isHelpOpen, isMenuOpen, isProfileOpen, isSettingsOpen } = useAppContext()
   const { openProfile, closeProfile } = useProfilePanel()
   const { openHelp, closeHelp } = useHelpPanel()
@@ -60,7 +60,7 @@ const Button = ({ iconClass, titleClass, disable, panel, icon, img, title, butto
     <button
       onClick={() => { if (!disable) handleClick() }}
       disabled={disable}
-      className={`f2 pa1 pointer width-2X ${isActive ? 'bg-brand white' : 'bg-white brand'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
+      className={`f2 pa1 pointer width-2X ${isActive ? reverse ? 'bg-white brand' : 'bg-brand white' : reverse ? 'bg-brand white' : 'bg-white brand'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
       // style={{width: '2.5em'}}
       title={title}
     >
@@ -75,8 +75,7 @@ const Button = ({ iconClass, titleClass, disable, panel, icon, img, title, butto
         </div>
       )}
 
-
-      <div className={`f6 mt1 tc ${titleClass}`}>{title}</div>
+      <div className={`f6 mt1 tc ${isActive ? reverse ? 'brand' : 'white' : reverse ? 'brand' : 'white'}} ${titleClass}`}>{title}</div>
     </button>
   )
 }

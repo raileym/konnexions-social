@@ -97,6 +97,7 @@ export type Question = string
 export type QuestionContext = string
 export type ShowIsUserValidatedModal = boolean
 export type BaseFontSize = number
+export type IsSelectedCreate = boolean
 
 export type SetActivateLessonBar = React.Dispatch<React.SetStateAction<ActivateLessonBar>>
 export type SetActiveHome = React.Dispatch<React.SetStateAction<ActiveHome>>
@@ -126,6 +127,7 @@ export type SetHandleNounsErrors = React.Dispatch<React.SetStateAction<HandleNou
 export type SetHandleVerbsErrors = React.Dispatch<React.SetStateAction<HandleVerbsErrors>>
 export type SetHelpPanel = React.Dispatch<React.SetStateAction<HelpPanel>>
 export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
+export type SetIsSelectedCreate = React.Dispatch<React.SetStateAction<IsSelectedCreate>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
 export type SetIsMenuOpen = React.Dispatch<React.SetStateAction<IsMenuOpen>>
 export type SetIsProfileOpen = React.Dispatch<React.SetStateAction<IsProfileOpen>>
@@ -1143,6 +1145,7 @@ export type ButtonProps = {
   iconClass?: string
   titleClass?: string
   onClick?: () => void   // ← NEW
+  reverse?: boolean
 }
 
 export type PanelVerifyEmailComponentsProps = {

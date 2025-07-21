@@ -4,11 +4,28 @@ import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { APP_PANEL, NAVBAR_BOTTOM_TRANSLATE_Y } from '@cknTypes/constants'
+import { APP_PANEL, MDX_PAGE, NAVBAR_BOTTOM_TRANSLATE_Y } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useMenuPanel } from '@hooks/useMenuPanel'
+import { useHelpPanel } from '@hooks/useHelpPanel'
+import { useProfilePanel } from '@hooks/useProfilePanel'
 
 const NavbarBottom: React.FC = () => {
-  const { activePanel, isUserValidated, showModal, lessons, selectedLessonNumber, engageSpanish } = useAppContext()
+  const { closeMenu } = useMenuPanel()
+  const { closeHelp } = useHelpPanel()
+  const { closeProfile } = useProfilePanel()
+
+  const {
+    activePanel,
+    isUserValidated,
+    showModal,
+    lessons,
+    selectedLessonNumber, 
+    engageSpanish,
+    setMdxPage,
+    isSelectedCreate, setIsSelectedCreate
+  } = useAppContext()
+
   const { switchPanel } = usePanel()
   // const { activeHome, activePanel, lesson } = useAppContext()
   // const { switchPanel, switchHome } = usePanel()
@@ -25,8 +42,19 @@ const NavbarBottom: React.FC = () => {
   
   // cXonsole.log('isUserValidated', isUserValidated)
   
+  const handleCreate = () => {
+    closeMenu()
+    closeHelp()
+    closeProfile()
+    setIsSelectedCreate(prev => !prev)
+    if (isSelectedCreate) {
+      switchPanel(APP_PANEL.BASIC_WELCOME)              
+      setMdxPage(MDX_PAGE.WELCOME)
+    }
+  }
+
   return (
-    <nav className={`fixed bottom-0 bt b--black-30 left-0 w-100 flex flex-column items-center bg-white justify-aroundX ph3 pv2 transition-transform ${translateY} z-999`}>
+    <nav className={`navbar-bottom fixed bottom-0 bt b--black-30 left-0 w-100 flex flex-column items-center bg-brand justify-aroundX ph3 pv2 transition-transform ${translateY} z-999`}>
 
       <div
         className="icon-learn-spanish left-0X flex justify-center flex-column tc mt0 pt0"
@@ -52,9 +80,24 @@ const NavbarBottom: React.FC = () => {
         }}        
       >
         <div>
-          <div className="bg-blueX mb0 pb0 w-100X h2 tc brand">Konnect with Spanish!</div>
-          <Button iconClass={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Bienvenido!' />
-          <Button iconClass={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC} switchFn={switchPanel} panel={APP_PANEL.BASIC} icon={faPersonChalkboard} title='Create' />
+          <div className="bg-blueX mb0 pb0 w-100X h2 tc white">Konnect with Spanish!</div>
+          {/* <Button iconClass={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Bienvenido!' /> */}
+          <Button
+          reverse={true}
+            iconClass={`f2 ${isSelectedCreate ? 'brand' : 'white'}`}
+            disable={!isUserValidated}
+            buttonClass={`mh3 bn bg-redX ${isSelectedCreate ? 'bg-white' : 'bg-brand'}`}
+            titleClass={`${isSelectedCreate ? 'brand' : 'white'}`}
+            isActive={activePanel === APP_PANEL.BASIC}
+            switchFn={switchPanel}
+            panel={APP_PANEL.BASIC}
+            icon={faPersonChalkboard}
+            title='Create'
+            onClick={() => {
+              handleCreate()          
+              // setSelectedCreate(prev => !prev)
+            }}
+          />
           <Button iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
         </div>
       </div>

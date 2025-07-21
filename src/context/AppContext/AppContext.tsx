@@ -6,6 +6,8 @@ import FAQ from '@mdxPages/FAQ.mdx'
 import WelcomeLearnSpanish from '@mdxPages/WelcomeLearnSpanish.mdx'
 import TermsAndConditions from '@mdxPages/TermsAndConditions.mdx'
 import PrivacyPolicy from '@mdxPages/PrivacyPolicy.mdx'
+import Classes from '@mdxPages/Classes.mdx'
+
 import type {
   Answer,
   ApiKey,
@@ -129,7 +131,9 @@ import type {
   EngageSpanish,
   SetEngageSpanish,
   BaseFontSize,
-  SetBaseFontSize
+  SetBaseFontSize,
+  IsSelectedCreate,
+  SetIsSelectedCreate
 } from '@cknTypes/types'
 
 import {
@@ -232,6 +236,7 @@ export type AppContextType = {
   isHelpOpen: IsHelpOpen
   isMenuOpen: IsMenuOpen
   isProfileOpen: IsProfileOpen
+  isSelectedCreate: IsSelectedCreate
   isSettingsOpen: IsSettingsOpen
   isTransitioning: IsTransitioning
   isUserValidated: IsUserValidated
@@ -285,6 +290,7 @@ export type AppContextType = {
   setIsHelpOpen: SetIsHelpOpen
   setIsMenuOpen: SetIsMenuOpen
   setIsProfileOpen: SetIsProfileOpen
+  setIsSelectedCreate: SetIsSelectedCreate
   setIsSettingsOpen: SetIsSettingsOpen
   setIsTransitioning: SetIsTransitioning
   setIsUserValidated: SetIsUserValidated
@@ -349,7 +355,8 @@ export const mdxPagesMap: MdxPagesMap = {
   [MDX_PAGE.FAQ]: FAQ,
   [MDX_PAGE.WELCOME_LEARN_SPANISH]: WelcomeLearnSpanish,
   [MDX_PAGE.TERMS_AND_CONDITIONS]: TermsAndConditions,
-  [MDX_PAGE.PRIVACY_POLICY]: PrivacyPolicy
+  [MDX_PAGE.PRIVACY_POLICY]: PrivacyPolicy,
+  [MDX_PAGE.CLASSES]: Classes
 }
 
 // export type MdxPage = keyof typeof mdxPagesMap
@@ -379,6 +386,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     )
   )
 
+  const [isSelectedCreate, setIsSelectedCreate] = useState<IsSelectedCreate>(false)
+  
   const [baseFontSize, setBaseFontSize] = usePersistentState<BaseFontSize>('baseFontSize', 24)
   const [lessonName, setLessonName] = usePersistentState<LessonName>('lessonName', defaultLessonName)
   const [mdxPage, setMdxPage] = useState<MdxPage>(MDX_PAGE.WELCOME)
@@ -494,6 +503,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     isMenuOpen,
     isProfileOpen,
     isSettingsOpen,
+    isSelectedCreate,
     isTransitioning,
     isUserValidated,
     lesson,
@@ -545,6 +555,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsHelpOpen,
     setIsMenuOpen,
     setIsProfileOpen,
+    setIsSelectedCreate,
     setIsSettingsOpen,
     setIsTransitioning,
     setIsUserValidated,
