@@ -83,11 +83,15 @@ const NavbarBottom: React.FC = () => {
           <div className="bg-blueX mb0 pb0 w-100X h2 tc on-background">Konnect with Spanish!</div>
           {/* <Button iconClass={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Bienvenido!' /> */}
           <Button
-          reverse={true}
-            iconClass={`f2 ${isSelectedCreate ? 'secondary' : 'on-background'}`}
+            // reverse={true}
+            iconClass={`f2 ${isSelectedCreate ? 'secondary' : 'secondary'}`}
+            // iconClass={`f2 ${isSelectedCreate ? 'secondary' : 'on-background'}`}
             disable={!isUserValidated}
-            buttonClass={`mh3 bn bg-redX ${isSelectedCreate ? 'bg-on-background' : 'bg-secondary'}`}
-            titleClass={`${isSelectedCreate ? 'secondary' : 'on-background'}`}
+            buttonClass={`mh3 bn bg-whiteX ${isSelectedCreate ? 'bg-background' : 'bg-on-background'}`}
+            // buttonClass={`mh3 bn bg-redX ${isSelectedCreate ? 'bg-on-background' : 'bg-secondary'}`}
+            // titleClass={`${isSelectedCreate ? 'secondary' : 'on-background'}`}
+            titleClass={`${isSelectedCreate ? 'secondary' : 'secondary'}`}
+            // titleClass={`${isSelectedCreate ? reverse ? 'secondary' : 'on-background' : 'secondary' : 'on-background' : reverse ? 'secondary' : 'on-background' : 'secondary' : 'on-background'  }`}
             isActive={activePanel === APP_PANEL.BASIC}
             switchFn={switchPanel}
             panel={APP_PANEL.BASIC}

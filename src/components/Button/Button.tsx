@@ -60,7 +60,7 @@ const Button = ({ reverse = false, iconClass, titleClass, disable, panel, icon, 
     <button
       onClick={() => { if (!disable) handleClick() }}
       disabled={disable}
-      className={`f2 pa1 pointer width-2X ${isActive ? reverse ? 'bg-onSecondary secondary' : 'bg-secondary onSecondary' : reverse ? 'bg-secondary onSecondary' : 'bg-onSecondary secondary'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
+      className={`f2 pa1 pointer width-2X ${isActive ? reverse ? 'bg-on-background secondary' : 'bg-on-background on-secondary' : reverse ? 'bg-on-background on-secondary' : 'bg-on-background secondary'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
       // style={{width: '2.5em'}}
       title={title}
     >
@@ -75,7 +75,7 @@ const Button = ({ reverse = false, iconClass, titleClass, disable, panel, icon, 
         </div>
       )}
 
-      <div className={`f6 mt1 tc ${isActive ? reverse ? 'secondary' : 'onSecondary' : reverse ? 'secondary' : 'onSecondary'}} ${titleClass}`}>{title}</div>
+      <div className={`f6 mt1 tc ${isActive ? reverse ? 'secondary' : 'on-secondary' : reverse ? 'secondary' : 'on-secondary'}} ${titleClass}`}>{title}</div>
     </button>
   )
 }
