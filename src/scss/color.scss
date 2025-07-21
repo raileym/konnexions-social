@@ -31,11 +31,11 @@ $softblue:              rgba(0, 125, 255, 1);
     --kx-primary: #00cdff44;
     --kx-secondary: #ff00bc44;
     --kx-tertiary: #ffff00aa;
-    --kx-on-primary: #000;
-    --kx-on-secondary: #000;
-    --kx-on-tertiary: #000;
+    --kx-onPrimary: #000;
+    --kx-onSecondary: #000;
+    --kx-onTertiary: #000;
     --kx-background: green;
-    --kx-on-background: red;
+    --kx-onBackground: red;
 
     --kx-brand: #17ADFF;
     --kx-black: black;
@@ -48,70 +48,40 @@ $softblue:              rgba(0, 125, 255, 1);
   }
 
 $background: var(--kx-background);
+$onBackground: var(--kx-onBackground);
 $primary: var(--kx-primary);
 $secondary: var(--kx-secondary);
 $tertiary: var(--kx-tertiary);
-$onPrimary: var(--kx-on-primary);
-$onSecondary: var(--kx-on-secondary);
-$onTertiary: var(--kx-on-tertiary);
-$onPrimaryContainer: var(--kx-on-primary-container);
-$onSecondaryContainer: var(--kx-on-secondary-container);
-$onTertiaryContainer: var(--kx-on-tertiary-container);
+$onPrimary: var(--kx-onPrimary);
+$onSecondary: var(--kx-onSecondary);
+$onTertiary: var(--kx-onTertiary);
+$onPrimaryContainer: var(--kx-onPrimaryContainer);
+$onSecondaryContainer: var(--kx-onSecondaryContainer);
+$onTertiaryContainer: var(--kx-onTertiaryContainer);
 
-$color-palette: (
-  "primary": var(--kx-primary),
-  "onPrimary": var(--kx-on-primary),
-  "onPrimaryContainer": var(--kx-on-primary-container),
-  "on-primary": var(--kx-on-primary),
-  "on-primary-container": var(--kx-on-primary-container),
-
-  "secondary": var(--kx-secondary),
-  "onSecondary": var(--kx-on-secondary),
-  "onSecondaryContainer": var(--kx-on-secondary-container),
-  "on-secondary": var(--kx-on-secondary),
-  "on-secondary-container": var(--kx-on-secondary-container),
-
-  "tertiary": var(--kx-tertiary),
-  "onTertiary": var(--kx-on-tertiary),
-  "onTertiaryContainer": var(--kx-on-tertiary-container),
-  "on-tertiary": var(--kx-on-tertiary),
-  "on-tertiary-container": var(--kx-on-tertiary-container),
-
-  "background": var(--kx-background),
-  "onBackground": var(--kx-on-background),
-  "on-background": var(--kx-on-background),
+$palette-color: (
+  primary: ( main: $primary, on: $onPrimary ),
+  secondary: ( main: $secondary, on: $onSecondary ),
+  tertiary: ( main: $tertiary, on: $onTertiary ),
+  background: ( main: $background, on: $onBackground )
 );
 
-.primary { color: $primary }
-.bg-primary { background-color: $primary }
-.b--primary { border-color: $primary }
-.on-primary { color: $onPrimary }
-.bg-on-primary { background-color: $onPrimary }
-.b--on-primary { border-color: $onPrimary }
+.transparent { color: transparent }
+.bg-transparent { background-color: transparent }
+.b--transparent { border-color: transparent }
 
-.secondary { color: $secondary }
-.bg-secondary { background-color: $secondary }
-.b--secondary { border-color: $secondary }
-.on-secondary { color: $onSecondary }
-.bg-on-secondary { background-color: $onSecondary }
-.b--on-secondary { border-color: $onSecondary }
+@each $name, $colors in $palette-color {
+  $main: map-get($colors, main);
+  $on: map-get($colors, on);
 
-.tertiary { color: $tertiary }
-.bg-tertiary { background-color: $tertiary }
-.b--tertiary { border-color: $tertiary }
-.on-tertiary { color: $tertiary }
-.bg-on-tertiary { background-color: $tertiary }
-.b--on-tertiary { border-color: $tertiary }
+  .#{$name}            { color: $main }
+  .bg-#{$name}         { background-color: $main }
+  .b--#{$name}         { border-color: $main }
 
-.background { color: $background }
-.bg-background { background-color: $background }
-.b--background { border-color: $background }
-.onBackground { color: $background }
-.bg-on-background { background-color: $background }
-.b--on-background { border-color: $background }
-.on-background { color: $background }
-.bg-on-background { background-color: $background }
-.b--on-background { border-color: $background }
+  .on-#{$name}         { color: $on }
+  .bg-on-#{$name}      { background-color: $on }
+  .b--on-#{$name}      { border-color: $on }
+}
 
 $color-set: ( 
   "highlightblue":   #00cdff44,
@@ -174,28 +144,6 @@ $brand-bright: orangered;
 
 $brand-red: #fb0020;
 
-// https://stackoverflow.com/questions/60774409/custom-css-properties-in-lighten-darken-scss-function
-
-// body:not(.mode-light):not(.mode-dark) {
-//   background-color: pink;
-// }
-
-main {
-  background-color: transparent;
-}
-
-body.mode-dark {
-  background-color: black;
-}
-
-body.mode-light {
-  background-color: white;
-}
-
-.transparent {
-  color: transparent;
-}
-  
 // ******************************************** 
 // ******************************************** 
 //
@@ -203,158 +151,6 @@ body.mode-light {
 // 
 // ******************************************** 
 // ******************************************** 
-
-body.mode-light {
-  
-  .selected .dark {
-    color: orange;
-
-    --fa-primary-color: green;
-    --fa-secondary-color: green;
-    --fa-primary-opacity: 1.0; 
-    --fa-secondary-opacity: 1.0; 
-  }
-
-  .selected .light {
-    color: cyan;
-
-    --fa-primary-color: yellow;
-    --fa-secondary-color: yellow;
-    --fa-primary-opacity: 1.0; 
-    --fa-secondary-opacity: 1.0; 
-  }
-
-}
-
-body.mode-dark {
-
-  .selected .dark { 
-    color: red; 
-
-    --fa-primary-color: red;
-    --fa-secondary-color: red;
-    --fa-primary-opacity: 1.0; 
-    --fa-secondary-opacity: 1.0; 
-  }
-  
-  .selected .light { 
-    color: lightgreen; 
-    
-    --fa-primary-color: lightgreen;
-    --fa-secondary-color: lightgreen;
-    --fa-primary-opacity: 1.0; 
-    --fa-secondary-opacity: 1.0; 
-  }
-
-}
-
-// ******************************************** 
-// ******************************************** 
-//
-// Brand colors - Specialties
-// 
-// ******************************************** 
-// ******************************************** 
-
-
-body,
-body.mode-light {
-  
-  .brand { color: $brand; }
-  .brand { color: $brand; }
-  .brand-dark { color: $brand-dark; }
-  .brand-light { color: $brand-light; }
-  .brand-grey { color: gray; }
-  .brand-gray { color: gray; }
-  
-  .bg-brand { background-color: $brand; }
-  .bg-brand-dark { background-color: $brand-dark; }
-  .bg-brand-light { background-color: $brand-light; }
-  
-  .brand-red { color: $brand-red; }
-  .bg-brand-red { background-color: $brand-red; }
-}
-
-body.mode-dark {
-  
-  .brand {color: dimgrey} //{ color: $brand-bright; }
-  .brand-dark { color: $brand-light; }
-  .brand-light { color: $brand-dark; }
-  .brand-grey { color: gray; }
-  .brand-gray { color: gray; }
-  
-  .bg-brand { background-color: $brand-bright; }
-  .bg-brand-dark { background-color: $brand-dark; }
-  .bg-brand-light { background-color: $brand-dark; }
-  
-}
-
-
-
-
-// ******************************************** 
-// ******************************************** 
-//
-// Specialized markers
-//
-// Other broad markers that are based on mode-dark and 
-// mode-light.
-// 
-// ******************************************** 
-// ******************************************** 
-
-body.mode-light {
-
-  color: $brand-dark;
-  p, .P {
-    color: $brand-dark;
-  }
-
-  .light { color: $brand-light; }
-  .dark { color: $brand-dark; }
-  
-  .bg-dark { background-color: $brand-dark; }
-  .bg-light { background-color: $brand-light; }
-
-  h1, h2, h3, h4, h5, h6 { color: $brand-dark; }
-
-  @each $name, $hex in $color-palette {
-    .#{$name} {color: $hex}
-    .#{$name} p {color: $hex}
-  }
-
-}
-
-body.mode-dark {
-
-  color: $brand-light;
-  p, .P {
-    color: $brand-light;
-  }
-
-  .light { color: silver; }
-  .dark { color: $brand-light; }
-
-  // Swap light with dark
-  .bg-dark { background-color: $brand-dark; }
-  .bg-light { background-color: $brand-dark; }
-
-  h1, h2, h3, h4, h5, h6 {color: dimgrey } // { color: $brand-light; }
-
-  @each $name, $hex in $color-palette {
-    .#{$name} {color: $hex}
-  }
-  .blue {color: dimgrey}
-  .orangered { color: $brand-light }
-
-  hr { 
-    background-color: dimgrey; // #{$sHex}; 
-    border-color: dimgrey; // #{$sHex};
-  }
-
-}
-
-
 
 // ***************************************************** 
 // ***************************************************** 
@@ -602,33 +398,33 @@ body.mode-dark {
 // }
 
 
-#citation-group-set {
-  background-color:$brand-light;
-}
+// #citation-group-set {
+//   background-color:$brand-light;
+// }
 
-.mode-light .ICON-FA-SPA {
-  --fa-primary-color: green;
-  --fa-secondary-color: blue;
-  --fa-secondary-opacity: .4;
-}
+// .mode-light .ICON-FA-SPA {
+//   --fa-primary-color: green;
+//   --fa-secondary-color: blue;
+//   --fa-secondary-opacity: .4;
+// }
 
-.mode-dark .ICON-FA-SPA {
-  --fa-primary-color: green;
-  --fa-secondary-color: blue;
-  --fa-secondary-opacity: 1.0;
-  --fa-primary-opacity: 1.0;
-}
+// .mode-dark .ICON-FA-SPA {
+//   --fa-primary-color: green;
+//   --fa-secondary-color: blue;
+//   --fa-secondary-opacity: 1.0;
+//   --fa-primary-opacity: 1.0;
+// }
 
-.b--lightgray {border-color:lightgray}
-.b--lightgrey {border-color:lightgrey}
+// .b--lightgray {border-color:lightgray}
+// .b--lightgrey {border-color:lightgrey}
 
-.thought-bubble,
-.thought-bubble-bubble-left:after,
-.thought-bubble-bubble-left:before,
-.thought-bubble-bubble-right:after,
-.thought-bubble-bubble-right:before {
-  border-color: $softorange;
-  background-color: $softorange;
-}
+// .thought-bubble,
+// .thought-bubble-bubble-left:after,
+// .thought-bubble-bubble-left:before,
+// .thought-bubble-bubble-right:after,
+// .thought-bubble-bubble-right:before {
+//   border-color: $softorange;
+//   background-color: $softorange;
+// }
 
-.b--softorange { border-color: $softorange; }
+// .b--softorange { border-color: $softorange; }
