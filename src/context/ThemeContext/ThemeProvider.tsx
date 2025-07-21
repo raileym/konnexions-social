@@ -1,16 +1,17 @@
 import {
   COLOR_PALETTE,
   colorPaletteDetails,
+  THEME_MODE,
   type ColorPalette,
   type ThemeMode
 } from '@cknTypes/theme'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { ThemeContext } from '@context/ThemeContext/ThemeContext'
 import { usePersistentState } from '@hooks/usePersistentState'
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = usePersistentState<ColorPalette>('theme', COLOR_PALETTE.MIDNIGHT_SAND)
-  const [mode, setMode] = useState<ThemeMode>('day')
+  const [mode, setMode] = usePersistentState<ThemeMode>('mode', THEME_MODE.DAY)
 
   useEffect(() => {
     const palette = colorPaletteDetails[theme]
