@@ -16,8 +16,12 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     const colors = mode === 'day' ? palette.colorsDay : palette.colorsNight
     const root = document.documentElement
 
+    console.log('day', palette.colorsDay)
+    console.log('night', palette.colorsNight)
+
     Object.entries(colors).forEach(([key, val]) => {
       root.style.setProperty(`--kx-${key}`, val)
+      console.log(`--kx-${key}: ${val}`)
     })
   }, [theme, mode])
 

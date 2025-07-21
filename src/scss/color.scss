@@ -29,11 +29,13 @@ $softblue:              rgba(0, 125, 255, 1);
 
   :root {
     --kx-primary: #00cdff44;
-    --kx-45econdary: #ff00bc44;
+    --kx-secondary: #ff00bc44;
     --kx-tertiary: #ffff00aa;
-    --kx-onPrimary: #000;
-    --kx-onSecondary: #000;
-    --kx-onTertiary: #000;
+    --kx-on-primary: #000;
+    --kx-on-secondary: #000;
+    --kx-on-tertiary: #000;
+    --kx-background: green;
+    --kx-on-background: red;
 
     --kx-brand: #17ADFF;
     --kx-black: black;
@@ -45,33 +47,71 @@ $softblue:              rgba(0, 125, 255, 1);
     --kx-darkorange: darkorange;
   }
 
+$background: var(--kx-background);
 $primary: var(--kx-primary);
-$secondary: var(--kx-45econdary);
+$secondary: var(--kx-secondary);
 $tertiary: var(--kx-tertiary);
-$onPrimary: var(--kx-onPrimary);
-$onSecondary: var(--kx-onSecondary);
-$onTertiary: var(--kx-onTertiary);
+$onPrimary: var(--kx-on-primary);
+$onSecondary: var(--kx-on-secondary);
+$onTertiary: var(--kx-on-tertiary);
+$onPrimaryContainer: var(--kx-on-primary-container);
+$onSecondaryContainer: var(--kx-on-secondary-container);
+$onTertiaryContainer: var(--kx-on-tertiary-container);
 
 $color-palette: (
   "primary": var(--kx-primary),
-  "onPrimary": var(--kx-onPrimary) //,
-  // "secondary": $secondary,
-  // "onSecondary": $onSecondary,
-  // "tertiary": $tertiary,
-  // "onTertiary": $onTertiary
+  "onPrimary": var(--kx-on-primary),
+  "onPrimaryContainer": var(--kx-on-primary-container),
+  "on-primary": var(--kx-on-primary),
+  "on-primary-container": var(--kx-on-primary-container),
+
+  "secondary": var(--kx-secondary),
+  "onSecondary": var(--kx-on-secondary),
+  "onSecondaryContainer": var(--kx-on-secondary-container),
+  "on-secondary": var(--kx-on-secondary),
+  "on-secondary-container": var(--kx-on-secondary-container),
+
+  "tertiary": var(--kx-tertiary),
+  "onTertiary": var(--kx-on-tertiary),
+  "onTertiaryContainer": var(--kx-on-tertiary-container),
+  "on-tertiary": var(--kx-on-tertiary),
+  "on-tertiary-container": var(--kx-on-tertiary-container),
+
+  "background": var(--kx-background),
+  "onBackground": var(--kx-on-background),
+  "on-background": var(--kx-on-background),
 );
 
-.primary { color: var(--kx-primary) }
+.primary { color: $primary }
 .bg-primary { background-color: $primary }
 .b--primary { border-color: $primary }
+.on-primary { color: $onPrimary }
+.bg-on-primary { background-color: $onPrimary }
+.b--on-primary { border-color: $onPrimary }
 
-.secondary { color: var(--kx-45econdary) }
+.secondary { color: $secondary }
 .bg-secondary { background-color: $secondary }
 .b--secondary { border-color: $secondary }
+.on-secondary { color: $onSecondary }
+.bg-on-secondary { background-color: $onSecondary }
+.b--on-secondary { border-color: $onSecondary }
 
-.tertiary { color: var(--kx-tertiary) }
+.tertiary { color: $tertiary }
 .bg-tertiary { background-color: $tertiary }
 .b--tertiary { border-color: $tertiary }
+.on-tertiary { color: $tertiary }
+.bg-on-tertiary { background-color: $tertiary }
+.b--on-tertiary { border-color: $tertiary }
+
+.background { color: $background }
+.bg-background { background-color: $background }
+.b--background { border-color: $background }
+.onBackground { color: $background }
+.bg-on-background { background-color: $background }
+.b--on-background { border-color: $background }
+.on-background { color: $background }
+.bg-on-background { background-color: $background }
+.b--on-background { border-color: $background }
 
 $color-set: ( 
   "highlightblue":   #00cdff44,
@@ -335,7 +375,7 @@ body.mode-dark {
   $custom-30: color-mix(in srgb, var(--primary) 70%, white 30%);
 
   background: var(--custom-10);
-  color: var(--onPrimary);
+  color: var(--on-primary);
 }
 
 // @each $name, $hex in $color-palette {

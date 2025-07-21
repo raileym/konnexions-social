@@ -116,4 +116,14 @@ p {
   // display: inline-block;
 }
 
+.panel-right {
+  background-color: var(--kx-background)
+}
 
+.panel-right-short {
+  background-color: var(--kx-tertiary)
+}
+
+p {
+  color: var(--kx-onBackground)
+}

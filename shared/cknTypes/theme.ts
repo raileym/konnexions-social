@@ -82,6 +82,7 @@ export type CreatePaletteProps = {
 
 export type CreatePSTProps = {
   background: string
+  onBackground: string
   primary: string
   secondary: string
   tertiary: string
@@ -89,6 +90,7 @@ export type CreatePSTProps = {
 
 export type CreatePSTResult = {
   background: string
+  onBackground: string
   primary: string
   onPrimary: string
   primaryContainer: string
@@ -133,17 +135,20 @@ const hexToRgb = (hex: string): string => {
 
 const createPST = ({
   background: backgroundHEX,
+  onBackground: onBackgroundHEX,
   primary: primaryHEX,
   secondary: secondaryHEX,
   tertiary: tertiaryHEX
 }: CreatePSTProps): CreatePSTResult => {
   const background = hexToRgb(backgroundHEX)
+  const onBackground = hexToRgb(onBackgroundHEX)
   const primary = hexToRgb(primaryHEX)
   const secondary = hexToRgb(secondaryHEX)
   const tertiary = hexToRgb(tertiaryHEX)
 
   return {
     background,
+    onBackground,
 
     primary,
     onPrimary: background,
@@ -163,8 +168,8 @@ const createPST = ({
 }
 
 const createPalette: CreatePalette = ({ primary, secondary, tertiary, backgroundDay, backgroundNight }) => {
-  const colorsDay = createPST({ primary, secondary, tertiary, background: backgroundDay })
-  const colorsNight = createPST({ primary, secondary, tertiary, background: backgroundNight })
+  const colorsDay = createPST({ primary, secondary, tertiary, background: backgroundDay, onBackground:backgroundNight })
+  const colorsNight = createPST({ primary, secondary, tertiary, background: backgroundNight, onBackground: backgroundDay })
 
   return {
     colorsDay,

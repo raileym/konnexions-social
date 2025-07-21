@@ -25,6 +25,8 @@ import PanelMDXWrapper from '@components/PanelMDXWrapper/PanelMDXWrapper'
 import ViewportWidthOverlay from '@components/ViewportWidthOverlay/ViewportWidthOverlay'
 import NavbarColor from '@components/NavbarColor/__tests__/NavbarColor'
 import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
+import ColorScheme from '@components/ColorScheme/__tests__/ColorScheme'
+import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
 
 const AppMain = () => {
   const { mdxPagesMap } = useAppContext()
@@ -32,7 +34,7 @@ const AppMain = () => {
   return (
     <>
       <ModalGlobal />
-      <div className="app flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
+      <div className="app bg-blue flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
         <LessonBar />
 
         {/* 🧭 ROUTED MDX PANELS */}
@@ -68,6 +70,8 @@ const AppMain = () => {
       <ViewportWidthOverlay />
       <NavbarColor />
       <FontSizeControls />
+      <ColorScheme />
+      <DayNightToggle />
     </>
   )
 }
