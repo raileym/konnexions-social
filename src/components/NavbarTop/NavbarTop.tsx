@@ -62,6 +62,26 @@ const NavbarTop: React.FC = () => {
     navigateTo('Welcome')
   }
 
+  const handleEngageSpanish = () => {
+    setEngageSpanish(prev => !prev)
+    if (engageSpanish) {
+      handleGoHome()
+      setIsSelectedBienVenido(false)
+    } else {
+      handleBienVenido()
+      setIsSelectedCreate(false)
+      setIsSelectedBienVenido(true)
+    }
+  }
+
+  const handleProfile = () => {
+    setIsSelectedProfile(prev => !prev)
+  }
+
+  const handleMenu = () => {
+    setIsSelectedMenu(prev => !prev)
+  }
+
   return (
     <nav className="navbar-top fixed top-0 shadow-3 left-0 w-100 bg-white flex items-center justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
       <div className="w-100 flex flex-column">
@@ -69,17 +89,8 @@ const NavbarTop: React.FC = () => {
           <div 
             className="flex justify-start flex-row pointer lh-4-kx" 
             onClick={handleGoHome}
-            // onClick={() => {
-            //   console.log('Clicking on upper left icon set.')
-            //   closeMenu()
-            //   closeHelp()
-            //   closeProfile()
-            //   switchPanel(APP_PANEL.MDX)              
-            //   setMdxPage(MDX_PAGE.WELCOME)
-            //   navigateTo('Welcome')
-            // }}
           >
-            <div className="mr3 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
+            <div className="mh3 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
               <div className="silver b flex flex-column">
                 <div className="flex flex-row f3">
                   <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
@@ -105,34 +116,9 @@ const NavbarTop: React.FC = () => {
           </div>
 
           <div className="">
-          <Button
-            iconClass={'f2'}
-            buttonClass={`mh3 bn wiggle ${isSelectedBienVenido ? 'bg-brand' : 'bg-white'}`}
-            img={'icons8-sombrero-48.png'}
-            title='Bienvenido!'
-            titleClass={`${isSelectedBienVenido ? 'white' : 'brand'}`}
-
-            // switchFn={switchPanel}
-            // panel={APP_PANEL.BASIC_WELCOME}      
-
-            onClick={() => {
-              setEngageSpanish(prev => !prev)
-              if (engageSpanish) {
-                handleGoHome()
-                setIsSelectedBienVenido(false)
-              } else {
-                handleBienVenido()
-                setIsSelectedCreate(false)
-                setIsSelectedBienVenido(true)
-              }
-            }}
-
-            />
-            {/* <Button buttonClass='bn mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings'/> */}
-            {/* <Button buttonClass='bn mh3 brand dn dn-m db-l' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage(MDX_PAGE.WELCOME)}/> */}
-            <Button buttonClass='bn mh3 ph2 dn dn-m dib-l' isActive={isSelectedProfile} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' onClick={() => setIsSelectedProfile(prev => !prev)} />
-            {/* <Button buttonClass='bn mh3 brand dn dn-m dib-l' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" /> */}
-            <Button titleClass='db' buttonClass='bn b--black ph2 ml2 mr3' isActive={isSelectedMenu} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' onClick={() => setIsSelectedMenu(prev => !prev)}/>
+            <Button isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bn wiggle'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+            <Button isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+            <Button isActive={isSelectedMenu} title='Menu' buttonClass='bn b--black ph2 ml2 mr3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
           </div>
         </div>
       </div>
