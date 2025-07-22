@@ -58,7 +58,7 @@ const Button = ({ tabIndex, ariaDisabled = false, ariaDescribedBy, reverse = fal
 
   return (
     <button
-    aria-label={`${title}`}
+    aria-label={`${title} Button,`}
     aria-describedBy={ariaDescribedBy}
       tabIndex={tabIndex}
       aria-disabled={ariaDisabled}

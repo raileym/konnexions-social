@@ -85,57 +85,45 @@ const NavbarTop: React.FC = () => {
   return (
     <>
       <div className="sr-only">
-        <span id="button-bienvenido">Press the Bienvenido Button to engage your Spanish lesson.</span>    
-        <span id="button-menu">Press the Menu Button to engage the menu.</span>    
-        <span id="button-profile">Press the Profile Button to update your profile.</span>    
+        <span id="button-home">Press the Home Button to return to the Welcome Page</span>    
+        <span id="button-bienvenido">Press the Bienvenido Button to engage your Spanish lesson</span>    
+        <span id="button-menu">Press the Menu Button to engage the menu</span>    
+        <span id="button-profile">Press the Profile Button to update your profile</span>    
       </div>
 
-      <nav aria-label={'top navigation'} className="navbar-top fixed top-0 shadow-3 left-0 w-100 bg-on-background flex items-center justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
-        <div className="w-100 flex flex-column">
-          <div className="w-100 flex flex-row justify-between">
-            <div
-              tabIndex={0}
-              className="flex justify-start flex-row pointer lh-4-kx" 
-              onClick={handleGoHome}
-            >
-              <div aria-hidden={true} className="ml3 mr4 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
-                <div className="silver b flex flex-column">
-                  <div className="flex flex-row f3">
-                    <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
-                      <div className="absolute top-0 left-0 bg-secondary mt2 width-3-kx br3 height-3-kx"></div>
-                      <div className="konnexions-title f2 absolute top-0 left-0 ml2">
-                        <MyKonnexionsTitle shorten={true} color='on-background' fontSizeInRem={2}/>
-                      </div>
-                    </div>
+      <nav tabIndex={-1} className="navbar-top fixed top-0 shadow-3 left-0 w-100 bg-on-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
+        <div tabIndex={0} aria-hidden={false} aria-describedBy={'button-home'} className="flex justify-start flex-row pointer lh-4-kx" onClick={handleGoHome}>
+
+          <div className="ml3 mr4 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
+            <div className="silver bX flex flex-column">
+              <div className="flex f3">
+                <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
+                  <div className="absolute top-0 left-0 bg-secondary mt2 width-3-kx br3 height-3-kx"></div>
+                  <div className="konnexions-title f2 absolute top-0 left-0 ml2">
+                    <MyKonnexionsTitle shorten={true} color='on-background' fontSizeInRem={2}/>
                   </div>
                 </div>
               </div>
-
-
-              <div className="items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
-                <div className="silver f1 b flex flex-column">
-                  <div className="flex flex-row f1">
-                    <div className="dn dn-kx-45 dib-kx-n45">
-                      <MyKonnexionsTitle color='secondary' fontSizeInRem={3}/>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="">
-  {/* <a
-    href="#main"
-    className="skip-link focus:white focus:bg-green"
-  >
-    Skip to main content
-  </a> */}
-
-              <Button tabIndex={0} ariaDescribedBy={'button-bienvenido'} isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bn wiggle focus:b--red bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-              <Button tabIndex={0} ariaDescribedBy={'button-profile'} isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-              <Button tabIndex={0} ariaDescribedBy={'button-menu'} isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
             </div>
           </div>
+
+
+          <div className="items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
+            <div className="silver f1 b flex flex-column">
+              <div className="flex f1">
+                <div className="dn dn-kx-45 dib-kx-n45">
+                  <MyKonnexionsTitle color='secondary' fontSizeInRem={3}/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div className="flex justify-end">
+          <Button tabIndex={0} ariaDescribedBy={'button-bienvenido'} isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bn wiggle focus:b--red bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={0} ariaDescribedBy={'button-profile'} isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={0} ariaDescribedBy={'button-menu'} isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>
