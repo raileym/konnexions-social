@@ -9,69 +9,68 @@ import PrivacyPolicy from '@mdxPages/PrivacyPolicy.mdx'
 import Classes from '@mdxPages/Classes.mdx'
 
 import type {
+  ActivateLessonBar,
+  ActiveHome,
+  ActivePanel,
   Answer,
   ApiKey,
-  ActivePanel,
   AudioUrl,
+  BaseFontSize,
   CleanedText,
+  ClientEmail,
+  ClientMeter,
+  ClientSignature,
+  ClientUUID,
+  CookedEmail,
+  CustomParticipantList,
+  CustomScenario,
+  CustomSeed,
+  Cutoff,
+  DebugMode,
+  EngageSpanish,
+  FlexLesson,
+  FormattedFlexLesson,
   GcpKey,
+  GenerateTTSCount,
+  HelpPanel,
   InputText,
+  IsHelpOpen,
+  IsMenuOpen,
+  IsProfileOpen,
+  IsSelectedCreate,
+  IsSettingsOpen,
   IsTransitioning,
+  IsUserValidated,
+  Language,
+  Lesson,
+  LessonComplete,
+  LessonName,
+  LessonNumber,
+  LessonPrompt,
+  LessonPromptStyle,
+  LessonTimestamp,
+  Lessons,
+  LineNumber,
   MaskKey,
   MaskOpenAiKey,
+  MaxCount,
+  MdxPage,
+  ModalConfig,
   OpenAiAvgTokens,
   OpenAiBudget,
   OpenAiKey,
   OpenAiUsage,
+  Paywall,
   Question,
   QuestionContext,
-  TtsAvgChars,
-  TtsBudget,
-  TtsCharUsage,
-  UseCloudTTS,
   Scenario,
-  IsHelpOpen,
-  ActiveHome,
-  Lesson,
-  Lessons,
-  GenerateTTSCount,
-  MaxCount,
-  Cutoff,
-  Language,
-  LineNumber,
-  DebugMode,
-  LessonTimestamp,
-  CustomScenario,
-  CustomParticipantList,
-  CustomSeed,
-  LessonPromptStyle,
-  UseMyself,
-  LessonPrompt,
-  ClientUUID,
-  ClientMeter,
-  ClientSignature,
-  ClientEmail,
-  LessonNumber,
-  FlexLesson,
-  FormattedFlexLesson,
-  LessonComplete,
-  CookedEmail,
-  VerificationToken,
-  IsUserValidated,
-  UserData,
-  IsProfileOpen,
-  ShowIsUserValidatedModal,
-  ModalConfig,
-  LessonName,
-  ActivateLessonBar,
-  HelpPanel,
-  IsMenuOpen,
   SetActivateLessonBar,
   SetActiveHome,
   SetActivePanel,
   SetAnswer,
   SetApiKey,
   SetAudioUrl,
+  SetBaseFontSize,
   SetCleanedText,
   SetClientEmail,
   SetClientMeter,
@@ -83,6 +82,7 @@ import type {
   SetCustomSeed,
   SetCutoff,
   SetDebugMode,
+  SetEngageSpanish,
   SetFlexLesson,
   SetFormattedFlexLesson,
   SetGcpKey,
@@ -92,6 +92,8 @@ import type {
   SetIsHelpOpen,
   SetIsMenuOpen,
   SetIsProfileOpen,
+  SetIsSelectedCreate,
+  SetIsSettingsOpen,
   SetIsTransitioning,
   SetIsUserValidated,
   SetLesson,
@@ -100,8 +102,8 @@ import type {
   SetLessonNumber,
   SetLessonPrompt,
   SetLessonPromptStyle,
-  SetLessons,
   SetLessonTimestamp,
+  SetLessons,
   SetLineNumber,
   SetMaskKey,
   SetMaskOpenAiKey,
@@ -110,6 +112,7 @@ import type {
   SetOpenAiBudget,
   SetOpenAiKey,
   SetOpenAiUsage,
+  SetPaywall,
   SetQuestion,
   SetQuestionContext,
   SetScenario,
@@ -123,17 +126,16 @@ import type {
   SetUseMyself,
   SetUserData,
   SetVerificationToken,
-  Paywall,
-  SetPaywall,
-  MdxPage,
-  SetIsSettingsOpen,
-  IsSettingsOpen,
-  EngageSpanish,
-  SetEngageSpanish,
-  BaseFontSize,
-  SetBaseFontSize,
-  IsSelectedCreate,
-  SetIsSelectedCreate
+  ShowIsUserValidatedModal,
+  TtsAvgChars,
+  TtsBudget,
+  TtsCharUsage,
+  UseCloudTTS,
+  UseMyself,
+  UserData,
+  VerificationToken,
+  ScreenState,
+  SetScreenState
 } from '@cknTypes/types'
 
 import {
@@ -150,6 +152,7 @@ import {
   defaultUserData,
   defaultLessonName,
   defaultPaywall,
+  defaultScreenState,
 } from '@cknTypes/types'
 import {
   APP_HOME,
@@ -203,11 +206,6 @@ const updatedDefaultLesson = {
 }
 
 export type AppContextType = {
-  isModalVisible: boolean
-  modalConfig: ModalConfig | null
-  showModal: (config: ModalConfig) => void
-  hideModal: () => void,
-
   activateLessonBar: ActivateLessonBar
   activeHome: ActiveHome
   activePanel: ActivePanel
@@ -232,9 +230,11 @@ export type AppContextType = {
   gcpKey: GcpKey
   generateTTSCount: GenerateTTSCount
   helpPanel: HelpPanel
+  hideModal: () => void,
   inputText: InputText
   isHelpOpen: IsHelpOpen
   isMenuOpen: IsMenuOpen
+  isModalVisible: boolean
   isProfileOpen: IsProfileOpen
   isSelectedCreate: IsSelectedCreate
   isSettingsOpen: IsSettingsOpen
@@ -253,6 +253,7 @@ export type AppContextType = {
   maxCount: MaxCount
   mdxPage: MdxPage
   mdxPagesMap: MdxPagesMap
+  modalConfig: ModalConfig | null
   openAiAvgTokens: OpenAiAvgTokens
   openAiBudget: OpenAiBudget
   openAiKey: OpenAiKey
@@ -261,6 +262,7 @@ export type AppContextType = {
   question: Question
   questionContext: QuestionContext
   scenario: Scenario
+  screenState: ScreenState
   selectedLessonNumber: LessonNumber
   setActivateLessonBar: SetActivateLessonBar
   setActiveHome: SetActiveHome
@@ -309,12 +311,14 @@ export type AppContextType = {
   setOpenAiAvgTokens: SetOpenAiAvgTokens
   setOpenAiBudget: SetOpenAiBudget
   setOpenAiKey: SetOpenAiKey
-  setPaywall: SetPaywall
   setOpenAiUsage: SetOpenAiUsage
+  setPaywall: SetPaywall
   setQuestion: SetQuestion
   setQuestionContext: SetQuestionContext
   setScenario: SetScenario
+  setScreenState: SetScreenState
   setSelectedLessonNumber: SetLessonNumber
+  setShowIsUserValidatedModal: SetShowIsUserValidatedModal
   setSourceLanguage: SetSourceLanguage
   setTargetLanguage: SetTargetLanguage
   setTtsAvgChars: SetTtsAvgChars
@@ -324,8 +328,8 @@ export type AppContextType = {
   setUseMyself: SetUseMyself
   setUserData: SetUserData
   setVerificationToken: SetVerificationToken
-  setShowIsUserValidatedModal: SetShowIsUserValidatedModal
   showIsUserValidatedModal: ShowIsUserValidatedModal
+  showModal: (config: ModalConfig) => void
   sourceLanguage: Language
   targetLanguage: Language
   ttsAvgChars: TtsAvgChars
@@ -333,8 +337,8 @@ export type AppContextType = {
   ttsCharUsage: TtsCharUsage
   useCloudTTS: UseCloudTTS
   useMyself: UseMyself
-  verificationToken: VerificationToken
   userData: UserData
+  verificationToken: VerificationToken
 }
 
 // const generateUUID = (): string =>
@@ -363,6 +367,9 @@ export const mdxPagesMap: MdxPagesMap = {
 export type SetMdxPage = React.Dispatch<React.SetStateAction<MdxPage>>
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+  const [screenState, setScreenState] = useState<ScreenState>(defaultScreenState)
+
   const [engageSpanish, setEngageSpanish] = useState<EngageSpanish>(false)
   
   const[paywall, setPaywall] = useState<Paywall>(defaultPaywall)
@@ -467,12 +474,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }
 
   const AppContextValue = {
-    isModalVisible,
-    modalConfig,
-    showModal,
-    hideModal,
 
-    mdxPagesMap,
 
     activateLessonBar,
     activeHome,
@@ -498,12 +500,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     gcpKey,
     generateTTSCount,
     helpPanel,
+    hideModal,
     inputText,
     isHelpOpen,
     isMenuOpen,
+    isModalVisible,
     isProfileOpen,
-    isSettingsOpen,
     isSelectedCreate,
+    isSettingsOpen,
     isTransitioning,
     isUserValidated,
     lesson,
@@ -518,6 +522,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     maskOpenAiKey,
     maxCount,
     mdxPage,
+    mdxPagesMap,
+    modalConfig,
     openAiAvgTokens,
     openAiBudget,
     openAiKey,
@@ -526,6 +532,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     question,
     questionContext,
     scenario,
+    screenState,
     selectedLessonNumber,
     setActivateLessonBar,    
     setActiveHome,
@@ -579,6 +586,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setQuestion,
     setQuestionContext,
     setScenario,
+    setScreenState,
     setSelectedLessonNumber,
     setShowIsUserValidatedModal,
     setSourceLanguage,
@@ -591,6 +599,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setUserData,
     setVerificationToken,
     showIsUserValidatedModal,
+    showModal,
     sourceLanguage,
     targetLanguage,
     ttsAvgChars,
@@ -598,8 +607,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     ttsCharUsage,
     useCloudTTS,
     useMyself,
-    verificationToken,
-    userData
+    userData,
+    verificationToken
   }
 
   return (

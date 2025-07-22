@@ -28,14 +28,26 @@ import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
 import ColorScheme from '@components/ColorScheme/__tests__/ColorScheme'
 import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
 
-
 const AppMain = () => {
   const { mdxPagesMap } = useAppContext()
 
   return (
     <>
+<div
+  tabIndex={0}
+  // aria-hidden="true"
+  className="absolute opacity-0 pointer-events-none"
+  id="initial-focus-anchor"
+/>
+
+{/* <div className="sr-only white" role="region" aria-label="App loaded and ready">
+  Application ready
+</div> */}
+
+
+
       <ModalGlobal />
-      <div className="app bg-blue flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden bg-blue">
+      <div className="app bg-blue flex max-w6X min-w5 relative w-100 center min-vh-100 overflow-hidden">
         <LessonBar />
 
         {/* 🧭 ROUTED MDX PANELS */}
@@ -173,14 +185,53 @@ const App: React.FC = () => {
     fetchUserDataAndPaywall()
   }, [isUserValidated, clientUUID, setUserData, setPaywall, refreshPaywall, setFlexLesson, setLesson, setLessons, setSelectedLessonNumber, setLessonPrompt, setLessonTimestamp])
 
+  useEffect(() => {
+    const handleFocus = (e: FocusEvent) => {
+      console.log('Focused element:', e.target)
+    }
+    window.addEventListener('focusin', handleFocus)
+    return () => window.removeEventListener('focusin', handleFocus)
+  }, [])
 
-  return (
-    <Router>
-      <Routes>
-        <Route path="/*" element={<AppMain />} />
-      </Routes>
-    </Router>
-  )
+  const alwaysTrue = false
+  if (alwaysTrue) {
+    return (
+      <>
+      <div className="bg-yellow flex flex-column justify-center items-center min-vh-100 w-100">
+        <header className="header">
+          <h1 className="tc">Practice App</h1>
+          <nav className="w-full flex justify-between">
+            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white">Home</button>
+            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('Home clicked')}>Home</button>
+            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('About clicked')}>About</button>
+            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('Contact clicked')}>Contact</button>
+          </nav>
+        </header>
+
+        <main id="main" className="main w-50">
+          <h2 className="tc">Main Content</h2>
+          <div className="w-full flex justify-center">
+            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('First action')}>Action 1</button>
+            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('Second action')}>Action 2</button>
+            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('Third action')}>Action 3</button>
+          </div>
+        </main>
+
+        <footer className="footer">
+          <p>Footer content here.</p>
+        </footer>
+      </div>
+      </>
+    )
+  } else {
+      return (
+        <Router>
+          <Routes>
+            <Route path="/*" element={<AppMain />} />
+          </Routes>
+        </Router>
+      )
+  }
 }
 
 export default App

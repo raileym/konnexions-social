@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { defaultMarketingPreferences } from '@shared/cknTypes/types'
-import { MARKETING_PREFERENCE } from '@shared/cknTypes/constants'
+import { MARKETING_PREFERENCE, SCREEN } from '@shared/cknTypes/constants'
 import type { MarketingPreferences } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { upsertMarketingPreferences } from '@components/upsertMarketingPreferences/upsertMarketingPreferences'
@@ -11,7 +11,7 @@ export const SelectMarketingPreferences = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const { clientUUID } = useAppContext()
+  const { clientUUID, screenState } = useAppContext()
 
   useEffect(() => {
     const load = async () => {
@@ -76,6 +76,7 @@ export const SelectMarketingPreferences = () => {
         return (
           <label key={key} className="flex items-center space-x-2">
           <input
+            tabIndex={screenState[SCREEN.PROFILE] ? 0 : -1}
             type="checkbox"
             checked={preferences[label] ?? false}
             onChange={() => handleToggle(key as keyof typeof MARKETING_PREFERENCE)}

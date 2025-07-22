@@ -116,9 +116,16 @@ const NavbarTop: React.FC = () => {
           </div>
 
           <div className="">
-            <Button isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bn wiggle'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-            <Button isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-            <Button isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+{/* <a
+  href="#main"
+  className="skip-link focus:white focus:bg-green"
+>
+  Skip to main content
+</a> */}
+
+            <Button tabIndex={1} isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bn wiggle focus:b--red bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+            <Button tabIndex={2} isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+            <Button tabIndex={3} isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
           </div>
         </div>
       </div>

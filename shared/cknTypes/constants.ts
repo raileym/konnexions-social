@@ -234,3 +234,16 @@ export const PAYWALL_PACKAGE = {
   GREEN: 'green',
   YELLOW: 'yellow'
 } as const
+
+export const SCREEN = {
+  MAIN: 'main',
+  REVIEW: 'review',
+  PROFILE: 'profile',
+  SETTINGS: 'settings',
+  CREATE: 'create',
+  PAYWALL: 'paywall',
+  GEN_AI: 'genAI',
+  GEN_AI_PRO: 'genAIPro',
+  MENU: 'menu'
+} as const
+

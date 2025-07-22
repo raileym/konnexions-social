@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { type Language, type UseMyself } from '@cknTypes/types'
-import { LANGUAGE, SCENARIO_LABELS } from '@cknTypes/constants'
+import { LANGUAGE, SCENARIO_LABELS, SCREEN } from '@cknTypes/constants'
 import Button from '@components/Button/Button'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek } from '@components/getCurrentWeek'
@@ -27,7 +27,8 @@ const PanelGenAI: React.FC = () => {
     openAiUsage,
     setOpenAiUsage,
     answer,
-    scenario
+    scenario,
+    screenState
   } = useAppContext()
 
   const incrementOpenAiUsage = () => {
@@ -88,7 +89,7 @@ const PanelGenAI: React.FC = () => {
 
   return (
     <div className={'panel-right panel-gen-ai-components bw1 b--moon-gray bl z-1 absolute top-0 left-0 w-90 h-100 bg-light-gray transition-transform translate-x-0'}>
-      <div className='h-100 w-100 overflow-y-auto'>
+      <div tabIndex={screenState[SCREEN.GEN_AI] ? 0 : -1} className='h-100 w-100 overflow-y-auto'>
         <div className='pa4 mw7 w-100 background center mb5'>
           <h2 className='f3 pa3 pb0 mt5 w-100 tc'>Spanish: Scenarios</h2>
           <div className='f3 pv3 pt0 mt0'>{headline}</div>
@@ -100,7 +101,7 @@ const PanelGenAI: React.FC = () => {
                 <div>Set a <b>GenAI Key</b> to use a Generative AI technology</div>
                 <div className='w-100 flex justify-center pa4'>
                   <div>
-                    <Button switchFn={switchPanel} isActive={false} panel='keys' icon={faKey} title='API Keys' />
+                    <Button tabIndex={screenState[SCREEN.GEN_AI] ? 0 : -1} switchFn={switchPanel} isActive={false} panel='keys' icon={faKey} title='API Keys' />
                   </div>
                 </div>
               </div>

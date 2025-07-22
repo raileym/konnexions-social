@@ -1,4 +1,4 @@
-import { USER_EMAIL_NOT_VALIDATED, USER_EMAIL_VALIDATED } from '@cknTypes/constants'
+import { SCREEN, USER_EMAIL_NOT_VALIDATED, USER_EMAIL_VALIDATED } from '@cknTypes/constants'
 import { getUserData } from '@components/getUserData/getUserData'
 import Paywall from '@components/Paywall/Paywall'
 import { SelectMarketingPreferences } from '@components/SelectMarketingPreferences/SelectMarketingPreferences'
@@ -29,7 +29,8 @@ const PanelRequestEmailComponents = () => {
     setLessons,
     setSelectedLessonNumber,
     setLessonPrompt,
-    setLessonTimestamp
+    setLessonTimestamp,
+    screenState
   } = useAppContext()
 
   const { refreshPaywall } = usePaywall()
@@ -149,7 +150,6 @@ const PanelRequestEmailComponents = () => {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const clearLocalStorageExceptEssential = () => {
     const preserveKeys = ['debugMode']
     Object.keys(localStorage).forEach(key => {
@@ -241,6 +241,7 @@ const PanelRequestEmailComponents = () => {
         <Paywall />
 
         <button
+          tabIndex={screenState[SCREEN.PROFILE] ? 1 : -1}
           type="button"
           onClick={clearLocalStorageExceptEssential}
           className="mt4 b ph4 pv3 input-reset ba b--red bg-on-background red grow pointer f6 br3 dib"

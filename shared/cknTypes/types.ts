@@ -20,7 +20,8 @@ import {
   MARKETING_PREFERENCE,
   PAYWALL_TIER,
   PAYWALL_PACKAGE,
-  MDX_PAGE
+  MDX_PAGE,
+  SCREEN
 } from './constants.js'
 
 export type UserData = {
@@ -1134,6 +1135,7 @@ export type TiptapEditorProps = {
 }
 
 export type ButtonProps = {
+  tabIndex: number
   disable?: boolean
   panel?: ActivePanel | ActiveHome
   icon?: IconProp // IconDefinition
@@ -1344,4 +1346,21 @@ export type LegalBlockProps = {
   children: React.ReactNode
 }
 
-// ThemeTypes.ts
+export type ScreenValue = (typeof SCREEN)[keyof typeof SCREEN]
+export type ScreenKey = keyof typeof SCREEN
+export type Screen = ScreenValue
+
+export type ScreenState = Record<ScreenValue, boolean>
+export type SetScreenState = React.Dispatch<React.SetStateAction<ScreenState>>
+
+export const defaultScreenState: ScreenState = {
+    [SCREEN.MAIN]: true,
+    [SCREEN.REVIEW]: false,
+    [SCREEN.PROFILE]: false,
+    [SCREEN.SETTINGS]: false,
+    [SCREEN.CREATE]: false,
+    [SCREEN.PAYWALL]: false,
+    [SCREEN.GEN_AI]: false,
+    [SCREEN.GEN_AI_PRO]: false,
+    [SCREEN.MENU]: false
+  }

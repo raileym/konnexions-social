@@ -4,7 +4,7 @@ import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { APP_PANEL, MDX_PAGE, NAVBAR_BOTTOM_TRANSLATE_Y } from '@cknTypes/constants'
+import { APP_PANEL, MDX_PAGE, NAVBAR_BOTTOM_TRANSLATE_Y, SCREEN } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useHelpPanel } from '@hooks/useHelpPanel'
@@ -23,7 +23,9 @@ const NavbarBottom: React.FC = () => {
     selectedLessonNumber, 
     engageSpanish,
     setMdxPage,
-    isSelectedCreate, setIsSelectedCreate
+    isSelectedCreate,
+    setIsSelectedCreate,
+    screenState
   } = useAppContext()
 
   const { switchPanel } = usePanel()
@@ -81,8 +83,8 @@ const NavbarBottom: React.FC = () => {
       >
         <div>
           <div className="bg-blueX mb0 pb0 w-100X h2 tc on-background">Konnect with Spanish!</div>
-          {/* <Button iconClass={'f2'} disable={!isUserValidated} buttonClass='mh3 bn' isActive={activePanel === APP_PANEL.BASIC_WELCOME} switchFn={switchPanel} panel={APP_PANEL.BASIC_WELCOME} img={'icons8-sombrero-48.png'} title='Bienvenido!' /> */}
           <Button
+            tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
             reverse={true}
             iconClass={`f2 ${isSelectedCreate ? 'secondaryX' : 'secondaryX'}`}
             // iconClass={`f2 ${isSelectedCreate ? 'secondary' : 'on-background'}`}
@@ -102,16 +104,10 @@ const NavbarBottom: React.FC = () => {
               // setSelectedCreate(prev => !prev)
             }}
           />
-          <Button iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
+          <Button tabIndex={screenState[SCREEN.CREATE] ? 0 : -1} iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
         </div>
       </div>
 
-      {/* <Button buttonClass='w-50X' isActive={activePanel === APP_PANEL.MDX} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faCoffee} title='MDX' /> */}
-      {/* <Button disable={!isUserValidated} buttonClass='' isActive={activePanel === APP_PANEL.GEN_AI} switchFn={switchPanel} panel={APP_PANEL.GEN_AI} icon={faRobot} title='GenAI' /> */}
-      {/* <Button disable={!isUserValidated} buttonClass='' isActive={activePanel === APP_PANEL.GEN_AI_PRO} switchFn={switchPanel} panel={APP_PANEL.GEN_AI_PRO} icon={faRobot} title='GenAI Pro' /> */}
-      {/* <Button disable={!isUserValidated} buttonClass='' isActive={activePanel === APP_PANEL.SETTINGS} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings' /> */}
-      {/* <Button disable={!isUserValidated} buttonClass='' isActive={activePanel === APP_PANEL.KEYS} switchFn={switchPanel} panel='keys' icon={faKey} title='API Keys' /> */}
-      {/* <Button disable={!isUserValidated} buttonClass='' isActive={activePanel === APP_PANEL.MENU} switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} title='Menu' /> */}
     </nav>
   )
 }

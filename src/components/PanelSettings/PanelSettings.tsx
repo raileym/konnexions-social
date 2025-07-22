@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useSettingsPanel } from '@hooks/useSettingsPanel';
 import { useThemeContext } from '@context/ThemeContext/ThemeContext';
+import { SCREEN } from '@cknTypes/constants';
 // import { COLOR_PALETTE } from '@cknTypes/constants';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +13,7 @@ const SETTINGS_PANEL_TRANSLATE_X = 'translate-x-60' // must match the right offs
 const PanelSettings: React.FC = () => {
   const PanelSettingsRef = useRef<HTMLDivElement>(null);
   
-  const { isSettingsOpen } = useAppContext()
+  const { isSettingsOpen, screenState } = useAppContext()
   const { theme, setTheme } = useThemeContext()
  
   const { closeSettings } = useSettingsPanel()
@@ -76,7 +77,7 @@ const PanelSettings: React.FC = () => {
       ref={PanelSettingsRef}
       className={`panel-right-short panel-settings pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}
     >
-      <div className="h-100 w-100 overflow-y-auto">
+      <div tabIndex={screenState[SCREEN.SETTINGS] ? 0 : -1} className="h-100 w-100 overflow-y-auto">
         <div className={`pa4 ${SETTINGS_PANEL_WIDTH_PERCENT} mb5`}>
           <div className="f3 tc pt5 b background w-100X">Settings Panel</div>
           <h2 className="f5 pa3 mt5">{headline}</h2>

@@ -4,7 +4,7 @@ import { defaultLesson, type Lesson } from '@cknTypes/types'
 // import ShowMaxCount from '@components/ShowMaxCount'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { APP_PANEL } from '@cknTypes/constants'
+import { APP_PANEL, SCREEN } from '@cknTypes/constants'
 import { usePanel } from '@hooks/usePanel'
 
 export const LessonBar: React.FC = () => {
@@ -18,7 +18,8 @@ export const LessonBar: React.FC = () => {
     setLessonComplete,
     setLesson,
     activateLessonBar,
-    paywall
+    paywall,
+    screenState
   } = useAppContext()
   
   const translateX = activateLessonBar ? 'translateX-0' : 'translateX--100'
@@ -55,8 +56,13 @@ export const LessonBar: React.FC = () => {
   }
 
   return (
-    <div className={`panel-left lesson-bar bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--background-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
+    <div
+      tabIndex={-1}
+      aria-hidden={true}
+      className={`panel-left lesson-bar bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--background-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
       <button
+        tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
+        aria-hidden={!screenState[SCREEN.REVIEW]}
         onClick={handleAddLesson}
         className="mv3X pa2 bn bbX b--backgroundX bw3 ba bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
       >

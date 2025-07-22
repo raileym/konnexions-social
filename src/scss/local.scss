@@ -217,3 +217,14 @@ p {
   box-shadow:none; 
   background-color:#f8f8f8;
 }
+
+*:focus-visible {
+  outline: 5px solid red; /* Or any color that pops */
+  outline-offset: 2px;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 4px solid red;
+  outline-offset: 2px;
+}
