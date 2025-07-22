@@ -1,7 +1,9 @@
 import MyKonnexionsSlash from '@components/MyKonnexionsSlash/MyKonnexionsSlash'
 
 type MyKonnexionsTitleProps = {
-  describedBy?: string
+  ariaLabel?: string
+  ariaDescribedBy?: string
+  ariaHidden?: boolean
   color?: string
   slashColor?: string
   fontSizeInRem?: number
@@ -11,19 +13,20 @@ type MyKonnexionsTitleProps = {
 }
 
 const MyKonnexionsTitle = ({
-  describedBy = '', 
+  ariaLabel = '',
+  ariaDescribedBy = '',
+  ariaHidden = false,
   shorten = false, 
   slashColor = 'primary', 
   color = 'secondary', 
   fontSizeInRem = 1, 
   nominal = ''}: MyKonnexionsTitleProps
 ) => {
-  const title = describedBy ? describedBy : `My Connections ${nominal}`
+  // const title = describedBy ? describedBy : `My Connections ${nominal}`
 
 return (  
     <>
-      {!shorten && <span aria-label={''} id={'konnextions-title'} className="sr-only">{title}</span>}
-      <div aria-decribedBy={`konnextions-title${shorten ? '-shorten' : ''}`} className="konnexions-title dib lh-2-kx" style={{marginLeft: '-.3rem'}}>
+      <div aria-hidden={ariaHidden} aria-label={ariaLabel} aria-decribedBy={ariaDescribedBy} className="konnexions-title dib lh-2-kx" style={{marginLeft: '-.3rem'}}>
         <div aria-hidden={true} className="flex flex-row">
           {!shorten && <div className={`b ${color} mr2`}>My</div>}
           <div className={`b ${slashColor}`}>K</div>
