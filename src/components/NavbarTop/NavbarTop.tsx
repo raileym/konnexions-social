@@ -96,7 +96,7 @@ const NavbarTop: React.FC = () => {
                   <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
                     <div className="absolute top-0 left-0 bg-secondary mt2 width-3-kx br3 height-3-kx"></div>
                     <div className="konnexions-title f2 absolute top-0 left-0 ml2">
-                      <MyKonnexionsTitle shorten={true} color='white' fontSizeInRem={2}/>
+                      <MyKonnexionsTitle shorten={true} color='on-background' fontSizeInRem={2}/>
                     </div>
                   </div>
                 </div>
@@ -123,9 +123,9 @@ const NavbarTop: React.FC = () => {
   Skip to main content
 </a> */}
 
-            <Button tabIndex={1} isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bn wiggle focus:b--red bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-            <Button tabIndex={2} isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-            <Button tabIndex={3} isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+            <Button tabIndex={1} ariaHidden={false} isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bn wiggle focus:b--red bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+            <Button tabIndex={2} ariaHidden={false} isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+            <Button tabIndex={3} ariaHidden={false} isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
           </div>
         </div>
       </div>

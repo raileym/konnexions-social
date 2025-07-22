@@ -55,7 +55,7 @@ const PanelProfile = () => {
         ref={PanelProfileRef}
         className={`panel-right-short panel-profile absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary pt5 on-background transition-transform ${translateX}`}
       >
-        <div tabIndex={screenState[SCREEN.PROFILE] ? 0 : -1} className="h-100 w-100 overflow-y-auto">
+        <div tabIndex={screenState[SCREEN.PROFILE] ? 0 : -1} aria-hidden={!screenState[SCREEN.PROFILE]} className="h-100 w-100 overflow-y-auto">
           <div className={`pa4X ${PROFILE_PANEL_WIDTH_PERCENT} mb5`}>
             <PanelProfileComponents />
           </div>

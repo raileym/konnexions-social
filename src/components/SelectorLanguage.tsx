@@ -1,10 +1,10 @@
 import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { type Language } from '@cknTypes/types'
-import { LANGUAGE, LANGUAGE_TITLE } from '@cknTypes/constants'
+import { LANGUAGE, LANGUAGE_TITLE, SCREEN } from '@cknTypes/constants'
 
 const SelectorLanguage: React.FC = () => {
-  const { targetLanguage, setTargetLanguage } = useAppContext()
+  const { targetLanguage, setTargetLanguage, screenState } = useAppContext()
 
   const languages: Language[] = [
     LANGUAGE.ENGLISH,
@@ -20,6 +20,8 @@ const SelectorLanguage: React.FC = () => {
         {languages.map((code) => (
           <label key={code} className="mr3 mb2 flex items-center">
             <input
+              tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
+              aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
               type="radio"
               name="language" // fixed name ensures exclusive selection
               value={code}

@@ -1135,6 +1135,7 @@ export type TiptapEditorProps = {
 }
 
 export type ButtonProps = {
+  ariaHidden: boolean
   tabIndex: number
   disable?: boolean
   panel?: ActivePanel | ActiveHome

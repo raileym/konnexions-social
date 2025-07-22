@@ -77,6 +77,7 @@ export const SelectMarketingPreferences = () => {
           <label key={key} className="flex items-center space-x-2">
           <input
             tabIndex={screenState[SCREEN.PROFILE] ? 0 : -1}
+            aria-hidden={!screenState[SCREEN.PROFILE]}
             type="checkbox"
             checked={preferences[label] ?? false}
             onChange={() => handleToggle(key as keyof typeof MARKETING_PREFERENCE)}

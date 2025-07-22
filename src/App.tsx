@@ -35,7 +35,7 @@ const AppMain = () => {
     <>
 <div
   tabIndex={0}
-  // aria-hidden="true"
+  aria-hidden="false"
   className="absolute opacity-0 pointer-events-none"
   id="initial-focus-anchor"
 />

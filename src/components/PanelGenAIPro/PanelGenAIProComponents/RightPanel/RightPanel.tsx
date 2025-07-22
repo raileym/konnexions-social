@@ -11,7 +11,8 @@ import {
   // SCENARIO,
   MODULE_NAME,
   LANGUAGE_TITLE,
-  SCENARIO
+  SCENARIO,
+  SCREEN
 } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
@@ -107,7 +108,8 @@ const RightPanel: React.FC = () => {
     flexLesson,
     formattedFlexLesson,
     
-    lessonComplete //,
+    lessonComplete,
+    screenState //,
     // setLessonComplete
   } = useAppContext()
   
@@ -160,6 +162,8 @@ const RightPanel: React.FC = () => {
         <>
           <div className="mv3X flex justify-center">
             <button
+              tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
+              aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
               onClick={() => setDebugMode(prev => !prev)}
               className={`w-30 pa3 br2 bn ${debugMode ? 'bg-brand' : 'bg-background'} on-background pointer`}
             >
@@ -199,6 +203,8 @@ const RightPanel: React.FC = () => {
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
+                tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
+                aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
                 className={`f3 pa3 br4 bn ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   const formattedFlexLesson = formatFlexLesson({flexLesson})

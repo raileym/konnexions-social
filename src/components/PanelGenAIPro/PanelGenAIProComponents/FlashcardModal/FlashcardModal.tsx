@@ -148,6 +148,7 @@ export function FlashcardModal({
               onClick={() => setShowBack(s => !s)}
               ref={cardRef}
               tabIndex={-1}
+              aria-hidden={true}
               style={{
                 width: '100%',
                 height: '8rem',

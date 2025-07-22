@@ -77,7 +77,7 @@ const PanelSettings: React.FC = () => {
       ref={PanelSettingsRef}
       className={`panel-right-short panel-settings pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}
     >
-      <div tabIndex={screenState[SCREEN.SETTINGS] ? 0 : -1} className="h-100 w-100 overflow-y-auto">
+      <div tabIndex={screenState[SCREEN.SETTINGS] ? 0 : -1} aria-hidden={screenState[SCREEN.SETTINGS]} className="h-100 w-100 overflow-y-auto">
         <div className={`pa4 ${SETTINGS_PANEL_WIDTH_PERCENT} mb5`}>
           <div className="f3 tc pt5 b background w-100X">Settings Panel</div>
           <h2 className="f5 pa3 mt5">{headline}</h2>

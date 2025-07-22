@@ -8,7 +8,7 @@ import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useSettingsPanel } from '@hooks/useSettingsPanel'
 
-const Button = ({ tabIndex, reverse = false, iconClass, titleClass, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
+const Button = ({ tabIndex, ariaHidden, reverse = false, iconClass, titleClass, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
   const { isHelpOpen, isMenuOpen, isProfileOpen, isSettingsOpen } = useAppContext()
   const { openProfile, closeProfile } = useProfilePanel()
   const { openHelp, closeHelp } = useHelpPanel()
@@ -59,6 +59,7 @@ const Button = ({ tabIndex, reverse = false, iconClass, titleClass, disable, pan
   return (
     <button
       tabIndex={tabIndex}
+      aria-hidden={ariaHidden}
       onClick={() => { if (!disable) handleClick() }}
       disabled={disable}
       className={`f2 pa1 focus:bg-red focus:b--red bw3 pointer width-2X secondary ${isActive ? 'bg-background' : 'bg-on-background'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
