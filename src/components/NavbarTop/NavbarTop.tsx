@@ -95,8 +95,8 @@ const NavbarTop: React.FC = () => {
                 <div className="flex flex-row f3">
                   <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
                     <div className="absolute top-0 left-0 bg-secondary mt2 width-3-kx br3 height-3-kx"></div>
-                    <div className="konnexions-title absolute top-0 left-0 ml2">
-                      <MyKonnexionsTitle shorten={true} color='white' fontSizeInRem={1}/>
+                    <div className="konnexions-title f2 absolute top-0 left-0 ml2">
+                      <MyKonnexionsTitle shorten={true} color='white' fontSizeInRem={2}/>
                     </div>
                   </div>
                 </div>

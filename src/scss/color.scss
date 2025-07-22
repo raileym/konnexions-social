@@ -74,10 +74,14 @@ $onSecondaryContainer: var(--kx-onSecondaryContainer);
 $onTertiaryContainer: var(--kx-onTertiaryContainer);
 
 $palette-color: (
-  primary: ( main: $primary, on: $onPrimary ),
-  secondary: ( main: $secondary, on: $onSecondary ),
-  tertiary: ( main: $tertiary, on: $onTertiary ),
-  background: ( main: $background, on: $onBackground )
+  primary: $primary,
+  secondary: $secondary,
+  tertiary: $tertiary,
+  background: $background,
+  on-primary: $onPrimary, 
+  on-secondary: $onSecondary,
+  on-tertiary: $onTertiary,
+  on-background: $onBackground
 );
 
 .transparent { color: transparent }
@@ -93,16 +97,9 @@ $palette-color: (
 .b--brand-red { border-color: $brand-red }
 
 @each $name, $colors in $palette-color {
-  $main: map-get($colors, main);
-  $on: map-get($colors, on);
-
-  .#{$name}            { color: $main }
-  .bg-#{$name}         { background-color: $main }
-  .b--#{$name}         { border-color: $main }
-
-  .on-#{$name}         { color: $on }
-  .bg-on-#{$name}      { background-color: $on }
-  .b--on-#{$name}      { border-color: $on }
+  .#{$name}            { color: $colors }
+  .bg-#{$name}         { background-color: $colors }
+  .b--#{$name}         { border-color: $colors }
 }
 
 $color-set: ( 

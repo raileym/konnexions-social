@@ -28,6 +28,7 @@ import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
 import ColorScheme from '@components/ColorScheme/__tests__/ColorScheme'
 import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
 
+
 const AppMain = () => {
   const { mdxPagesMap } = useAppContext()
 
