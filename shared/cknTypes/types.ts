@@ -1135,7 +1135,8 @@ export type TiptapEditorProps = {
 }
 
 export type ButtonProps = {
-  ariaHidden: boolean
+  ariaDescribedBy?: string
+  ariaDisabled?: boolean
   tabIndex: number
   disable?: boolean
   panel?: ActivePanel | ActiveHome
@@ -1369,7 +1370,7 @@ export const defaultScreenState: ScreenState = {
 
 export type SelectorScenarioProps = {
   tabIndex: number
-  ariaHidden: boolean
+  ariaDisabled: boolean
   custom: boolean
 }
 

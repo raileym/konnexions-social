@@ -46,7 +46,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
           <div className="mh2 mh3-m mh4-ns">
             <button
               tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.CREATE]}
+              aria-disabled={!screenState[SCREEN.CREATE]}
               onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
               className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m b bg-on-background brand bn'}
               title="Header 1"
@@ -55,7 +55,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             </button>
             <button
               tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.CREATE]}
+              aria-disabled={!screenState[SCREEN.CREATE]}
               onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
               className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m b bg-on-background brand bn'}
               title="Header 2"
@@ -64,7 +64,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             </button>
             <button
               tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.CREATE]}
+              aria-disabled={!screenState[SCREEN.CREATE]}
               onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
               className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m b bg-on-background brand bn'}
               title="Header 3"
@@ -76,7 +76,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
           <div className="mh2 mh3-m mh4-ns">
             <button
               tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.CREATE]}
+              aria-disabled={!screenState[SCREEN.CREATE]}
               onClick={() => editor.chain().focus().toggleBold().run()}
               disabled={!editor.can().chain().focus().toggleBold().run()}
               className={'bn w2 h2 mv1 mv0-ns mh1 mh1-ns f2 f3-m b bg-on-background brand'}
@@ -89,7 +89,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
 
             <button
               tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.CREATE]}
+              aria-disabled={!screenState[SCREEN.CREATE]}
               onClick={() => editor.chain().focus().toggleItalic().run()}
               disabled={!editor.can().chain().focus().toggleItalic().run()}
               className={'bn w2 h2 mv1 mv0-ns mh1 mh1-ns f2 f3-m b bg-on-background brand'}
@@ -102,7 +102,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
 
             <button
               tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.CREATE]}
+              aria-disabled={!screenState[SCREEN.CREATE]}
               onClick={() => editor.chain().focus().toggleUnderline().run()}
               disabled={!editor.can().chain().focus().toggleUnderline().run()}
               className={'bn w2 h2 mv1 mv0-ns mh1 mh1-ns f2 f3-m bg-on-background brand b'}
@@ -119,7 +119,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
           <div className="mh2 mh3-m mh4-ns">
             <button
               tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.CREATE]}
+              aria-disabled={!screenState[SCREEN.CREATE]}
               onClick={() => editor.chain().focus().toggleBulletList().run()}
               disabled={!editor.can().chain().focus().toggleBulletList().run()}
               className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m bg-on-background brand bn'}
@@ -129,7 +129,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
 
             <button
               tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.CREATE]}
+              aria-disabled={!screenState[SCREEN.CREATE]}
               onClick={() => editor.chain().focus().toggleOrderedList().run()}
               disabled={!editor.can().chain().focus().toggleOrderedList().run()}
               className={'w2 h2 mv1 mv0-ns mh1 mh2-m mh3-ns f2 f3-m bg-on-background brand bn'}
@@ -141,8 +141,8 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
 
         <EditorContent
           tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-          // aria-hidden={!screenState[SCREEN.CREATE]}
-          aria-hidden={false}
+          // aria-disabled={!screenState[SCREEN.CREATE]}
+          aria-disabled={false}
           editor={editor}
           className="min-h-[200px] f5 f6-m h5 ph3 b---background-300X overflow-auto roundedX p-4X focus:outline-noneX focus:ring-2X focus:ring-blue-400X"
         />

@@ -20,7 +20,7 @@ const SelectorLessonPromptStyle: React.FC = () => {
           <label key={style} className="mh3 mb1 flex items-center">
             <input
               tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
+              aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
               type="radio"
               name="content-style"
               value={style}

@@ -27,7 +27,7 @@ export const TextareaFlexLesson = ({title}: TextareaFlexLessonProps) => {
       <div className="w-60 center db mb2 f3 mb3">{title}</div>
       <textarea
         tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
-        aria-hidden={!screenState[SCREEN.REVIEW]}
+        aria-disabled={!screenState[SCREEN.REVIEW]}
         value={flexLesson}
         onChange={handleChange}
         className="w-100 ba b--gray br2 pa2"

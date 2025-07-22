@@ -11,7 +11,7 @@ const InputCustomParticipantList: React.FC = () => {
       <label className="db mb2 f5 b">Custom Participants</label>
       <input
         tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-        aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
+        aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
         type="text"
         value={customParticipantList}
         onChange={(e) => setCustomParticipantList(e.target.value)}

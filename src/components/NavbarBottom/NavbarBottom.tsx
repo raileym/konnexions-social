@@ -85,7 +85,7 @@ const NavbarBottom: React.FC = () => {
           <div className="bg-blueX mb0 pb0 w-100X h2 tc on-background">Konnect with Spanish!</div>
           <Button
             tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-            ariaHidden={!screenState[SCREEN.CREATE]}
+            ariaDisabled={!screenState[SCREEN.CREATE]}
             reverse={true}
             iconClass={`f2 ${isSelectedCreate ? 'secondaryX' : 'secondaryX'}`}
             // iconClass={`f2 ${isSelectedCreate ? 'secondary' : 'on-background'}`}
@@ -105,7 +105,7 @@ const NavbarBottom: React.FC = () => {
               // setSelectedCreate(prev => !prev)
             }}
           />
-          <Button tabIndex={screenState[SCREEN.CREATE] ? 0 : -1} ariaHidden={!screenState[SCREEN.CREATE]} iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
+          <Button tabIndex={screenState[SCREEN.CREATE] ? 0 : -1} ariaDisabled={!screenState[SCREEN.CREATE]} iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
         </div>
       </div>
 

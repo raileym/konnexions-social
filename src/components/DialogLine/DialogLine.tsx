@@ -48,7 +48,7 @@ export const DialogLine = ({
         </div>
         <button
           tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
-          aria-hidden={!screenState[SCREEN.REVIEW]}        
+          aria-disabled={!screenState[SCREEN.REVIEW]}        
           onClick={handleSpeak}
           className="ml3 f6 br2 ph2 pv1 dib on-background bg-secondary hover:bg-blue no-outline"
         >

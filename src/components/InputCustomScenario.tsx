@@ -11,7 +11,7 @@ const InputCustomScenario: React.FC = () => {
       <label className="db mb2 f5 b">Custom Scenario</label>
       <input
         tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-        aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
+        aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
         type="text"
         value={customScenario}
         onChange={(e) => setCustomScenario(e.target.value)}

@@ -22,7 +22,7 @@ const Paywall = () => {
       <div className="mt3 flex gap2">
         <button
           tabIndex={screenState[SCREEN.PAYWALL] ? 0 : -1}
-          aria-hidden={!screenState[SCREEN.PAYWALL]}
+          aria-disabled={!screenState[SCREEN.PAYWALL]}
           className="n1 w4 f6 mr2 br3 ba bw1 ph3 pv2 mb2 dib background b--green bg-green hover:b--green active:bg-oceanblue active:on-background"
           onClick={() => bumpPackages({bumpGreenCount: 20, bumpYellowCount: 0})}
         >
@@ -31,7 +31,7 @@ const Paywall = () => {
 
         <button
           tabIndex={screenState[SCREEN.PAYWALL] ? 1 : -1}
-          aria-hidden={!screenState[SCREEN.PAYWALL]}
+          aria-disabled={!screenState[SCREEN.PAYWALL]}
           className="n2 w4 f6 ml2 br3 ba bw1 ph3 pv2 mb2 dib background b--yellow bg-yellow hover:b--yellow active:bg-oceanblue active:on-background"
           onClick={() => bumpPackages({bumpGreenCount: 0, bumpYellowCount: 20})}
         >
@@ -42,7 +42,7 @@ const Paywall = () => {
       <div className="mt3 flex gap2">
         <button
           tabIndex={screenState[SCREEN.PAYWALL] ? 2 : -1}
-          aria-hidden={!screenState[SCREEN.PAYWALL]}
+          aria-disabled={!screenState[SCREEN.PAYWALL]}
           className="n3 w4 f6 mr2 br3 ba bw1 ph3 pv2 mb2 dib background b--green bg-green hover:b--green active:bg-oceanblue active:on-background"
           onClick={() => setPackages({greenCount: 20, yellowCount: paywall?.paywall_package_yellow_remaining ?? 0})}
         >
@@ -51,7 +51,7 @@ const Paywall = () => {
 
         <button
           tabIndex={screenState[SCREEN.PAYWALL] ? 3 : -1}
-          aria-hidden={!screenState[SCREEN.PAYWALL]}
+          aria-disabled={!screenState[SCREEN.PAYWALL]}
           className="n4 w4 f6 ml2 br3 ba bw1 ph3 pv2 mb2 dib background b--yellow bg-yellow hover:b--yellow active:bg-oceanblue active:on-background"
           onClick={() => setPackages({greenCount: paywall?.paywall_package_green_remaining ?? 0, yellowCount: 20})}
         >

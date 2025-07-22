@@ -3,7 +3,7 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { type Scenario, type SelectorScenarioProps } from '@cknTypes/types'
 import { SCENARIO } from '@cknTypes/constants'
 
-const SelectorScenario = ({ tabIndex, ariaHidden, custom }: SelectorScenarioProps) => {
+const SelectorScenario = ({ tabIndex, ariaDisabled, custom }: SelectorScenarioProps) => {
   const {
     scenario,
     setScenario //,
@@ -36,7 +36,7 @@ const SelectorScenario = ({ tabIndex, ariaHidden, custom }: SelectorScenarioProp
           <label key={s} className="mh3 mb2 flex items-center">
             <input
               tabIndex={tabIndex}
-              aria-hidden={ariaHidden}
+              aria-disabled={ariaDisabled}
               type="radio"
               name="scenario"
               value={s}

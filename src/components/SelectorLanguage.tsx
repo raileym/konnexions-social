@@ -21,7 +21,7 @@ const SelectorLanguage: React.FC = () => {
           <label key={code} className="mr3 mb2 flex items-center">
             <input
               tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
+              aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
               type="radio"
               name="language" // fixed name ensures exclusive selection
               value={code}

@@ -8,10 +8,10 @@ type MyKonnexionsTitleProps = {
   shorten?: boolean
 }
 
-const MyKonnexionsTitle = ({shorten = false, slashColor = 'primary', color = 'secondary', fontSizeInRem = 1, nominal}: MyKonnexionsTitleProps) => {
+const MyKonnexionsTitle = ({shorten = false, slashColor = 'primary', color = 'secondary', fontSizeInRem = 1, nominal = ''}: MyKonnexionsTitleProps) => {
   return (
-    <div className="konnexions-title dib lh-2-kx" style={{marginLeft: '-.3rem'}}>
-      <div className="flex flex-row">
+    <div aria-label={`my first connections ${nominal}`} className="konnexions-title dib lh-2-kx" style={{marginLeft: '-.3rem'}}>
+      <div aria-disabled={true} className="flex flex-row">
         {!shorten && <div className={`b ${color} mr2`}>My</div>}
         <div className={`b ${slashColor}`}>K</div>
         {!shorten && <div className={`b  ${color}`}>onne</div>}
@@ -23,10 +23,10 @@ const MyKonnexionsTitle = ({shorten = false, slashColor = 'primary', color = 'se
   )
 }
 
-export const MyKonnexionsTitleSpan = ({slashColor = 'primary', color = 'secondary', fontSizeInRem = 1, nominal}: MyKonnexionsTitleProps) => {
+export const MyKonnexionsTitleSpan = ({slashColor = 'primary', color = 'secondary', fontSizeInRem = 1, nominal =''}: MyKonnexionsTitleProps) => {
   return (
-    <span className="konnexions-title-span dib">
-      <span className="inline-flex flex-wrap">
+    <span aria-label={`my connections ${nominal}`} className="konnexions-title-span dib">
+      <span aria-disabled={true} className="inline-flex flex-wrap">
         <span className={`b ${color} mr1`}>My </span>
         <span className={`b ${slashColor}`}>K</span>
         <span className={`b  ${color}`}>onne</span>

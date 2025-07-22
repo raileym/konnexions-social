@@ -185,7 +185,7 @@ const PanelRequestEmailComponents = () => {
               </label>
               <input
                 tabIndex={screenState[SCREEN.PROFILE] ? 0 : -1}
-                aria-hidden={!screenState[SCREEN.PROFILE]}
+                aria-disabled={!screenState[SCREEN.PROFILE]}
                 id="email"
                 type="email"
                 value={email}
@@ -205,7 +205,7 @@ const PanelRequestEmailComponents = () => {
               </label>
               <input
                 tabIndex={screenState[SCREEN.PROFILE] ? 0 : -1}
-                aria-hidden={!screenState[SCREEN.PROFILE]}
+                aria-disabled={!screenState[SCREEN.PROFILE]}
                 id="code"
                 type="text"
                 maxLength={6}
@@ -246,7 +246,7 @@ const PanelRequestEmailComponents = () => {
 
         <button
           tabIndex={screenState[SCREEN.PROFILE] ? 1 : -1}
-          aria-hidden={!screenState[SCREEN.PROFILE]}
+          aria-disabled={!screenState[SCREEN.PROFILE]}
           type="button"
           onClick={clearLocalStorageExceptEssential}
           className="mt4 b ph4 pv3 input-reset ba b--red bg-on-background red grow pointer f6 br3 dib"

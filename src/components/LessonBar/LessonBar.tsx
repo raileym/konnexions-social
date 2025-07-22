@@ -58,11 +58,11 @@ export const LessonBar: React.FC = () => {
   return (
     <div
       tabIndex={-1}
-      aria-hidden={true}
+      aria-disabled={true}
       className={`panel-left lesson-bar bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--background-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
       <button
         tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
-        aria-hidden={!screenState[SCREEN.REVIEW]}
+        aria-disabled={!screenState[SCREEN.REVIEW]}
         onClick={handleAddLesson}
         className="mv3X pa2 bn bbX b--backgroundX bw3 ba bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
       >

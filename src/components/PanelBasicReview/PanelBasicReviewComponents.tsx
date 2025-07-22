@@ -73,7 +73,7 @@ const PanelBasicReviewComponents: React.FC = () => {
 
   return (
     <div className={'panel-right panel-basic-review-components z-1 absolute top-0 left-0 w-100 h-100 flex'}>
-      <div tabIndex={-1} aria-hidden={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+      <div tabIndex={-1} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
         {content}
       </div>
     </div>

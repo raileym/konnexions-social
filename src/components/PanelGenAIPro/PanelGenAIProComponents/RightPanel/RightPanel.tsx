@@ -163,7 +163,7 @@ const RightPanel: React.FC = () => {
           <div className="mv3X flex justify-center">
             <button
               tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-              aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
+              aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
               onClick={() => setDebugMode(prev => !prev)}
               className={`w-30 pa3 br2 bn ${debugMode ? 'bg-brand' : 'bg-background'} on-background pointer`}
             >
@@ -204,7 +204,7 @@ const RightPanel: React.FC = () => {
             <div>
               <button
                 tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-                aria-hidden={!screenState[SCREEN.CREATE]}
+                aria-disabled={!screenState[SCREEN.CREATE]}
                 className={`f3 pa3 br4 bn ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   const formattedFlexLesson = formatFlexLesson({flexLesson})
@@ -236,7 +236,7 @@ const RightPanel: React.FC = () => {
 
           <div className="flex flex-row">
             <SelectorLessonPromptStyle />
-            <SelectorScenario tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1} ariaHidden={!screenState[SCREEN.GEN_AI_PRO]} custom={true} />
+            <SelectorScenario tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1} ariaDisabled={!screenState[SCREEN.GEN_AI_PRO]} custom={true} />
             <SelectorParticipantRole />
           </div>
 
@@ -259,7 +259,7 @@ const RightPanel: React.FC = () => {
             <div>
               <button
                 tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-                aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
+                aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
                 className={`f3 pa3 br4 bn ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   createFullLesson()
@@ -281,7 +281,7 @@ const RightPanel: React.FC = () => {
           <label className="db mb2 f5 b">Seed or Prompt Description (optional):</label>
           <textarea
             tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-            aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
+            aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
             value={customSeed}
             onChange={(e) => setCustomSeed(e.target.value)}
             className="w-100 ba b--gray br2 pa2"
@@ -585,7 +585,7 @@ const RightPanel: React.FC = () => {
   // },[lesson])
 
   return (
-    <div tabIndex={-1} aria-hidden={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+    <div tabIndex={-1} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )

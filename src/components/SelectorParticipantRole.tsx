@@ -21,7 +21,7 @@ const SelectorParticipantRole: React.FC = () => {
         <label className="mb1 flex items-center">
           <input
             tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-            aria-hidden={!screenState[SCREEN.CREATE]}
+            aria-disabled={!screenState[SCREEN.CREATE]}
             type="radio"
             name="participant-role"
             value="yes"
@@ -35,7 +35,7 @@ const SelectorParticipantRole: React.FC = () => {
         <label className="mb1 flex items-center">
           <input
             tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-            aria-hidden={!screenState[SCREEN.CREATE]}
+            aria-disabled={!screenState[SCREEN.CREATE]}
             type="radio"
             name="participant-role"
             value="no"

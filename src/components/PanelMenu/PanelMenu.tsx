@@ -65,25 +65,25 @@ const PanelMenu: React.FC = () => {
       ref={PanelMenuRef}
       className={`panel-right-short panel-help absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-red on-background pt5 transition-transform ${translateX}`}
     >
-      <div tabIndex={screenState[SCREEN.MENU] ? -1 : -1} aria-hidden={true} className="h-100 w-100 overflow-y-auto">
+      <div tabIndex={screenState[SCREEN.MENU] ? -1 : -1} aria-disabled={true} className="h-100 w-100 overflow-y-auto">
         <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>
           <h2 className="f3 pa3 mt5 tc">Menu Panel</h2>
           <div className="flex justify-between flex-m dn-lX">
-            <Button tabIndex={screenState[SCREEN.MENU] ? 0 : -1} ariaHidden={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
-            <Button tabIndex={screenState[SCREEN.MENU] ? 1 : -1} ariaHidden={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-4 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings' />
-            <Button tabIndex={screenState[SCREEN.MENU] ? 2 : -1} ariaHidden={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn o-20X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
+            <Button tabIndex={screenState[SCREEN.MENU] ? 0 : -1} ariaDisabled={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
+            <Button tabIndex={screenState[SCREEN.MENU] ? 1 : -1} ariaDisabled={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-4 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings' />
+            <Button tabIndex={screenState[SCREEN.MENU] ? 2 : -1} ariaDisabled={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn o-20X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
             <div className="dn-l">
-              <Button tabIndex={screenState[SCREEN.MENU] ? -1 : -1} ariaHidden={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
+              <Button tabIndex={screenState[SCREEN.MENU] ? -1 : -1} ariaDisabled={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
             </div>
           </div>
           <p className="pl3 mt4">Click to view:</p>
           <ul className="list pl4 lh-copy">
-            <li tabIndex={screenState[SCREEN.MENU] ? 3 : -1} aria-hidden={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.WELCOME)}>Home</li>
-            <li tabIndex={screenState[SCREEN.MENU] ? 4 : -1} aria-hidden={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.ABOUT)}>About</li>
-            <li tabIndex={screenState[SCREEN.MENU] ? 5 : -1} aria-hidden={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}>Terms and conditions</li>
-            <li tabIndex={screenState[SCREEN.MENU] ? 6 : -1} aria-hidden={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.FAQ)}>FAQ</li>
-            <li tabIndex={screenState[SCREEN.MENU] ? 7 : -1} aria-hidden={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}>Terms & Conditions</li>
-            <li tabIndex={screenState[SCREEN.MENU] ? 8 : -1} aria-hidden={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.PRIVACY_POLICY)}>Privacy Policy</li>
+            <li tabIndex={screenState[SCREEN.MENU] ? 3 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.WELCOME)}>Home</li>
+            <li tabIndex={screenState[SCREEN.MENU] ? 4 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.ABOUT)}>About</li>
+            <li tabIndex={screenState[SCREEN.MENU] ? 5 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}>Terms and conditions</li>
+            <li tabIndex={screenState[SCREEN.MENU] ? 6 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.FAQ)}>FAQ</li>
+            <li tabIndex={screenState[SCREEN.MENU] ? 7 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}>Terms & Conditions</li>
+            <li tabIndex={screenState[SCREEN.MENU] ? 8 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline" onClick={() => navigateTo(MDX_PAGE.PRIVACY_POLICY)}>Privacy Policy</li>
           </ul>
         </div>
       </div>

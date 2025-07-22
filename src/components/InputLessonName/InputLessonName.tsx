@@ -20,7 +20,7 @@ const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
       </label>
       <input
         tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-        aria-hidden={!screenState[SCREEN.CREATE]}
+        aria-disabled={!screenState[SCREEN.CREATE]}
         id="lessonName"
         type="text"
         value={lessonName}
