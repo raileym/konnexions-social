@@ -1,15 +1,17 @@
 import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { SCENARIO } from '@cknTypes/constants'
+import { SCENARIO, SCREEN } from '@cknTypes/constants'
 
 const InputCustomScenario: React.FC = () => {
-  const { scenario, customScenario, setCustomScenario } = useAppContext()
+  const { scenario, customScenario, setCustomScenario, screenState } = useAppContext()
   const disabled = scenario !== SCENARIO.CUSTOM
 
   return (
     <div className="mb3" style={{ opacity: disabled ? 0.5 : 1 }}>
       <label className="db mb2 f5 b">Custom Scenario</label>
       <input
+        tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
+        aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
         type="text"
         value={customScenario}
         onChange={(e) => setCustomScenario(e.target.value)}

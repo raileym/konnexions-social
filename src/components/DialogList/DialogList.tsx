@@ -4,7 +4,7 @@ import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchTTS } from '@PanelGenAIProComponents/fetchTTS/fetchTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { LANGUAGE_TITLE } from '@cknTypes/constants'
+import { LANGUAGE_TITLE, SCREEN } from '@cknTypes/constants'
 import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useDebugLogger } from '@hooks/useDebugLogger'
 import { capitalize } from '@components/Util'
@@ -30,7 +30,8 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
     lessonPromptStyle,
     customScenario,
     paywall,
-    clientUUID
+    clientUUID,
+    screenState
   } = useAppContext()
 
   const { refreshPaywall } = usePaywall()
@@ -150,13 +151,15 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
       <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
 
       <div className='flex flex-row items-center mt4'>
-        <button onClick={playAll} className='ml3 f6 br2 ph2 pv1 on-background bg-secondary hover:bg-blue'>
+        <button onClick={playAll} className='ml3 f6 br2 ph2 pv1 on-background bg-secondary hover:bg-blue' tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1} aria-hidden={!screenState[SCREEN.REVIEW]}>
           <FontAwesomeIcon icon={faPlay} /> Play All
         </button>
-        <button onClick={stopAll} className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red'>
+        <button onClick={stopAll} className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red' tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1} aria-hidden={!screenState[SCREEN.REVIEW]}>
           <FontAwesomeIcon icon={faStop} /> Stop
         </button>
         <button
+          tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
+          aria-hidden={!screenState[SCREEN.REVIEW]}
           onClick={() => setShowTranslations(prev => !prev)}
           className={`ml2 f6 br2 ph2 pv1 on-background ${hasTranslations ? 'bg-background hover:bg-silver' : 'bg-background cursor-not-allowed'}`}
           disabled={!hasTranslations}

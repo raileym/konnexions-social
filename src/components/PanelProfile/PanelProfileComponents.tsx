@@ -118,7 +118,7 @@ const PanelRequestEmailComponents = () => {
       setLessonPrompt(data.user_data_lesson_prompt)
       setLessonTimestamp(data.user_data_lesson_timestamp)
 
-      console.log('userData', data)
+      // console.log('userData', data)
 
       await refreshPaywall()
 
@@ -184,6 +184,8 @@ const PanelRequestEmailComponents = () => {
                 Email:
               </label>
               <input
+                tabIndex={screenState[SCREEN.PROFILE] ? 0 : -1}
+                aria-hidden={!screenState[SCREEN.PROFILE]}
                 id="email"
                 type="email"
                 value={email}
@@ -202,6 +204,8 @@ const PanelRequestEmailComponents = () => {
                 {isUserValidated ? 'Thank you!' : `Enter the 6-digit code sent to ${email}.`}
               </label>
               <input
+                tabIndex={screenState[SCREEN.PROFILE] ? 0 : -1}
+                aria-hidden={!screenState[SCREEN.PROFILE]}
                 id="code"
                 type="text"
                 maxLength={6}

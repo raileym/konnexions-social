@@ -244,6 +244,7 @@ export const SCREEN = {
   PAYWALL: 'paywall',
   GEN_AI: 'genAI',
   GEN_AI_PRO: 'genAIPro',
-  MENU: 'menu'
+  MENU: 'menu',
+  HELP: 'help'
 } as const
 

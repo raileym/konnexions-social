@@ -1,6 +1,7 @@
 import { useAppContext } from '@context/AppContext/AppContext'
 import {
-  LANGUAGE_TITLE
+  LANGUAGE_TITLE,
+  SCREEN
 } from '@cknTypes/constants'
 import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
@@ -19,7 +20,8 @@ const PanelBasic = () => {
     targetLanguage,
     // flexLesson,
     setFlexLesson,
-    setLessons
+    setLessons,
+    screenState
   } = useAppContext()
   
   const {
@@ -93,6 +95,8 @@ const PanelBasic = () => {
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
+                tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
+                aria-hidden={!screenState[SCREEN.CREATE]}
                 className={'f3 pa3 br4 bn bg-brand on-background pointer'}
                 onClick={() => {
                   createFlexLesson({lesson})
@@ -127,7 +131,7 @@ const PanelBasic = () => {
 
   return (
     <div className={'panel-right panel-basic bw1 b--moon-gray bl panel-basic z-1 absolute top-0 left-0 w-100 h-100 bg-light-greenX flex flex-rowX transition-transform translate-x-0'}>
-      <div className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+      <div tabIndex={-1} aria-hidden={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
       </div>
     </div>

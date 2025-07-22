@@ -1355,13 +1355,21 @@ export type ScreenState = Record<ScreenValue, boolean>
 export type SetScreenState = React.Dispatch<React.SetStateAction<ScreenState>>
 
 export const defaultScreenState: ScreenState = {
-    [SCREEN.MAIN]: true,
-    [SCREEN.REVIEW]: false,
-    [SCREEN.PROFILE]: false,
-    [SCREEN.SETTINGS]: false,
-    [SCREEN.CREATE]: false,
-    [SCREEN.PAYWALL]: false,
-    [SCREEN.GEN_AI]: false,
-    [SCREEN.GEN_AI_PRO]: false,
-    [SCREEN.MENU]: false
-  }
+  [SCREEN.MAIN]: true,
+  [SCREEN.REVIEW]: false,
+  [SCREEN.PROFILE]: false,
+  [SCREEN.SETTINGS]: false,
+  [SCREEN.CREATE]: false,
+  [SCREEN.PAYWALL]: false,
+  [SCREEN.GEN_AI]: false,
+  [SCREEN.GEN_AI_PRO]: false,
+  [SCREEN.MENU]: false,
+  [SCREEN.HELP]: false
+}
+
+export type SelectorScenarioProps = {
+  tabIndex: number
+  ariaHidden: boolean
+  custom: boolean
+}
+

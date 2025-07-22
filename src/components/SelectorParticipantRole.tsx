@@ -1,13 +1,14 @@
 import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { SCENARIO } from '@cknTypes/constants'
+import { SCENARIO, SCREEN } from '@cknTypes/constants'
 
 const SelectorParticipantRole: React.FC = () => {
   const {
     useMyself,
     setUseMyself,
     lessonPromptStyle,
-    scenario
+    scenario,
+    screenState
   } = useAppContext()
 
   const isDisabled = scenario === SCENARIO.CUSTOM
@@ -19,6 +20,8 @@ const SelectorParticipantRole: React.FC = () => {
       <div className={`flex flex-column mh3 ${labelClass}`}>
         <label className="mb1 flex items-center">
           <input
+            tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
+            aria-hidden={!screenState[SCREEN.CREATE]}
             type="radio"
             name="participant-role"
             value="yes"
@@ -31,6 +34,8 @@ const SelectorParticipantRole: React.FC = () => {
         </label>
         <label className="mb1 flex items-center">
           <input
+            tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
+            aria-hidden={!screenState[SCREEN.CREATE]}
             type="radio"
             name="participant-role"
             value="no"

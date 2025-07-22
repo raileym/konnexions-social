@@ -1,13 +1,9 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { type Scenario } from '@cknTypes/types'
+import { type Scenario, type SelectorScenarioProps } from '@cknTypes/types'
 import { SCENARIO } from '@cknTypes/constants'
 
-type SelectorScenarioProps = {
-  custom: boolean
-}
-
-const SelectorScenario: React.FC<SelectorScenarioProps> = ({ custom }) => {
+const SelectorScenario = ({ tabIndex, ariaHidden, custom }: SelectorScenarioProps) => {
   const {
     scenario,
     setScenario //,
@@ -39,6 +35,8 @@ const SelectorScenario: React.FC<SelectorScenarioProps> = ({ custom }) => {
         {scenarios.map((s) => (
           <label key={s} className="mh3 mb2 flex items-center">
             <input
+              tabIndex={tabIndex}
+              aria-hidden={ariaHidden}
               type="radio"
               name="scenario"
               value={s}

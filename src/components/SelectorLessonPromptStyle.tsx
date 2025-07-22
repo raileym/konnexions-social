@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { type LessonPromptStyle } from '@cknTypes/types'
-import { LESSON_PROMPT_STYLE } from '@cknTypes/constants'
+import { LESSON_PROMPT_STYLE, SCREEN } from '@cknTypes/constants'
 
 const SelectorLessonPromptStyle: React.FC = () => {
   const {
     lessonPromptStyle,
-    setLessonPromptStyle
+    setLessonPromptStyle,
+    screenState
   } = useAppContext()
 
   const lessonPromptStyles = useMemo<LessonPromptStyle[]>(() => Object.values(LESSON_PROMPT_STYLE), [])
@@ -18,6 +19,8 @@ const SelectorLessonPromptStyle: React.FC = () => {
         {lessonPromptStyles.map((style) => (
           <label key={style} className="mh3 mb1 flex items-center">
             <input
+              tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
+              aria-hidden={!screenState[SCREEN.GEN_AI_PRO]}
               type="radio"
               name="content-style"
               value={style}

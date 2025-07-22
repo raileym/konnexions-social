@@ -16,12 +16,14 @@ const FontSizeControls = () => {
 
   return (
     <div
-      className="control-font-size fixed top-0 right-0 z-9999 pa2 background bg-on-background ba b--background br3 flex items-center"
+      tabIndex={-1}
+      aria-hidden={false}
+      className="control-font-size fixed top-0 right-0 z-9999 pa2 background bg-on-background ba b--background br3 flex items-center focus:b--red bw3"
       style={{ right: '5%', top: '8rem', fontFamily: 'monospace' }}
     >
-      <button onClick={decrement} className="f6 ph2 pv1 mr2 bg-light-gray">−</button>
+      <button tabIndex={0} aria-hidden={false} onClick={decrement} className="f6 ph2 pv1 mr2 bg-light-gray focus:b--red bw3">−</button>
       <span className="f6">{baseFontSize}px</span>
-      <button onClick={increment} className="f6 ph2 pv1 ml2 bg-light-gray">+</button>
+      <button tabIndex={0} aria-hidden={false} onClick={increment} className="f6 ph2 pv1 ml2 bg-light-gray focus:b--red bw3">+</button>
     </div>
   )
 }

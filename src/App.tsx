@@ -33,12 +33,12 @@ const AppMain = () => {
 
   return (
     <>
-<div
+{/* <div
   tabIndex={0}
   aria-hidden="false"
   className="absolute opacity-0 pointer-events-none"
   id="initial-focus-anchor"
-/>
+/> */}
 
 {/* <div className="sr-only white" role="region" aria-label="App loaded and ready">
   Application ready
@@ -177,7 +177,7 @@ const App: React.FC = () => {
       setLessonPrompt(data.user_data_lesson_prompt)
       setLessonTimestamp(data.user_data_lesson_timestamp)
 
-      console.log('userData', data)
+      // console.log('userData', data)
 
       await refreshPaywall()
     }

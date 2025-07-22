@@ -10,7 +10,7 @@ const MdxEngageSpanish = () => {
       <div className="f5 tc brand">Let's konnect! - Through Spanish</div>
       <Button
         tabIndex={-1}
-        aria-hidden={true}
+        ariaHidden={true}
         iconClass={'f2'}
         buttonClass='mh3 bn grow'
         img={'icons8-sombrero-48.png'}

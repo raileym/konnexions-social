@@ -4,6 +4,7 @@ import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
 import type { DialogLineProps } from '@cknTypes/types'
 import { FormatSentence } from '../FormatSentence/FormatSentence'
+import { SCREEN } from '@cknTypes/constants'
 
 export const DialogLine = ({
   debugLog,
@@ -18,7 +19,7 @@ export const DialogLine = ({
 }: DialogLineProps) => {
   const [gender, speaker, sentence] = line.split('|')
 
-  const { cutoff } = useAppContext()
+  const { cutoff, screenState } = useAppContext()
 
   const { speak } = useTTS({
     useCloudTTS,
@@ -46,6 +47,8 @@ export const DialogLine = ({
           )}
         </div>
         <button
+          tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
+          aria-hidden={!screenState[SCREEN.REVIEW]}        
           onClick={handleSpeak}
           className="ml3 f6 br2 ph2 pv1 dib on-background bg-secondary hover:bg-blue no-outline"
         >

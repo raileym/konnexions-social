@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useHelpPanel } from '@hooks/useHelpPanel'
+import { SCREEN } from '@cknTypes/constants'
 
 const HELP_PANEL_WIDTH_PERCENT = 'w-40'
 const HELP_PANEL_TRANSLATE_X = 'translate-x-60'
@@ -8,7 +9,7 @@ const HELP_PANEL_TRANSLATE_X = 'translate-x-60'
 const PanelHelp: React.FC = () => {
   const PanelHelpRef = useRef<HTMLDivElement>(null);
   
-  const { helpPanel, isHelpOpen } = useAppContext()
+  const { helpPanel, isHelpOpen, screenState } = useAppContext()
   const { closeHelp } = useHelpPanel()
   
   const translateX = isHelpOpen ? HELP_PANEL_TRANSLATE_X : 'translate-x-full'
@@ -55,7 +56,7 @@ const PanelHelp: React.FC = () => {
       ref={PanelHelpRef}
       className={`panel-right-short panel-help absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-green on-background pt5 transition-transform ${translateX}`}
     >
-      <div className="h-100 w-100 overflow-y-auto">
+      <div className="h-100 w-100 overflow-y-auto" tabIndex={screenState[SCREEN.HELP] ? 0 : -1} aria-hidden={!screenState[SCREEN.HELP]}>
         <div className={`pa4 ${HELP_PANEL_WIDTH_PERCENT} mb5`}>
           <h2 className="f3 pa3 mt5">Help Panel for {helpPanel}</h2>
           <p className="pl3">This panel slides in and out correctly based on context.</p>
