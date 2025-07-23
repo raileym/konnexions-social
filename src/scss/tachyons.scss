@@ -17,7 +17,7 @@
 $font-size-details: 4.5rem, 3rem, 2.25rem, 1.5rem, 1.25rem, 1rem, 0.875rem, 0.75rem, 0.65rem, 0.5rem, 0.45, 0.35;
 $padding-details: 0, 0.25rem, 0.5rem, 1rem, 2rem, 4rem, 8rem, 16rem;     
 $width-details: 1rem, 2rem, 4rem, 8rem, 16rem, 32rem, 64rem;
-$shadows: black, white, red, yellow, cyan, orangered, green, grey, gray, lightgrey, silver;
+// $shadows: black, white, red, yellow, cyan, orangered, green, grey, gray, lightgrey, silver, var(--kx-background);
 $ails: 0, 0.125rem, 0.25rem, 0.5rem, 1rem;
 $font-size-details: 4.5rem, 3rem, 2.25rem, 1.5rem, 1.25rem, 1rem, 0.875rem, 0.75rem, 0.65rem, 0.5rem, 0.45, 0.35;
 $padding-details: 0, 0.25rem, 0.5rem, 1rem, 2rem, 4rem, 8rem, 16rem;     
@@ -26,6 +26,22 @@ $margin-details: 0, 0.25rem, 0.5rem, 1rem, 2rem, 4rem, 8rem, 16rem;
 $corners: 'top-left', 'top-right', 'bottom-left', 'bottom-right';
 $radius-details: 0, 0.125rem, 0.25rem, 0.5rem, 1rem;
 $word-to-number: one 1, two 2, three 3, four 4, five 5, six 6, seven 7, eight 8, nine 9, ten 10;
+
+$shadows: (
+  black: black,
+  white: white,
+  red: red,
+  yellow: yellow,
+  cyan: cyan,
+  orangered: orangered,
+  green: green,
+  // grey: grey,
+  gray: gray,
+  lightgrey: lightgrey,
+  silver: silver,
+  background: var(--kx-background),
+  on-background: var(--kx-onBackground)
+);
 
 $colors: (
   'dark-blue': #357edd,
@@ -223,6 +239,21 @@ $non-break-pairs: (
 //     .text-shadow-drop-#{"" + $shadow}-medium { text-shadow: 2px 2px $shadow; }
 //     .text-shadow-drop-#{"" + $shadow}-strong { text-shadow: 2px 2px $shadow; }
 // }
+
+@each $name, $value in $shadows {
+  .shadow-#{$name}-kx        { box-shadow: 3px 3px 6px -3px #{$value}; }
+  .shadow-#{$name}-medium-kx { box-shadow: 3px 3px 6px -3px #{$value}; }
+  .shadow-#{$name}-strong-kx { box-shadow: 4px 4px 12px -3px #{$value}; }
+
+  .text-shadow-#{$name}-kx       { text-shadow: 2px 2px 6px #{$value}; }
+  .text-shadow-#{$name}-medium-kx { text-shadow: 2px 2px 6px #{$value}; }
+  .text-shadow-#{$name}-strong-kx { text-shadow: 2px 2px 6px #{$value}; }
+
+  .text-shadow-drop-#{$name}-kx        { text-shadow: 2px 2px #{$value}; }
+  .text-shadow-drop-#{$name}-medium-kx { text-shadow: 2px 2px #{$value}; }
+  .text-shadow-drop-#{$name}-strong-kx { text-shadow: 2px 2px #{$value}; }
+}
+
   
 @for $i from 20 through 2 {
     .fz-#{$i} { font-size: 1rem*$i; }

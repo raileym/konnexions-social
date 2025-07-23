@@ -104,7 +104,7 @@ const NavbarTop: React.FC = () => {
         <span id="describe-button-profile">DESCRIBE Press the Profile Button to update your profile</span>    
       </div>
 
-      <nav aria-labelledBy={'label-navbar-top'} are-describedBy={'describe-navbar-top'} tabIndex={0} className="navbar-top fixed top-0 shadow-3 left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
+      <nav aria-labelledBy={'label-navbar-top'} are-describedBy={'describe-navbar-top'} tabIndex={0} className="navbar-top fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
         <div tabIndex={0} aria-describedBy={'button-home'} className="flex justify-start flex-row pointer lh-4-kx grow-5-kx" onClick={handleGoHome}>
 
           {/* <div aria-describedBy={'button-home'} className="sr-only">
