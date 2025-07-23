@@ -21,7 +21,8 @@ import {
   PAYWALL_TIER,
   PAYWALL_PACKAGE,
   MDX_PAGE,
-  SCREEN
+  SCREEN,
+  BUTTON_NAME
 } from './constants.js'
 
 export type UserData = {
@@ -1373,4 +1374,9 @@ export type SelectorScenarioProps = {
   ariaDisabled: boolean
   custom: boolean
 }
+
+export type ButtonNameValue = (typeof BUTTON_NAME)[keyof typeof BUTTON_NAME]
+export type ButtonNameKey = keyof typeof BUTTON_NAME
+export type ButtonName = ButtonNameValue
+
 

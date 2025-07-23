@@ -25,7 +25,7 @@ import PanelMDXWrapper from '@components/PanelMDXWrapper/PanelMDXWrapper'
 import ViewportWidthOverlay from '@components/ViewportWidthOverlay/ViewportWidthOverlay'
 import NavbarColor from '@components/NavbarColor/__tests__/NavbarColor'
 import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
-import ColorScheme from '@components/ColorScheme/__tests__/ColorScheme'
+// import ColorScheme from '@components/ColorScheme/__tests__/ColorScheme'
 import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
 
 const AppMain = () => {

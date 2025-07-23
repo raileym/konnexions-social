@@ -248,3 +248,9 @@ export const SCREEN = {
   HELP: 'help'
 } as const
 
+export const BUTTON_NAME = {
+  BIENVENIDO: 'bienvenido',
+  PROFILE: 'profile',
+  MENU: 'menu',
+  SETTINGS: 'settings'
+} as const

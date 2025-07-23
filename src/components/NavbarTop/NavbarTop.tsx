@@ -1,23 +1,31 @@
 // src/components/NavbarTop.tsx
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 // import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 // import { faBars, faGear, faUser } from '@fortawesome/free-solid-svg-icons'   
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'   
 
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
-import { APP_PANEL, MDX_PAGE } from '@cknTypes/constants'
+import { APP_PANEL, BUTTON_NAME, MDX_PAGE } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useNavigate } from 'react-router-dom'
 import MyKonnexionsTitle from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
+import type { ButtonName } from '@cknTypes/types'
 
 const NavbarTop: React.FC = () => {
-  const [isSelectedBienVenido, setIsSelectedBienVenido] = useState<boolean>(false)
-  const [isSelectedProfile, setIsSelectedProfile] = useState<boolean>(false)
-  const [isSelectedMenu, setIsSelectedMenu] = useState<boolean>(false)
+  // const [isSelectedBienVenido, setIsSelectedBienVenido] = useState<boolean>(false)
+  // const [isSelectedProfile, setIsSelectedProfile] = useState<boolean>(false)
+  // const [isSelectedMenu, setIsSelectedMenu] = useState<boolean>(false)
+  const [activeButton, _setActiveButton] = useState<ButtonName | null>(null)
+  const activeButtonRef = useRef<ButtonName | null>(null)
+
+  const setActiveButton = (value: ButtonName | null) => {
+    activeButtonRef.current = value
+    _setActiveButton(value)
+  }
 
   const {
     setMdxPage,
@@ -25,7 +33,7 @@ const NavbarTop: React.FC = () => {
     setIsMenuOpen,
     setEngageSpanish,
     engageSpanish,
-    setIsSelectedCreate
+    setIsSelectedCreate,
   } = useAppContext()
 
   const { switchPanel } = usePanel()
@@ -63,29 +71,35 @@ const NavbarTop: React.FC = () => {
   }
 
   const handleEngageSpanish = () => {
+    const isSame = activeButtonRef.current === BUTTON_NAME.BIENVENIDO
+    const nextValue = isSame ? null : BUTTON_NAME.BIENVENIDO
+    setActiveButton(nextValue)
+    activeButtonRef.current = nextValue
+
     setEngageSpanish(prev => !prev)
     if (engageSpanish) {
       handleGoHome()
-      setIsSelectedBienVenido(false)
+      setActiveButton(null)
     } else {
       handleBienVenido()
       setIsSelectedCreate(false)
-      setIsSelectedBienVenido(true)
-      setIsSelectedMenu(false)
-      setIsSelectedProfile(false)
+      setActiveButton(BUTTON_NAME.BIENVENIDO)
     }
   }
 
   const handleProfile = () => {
-    setIsSelectedProfile(prev => !prev)
-    setIsSelectedBienVenido(false)
-    setIsSelectedMenu(false)
+    const isSame = activeButtonRef.current === BUTTON_NAME.PROFILE
+    const nextValue = isSame ? null : BUTTON_NAME.PROFILE
+    setActiveButton(nextValue)
+    activeButtonRef.current = nextValue
+    console.log('handleProfile|nextValue', nextValue)
   }
 
   const handleMenu = () => {
-    setIsSelectedMenu(prev => !prev)
-    setIsSelectedProfile(false)
-    setIsSelectedBienVenido(false)
+    const isSame = activeButtonRef.current === BUTTON_NAME.MENU
+    const nextValue = isSame ? null : BUTTON_NAME.MENU
+    setActiveButton(nextValue)
+    activeButtonRef.current = nextValue
   }
 
   return (
@@ -99,7 +113,7 @@ const NavbarTop: React.FC = () => {
       </div>
 
       <nav aria-labelledby={'label-navbar-top'} are-describedby={'describe-navbar-top'} tabIndex={-1} className="navbar-top bn fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
-        <div tabIndex={0} aria-describedby={'button-home'} className="flex justify-start flex-row pointer lh-4-kx grow-5-kx focus:bg-tertiary focus:b--tertiary" onClick={handleGoHome}>
+        <div tabIndex={0} aria-describedby={'button-home'} className="flex justify-start flex-row pointer lh-4-kx grow-5-kx pr3 focus:bg-tertiary focus:b--tertiary" onClick={handleGoHome}>
 
           {/* <div aria-describedby={'button-home'} className="sr-only">
             Home Button, Press the Home Button to return to the Welcome Page            
@@ -132,9 +146,9 @@ const NavbarTop: React.FC = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={0} ariaLabelledBy={'label-button-bienvenido'} isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bg-background bn wiggle-grow-kx grow-kx bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={0} ariaLabelledBy={'label-button-profile'} isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l grow-kx bg-background bw3' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <Button tabIndex={0} ariaLabelledBy={'label-button-menu'} isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3 grow-kx bg-backgound bw3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={0} ariaLabelledBy={'label-button-bienvenido'} isActive={activeButtonRef.current === BUTTON_NAME.BIENVENIDO} title='Bienvenido!' buttonClass={'mh3 bg-background bn wiggle-grow-kx grow-kx bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={0} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l grow-kx bg-background bw3' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={0} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bn b--backgroundX ph2 ml2 mr3 grow-kx bg-backgound bw3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>
