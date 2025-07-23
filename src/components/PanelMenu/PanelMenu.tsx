@@ -8,14 +8,37 @@ import { faCircleQuestion, faGear, faHome, faUser } from '@fortawesome/free-soli
 import { useMenuPanel } from '@hooks/useMenuPanel'
 
 const PanelMenu: React.FC = () => {
-  const PanelMenuRef = useRef<HTMLDivElement>(null);
+  const PanelMenuRef = useRef<HTMLDivElement>(null)
+  const firstFocusableRef = useRef<HTMLLIElement>(null)
+  const homeButtonRef = useRef<HTMLButtonElement>(null)
 
-  const { isMenuOpen, setActivePanel, setIsMenuOpen, setMdxPage, screenState } = useAppContext()
+  const isMenuInteractive = useRef(false)
+
+  const { isMenuOpen, setActivePanel, setIsMenuOpen, setMdxPage } = useAppContext()
   const { switchPanel } = usePanel()
   const { closeMenu } = useMenuPanel()
   
   const translateX = isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full'
   const navigate = useNavigate()
+
+  useEffect(() => {
+    isMenuInteractive.current = isMenuOpen
+
+    if (isMenuOpen) {
+      const timeout = setTimeout(() => {
+        homeButtonRef.current?.focus()
+      }, 250) // Match the transition duration
+
+      return () => clearTimeout(timeout)
+    }
+  }, [isMenuOpen])
+
+  useEffect(() => {
+    // setScreenState({
+    //   ...screenState,
+    //   [SCREEN.MENU]: true
+    // })
+  })
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -73,25 +96,25 @@ const PanelMenu: React.FC = () => {
         ref={PanelMenuRef}
         className={`panel-right-short panel-help absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform ${translateX}`}
       >
-        <div tabIndex={screenState[SCREEN.MENU] ? -1 : -1} aria-disabled={true} className="h-100 w-100 overflow-y-auto">
+        <div tabIndex={isMenuInteractive.current ? -1 : -1} aria-disabled={true} className="h-100 w-100 overflow-y-auto">
           <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>
-            <h2 className="f3 pa3 mt5 tc on-tertiary">Menu Panel</h2>
+            <h2 id="menu-panel-title" className="f3 pa3 mt5 tc on-tertiary">Menu Panel</h2>
             <div className="flex justify-between flex-m dn-lX">
-              <Button ariaLabelledBy={'label-button-home'} tabIndex={screenState[SCREEN.MENU] ? 0 : -1} ariaDisabled={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
-              <Button ariaLabelledBy={'label-button-settings'} tabIndex={screenState[SCREEN.MENU] ? 1 : -1} ariaDisabled={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-4 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings' />
-              <Button ariaLabelledBy={'label-button-help'} tabIndex={screenState[SCREEN.MENU] ? 2 : -1} ariaDisabled={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn o-20X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
+              <Button buttonRef={homeButtonRef} ariaLabelledBy={'label-button-home'} tabIndex={isMenuInteractive.current ? 0 : -1} ariaDisabled={!isMenuInteractive.current} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
+              <Button ariaLabelledBy={'label-button-settings'} tabIndex={isMenuInteractive.current ? 0 : -1} ariaDisabled={!isMenuInteractive.current} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-4 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings' />
+              <Button ariaLabelledBy={'label-button-help'} tabIndex={isMenuInteractive.current ? 0 : -1} ariaDisabled={!isMenuInteractive.current} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn o-20X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
               <div className="dn-l">
-                <Button ariaLabelledBy={'label-button-profile'} tabIndex={screenState[SCREEN.MENU] ? -1 : -1} ariaDisabled={!screenState[SCREEN.MENU]} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
+                <Button ariaLabelledBy={'label-button-profile'} tabIndex={isMenuInteractive.current ? -1 : -1} ariaDisabled={!isMenuInteractive.current} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bn w-50X width-3 mh0 ph0 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} title='Profile' />
               </div>
             </div>
             <p className="pl3 mt4 on-tertiary">Click to view:</p>
             <ul className="list pl4 lh-copy">
-              <li tabIndex={screenState[SCREEN.MENU] ? 3 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline on-tertiary" onClick={() => navigateTo(MDX_PAGE.WELCOME)}>Home</li>
-              <li tabIndex={screenState[SCREEN.MENU] ? 4 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline on-tertiary" onClick={() => navigateTo(MDX_PAGE.ABOUT)}>About</li>
-              <li tabIndex={screenState[SCREEN.MENU] ? 5 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline on-tertiary" onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}>Terms and conditions</li>
-              <li tabIndex={screenState[SCREEN.MENU] ? 6 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline on-tertiary" onClick={() => navigateTo(MDX_PAGE.FAQ)}>FAQ</li>
-              <li tabIndex={screenState[SCREEN.MENU] ? 7 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline on-tertiary" onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}>Terms & Conditions</li>
-              <li tabIndex={screenState[SCREEN.MENU] ? 8 : -1} aria-disabled={!screenState[SCREEN.MENU]} className="pointer bullet underline on-tertiary" onClick={() => navigateTo(MDX_PAGE.PRIVACY_POLICY)}>Privacy Policy</li>
+              <li tabIndex={isMenuInteractive.current ? 0 : -1} aria-disabled={!isMenuInteractive.current} className={`pointer bullet underline on-tertiaryX ${isMenuInteractive.current ? 'red' : 'on-tertiary'}`} onClick={() => navigateTo(MDX_PAGE.WELCOME)}>Home</li>
+              <li tabIndex={isMenuInteractive.current ? 0 : -1} aria-disabled={!isMenuInteractive.current} className={`pointerbullet underline on-tertiaryX ${isMenuInteractive.current ? 'red' : 'on-tertiary'}`} onClick={() => navigateTo(MDX_PAGE.ABOUT)}>About</li>
+              <li tabIndex={isMenuInteractive.current ? 0 : -1} aria-disabled={!isMenuInteractive.current} className={`pointerbullet underline on-tertiaryX ${isMenuInteractive.current ? 'red' : 'on-tertiary'}`}onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}>Terms and conditions</li>
+              <li tabIndex={isMenuInteractive.current ? 0 : -1} aria-disabled={!isMenuInteractive.current} className={`pointerbullet underline on-tertiaryX ${isMenuInteractive.current ? 'red' : 'on-tertiary'}`} onClick={() => navigateTo(MDX_PAGE.FAQ)}>FAQ</li>
+              <li tabIndex={isMenuInteractive.current ? 0 : -1} aria-disabled={!isMenuInteractive.current} className={`pointerbullet underline on-tertiaryX ${isMenuInteractive.current ? 'red' : 'on-tertiary'}`} onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}>Terms & Conditions</li>
+              <li tabIndex={isMenuInteractive.current ? 0 : -1} aria-disabled={!isMenuInteractive.current} className={`pointerbullet underline on-tertiaryX ${isMenuInteractive.current ? 'red' : 'on-tertiary'}`} onClick={() => navigateTo(MDX_PAGE.PRIVACY_POLICY)}>Privacy Policy</li>
             </ul>
           </div>
         </div>

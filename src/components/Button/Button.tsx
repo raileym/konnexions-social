@@ -8,7 +8,23 @@ import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useSettingsPanel } from '@hooks/useSettingsPanel'
 
-const Button = ({ tabIndex, ariaDisabled = false, ariaLabelledBy, iconClass, titleClass, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
+const Button = ({
+  buttonRef,
+  tabIndex,
+  ariaDisabled = false,
+  ariaLabelledBy,
+  iconClass,
+  titleClass,
+  disable,
+  panel,
+  icon,
+  img,
+  title,
+  buttonClass,
+  switchFn,
+  isActive,
+  onClick
+}: ButtonProps) => {
   const { isHelpOpen, isMenuOpen, isProfileOpen, isSettingsOpen } = useAppContext()
   const { openProfile, closeProfile } = useProfilePanel()
   const { openHelp, closeHelp } = useHelpPanel()
@@ -69,15 +85,16 @@ const Button = ({ tabIndex, ariaDisabled = false, ariaLabelledBy, iconClass, tit
 
   return (
     <button
-    // aria-label={`${title} Button,`}
-    aria-labelledby={ariaLabelledBy}
-    // aria-describedby={ariaDescribedBy}
+      ref={buttonRef} // <-- apply ref here
+      // aria-label={`${title} Button,`}
+      aria-labelledby={ariaLabelledBy}
+      // aria-describedby={ariaDescribedBy}
       tabIndex={tabIndex}
       aria-disabled={ariaDisabled}
       // aria-keyshortcuts={'up arrow'}
       onClick={() => { if (!disable) handleClick() }}
       disabled={disable}
-      className={`f2 pa1 focus:bg-tertiary bw3 pointer width-2X secondary ${isActive ? 'bg-on-background' : 'bg-background'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
+      className={`f2 pa1 focus-visible:bg-tertiary bw3 pointer width-2X secondary ${isActive ? 'bg-on-background' : 'bg-background'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
       // style={{width: '2.5em'}}
       title={title}
     >

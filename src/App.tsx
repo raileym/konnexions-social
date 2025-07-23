@@ -75,16 +75,16 @@ const AppMain = () => {
         <PanelBasicReview />
         <PanelSettings />
         <PanelMenu />
-        <PanelHelp />
+        {/* <PanelHelp /> */}
         <PanelMDX />
       </div>
       <NavbarTop />
       <NavbarBottom />
       <ViewportWidthOverlay />
       <NavbarColor />
-      <FontSizeControls />
+      {/* <FontSizeControls /> */}
       {/* <ColorScheme /> */}
-      <DayNightToggle />
+      {/* <DayNightToggle /> */}
     </>
   )
 }
@@ -108,8 +108,7 @@ const App: React.FC = () => {
     setLessons,
     setSelectedLessonNumber,
     setLessonPrompt,
-    setLessonTimestamp,
-    screenState
+    setLessonTimestamp
   } = useAppContext()
 
   useEffect(() => {
@@ -120,11 +119,6 @@ const App: React.FC = () => {
     const ttsStored = localStorage.getItem(`ttsCharUsageW${week}`)
     setTtsCharUsage(ttsStored ? parseInt(ttsStored, 10) : 0)
   }, [setOpenAiUsage, setTtsCharUsage])
-
-  useEffect(() =>{
-    console.log('screenState', screenState)
-  })
-  
 
   useEffect(() => {
     const cookedEmail = localStorage.getItem('cookedEmail')

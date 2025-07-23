@@ -74,6 +74,10 @@ $break-pairs: (
     background-color: #{$value};
   }
 
+  .focus-visible\:bg-#{$name}:focus-visible {
+    background-color: #{$value};
+  }
+
   .disabled\:#{$name}:disabled {
     color: #{$value};
   }
@@ -93,6 +97,10 @@ $break-pairs: (
     color: #{$value};
   }
 
+  .focus-visible\:#{$name}:focus-visible {
+    color: #{$value};
+  }
+
   .disabled\:b--#{$name}:disabled {
     border-color: #{$value};
   }
@@ -106,6 +114,10 @@ $break-pairs: (
   }
 
   .focus\:b--#{$name}:focus {
+    border-color: #{$value} !important;
+  }
+
+  .focus-visible\:b--#{$name}:focus-visible {
     border-color: #{$value} !important;
   }
 

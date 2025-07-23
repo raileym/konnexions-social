@@ -6,7 +6,7 @@ import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'
 
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
-import { APP_PANEL, BUTTON_NAME, MDX_PAGE } from '@cknTypes/constants'
+import { APP_PANEL, BUTTON_NAME, MDX_PAGE, SCREEN } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useHelpPanel } from '@hooks/useHelpPanel'
@@ -34,6 +34,8 @@ const NavbarTop: React.FC = () => {
     setEngageSpanish,
     engageSpanish,
     setIsSelectedCreate,
+    setScreenState,
+    screenState
   } = useAppContext()
 
   const { switchPanel } = usePanel()
@@ -100,6 +102,10 @@ const NavbarTop: React.FC = () => {
     const nextValue = isSame ? null : BUTTON_NAME.MENU
     setActiveButton(nextValue)
     activeButtonRef.current = nextValue
+    setScreenState({
+      ...screenState,
+      [SCREEN.MENU]: !isSame
+    })
   }
 
   return (
@@ -113,7 +119,7 @@ const NavbarTop: React.FC = () => {
       </div>
 
       <nav aria-labelledby={'label-navbar-top'} are-describedby={'describe-navbar-top'} tabIndex={-1} className="navbar-top bn fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
-        <div tabIndex={0} aria-describedby={'button-home'} className="flex justify-start flex-row pointer lh-4-kx grow-5-kx pr3 focus:bg-tertiary focus:b--tertiary" onClick={handleGoHome}>
+        <div tabIndex={0} aria-describedby={'button-home'} className="flex justify-start flex-row pointer lh-4-kx grow-5-kx pr3 focus-visible:bg-tertiary focus-visible:b--tertiary" onClick={handleGoHome}>
 
           {/* <div aria-describedby={'button-home'} className="sr-only">
             Home Button, Press the Home Button to return to the Welcome Page            

@@ -1136,6 +1136,7 @@ export type TiptapEditorProps = {
 }
 
 export type ButtonProps = {
+  buttonRef?: React.RefObject<HTMLButtonElement | null>
   ariaLabelledBy: string
   ariaDisabled?: boolean
   tabIndex: number
