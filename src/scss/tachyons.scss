@@ -54,7 +54,7 @@ $break-pairs: (
     background-color: #{$value};
   }
 
-  .focus\:bg-#{$name}:focus {
+  .focus-kx\:bg-#{$name}:focus {
     background-color: #{$value};
   }
 
@@ -73,7 +73,7 @@ $break-pairs: (
     color: #{$value};
   }
 
-  .focus\:#{$name}:focus {
+  .focus-kx\:#{$name}:focus {
     color: #{$value};
   }
 
@@ -89,7 +89,7 @@ $break-pairs: (
     border-color: #{$value};
   }
 
-  .focus\:b--#{$name}:focus {
+  .focus-kx\:b--#{$name}:focus {
     border-color: #{$value};
   }
 
@@ -746,9 +746,14 @@ $non-break-pairs: (
     transition: transform .25s ease-out, -webkit-transform .25s ease-out;
 }
 
-.grow-large:hover,
-.grow-large:focus {
-  transform: scale(1.5);
+.grow-5-kx:hover,
+.grow-5-kx:focus {
+  transform: scale(1.05);
+}
+
+.grow-kx:hover,
+.grow-kx:focus {
+  transform: scale(1.1);
 }
 
 @keyframes wiggle-effect {

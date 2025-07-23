@@ -99,7 +99,7 @@ const NavbarTop: React.FC = () => {
       </div>
 
       <nav aria-labelledBy={'label-navbar-top'} are-describedBy={'describe-navbar-top'} tabIndex={0} className="navbar-top fixed top-0 shadow-3 left-0 w-100 bg-on-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
-        <div tabIndex={0} aria-describedBy={'button-home'} className="flex justify-start flex-row pointer lh-4-kx" onClick={handleGoHome}>
+        <div tabIndex={0} aria-describedBy={'button-home'} className="flex justify-start flex-row pointer lh-4-kx grow-5-kx" onClick={handleGoHome}>
 
           {/* <div aria-describedBy={'button-home'} className="sr-only">
             Home Button, Press the Home Button to return to the Welcome Page            
@@ -132,9 +132,9 @@ const NavbarTop: React.FC = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={0} ariaLabelledBy={'label-button-bienvenido'} ariaDescribedBy={'describe-button-bienvenido'} isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bn wiggle focus:b--red bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={0} ariaLabelledBy={'label-button-profile'} ariaDescribedBy={'describe-button-profile'} isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <Button tabIndex={0} ariaLabelledBy={'label-button-menu'} ariaDescribedBy={'describe-button-menu'} isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={0} ariaLabelledBy={'label-button-bienvenido'} ariaDescribedBy={'describe-button-bienvenido'} isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bn wiggle focus-kx:b--red bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={0} ariaLabelledBy={'label-button-profile'} ariaDescribedBy={'describe-button-profile'} isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l grow-kx' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={0} ariaLabelledBy={'label-button-menu'} ariaDescribedBy={'describe-button-menu'} isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3 grow-kx' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>
