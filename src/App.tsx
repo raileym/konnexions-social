@@ -196,33 +196,159 @@ const App: React.FC = () => {
   const alwaysTrue = false
   if (alwaysTrue) {
     return (
-      <>
-      <div className="bg-yellow flex flex-column justify-center items-center min-vh-100 w-100">
-        <header className="header">
-          <h1 className="tc">Practice App</h1>
-          <nav className="w-full flex justify-between">
-            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white">Home</button>
-            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('Home clicked')}>Home</button>
-            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('About clicked')}>About</button>
-            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('Contact clicked')}>Contact</button>
-          </nav>
-        </header>
+      <div className="pa4">
+        <div id="group-label" className="mb2 f5 fw6 sr-only">
+          Action Group
+        </div>
+        <div id="group-desc" className="visually-hidden sr-only">
+          This is a group of related actions.
+        </div>
 
-        <main id="main" className="main w-50">
-          <h2 className="tc">Main Content</h2>
-          <div className="w-full flex justify-center">
-            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('First action')}>Action 1</button>
-            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('Second action')}>Action 2</button>
-            <button className="pa2 mh3 bw2 b--red bg-white red focus:bg-green focus:b--green focus:white" onClick={() => console.log('Third action')}>Action 3</button>
+        <h1 id="title" className="mb3">VoiceOver ARIA Test</h1>
+
+        {/* Basic labeled button */}
+        <div className="mb4">
+          <button
+            id="btn-flat"
+            tabIndex={0}
+            aria-labelledby="label-flat"
+            aria-describedby="desc-flat"
+            className="pa2 bg-light-blue focus:bg-blue focus:white"
+          >
+            Flat Button
+          </button>
+          <div id="label-flat" className="visually-hidden">
+            Flat Button Label
           </div>
-        </main>
+          <div id="desc-flat" className="visually-hidden">
+            This is a basic flat button.
+          </div>
+        </div>
 
-        <footer className="footer">
-          <p>Footer content here.</p>
-        </footer>
+        {/* Structured button with icon and ARIA labeling */}
+        <div className="mb4">
+          <button
+            id="btn-structured"
+            tabIndex={0}
+            aria-labelledby="label-structured"
+            aria-describedby="desc-structured"
+            className="pa2 bg-light-yellow focus:bg-blue focus:white"
+          >
+            <span role="img" aria-label="Star">⭐</span>
+            <span id="label-structured" className="ml2">
+              Structured Button
+            </span>
+          </button>
+          <div id="desc-structured" className="visually-hidden">
+            This button has an icon and text.
+          </div>
+        </div>
+
+        {/* Grouped buttons with explicit ARIA label */}
+        <div
+          role="group"
+          aria-labelledby="group-label"
+          aria-describedby="group-desc"
+          className="mb4 pa3 bg-washed-red"
+          tabIndex={0} // not focusable itself
+        >
+          <button tabIndex={0} className="mr2 pa2 focus:bg-blue focus:white">Option 1</button>
+          <button tabIndex={0} className="mr2 pa2 focus:bg-blue focus:white">Option 2</button>
+        </div>
+
+        {/* No group: test isolated labeled button */}
+        <div role="none" className="mb4">
+          <button
+            tabIndex={0}
+            aria-labelledby="label-nogroup"
+            className="pa2 bg-light-green focus:bg-blue focus:white"
+          >
+            Profile
+          </button>
+          <div id="label-nogroup" className="visually-hidden">
+            Profile Button Without Group
+          </div>
+        </div>
       </div>
-      </>
     )
+
+    // return (
+    //   <div className="pa4">
+    //     <span id='button-option-1' className="sr-only">This describes Button Option 1</span>
+    //     <span id='button-option-2' className="sr-only">This describes Button Option 2</span>
+    //     <h1 id="title" className="mb3">VoiceOver ARIA Test</h1>
+
+    //     {/* Basic labeled button */}
+    //     <div className="mb4 focus:bg-red">
+    //       <button
+    //         id="btn-flat"
+    //         tabIndex={0}
+    //         aria-labelledby="label-flat"
+    //         aria-describedby="desc-flat"
+    //         className="pa2 bg-light-blue focus:bg-blue focus:white"
+    //       >
+    //         Flat Button
+    //       </button>
+    //       <div id="label-flat" className="visually-hidden">
+    //         Flat Button Label
+    //       </div>
+    //       <div id="desc-flat" className="visually-hidden">
+    //         This is a basic flat button.
+    //       </div>
+    //     </div>
+
+    //     {/* Structured button with icon and ARIA labeling */}
+    //     <div className="mb4">
+    //       <button
+    //         id="btn-structured"
+    //         tabIndex={0}
+    //         aria-labelledby="label-structured"
+    //         aria-describedby="desc-structured"
+    //         className="pa2 bg-light-yellow focus:bg-blue focus:white"
+    //       >
+    //         <span role="img" aria-label="Star">⭐</span>
+    //         <span id="label-structured" className="sr-onlyX">
+    //           Structured Button
+    //         </span>
+    //       </button>
+    //       <div id="desc-structured" className="sr-onlyX">
+    //         This button has an icon and text.
+    //       </div>
+    //     </div>
+
+    //     {/* Grouped buttons with explicit ARIA label */}
+    //     <div
+    //       role="group"
+    //       aria-labelledby="group-label"
+    //       aria-describedby="group-desc"
+    //       className="mb4 pa3 bg-washed-red"
+    //       tabIndex={-1} // not focusable itself
+    //     >
+    //       <div id="group-label" className="mb2 f5 fw6" tabIndex={0}>
+    //         Action Group
+    //       </div>
+    //       <div id="group-desc" className="visually-hidden">
+    //         This is a group of related actions.
+    //       </div>
+    //       <button tabIndex={0} aria-label={'Option 1'} aria-describedBy={'button-option-1'} className="mr2 pa2 focus:bg-red">Option 1</button>
+    //       <button tabIndex={0} aria-label={'Option 2'} aria-describedBy={'button-option-2'} className="mr2 pa2 focus:bg-red">Option 2</button>
+    //     </div>
+
+    //     {/* No group: test isolated labeled button */}
+    //     <div role="none" className="mb4">
+    //       <button
+    //         tabIndex={0}
+    //         aria-labelledby="label-nogroup"
+    //         className="pa2 bg-light-green focus:bg-green focus:white"
+    //       >
+    //         Profile
+    //       </button>
+    //       <div id="label-nogroup" className="visually-hidden">
+    //         Profile Button Without Group
+    //       </div>
+    //     </div>
+    //   </div>
+    // )
   } else {
       return (
         <Router>

@@ -8,7 +8,7 @@ import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useSettingsPanel } from '@hooks/useSettingsPanel'
 
-const Button = ({ tabIndex, ariaDisabled = false, ariaDescribedBy, reverse = false, iconClass, titleClass, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
+const Button = ({ tabIndex, ariaDisabled = false, ariaLabelledBy, ariaDescribedBy, reverse = false, iconClass, titleClass, disable, panel, icon, img, title, buttonClass, switchFn, isActive, onClick }: ButtonProps) => {
   const { isHelpOpen, isMenuOpen, isProfileOpen, isSettingsOpen } = useAppContext()
   const { openProfile, closeProfile } = useProfilePanel()
   const { openHelp, closeHelp } = useHelpPanel()
@@ -58,8 +58,9 @@ const Button = ({ tabIndex, ariaDisabled = false, ariaDescribedBy, reverse = fal
 
   return (
     <button
-    aria-label={`${title} Button,`}
-    aria-describedBy={ariaDescribedBy}
+    // aria-label={`${title} Button,`}
+    aria-labelledBy={ariaLabelledBy}
+    // aria-describedBy={ariaDescribedBy}
       tabIndex={tabIndex}
       aria-disabled={ariaDisabled}
       // aria-keyshortcuts={'up arrow'}

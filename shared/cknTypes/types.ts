@@ -1135,7 +1135,8 @@ export type TiptapEditorProps = {
 }
 
 export type ButtonProps = {
-  ariaDescribedBy?: string
+  ariaDescribedBy: string
+  ariaLabelledBy: string
   ariaDisabled?: boolean
   tabIndex: number
   disable?: boolean
