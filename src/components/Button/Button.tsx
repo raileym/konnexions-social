@@ -17,14 +17,25 @@ const Button = ({ tabIndex, ariaDisabled = false, ariaLabelledBy, ariaDescribedB
 
   const handleClick = () => {
     if (isHelpOpen && panel === APP_PANEL.HELP) {
+      closeProfile()
+      closeMenu()
+      closeSettings()
       closeHelp()
     } else if (isMenuOpen && panel === APP_PANEL.MENU) {
+      closeProfile()
       closeMenu()
+      closeSettings()
+      closeHelp()
     } else if (isProfileOpen && panel === APP_PANEL.PROFILE) {
       closeProfile()
-    } else if (isSettingsOpen && panel === APP_PANEL.SETTINGS) {
+      closeMenu()
       closeSettings()
-
+      closeHelp()
+    } else if (isSettingsOpen && panel === APP_PANEL.SETTINGS) {
+      closeProfile()
+      closeMenu()
+      closeSettings()
+      closeHelp()
     } else if (!isHelpOpen && panel === APP_PANEL.HELP) {
       closeProfile()
       closeMenu()
@@ -66,7 +77,7 @@ const Button = ({ tabIndex, ariaDisabled = false, ariaLabelledBy, ariaDescribedB
       // aria-keyshortcuts={'up arrow'}
       onClick={() => { if (!disable) handleClick() }}
       disabled={disable}
-      className={`f2 pa1 focus:bg-red focus:b--red bw3 pointer width-2X secondary ${isActive ? 'bg-background' : 'bg-on-background'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
+      className={`f2 pa1 focus:bg-red focus:b--red bw3 pointer width-2X secondary ${isActive ? 'bg-on-background' : 'bg-background'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
       // style={{width: '2.5em'}}
       title={title}
     >
