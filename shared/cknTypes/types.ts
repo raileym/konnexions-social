@@ -1135,7 +1135,6 @@ export type TiptapEditorProps = {
 }
 
 export type ButtonProps = {
-  ariaDescribedBy: string
   ariaLabelledBy: string
   ariaDisabled?: boolean
   tabIndex: number
@@ -1150,7 +1149,7 @@ export type ButtonProps = {
   iconClass?: string
   titleClass?: string
   onClick?: () => void   // ← NEW
-  reverse?: boolean
+  // reverse?: boolean
 }
 
 export type PanelVerifyEmailComponentsProps = {

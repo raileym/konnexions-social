@@ -26,7 +26,7 @@ const MyKonnexionsTitle = ({
 
 return (  
     <>
-      <div aria-hidden={ariaHidden} aria-label={ariaLabel} aria-decribedBy={ariaDescribedBy} className="konnexions-title dib lh-2-kx" style={{marginLeft: '-.3rem'}}>
+      <div aria-hidden={ariaHidden} aria-label={ariaLabel} aria-describedby={ariaDescribedBy} className="konnexions-title dib lh-2-kx" style={{marginLeft: '-.3rem'}}>
         <div aria-hidden={true} className="flex flex-row">
           {!shorten && <div className={`b ${color} mr2`}>My</div>}
           <div className={`b ${slashColor}`}>K</div>

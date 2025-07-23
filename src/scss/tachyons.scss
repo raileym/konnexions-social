@@ -70,7 +70,7 @@ $break-pairs: (
     background-color: #{$value};
   }
 
-  .focus-kx\:bg-#{$name}:focus {
+  .focus\:bg-#{$name}:focus {
     background-color: #{$value};
   }
 
@@ -89,7 +89,7 @@ $break-pairs: (
     color: #{$value};
   }
 
-  .focus-kx\:#{$name}:focus {
+  .focus\:#{$name}:focus {
     color: #{$value};
   }
 
@@ -105,8 +105,8 @@ $break-pairs: (
     border-color: #{$value};
   }
 
-  .focus-kx\:b--#{$name}:focus {
-    border-color: #{$value};
+  .focus\:b--#{$name}:focus {
+    border-color: #{$value} !important;
   }
 
   .placeholder\:#{$name}::placeholder {
@@ -807,4 +807,26 @@ $non-break-pairs: (
 
 .wiggle:hover {
   animation: wiggle-effect 0.5s ease-in-out;
+}
+
+@keyframes wiggle-grow-effect-kx {
+  0%   { transform: scale(1.1) rotate(0deg); }
+  15%  { transform: scale(1.1) rotate(-5deg); }
+  30%  { transform: scale(1.1) rotate(5deg); }
+  45%  { transform: scale(1.1) rotate(-5deg); }
+  60%  { transform: scale(1.1) rotate(5deg); }
+  75%  { transform: scale(1.1) rotate(-2deg); }
+  100% { transform: scale(1.0) rotate(0deg); }
+}
+
+.wiggle-grow-effect-kx {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  animation: wiggle-grow-effect-kx 0.6s ease-in-out;
+}
+
+.wiggle-grow-kx:hover {
+  animation: wiggle-grow-effect-kx 0.6s ease-in-out;
 }

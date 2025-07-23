@@ -219,12 +219,13 @@ p {
 }
 
 *:focus-visible {
-  outline: 5px solid red; /* Or any color that pops */
-  outline-offset: 2px;
+  outline: none
+  // outline: 5px solid red; /* Or any color that pops */
+  // outline-offset: 2px;
 }
 
-a:focus-visible,
-button:focus-visible {
+a:focus-visibleX,
+button:focus-visibleX {
   outline: 4px solid red;
   outline-offset: 2px;
 }

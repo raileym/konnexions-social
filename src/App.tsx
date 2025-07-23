@@ -33,12 +33,12 @@ const AppMain = () => {
 
   return (
     <>
-{/* <div
+<div
   tabIndex={0}
   aria-disabled="false"
   className="absolute opacity-0 pointer-events-none"
   id="initial-focus-anchor"
-/> */}
+/>
 
 {/* <div className="sr-only white" role="region" aria-label="App loaded and ready">
   Application ready
@@ -83,7 +83,7 @@ const AppMain = () => {
       <ViewportWidthOverlay />
       <NavbarColor />
       <FontSizeControls />
-      <ColorScheme />
+      {/* <ColorScheme /> */}
       <DayNightToggle />
     </>
   )
@@ -108,7 +108,8 @@ const App: React.FC = () => {
     setLessons,
     setSelectedLessonNumber,
     setLessonPrompt,
-    setLessonTimestamp
+    setLessonTimestamp,
+    screenState
   } = useAppContext()
 
   useEffect(() => {
@@ -119,6 +120,11 @@ const App: React.FC = () => {
     const ttsStored = localStorage.getItem(`ttsCharUsageW${week}`)
     setTtsCharUsage(ttsStored ? parseInt(ttsStored, 10) : 0)
   }, [setOpenAiUsage, setTtsCharUsage])
+
+  useEffect(() =>{
+    console.log('screenState', screenState)
+  })
+  
 
   useEffect(() => {
     const cookedEmail = localStorage.getItem('cookedEmail')
@@ -330,8 +336,8 @@ const App: React.FC = () => {
     //       <div id="group-desc" className="visually-hidden">
     //         This is a group of related actions.
     //       </div>
-    //       <button tabIndex={0} aria-label={'Option 1'} aria-describedBy={'button-option-1'} className="mr2 pa2 focus:bg-red">Option 1</button>
-    //       <button tabIndex={0} aria-label={'Option 2'} aria-describedBy={'button-option-2'} className="mr2 pa2 focus:bg-red">Option 2</button>
+    //       <button tabIndex={0} aria-label={'Option 1'} aria-describedby={'button-option-1'} className="mr2 pa2 focus:bg-red">Option 1</button>
+    //       <button tabIndex={0} aria-label={'Option 2'} aria-describedby={'button-option-2'} className="mr2 pa2 focus:bg-red">Option 2</button>
     //     </div>
 
     //     {/* No group: test isolated labeled button */}

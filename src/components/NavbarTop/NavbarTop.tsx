@@ -96,18 +96,12 @@ const NavbarTop: React.FC = () => {
         <span id="label-button-bienvenido">[Bienvenido Button] Press the Bienvenido Button to engage your Spanish lesson.</span>    
         <span id="label-button-menu">[Menu Button] Press the Menu Button to engage the menu.</span>    
         <span id="label-button-profile">[Profile Button] Press the Profile Button to update your profile.</span>
-
-        <span id="describe-navbar-top">DESCRIBE Navbar Top is always present</span>    
-        <span id="describe-button-home">DESCRIBE Press the Home Button to return to the Welcome Page</span>    
-        <span id="describe-button-bienvenido">DESCRIBE Press the Bienvenido Button to engage your Spanish lesson</span>    
-        <span id="describe-button-menu">DESCRIBE Press the Menu Button to engage the menu</span>    
-        <span id="describe-button-profile">DESCRIBE Press the Profile Button to update your profile</span>    
       </div>
 
-      <nav aria-labelledBy={'label-navbar-top'} are-describedBy={'describe-navbar-top'} tabIndex={0} className="navbar-top fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
-        <div tabIndex={0} aria-describedBy={'button-home'} className="flex justify-start flex-row pointer lh-4-kx grow-5-kx" onClick={handleGoHome}>
+      <nav aria-labelledby={'label-navbar-top'} are-describedby={'describe-navbar-top'} tabIndex={-1} className="navbar-top bn fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
+        <div tabIndex={0} aria-describedby={'button-home'} className="flex justify-start flex-row pointer lh-4-kx grow-5-kx focus:bg-tertiary focus:b--tertiary" onClick={handleGoHome}>
 
-          {/* <div aria-describedBy={'button-home'} className="sr-only">
+          {/* <div aria-describedby={'button-home'} className="sr-only">
             Home Button, Press the Home Button to return to the Welcome Page            
           </div> */}
 
@@ -138,9 +132,9 @@ const NavbarTop: React.FC = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={0} ariaLabelledBy={'label-button-bienvenido'} ariaDescribedBy={'describe-button-bienvenido'} isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bg-background bn wiggle focus-kx:b--red bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={0} ariaLabelledBy={'label-button-profile'} ariaDescribedBy={'describe-button-profile'} isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l grow-kx bg-background' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <Button tabIndex={0} ariaLabelledBy={'label-button-menu'} ariaDescribedBy={'describe-button-menu'} isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3 grow-kx bg-backgound' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={0} ariaLabelledBy={'label-button-bienvenido'} isActive={isSelectedBienVenido} title='Bienvenido!' buttonClass={'mh3 bg-background bn wiggle-grow-kx grow-kx bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={0} ariaLabelledBy={'label-button-profile'} isActive={isSelectedProfile} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l grow-kx bg-background bw3' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={0} ariaLabelledBy={'label-button-menu'} isActive={isSelectedMenu} title='Menu' buttonClass='bn b--background ph2 ml2 mr3 grow-kx bg-backgound bw3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>

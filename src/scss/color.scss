@@ -37,6 +37,11 @@ $softblue:              rgba(0, 125, 255, 1);
     --kx-background: green;
     --kx-onBackground: red;
 
+    --kx-on-primary: var(--kx-onPrimary)
+    --kx-on-secondary: var(--kx-onSecondary)
+    --kx-on-tertiary: var(--kx-onTertiary)
+    --kx-on-background: var(--kx-onBackground)
+
     --kx-brand: #17ADFF;
     --kx-background: black;
     --kx-brown: brown;
@@ -103,6 +108,16 @@ $palette-color: (
 }
 
 $color-set: ( 
+  "primary": var(--kx-primary),
+  "secondary": var(--kx-secondary),
+  "tertiary": var(--kx-tertiary),
+  "background": var(--kx-background),
+
+  "on-primary": var(--kx-on-primary),
+  "on-secondary": var(--kx-on-secondary),
+  "on-tertiary": var(--kx-on-tertiary),
+  "on-background": var(--kx-on-background),
+
   "highlightblue":   #00cdff44,
   "highlightred":    #ff00bc44,
   "highlightyellow": #ffff00aa,
