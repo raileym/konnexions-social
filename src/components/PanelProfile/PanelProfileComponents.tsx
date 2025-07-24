@@ -6,6 +6,7 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { faSquareCheck } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { usePaywall } from '@hooks/usePaywall/usePaywall'
+import { useProfilePanel } from '@hooks/useProfilePanel'
 import React, { useEffect, useState } from 'react'
 
 const PanelRequestEmailComponents = () => {
@@ -33,6 +34,8 @@ const PanelRequestEmailComponents = () => {
     screenState
   } = useAppContext()
 
+    const { profilePanelFirstFocusRef } = useProfilePanel()
+  
   const { refreshPaywall } = usePaywall()
 
   useEffect(() => {
@@ -174,6 +177,7 @@ const PanelRequestEmailComponents = () => {
             {validationMessage}
             {validationMessage == USER_EMAIL_VALIDATED ? <FontAwesomeIcon className="ml2" icon={faSquareCheck} /> : null}</div>
         <form
+          ref={profilePanelFirstFocusRef}
           onSubmit={handleSubmit}
           className={`${isUserValidated? 'bg-dimgrey' : 'bg-background'} pa3 br3 shadow-5 mw6 w-100`}
           aria-label="Email + code form"

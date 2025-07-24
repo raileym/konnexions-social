@@ -1,42 +1,74 @@
 // src/hooks/useProfilePanel.ts
 import type { IsProfileOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export const useProfilePanel = () => {
-
   const [isProfileOpen, setIsProfileOpen] = useState<IsProfileOpen>(false)
   
+  const profilePanelFirstFocusRef = useRef<HTMLFormElement | null>(null)
+  const profilePanelRef = useRef<HTMLDivElement | null>(null)
+  const profilePanelTabIndex = useRef<number>(-1)
+
   const {
     isTransitioning,
     setIsTransitioning
   } = useAppContext()
 
-  const openProfile = () => {
+  const openProfile = useCallback(() => {
     if (isTransitioning) return
-
-    // cXnsole.log('Inside openProfile')
 
     setIsTransitioning(true)
     setIsProfileOpen(true)
 
     setTimeout(() => {
+      profilePanelTabIndex.current = 0
       setIsTransitioning(false)
     }, 300)
-  }
+  }, [isTransitioning, setIsTransitioning])
 
-  const closeProfile = () => {
+  const closeProfile = useCallback(() => {
     if (isTransitioning) return
 
-    // cXnsole.log('Inside closeProfile')
-    
     setIsTransitioning(true)
     setIsProfileOpen(false)
 
     setTimeout(() => {
+      profilePanelTabIndex.current = -1
       setIsTransitioning(false)
     }, 300)
-  }
+  }, [isTransitioning, setIsTransitioning])
 
-  return { isProfileOpen, openProfile, closeProfile }
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        profilePanelRef.current &&
+        !profilePanelRef.current.contains(event.target as Node)
+      ) {
+        requestAnimationFrame(() => {
+          closeProfile()
+        })
+      }
+    }
+
+    if (isProfileOpen) {
+      const timeoutId = setTimeout(() => {
+        document.addEventListener('click', handleClickOutside)
+      }, 150)
+
+      return () => {
+        clearTimeout(timeoutId)
+        document.removeEventListener('click', handleClickOutside)
+      }
+    }
+  }, [closeProfile, isProfileOpen])
+
+  return {
+    profilePanelTabIndex,
+    profilePanelRef,
+    profilePanelFirstFocusRef,
+    isProfileOpen,
+    openProfile,
+    closeProfile
+  }
 }

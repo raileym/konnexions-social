@@ -83,6 +83,7 @@ export type InputText = string
 export type IsComplete = boolean
 export type IsHelpOpen = boolean
 export type IsMenuOpen = boolean
+export type IsNavbarTopOpen = boolean
 export type IsProfileOpen = boolean
 export type IsSettingsOpen = boolean
 export type IsTransitioning = boolean

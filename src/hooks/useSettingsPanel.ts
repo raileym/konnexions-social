@@ -1,41 +1,74 @@
 // src/hooks/useSettingsPanel.ts
 import type { IsSettingsOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useState } from 'react'
+import { useRef, useState, useCallback, useEffect } from 'react'
 
 export const useSettingsPanel = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState<IsSettingsOpen>(false)
+  
+  const settingsPanelRef = useRef<HTMLDivElement | null>(null)
+  const settingsPanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
+  const settingsPanelTabIndex = useRef<number>(-1)
 
   const {
     isTransitioning,
     setIsTransitioning
   } = useAppContext()
 
-  const openSettings = () => {
+  const openSettings = useCallback(() => {
     if (isTransitioning) return
-
-    // cXnsole.log('Inside openSettings')
 
     setIsTransitioning(true)
     setIsSettingsOpen(true)
 
     setTimeout(() => {
+      settingsPanelTabIndex.current = 0
       setIsTransitioning(false)
     }, 300)
-  }
+  }, [isTransitioning, setIsTransitioning])
 
-  const closeSettings = () => {
+  const closeSettings = useCallback(() => {
     if (isTransitioning) return
 
-    // cXnsole.log('Inside closeSettings')
-    
     setIsTransitioning(true)
     setIsSettingsOpen(false)
 
     setTimeout(() => {
+      settingsPanelTabIndex.current = -1
       setIsTransitioning(false)
     }, 300)
-  }
+  }, [isTransitioning, setIsTransitioning])
 
-  return { isSettingsOpen, openSettings, closeSettings }
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        settingsPanelRef.current &&
+        !settingsPanelRef.current.contains(event.target as Node)
+      ) {
+        requestAnimationFrame(() => {
+          closeSettings()
+        })
+      }
+    }
+
+    if (isSettingsOpen) {
+      const timeoutId = setTimeout(() => {
+        document.addEventListener('click', handleClickOutside, { capture: false })
+      }, 150)
+
+      return () => {
+        clearTimeout(timeoutId)
+        document.removeEventListener('click', handleClickOutside)
+      }
+    }
+  }, [isSettingsOpen, closeSettings])
+
+  return {
+    settingsPanelFirstFocusRef,
+    settingsPanelRef,
+    settingsPanelTabIndex,
+    isSettingsOpen,
+    openSettings,
+    closeSettings
+  }
 }

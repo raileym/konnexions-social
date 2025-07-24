@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { APP_PANEL, MDX_PAGE, MENU_PANEL_TRANSLATE_X, MENU_PANEL_WIDTH_PERCENT } from '@cknTypes/constants'
 import { useNavigate } from 'react-router-dom'
@@ -8,74 +8,13 @@ import { faCircleQuestion, faGear, faHome, faUser } from '@fortawesome/free-soli
 import { useMenuPanel } from '@hooks/useMenuPanel'
 
 const PanelMenu: React.FC = () => {
-  const PanelMenuRef = useRef<HTMLDivElement>(null)
-  // const firstFocusableRef = useRef<HTMLLIElement>(null)
-  const homeButtonRef = useRef<HTMLButtonElement>(null)
-
   const isMenuInteractive = useRef(false)
 
   const { setActivePanel, setMdxPage } = useAppContext()
   const { switchPanel } = usePanel()
-  const { isMenuOpen, closeMenu } = useMenuPanel()
-  
+  const { menuPanelFirstFocusRef, menuPanelRef, isMenuOpen, closeMenu } = useMenuPanel()
   const translateX = isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full'
   const navigate = useNavigate()
-
-  useEffect(() => {
-    isMenuInteractive.current = isMenuOpen
-
-    if (isMenuOpen) {
-      const timeout = setTimeout(() => {
-        homeButtonRef.current?.focus()
-      }, 250) // Match the transition duration
-
-      return () => clearTimeout(timeout)
-    }
-  }, [isMenuOpen])
-
-  useEffect(() => {
-    // setScreenState({
-    //   ...screenState,
-    //   [SCREEN.MENU]: true
-    // })
-  })
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      // cXonsole.log('Click detected, checking if outside Menu Panel ...')
-      
-      if (
-        PanelMenuRef.current &&
-        !PanelMenuRef.current.contains(event.target as Node)
-      ) {
-        // cXonsole.log('Click is outside Menu Panel, closing menu')
-        
-        // Don't interfere with the event - let it complete naturally
-        // Close panel on next tick
-        requestAnimationFrame(() => {
-          closeMenu();
-        });
-      } else {
-        // cXonsole.log('Click is inside Menu Panel or ref not available')
-      }
-    }
-
-    if (isMenuOpen) {
-      // cXonsole.log('Adding listener for click outside Menu Panel')
-      
-      const timeoutId = setTimeout(() => {
-        document.addEventListener('click', handleClickOutside, { 
-          capture: false // Listen in bubbling phase, after other handlers
-        });
-      }, 150); // Slightly longer delay
-
-      return () => {
-        clearTimeout(timeoutId);
-        document.removeEventListener('click', handleClickOutside);
-        // cXonsole.log('Removing listener for click outside Menu Panel')
-      };
-    }
-  }, [isMenuOpen, closeMenu]);
 
   const navigateTo = (route: string) => {
     closeMenu()
@@ -98,7 +37,7 @@ const PanelMenu: React.FC = () => {
       </div>
 
       <div 
-        ref={PanelMenuRef}
+        ref={menuPanelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="menu-panel-title"
@@ -108,7 +47,7 @@ const PanelMenu: React.FC = () => {
           <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>
             <h2 id="menu-panel-title" className="f3 pa3 mt5 tc on-tertiary">Menu Panel</h2>
             <div className="flex justify-between flex-m dn-lX">
-              <Button buttonRef={homeButtonRef} ariaLabelledBy={'label-button-home'} tabIndex={isMenuInteractive.current ? 0 : -1} ariaDisabled={!isMenuInteractive.current} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bnX w-50X width-3 mh0 ph2 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
+              <Button buttonRef={menuPanelFirstFocusRef} ariaLabelledBy={'label-button-home'} tabIndex={isMenuInteractive.current ? 0 : -1} ariaDisabled={!isMenuInteractive.current} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bnX w-50X width-3 mh0 ph2 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
               <Button ariaLabelledBy={'label-button-settings'} tabIndex={isMenuInteractive.current ? 0 : -1} ariaDisabled={!isMenuInteractive.current} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bnX w-50X width-3 mh0 ph2 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings' />
               <Button ariaLabelledBy={'label-button-help'} tabIndex={isMenuInteractive.current ? 0 : -1} ariaDisabled={!isMenuInteractive.current} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bnX o-20X width-3 mh0 ph2 brand bg-transparent' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
               <div className="dn-l">

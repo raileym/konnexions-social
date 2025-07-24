@@ -1,41 +1,74 @@
 // src/hooks/useHelpPanel.ts
 import type { IsHelpOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export const useHelpPanel = () => {
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
+  
+  const helpPanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
+  const helpPanelRef = useRef<HTMLDivElement | null>(null)
+  const helpPanelTabIndex = useRef<number>(-1)
 
   const {
     isTransitioning,
     setIsTransitioning
   } = useAppContext()
 
-  const openHelp = () => {
+  const openHelp = useCallback(() => {
     if (isTransitioning) return
-
-    // cXnsole.log('Inside openHelp')
 
     setIsTransitioning(true)
     setIsHelpOpen(true)
 
     setTimeout(() => {
+      helpPanelTabIndex.current = 0
       setIsTransitioning(false)
     }, 300)
-  }
+  }, [isTransitioning, setIsTransitioning])
 
-  const closeHelp = () => {
+  const closeHelp = useCallback(() => {
     if (isTransitioning) return
 
-    // cXnsole.log('Inside closeHelp')
-    
     setIsTransitioning(true)
     setIsHelpOpen(false)
 
     setTimeout(() => {
+      helpPanelTabIndex.current = -1
       setIsTransitioning(false)
     }, 300)
-  }
+  }, [isTransitioning, setIsTransitioning])
 
-  return { isHelpOpen, openHelp, closeHelp }
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        helpPanelRef.current &&
+        !helpPanelRef.current.contains(event.target as Node)
+      ) {
+        requestAnimationFrame(() => {
+          closeHelp()
+        })
+      }
+    }
+
+    if (isHelpOpen) {
+      const timeoutId = setTimeout(() => {
+        document.addEventListener('click', handleClickOutside)
+      }, 150)
+
+      return () => {
+        clearTimeout(timeoutId)
+        document.removeEventListener('click', handleClickOutside)
+      }
+    }
+  }, [closeHelp, isHelpOpen])
+
+  return {
+    helpPanelFirstFocusRef,
+    helpPanelRef,
+    helpPanelTabIndex,
+    isHelpOpen,
+    openHelp,
+    closeHelp
+  }
 }
