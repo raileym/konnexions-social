@@ -35,14 +35,17 @@ const NavbarTop: React.FC = () => {
     setEngageSpanish,
     engageSpanish,
     setIsSelectedCreate,
-    setScreenState,
-    screenState
+    // setScreenState,
+    // screenState,
+    isHelpOpen,
+    isMenuOpen,
+    isProfileOpen    
   } = useAppContext()
 
   const { switchPanel } = usePanel()
-  const { closeMenu } = useMenuPanel()
-  const { closeHelp } = useHelpPanel()
-  const { closeProfile } = useProfilePanel()
+  const { closeMenu, openMenu } = useMenuPanel()
+  const { closeHelp, openHelp } = useHelpPanel()
+  const { closeProfile, openProfile } = useProfilePanel()
   const navigate = useNavigate()
   
   // const alwaysTrue = false
@@ -91,22 +94,32 @@ const NavbarTop: React.FC = () => {
   }
 
   const handleProfile = () => {
-    const isSame = activeButtonRef.current === BUTTON_NAME.PROFILE
-    const nextValue = isSame ? null : BUTTON_NAME.PROFILE
-    setActiveButton(nextValue)
-    activeButtonRef.current = nextValue
-    console.log('handleProfile|nextValue', nextValue)
+    if (isProfileOpen) {
+      openProfile()
+    } else {
+      closeProfile()
+    }
+    // const isSame = activeButtonRef.current === BUTTON_NAME.PROFILE
+    // const nextValue = isSame ? null : BUTTON_NAME.PROFILE
+    // setActiveButton(nextValue)
+    // activeButtonRef.current = nextValue
+    // console.log('handleProfile|nextValue', nextValue)
   }
 
   const handleMenu = () => {
-    const isSame = activeButtonRef.current === BUTTON_NAME.MENU
-    const nextValue = isSame ? null : BUTTON_NAME.MENU
-    setActiveButton(nextValue)
-    activeButtonRef.current = nextValue
-    setScreenState({
-      ...screenState,
-      [SCREEN.MENU]: !isSame
-    })
+    if (isMenuOpen) {
+      closeMenu()
+    } else {
+      openMenu()
+    }
+    // const isSame = activeButtonRef.current === BUTTON_NAME.MENU
+    // const nextValue = isSame ? null : BUTTON_NAME.MENU
+    // setActiveButton(nextValue)
+    // activeButtonRef.current = nextValue
+    // setScreenState({
+    //   ...screenState,
+    //   [SCREEN.MENU]: !isSame
+    // })
   }
 
   // useEffect(() => {

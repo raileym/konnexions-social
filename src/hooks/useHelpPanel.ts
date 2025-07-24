@@ -1,14 +1,15 @@
 // src/hooks/useHelpPanel.ts
-import type { IsHelpOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import { useNavbarTop } from './useNavbarTop'
 
 export const useHelpPanel = () => {
-  const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
-
   const helpPanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
   const helpPanelRef = useRef<HTMLDivElement | null>(null)
   const helpPanelTabIndexRef = useRef<number>(-1)
+
+  const { openNavbarTop, closeNavbarTop } = useNavbarTop()
+  const { isHelpOpen, setIsHelpOpen } = useAppContext()
 
   const {
     isTransitioning,
@@ -21,11 +22,18 @@ export const useHelpPanel = () => {
     setIsTransitioning(true)
     setIsHelpOpen(true)
 
+    closeNavbarTop()
+
     setTimeout(() => {
       helpPanelTabIndexRef.current = 0
       setIsTransitioning(false)
+
+      // Focus the first element after panel opens
+      if (helpPanelFirstFocusRef.current !== null) {
+        helpPanelFirstFocusRef.current.focus()
+      }
     }, 300)
-  }, [isTransitioning, setIsTransitioning])
+  }, [closeNavbarTop, isTransitioning, setIsTransitioning])
 
   const closeHelp = useCallback(() => {
     if (isTransitioning) return
@@ -37,7 +45,10 @@ export const useHelpPanel = () => {
       helpPanelTabIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
-  }, [isTransitioning, setIsTransitioning])
+
+    openNavbarTop()
+
+  }, [isTransitioning, openNavbarTop, setIsTransitioning])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -64,10 +75,9 @@ export const useHelpPanel = () => {
   }, [closeHelp, isHelpOpen])
 
   return {
-    helpPanelFirstFocus: helpPanelFirstFocusRef.current,
     helpPanelRef,
-    helpPanelTabIndexRef,
-    isHelpOpen,
+    helpPanelFirstFocusRef,
+    helpPanelTabIndex: helpPanelTabIndexRef.current,
     openHelp,
     closeHelp
   }

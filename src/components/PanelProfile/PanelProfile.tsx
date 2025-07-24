@@ -2,12 +2,20 @@ import { PROFILE_PANEL_TRANSLATE_X, PROFILE_PANEL_WIDTH_PERCENT, SCREEN } from '
 import PanelProfileComponents from '@components/PanelProfile/PanelProfileComponents'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useProfilePanel } from '@hooks/useProfilePanel'
+import { useEffect, useState } from 'react'
 
 const PanelProfile = () => {
-  const { screenState } = useAppContext()
-  const { profilePanelTabIndex, profilePanelRef, isProfileOpen } = useProfilePanel()
+  const { screenState, isProfileOpen } = useAppContext()
+  const { profilePanelTabIndex, profilePanelRef } = useProfilePanel()
 
-  const translateX = isProfileOpen ? PROFILE_PANEL_TRANSLATE_X : 'translate-x-full'
+  const [ translateX, setTranslateX ] = useState<string>('translate-x-full')
+  // const translateX = isProfileOpen ? PROFILE_PANEL_TRANSLATE_X : 'translate-x-full'
+
+  useEffect(() => {
+    console.log('isProfileOpen', isProfileOpen ? 'TRUE' : 'FALSE')
+    setTranslateX( isProfileOpen ? PROFILE_PANEL_TRANSLATE_X : 'translate-x-full')
+  // const translateX = isProfileOpen ? PROFILE_PANEL_TRANSLATE_X : 'translate-x-full'
+  }, [isProfileOpen])
 
   return (
     <>

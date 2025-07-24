@@ -1,15 +1,17 @@
 // src/hooks/useProfilePanel.ts
-import type { IsProfileOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import { useNavbarTop } from './useNavbarTop'
 
 export const useProfilePanel = () => {
-  const [isProfileOpen, setIsProfileOpen] = useState<IsProfileOpen>(false)
-
   const profilePanelFirstFocusRef = useRef<HTMLFormElement | null>(null)
   const profilePanelRef = useRef<HTMLDivElement | null>(null)
   const profilePanelTabIndexRef = useRef<number>(-1)
 
+  const { isProfileOpen, setIsProfileOpen } = useAppContext()
+
+  const { openNavbarTop, closeNavbarTop } = useNavbarTop()
+  
   const {
     isTransitioning,
     setIsTransitioning
@@ -18,14 +20,18 @@ export const useProfilePanel = () => {
   const openProfile = useCallback(() => {
     if (isTransitioning) return
 
+    console.log('openProfile will now happen')
+
     setIsTransitioning(true)
     setIsProfileOpen(true)
+
+    closeNavbarTop()
 
     setTimeout(() => {
       profilePanelTabIndexRef.current = 0
       setIsTransitioning(false)
     }, 300)
-  }, [isTransitioning, setIsTransitioning])
+  }, [closeNavbarTop, isTransitioning, setIsProfileOpen, setIsTransitioning])
 
   const closeProfile = useCallback(() => {
     if (isTransitioning) return
@@ -37,7 +43,10 @@ export const useProfilePanel = () => {
       profilePanelTabIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
-  }, [isTransitioning, setIsTransitioning])
+
+    openNavbarTop()
+
+  }, [isTransitioning, openNavbarTop, setIsProfileOpen, setIsTransitioning])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -64,10 +73,9 @@ export const useProfilePanel = () => {
   }, [closeProfile, isProfileOpen])
 
   return {
-    profilePanelTabIndex: profilePanelTabIndexRef.current,
     profilePanelRef,
     profilePanelFirstFocusRef,
-    isProfileOpen,
+    profilePanelTabIndex: profilePanelTabIndexRef.current,
     openProfile,
     closeProfile
   }

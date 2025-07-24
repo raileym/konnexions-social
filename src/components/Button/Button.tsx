@@ -6,6 +6,7 @@ import { useHelpPanel } from '@hooks/useHelpPanel'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useSettingsPanel } from '@hooks/useSettingsPanel'
+import { useAppContext } from '@context/AppContext/AppContext'
 
 const Button = ({
   buttonRef,
@@ -24,10 +25,12 @@ const Button = ({
   isActive,
   onClick
 }: ButtonProps) => {
-  const { isProfileOpen, openProfile, closeProfile } = useProfilePanel()
-  const { isHelpOpen, openHelp, closeHelp } = useHelpPanel()
-  const { isMenuOpen, openMenu, closeMenu } = useMenuPanel()
-  const { isSettingsOpen, openSettings, closeSettings } = useSettingsPanel()
+  const { openProfile, closeProfile } = useProfilePanel()
+  const { openHelp, closeHelp } = useHelpPanel()
+  const { openMenu, closeMenu } = useMenuPanel()
+  const { openSettings, closeSettings } = useSettingsPanel()
+
+  const { isProfileOpen, isHelpOpen, isMenuOpen, isSettingsOpen } = useAppContext()
 
   const handleClick = () => {
     if (isHelpOpen && panel === APP_PANEL.HELP) {

@@ -133,6 +133,7 @@ export type SetInputText = React.Dispatch<React.SetStateAction<InputText>>
 export type SetIsSelectedCreate = React.Dispatch<React.SetStateAction<IsSelectedCreate>>
 export type SetIsHelpOpen = React.Dispatch<React.SetStateAction<IsHelpOpen>>
 export type SetIsMenuOpen = React.Dispatch<React.SetStateAction<IsMenuOpen>>
+export type SetIsNavbarTopOpen = React.Dispatch<React.SetStateAction<IsNavbarTopOpen>>
 export type SetIsProfileOpen = React.Dispatch<React.SetStateAction<IsProfileOpen>>
 export type SetIsSettingsOpen = React.Dispatch<React.SetStateAction<IsSettingsOpen>>
 export type SetIsTransitioning = React.Dispatch<React.SetStateAction<IsTransitioning>>

@@ -127,7 +127,17 @@ import type {
   UserData,
   VerificationToken,
   ScreenState,
-  SetScreenState
+  SetScreenState,
+  IsProfileOpen,
+  SetIsProfileOpen,
+  IsSettingsOpen,
+  SetIsSettingsOpen,
+  IsMenuOpen,
+  SetIsMenuOpen,
+  IsNavbarTopOpen,
+  SetIsNavbarTopOpen,
+  IsHelpOpen,
+  SetIsHelpOpen
 } from '@cknTypes/types'
 
 import {
@@ -224,8 +234,13 @@ export type AppContextType = {
   helpPanel: HelpPanel
   hideModal: () => void,
   inputText: InputText
+  isHelpOpen: IsHelpOpen
+  isMenuOpen: IsMenuOpen
   isModalVisible: boolean
+  isNavbarTopOpen: IsNavbarTopOpen
+  isProfileOpen: IsProfileOpen
   isSelectedCreate: IsSelectedCreate
+  isSettingsOpen: IsSettingsOpen
   isTransitioning: IsTransitioning
   isUserValidated: IsUserValidated
   lesson: Lesson
@@ -277,7 +292,12 @@ export type AppContextType = {
   setGenerateTTSCount: SetGenerateTTSCount
   setHelpPanel: SetHelpPanel
   setInputText: SetInputText
+  setIsHelpOpen: SetIsHelpOpen
+  setIsMenuOpen: SetIsMenuOpen
+  setIsNavbarTopOpen: SetIsNavbarTopOpen
+  setIsProfileOpen: SetIsProfileOpen
   setIsSelectedCreate: SetIsSelectedCreate
+  setIsSettingsOpen: SetIsSettingsOpen
   setIsTransitioning: SetIsTransitioning
   setIsUserValidated: SetIsUserValidated
   setLesson: SetLesson
@@ -351,6 +371,12 @@ export const mdxPagesMap: MdxPagesMap = {
 export type SetMdxPage = React.Dispatch<React.SetStateAction<MdxPage>>
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+  const [isProfileOpen, setIsProfileOpen] = useState<IsProfileOpen>(false)
+  const [isSettingsOpen, setIsSettingsOpen] = useState<IsSettingsOpen>(false)
+  const [isMenuOpen, setIsMenuOpen] = useState<IsMenuOpen>(false)
+  const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
+  const [isNavbarTopOpen, setIsNavbarTopOpen] = useState<IsNavbarTopOpen>(false)
 
   const [screenState, setScreenState] = useState<ScreenState>(defaultScreenState)
 
@@ -482,8 +508,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     helpPanel,
     hideModal,
     inputText,
+    isHelpOpen,
+    isMenuOpen,
     isModalVisible,
+    isNavbarTopOpen,
+    isProfileOpen,
     isSelectedCreate,
+    isSettingsOpen,
     isTransitioning,
     isUserValidated,
     lesson,
@@ -535,7 +566,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setGenerateTTSCount,
     setHelpPanel,
     setInputText,
+    setIsHelpOpen,
+    setIsMenuOpen,
+    setIsNavbarTopOpen,
+    setIsProfileOpen,
     setIsSelectedCreate,
+    setIsSettingsOpen,
     setIsTransitioning,
     setIsUserValidated,
     setLesson,

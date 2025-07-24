@@ -1,14 +1,13 @@
 // src/hooks/useSettingsPanel.ts
-import type { IsSettingsOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useRef, useState, useCallback, useEffect } from 'react'
+import { useRef, useCallback, useEffect } from 'react'
 
 export const useSettingsPanel = () => {
-  const [isSettingsOpen, setIsSettingsOpen] = useState<IsSettingsOpen>(false)
-
   const settingsPanelRef = useRef<HTMLDivElement | null>(null)
   const settingsPanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
   const settingsPanelTabIndexRef = useRef<number>(-1)
+
+  const { isSettingsOpen, setIsSettingsOpen } = useAppContext()
 
   const {
     isTransitioning,
@@ -25,7 +24,7 @@ export const useSettingsPanel = () => {
       settingsPanelTabIndexRef.current = 0
       setIsTransitioning(false)
     }, 300)
-  }, [isTransitioning, setIsTransitioning])
+  }, [isTransitioning, setIsSettingsOpen, setIsTransitioning])
 
   const closeSettings = useCallback(() => {
     if (isTransitioning) return
@@ -37,7 +36,7 @@ export const useSettingsPanel = () => {
       settingsPanelTabIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
-  }, [isTransitioning, setIsTransitioning])
+  }, [isTransitioning, setIsSettingsOpen, setIsTransitioning])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -64,10 +63,9 @@ export const useSettingsPanel = () => {
   }, [isSettingsOpen, closeSettings])
 
   return {
-    settingsPanelFirstFocus: settingsPanelFirstFocusRef.current,
     settingsPanelRef,
-    settingsPanelTabIndexRef,
-    isSettingsOpen,
+    settingsPanelFirstFocusRef,
+    settingsPanelTabIndex: settingsPanelTabIndexRef.current,
     openSettings,
     closeSettings
   }

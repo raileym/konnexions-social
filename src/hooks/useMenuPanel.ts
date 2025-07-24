@@ -1,19 +1,13 @@
-// src/hooks/useMenuPanel.ts
-import type { IsHelpOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useRef, useState, useCallback, useEffect } from 'react'
+import { useRef, useCallback, useEffect } from 'react'
 
 export const useMenuPanel = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState<IsHelpOpen>(false)
-
   const menuPanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
   const menuPanelRef = useRef<HTMLDivElement | null>(null)
   const menuPanelTabIndexRef = useRef<number>(-1)
 
-  const {
-    isTransitioning,
-    setIsTransitioning
-  } = useAppContext()
+  const { isMenuOpen, setIsMenuOpen } = useAppContext()
+  const { isTransitioning, setIsTransitioning } = useAppContext()
 
   const openMenu = useCallback(() => {
     if (isTransitioning) return
@@ -21,11 +15,18 @@ export const useMenuPanel = () => {
     setIsTransitioning(true)
     setIsMenuOpen(true)
 
+    // delay tabIndex and focus until visible
     setTimeout(() => {
       menuPanelTabIndexRef.current = 0
+
+      requestAnimationFrame(() => {
+        menuPanelFirstFocusRef.current?.focus()
+        console.log('✅ Focused first button after opening')
+      })
+
       setIsTransitioning(false)
     }, 300)
-  }, [isTransitioning, setIsTransitioning])
+  }, [isTransitioning, setIsMenuOpen, setIsTransitioning])
 
   const closeMenu = useCallback(() => {
     if (isTransitioning) return
@@ -37,7 +38,7 @@ export const useMenuPanel = () => {
       menuPanelTabIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
-  }, [isTransitioning, setIsTransitioning])
+  }, [isTransitioning, setIsMenuOpen, setIsTransitioning])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -64,10 +65,9 @@ export const useMenuPanel = () => {
   }, [isMenuOpen, closeMenu])
 
   return {
-    menuPanelFirstFocus: menuPanelFirstFocusRef.current,
+    menuPanelFirstFocusRef,
     menuPanelRef,
-    menuPanelTabIndexRef,
-    isMenuOpen,
+    menuPanelTabIndex: menuPanelTabIndexRef.current,
     openMenu,
     closeMenu
   }

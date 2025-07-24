@@ -1,38 +1,48 @@
 // src/hooks/useNavbarTop.ts
-import type { IsNavbarTopOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useRef, useState } from 'react'
+import { useRef, useCallback } from 'react'
 
 export const useNavbarTop = () => {
-  const [isNavbarTopOpen, setIsNavbarTopOpen] = useState<IsNavbarTopOpen>(false)
-  const navbarTopPanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
+  const navbarTopFirstFocusRef = useRef<HTMLButtonElement | null>(null)
+  const navbarTopRef = useRef<HTMLDivElement | null>(null)
+  const navbarTopIndexRef = useRef<number>(-1)
+
+  const { setIsNavbarTopOpen } = useAppContext()
 
   const {
     isTransitioning,
     setIsTransitioning
   } = useAppContext()
 
-  const openNavbarTop = () => {
+  const openNavbarTop = useCallback(() => {
     if (isTransitioning) return
 
     setIsTransitioning(true)
     setIsNavbarTopOpen(true)
 
     setTimeout(() => {
+      navbarTopIndexRef.current = 0
       setIsTransitioning(false)
     }, 300)
-  }
+  }, [isTransitioning, setIsNavbarTopOpen, setIsTransitioning])
 
-  const closeNavbarTop = () => {
+  const closeNavbarTop = useCallback(() => {
     if (isTransitioning) return
 
     setIsTransitioning(true)
     setIsNavbarTopOpen(false)
 
     setTimeout(() => {
+      navbarTopIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
-  }
+  }, [isTransitioning, setIsNavbarTopOpen, setIsTransitioning])
 
-  return { navbarTopPanelFirstFocusRef, isNavbarTopOpen, openNavbarTop, closeNavbarTop }
+  return {
+    navbarTopRef,
+    navbarTopFirstFocusRef,
+    navbarTopIndex: navbarTopIndexRef.current,
+    openNavbarTop,
+    closeNavbarTop
+  }
 }
