@@ -1,32 +1,32 @@
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useRef, useCallback, useEffect } from 'react'
+import { useNavbarTop } from './useNavbarTop'
 
 export const useMenuPanel = () => {
   const menuPanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
   const menuPanelRef = useRef<HTMLDivElement | null>(null)
-  const menuPanelTabIndexRef = useRef<number>(-1)
 
-  const { isMenuOpen, setIsMenuOpen } = useAppContext()
-  const { isTransitioning, setIsTransitioning } = useAppContext()
+  const {
+    isMenuOpen,
+    setIsMenuOpen,
+    isTransitioning,
+    setIsTransitioning
+  } = useAppContext()
 
+  const { openNavbarTop, closeNavbarTop } = useNavbarTop()
+  
   const openMenu = useCallback(() => {
     if (isTransitioning) return
 
     setIsTransitioning(true)
     setIsMenuOpen(true)
 
-    // delay tabIndex and focus until visible
+    closeNavbarTop()
+
     setTimeout(() => {
-      menuPanelTabIndexRef.current = 0
-
-      requestAnimationFrame(() => {
-        menuPanelFirstFocusRef.current?.focus()
-        console.log('✅ Focused first button after opening')
-      })
-
       setIsTransitioning(false)
     }, 300)
-  }, [isTransitioning, setIsMenuOpen, setIsTransitioning])
+  }, [closeNavbarTop, isTransitioning, setIsMenuOpen, setIsTransitioning])
 
   const closeMenu = useCallback(() => {
     if (isTransitioning) return
@@ -35,10 +35,12 @@ export const useMenuPanel = () => {
     setIsMenuOpen(false)
 
     setTimeout(() => {
-      menuPanelTabIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
-  }, [isTransitioning, setIsMenuOpen, setIsTransitioning])
+
+    openNavbarTop()
+
+  }, [isTransitioning, openNavbarTop, setIsMenuOpen, setIsTransitioning])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -67,7 +69,6 @@ export const useMenuPanel = () => {
   return {
     menuPanelFirstFocusRef,
     menuPanelRef,
-    menuPanelTabIndex: menuPanelTabIndexRef.current,
     openMenu,
     closeMenu
   }

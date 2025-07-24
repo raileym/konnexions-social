@@ -376,7 +376,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isSettingsOpen, setIsSettingsOpen] = useState<IsSettingsOpen>(false)
   const [isMenuOpen, setIsMenuOpen] = useState<IsMenuOpen>(false)
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
-  const [isNavbarTopOpen, setIsNavbarTopOpen] = useState<IsNavbarTopOpen>(false)
+  const [isNavbarTopOpen, setIsNavbarTopOpen] = useState<IsNavbarTopOpen>(true)
 
   const [screenState, setScreenState] = useState<ScreenState>(defaultScreenState)
 

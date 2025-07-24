@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { APP_PANEL, MDX_PAGE, MENU_PANEL_TRANSLATE_X, MENU_PANEL_WIDTH_PERCENT } from '@cknTypes/constants'
 import { useNavigate } from 'react-router-dom'
@@ -12,10 +12,11 @@ const PanelMenu: React.FC = () => {
   const { setActivePanel, setMdxPage, isMenuOpen } = useAppContext()
   const { switchPanel } = usePanel()
   const { menuPanelFirstFocusRef, menuPanelRef, closeMenu } = useMenuPanel()
-  const translateX = isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full'
+  // const translateX = isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full'
   const navigate = useNavigate()
 
   const [menuPanelTabIndex, setMenuPanelTabIndex] = useState<number>(-1)
+  const [ translateX, setTranslateX ] = useState<string>('translate-x-full')
 
   const navigateTo = (route: string) => {
     closeMenu()
@@ -23,6 +24,12 @@ const PanelMenu: React.FC = () => {
     setActivePanel(APP_PANEL.MDX)
     // setIsMenuOpen(false)
   }
+
+  useEffect(() => {
+    console.log('isMenuOpen', isMenuOpen ? 'TRUE' : 'FALSE')
+    setTranslateX( isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full')
+  // const translateX = isMenuOpen ? PROFILE_PANEL_TRANSLATE_X : 'translate-x-full'
+  }, [isMenuOpen])
 
   useEffect(() => {
     if (isMenuOpen && menuPanelFirstFocusRef.current) {

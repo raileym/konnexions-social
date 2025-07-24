@@ -4,23 +4,20 @@ import { useCallback, useEffect, useRef } from 'react'
 import { useNavbarTop } from './useNavbarTop'
 
 export const useProfilePanel = () => {
-  const profilePanelFirstFocusRef = useRef<HTMLFormElement | null>(null)
+  const profilePanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
   const profilePanelRef = useRef<HTMLDivElement | null>(null)
-  const profilePanelTabIndexRef = useRef<number>(-1)
 
-  const { isProfileOpen, setIsProfileOpen } = useAppContext()
-
-  const { openNavbarTop, closeNavbarTop } = useNavbarTop()
-  
   const {
+    isProfileOpen,
+    setIsProfileOpen,
     isTransitioning,
     setIsTransitioning
   } = useAppContext()
 
+  const { openNavbarTop, closeNavbarTop } = useNavbarTop()
+  
   const openProfile = useCallback(() => {
     if (isTransitioning) return
-
-    console.log('openProfile will now happen')
 
     setIsTransitioning(true)
     setIsProfileOpen(true)
@@ -28,7 +25,6 @@ export const useProfilePanel = () => {
     closeNavbarTop()
 
     setTimeout(() => {
-      profilePanelTabIndexRef.current = 0
       setIsTransitioning(false)
     }, 300)
   }, [closeNavbarTop, isTransitioning, setIsProfileOpen, setIsTransitioning])
@@ -40,7 +36,6 @@ export const useProfilePanel = () => {
     setIsProfileOpen(false)
 
     setTimeout(() => {
-      profilePanelTabIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
 
@@ -75,7 +70,6 @@ export const useProfilePanel = () => {
   return {
     profilePanelRef,
     profilePanelFirstFocusRef,
-    profilePanelTabIndex: profilePanelTabIndexRef.current,
     openProfile,
     closeProfile
   }

@@ -19,6 +19,8 @@ const PanelRequestEmailComponents = () => {
   const [validationMessage, setValidationMessage] = useState<string>(USER_EMAIL_NOT_VALIDATED)
   const [localCookedEmail, setLocalCookedEmail] = useState('')
   
+  const [profilePanelTabIndex, setProfilePanelTabIndex] = useState<number>(-1)
+  
   const {
     setCookedEmail,
     setClientUUID,
@@ -31,13 +33,29 @@ const PanelRequestEmailComponents = () => {
     setSelectedLessonNumber,
     setLessonPrompt,
     setLessonTimestamp,
-    screenState
+    screenState,
+    isProfileOpen
   } = useAppContext()
 
     const { profilePanelFirstFocusRef } = useProfilePanel()
   
   const { refreshPaywall } = usePaywall()
 
+  useEffect(() => {
+    if (isProfileOpen && profilePanelFirstFocusRef.current) {
+      const timeoutId = setTimeout(() => {
+        profilePanelFirstFocusRef.current?.focus()
+        setProfilePanelTabIndex(0)
+        console.log('✅ Delayed focus on profile first button')
+        console.log('profilePanelTabIndex', profilePanelTabIndex)
+      }, 250)
+
+      return () => clearTimeout(timeoutId)
+    } else {
+      setProfilePanelTabIndex(-1)
+    }
+  }, [isProfileOpen, profilePanelFirstFocusRef, profilePanelTabIndex])
+    
   useEffect(() => {
     if (isUserValidated) {
       setValidationMessage(USER_EMAIL_VALIDATED)
@@ -172,12 +190,15 @@ const PanelRequestEmailComponents = () => {
             <p className="tc b background f4">Let's konnect! - through Spanish!</p>
             <p className="background">we require and use a validated version of your email address to store lesson materials remotely. We do not store your email in the cloud. </p>
         </div>
+        <button ref={profilePanelFirstFocusRef} tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
+        <button tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
+        <button tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
         <div 
           className="background f3 b mt3 mb4">
             {validationMessage}
             {validationMessage == USER_EMAIL_VALIDATED ? <FontAwesomeIcon className="ml2" icon={faSquareCheck} /> : null}</div>
         <form
-          ref={profilePanelFirstFocusRef}
+          // ref={profilePanelFirstFocusRef}
           onSubmit={handleSubmit}
           className={`${isUserValidated? 'bg-dimgrey' : 'bg-background'} pa3 br3 shadow-5 mw6 w-100`}
           aria-label="Email + code form"

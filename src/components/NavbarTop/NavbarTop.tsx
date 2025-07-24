@@ -14,6 +14,7 @@ import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useNavigate } from 'react-router-dom'
 import MyKonnexionsTitle from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
 import type { ButtonName } from '@cknTypes/types'
+import { useNavbarTop } from '@hooks/useNavbarTop'
 
 const NavbarTop: React.FC = () => {
   // const [isSelectedBienVenido, setIsSelectedBienVenido] = useState<boolean>(false)
@@ -39,13 +40,18 @@ const NavbarTop: React.FC = () => {
     // screenState,
     isHelpOpen,
     isMenuOpen,
-    isProfileOpen    
+    isProfileOpen,
+    isNavbarTopOpen    
   } = useAppContext()
 
   const { switchPanel } = usePanel()
   const { closeMenu, openMenu } = useMenuPanel()
   const { closeHelp, openHelp } = useHelpPanel()
   const { closeProfile, openProfile } = useProfilePanel()
+  const { navbarTopFirstFocusRef } = useNavbarTop()
+
+    const [navbarTopTabIndex, setNavbarTopTabIndex] = useState<number>(-1)
+  
   const navigate = useNavigate()
   
   // const alwaysTrue = false
@@ -95,9 +101,9 @@ const NavbarTop: React.FC = () => {
 
   const handleProfile = () => {
     if (isProfileOpen) {
-      openProfile()
-    } else {
       closeProfile()
+    } else {
+      openProfile()
     }
     // const isSame = activeButtonRef.current === BUTTON_NAME.PROFILE
     // const nextValue = isSame ? null : BUTTON_NAME.PROFILE
@@ -136,6 +142,21 @@ const NavbarTop: React.FC = () => {
   //     }, 10)
   //   }
   // }, [])
+
+  useEffect(() => {
+    if (isNavbarTopOpen && navbarTopFirstFocusRef.current) {
+      const timeoutId = setTimeout(() => {
+        navbarTopFirstFocusRef.current?.focus()
+        setNavbarTopTabIndex(0)
+        console.log('✅ Delayed focus on navbarTop first button')
+        console.log('navbarTopPanelTabIndex', navbarTopTabIndex)
+      }, 250)
+
+      return () => clearTimeout(timeoutId)
+    } else {
+      setNavbarTopTabIndex(-1)
+    }
+  }, [isNavbarTopOpen, navbarTopFirstFocusRef, navbarTopTabIndex])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
