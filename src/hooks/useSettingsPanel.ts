@@ -1,11 +1,14 @@
 // src/hooks/useSettingsPanel.ts
+import type { IsSettingsOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
+import { useState } from 'react'
 
 export const useSettingsPanel = () => {
+  const [isSettingsOpen, setIsSettingsOpen] = useState<IsSettingsOpen>(false)
+
   const {
     isTransitioning,
-    setIsTransitioning,
-    setIsSettingsOpen
+    setIsTransitioning
   } = useAppContext()
 
   const openSettings = () => {
@@ -34,5 +37,5 @@ export const useSettingsPanel = () => {
     }, 300)
   }
 
-  return { openSettings, closeSettings }
+  return { isSettingsOpen, openSettings, closeSettings }
 }

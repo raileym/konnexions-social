@@ -1,11 +1,14 @@
 // src/hooks/useHelpPanel.ts
+import type { IsHelpOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
+import { useState } from 'react'
 
 export const useHelpPanel = () => {
+  const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
+
   const {
     isTransitioning,
-    setIsTransitioning,
-    setIsHelpOpen
+    setIsTransitioning
   } = useAppContext()
 
   const openHelp = () => {
@@ -34,5 +37,5 @@ export const useHelpPanel = () => {
     }, 300)
   }
 
-  return { openHelp, closeHelp }
+  return { isHelpOpen, openHelp, closeHelp }
 }

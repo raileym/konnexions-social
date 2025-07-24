@@ -1,23 +1,22 @@
 import React, { useEffect, useRef } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { APP_PANEL, MDX_PAGE, MENU_PANEL_TRANSLATE_X, MENU_PANEL_WIDTH_PERCENT, SCREEN } from '@cknTypes/constants'
+import { APP_PANEL, MDX_PAGE, MENU_PANEL_TRANSLATE_X, MENU_PANEL_WIDTH_PERCENT } from '@cknTypes/constants'
 import { useNavigate } from 'react-router-dom'
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 import { faCircleQuestion, faGear, faHome, faUser } from '@fortawesome/free-solid-svg-icons'   
 import { useMenuPanel } from '@hooks/useMenuPanel'
-import ButtonBare from '@components/Button/ButtonBare'
 
 const PanelMenu: React.FC = () => {
   const PanelMenuRef = useRef<HTMLDivElement>(null)
-  const firstFocusableRef = useRef<HTMLLIElement>(null)
+  // const firstFocusableRef = useRef<HTMLLIElement>(null)
   const homeButtonRef = useRef<HTMLButtonElement>(null)
 
   const isMenuInteractive = useRef(false)
 
-  const { isMenuOpen, setActivePanel, setIsMenuOpen, setMdxPage } = useAppContext()
+  const { setActivePanel, setMdxPage } = useAppContext()
   const { switchPanel } = usePanel()
-  const { closeMenu } = useMenuPanel()
+  const { isMenuOpen, closeMenu } = useMenuPanel()
   
   const translateX = isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full'
   const navigate = useNavigate()
@@ -79,9 +78,10 @@ const PanelMenu: React.FC = () => {
   }, [isMenuOpen, closeMenu]);
 
   const navigateTo = (route: string) => {
+    closeMenu()
     navigate(`/${route.toLowerCase()}`)
     setActivePanel(APP_PANEL.MDX)
-    setIsMenuOpen(false)
+    // setIsMenuOpen(false)
   }
 
   return (

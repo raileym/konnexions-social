@@ -1,11 +1,15 @@
 // src/hooks/useProfilePanel.ts
+import type { IsProfileOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
+import { useState } from 'react'
 
 export const useProfilePanel = () => {
+
+  const [isProfileOpen, setIsProfileOpen] = useState<IsProfileOpen>(false)
+  
   const {
     isTransitioning,
-    setIsTransitioning,
-    setIsProfileOpen
+    setIsTransitioning
   } = useAppContext()
 
   const openProfile = () => {
@@ -34,5 +38,5 @@ export const useProfilePanel = () => {
     }, 300)
   }
 
-  return { openProfile, closeProfile }
+  return { isProfileOpen, openProfile, closeProfile }
 }

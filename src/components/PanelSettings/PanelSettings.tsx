@@ -13,10 +13,10 @@ const SETTINGS_PANEL_TRANSLATE_X = 'translate-x-60' // must match the right offs
 const PanelSettings: React.FC = () => {
   const PanelSettingsRef = useRef<HTMLDivElement>(null);
   
-  const { isSettingsOpen, screenState } = useAppContext()
+  const { screenState } = useAppContext()
   const { theme, setTheme } = useThemeContext()
  
-  const { closeSettings } = useSettingsPanel()
+  const { isSettingsOpen, closeSettings } = useSettingsPanel()
 
   const translateX = isSettingsOpen ? SETTINGS_PANEL_TRANSLATE_X : 'translate-x-full'
 

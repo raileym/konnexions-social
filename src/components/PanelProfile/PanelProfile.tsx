@@ -7,8 +7,8 @@ import { useProfilePanel } from '@hooks/useProfilePanel'
 const PanelProfile = () => {
   const PanelProfileRef = useRef<HTMLDivElement>(null);
   
-  const { isProfileOpen, screenState } = useAppContext()
-  const { closeProfile } = useProfilePanel()
+  const { screenState } = useAppContext()
+  const { isProfileOpen, closeProfile } = useProfilePanel()
 
   const translateX = isProfileOpen ? PROFILE_PANEL_TRANSLATE_X : 'translate-x-full'
 

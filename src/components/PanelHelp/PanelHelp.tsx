@@ -9,8 +9,8 @@ const HELP_PANEL_TRANSLATE_X = 'translate-x-60'
 const PanelHelp: React.FC = () => {
   const PanelHelpRef = useRef<HTMLDivElement>(null);
   
-  const { helpPanel, isHelpOpen, screenState } = useAppContext()
-  const { closeHelp } = useHelpPanel()
+  const { helpPanel, screenState } = useAppContext()
+  const { isHelpOpen, closeHelp } = useHelpPanel()
   
   const translateX = isHelpOpen ? HELP_PANEL_TRANSLATE_X : 'translate-x-full'
 

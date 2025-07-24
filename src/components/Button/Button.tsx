@@ -1,6 +1,5 @@
 // components/Button.tsx
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useAppContext } from '@context/AppContext/AppContext'
 import { type ButtonProps } from '@cknTypes/types'
 import { APP_PANEL } from '@cknTypes/constants'
 import { useHelpPanel } from '@hooks/useHelpPanel'
@@ -25,11 +24,10 @@ const Button = ({
   isActive,
   onClick
 }: ButtonProps) => {
-  const { isHelpOpen, isMenuOpen, isProfileOpen, isSettingsOpen } = useAppContext()
-  const { openProfile, closeProfile } = useProfilePanel()
-  const { openHelp, closeHelp } = useHelpPanel()
-  const { openMenu, closeMenu } = useMenuPanel()
-  const { openSettings, closeSettings } = useSettingsPanel()
+  const { isProfileOpen, openProfile, closeProfile } = useProfilePanel()
+  const { isHelpOpen, openHelp, closeHelp } = useHelpPanel()
+  const { isMenuOpen, openMenu, closeMenu } = useMenuPanel()
+  const { isSettingsOpen, openSettings, closeSettings } = useSettingsPanel()
 
   const handleClick = () => {
     if (isHelpOpen && panel === APP_PANEL.HELP) {

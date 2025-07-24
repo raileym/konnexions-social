@@ -34,11 +34,7 @@ import type {
   GenerateTTSCount,
   HelpPanel,
   InputText,
-  IsHelpOpen,
-  IsMenuOpen,
-  IsProfileOpen,
   IsSelectedCreate,
-  IsSettingsOpen,
   IsTransitioning,
   IsUserValidated,
   Language,
@@ -89,11 +85,7 @@ import type {
   SetGenerateTTSCount,
   SetHelpPanel,
   SetInputText,
-  SetIsHelpOpen,
-  SetIsMenuOpen,
-  SetIsProfileOpen,
   SetIsSelectedCreate,
-  SetIsSettingsOpen,
   SetIsTransitioning,
   SetIsUserValidated,
   SetLesson,
@@ -232,12 +224,8 @@ export type AppContextType = {
   helpPanel: HelpPanel
   hideModal: () => void,
   inputText: InputText
-  isHelpOpen: IsHelpOpen
-  isMenuOpen: IsMenuOpen
   isModalVisible: boolean
-  isProfileOpen: IsProfileOpen
   isSelectedCreate: IsSelectedCreate
-  isSettingsOpen: IsSettingsOpen
   isTransitioning: IsTransitioning
   isUserValidated: IsUserValidated
   lesson: Lesson
@@ -289,11 +277,7 @@ export type AppContextType = {
   setGenerateTTSCount: SetGenerateTTSCount
   setHelpPanel: SetHelpPanel
   setInputText: SetInputText
-  setIsHelpOpen: SetIsHelpOpen
-  setIsMenuOpen: SetIsMenuOpen
-  setIsProfileOpen: SetIsProfileOpen
   setIsSelectedCreate: SetIsSelectedCreate
-  setIsSettingsOpen: SetIsSettingsOpen
   setIsTransitioning: SetIsTransitioning
   setIsUserValidated: SetIsUserValidated
   setLesson: SetLesson
@@ -400,10 +384,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [mdxPage, setMdxPage] = useState<MdxPage>(MDX_PAGE.WELCOME)
 
   const [showIsUserValidatedModal, setShowIsUserValidatedModal] = useState<ShowIsUserValidatedModal>(false)
-  const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
-  const [isMenuOpen, setIsMenuOpen] = useState<IsHelpOpen>(false)
-  const [isProfileOpen, setIsProfileOpen] = useState<IsProfileOpen>(false)
-  const [isSettingsOpen, setIsSettingsOpen] = useState<IsSettingsOpen>(false)
 
   const [userData, setUserData] = usePersistentState<UserData>('userData', defaultUserData)
   const [isUserValidated, setIsUserValidated] = useState<IsUserValidated>(false)
@@ -502,12 +482,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     helpPanel,
     hideModal,
     inputText,
-    isHelpOpen,
-    isMenuOpen,
     isModalVisible,
-    isProfileOpen,
     isSelectedCreate,
-    isSettingsOpen,
     isTransitioning,
     isUserValidated,
     lesson,
@@ -559,11 +535,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setGenerateTTSCount,
     setHelpPanel,
     setInputText,
-    setIsHelpOpen,
-    setIsMenuOpen,
-    setIsProfileOpen,
     setIsSelectedCreate,
-    setIsSettingsOpen,
     setIsTransitioning,
     setIsUserValidated,
     setLesson,

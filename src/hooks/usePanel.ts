@@ -11,11 +11,10 @@ export const usePanel = () => {
     setActiveHome,
     setHelpPanel,
     isTransitioning,
-    setIsTransitioning,
-    isHelpOpen
+    setIsTransitioning
   } = useAppContext()
 
-  const { closeHelp } = useHelpPanel()
+  const { isHelpOpen, closeHelp } = useHelpPanel()
 
   const switchPanel = (newPanel: ActivePanel) => {
     if (isTransitioning) return

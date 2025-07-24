@@ -1,11 +1,14 @@
 // src/hooks/useMenuPanel.ts
+import type { IsHelpOpen } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
+import { useState } from 'react'
 
 export const useMenuPanel = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState<IsHelpOpen>(false)
+  
   const {
     isTransitioning,
-    setIsTransitioning,
-    setIsMenuOpen
+    setIsTransitioning
   } = useAppContext()
 
   const openMenu = () => {
@@ -34,5 +37,5 @@ export const useMenuPanel = () => {
     }, 300)
   }
 
-  return { openMenu, closeMenu }
+  return { isMenuOpen, openMenu, closeMenu }
 }
