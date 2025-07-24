@@ -11,9 +11,7 @@ const PanelProfile = () => {
   const [ translateX, setTranslateX ] = useState<string>('translate-x-full')
 
   useEffect(() => {
-    console.log('isProfileOpen', isProfileOpen ? 'TRUE' : 'FALSE')
     setTranslateX( isProfileOpen ? PROFILE_PANEL_TRANSLATE_X : 'translate-x-full')
-    console.log('open profile')
   // const translateX = isProfileOpen ? PROFILE_PANEL_TRANSLATE_X : 'translate-x-full'
   }, [isProfileOpen])
 

@@ -26,7 +26,6 @@ const PanelMenu: React.FC = () => {
   }
 
   useEffect(() => {
-    console.log('isMenuOpen', isMenuOpen ? 'TRUE' : 'FALSE')
     setTranslateX( isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full')
   // const translateX = isMenuOpen ? PROFILE_PANEL_TRANSLATE_X : 'translate-x-full'
   }, [isMenuOpen])

@@ -6,7 +6,7 @@ import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'
 
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
-import { APP_PANEL, BUTTON_NAME, MDX_PAGE, SCREEN } from '@cknTypes/constants'
+import { APP_PANEL, BUTTON_NAME, MDX_PAGE } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useHelpPanel } from '@hooks/useHelpPanel'
@@ -22,7 +22,6 @@ const NavbarTop: React.FC = () => {
   // const [isSelectedMenu, setIsSelectedMenu] = useState<boolean>(false)
   const [activeButton, _setActiveButton] = useState<ButtonName | null>(null)
   const activeButtonRef = useRef<ButtonName | null>(null)
-  const initialFocusRef = useRef<HTMLDivElement | null>(null)
 
   const setActiveButton = (value: ButtonName | null) => {
     activeButtonRef.current = value
@@ -50,12 +49,10 @@ const NavbarTop: React.FC = () => {
   const { closeProfile, openProfile } = useProfilePanel()
   const { navbarTopFirstFocusRef } = useNavbarTop()
 
-    const [navbarTopTabIndex, setNavbarTopTabIndex] = useState<number>(-1)
+  const [navbarTopTabIndex, setNavbarTopTabIndex] = useState<number>(-1)
   
   const navigate = useNavigate()
   
-  // const alwaysTrue = false
-
   const navigateTo = (route: string) => {
     navigate(`/${route.toLowerCase()}`)
     setActivePanel(APP_PANEL.MDX)
@@ -68,8 +65,6 @@ const NavbarTop: React.FC = () => {
     closeHelp()
     closeProfile()
     switchPanel(APP_PANEL.BASIC_WELCOME)              
-    // setMdxPage(MDX_PAGE.WELCOME)
-    // navigateTo('Welcome')
   }
 
   const handleGoHome = () => {
@@ -105,11 +100,6 @@ const NavbarTop: React.FC = () => {
     } else {
       openProfile()
     }
-    // const isSame = activeButtonRef.current === BUTTON_NAME.PROFILE
-    // const nextValue = isSame ? null : BUTTON_NAME.PROFILE
-    // setActiveButton(nextValue)
-    // activeButtonRef.current = nextValue
-    // console.log('handleProfile|nextValue', nextValue)
   }
 
   const handleMenu = () => {
@@ -118,33 +108,12 @@ const NavbarTop: React.FC = () => {
     } else {
       openMenu()
     }
-    // const isSame = activeButtonRef.current === BUTTON_NAME.MENU
-    // const nextValue = isSame ? null : BUTTON_NAME.MENU
-    // setActiveButton(nextValue)
-    // activeButtonRef.current = nextValue
-    // setScreenState({
-    //   ...screenState,
-    //   [SCREEN.MENU]: !isSame
-    // })
   }
 
-  // useEffect(() => {
-  //   initialFocusRef.current?.focus()
-  // }, [])
-
-  // useEffect(() => {
-  //   if (initialFocusRef.current) {
-  //     initialFocusRef.current.focus()
-
-  //     // Delay just enough for layout to stabilize
-  //     setTimeout(() => {
-  //       homeButtonRef.current?.focus()
-  //     }, 10)
-  //   }
-  // }, [])
-
   useEffect(() => {
+    console.log('useEffect inside NavbarTop')
     if (isNavbarTopOpen && navbarTopFirstFocusRef.current) {
+      console.log('set tabIndex to 0')
       const timeoutId = setTimeout(() => {
         navbarTopFirstFocusRef.current?.focus()
         setNavbarTopTabIndex(0)
@@ -154,17 +123,13 @@ const NavbarTop: React.FC = () => {
 
       return () => clearTimeout(timeoutId)
     } else {
-      setNavbarTopTabIndex(-1)
+      console.log('set tabIndex to -1')
+      console.log('isNavbarTopOpen?', isNavbarTopOpen ? 'yes' : 'no')
+      console.log('navbarTopFirstFocusRef.current?', navbarTopFirstFocusRef.current ? 'yes' : 'no')
+      console.log(navbarTopFirstFocusRef.current)
+      // setNavbarTopTabIndex(-1)
     }
   }, [isNavbarTopOpen, navbarTopFirstFocusRef, navbarTopTabIndex])
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      initialFocusRef.current?.focus()
-    }, 250)
-
-    return () => clearTimeout(timeout)
-  }, [])  
 
   return (
     <>
@@ -176,8 +141,8 @@ const NavbarTop: React.FC = () => {
         <span id="label-button-profile">[Profile Button] Press the Profile Button to update your profile.</span>
       </div>
 
-      <nav ref={initialFocusRef} aria-labelledby={'label-navbar-top'} are-describedby={'describe-navbar-top'} tabIndex={-1} className="navbar-top bnX fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
-        <div tabIndex={0} aria-describedby={'button-home'} className="button-home flex justify-start flex-row pointer lh-4-kx grow-5-kx mh2 ph3 focus-visible:bg-tertiaryX focus-visible:b--redX bw3X" onClick={handleGoHome}>
+      <nav ref={navbarTopFirstFocusRef} aria-labelledby={'label-navbar-top'} are-describedby={'describe-navbar-top'} tabIndex={-1} className="navbar-top bnX fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
+        <div tabIndex={navbarTopTabIndex} aria-describedby={'button-home'} className="button-home flex justify-start flex-row pointer lh-4-kx grow-5-kx mh2 ph3 focus-visible:bg-tertiaryX focus-visible:b--redX bw3X" onClick={handleGoHome}>
 
           <div aria-hidden={true} className="ml4X mr4 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
             <div className="silver bX flex flex-column">
@@ -206,9 +171,9 @@ const NavbarTop: React.FC = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={0} ariaLabelledBy={'label-button-bienvenido'} isActive={activeButtonRef.current === BUTTON_NAME.BIENVENIDO} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kx grow-kx bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={0} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kx bg-background bw3X focus-visible:bg-tertiaryX' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <Button tabIndex={0} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr3 grow-kx bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={activeButtonRef.current === BUTTON_NAME.BIENVENIDO} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kx grow-kx bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kx bg-background bw3X focus-visible:bg-tertiaryX' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr3 grow-kx bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>

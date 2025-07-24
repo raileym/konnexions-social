@@ -7,15 +7,25 @@ type KonnexionsSlashProps = {
 }
 const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'silver', asSpan = false}: KonnexionsSlashProps) => {
   
-  let updatedSlashColor: string
+  let updatedSlashColor: string,
+      updatedColor: string
 
   switch (slashColor) {
     case 'primary': updatedSlashColor = 'var(--kx-primary)'; break;
-    case 'secondary': updatedSlashColor = 'var(--kx-45econdary)'; break;
+    case 'secondary': updatedSlashColor = 'var(--kx-secondary)'; break;
     case 'tertiary': updatedSlashColor = 'var(--kx-tertiary)'; break;
     case 'blue': updatedSlashColor = 'var(--kx-blue)'; break;
     case 'brand': updatedSlashColor = 'var(--kx-brand)'; break;
     default: updatedSlashColor = slashColor
+  }
+
+  switch (color) {
+    case 'primary': updatedColor = 'var(--kx-primary)'; break;
+    case 'secondary': updatedColor = 'var(--kx-secondary)'; break;
+    case 'tertiary': updatedColor = 'var(--kx-tertiary)'; break;
+    case 'blue': updatedColor = 'var(--kx-blue)'; break;
+    case 'brand': updatedColor = 'var(--kx-brand)'; break;
+    default: updatedColor = color
   }
 
   let slashTop: string,
@@ -74,8 +84,8 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
             break;
     case 1: mMarginTop = '0.9rem'
             mWidth = '0.3rem'
-            mMarginLeft = '0.3rem' 
-            mMarginRight = '0.6rem'
+            mMarginLeft = '0.2rem' 
+            mMarginRight = '0.4rem'
             mHeight = `${ fontSizeInRem * 0.7}rem`
             slashHeight= '2.0rem'
             slashWidth = '0.2rem'
@@ -98,8 +108,8 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
                 marginRight: `${mMarginRight}`,
                 width: mWidth,
                 height: mHeight, // '1.2rem', //'0.52rem',
-                lineHeight: `${fontSizeInRem}`, // MIS-MATCH
-                backgroundColor: color // 'red'
+                // lineHeight: `${fontSizeInRem}rem`, // MIS-MATCH
+                backgroundColor: updatedColor // 'cyan' // color // 'red'
                 }}
               >m</span>
             <span
@@ -133,7 +143,8 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
                 marginRight: `${mMarginRight}`,
                 width: mWidth,
                 height: mHeight, // '1.2rem', //'0.52rem',
-                lineHeight: `${fontSizeInRem}` // MIS-MATCH
+                lineHeight: `${fontSizeInRem}`, // MIS-MATCH
+                backgroundColor: color // 'red'
                 }}
               >m</div>
             <div
