@@ -5,10 +5,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 export const useHelpPanel = () => {
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
-  
+
   const helpPanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
   const helpPanelRef = useRef<HTMLDivElement | null>(null)
-  const helpPanelTabIndex = useRef<number>(-1)
+  const helpPanelTabIndexRef = useRef<number>(-1)
 
   const {
     isTransitioning,
@@ -22,7 +22,7 @@ export const useHelpPanel = () => {
     setIsHelpOpen(true)
 
     setTimeout(() => {
-      helpPanelTabIndex.current = 0
+      helpPanelTabIndexRef.current = 0
       setIsTransitioning(false)
     }, 300)
   }, [isTransitioning, setIsTransitioning])
@@ -34,7 +34,7 @@ export const useHelpPanel = () => {
     setIsHelpOpen(false)
 
     setTimeout(() => {
-      helpPanelTabIndex.current = -1
+      helpPanelTabIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
   }, [isTransitioning, setIsTransitioning])
@@ -64,9 +64,9 @@ export const useHelpPanel = () => {
   }, [closeHelp, isHelpOpen])
 
   return {
-    helpPanelFirstFocusRef,
+    helpPanelFirstFocus: helpPanelFirstFocusRef.current,
     helpPanelRef,
-    helpPanelTabIndex,
+    helpPanelTabIndexRef,
     isHelpOpen,
     openHelp,
     closeHelp

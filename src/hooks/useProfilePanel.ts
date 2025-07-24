@@ -5,10 +5,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 export const useProfilePanel = () => {
   const [isProfileOpen, setIsProfileOpen] = useState<IsProfileOpen>(false)
-  
+
   const profilePanelFirstFocusRef = useRef<HTMLFormElement | null>(null)
   const profilePanelRef = useRef<HTMLDivElement | null>(null)
-  const profilePanelTabIndex = useRef<number>(-1)
+  const profilePanelTabIndexRef = useRef<number>(-1)
 
   const {
     isTransitioning,
@@ -22,7 +22,7 @@ export const useProfilePanel = () => {
     setIsProfileOpen(true)
 
     setTimeout(() => {
-      profilePanelTabIndex.current = 0
+      profilePanelTabIndexRef.current = 0
       setIsTransitioning(false)
     }, 300)
   }, [isTransitioning, setIsTransitioning])
@@ -34,7 +34,7 @@ export const useProfilePanel = () => {
     setIsProfileOpen(false)
 
     setTimeout(() => {
-      profilePanelTabIndex.current = -1
+      profilePanelTabIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
   }, [isTransitioning, setIsTransitioning])
@@ -64,7 +64,7 @@ export const useProfilePanel = () => {
   }, [closeProfile, isProfileOpen])
 
   return {
-    profilePanelTabIndex,
+    profilePanelTabIndex: profilePanelTabIndexRef.current,
     profilePanelRef,
     profilePanelFirstFocusRef,
     isProfileOpen,

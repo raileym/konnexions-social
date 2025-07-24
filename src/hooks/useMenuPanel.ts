@@ -8,7 +8,7 @@ export const useMenuPanel = () => {
 
   const menuPanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
   const menuPanelRef = useRef<HTMLDivElement | null>(null)
-  const menuPanelTabIndex = useRef<number>(-1)
+  const menuPanelTabIndexRef = useRef<number>(-1)
 
   const {
     isTransitioning,
@@ -22,7 +22,7 @@ export const useMenuPanel = () => {
     setIsMenuOpen(true)
 
     setTimeout(() => {
-      menuPanelTabIndex.current = 0
+      menuPanelTabIndexRef.current = 0
       setIsTransitioning(false)
     }, 300)
   }, [isTransitioning, setIsTransitioning])
@@ -34,7 +34,7 @@ export const useMenuPanel = () => {
     setIsMenuOpen(false)
 
     setTimeout(() => {
-      menuPanelTabIndex.current = -1
+      menuPanelTabIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
   }, [isTransitioning, setIsTransitioning])
@@ -64,9 +64,9 @@ export const useMenuPanel = () => {
   }, [isMenuOpen, closeMenu])
 
   return {
-    menuPanelFirstFocusRef,
+    menuPanelFirstFocus: menuPanelFirstFocusRef.current,
     menuPanelRef,
-    menuPanelTabIndex,
+    menuPanelTabIndexRef,
     isMenuOpen,
     openMenu,
     closeMenu

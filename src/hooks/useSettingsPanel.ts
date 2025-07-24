@@ -5,10 +5,10 @@ import { useRef, useState, useCallback, useEffect } from 'react'
 
 export const useSettingsPanel = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState<IsSettingsOpen>(false)
-  
+
   const settingsPanelRef = useRef<HTMLDivElement | null>(null)
   const settingsPanelFirstFocusRef = useRef<HTMLButtonElement | null>(null)
-  const settingsPanelTabIndex = useRef<number>(-1)
+  const settingsPanelTabIndexRef = useRef<number>(-1)
 
   const {
     isTransitioning,
@@ -22,7 +22,7 @@ export const useSettingsPanel = () => {
     setIsSettingsOpen(true)
 
     setTimeout(() => {
-      settingsPanelTabIndex.current = 0
+      settingsPanelTabIndexRef.current = 0
       setIsTransitioning(false)
     }, 300)
   }, [isTransitioning, setIsTransitioning])
@@ -34,7 +34,7 @@ export const useSettingsPanel = () => {
     setIsSettingsOpen(false)
 
     setTimeout(() => {
-      settingsPanelTabIndex.current = -1
+      settingsPanelTabIndexRef.current = -1
       setIsTransitioning(false)
     }, 300)
   }, [isTransitioning, setIsTransitioning])
@@ -64,9 +64,9 @@ export const useSettingsPanel = () => {
   }, [isSettingsOpen, closeSettings])
 
   return {
-    settingsPanelFirstFocusRef,
+    settingsPanelFirstFocus: settingsPanelFirstFocusRef.current,
     settingsPanelRef,
-    settingsPanelTabIndex,
+    settingsPanelTabIndexRef,
     isSettingsOpen,
     openSettings,
     closeSettings
