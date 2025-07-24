@@ -222,6 +222,8 @@ p {
   outline: none
 }
 
+label,
+input,
 nav,
 .button-home,
 .link-url,
@@ -229,6 +231,8 @@ button {
   border:none;
 }
 
+label.form-checkbox,
+input,
 nav,
 .button-home,
 .link-url,
@@ -239,17 +243,13 @@ button {
   border-radius: 1rem;
 }
 
+label.form-checkbox:focus-within,
+input:focus-visible,
 nav:focus-visible,
 .button-home:focus-visible,
 .link-url:focus-visible,
 button:focus-visible {
   border-color: red;
-}
-
-a:focus-visibleX,
-button:focus-visibleX {
-  outline: 4px solid red;
-  outline-offset: 2px;
 }
 
 .sr-only {
