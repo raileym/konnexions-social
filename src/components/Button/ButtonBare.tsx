@@ -8,7 +8,7 @@ import { useMenuPanel } from '@hooks/useMenuPanel'
 import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useSettingsPanel } from '@hooks/useSettingsPanel'
 
-const Button = ({
+const ButtonBare = ({
   buttonRef,
   tabIndex,
   ariaDisabled = false,
@@ -84,35 +84,25 @@ const Button = ({
   }  
 
   return (
-      <button
-        ref={buttonRef} // <-- apply ref here
-        // aria-label={`${title} Button,`}
-        aria-labelledby={ariaLabelledBy}
-        // aria-describedby={ariaDescribedBy}
-        tabIndex={tabIndex}
-        aria-disabled={ariaDisabled}
-        // aria-keyshortcuts={'up arrow'}
-        onClick={() => { if (!disable) handleClick() }}
-        disabled={disable}
-        className={`f2 pa1 bnX b--redX focus-visible:bg-tertiaryX bw3X pointer width-2X secondary ${isActive ? 'bg-on-backgroundX' : 'bg-backgroundX'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
-        // style={{width: '2.5em'}}
-        title={title}
-      >
-        { icon && <FontAwesomeIcon className={`secondary ${iconClass} baX`} icon={icon} /> }
-        { img && (
-          <div className="flex items-center justify-center overflow-hiddenX w2X h2 br-100X baX" style={{height: '1.15em'}}>
-            <img
-              src={`/${img}`}
-              alt={title}
-              className="scale-125X h3 w3 mv0 pv0"
-            />
-          </div>
-        )}
-
-        <div className={`f6 mt1 tc secondary ${titleClass}`}>{title}</div>
-        {/* <div className={`f6 mt1 tc ${isActive ? reverse ? 'secondary' : 'on-secondary' : reverse ? 'secondary' : 'on-secondary'}} ${titleClass}`}>{title}</div> */}
-      </button>
+    <button
+      ref={buttonRef} // <-- apply ref here
+      // aria-label={`${title} Button,`}
+      aria-labelledby={ariaLabelledBy}
+      // aria-describedby={ariaDescribedBy}
+      tabIndex={tabIndex}
+      aria-disabled={ariaDisabled}
+      // aria-keyshortcuts={'up arrow'}
+      onClick={() => { if (!disable) handleClick() }}
+      disabled={disable}
+      className={`f2X pa1X focus-visible:bg-tertiaryX bw3 pointerX width-2XX secondaryX ${isActive ? 'bg-on-backgroundX' : 'bg-backgroundX'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
+      // style={{width: '2.5em'}}
+      title={title}
+    >
+      { icon && <FontAwesomeIcon className={`secondary ${iconClass} baX`} icon={icon} /> }
+      <div className={`f6X mt1X tcX secondaryX ${titleClass}`}>{title}</div>
+      {/* <div className={`f6 mt1 tc ${isActive ? reverse ? 'secondary' : 'on-secondary' : reverse ? 'secondary' : 'on-secondary'}} ${titleClass}`}>{title}</div> */}
+    </button>
   )
 }
 
-export default Button
+export default ButtonBare

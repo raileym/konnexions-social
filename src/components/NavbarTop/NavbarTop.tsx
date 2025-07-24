@@ -1,5 +1,5 @@
 // src/components/NavbarTop.tsx
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 // import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 // import { faBars, faGear, faUser } from '@fortawesome/free-solid-svg-icons'   
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'   
@@ -21,6 +21,7 @@ const NavbarTop: React.FC = () => {
   // const [isSelectedMenu, setIsSelectedMenu] = useState<boolean>(false)
   const [activeButton, _setActiveButton] = useState<ButtonName | null>(null)
   const activeButtonRef = useRef<ButtonName | null>(null)
+  const initialFocusRef = useRef<HTMLDivElement | null>(null)
 
   const setActiveButton = (value: ButtonName | null) => {
     activeButtonRef.current = value
@@ -108,6 +109,29 @@ const NavbarTop: React.FC = () => {
     })
   }
 
+  // useEffect(() => {
+  //   initialFocusRef.current?.focus()
+  // }, [])
+
+  // useEffect(() => {
+  //   if (initialFocusRef.current) {
+  //     initialFocusRef.current.focus()
+
+  //     // Delay just enough for layout to stabilize
+  //     setTimeout(() => {
+  //       homeButtonRef.current?.focus()
+  //     }, 10)
+  //   }
+  // }, [])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      initialFocusRef.current?.focus()
+    }, 250)
+
+    return () => clearTimeout(timeout)
+  }, [])  
+
   return (
     <>
       <div className="sr-only">
@@ -118,14 +142,10 @@ const NavbarTop: React.FC = () => {
         <span id="label-button-profile">[Profile Button] Press the Profile Button to update your profile.</span>
       </div>
 
-      <nav aria-labelledby={'label-navbar-top'} are-describedby={'describe-navbar-top'} tabIndex={-1} className="navbar-top bn fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
-        <div tabIndex={0} aria-describedby={'button-home'} className="flex justify-start flex-row pointer lh-4-kx grow-5-kx pr3 focus-visible:bg-tertiary focus-visible:b--tertiary" onClick={handleGoHome}>
+      <nav ref={initialFocusRef} aria-labelledby={'label-navbar-top'} are-describedby={'describe-navbar-top'} tabIndex={-1} className="navbar-top bnX fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
+        <div tabIndex={0} aria-describedby={'button-home'} className="button-home flex justify-start flex-row pointer lh-4-kx grow-5-kx mh2 ph3 focus-visible:bg-tertiaryX focus-visible:b--redX bw3X" onClick={handleGoHome}>
 
-          {/* <div aria-describedby={'button-home'} className="sr-only">
-            Home Button, Press the Home Button to return to the Welcome Page            
-          </div> */}
-
-          <div aria-hidden={true} className="ml3 mr4 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
+          <div aria-hidden={true} className="ml4X mr4 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
             <div className="silver bX flex flex-column">
               <div className="flex f3">
                 <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
@@ -152,9 +172,9 @@ const NavbarTop: React.FC = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={0} ariaLabelledBy={'label-button-bienvenido'} isActive={activeButtonRef.current === BUTTON_NAME.BIENVENIDO} title='Bienvenido!' buttonClass={'mh3 bg-background bn wiggle-grow-kx grow-kx bw3'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={0} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bn mh3 ph2 dn dn-m dib-l grow-kx bg-background bw3' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <Button tabIndex={0} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bn b--backgroundX ph2 ml2 mr3 grow-kx bg-backgound bw3' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={0} ariaLabelledBy={'label-button-bienvenido'} isActive={activeButtonRef.current === BUTTON_NAME.BIENVENIDO} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kx grow-kx bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={0} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kx bg-background bw3X focus-visible:bg-tertiaryX' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={0} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr3 grow-kx bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>

@@ -20,8 +20,8 @@ const ViewportWidthOverlay = () => {
       className="control-viewport-width on-background"
       style={{
         position: 'fixed',
-        top: '7rem',
-        left: '90%',
+        top: '8rem',
+        left: '20%',
         transform: 'translate(-50%, -50%)',
         zIndex: 99999,
         background: 'transparent',

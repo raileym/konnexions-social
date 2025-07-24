@@ -33,12 +33,12 @@ const AppMain = () => {
 
   return (
     <>
-<div
+{/* <div
   tabIndex={0}
   aria-disabled="false"
   className="absolute opacity-0 pointer-events-none"
   id="initial-focus-anchor"
-/>
+/> */}
 
 {/* <div className="sr-only white" role="region" aria-label="App loaded and ready">
   Application ready
@@ -187,7 +187,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const handleFocus = (e: FocusEvent) => {
-      console.log('Focused element:', e.target)
+      console.log('Focus point', e.target)
     }
     window.addEventListener('focusin', handleFocus)
     return () => window.removeEventListener('focusin', handleFocus)

@@ -39,7 +39,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
 
   return (
     <>
-    <div className={`${screenState[SCREEN.CREATE] ? '' : 'dn'}`}>
+    <div className={`find-this dn ${screenState[SCREEN.CREATE] ? '' : 'dn'}`}>
       <div className="mw7 w-60 center db mb4 f3 f4-m mb3">{title}</div>
       <div className="mw7 mw8-ns ba w-80 w-70-mX center pa3X br3 max-w-xl mx-auto p-6X bg-on-background shadow-md rounded-md">
         <div className="flex justify-center mb-6X bg-brandX bb bw1 b--moon-gray h2X pv1" style={{height: '3rem'}}>
@@ -140,7 +140,8 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
         </div>
 
         <EditorContent
-          tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
+          tabIndex={-1}
+          // tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
           // aria-disabled={!screenState[SCREEN.CREATE]}
           aria-disabled={false}
           editor={editor}

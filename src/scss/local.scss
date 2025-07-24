@@ -218,10 +218,32 @@ p {
   background-color:#f8f8f8;
 }
 
-*:focus-visibleX {
+*:focus-visible {
   outline: none
-  // outline: 5px solid red; /* Or any color that pops */
-  // outline-offset: 2px;
+}
+
+nav,
+.button-home,
+.link-url,
+button {
+  border:none;
+}
+
+nav,
+.button-home,
+.link-url,
+button {
+  border-width: 6px;
+  border-color: blue; // transparent;
+  border-style: double;
+  border-radius: 1rem;
+}
+
+nav:focus-visible,
+.button-home:focus-visible,
+.link-url:focus-visible,
+button:focus-visible {
+  border-color: red;
 }
 
 a:focus-visibleX,

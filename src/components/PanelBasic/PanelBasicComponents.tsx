@@ -80,17 +80,18 @@ const PanelBasic = () => {
             onChange={(lessonName) => updateLessonField({ lessonName, isComplete: false })}
           />
 
-          <TiptapEditor
-            key={lesson.number} // reinitialize when lesson changes
-            initialValue={lesson.flexLesson ?? ''}
-            title={tiptapEditorTitle}
-            onChange={(flexLesson) => {
-              const formattedFlexLesson = formatFlexLesson({flexLesson})
-              updateLessonField({ flexLesson, formattedFlexLesson, isComplete: false })
-              setFormattedFlexLesson(formattedFlexLesson)
-            }}
-          />
-
+          {screenState[SCREEN.CREATE] &&
+            <TiptapEditor
+              key={lesson.number} // reinitialize when lesson changes
+              initialValue={lesson.flexLesson ?? ''}
+              title={tiptapEditorTitle}
+              onChange={(flexLesson) => {
+                const formattedFlexLesson = formatFlexLesson({flexLesson})
+                updateLessonField({ flexLesson, formattedFlexLesson, isComplete: false })
+                setFormattedFlexLesson(formattedFlexLesson)
+              }}
+            />
+          }
 
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
