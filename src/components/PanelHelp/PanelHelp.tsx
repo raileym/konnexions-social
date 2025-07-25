@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useHelpPanel } from '@hooks/useHelpPanel'
 import { SCREEN } from '@cknTypes/constants'
+import { useActivePanel } from '@hooks/useActivePanel'
 
 const HELP_PANEL_WIDTH_PERCENT = 'w-40'
 const HELP_PANEL_TRANSLATE_X = 'translate-x-60'
@@ -9,8 +9,8 @@ const HELP_PANEL_TRANSLATE_X = 'translate-x-60'
 const PanelHelp: React.FC = () => {
   const PanelHelpRef = useRef<HTMLDivElement>(null);
   
-  const { helpPanel, screenState } = useAppContext()
-  const { isHelpOpen, closeHelp } = useHelpPanel()
+  const { isHelpOpen, helpPanel, screenState } = useAppContext()
+  const { closePanel, refs } = useActivePanel()
   
   const translateX = isHelpOpen ? HELP_PANEL_TRANSLATE_X : 'translate-x-full'
 
@@ -27,7 +27,7 @@ const PanelHelp: React.FC = () => {
         // Don't interfere with the event - let it complete naturally
         // Close panel on next tick
         requestAnimationFrame(() => {
-          closeHelp();
+          closePanel('help');
         });
       } else {
         // cXonsole.log('Click is inside Help Panel or ref not available')
@@ -49,11 +49,11 @@ const PanelHelp: React.FC = () => {
         // cXonsole.log('Removing listener for click outside Help Panel')
       };
     }
-  }, [isHelpOpen, closeHelp]);
+  }, [isHelpOpen, closePanel]);
 
   return (
     <div 
-      ref={PanelHelpRef}
+      ref={refs.help}
       className={`panel-right-short panel-help absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-green on-background pt5 transition-transform ${translateX}`}
     >
       <div className="h-100 w-100 overflow-y-auto" tabIndex={screenState[SCREEN.HELP] ? 0 : -1} aria-disabled={!screenState[SCREEN.HELP]}>

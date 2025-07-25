@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { APP_PANEL, MDX_PAGE, MENU_PANEL_TRANSLATE_X, MENU_PANEL_WIDTH_PERCENT } from '@cknTypes/constants'
 import { useNavigate } from 'react-router-dom'
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 import { faCircleQuestion, faGear, faHome, faUser } from '@fortawesome/free-solid-svg-icons'   
-import { useMenuPanel } from '@hooks/useMenuPanel'
+import { useActivePanel } from '@hooks/useActivePanel'
 
 const PanelMenu: React.FC = () => {
+  const firstFocusRef = useRef<HTMLButtonElement | null>(null)
 
   const { setActivePanel, setMdxPage, isMenuOpen } = useAppContext()
   const { switchPanel } = usePanel()
-  const { menuPanelFirstFocusRef, menuPanelRef, closeMenu } = useMenuPanel()
+  const { closePanel, refs } = useActivePanel()
   // const translateX = isMenuOpen ? MENU_PANEL_TRANSLATE_X : 'translate-x-full'
   const navigate = useNavigate()
 
@@ -19,7 +20,7 @@ const PanelMenu: React.FC = () => {
   const [ translateX, setTranslateX ] = useState<string>('translate-x-full')
 
   const navigateTo = (route: string) => {
-    closeMenu()
+    closePanel('menu')
     navigate(`/${route.toLowerCase()}`)
     setActivePanel(APP_PANEL.MDX)
     // setIsMenuOpen(false)
@@ -31,9 +32,9 @@ const PanelMenu: React.FC = () => {
   }, [isMenuOpen])
 
   useEffect(() => {
-    if (isMenuOpen && menuPanelFirstFocusRef.current) {
+    if (isMenuOpen && firstFocusRef.current) {
       const timeoutId = setTimeout(() => {
-        menuPanelFirstFocusRef.current?.focus()
+        firstFocusRef.current?.focus()
         setMenuPanelTabIndex(0)
         console.log('✅ Delayed focus on menu first button')
         console.log('menuPanelTabIndex', menuPanelTabIndex)
@@ -43,7 +44,7 @@ const PanelMenu: React.FC = () => {
     } else {
       setMenuPanelTabIndex(-1)
     }
-  }, [isMenuOpen, menuPanelFirstFocusRef, menuPanelTabIndex])
+  }, [isMenuOpen, firstFocusRef, menuPanelTabIndex])
 
   
   return (
@@ -60,7 +61,7 @@ const PanelMenu: React.FC = () => {
       </div>
 
       <div 
-        ref={menuPanelRef}
+        ref={refs.menu}
         role="dialog"
         aria-modal="true"
         aria-labelledby="menu-panel-title"
@@ -70,7 +71,7 @@ const PanelMenu: React.FC = () => {
           <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>
             <h2 id="menu-panel-title" className="f3 pa3 mt5 tc on-tertiary">Menu Panel</h2>
             <div className="flex justify-between flex-m dn-lX">
-              <Button buttonRef={menuPanelFirstFocusRef} ariaLabelledBy={'label-button-home'} tabIndex={menuPanelTabIndex} ariaDisabled={menuPanelTabIndex !== 0} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bnX w-50X width-3 mh0 ph2 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
+              <Button buttonRef={firstFocusRef} ariaLabelledBy={'label-button-home'} tabIndex={menuPanelTabIndex} ariaDisabled={menuPanelTabIndex !== 0} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bnX w-50X width-3 mh0 ph2 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.MDX} icon={faHome} title='Home' onClick={() => setMdxPage('Welcome')}/>
               <Button ariaLabelledBy={'label-button-settings'} tabIndex={menuPanelTabIndex} ariaDisabled={menuPanelTabIndex !== 0} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bnX w-50X width-3 mh0 ph2 brand bg-transparent' isActive={false} switchFn={switchPanel} panel={APP_PANEL.SETTINGS} icon={faGear} title='Settings' />
               <Button ariaLabelledBy={'label-button-help'} tabIndex={menuPanelTabIndex} ariaDisabled={menuPanelTabIndex !== 0} titleClass={'white'} iconClass={'white mh0 ph0'} buttonClass='bnX o-20X width-3 mh0 ph2 brand bg-transparent' isActive={false} switchFn={switchPanel} panel="help" icon={faCircleQuestion} title="Help" />
               <div className="dn-l">

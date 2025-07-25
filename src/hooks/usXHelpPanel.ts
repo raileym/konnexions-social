@@ -33,7 +33,7 @@ export const useHelpPanel = () => {
         helpPanelFirstFocusRef.current.focus()
       }
     }, 300)
-  }, [closeNavbarTop, isTransitioning, setIsTransitioning])
+  }, [closeNavbarTop, isTransitioning, setIsHelpOpen, setIsTransitioning])
 
   const closeHelp = useCallback(() => {
     if (isTransitioning) return
@@ -48,7 +48,7 @@ export const useHelpPanel = () => {
 
     openNavbarTop()
 
-  }, [isTransitioning, openNavbarTop, setIsTransitioning])
+  }, [isTransitioning, openNavbarTop, setIsHelpOpen, setIsTransitioning])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

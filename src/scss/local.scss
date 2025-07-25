@@ -231,7 +231,7 @@ button {
   border:none;
 }
 
-label.form-checkbox,
+label.focusable,
 input,
 nav,
 .button-home,
@@ -243,7 +243,7 @@ button {
   border-radius: 1rem;
 }
 
-label.form-checkbox:focus-within,
+label.focusable:focus-within,
 input:focus-visible,
 nav:focus-visible,
 .button-home:focus-visible,

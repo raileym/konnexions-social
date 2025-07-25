@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { defaultMarketingPreferences } from '@shared/cknTypes/types'
-import { MARKETING_PREFERENCE, SCREEN } from '@shared/cknTypes/constants'
+import { MARKETING_PREFERENCE } from '@shared/cknTypes/constants'
 import type { MarketingPreferences } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { upsertMarketingPreferences } from '@components/upsertMarketingPreferences/upsertMarketingPreferences'
@@ -11,7 +11,7 @@ export const SelectMarketingPreferences = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const { clientUUID, screenState } = useAppContext()
+  const { clientUUID } = useAppContext()
 
   useEffect(() => {
     const load = async () => {
@@ -74,7 +74,7 @@ export const SelectMarketingPreferences = () => {
         // const checked = preferences[label]
 
         return (
-          <label key={key} className="flex items-center space-x-2">
+          <label key={key} className="focusable flex items-center space-x-2">
           <input
             tabIndex={0}
             // aria-disabled={!screenState[SCREEN.PROFILE]}

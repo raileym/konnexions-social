@@ -1,7 +1,7 @@
 // src/hooks/usePanel.ts
 import { useAppContext } from '@context/AppContext/AppContext'
 import { type ActivePanel, type ActiveHome } from '@cknTypes/types'
-import { useHelpPanel } from './useHelpPanel'
+import { useActivePanel } from './useActivePanel'
 
 export const usePanel = () => {
   const {
@@ -11,10 +11,11 @@ export const usePanel = () => {
     setActiveHome,
     setHelpPanel,
     isTransitioning,
-    setIsTransitioning
+    setIsTransitioning,
+    isHelpOpen    
   } = useAppContext()
 
-  const { isHelpOpen, closeHelp } = useHelpPanel()
+  const { closePanel } = useActivePanel()
 
   const switchPanel = (newPanel: ActivePanel) => {
     if (isTransitioning) return
@@ -23,7 +24,7 @@ export const usePanel = () => {
 
     // cXonsole.log('new active panel', newPanel)
     if (isHelpOpen) {
-      closeHelp()
+      closePanel('help')
 
       setTimeout(() => {
         if (newPanel === activePanel) {
@@ -70,7 +71,7 @@ export const usePanel = () => {
 
     // If help is open, close first
     if (isHelpOpen) {
-      closeHelp()
+      closePanel('help')
 
       setTimeout(() => {
         if (newHome === activeHome) {

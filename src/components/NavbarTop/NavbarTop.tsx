@@ -8,13 +8,14 @@ import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 import { APP_PANEL, BUTTON_NAME, MDX_PAGE } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { useMenuPanel } from '@hooks/useMenuPanel'
-import { useHelpPanel } from '@hooks/useHelpPanel'
-import { useProfilePanel } from '@hooks/useProfilePanel'
+// import { useMenuPanel } from '@hooks/useMenuPanel'
+// import { useHelpPanel } from '@hooks/useHelpPanel'
+// import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useNavigate } from 'react-router-dom'
 import MyKonnexionsTitle from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
 import type { ButtonName } from '@cknTypes/types'
 import { useNavbarTop } from '@hooks/useNavbarTop'
+import { useActivePanel } from '@hooks/useActivePanel'
 
 const NavbarTop: React.FC = () => {
   // const [isSelectedBienVenido, setIsSelectedBienVenido] = useState<boolean>(false)
@@ -37,17 +38,15 @@ const NavbarTop: React.FC = () => {
     setIsSelectedCreate,
     // setScreenState,
     // screenState,
-    isHelpOpen,
+    // isHelpOpen,
     isMenuOpen,
     isProfileOpen,
     isNavbarTopOpen    
   } = useAppContext()
 
   const { switchPanel } = usePanel()
-  const { closeMenu, openMenu } = useMenuPanel()
-  const { closeHelp, openHelp } = useHelpPanel()
-  const { closeProfile, openProfile } = useProfilePanel()
   const { navbarTopFirstFocusRef } = useNavbarTop()
+  const { openPanel, closePanel } = useActivePanel()
 
   const [navbarTopTabIndex, setNavbarTopTabIndex] = useState<number>(-1)
   
@@ -61,17 +60,17 @@ const NavbarTop: React.FC = () => {
 
   const handleBienVenido = () => {
     console.log('Clicking on handleBienVenido.')
-    closeMenu()
-    closeHelp()
-    closeProfile()
+    closePanel('menu')
+    closePanel('help')
+    closePanel('profile')
     switchPanel(APP_PANEL.BASIC_WELCOME)              
   }
 
   const handleGoHome = () => {
     console.log('Clicking on handleGoHome.')
-    closeMenu()
-    closeHelp()
-    closeProfile()
+    closePanel('menu')
+    closePanel('help')
+    closePanel('profile')
     switchPanel(APP_PANEL.MDX)              
     setMdxPage(MDX_PAGE.WELCOME)
     navigateTo('Welcome')
@@ -96,17 +95,17 @@ const NavbarTop: React.FC = () => {
 
   const handleProfile = () => {
     if (isProfileOpen) {
-      closeProfile()
+      closePanel('profile')
     } else {
-      openProfile()
+      openPanel('profile')
     }
   }
 
   const handleMenu = () => {
     if (isMenuOpen) {
-      closeMenu()
+      closePanel('menu')
     } else {
-      openMenu()
+      openPanel('menu')
     }
   }
 

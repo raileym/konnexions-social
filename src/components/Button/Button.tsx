@@ -2,11 +2,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { type ButtonProps } from '@cknTypes/types'
 import { APP_PANEL } from '@cknTypes/constants'
-import { useHelpPanel } from '@hooks/useHelpPanel'
-import { useMenuPanel } from '@hooks/useMenuPanel'
-import { useProfilePanel } from '@hooks/useProfilePanel'
-import { useSettingsPanel } from '@hooks/useSettingsPanel'
+// import { useHelpPanel } from '@hooks/useHelpPanel'
+// import { useMenuPanel } from '@hooks/useMenuPanel'
+// import { useProfilePanel } from '@hooks/useProfilePanel'
+// import { useSettingsPanel } from '@hooks/useSettingsPanel'
 import { useAppContext } from '@context/AppContext/AppContext'
+import { useActivePanel } from '@hooks/useActivePanel'
 
 const Button = ({
   buttonRef,
@@ -25,59 +26,56 @@ const Button = ({
   isActive,
   onClick
 }: ButtonProps) => {
-  const { openProfile, closeProfile } = useProfilePanel()
-  const { openHelp, closeHelp } = useHelpPanel()
-  const { openMenu, closeMenu } = useMenuPanel()
-  const { openSettings, closeSettings } = useSettingsPanel()
-
+  const { openPanel, closePanel } = useActivePanel()
+  
   const { isProfileOpen, isHelpOpen, isMenuOpen, isSettingsOpen } = useAppContext()
 
   const handleClick = () => {
     if (isHelpOpen && panel === APP_PANEL.HELP) {
-      closeProfile()
-      closeMenu()
-      closeSettings()
-      closeHelp()
+      closePanel('profile')
+      closePanel('menu')
+      closePanel('settings')
+      closePanel('help')
     } else if (isMenuOpen && panel === APP_PANEL.MENU) {
-      closeProfile()
-      closeMenu()
-      closeSettings()
-      closeHelp()
+      closePanel('profile')
+      closePanel('menu')
+      closePanel('settings')
+      closePanel('help')
     } else if (isProfileOpen && panel === APP_PANEL.PROFILE) {
-      closeProfile()
-      closeMenu()
-      closeSettings()
-      closeHelp()
+      closePanel('profile')
+      closePanel('menu')
+      closePanel('settings')
+      closePanel('help')
     } else if (isSettingsOpen && panel === APP_PANEL.SETTINGS) {
-      closeProfile()
-      closeMenu()
-      closeSettings()
-      closeHelp()
+      closePanel('profile')
+      closePanel('menu')
+      closePanel('settings')
+      closePanel('help')
     } else if (!isHelpOpen && panel === APP_PANEL.HELP) {
-      closeProfile()
-      closeMenu()
-      closeSettings()
-      openHelp()
+      closePanel('profile')
+      closePanel('menu')
+      closePanel('settings')
+      openPanel('help')
     } else if (!isMenuOpen && panel === APP_PANEL.MENU) {
-      closeProfile()
-      closeHelp()
-      closeSettings()
-      openMenu()
+      closePanel('profile')
+      closePanel('help')
+      closePanel('settings')
+      openPanel('menu')
     } else if (!isProfileOpen && panel === APP_PANEL.PROFILE) {
-      closeMenu()
-      closeHelp()
-      closeSettings()
-      openProfile()
+      closePanel('menu')
+      closePanel('help')
+      closePanel('settings')
+      openPanel('profile')
     } else if (!isSettingsOpen && panel === APP_PANEL.SETTINGS) {
-      closeMenu()
-      closeHelp()
-      closeProfile()
-      openSettings()
+      closePanel('menu')
+      closePanel('help')
+      closePanel('profile')
+      openPanel('settings')
     } else {
-      closeMenu()
-      closeHelp()
-      closeProfile()
-      closeSettings()
+      closePanel('menu')
+      closePanel('help')
+      closePanel('profile')
+      closePanel('settings')
       switchFn?.(panel ?? APP_PANEL.MDX)
     }
 

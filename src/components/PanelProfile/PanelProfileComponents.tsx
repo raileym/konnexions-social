@@ -6,10 +6,11 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { faSquareCheck } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { usePaywall } from '@hooks/usePaywall/usePaywall'
-import { useProfilePanel } from '@hooks/useProfilePanel'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const PanelRequestEmailComponents = () => {
+  const firstFocusRef = useRef<HTMLButtonElement | null>(null)
+  
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
   const [step, setStep] = useState<'request' | 'verify'>('request')
@@ -37,14 +38,12 @@ const PanelRequestEmailComponents = () => {
     isProfileOpen
   } = useAppContext()
 
-    const { profilePanelFirstFocusRef } = useProfilePanel()
-  
   const { refreshPaywall } = usePaywall()
 
   useEffect(() => {
-    if (isProfileOpen && profilePanelFirstFocusRef.current) {
+    if (isProfileOpen && firstFocusRef.current) {
       const timeoutId = setTimeout(() => {
-        profilePanelFirstFocusRef.current?.focus()
+        firstFocusRef.current?.focus()
         setProfilePanelTabIndex(0)
         console.log('✅ Delayed focus on profile first button')
         console.log('profilePanelTabIndex', profilePanelTabIndex)
@@ -54,7 +53,7 @@ const PanelRequestEmailComponents = () => {
     } else {
       setProfilePanelTabIndex(-1)
     }
-  }, [isProfileOpen, profilePanelFirstFocusRef, profilePanelTabIndex])
+  }, [isProfileOpen, firstFocusRef, profilePanelTabIndex])
     
   useEffect(() => {
     if (isUserValidated) {
@@ -190,7 +189,7 @@ const PanelRequestEmailComponents = () => {
             <p className="tc b background f4">Let's konnect! - through Spanish!</p>
             <p className="background">we require and use a validated version of your email address to store lesson materials remotely. We do not store your email in the cloud. </p>
         </div>
-        <button ref={profilePanelFirstFocusRef} tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
+        <button ref={firstFocusRef} tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
         <button tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
         <button tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
         <div 
@@ -198,7 +197,7 @@ const PanelRequestEmailComponents = () => {
             {validationMessage}
             {validationMessage == USER_EMAIL_VALIDATED ? <FontAwesomeIcon className="ml2" icon={faSquareCheck} /> : null}</div>
         <form
-          // ref={profilePanelFirstFocusRef}
+          // ref={firstFocusRef}
           onSubmit={handleSubmit}
           className={`${isUserValidated? 'bg-dimgrey' : 'bg-background'} pa3 br3 shadow-5 mw6 w-100`}
           aria-label="Email + code form"
