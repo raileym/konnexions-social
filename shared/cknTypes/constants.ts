@@ -130,6 +130,8 @@ export const ACTIVE_PANEL = {
   // HOME: 'home',
   HELP: 'help',
 
+  NAVBAR_TOP: 'navbarTop',
+
   PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',
   

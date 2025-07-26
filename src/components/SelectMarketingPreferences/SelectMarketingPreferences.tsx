@@ -8,9 +8,10 @@ import { getMarketingPreferences } from '@components/getMarketingPreferences/get
 
 type SelectMarketingPreferencesProps = {
   ref?: React.RefObject<HTMLInputElement | null>
+  tabIndex: number
 }
 
-export const SelectMarketingPreferences = ({ref}: SelectMarketingPreferencesProps) => {
+export const SelectMarketingPreferences = ({ref, tabIndex}: SelectMarketingPreferencesProps) => {
   const [preferences, setPreferences] = useState<MarketingPreferences>(defaultMarketingPreferences)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -81,7 +82,7 @@ export const SelectMarketingPreferences = ({ref}: SelectMarketingPreferencesProp
           <label key={key} className="focusable flex items-center space-x-2">
           <input
             {...(index === 0 ? { ref } : {})}
-            tabIndex={0}
+            tabIndex={tabIndex}
             // aria-disabled={!screenState[SCREEN.PROFILE]}
             type="checkbox"
             checked={preferences[label] ?? false}

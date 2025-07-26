@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { ACTIVE_PANEL, SCREEN } from '@cknTypes/constants'
 import { usePanel } from '@hooks/usePanel'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
+import { useEffect, useState } from 'react'
 
 export const LessonBar: React.FC = () => {
   const {
@@ -22,7 +24,16 @@ export const LessonBar: React.FC = () => {
     screenState
   } = useAppContext()
   
-  const translateX = activateLessonBar ? 'translateX-0' : 'translateX--100'
+  const { currentPanel } = usePanelManager()
+  
+  const [translateX, setTranslateX] = useState<string>('translateX--100')
+  // const translateX = activateLessonBar ? 'translateX-0' : 'translateX--100'
+  // const translateX = currentPanel === ACTIVE_PANEL.BASIC ? 'translateX-0' : 'translateX--100'
+
+  useEffect(() =>{
+    console.log('currentPanel', currentPanel)
+    setTranslateX( currentPanel === ACTIVE_PANEL.BASIC ? 'translateX-0' : 'translateX--100')
+  }, [currentPanel])
 
   const { switchPanel } = usePanel()
 
@@ -81,7 +92,7 @@ export const LessonBar: React.FC = () => {
                   switchPanel(ACTIVE_PANEL.BASIC)
                 }
               }}
-              className={`b pa2 pointer br2X f3 bw2 bbX tc b--blue ${
+              className={`b pa2 pointer br2X f3 bw2 bbX tc b--blue on-tertiary hover:tertiary ${
                 selectedLessonNumber === lesson.number ? 'bg-light-green b' : 'hover-bg-light-gray'
               }`}
             >

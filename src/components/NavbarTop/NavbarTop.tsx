@@ -1,130 +1,67 @@
 // src/components/NavbarTop.tsx
-import React, { useEffect, useRef, useState } from 'react'
-// import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
-// import { faBars, faGear, faUser } from '@fortawesome/free-solid-svg-icons'   
+import React, { useRef, useState } from 'react'
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'   
 
 import Button from '@components/Button/Button'
-// import { usePanel } from '@hooks/usePanel'
-import { ACTIVE_PANEL, BUTTON_NAME, MDX_PAGE } from '@cknTypes/constants'
+import { ACTIVE_PANEL } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
-// import { useMenuPanel } from '@hooks/useMenuPanel'
-// import { useHelpPanel } from '@hooks/useHelpPanel'
-// import { useProfilePanel } from '@hooks/useProfilePanel'
 import { useNavigate } from 'react-router-dom'
 import MyKonnexionsTitle from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
-import type { ButtonName } from '@cknTypes/types'
-import { useNavbarTop } from '@hooks/useNavbarTop'
+import type { MdxPage } from '@cknTypes/types'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
-// import { useProfilePanel } from '@hooks/useProfilePanel'
+import { usePanelBase } from '@hooks/usePanelBase'
 
 const NavbarTop: React.FC = () => {
-  // const [isSelectedBienVenido, setIsSelectedBienVenido] = useState<boolean>(false)
-  // const [isSelectedProfile, setIsSelectedProfile] = useState<boolean>(false)
-  // const [isSelectedMenu, setIsSelectedMenu] = useState<boolean>(false)
-  const [activeButton, _setActiveButton] = useState<ButtonName | null>(null)
-  const activeButtonRef = useRef<ButtonName | null>(null)
-
-  const setActiveButton = (value: ButtonName | null) => {
-    activeButtonRef.current = value
-    _setActiveButton(value)
-  }
+  const firstFocusRef = useRef<HTMLDivElement | null>(null)
+  const [tabIndex, setTabIndex] = useState<number>(0)
 
   const {
     setMdxPage,
-    setActivePanel,
-    setIsMenuOpen,
+    // setActivePanel,
     setEngageSpanish,
-    engageSpanish,
-    setIsSelectedCreate,
-    // setScreenState,
-    // screenState,
-    // isHelpOpen,
-    // isMenuOpen,
-    // isProfileOpen,
-    isNavbarTopOpen    
   } = useAppContext()
 
-  // const { switchPanel } = usePanel()
-  const { navbarTopFirstFocusRef } = useNavbarTop()
-  const { openPanel, togglePanel } = usePanelManager()
-  
-  const [navbarTopTabIndex, setNavbarTopTabIndex] = useState<number>(-1)
+  const { openPanel, currentPanel, togglePanel } = usePanelManager()
   
   const navigate = useNavigate()
   
   const navigateTo = (route: string) => {
     navigate(`/${route.toLowerCase()}`)
-    setActivePanel(ACTIVE_PANEL.MDX)
-    setIsMenuOpen(false)
-  }
-
-  const handleBienVenido = () => {
-    console.log('Clicking on handleBienVenido.')
-    // closePanel('menu')
-    // closePanel('help')
-    // closePanel('profile')
-    // switchPanel(ACTIVE_PANEL.BASIC_WELCOME)              
-    openPanel(ACTIVE_PANEL.BASIC_WELCOME)              
+    setMdxPage(route.toLowerCase() as MdxPage)
+    // setActivePanel(ACTIVE_PANEL.MDX)
+    openPanel(ACTIVE_PANEL.MDX)              
   }
 
   const handleGoHome = () => {
-    console.log('Clicking on handleGoHome.')
-    // closePanel('menu')
-    // closePanel('help')
-    // closePanel('profile')
-    // switchPanel(ACTIVE_PANEL.MDX)              
-    openPanel(ACTIVE_PANEL.MDX)              
-    setMdxPage(MDX_PAGE.WELCOME)
     navigateTo('Welcome')
   }
 
   const handleEngageSpanish = () => {
-    const isSame = activeButtonRef.current === BUTTON_NAME.BIENVENIDO
-    const nextValue = isSame ? null : BUTTON_NAME.BIENVENIDO
-    setActiveButton(nextValue)
-    activeButtonRef.current = nextValue
-
     setEngageSpanish(prev => !prev)
-    if (engageSpanish) {
-      handleGoHome()
-      setActiveButton(null)
-    } else {
-      handleBienVenido()
-      setIsSelectedCreate(false)
-      setActiveButton(BUTTON_NAME.BIENVENIDO)
-    }
+    togglePanel(ACTIVE_PANEL.BASIC)
   }
 
   const handleProfile = () => {
-    togglePanel('profile')
+    togglePanel(ACTIVE_PANEL.PROFILE)
+
   }
 
   const handleMenu = () => {
-    togglePanel('menu')
+    togglePanel(ACTIVE_PANEL.MENU)
   }
 
-  useEffect(() => {
-    console.log('useEffect inside NavbarTop')
-    if (isNavbarTopOpen && navbarTopFirstFocusRef.current) {
-      console.log('set tabIndex to 0')
-      const timeoutId = setTimeout(() => {
-        navbarTopFirstFocusRef.current?.focus()
-        setNavbarTopTabIndex(0)
-        console.log('✅ Delayed focus on navbarTop first button')
-        console.log('navbarTopPanelTabIndex', navbarTopTabIndex)
+  usePanelBase(ACTIVE_PANEL.NAVBAR_TOP, 'translate-x-full', {
+    onOpen: () => {
+      setTabIndex(0)
+      setTimeout(() => {
+        firstFocusRef.current?.focus()
       }, 250)
-
-      return () => clearTimeout(timeoutId)
-    } else {
-      console.log('set tabIndex to -1')
-      console.log('isNavbarTopOpen?', isNavbarTopOpen ? 'yes' : 'no')
-      console.log('navbarTopFirstFocusRef.current?', navbarTopFirstFocusRef.current ? 'yes' : 'no')
-      console.log(navbarTopFirstFocusRef.current)
-      // setNavbarTopTabIndex(-1)
+    },
+    onClose: () => {
+      setTabIndex(-1)
     }
-  }, [isNavbarTopOpen, navbarTopFirstFocusRef, navbarTopTabIndex])
-
+  })
+  
   return (
     <>
       <div className="sr-only">
@@ -135,17 +72,15 @@ const NavbarTop: React.FC = () => {
         <span id="label-button-profile">[Profile Button] Press the Profile Button to update your profile.</span>
       </div>
 
-      <nav 
-        // ref={navbarTopFirstFocusRef}
+      <nav
         aria-labelledby={'label-navbar-top'} 
         aria-describedby={'describe-navbar-top'}
-        // aria-disabled={true}
         tabIndex={-1}
         className="navbar-top fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999"
         style={{borderRadius: 0}}>
         <div
-          ref={navbarTopFirstFocusRef}
-          tabIndex={navbarTopTabIndex}
+          ref={firstFocusRef}
+          tabIndex={tabIndex}
           aria-describedby={'button-home'}
           className="button-home flex justify-start flex-row pointer lh-4-kx grow-5-kxX mh0 mh2X ph3 focus-visible:bg-tertiaryX focus-visible:b--redX bw3X hover:b--attention-hover"
           onClick={handleGoHome}
@@ -178,9 +113,9 @@ const NavbarTop: React.FC = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={activeButtonRef.current === BUTTON_NAME.BIENVENIDO} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.BASIC} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-profile'} isActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-menu'} isActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>

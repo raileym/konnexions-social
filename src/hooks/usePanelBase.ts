@@ -17,7 +17,7 @@ export const usePanelBase = (
   const [isOpen, setIsOpen] = useState(false)
   const [translateX, setTranslateX] = useState('translate-x-full')
 
-  const { registerPanel, unregisterPanel } = usePanelManager()
+  const { registerPanel, unregisterPanel, closePanel } = usePanelManager()
 
   const open = useCallback(() => {
     setIsOpen(true)
@@ -48,7 +48,8 @@ export const usePanelBase = (
 
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        close()
+        console.log('outside the click area!')
+        closePanel(panelName)
       }
     }
 
@@ -57,7 +58,7 @@ export const usePanelBase = (
     return () => {
       document.removeEventListener('click', handleClickOutside, { capture: true })
     }
-  }, [isOpen, close])
+  }, [isOpen, close, closePanel, panelName])
 
   return {
     ref,

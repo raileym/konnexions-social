@@ -35,7 +35,8 @@ const PanelProfile = () => {
   const { refreshPaywall } = usePaywall()
 
   const firstFocusRef = useRef<HTMLInputElement | null>(null)
-  const [profilePanelTabIndex, setProfilePanelTabIndex] = useState<number>(-1)
+  const [tabIndex, setTabIndex] = useState<number>(-1)
+
   const [validationMessage, setValidationMessage] = useState<string>(USER_EMAIL_NOT_VALIDATED)
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
@@ -45,20 +46,19 @@ const PanelProfile = () => {
   const [success, setSuccess] = useState(false)
   const [localCookedEmail, setLocalCookedEmail] = useState('')
 
-  // const { ref, isOpen, translateX } = usePanelBase(ACTIVE_PANEL.PROFILE)
   const { ref, isOpen, translateX } = usePanelBase(
     ACTIVE_PANEL.PROFILE,
     PROFILE_PANEL_TRANSLATE_X,
     {
       onOpen: () => {
-        setProfilePanelTabIndex(0)
+        setTabIndex(0)
         setTimeout(() => {
           console.log('Apply that focus for PanelProfile')
           firstFocusRef.current?.focus()
         }, 250)
       },
       onClose: () => {
-        setProfilePanelTabIndex(-1)
+        setTabIndex(-1)
       }
     }
   )
@@ -71,12 +71,12 @@ const PanelProfile = () => {
     if (isProfileOpen && firstFocusRef.current) {
       const timeoutId = setTimeout(() => {
         firstFocusRef.current?.focus()
-        setProfilePanelTabIndex(0)
+        setTabIndex(0)
       }, 250)
 
       return () => clearTimeout(timeoutId)
     } else {
-      setProfilePanelTabIndex(-1)
+      setTabIndex(-1)
     }
   }, [isProfileOpen])
 
@@ -186,9 +186,9 @@ const PanelProfile = () => {
 
           {/*
           <div className="flex flex-column items-center">
-            <button ref={firstFocusRef} tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2 focus:bg-red">Test only</button>
-            <button tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2 b--transparent b--solid"><div className="bg-red br5 b--red bw1">Test only</div></button>
-            <button tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
+            <button ref={firstFocusRef} tabIndex={tabIndex} className="bg-yellow w4 h2 focus:bg-red">Test only</button>
+            <button tabIndex={tabIndex} className="bg-yellow w4 h2 b--transparent b--solid"><div className="bg-red br5 b--red bw1">Test only</div></button>
+            <button tabIndex={tabIndex} className="bg-yellow w4 h2">Test only</button>
           </div>
           */}
 
@@ -246,13 +246,14 @@ const PanelProfile = () => {
             {!error && <div className="mt3 on-background f5 tc"><br /></div>}
           </form>
 
-          <SelectMarketingPreferences ref={firstFocusRef} />
+          <SelectMarketingPreferences ref={firstFocusRef} tabIndex={tabIndex} />
           <Paywall />
 
           <button
+            tabIndex={-1}
             type="button"
             onClick={clearLocalStorageExceptEssential}
-            className="mt4 b ph4 pv3 input-reset ba b--red bg-on-background red grow pointer f6 br3 dib"
+            className="HERE mt4 b ph4 pv3 input-reset ba b--red bg-on-background red grow pointer f6 br3 dib"
           >
             Clear Local Storage<br/>(except debugMode)
           </button>
