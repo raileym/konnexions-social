@@ -34,7 +34,7 @@ const PanelProfile = () => {
 
   const { refreshPaywall } = usePaywall()
 
-  const firstFocusRef = useRef<HTMLButtonElement | null>(null)
+  const firstFocusRef = useRef<HTMLInputElement | null>(null)
   const [profilePanelTabIndex, setProfilePanelTabIndex] = useState<number>(-1)
   const [validationMessage, setValidationMessage] = useState<string>(USER_EMAIL_NOT_VALIDATED)
   const [email, setEmail] = useState('')
@@ -53,6 +53,7 @@ const PanelProfile = () => {
       onOpen: () => {
         setProfilePanelTabIndex(0)
         setTimeout(() => {
+          console.log('Apply that focus for PanelProfile')
           firstFocusRef.current?.focus()
         }, 250)
       },
@@ -177,15 +178,19 @@ const PanelProfile = () => {
       className={`panel-right-short panel-profile absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 pt5 transition-transform ${translateX}`}
     >
       <div tabIndex={-1} aria-disabled={!isOpen} className="h-100 w-100 overflow-y-auto">
-        <div className={`pa4X ${PROFILE_PANEL_WIDTH_PERCENT} mb5`}>
-          <h2 className="f3 pa3 mt5 tc">Profile Panel</h2>
+        <div className={`pa4 ${PROFILE_PANEL_WIDTH_PERCENT} mb5`}>
+          <h2 className="f3 pa3 mt5 tc on-tertiary">Profile Panel</h2>
           <p className="background pl3X">When you access paid and free-tier services on this site, including the CKՈ Platform Technologies for</p>
           <p className="tc b background f4">Let's konnect! - through Spanish!</p>
           <p className="background">we require and use a validated version of your email address to store lesson materials remotely. We do not store your email in the cloud. </p>
 
-          <button ref={firstFocusRef} tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
-          <button tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
-          <button tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
+          {/*
+          <div className="flex flex-column items-center">
+            <button ref={firstFocusRef} tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2 focus:bg-red">Test only</button>
+            <button tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2 b--transparent b--solid"><div className="bg-red br5 b--red bw1">Test only</div></button>
+            <button tabIndex={profilePanelTabIndex} className="bg-yellow w4 h2">Test only</button>
+          </div>
+          */}
 
           <div className="background f3 b mt3 mb4">
             {validationMessage}
@@ -241,7 +246,7 @@ const PanelProfile = () => {
             {!error && <div className="mt3 on-background f5 tc"><br /></div>}
           </form>
 
-          <SelectMarketingPreferences />
+          <SelectMarketingPreferences ref={firstFocusRef} />
           <Paywall />
 
           <button

@@ -239,7 +239,7 @@ nav,
 .link-url,
 button {
   border-width: 6px;
-  border-color: blue; // transparent;
+  border-color: transparent; // blue; // transparent;
   border-style: double;
   border-radius: 1rem;
 }
@@ -249,7 +249,8 @@ input:focus-visible,
 nav:focus-visible,
 .button-home:focus-visible,
 .link-url:focus-visible,
-button:focus-visible {
+button:focus-visible,
+button:focus {
   border-color: red;
 }
 

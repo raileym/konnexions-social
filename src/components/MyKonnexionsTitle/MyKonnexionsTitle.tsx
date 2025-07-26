@@ -32,7 +32,7 @@ return (
           <div className={`b ${slashColor}`}>K</div>
           {!shorten && <div className={`b  ${color}`}>onne</div>}
           <MyKonnexionsSlash slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
-          {!shorten && <div className={`b  ${color}`}>ions<sup className="f7 relative" style={{ top: '-2em' }}>TM</sup></div>}
+          {!shorten && <div className={`b  ${color}`}>ions Social<sup className="f7 relative" style={{ top: '-2em' }}>TM</sup></div>}
           {nominal ? <div className={`ml2 b ${color}`}>{nominal}</div> : null}
         </div>
       </div>
@@ -48,7 +48,7 @@ export const MyKonnexionsTitleSpan = ({slashColor = 'primary', color = 'secondar
         <span className={`b ${slashColor}`}>K</span>
         <span className={`b  ${color}`}>onne</span>
         <MyKonnexionsSlash asSpan={true} slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
-        <span className={`b ${color}`}>ions<sup className="f7 relative" style={{ top: '-1em' }}>TM</sup></span>
+        <span className={`b ${color}`}>ions Social<sup className="f7 relative" style={{ top: '-1em' }}>TM</sup></span>
         {nominal ? <span className={`ml1 b ${color}`}>{nominal}</span> : null}
       </span>
     </span>

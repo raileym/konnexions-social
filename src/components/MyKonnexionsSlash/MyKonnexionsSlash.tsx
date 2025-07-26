@@ -77,8 +77,8 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
             mMarginLeft = '0.3rem' 
             mMarginRight = '0.4rem'
             mHeight = `${ fontSizeInRem * 0.5}rem`
-            slashHeight= '2.25rem'
-            slashTop = '0.7rem'
+            slashHeight= '1.7rem' // '2.25rem'
+            slashTop = '1.0rem'
             slashWidth = '0.2rem'
             slashLeft = '0.1rem'
             break;
@@ -115,7 +115,7 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
             <span
               className="konnexion-slash absolute transparent"
               style={{
-                height: '1rem', // '1rem',
+                // height: '1rem', // '1rem',
                 fontSize: '0.6rem',
                 top: slashTop, // '1.2rem', // '0.2rem', // 
                 left: slashLeft,
@@ -144,13 +144,14 @@ const KonnexionsSlash = ({fontSizeInRem = 1, slashColor = 'primary', color = 'si
                 width: mWidth,
                 height: mHeight, // '1.2rem', //'0.52rem',
                 lineHeight: `${fontSizeInRem}`, // MIS-MATCH
-                backgroundColor: color // 'red'
+                backgroundColor: updatedColor // 'cyan' // color // 'red'
+                // backgroundColor: color // 'red'
                 }}
               >m</div>
             <div
               className="konnexion-slash absolute transparent"
               style={{
-                height: '2rem', // '1rem',
+                // height: '10rem', // '1rem',
                 fontSize: '0.6rem',
                 top: slashTop, // '1.2rem', // '0.2rem', // 
                 left: slashLeft,

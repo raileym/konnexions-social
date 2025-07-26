@@ -842,3 +842,11 @@ $non-break-pairs: (
 .wiggle-grow-kx:hover {
   animation: wiggle-grow-effect-kx 0.6s ease-in-out;
 }
+
+.b--solid {
+  border-style: solid
+}
+
+.b--double {
+  border-style: double
+}

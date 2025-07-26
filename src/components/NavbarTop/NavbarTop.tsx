@@ -153,10 +153,10 @@ const NavbarTop: React.FC = () => {
 
 
           <div aria-hidden={true} className="items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
-            <div className="silver f1 b flex flex-column">
-              <div className="flex f1">
+            <div className="silver f2 b flex flex-column">
+              <div className="flex f2">
                 <div className="dn dn-kx-45 dib-kx-n45">
-                  <MyKonnexionsTitle ariaLabel={''} ariaDescribedBy={'button-home'} color='secondary' fontSizeInRem={3}/>
+                  <MyKonnexionsTitle ariaLabel={''} ariaDescribedBy={'button-home'} color='secondary' fontSizeInRem={2} />
                 </div>
               </div>
             </div>

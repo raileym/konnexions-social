@@ -72,7 +72,7 @@ const PanelMenu: React.FC = () => {
                 ariaDisabled={menuPanelTabIndex !== 0}
                 titleClass="white"
                 iconClass="white mh0 ph0"
-                buttonClass="bnX w-50X width-3 mh0 ph2 brand bg-transparent"
+                buttonClass="bnX w-50X width-3 mh0 ph2 brand bg-transparent focus:bg-redX focus:b--red b--double"
                 isActive={false}
                 switchFn={switchPanel}
                 panel={ACTIVE_PANEL.MDX}

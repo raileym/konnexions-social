@@ -6,7 +6,11 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { upsertMarketingPreferences } from '@components/upsertMarketingPreferences/upsertMarketingPreferences'
 import { getMarketingPreferences } from '@components/getMarketingPreferences/getMarketingPreferences'
 
-export const SelectMarketingPreferences = () => {
+type SelectMarketingPreferencesProps = {
+  ref?: React.RefObject<HTMLInputElement | null>
+}
+
+export const SelectMarketingPreferences = ({ref}: SelectMarketingPreferencesProps) => {
   const [preferences, setPreferences] = useState<MarketingPreferences>(defaultMarketingPreferences)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -70,12 +74,13 @@ export const SelectMarketingPreferences = () => {
   return (
     <div className="mv4">
       <div className="b f3 mv3 background">Email preferences</div>
-      {Object.entries(MARKETING_PREFERENCE).map(([key, label]) => {
+      {Object.entries(MARKETING_PREFERENCE).map(([key, label], index) => {
         // const checked = preferences[label]
 
         return (
           <label key={key} className="focusable flex items-center space-x-2">
           <input
+            {...(index === 0 ? { ref } : {})}
             tabIndex={0}
             // aria-disabled={!screenState[SCREEN.PROFILE]}
             type="checkbox"
