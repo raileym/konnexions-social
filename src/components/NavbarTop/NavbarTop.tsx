@@ -147,11 +147,11 @@ const NavbarTop: React.FC = () => {
           ref={navbarTopFirstFocusRef}
           tabIndex={navbarTopTabIndex}
           aria-describedby={'button-home'}
-          className="button-home flex justify-start flex-row pointer lh-4-kx grow-5-kxX mh2 ph3 focus-visible:bg-tertiaryX focus-visible:b--redX bw3X hover:b--attention-hover"
+          className="button-home flex justify-start flex-row pointer lh-4-kx grow-5-kxX mh0 mh2X ph3 focus-visible:bg-tertiaryX focus-visible:b--redX bw3X hover:b--attention-hover"
           onClick={handleGoHome}
         >
 
-          <div aria-hidden={true} className="ml4X mr4 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
+          <div aria-hidden={true} className="ml4X mr3 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
             <div className="silver bX flex flex-column">
               <div className="flex f3">
                 <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
@@ -180,7 +180,7 @@ const NavbarTop: React.FC = () => {
         <div className="flex justify-end">
           <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={activeButtonRef.current === BUTTON_NAME.BIENVENIDO} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
           <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr3 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>
