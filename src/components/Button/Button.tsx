@@ -1,13 +1,12 @@
 // components/Button.tsx
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { type ButtonProps } from '@cknTypes/types'
-import { APP_PANEL } from '@cknTypes/constants'
+// import { ACTIVE_PANEL } from '@cknTypes/constants'
 // import { useHelpPanel } from '@hooks/useHelpPanel'
 // import { useMenuPanel } from '@hooks/useMenuPanel'
 // import { useProfilePanel } from '@hooks/useProfilePanel'
 // import { useSettingsPanel } from '@hooks/useSettingsPanel'
-import { useAppContext } from '@context/AppContext/AppContext'
-import { useActivePanel } from '@hooks/useActivePanel'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
 const Button = ({
   buttonRef,
@@ -22,62 +21,23 @@ const Button = ({
   img,
   title,
   buttonClass,
-  switchFn,
+  // switchFn,
   isActive,
   onClick
 }: ButtonProps) => {
-  const { openPanel, closePanel } = useActivePanel()
-  
-  const { isProfileOpen, isHelpOpen, isMenuOpen, isSettingsOpen } = useAppContext()
+  const { isPanelOpen, openPanel, closeAllPanels } = usePanelManager()
 
   const handleClick = () => {
-    if (isHelpOpen && panel === APP_PANEL.HELP) {
-      closePanel('profile')
-      closePanel('menu')
-      closePanel('settings')
-      closePanel('help')
-    } else if (isMenuOpen && panel === APP_PANEL.MENU) {
-      closePanel('profile')
-      closePanel('menu')
-      closePanel('settings')
-      closePanel('help')
-    } else if (isProfileOpen && panel === APP_PANEL.PROFILE) {
-      closePanel('profile')
-      closePanel('menu')
-      closePanel('settings')
-      closePanel('help')
-    } else if (isSettingsOpen && panel === APP_PANEL.SETTINGS) {
-      closePanel('profile')
-      closePanel('menu')
-      closePanel('settings')
-      closePanel('help')
-    } else if (!isHelpOpen && panel === APP_PANEL.HELP) {
-      closePanel('profile')
-      closePanel('menu')
-      closePanel('settings')
-      openPanel('help')
-    } else if (!isMenuOpen && panel === APP_PANEL.MENU) {
-      closePanel('profile')
-      closePanel('help')
-      closePanel('settings')
-      openPanel('menu')
-    } else if (!isProfileOpen && panel === APP_PANEL.PROFILE) {
-      closePanel('menu')
-      closePanel('help')
-      closePanel('settings')
-      openPanel('profile')
-    } else if (!isSettingsOpen && panel === APP_PANEL.SETTINGS) {
-      closePanel('menu')
-      closePanel('help')
-      closePanel('profile')
-      openPanel('settings')
-    } else {
-      closePanel('menu')
-      closePanel('help')
-      closePanel('profile')
-      closePanel('settings')
-      switchFn?.(panel ?? APP_PANEL.MDX)
-    }
+
+    // if (panel) {
+    //   if (!isPanelOpen('button', panel)) {
+    //     openPanel(panel)
+    //   } else {
+    //     closeAllPanels()
+    //   }
+    // }
+
+    // switchFn?.(panel ?? ACTIVE_PANEL.MDX)
 
     if (onClick) onClick()    
   }  

@@ -5,8 +5,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'   
 
 import Button from '@components/Button/Button'
-import { usePanel } from '@hooks/usePanel'
-import { APP_PANEL, BUTTON_NAME, MDX_PAGE } from '@cknTypes/constants'
+// import { usePanel } from '@hooks/usePanel'
+import { ACTIVE_PANEL, BUTTON_NAME, MDX_PAGE } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
 // import { useMenuPanel } from '@hooks/useMenuPanel'
 // import { useHelpPanel } from '@hooks/useHelpPanel'
@@ -15,7 +15,8 @@ import { useNavigate } from 'react-router-dom'
 import MyKonnexionsTitle from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
 import type { ButtonName } from '@cknTypes/types'
 import { useNavbarTop } from '@hooks/useNavbarTop'
-import { useActivePanel } from '@hooks/useActivePanel'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
+// import { useProfilePanel } from '@hooks/useProfilePanel'
 
 const NavbarTop: React.FC = () => {
   // const [isSelectedBienVenido, setIsSelectedBienVenido] = useState<boolean>(false)
@@ -39,39 +40,41 @@ const NavbarTop: React.FC = () => {
     // setScreenState,
     // screenState,
     // isHelpOpen,
-    isMenuOpen,
-    isProfileOpen,
+    // isMenuOpen,
+    // isProfileOpen,
     isNavbarTopOpen    
   } = useAppContext()
 
-  const { switchPanel } = usePanel()
+  // const { switchPanel } = usePanel()
   const { navbarTopFirstFocusRef } = useNavbarTop()
-  const { openPanel, closePanel } = useActivePanel()
-
+  const { openPanel, togglePanel } = usePanelManager()
+  
   const [navbarTopTabIndex, setNavbarTopTabIndex] = useState<number>(-1)
   
   const navigate = useNavigate()
   
   const navigateTo = (route: string) => {
     navigate(`/${route.toLowerCase()}`)
-    setActivePanel(APP_PANEL.MDX)
+    setActivePanel(ACTIVE_PANEL.MDX)
     setIsMenuOpen(false)
   }
 
   const handleBienVenido = () => {
     console.log('Clicking on handleBienVenido.')
-    closePanel('menu')
-    closePanel('help')
-    closePanel('profile')
-    switchPanel(APP_PANEL.BASIC_WELCOME)              
+    // closePanel('menu')
+    // closePanel('help')
+    // closePanel('profile')
+    // switchPanel(ACTIVE_PANEL.BASIC_WELCOME)              
+    openPanel(ACTIVE_PANEL.BASIC_WELCOME)              
   }
 
   const handleGoHome = () => {
     console.log('Clicking on handleGoHome.')
-    closePanel('menu')
-    closePanel('help')
-    closePanel('profile')
-    switchPanel(APP_PANEL.MDX)              
+    // closePanel('menu')
+    // closePanel('help')
+    // closePanel('profile')
+    // switchPanel(ACTIVE_PANEL.MDX)              
+    openPanel(ACTIVE_PANEL.MDX)              
     setMdxPage(MDX_PAGE.WELCOME)
     navigateTo('Welcome')
   }
@@ -94,19 +97,11 @@ const NavbarTop: React.FC = () => {
   }
 
   const handleProfile = () => {
-    if (isProfileOpen) {
-      closePanel('profile')
-    } else {
-      openPanel('profile')
-    }
+    togglePanel('profile')
   }
 
   const handleMenu = () => {
-    if (isMenuOpen) {
-      closePanel('menu')
-    } else {
-      openPanel('menu')
-    }
+    togglePanel('menu')
   }
 
   useEffect(() => {
@@ -171,8 +166,8 @@ const NavbarTop: React.FC = () => {
 
         <div className="flex justify-end">
           <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={activeButtonRef.current === BUTTON_NAME.BIENVENIDO} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kx grow-kx bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kx bg-background bw3X focus-visible:bg-tertiaryX' switchFn={switchPanel} panel={APP_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr3 grow-kx bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' switchFn={switchPanel} panel={APP_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kx bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr3 grow-kx bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>

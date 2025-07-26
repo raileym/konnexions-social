@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { APP_PANEL } from '@cknTypes/constants'
+import { ACTIVE_PANEL } from '@cknTypes/constants'
 import PanelMDXComponents from '@components/PanelMDX/PanelMDXComponents'
 // import PanelBasicWelcomeReviewComponents from '@components/PanelBasicWelcomeReview/PanelBasicWelcomeReviewComponents'
 // import PanelBasicWelcomeComponents from '@components/PanelBasicWelcome/PanelBasicWelcomeComponents'
@@ -11,7 +11,7 @@ const PanelBasicWelcome: React.FC = () => {
     setActivateLessonBar,
     setMdxPage
   } = useAppContext()
-  const isActive = activePanel === APP_PANEL.BASIC_WELCOME
+  const isActive = activePanel === ACTIVE_PANEL.BASIC_WELCOME
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
   useEffect(() => {

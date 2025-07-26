@@ -4,7 +4,7 @@ import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { APP_PANEL, MDX_PAGE, NAVBAR_BOTTOM_TRANSLATE_Y, SCREEN } from '@cknTypes/constants'
+import { ACTIVE_PANEL, MDX_PAGE, NAVBAR_BOTTOM_TRANSLATE_Y, SCREEN } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useActivePanel } from '@hooks/useActivePanel'
 
@@ -46,7 +46,7 @@ const NavbarBottom: React.FC = () => {
     closePanel('profile')
     setIsSelectedCreate(prev => !prev)
     if (isSelectedCreate) {
-      switchPanel(APP_PANEL.BASIC_WELCOME)              
+      switchPanel(ACTIVE_PANEL.BASIC_WELCOME)              
       setMdxPage(MDX_PAGE.WELCOME)
     }
   }
@@ -95,9 +95,9 @@ const NavbarBottom: React.FC = () => {
               // titleClass={`${isSelectedCreate ? 'secondary' : 'on-background'}`}
               titleClass={`${isSelectedCreate ? 'secondaryX' : 'secondaryX'}`}
               // titleClass={`${isSelectedCreate ? reverse ? 'secondary' : 'on-background' : 'secondary' : 'on-background' : reverse ? 'secondary' : 'on-background' : 'secondary' : 'on-background'  }`}
-              isActive={activePanel === APP_PANEL.BASIC}
+              isActive={activePanel === ACTIVE_PANEL.BASIC}
               switchFn={switchPanel}
-              panel={APP_PANEL.BASIC}
+              panel={ACTIVE_PANEL.BASIC}
               icon={faPersonChalkboard}
               title='Create'
               onClick={() => {

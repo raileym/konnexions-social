@@ -5,13 +5,16 @@ import { AppProvider } from '@context/AppContext/AppContext'
 import App from '../src/App'
 import 'tachyons/css/tachyons.min.css' // ← Tachyons global styles
 import { ThemeProvider } from '@context/ThemeContext/ThemeProvider'
+import { PanelManagerProvider } from '@context/PanelManagerContext/PanelManagerProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AppProvider>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
+      <PanelManagerProvider>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </PanelManagerProvider>
     </AppProvider>
   </StrictMode>
 )

@@ -90,7 +90,10 @@ export const useActivePanel = () => {
   ])
 
   const closePanel = useCallback((panel: PanelKey) => {
+    console.log(`closePanel: ${panel}`)
     if (isTransitioning || currentPanel !== panel) return
+
+    console.log(`Yep! Let's close that panel: ${panel}`)
 
     setIsTransitioning(true)
     panelSetters[panel](false)
@@ -103,44 +106,42 @@ export const useActivePanel = () => {
   }, [currentPanel, isTransitioning, panelSetters, setIsTransitioning, tabIndexRefs])
 
   useEffect(() => {
-    console.log('updating click outside handler')
-    if (!currentPanel) return
+    if (currentPanel == null) return
 
-    function handleClickOutside(event: MouseEvent) {
-      console.log(`I detected an potential outside click for Panel${currentPanel}`)
-      if (!currentPanel) {
-        console.log('There is no current Panel')
-        return
-      }
-      console.log('two')
+    // Defer logic to ensure DOM node is painted
+    const rafId = requestAnimationFrame(() => {
       const ref = refs[currentPanel]
-      if (!ref?.current) {
-        console.log('Apparently ref.current is not set')
-        return
-      }
-      console.log('three')
-      if (ref?.current && ref.current.contains(event.target as Node)) {
-        console.log('Apparently click is not outside the Panel')
-        return
-      }
-      console.log('four')
-      if (ref?.current && !ref.current.contains(event.target as Node)) {
-        console.log(`Trying to close ${currentPanel}Panel`)
-        closePanel(currentPanel)
-        // requestAnimationFrame(() => closePanel(currentPanel))
-      }
-      console.log('five')
-    }
+      const node = ref?.current
 
-    const timeoutId = setTimeout(() => {
+      if (!node) {
+        console.log(`[useEffect:raf] Skipping click outside handler: ref for ${currentPanel} is not ready`)
+        return
+      }
+
+      const handleClickOutside = (event: MouseEvent) => {
+        if (!ref.current) return
+
+        const clickedOutside = !ref.current.contains(event.target as Node)
+        if (clickedOutside) {
+          console.log(`Click outside — closing ${currentPanel}Panel`)
+          closePanel(currentPanel)
+        } else {
+          console.log('Click inside panel — ignoring')
+        }
+      }
+
       document.addEventListener('click', handleClickOutside, { capture: true })
-    }, 150)
 
-    return () => {
-      clearTimeout(timeoutId)
-      document.removeEventListener('click', handleClickOutside, { capture: true })
-    }
-  }, [currentPanel, refs, closePanel])
+      // Cleanup inside raf to match mount
+      return () => {
+        document.removeEventListener('click', handleClickOutside, { capture: true })
+      }
+    })
+
+    // External cleanup for the raf itself
+    return () => cancelAnimationFrame(rafId)
+  }, [currentPanel, closePanel, refs])
+
 
   return {
     refs,

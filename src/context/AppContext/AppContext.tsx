@@ -157,8 +157,8 @@ import {
   defaultScreenState,
 } from '@cknTypes/types'
 import {
-  APP_HOME,
-  APP_PANEL,
+  ACTIVE_HOME,
+  ACTIVE_PANEL,
   LANGUAGE,
   LESSON_PROMPT_STYLE,
   MDX_PAGE,
@@ -372,9 +372,21 @@ export type SetMdxPage = React.Dispatch<React.SetStateAction<MdxPage>>
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-  const [isProfileOpen, setIsProfileOpen] = useState<IsProfileOpen>(false)
   const [isSettingsOpen, setIsSettingsOpen] = useState<IsSettingsOpen>(false)
-  const [isMenuOpen, setIsMenuOpen] = useState<IsMenuOpen>(false)
+  
+  const [isProfileOpen, _setIsProfileOpen] = useState<IsProfileOpen>(false)
+  const [isMenuOpen, _setIsMenuOpen] = useState<IsMenuOpen>(false)
+
+  const setIsProfileOpen: SetIsProfileOpen = (value) => {
+    console.log('[setIsProfileOpen]', value)
+    _setIsProfileOpen(value)
+  }
+
+  const setIsMenuOpen: SetIsMenuOpen = (value) => {
+    console.log('[setIsMenuOpen]', value)
+    _setIsMenuOpen(value)
+  }  
+
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
   const [isNavbarTopOpen, setIsNavbarTopOpen] = useState<IsNavbarTopOpen>(true)
 
@@ -437,15 +449,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [debugMode, setDebugMode] = usePersistentState<DebugMode>('debugMode', defaultDebugMode)
   const [lessonTimestamp, setLessonTimestamp] = usePersistentState<LessonTimestamp>('lessonTimestamp', Date.now().toString())
   const [lineNumber, setLineNumber] = useState<LineNumber>(0)
-  const [activeHome, setActiveHome] = useState<ActiveHome>(APP_HOME.MDX)
-  const [activePanel, setActivePanel] = useState<ActivePanel>(APP_PANEL.MDX)
+  const [activeHome, setActiveHome] = useState<ActiveHome>(ACTIVE_HOME.MDX)
+  const [activePanel, setActivePanel] = useState<ActivePanel>(ACTIVE_PANEL.MDX)
   const [answer, setAnswer] = useState<Answer>('')
   const [apiKey, setApiKey] = useState<ApiKey>('')
   const [audioUrl, setAudioUrl] = useState<AudioUrl>(null)
   const [cleanedText, setCleanedText] = useState<CleanedText>('')
   const [cutoff, setCutoff] = usePersistentState<Cutoff>('cutoff', false)
   const [gcpKey, setGcpKey] = useState<GcpKey>('')
-  const [helpPanel, setHelpPanel] = useState<ActivePanel>(APP_PANEL.BASIC)
+  const [helpPanel, setHelpPanel] = useState<ActivePanel>(ACTIVE_PANEL.BASIC)
   const [inputText, setInputText] = useState<InputText>('')
   const [isTransitioning, setIsTransitioning] = useState<IsTransitioning>(false)
   const [lesson, setLesson] = usePersistentState<Lesson>('lesson', updatedDefaultLesson)

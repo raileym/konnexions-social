@@ -4,7 +4,7 @@ import { defaultLesson, type Lesson } from '@cknTypes/types'
 // import ShowMaxCount from '@components/ShowMaxCount'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { APP_PANEL, SCREEN } from '@cknTypes/constants'
+import { ACTIVE_PANEL, SCREEN } from '@cknTypes/constants'
 import { usePanel } from '@hooks/usePanel'
 
 export const LessonBar: React.FC = () => {
@@ -29,13 +29,13 @@ export const LessonBar: React.FC = () => {
   const handleAddLesson = () => {
     setLessonComplete(false)
 
-    console.log('switching panel', APP_PANEL.BASIC)
-    switchPanel(APP_PANEL.BASIC)
+    console.log('switching panel', ACTIVE_PANEL.BASIC)
+    switchPanel(ACTIVE_PANEL.BASIC)
 
     // Not sure the logic below versus a straight
-    // patch through to APP_PANEL.BASIC
+    // patch through to ACTIVE_PANEL.BASIC
     //
-    // if (activePanel === APP_PANEL.BASIC_REVIEW) {
+    // if (activePanel === ACTIVE_PANEL.BASIC_REVIEW) {
     //   switchPanel(activePanel)
     // }
 
@@ -77,8 +77,8 @@ export const LessonBar: React.FC = () => {
               onClick={() => {
                 setSelectedLessonNumber(lesson.number)
                 setLessonComplete(lesson.isComplete)
-                if (activePanel === APP_PANEL.BASIC_REVIEW && !lesson.isComplete) {
-                  switchPanel(APP_PANEL.BASIC)
+                if (activePanel === ACTIVE_PANEL.BASIC_REVIEW && !lesson.isComplete) {
+                  switchPanel(ACTIVE_PANEL.BASIC)
                 }
               }}
               className={`b pa2 pointer br2X f3 bw2 bbX tc b--blue ${

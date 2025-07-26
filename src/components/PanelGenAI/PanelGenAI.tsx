@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { APP_PANEL } from '@cknTypes/constants'
+import { ACTIVE_PANEL } from '@cknTypes/constants'
 import PanelGenAIComponents from '@components/PanelGenAI/PanelGenAIComponents'
 
 const PanelGenAI: React.FC = () => {
@@ -8,7 +8,7 @@ const PanelGenAI: React.FC = () => {
     activePanel,
     setActivateLessonBar
   } = useAppContext()
-  const isActive = activePanel === APP_PANEL.GEN_AI
+  const isActive = activePanel === ACTIVE_PANEL.GEN_AI
   const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
   useEffect(() => {

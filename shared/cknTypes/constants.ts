@@ -126,7 +126,7 @@ export const GEN_AI_STEP = {
   NOUN_USAGE_REVIEW: 9
 } as const
 
-export const APP_PANEL = {
+export const ACTIVE_PANEL = {
   // HOME: 'home',
   HELP: 'help',
 
@@ -196,7 +196,7 @@ export const VERB_FORMATS = {
   TRIPLE: 'triple'
  } as const
 
- export const APP_HOME = APP_PANEL
+ export const ACTIVE_HOME = ACTIVE_PANEL
 
  export const SCENARIO_LABELS: ScenarioLabels = {
   restaurant: 'at the restaurant',
@@ -253,4 +253,11 @@ export const BUTTON_NAME = {
   PROFILE: 'profile',
   MENU: 'menu',
   SETTINGS: 'settings'
+} as const
+
+export const PANEL_NAME = {
+  PROFILE: 'profile',
+  MENU: 'menu',
+  SETTINGS: 'settings',
+  HELP: 'help'
 } as const

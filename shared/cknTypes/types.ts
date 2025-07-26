@@ -2,10 +2,10 @@
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 import {
-  APP_HOME,
+  ACTIVE_HOME,
   VERB_FORMATS,
   NOUN_ARTICLES,
-  APP_PANEL,
+  ACTIVE_PANEL,
   GEN_AI_STEP,
   SCENARIO,
   LANGUAGE,
@@ -181,12 +181,12 @@ export type GenAIStepValue = (typeof GEN_AI_STEP)[keyof typeof GEN_AI_STEP]
 export type GenAIStepKey = keyof typeof GEN_AI_STEP
 export type GenAIStep = GenAIStepValue
 
-export type ActivePanelValue = (typeof APP_PANEL)[keyof typeof APP_PANEL]
-export type ActivePanelKey = keyof typeof APP_PANEL
+export type ActivePanelValue = (typeof ACTIVE_PANEL)[keyof typeof ACTIVE_PANEL]
+export type ActivePanelKey = keyof typeof ACTIVE_PANEL
 export type ActivePanel = ActivePanelValue
 
-export type ActiveHomeValue = (typeof APP_HOME)[keyof typeof APP_HOME]
-export type ActiveHomeKey = keyof typeof APP_HOME
+export type ActiveHomeValue = (typeof ACTIVE_HOME)[keyof typeof ACTIVE_HOME]
+export type ActiveHomeKey = keyof typeof ACTIVE_HOME
 export type ActiveHome = ActiveHomeValue
 
 export type Participant = string
@@ -1383,3 +1383,30 @@ export type ButtonNameKey = keyof typeof BUTTON_NAME
 export type ButtonName = ButtonNameValue
 
 
+// export const PANEL_NAME = {
+//   PROFILE: 'profile',
+//   MENU: 'menu',
+//   SETTINGS: 'settings',
+//   HELP: 'help'
+// } as const
+
+// export type PanelNameValue = (typeof PANEL_NAME)[keyof typeof PANEL_NAME]
+// export type PanelNameKey = keyof typeof PANEL_NAME
+// export type PanelName = PanelNameValue
+
+export type PanelManagerContextType = {
+  openPanel: (name: ActivePanel) => void
+  closePanel: (name: ActivePanel) => void
+  closeAllPanels: () => void
+  togglePanel: (name: ActivePanel) => void // ✅ new
+  isPanelOpen: (who: string, name: ActivePanel) => boolean
+  registerPanel: (name: ActivePanel, control: PanelControl) => void
+  unregisterPanel: (name: ActivePanel) => void
+  currentPanel: ActivePanel
+}
+
+export type PanelControl = {
+  open: () => void
+  close: () => void
+  isOpen: boolean
+}

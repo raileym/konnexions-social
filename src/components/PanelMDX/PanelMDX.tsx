@@ -1,4 +1,4 @@
-import { APP_PANEL } from '@cknTypes/constants'
+import { ACTIVE_PANEL } from '@cknTypes/constants'
 import PanelMDXComponents from '@components/PanelMDX/PanelMDXComponents'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useEffect } from 'react'
@@ -11,7 +11,7 @@ const PanelMDX = () => {
     activePanel,
     setActivateLessonBar,
   } = useAppContext()
-  const isActive = activePanel === APP_PANEL.MDX
+  const isActive = activePanel === ACTIVE_PANEL.MDX
 
   useEffect(() => {
     if (isActive) {
