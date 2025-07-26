@@ -57,7 +57,7 @@ const PanelProfile = () => {
       ref={ref}
       className={`panel-right-short panel-profile absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 pt5 transition-transform ${translateX}`}
     >
-      <div tabIndex={-1} aria-disabled={!isOpen} className="h-100 w-100 overflow-y-auto">
+      <div tabIndex={-1} aria-disabled={!isOpen} className="four h-100 w-100 overflow-y-auto">
         <div className={`pa4X ${PROFILE_PANEL_WIDTH_PERCENT} mb5`}>
           <PanelProfileComponents />
         </div>

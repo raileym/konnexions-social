@@ -61,7 +61,7 @@ const PanelMenu: React.FC = () => {
         aria-labelledby="menu-panel-title"
         className={`panel-right-short panel-help absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform ${translateX}`}
       >
-        <div tabIndex={-1} aria-disabled={!isOpen} className="h-100 w-100 overflow-y-auto">
+        <div tabIndex={-1} aria-disabled={!isOpen} className="three h-100 w-100 overflow-y-auto">
           <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>
             <h2 id="menu-panel-title" className="f3 pa3 mt5 tc on-tertiary">Menu Panel</h2>
             <div className="flex justify-between flex-m dn-lX">
@@ -129,7 +129,7 @@ const PanelMenu: React.FC = () => {
                 aria-labelledby="li-home-page"
                 tabIndex={menuPanelTabIndex}
                 aria-disabled={menuPanelTabIndex !== 0}
-                className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary"
+                className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.WELCOME)}
               >
                 Home
@@ -138,7 +138,7 @@ const PanelMenu: React.FC = () => {
                 aria-labelledby="li-about-page"
                 tabIndex={menuPanelTabIndex}
                 aria-disabled={menuPanelTabIndex !== 0}
-                className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary"
+                className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.ABOUT)}
               >
                 About
@@ -147,7 +147,7 @@ const PanelMenu: React.FC = () => {
                 aria-labelledby="li-terms-and-conditions-page"
                 tabIndex={menuPanelTabIndex}
                 aria-disabled={menuPanelTabIndex !== 0}
-                className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary"
+                className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}
               >
                 Terms and conditions
@@ -156,7 +156,7 @@ const PanelMenu: React.FC = () => {
                 aria-labelledby="li-privacy-policy"
                 tabIndex={menuPanelTabIndex}
                 aria-disabled={menuPanelTabIndex !== 0}
-                className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary"
+                className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.PRIVACY_POLICY)}
               >
                 Privacy Policy

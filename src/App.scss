@@ -68,7 +68,7 @@ button {
   padding: 0;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--kx-attention-hover),
 }
 button:focus {
   outline: none;

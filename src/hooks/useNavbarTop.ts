@@ -3,7 +3,7 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { useRef, useCallback } from 'react'
 
 export const useNavbarTop = () => {
-  const navbarTopFirstFocusRef = useRef<HTMLButtonElement | null>(null)
+  const navbarTopFirstFocusRef = useRef<HTMLDivElement | null>(null)
   const navbarTopRef = useRef<HTMLDivElement | null>(null)
   const navbarTopIndexRef = useRef<number>(-1)
 

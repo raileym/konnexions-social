@@ -50,6 +50,9 @@ $softblue:              rgba(0, 125, 255, 1);
     --kx-cyan: cyan;
     --kx-peru: peru;
     --kx-darkorange: darkorange;
+
+    --kx-attention-focus: red;
+    --kx-attention-hover: #646cff;
   }
 
 // ******************************************** 
@@ -136,6 +139,9 @@ $color-set: (
   "cyan":            var(--kx-cyan),
   "peru":            var(--kx-peru),
   "darkorange":      var(--kx-darkorange),
+
+  "attention-focus": var(--kx-attention-focus),
+  "attention-hover": var(--kx-attention-hover),
 
   "forestgreen":     forestgreen,
   "ghostwhite":      ghostwhite,

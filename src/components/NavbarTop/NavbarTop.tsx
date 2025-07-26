@@ -135,8 +135,21 @@ const NavbarTop: React.FC = () => {
         <span id="label-button-profile">[Profile Button] Press the Profile Button to update your profile.</span>
       </div>
 
-      <nav ref={navbarTopFirstFocusRef} aria-labelledby={'label-navbar-top'} are-describedby={'describe-navbar-top'} tabIndex={-1} className="navbar-top bnX fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999">
-        <div tabIndex={navbarTopTabIndex} aria-describedby={'button-home'} className="button-home flex justify-start flex-row pointer lh-4-kx grow-5-kx mh2 ph3 focus-visible:bg-tertiaryX focus-visible:b--redX bw3X" onClick={handleGoHome}>
+      <nav 
+        // ref={navbarTopFirstFocusRef}
+        aria-labelledby={'label-navbar-top'} 
+        aria-describedby={'describe-navbar-top'}
+        // aria-disabled={true}
+        tabIndex={-1}
+        className="navbar-top fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999"
+        style={{borderRadius: 0}}>
+        <div
+          ref={navbarTopFirstFocusRef}
+          tabIndex={navbarTopTabIndex}
+          aria-describedby={'button-home'}
+          className="button-home flex justify-start flex-row pointer lh-4-kx grow-5-kxX mh2 ph3 focus-visible:bg-tertiaryX focus-visible:b--redX bw3X hover:b--attention-hover"
+          onClick={handleGoHome}
+        >
 
           <div aria-hidden={true} className="ml4X mr4 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
             <div className="silver bX flex flex-column">
@@ -165,9 +178,9 @@ const NavbarTop: React.FC = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={activeButtonRef.current === BUTTON_NAME.BIENVENIDO} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kx grow-kx bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kx bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr3 grow-kx bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={activeButtonRef.current === BUTTON_NAME.BIENVENIDO} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-profile'} isActive={activeButton === BUTTON_NAME.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={navbarTopTabIndex} ariaLabelledBy={'label-button-menu'} isActive={activeButton === BUTTON_NAME.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr3 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>

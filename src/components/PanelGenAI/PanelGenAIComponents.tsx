@@ -89,7 +89,7 @@ const PanelGenAI: React.FC = () => {
 
   return (
     <div className={'panel-right panel-gen-ai-components bw1 b--moon-gray bl z-1 absolute top-0 left-0 w-90 h-100 bg-light-gray transition-transform translate-x-0'}>
-      <div tabIndex={screenState[SCREEN.GEN_AI] ? 0 : -1} aria-disabled={!screenState[SCREEN.GEN_AI]} className='h-100 w-100 overflow-y-auto'>
+      <div tabIndex={screenState[SCREEN.GEN_AI] ? 0 : -1} aria-disabled={!screenState[SCREEN.GEN_AI]} className='one h-100 w-100 overflow-y-auto'>
         <div className='pa4 mw7 w-100 background center mb5'>
           <h2 className='f3 pa3 pb0 mt5 w-100 tc'>Spanish: Scenarios</h2>
           <div className='f3 pv3 pt0 mt0'>{headline}</div>

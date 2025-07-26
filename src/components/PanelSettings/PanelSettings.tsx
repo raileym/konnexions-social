@@ -100,7 +100,7 @@ const PanelSettings: React.FC = () => {
       <div
         tabIndex={settingsPanelTabIndex}
         aria-disabled={settingsPanelTabIndex !== 0}
-        className="h-100 w-100 overflow-y-auto"
+        className="six h-100 w-100 overflow-y-auto"
       >
         <div className={`pa4 ${SETTINGS_PANEL_WIDTH_PERCENT} mb5`}>
           <div className="f3 tc pt5 b background w-100X">Settings Panel</div>

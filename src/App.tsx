@@ -24,9 +24,9 @@ import { usePaywall } from '@hooks/usePaywall/usePaywall'
 import PanelMDXWrapper from '@components/PanelMDXWrapper/PanelMDXWrapper'
 import ViewportWidthOverlay from '@components/ViewportWidthOverlay/ViewportWidthOverlay'
 import NavbarColor from '@components/NavbarColor/__tests__/NavbarColor'
-import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
+// import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
 // import ColorScheme from '@components/ColorScheme/__tests__/ColorScheme'
-import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
+// import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
 
 const AppMain = () => {
   const { mdxPagesMap } = useAppContext()
@@ -75,13 +75,13 @@ const AppMain = () => {
         <PanelBasicReview />
         <PanelSettings />
         <PanelMenu />
-        {/* <PanelHelp /> */}
+        <PanelHelp />
         <PanelMDX />
       </div>
       <NavbarTop />
       <NavbarBottom />
       <ViewportWidthOverlay />
-      <NavbarColor />
+      {/* <NavbarColor /> */}
       {/* <FontSizeControls /> */}
       {/* <ColorScheme /> */}
       {/* <DayNightToggle /> */}
