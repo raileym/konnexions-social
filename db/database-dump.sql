@@ -2058,7 +2058,7 @@ ALTER TABLE auth.saml_providers OWNER TO supabase_auth_admin;
 -- Name: TABLE saml_providers; Type: COMMENT; Schema: auth; Owner: supabase_auth_admin
 --
 
-COMMENT ON TABLE auth.saml_providers IS 'Auth: Manages SAML Identity Provider connexions.';
+COMMENT ON TABLE auth.saml_providers IS 'Auth: Manages SAML Identity Provider connections.';
 
 
 --

@@ -1410,3 +1410,22 @@ export type PanelControl = {
   close: () => void
   isOpen: boolean
 }
+
+export type MyKonnexionsTitleProps = {
+  ariaLabel?: string
+  ariaDescribedBy?: string
+  ariaHidden?: boolean
+  color?: string
+  slashColor?: string
+  fontSizeInRem?: number
+  nominal?: string
+  shorten?: boolean
+  noAria?: boolean
+  className?: string
+}
+
+export type MyConnexionsTitleLegalProps = {
+  nominal: string
+}
+
+

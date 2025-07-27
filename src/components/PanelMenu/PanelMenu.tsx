@@ -11,6 +11,7 @@ import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
 import { faCircleQuestion, faGear, faHome, faUser } from '@fortawesome/free-solid-svg-icons'
 import { usePanelBase } from '@hooks/usePanelBase'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
 const PanelMenu: React.FC = () => {
   const firstFocusRef = useRef<HTMLButtonElement | null>(null)
@@ -19,6 +20,8 @@ const PanelMenu: React.FC = () => {
   const { setActivePanel, setMdxPage } = useAppContext()
   const { switchPanel } = usePanel()
   const navigate = useNavigate()
+
+  const { openPanel } = usePanelManager()
 
   const {
     ref,
@@ -76,9 +79,13 @@ const PanelMenu: React.FC = () => {
                 isActive={false}
                 switchFn={switchPanel}
                 panel={ACTIVE_PANEL.MDX}
+                onClick={() => {
+                  setMdxPage('Welcome')
+                  openPanel('mdx')
+                }}
                 icon={faHome}
                 title="Home"
-                onClick={() => setMdxPage('Welcome')}
+                // onClick={() => setMdxPage('Welcome')}
               />
               <Button
                 ariaLabelledBy="label-button-settings"
@@ -92,6 +99,7 @@ const PanelMenu: React.FC = () => {
                 panel={ACTIVE_PANEL.SETTINGS}
                 icon={faGear}
                 title="Settings"
+                onClick={() => openPanel('settings')}
               />
               <Button
                 ariaLabelledBy="label-button-help"
@@ -116,6 +124,7 @@ const PanelMenu: React.FC = () => {
                   buttonClass="bn w-50X width-3 mh0 ph0 brand bg-transparent"
                   isActive={false}
                   switchFn={switchPanel}
+                  onClick={() => openPanel('profile')}
                   panel={ACTIVE_PANEL.PROFILE}
                   icon={faUser}
                   title="Profile"

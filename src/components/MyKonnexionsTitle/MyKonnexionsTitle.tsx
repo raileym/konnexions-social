@@ -1,16 +1,5 @@
+import type { MyConnexionsTitleLegalProps, MyKonnexionsTitleProps } from '@cknTypes/types'
 import MyKonnexionsSlash from '@components/MyKonnexionsSlash/MyKonnexionsSlash'
-
-type MyKonnexionsTitleProps = {
-  ariaLabel?: string
-  ariaDescribedBy?: string
-  ariaHidden?: boolean
-  color?: string
-  slashColor?: string
-  fontSizeInRem?: number
-  nominal?: string
-  shorten?: boolean
-  noAria?: boolean
-}
 
 const MyKonnexionsTitle = ({
   ariaLabel = '',
@@ -20,29 +9,44 @@ const MyKonnexionsTitle = ({
   slashColor = 'primary', 
   color = 'secondary', 
   fontSizeInRem = 1, 
-  nominal = ''}: MyKonnexionsTitleProps
-) => {
+  nominal = '',
+  className
+}: MyKonnexionsTitleProps) => {
   // const title = describedBy ? describedBy : `My Connections ${nominal}`
 
 return (  
     <>
-      <div aria-hidden={ariaHidden} aria-label={ariaLabel} aria-describedby={ariaDescribedBy} className="konnexions-title dib lh-2-kx" style={{marginLeft: '-.3rem'}}>
-        <div aria-hidden={true} className="flex flex-row">
-          {!shorten && <div className={`b ${color} mr2`}>My</div>}
-          <div className={`b ${slashColor}`}>K</div>
-          {!shorten && <div className={`b  ${color}`}>onne</div>}
-          <MyKonnexionsSlash slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
-          {!shorten && <div className={`b  ${color}`}>ions<sup className="f7 relative" style={{ top: '-2em' }}>TM</sup></div>}
-          {nominal ? <div className={`ml2 b ${color}`}>{nominal}</div> : null}
-        </div>
+      <div aria-hidden={ariaHidden} aria-label={ariaLabel} aria-describedby={ariaDescribedBy} className={`${className} konnexions-title dib lh-2-kx`} >
+        { shorten &&
+          <div aria-hidden={true} className="flex flex-row" style={{marginLeft: '-0.3rem'}}>
+            <div className={`b ${slashColor}`}>K</div>
+            <MyKonnexionsSlash slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
+          </div>
+        }
+        { !shorten &&
+          <div aria-hidden={true} className="flex flex-row">
+            {!shorten && <div className={`b ${color} mr2`}>My</div>}
+            <div className={`b ${slashColor}`}>K</div>
+            {!shorten && <div className={`b  ${color}`}>onne</div>}
+            <MyKonnexionsSlash slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
+            {!shorten && <div className={`b  ${color}`}>ions<sup className="f7 relative" style={{ top: '-2em' }}>TM</sup></div>}
+            {nominal ? <div className={`ml2 b ${color}`}>{nominal}</div> : null}
+          </div>
+        }
       </div>
     </>
   )
 }
 
-export const MyKonnexionsTitleSpan = ({slashColor = 'primary', color = 'secondary', fontSizeInRem = 1, nominal =''}: MyKonnexionsTitleProps) => {
+export const MyKonnexionsTitleSpan = ({
+  slashColor = 'primary',
+  color = 'secondary',
+  fontSizeInRem = 1,
+  nominal ='',
+  className
+}: MyKonnexionsTitleProps) => {
   return (
-    <span aria-label={`my connections ${nominal}`} className="konnexions-title-span dib">
+    <span aria-label={`my connections ${nominal}`} className={`konnexions-title-span dib ${className}`}>
       <span aria-disabled={true} className="inline-flex flex-wrap">
         <span className={`b ${color} mr1`}>My </span>
         <span className={`b ${slashColor}`}>K</span>
@@ -54,5 +58,16 @@ export const MyKonnexionsTitleSpan = ({slashColor = 'primary', color = 'secondar
     </span>
   )
 }
+
+export const MyKonnexionsTitleLegal = ({nominal = ''}: MyConnexionsTitleLegalProps) => {
+  return(
+    <>
+      <div className="dib b">MY KONNEXIONS<sup className="f7 relative" style={{ top: '-1.2em' }}>TM</sup></div>
+      {nominal ? <div className="ml2 dib">{nominal}</div> : ''}
+    </>
+  )
+}
+
+
 
 export default MyKonnexionsTitle
