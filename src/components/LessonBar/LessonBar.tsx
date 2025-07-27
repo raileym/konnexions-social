@@ -19,7 +19,6 @@ export const LessonBar: React.FC = () => {
     // lessonComplete,
     setLessonComplete,
     setLesson,
-    activateLessonBar,
     paywall,
     screenState
   } = useAppContext()
@@ -28,11 +27,11 @@ export const LessonBar: React.FC = () => {
   
   const [translateX, setTranslateX] = useState<string>('translateX--100')
   // const translateX = activateLessonBar ? 'translateX-0' : 'translateX--100'
-  // const translateX = currentPanel === ACTIVE_PANEL.BASIC ? 'translateX-0' : 'translateX--100'
+  // const translateX = currentPanel === ACTIVE_PANEL.BASIC_CREATE ? 'translateX-0' : 'translateX--100'
 
   useEffect(() =>{
     console.log('currentPanel', currentPanel)
-    setTranslateX( currentPanel === ACTIVE_PANEL.BASIC ? 'translateX-0' : 'translateX--100')
+    setTranslateX( (currentPanel === ACTIVE_PANEL.BASIC_CREATE || currentPanel === ACTIVE_PANEL.GEN_AI_PRO) ? 'translateX-0' : 'translateX--100')
   }, [currentPanel])
 
   const { switchPanel } = usePanel()
@@ -40,13 +39,13 @@ export const LessonBar: React.FC = () => {
   const handleAddLesson = () => {
     setLessonComplete(false)
 
-    console.log('switching panel', ACTIVE_PANEL.BASIC)
-    switchPanel(ACTIVE_PANEL.BASIC)
+    console.log('switching panel', ACTIVE_PANEL.BASIC_CREATE)
+    switchPanel(ACTIVE_PANEL.BASIC_CREATE)
 
     // Not sure the logic below versus a straight
-    // patch through to ACTIVE_PANEL.BASIC
+    // patch through to ACTIVE_PANEL.BASIC_CREATE
     //
-    // if (activePanel === ACTIVE_PANEL.BASIC_REVIEW) {
+    // if (activePanel === ACTIVE_PANEL.BASIC_STUDY) {
     //   switchPanel(activePanel)
     // }
 
@@ -75,11 +74,11 @@ export const LessonBar: React.FC = () => {
         tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
         aria-disabled={!screenState[SCREEN.REVIEW]}
         onClick={handleAddLesson}
-        className="mv3X pa2 bn bbX b--backgroundX bw3 ba bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
+        className="mv3X pa2 bn bbX white b--backgroundX bw3 ba bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
       >
         <FontAwesomeIcon className="f1X" icon={faPlus} />
       </button>
-      <hr className="bg-background bn" style={{height: '0.15em'}} />
+      <hr className="bg-white bn" style={{height: '0.15em'}} />
       <ul className="ba list pa0">
         {Array.isArray(lessons) && lessons.length > 0 ? (
           lessons.map((lesson) => (
@@ -88,12 +87,12 @@ export const LessonBar: React.FC = () => {
               onClick={() => {
                 setSelectedLessonNumber(lesson.number)
                 setLessonComplete(lesson.isComplete)
-                if (activePanel === ACTIVE_PANEL.BASIC_REVIEW && !lesson.isComplete) {
-                  switchPanel(ACTIVE_PANEL.BASIC)
+                if (activePanel === ACTIVE_PANEL.BASIC_STUDY && !lesson.isComplete) {
+                  switchPanel(ACTIVE_PANEL.BASIC_CREATE)
                 }
               }}
-              className={`b pa2 pointer br2X f3 bw2 bbX tc b--blue on-tertiary hover:tertiary ${
-                selectedLessonNumber === lesson.number ? 'bg-light-green b' : 'hover-bg-light-gray'
+              className={`b pa2 pointer br2X f3 bw2 bbX tc b--blue on-tertiaryX whiteX hover:tertiary ${
+                selectedLessonNumber === lesson.number ? 'bg-light-green black b' : 'hover-bg-light-gray white'
               }`}
             >
               <div className="flex flex-column">

@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import PanelSettings from '@components/PanelSettings/PanelSettings'
-import PanelBasic from '@components/PanelBasic/PanelBasic'
 import PanelHelp from '@components/PanelHelp/PanelHelp'
 import NavbarTop from '@components/NavbarTop/NavbarTop'
 import './App.scss'
@@ -13,7 +12,7 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { getCurrentWeek } from '@components/getCurrentWeek'
 import PanelGenAIPro from '@components/PanelGenAIPro/PanelGenAIPro'
 import LessonBar from '@components/LessonBar/LessonBar'
-import PanelBasicReview from '@components/PanelBasicReview/PanelBasicReview'
+import PanelBasicStudy from '@components/PanelBasicStudy/PanelBasicStudy'
 import PanelBasicWelcome from '@components/PanelBasicWelcome/PanelBasicWelcome'
 import PanelMDX from '@components/PanelMDX/PanelMDX'
 import PanelProfile from '@components/PanelProfile/PanelProfile'
@@ -23,10 +22,11 @@ import { Navigate } from 'react-router-dom'
 import { usePaywall } from '@hooks/usePaywall/usePaywall'
 import PanelMDXWrapper from '@components/PanelMDXWrapper/PanelMDXWrapper'
 import ViewportWidthOverlay from '@components/ViewportWidthOverlay/ViewportWidthOverlay'
-import NavbarColor from '@components/NavbarColor/__tests__/NavbarColor'
+// import NavbarColor from '@components/NavbarColor/__tests__/NavbarColor'
+import PanelBasicCreate from '@components/PanelBasicCreate/PanelBasicCreate'
 // import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
 // import ColorScheme from '@components/ColorScheme/__tests__/ColorScheme'
-// import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
+import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
 
 const AppMain = () => {
   const { mdxPagesMap } = useAppContext()
@@ -69,10 +69,10 @@ const AppMain = () => {
         {/* The rest of your panels remain */}
         <PanelProfile />
         <PanelGenAIPro />
-        <PanelBasic />
         <PanelGenAI />
         <PanelBasicWelcome />
-        <PanelBasicReview />
+        <PanelBasicCreate />
+        <PanelBasicStudy />
         <PanelSettings />
         <PanelMenu />
         <PanelHelp />
@@ -84,7 +84,7 @@ const AppMain = () => {
       {/* <NavbarColor /> */}
       {/* <FontSizeControls /> */}
       {/* <ColorScheme /> */}
-      {/* <DayNightToggle /> */}
+      <DayNightToggle />
     </>
   )
 }

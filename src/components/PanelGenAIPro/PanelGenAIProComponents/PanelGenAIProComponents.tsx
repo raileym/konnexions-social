@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '@components/SelectorScenario/SelectorScenario'
 import { getPrompt_cb } from '@shared/getPrompt_cb'
@@ -12,7 +12,7 @@ import {
   MODULE_NAME,
   LANGUAGE_TITLE,
   SCENARIO,
-  SCREEN
+  ACTIVE_PANEL
 } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
@@ -24,7 +24,7 @@ import { DialogList } from '@components/DialogList/DialogList'
 // import { generateVerbLists } from '@PanelGenAIProComponents/generateVerbLists/generateVerbLists'
 // import CutoffToggle from '../../../CutoffToggle'
 // import ShowMaxCount from '../../../ShowMaxCount'
-import SelectorLanguage from '../../../SelectorLanguage'
+import SelectorLanguage from '@components/SelectorLanguage'
 import PromptToggle from '@PanelGenAIProComponents/PromptToggle/PromptToggle'
 // import Hr from '@components/Hr'
 import LessonElementToggle from '@PanelGenAIProComponents/LessonElementToggle/LessonElementToggle'
@@ -40,8 +40,9 @@ import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TextareaFlexLesson } from '@components/TextareaFlexLesson/TextareaFlexLesson'
 import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { FormatSentence } from '@components/FormatSentence/FormatSentence'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
-const RightPanel: React.FC = () => {
+const PanelGenAIProComponents: React.FC = () => {
   // const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
   const [testMode,] = useState<TestMode>(false)
   // const [showDialogDraftPrompt, setShowDialogDraftPrompt] = useState(false)
@@ -50,6 +51,16 @@ const RightPanel: React.FC = () => {
   const [showDialogReviewPrompt, setShowDialogReviewPrompt] = useState(false)
   const [showNounsReviewPrompt, setShowNounsReviewPrompt] = useState(false)
   const [showVerbsReviewPrompt, setShowVerbsReviewPrompt] = useState(false)
+
+  const [tabIndex, setTabIndex] = useState<number>(-1)
+  const [ariaDisabled, setAriaDisabled] = useState<boolean>(true)
+
+  const { currentPanel } = usePanelManager()
+  
+  useEffect(()=> {
+    setTabIndex( currentPanel === ACTIVE_PANEL.GEN_AI_PRO ? 0 : -1)
+    setAriaDisabled( currentPanel !== ACTIVE_PANEL.GEN_AI_PRO )
+  }, [currentPanel])
 
   // const debugLog = useDebugLogger()
 
@@ -109,7 +120,7 @@ const RightPanel: React.FC = () => {
     formattedFlexLesson,
     
     lessonComplete,
-    screenState //,
+    // screenState,
     // setLessonComplete
   } = useAppContext()
   
@@ -160,10 +171,11 @@ const RightPanel: React.FC = () => {
 
       content = (
         <>
+          {/*
           <div className="mv3X flex justify-center">
             <button
-              tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-              aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
+              tabIndex={tabIndex}
+              aria-disabled={ariaDisabled}
               onClick={() => setDebugMode(prev => !prev)}
               className={`w-30 pa3 br2 bn ${debugMode ? 'bg-brand' : 'bg-background'} on-background pointer`}
             >
@@ -173,8 +185,10 @@ const RightPanel: React.FC = () => {
               </div>
             </button>
           </div>
+          */}
          
-          {/* <div className="mv3X flex justify-center">
+          {/*
+          <div className="mv3X flex justify-center">
             <button
               onClick={() => setTestMode(prev => !prev)}
               className={`w-30 pa3 br2 bn ${testMode ? 'bg-brand' : 'bg-background'} on-background pointer`}
@@ -184,28 +198,27 @@ const RightPanel: React.FC = () => {
                 <div className="ml2">{testMode ? 'Disable' : 'Enable'} Test Mode</div>
               </div>
             </button>
-          </div> */}
+          </div>
+          */}
          
           <div className="mv4 flex flex-row justify-center">
-            <SelectorLanguage />
+            <SelectorLanguage tabIndex={tabIndex} ariaDisabled={ariaDisabled} />
           </div>
 
-          <h2 className="f2 pa3 pb0X mt4X w-100 items-center tc">
-            <div>
-              {LANGUAGE_TITLE[targetLanguage]}: Premium
-            </div>
-          <div className="w-100 background f2">Lesson {selectedLessonNumber}</div>
+          <h2 className="flex flex-column f2 pa3 pb0X mt4X w-100 items-center tc on-background">
+            <div>{LANGUAGE_TITLE[targetLanguage]}: Premium</div>
+            <div className="w-100 f2">Lesson {selectedLessonNumber}</div>
           </h2>
 
 
-          <TextareaFlexLesson title={'Flex Lesson'}/>
+          <TextareaFlexLesson tabIndex={tabIndex} ariaDisabled={ariaDisabled} title={'Flex Lesson'}/>
           
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
-                tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-                aria-disabled={!screenState[SCREEN.CREATE]}
-                className={`f3 pa3 br4 bn ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
+                tabIndex={tabIndex}
+                aria-disabled={ariaDisabled}
+                className={'f3 pa3 br4 bn bg-secondary on-secondary pointer'}
                 onClick={() => {
                   const formattedFlexLesson = formatFlexLesson({flexLesson})
                   const updatedLesson = {
@@ -215,18 +228,18 @@ const RightPanel: React.FC = () => {
                   createFlexLesson({lesson: updatedLesson})
                 }}
               >
-                Create Flex Lesson {debugMode ? '(Debug Mode)' : ''}
+                Create Flex Lesson
               </button>
             </div>
           </div>
           
-          <div className="pa3 mt3 mb5 ba bg-on-background w-100">
+          <div className="pa3 mt3 mb5 ba bg-on-background background w-100">
             <div className='tc f3 w-100 mt4X b'>Formatted Lesson</div>
             <ul className="mt0 pt0 background list pl0">
               {(formattedFlexLesson ?? []).map((line, index) => {
                 const [, , sentence] = line.split('|')  // destructure to get the third part
                 return (
-                  <li key={index} className="background">
+                  <li key={index} className="bg-white black Xbackground">
                     <FormatSentence sentence={sentence} />
                   </li>
                 )
@@ -235,14 +248,14 @@ const RightPanel: React.FC = () => {
           </div>
 
           <div className="flex flex-row">
-            <SelectorLessonPromptStyle />
-            <SelectorScenario tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1} ariaDisabled={!screenState[SCREEN.GEN_AI_PRO]} custom={true} />
-            <SelectorParticipantRole />
+            <SelectorLessonPromptStyle tabIndex={tabIndex} ariaDisabled={ariaDisabled} />
+            <SelectorScenario tabIndex={tabIndex} ariaDisabled={ariaDisabled} custom={true} />
+            <SelectorParticipantRole tabIndex={tabIndex} ariaDisabled={ariaDisabled} />
           </div>
 
           <div>
-            <InputCustomScenario />
-            <InputCustomParticipantList />
+            <InputCustomScenario tabIndex={tabIndex} ariaDisabled={ariaDisabled} />
+            <InputCustomParticipantList tabIndex={tabIndex} ariaDisabled={ariaDisabled} />
           </div>
           
           {/*
@@ -258,14 +271,14 @@ const RightPanel: React.FC = () => {
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
-                tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-                aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
+                tabIndex={tabIndex}
+                aria-disabled={ariaDisabled}
                 className={`f3 pa3 br4 bn ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   createFullLesson()
                 }}
               >
-                Create Lesson {debugMode ? '(Debug Mode)' : ''}
+                Create Lesson
               </button>
             </div>
           </div>
@@ -273,22 +286,22 @@ const RightPanel: React.FC = () => {
           <div className="flex flex-column items-center w-100">
             <div className={`w-100 f3 mt3X mb3 ${lessonComplete ? 'o-100' : 'o-60'}`}>
               {/* <LessonStatus isLoading={!lessonComplete} /> */}
-              <LessonStatus />
+              {/* <LessonStatus /> */}
               {/* <LessonStatus isLoading={!lessonComplete} /> */}
             </div>
           </div>
 
-          <label className="db mb2 f5 b">Seed or Prompt Description (optional):</label>
+          <label className="db mb2 f5 b on-background">Seed or Prompt Description (optional):</label>
           <textarea
-            tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-            aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
+            tabIndex={tabIndex}
+            aria-disabled={ariaDisabled}
             value={customSeed}
             onChange={(e) => setCustomSeed(e.target.value)}
             className="w-100 ba b--gray br2 pa2"
             rows={10}
           />
 
-          <div className="pa3 mt3 ba bg-red w-100">
+          <div className="pa3 mt3 ba bg-on-background w-100">
             <DialogList
               language={lesson.targetLanguage}
               translations={(lesson?.translationResolve?.lines ?? [])}
@@ -309,22 +322,26 @@ const RightPanel: React.FC = () => {
               </ul>            
           </div>
 
-          {/* <div className="pa3 mt3 ba bg-on-background w-100">
+          {/*
+          <div className="pa3 mt3 ba bg-on-background w-100">
             <DialogList language={lesson.targetLanguage} lines={(lesson?.translation[lesson.targetLanguage] ?? [])} useCloudTTS={true} />
           </div>
 
           <div className="pa3 mt3 ba bg-on-background w-100">
             <DialogList language={lesson.sourceLanguage} lines={(lesson?.translation[lesson.sourceLanguage]  ?? [])} useCloudTTS={true} />
-          </div> */}
+          </div>
+          */}
          
 
-          {/* <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div> */}
+          {/* 
+          <div className="f3 mv4 center">GenerateTTS: {generateTTSCount} invocations</div>
+          */}
 
           <PromptToggle className='bg-yellow background' title={'Proposed Dialog Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_DRAFT, lesson: fakeLesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Dialog Draft Prompt'} prompt={lesson[MODULE_NAME.DIALOG_DRAFT].prompt} />
+          <PromptToggle className='bg-on-background' title={'Actual Dialog Draft Prompt'} prompt={lesson[MODULE_NAME.DIALOG_DRAFT].prompt} />
 
           <PromptToggle className='bg-yellow background' title={'Proposed Dialog Review Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.DIALOG_REVIEW, lesson: fakeLesson, errors: [] }).prompt} />
-          <PromptToggle title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
+          <PromptToggle className='bg-on-background' title={'Actual Dialog Review Prompt'} prompt={lesson.dialogReview.prompt} />
 
           {/*
           <PromptToggle className='bg-yellow background' title={'Proposed Translation Draft Prompt'} prompt={getPrompt_cb({ moduleName: MODULE_NAME.TRANSLATION_DRAFT, lesson, errors: [] }).prompt} />
@@ -585,10 +602,10 @@ const RightPanel: React.FC = () => {
   // },[lesson])
 
   return (
-    <div tabIndex={-1} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+    <div tabIndex={-1} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )
 }
 
-export default RightPanel
+export default PanelGenAIProComponents

@@ -1,26 +1,25 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { type LessonPromptStyle } from '@cknTypes/types'
-import { LESSON_PROMPT_STYLE, SCREEN } from '@cknTypes/constants'
+import { type LessonPromptStyle, type SelectorLessonPromptStyleProps } from '@cknTypes/types'
+import { LESSON_PROMPT_STYLE } from '@cknTypes/constants'
 
-const SelectorLessonPromptStyle: React.FC = () => {
+const SelectorLessonPromptStyle = ({tabIndex, ariaDisabled}: SelectorLessonPromptStyleProps) => {
   const {
     lessonPromptStyle,
-    setLessonPromptStyle,
-    screenState
+    setLessonPromptStyle
   } = useAppContext()
 
   const lessonPromptStyles = useMemo<LessonPromptStyle[]>(() => Object.values(LESSON_PROMPT_STYLE), [])
 
   return (
-    <div className="mb3">
+    <div className="mb3 on-background">
       <label className="db mb2 f5 b">Content Style:</label>
       <div className="flex flex-wrap flex-column">
         {lessonPromptStyles.map((style) => (
           <label key={style} className="mh3 mb1 flex items-center">
             <input
-              tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-              aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
+              tabIndex={tabIndex}
+              aria-disabled={ariaDisabled}
               type="radio"
               name="content-style"
               value={style}

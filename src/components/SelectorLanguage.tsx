@@ -1,10 +1,14 @@
-import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { type Language } from '@cknTypes/types'
-import { LANGUAGE, LANGUAGE_TITLE, SCREEN } from '@cknTypes/constants'
+import { LANGUAGE, LANGUAGE_TITLE } from '@cknTypes/constants'
 
-const SelectorLanguage: React.FC = () => {
-  const { targetLanguage, setTargetLanguage, screenState } = useAppContext()
+type SelectorLanguageProps = {
+  tabIndex: number,
+  ariaDisabled: boolean
+}
+
+const SelectorLanguage = ({tabIndex, ariaDisabled}: SelectorLanguageProps) => {
+  const { targetLanguage, setTargetLanguage } = useAppContext()
 
   const languages: Language[] = [
     LANGUAGE.ENGLISH,
@@ -14,14 +18,14 @@ const SelectorLanguage: React.FC = () => {
   ]
 
   return (
-    <div className="mb3X">
+    <div className="mb3X on-background">
       <label className="db mb2 f5 b">Choose a language:</label>
       <div className="flex flex-wrap flex-columnX">
         {languages.map((code) => (
           <label key={code} className="mr3 mb2 flex items-center">
             <input
-              tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-              aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
+              tabIndex={tabIndex}
+              aria-disabled={ariaDisabled}
               type="radio"
               name="language" // fixed name ensures exclusive selection
               value={code}

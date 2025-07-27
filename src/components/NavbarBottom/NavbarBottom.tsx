@@ -1,5 +1,5 @@
 // src/components/NavbarBottom.tsx
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-svg-icons'   
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
@@ -7,8 +7,10 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { ACTIVE_PANEL, MDX_PAGE, NAVBAR_BOTTOM_TRANSLATE_Y, SCREEN } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useActivePanel } from '@hooks/useActivePanel'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
 const NavbarBottom: React.FC = () => {
+  const [translateY, setTranslateY] = useState<string>('translate-y-full')
   const { closePanel } = useActivePanel()
 
   const {
@@ -17,7 +19,7 @@ const NavbarBottom: React.FC = () => {
     showModal,
     lessons,
     selectedLessonNumber, 
-    engageSpanish,
+    // engageSpanish,
     setMdxPage,
     isSelectedCreate,
     setIsSelectedCreate,
@@ -32,8 +34,17 @@ const NavbarBottom: React.FC = () => {
   //   cXnsole.log('lesson', lesson)
   // }, [lesson])
 
-    const translateY = engageSpanish ? NAVBAR_BOTTOM_TRANSLATE_Y : 'translate-y-full'
+  const { currentPanel } = usePanelManager()
   
+  useEffect(() =>{
+    const activateLessonBar =
+      currentPanel == ACTIVE_PANEL.BASIC_CREATE ||
+      currentPanel == ACTIVE_PANEL.BASIC_STUDY ||
+      currentPanel == ACTIVE_PANEL.GEN_AI_PRO
+
+    setTranslateY( activateLessonBar ? NAVBAR_BOTTOM_TRANSLATE_Y : 'translate-y-full')
+  })
+
   const lesson = useMemo(() => {
     return lessons.find(l => l.number === selectedLessonNumber)
   }, [lessons, selectedLessonNumber])
@@ -52,7 +63,7 @@ const NavbarBottom: React.FC = () => {
   }
 
   return (
-    <nav className={`navbar-bottom fixed bottom-0 bt b--background-30 left-0 w-100 flex flex-column items-center bg-secondary justify-aroundX ph3 pv2 transition-transform ${translateY} z-999`}>
+    <nav className={`navbar-bottom fixed bottom-0 bt b--background-30 left-0 w-100 flex flex-column items-center bg-secondary justify-aroundX ph3 pv2 transition-transform ${translateY} z-999 br0`}>
 
       <div
         className='icon-learn-spanish left-0X flex justify-center flex-column tc mt0 pt0'
@@ -95,9 +106,9 @@ const NavbarBottom: React.FC = () => {
               // titleClass={`${isSelectedCreate ? 'secondary' : 'on-background'}`}
               titleClass={`${isSelectedCreate ? 'secondaryX' : 'secondaryX'}`}
               // titleClass={`${isSelectedCreate ? reverse ? 'secondary' : 'on-background' : 'secondary' : 'on-background' : reverse ? 'secondary' : 'on-background' : 'secondary' : 'on-background'  }`}
-              isActive={activePanel === ACTIVE_PANEL.BASIC}
+              isActive={activePanel === ACTIVE_PANEL.BASIC_CREATE}
               switchFn={switchPanel}
-              panel={ACTIVE_PANEL.BASIC}
+              panel={ACTIVE_PANEL.BASIC_CREATE}
               icon={faPersonChalkboard}
               title='Create'
               onClick={() => {
@@ -105,7 +116,7 @@ const NavbarBottom: React.FC = () => {
                 // setSelectedCreate(prev => !prev)
               }}
             />
-            <Button ariaLabelledBy={'button-study'} tabIndex={screenState[SCREEN.CREATE] ? 0 : -1} ariaDisabled={!screenState[SCREEN.CREATE]} iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicReview'} switchFn={switchPanel} panel='basicReview' icon={faBookOpen} title='Study' />
+            <Button ariaLabelledBy={'button-study'} tabIndex={screenState[SCREEN.CREATE] ? 0 : -1} ariaDisabled={!screenState[SCREEN.CREATE]} iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicStudy'} switchFn={switchPanel} panel='basicStudy' icon={faBookOpen} title='Study' />
           </div>
         </>
       </div>

@@ -1,7 +1,6 @@
 import type { TextareaFlexLessonProps } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
-import { SCREEN } from '@cknTypes/constants'
 
 // Assume you have this helper function somewhere
 // const formatFlexLesson = ({ flexLesson }: { flexLesson: string }): string[] => {
@@ -11,8 +10,8 @@ import { SCREEN } from '@cknTypes/constants'
 //     .filter(line => line.length > 0)
 // }
 
-export const TextareaFlexLesson = ({title}: TextareaFlexLessonProps) => {
-  const { flexLesson, setFlexLesson, setFormattedFlexLesson, screenState } = useAppContext()
+export const TextareaFlexLesson = ({title, tabIndex, ariaDisabled}: TextareaFlexLessonProps) => {
+  const { flexLesson, setFlexLesson, setFormattedFlexLesson } = useAppContext()
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value
@@ -24,10 +23,10 @@ export const TextareaFlexLesson = ({title}: TextareaFlexLessonProps) => {
 
   return (
     <>
-      <div className="w-60 center db mb2 f3 mb3">{title}</div>
+      <div className="tc w-60 center db mb2 f3 mb3 on-background">{title}</div>
       <textarea
-        tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
-        aria-disabled={!screenState[SCREEN.REVIEW]}
+        tabIndex={tabIndex}
+        aria-disabled={ariaDisabled}
         value={flexLesson}
         onChange={handleChange}
         className="w-100 ba b--gray br2 pa2"

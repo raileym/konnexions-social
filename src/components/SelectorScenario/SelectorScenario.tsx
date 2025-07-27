@@ -29,7 +29,7 @@ const SelectorScenario = ({ tabIndex, ariaDisabled, custom }: SelectorScenarioPr
   // }), [])
 
   return (
-    <div className="mb3">
+    <div className="mb3 on-background">
       <label className="db mb2 f5 b">Scenario</label>
       <div className="flex flex-wrap flex-column">
         {scenarios.map((s) => (

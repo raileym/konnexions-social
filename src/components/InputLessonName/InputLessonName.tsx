@@ -1,26 +1,24 @@
 // InputLessonName.tsx
 
-import { SCREEN } from '@cknTypes/constants'
 import type { LessonName } from '@cknTypes/types'
-import { useAppContext } from '@context/AppContext/AppContext'
 
 type InputLessonNameProps = {
   lessonName: LessonName
   onChange: (newValue: string) => void
+  tabIndex: number
+  ariaDisabled: boolean
 }
 
-const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
+const InputLessonName = ({ tabIndex, ariaDisabled, lessonName, onChange }: InputLessonNameProps) => {
 
-  const { screenState } = useAppContext()
-  
   return (
     <div className="mv3X flex flex-column items-start w-40 justify-center center mb4">
       <label htmlFor="lessonName" className="f3 db mb2 background">
         Lesson Name
       </label>
       <input
-        tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-        aria-disabled={!screenState[SCREEN.CREATE]}
+        tabIndex={tabIndex}
+        aria-disabled={ariaDisabled}
         id="lessonName"
         type="text"
         value={lessonName}

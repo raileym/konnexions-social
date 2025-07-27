@@ -140,10 +140,10 @@ export const ACTIVE_PANEL = {
   MENU: 'menu',
 
   MDX: 'mdx',
-  BASIC: 'basic',
+  BASIC_CREATE: 'basicCreate',
   GEN_AI: 'genAI',
   GEN_AI_PRO: 'genAIPro',
-  BASIC_REVIEW: 'basicReview',
+  BASIC_STUDY: 'basicStudy',
   BASIC_WELCOME: 'basicWelcome'
 } as const
 

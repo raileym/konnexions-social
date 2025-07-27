@@ -8,10 +8,9 @@ import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TiptapEditor } from '@components/TiptapEditor/TiptapEditor'
 import InputLessonName from '@components/InputLessonName/InputLessonName'
 import { useEffect, useMemo, useState } from 'react'
-import type { Lesson, Lines } from '@cknTypes/types'
+import type { Lesson, Lines, PanelBasicCreateComponentsProps } from '@cknTypes/types'
 
-const PanelBasic = () => {
-
+const PanelBasicCreateComponents = ({tabIndex, ariaDisabled}: PanelBasicCreateComponentsProps) => {
   const [formattedFlexLesson, setFormattedFlexLesson] = useState<Lines>([])
   const {
     cutoff,
@@ -20,8 +19,7 @@ const PanelBasic = () => {
     targetLanguage,
     // flexLesson,
     setFlexLesson,
-    setLessons,
-    screenState
+    setLessons
   } = useAppContext()
   
   const {
@@ -68,19 +66,19 @@ const PanelBasic = () => {
     } else {
       content = (
         <>
-          <h2 className="f2 f3-m pa3 pb0X mt4X w-100 items-center tc">
-            <div>
-              {LANGUAGE_TITLE[targetLanguage]}: Basic
-            </div>
-          <div className="w-100 background f2 f3-m ">Lesson {selectedLessonNumber}</div>
+          <h2 className="flex flex-column f2 f3-m pa3 pb0X mt4X w-100 on-background items-center tc">
+            <div>{LANGUAGE_TITLE[targetLanguage]}: Basic</div>
+          <div className="w-100 background f2 f3-m on-background">Lesson {selectedLessonNumber}</div>
           </h2>
 
           <InputLessonName
+            tabIndex={tabIndex}
+            ariaDisabled={ariaDisabled}
             lessonName={lesson.lessonName ?? ''}
             onChange={(lessonName) => updateLessonField({ lessonName, isComplete: false })}
           />
 
-          {screenState[SCREEN.CREATE] &&
+          {!ariaDisabled &&
             <TiptapEditor
               key={lesson.number} // reinitialize when lesson changes
               initialValue={lesson.flexLesson ?? ''}
@@ -96,8 +94,8 @@ const PanelBasic = () => {
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
-                tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-                aria-disabled={!screenState[SCREEN.CREATE]}
+                tabIndex={tabIndex}
+                aria-disabled={ariaDisabled}
                 className={'f3 pa3 br4 bn bg-brand on-background pointer'}
                 onClick={() => {
                   createFlexLesson({lesson})
@@ -131,12 +129,12 @@ const PanelBasic = () => {
   }
 
   return (
-    <div className={'panel-right panel-basic bw1 b--moon-gray bl panel-basic z-1 absolute top-0 left-0 w-100 h-100 bg-light-greenX flex flex-rowX transition-transform translate-x-0'}>
-      <div tabIndex={-1} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+    <div className={'panel-right panel-basic bw1 b--moon-gray bl panel-basic z-1 absolute top-0 left-0 w-100 h-100 bg-transparent flex flex-rowX transition-transform translate-x-0'}>
+      <div tabIndex={-1} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
       </div>
     </div>
   )
 }
 
-export default PanelBasic
+export default PanelBasicCreateComponents

@@ -1,21 +1,21 @@
-import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { SCENARIO, SCREEN } from '@cknTypes/constants'
+import { SCENARIO } from '@cknTypes/constants'
+import type { InputCustomParticipantListProps } from '@cknTypes/types'
 
-const InputCustomParticipantList: React.FC = () => {
-  const { scenario, customParticipantList, setCustomParticipantList, screenState } = useAppContext()
+const InputCustomParticipantList = ({tabIndex, ariaDisabled}: InputCustomParticipantListProps) => {
+  const { scenario, customParticipantList, setCustomParticipantList } = useAppContext()
   const disabled = scenario !== SCENARIO.CUSTOM
 
   return (
-    <div className="mb3" style={{ opacity: disabled ? 0.5 : 1 }}>
+    <div className="mb3 on-background" style={{ opacity: disabled ? 0.5 : 1 }}>
       <label className="db mb2 f5 b">Custom Participants</label>
       <input
-        tabIndex={screenState[SCREEN.GEN_AI_PRO] ? 0 : -1}
-        aria-disabled={!screenState[SCREEN.GEN_AI_PRO]}
+        tabIndex={tabIndex}
+        aria-disabled={ariaDisabled}
         type="text"
         value={customParticipantList}
         onChange={(e) => setCustomParticipantList(e.target.value)}
-        className="input-reset ba b--background-20 pa2 f4 w-100"
+        className="input-reset ba bg-on-background b--background-20 pa2 f4 w-100"
         placeholder="myself, the waiter"
         disabled={disabled}
         style={{

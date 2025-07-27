@@ -20,7 +20,7 @@ export const LessonStatus = () => {
   }, [lessonComplete])
 
   return (
-    <div className="text-center mt-4X text-lg font-medium text-gray-800X blackX w-100">
+    <div className="text-center mt-4X text-lg font-medium text-gray-800X blackX on-background w-100">
       {!lessonComplete ? 
         <div className="flex flex-row justify-center w-100X">
           <div className="tr w-30 mr1 background">Creating Lesson</div>

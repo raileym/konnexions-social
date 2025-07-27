@@ -35,7 +35,7 @@ const Header: React.FC = () => {
   }, [prompt, setLessonPrompt])
 
   return (
-    <div className="ba w-100 flex justify-center pt3X pb3">
+    <div className="ba w-100 flex justify-center pt3X pb3 on-background bn">
       <div className="f3 pv3 pt0 mt0 w-80">
         <div className="f2 b mv3 tc">Lesson Prompt</div>
         <div className="f3">{prompt}</div>

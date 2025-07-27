@@ -1,27 +1,26 @@
-import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { SCENARIO, SCREEN } from '@cknTypes/constants'
+import { SCENARIO } from '@cknTypes/constants'
+import type { SelectorParticipantRoleProps } from '@cknTypes/types'
 
-const SelectorParticipantRole: React.FC = () => {
+const SelectorParticipantRole = ({tabIndex, ariaDisabled}: SelectorParticipantRoleProps) => {
   const {
     useMyself,
     setUseMyself,
     lessonPromptStyle,
-    scenario,
-    screenState
+    scenario
   } = useAppContext()
 
   const isDisabled = scenario === SCENARIO.CUSTOM
   const labelClass = isDisabled ? 'o-50' : '' // o-50 = 50% opacity in Tachyons
 
   return (
-    <div className="mb3">
+    <div className="mb3 on-background">
       <label className="db mb2 f5 b">My role</label>
       <div className={`flex flex-column mh3 ${labelClass}`}>
         <label className="mb1 flex items-center">
           <input
-            tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-            aria-disabled={!screenState[SCREEN.CREATE]}
+            tabIndex={tabIndex}
+            aria-disabled={ariaDisabled}
             type="radio"
             name="participant-role"
             value="yes"
@@ -34,8 +33,8 @@ const SelectorParticipantRole: React.FC = () => {
         </label>
         <label className="mb1 flex items-center">
           <input
-            tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-            aria-disabled={!screenState[SCREEN.CREATE]}
+            tabIndex={tabIndex}
+            aria-disabled={ariaDisabled}
             type="radio"
             name="participant-role"
             value="no"

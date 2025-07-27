@@ -6,7 +6,7 @@ import {
 import { DialogList } from '@components/DialogList/DialogList'
 // import { useDebugLogger } from '@hooks/useDebugLogger'
 
-const PanelBasicReviewComponents: React.FC = () => {
+const PanelBasicStudyComponents: React.FC = () => {
   // const [showDialogDraftPrompt, setShowDialogDraftPrompt] = useState(false)
 
   // const debugLog = useDebugLogger()
@@ -24,7 +24,7 @@ const PanelBasicReviewComponents: React.FC = () => {
     return lessons.find(l => l.number === selectedLessonNumber)
   }, [lessons, selectedLessonNumber])
   
-  // cXonsole.log('PanelBasicReviewComponents', lesson)
+  // cXonsole.log('PanelBasicStudyComponents', lesson)
 
   let content
   if (selectedLessonNumber != null && Array.isArray(lessons)) {
@@ -80,4 +80,4 @@ const PanelBasicReviewComponents: React.FC = () => {
   )
 }
 
-export default PanelBasicReviewComponents
+export default PanelBasicStudyComponents

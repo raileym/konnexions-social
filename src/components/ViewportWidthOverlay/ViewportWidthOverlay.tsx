@@ -17,14 +17,14 @@ const ViewportWidthOverlay = () => {
 
   return (
     <div
-      className="control-viewport-width on-background"
+      className="control-viewport-width bg-on-background background b--background ba bw1"
       style={{
         position: 'fixed',
-        top: '8rem',
+        top: '9rem',
         left: '20%',
         transform: 'translate(-50%, -50%)',
         zIndex: 99999,
-        background: 'transparent',
+        // background: 'bg-transparent',
         fontSize: '1rem',
         padding: '0.5rem 1rem',
         borderRadius: '0.5rem',

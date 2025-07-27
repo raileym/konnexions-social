@@ -37,8 +37,13 @@ const NavbarTop: React.FC = () => {
   }
 
   const handleEngageSpanish = () => {
-    setEngageSpanish(prev => !prev)
-    togglePanel(ACTIVE_PANEL.BASIC)
+    // setEngageSpanish(prev => !prev)
+    togglePanel(ACTIVE_PANEL.BASIC_CREATE)
+  }
+
+  const handleEngageSpanishPro = () => {
+    // setEngageSpanish(prev => !prev)
+    togglePanel(ACTIVE_PANEL.GEN_AI_PRO)
   }
 
   const handleProfile = () => {
@@ -113,7 +118,8 @@ const NavbarTop: React.FC = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.BASIC} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.GEN_AI_PRO} title='Bienvenido! Pro' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanishPro} />
+          <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.BASIC_CREATE} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
           <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-profile'} isActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
           <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-menu'} isActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
