@@ -86,12 +86,12 @@ const NavbarTop: React.FC = () => {
           onClick={handleGoHome}
         >
 
-          <div aria-hidden={true} className="ml4X mr3 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
+          <div aria-hidden={true} className="ml4X mr4 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
             <div className="silver bX flex flex-column">
               <div className="flex f3">
                 <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
-                  <div className="absolute top-0 left-0 bg-secondary mt2 width-3-kx br3 height-3-kx"></div>
-                  <div className="konnexions-title f2 absolute top-0 left-0 ml2">
+                  <div className="absolute top-0 left-0 bg-secondary mt2X width-4-kx br3 height-4-kx"></div>
+                  <div className="konnexions-title f2 absolute top-0 left-0 ml3">
                     <MyKonnexionsTitle ariaHidden={true} ariaLabel='' ariaDescribedBy={''} shorten={true} color='on-background' fontSizeInRem={2}/>
                   </div>
                 </div>
@@ -100,11 +100,11 @@ const NavbarTop: React.FC = () => {
           </div>
 
 
-          <div aria-hidden={true} className="items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
+          <div aria-hidden={true} className="items-center ml3 flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
             <div className="silver f2 b flex flex-column">
-              <div className="flex f2">
+              <div className="flex f1">
                 <div className="dn dn-kx-45 dib-kx-n45">
-                  <MyKonnexionsTitle ariaLabel={''} ariaDescribedBy={'button-home'} color='secondary' fontSizeInRem={2} />
+                  <MyKonnexionsTitle ariaLabel={''} ariaDescribedBy={'button-home'} color='secondary' fontSizeInRem={3} />
                 </div>
               </div>
             </div>
