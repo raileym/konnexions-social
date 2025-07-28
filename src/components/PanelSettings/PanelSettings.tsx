@@ -1,4 +1,3 @@
-import React, { useRef, useState } from 'react'
 import { useThemeContext } from '@context/ThemeContext/ThemeContext'
 import { usePanelBase } from '@hooks/usePanelBase'
 import { ACTIVE_PANEL } from '@cknTypes/constants'
@@ -6,27 +5,15 @@ import { ACTIVE_PANEL } from '@cknTypes/constants'
 const SETTINGS_PANEL_WIDTH_PERCENT = 'w-40'
 const SETTINGS_PANEL_TRANSLATE_X = 'translate-x-60'
 
-const PanelSettings: React.FC = () => {
-  const firstFocusRef = useRef<HTMLButtonElement | null>(null)
-  const [settingsPanelTabIndex, setSettingsPanelTabIndex] = useState(-1)
+const PanelSettings = () => {
 
   const { theme, setTheme } = useThemeContext()
 
-  const { ref, translateX } = usePanelBase(
-    ACTIVE_PANEL.SETTINGS,
-    SETTINGS_PANEL_TRANSLATE_X,
-    {
-      onOpen: () => {
-        setSettingsPanelTabIndex(0)
-        setTimeout(() => {
-          firstFocusRef.current?.focus()
-        }, 250)
-      },
-      onClose: () => {
-        setSettingsPanelTabIndex(-1)
-      }
-    }
-  )
+  const { ref, firstFocusButtonRef, tabIndex, ariaDisabled, translateX } = usePanelBase({
+    panelName: ACTIVE_PANEL.SETTINGS,
+    translateXOpen: SETTINGS_PANEL_TRANSLATE_X,
+    translateXClose: 'translate-x-full'
+  })
 
   const headline = (
     <div className="flex flex-column">
@@ -39,9 +26,9 @@ const PanelSettings: React.FC = () => {
 
       <div className="f2 b">{theme}</div>
       <button
-        ref={firstFocusRef}
-        tabIndex={settingsPanelTabIndex}
-        aria-disabled={settingsPanelTabIndex !== 0}
+        ref={firstFocusButtonRef}
+        tabIndex={tabIndex}
+        aria-disabled={ariaDisabled}
         className="mv3"
         onClick={() => {
           setTheme('Midnight Sand')
@@ -50,8 +37,8 @@ const PanelSettings: React.FC = () => {
         Select MIDNIGHT SAND
       </button>
       <button
-        tabIndex={settingsPanelTabIndex}
-        aria-disabled={settingsPanelTabIndex !== 0}
+        tabIndex={tabIndex}
+        aria-disabled={ariaDisabled}
         className="mv3"
         onClick={() => {
           setTheme('Dunkin')
@@ -60,8 +47,8 @@ const PanelSettings: React.FC = () => {
         Select DUNKIN
       </button>
       <button
-        tabIndex={settingsPanelTabIndex}
-        aria-disabled={settingsPanelTabIndex !== 0}
+        tabIndex={tabIndex}
+        aria-disabled={ariaDisabled}
         className="mv3"
         onClick={() => {
           setTheme('McDonalds')
@@ -70,8 +57,8 @@ const PanelSettings: React.FC = () => {
         Select MCDONALDS
       </button>
       <button
-        tabIndex={settingsPanelTabIndex}
-        aria-disabled={settingsPanelTabIndex !== 0}
+        tabIndex={tabIndex}
+        aria-disabled={ariaDisabled}
         className="mv3"
         onClick={() => {
           setTheme('Starbucks')
@@ -80,8 +67,8 @@ const PanelSettings: React.FC = () => {
         Select STARBUCKS
       </button>
       <button
-        tabIndex={settingsPanelTabIndex}
-        aria-disabled={settingsPanelTabIndex !== 0}
+        tabIndex={tabIndex}
+        aria-disabled={ariaDisabled}
         className="mv3"
         onClick={() => {
           setTheme('Ocean View')
@@ -98,8 +85,8 @@ const PanelSettings: React.FC = () => {
       className={`panel-right-short panel-settings pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}
     >
       <div
-        tabIndex={settingsPanelTabIndex}
-        aria-disabled={settingsPanelTabIndex !== 0}
+        tabIndex={tabIndex}
+        aria-disabled={ariaDisabled}
         className="six h-100 w-100 overflow-y-auto"
       >
         <div className={`pa4 ${SETTINGS_PANEL_WIDTH_PERCENT} mb5`}>

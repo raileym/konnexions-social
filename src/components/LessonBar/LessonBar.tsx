@@ -4,12 +4,12 @@ import { defaultLesson, type Lesson } from '@cknTypes/types'
 // import ShowMaxCount from '@components/ShowMaxCount'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { ACTIVE_PANEL, SCREEN } from '@cknTypes/constants'
+import { ACTIVE_PANEL } from '@cknTypes/constants'
 import { usePanel } from '@hooks/usePanel'
-import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
-import { useEffect, useState } from 'react'
+import { usePanelBase } from '@hooks/usePanelBase'
 
 export const LessonBar: React.FC = () => {
+
   const {
     lessons,
     setLessons,
@@ -19,20 +19,17 @@ export const LessonBar: React.FC = () => {
     // lessonComplete,
     setLessonComplete,
     setLesson,
-    paywall,
-    screenState
+    paywall
   } = useAppContext()
   
-  const { currentPanel } = usePanelManager()
+  const { firstFocusButtonRef, translateX, tabIndex, ariaDisabled } = usePanelBase({
+    panelName: ACTIVE_PANEL.LESSON_BAR,
+    translateXOpen: 'translateX-0',
+    translateXClose: 'translateX--100'
+  })
   
-  const [translateX, setTranslateX] = useState<string>('translateX--100')
   // const translateX = activateLessonBar ? 'translateX-0' : 'translateX--100'
   // const translateX = currentPanel === ACTIVE_PANEL.BASIC_CREATE ? 'translateX-0' : 'translateX--100'
-
-  useEffect(() =>{
-    console.log('currentPanel', currentPanel)
-    setTranslateX( (currentPanel === ACTIVE_PANEL.BASIC_CREATE || currentPanel === ACTIVE_PANEL.GEN_AI_PRO) ? 'translateX-0' : 'translateX--100')
-  }, [currentPanel])
 
   const { switchPanel } = usePanel()
 
@@ -71,10 +68,11 @@ export const LessonBar: React.FC = () => {
       aria-disabled={true}
       className={`panel-left lesson-bar bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--background-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
       <button
-        tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
-        aria-disabled={!screenState[SCREEN.REVIEW]}
+        ref={firstFocusButtonRef}
+        tabIndex={tabIndex}
+        aria-disabled={ariaDisabled}
         onClick={handleAddLesson}
-        className="mv3X pa2 bn bbX white b--backgroundX bw3 ba bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
+        className="focus-visible:bg-redX focus:b--red b--double mv3X pa2 bnX bbX white b--backgroundX bw3X baX bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
       >
         <FontAwesomeIcon className="f1X" icon={faPlus} />
       </button>
@@ -83,7 +81,16 @@ export const LessonBar: React.FC = () => {
         {Array.isArray(lessons) && lessons.length > 0 ? (
           lessons.map((lesson) => (
             <li
+              role="button"
+              tabIndex={tabIndex}
+              aria-disabled={ariaDisabled}
               key={lesson.number}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault() // prevent scrolling on space
+                  e.currentTarget.click() // trigger onClick
+                }
+              }}
               onClick={() => {
                 setSelectedLessonNumber(lesson.number)
                 setLessonComplete(lesson.isComplete)
@@ -91,8 +98,8 @@ export const LessonBar: React.FC = () => {
                   switchPanel(ACTIVE_PANEL.BASIC_CREATE)
                 }
               }}
-              className={`b pa2 pointer br2X f3 bw2 bbX tc b--blue on-tertiaryX whiteX hover:tertiary ${
-                selectedLessonNumber === lesson.number ? 'bg-light-green black b' : 'hover-bg-light-gray white'
+              className={`focus:b--red focus:b--double b--transparent b pa2 pointer br2X f3 bw2 bbX tc b--blueX on-tertiaryX whiteX hover:tertiary ${
+                selectedLessonNumber === lesson.number ? 'bg-light-green black b' : 'hover-bg-light-gray black  '
               }`}
             >
               <div className="flex flex-column">

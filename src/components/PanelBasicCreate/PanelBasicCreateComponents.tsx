@@ -1,17 +1,21 @@
 import { useAppContext } from '@context/AppContext/AppContext'
 import {
-  LANGUAGE_TITLE,
-  SCREEN
+  ACTIVE_PANEL,
+  LANGUAGE_TITLE
 } from '@cknTypes/constants'
 import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TiptapEditor } from '@components/TiptapEditor/TiptapEditor'
 import InputLessonName from '@components/InputLessonName/InputLessonName'
 import { useEffect, useMemo, useState } from 'react'
-import type { Lesson, Lines, PanelBasicCreateComponentsProps } from '@cknTypes/types'
+import type { Lesson, Lines } from '@cknTypes/types'
+import { usePanelBase } from '@hooks/usePanelBase'
 
-const PanelBasicCreateComponents = ({tabIndex, ariaDisabled}: PanelBasicCreateComponentsProps) => {
+const PanelBasicCreateComponents = () => {
   const [formattedFlexLesson, setFormattedFlexLesson] = useState<Lines>([])
+
+  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.BASIC_CREATE})
+
   const {
     cutoff,
     lessons,
@@ -72,8 +76,6 @@ const PanelBasicCreateComponents = ({tabIndex, ariaDisabled}: PanelBasicCreateCo
           </h2>
 
           <InputLessonName
-            tabIndex={tabIndex}
-            ariaDisabled={ariaDisabled}
             lessonName={lesson.lessonName ?? ''}
             onChange={(lessonName) => updateLessonField({ lessonName, isComplete: false })}
           />

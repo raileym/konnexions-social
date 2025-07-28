@@ -1,4 +1,3 @@
-import React, { useRef, useState } from 'react'
 import { usePanelBase } from '@hooks/usePanelBase'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { ACTIVE_PANEL } from '@cknTypes/constants'
@@ -6,27 +5,15 @@ import { ACTIVE_PANEL } from '@cknTypes/constants'
 const HELP_PANEL_WIDTH_PERCENT = 'w-40'
 const HELP_PANEL_TRANSLATE_X = 'translate-x-60'
 
-const PanelHelp: React.FC = () => {
-  const firstFocusRef = useRef<HTMLDivElement | null>(null)
-  const [tabIndex, setTabIndex] = useState(-1)
+const PanelHelp = () => {
 
   const { helpPanel } = useAppContext()
 
-  const { ref, isOpen, translateX } = usePanelBase(
-    ACTIVE_PANEL.HELP,
-    HELP_PANEL_TRANSLATE_X,
-    {
-      onOpen: () => {
-        setTabIndex(0)
-        setTimeout(() => {
-          firstFocusRef.current?.focus()
-        }, 250)
-      },
-      onClose: () => {
-        setTabIndex(-1)
-      }
-    }
-  )
+  const { ref, tabIndex, ariaDisabled, firstFocusDivRef, translateX } = usePanelBase({
+    panelName: ACTIVE_PANEL.HELP,
+    translateXOpen: HELP_PANEL_TRANSLATE_X,
+    translateXClose: 'translate-x-full'
+  })
 
   return (
     <div
@@ -37,7 +24,7 @@ const PanelHelp: React.FC = () => {
         <div className={`pa4 ${HELP_PANEL_WIDTH_PERCENT} mb5`}>
           <h2 className="f3 pa3 mt5">Help Panel for {helpPanel}</h2>
           <p className="pl3">This panel slides in and out correctly based on context.</p>
-          <div ref={firstFocusRef} tabIndex={tabIndex} style={{ height: '100em' }} className="bg-blue focus-visible:bg-red focus:bg-cyan" />
+          <div ref={firstFocusDivRef} tabIndex={tabIndex} aria-disabled={ariaDisabled} style={{ height: '100em' }} className="bg-blue focus-visible:bg-red focus:bg-cyan" />
         </div>
       </div>
     </div>

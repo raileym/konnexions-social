@@ -1,5 +1,5 @@
 // src/components/NavbarBottom.tsx
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-svg-icons'   
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
@@ -7,10 +7,9 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { ACTIVE_PANEL, MDX_PAGE, NAVBAR_BOTTOM_TRANSLATE_Y, SCREEN } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useActivePanel } from '@hooks/useActivePanel'
-import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
+import { usePanelBase } from '@hooks/usePanelBase'
 
 const NavbarBottom: React.FC = () => {
-  const [translateY, setTranslateY] = useState<string>('translate-y-full')
   const { closePanel } = useActivePanel()
 
   const {
@@ -26,7 +25,14 @@ const NavbarBottom: React.FC = () => {
     screenState
   } = useAppContext()
 
+  const { translateY } = usePanelBase({
+    panelName: ACTIVE_PANEL.NAVBAR_BOTTOM, 
+    translateYOpen: NAVBAR_BOTTOM_TRANSLATE_Y,
+    translateYClose: 'translate-y-full',
+  })
+
   const { switchPanel } = usePanel()
+  
   // const { activeHome, activePanel, lesson } = useAppContext()
   // const { switchPanel, switchHome } = usePanel()
 
@@ -34,16 +40,14 @@ const NavbarBottom: React.FC = () => {
   //   cXnsole.log('lesson', lesson)
   // }, [lesson])
 
-  const { currentPanel } = usePanelManager()
-  
-  useEffect(() =>{
-    const activateLessonBar =
-      currentPanel == ACTIVE_PANEL.BASIC_CREATE ||
-      currentPanel == ACTIVE_PANEL.BASIC_STUDY ||
-      currentPanel == ACTIVE_PANEL.GEN_AI_PRO
+  // useEffect(() =>{
+  //   const activateLessonBar =
+  //     currentPanel == ACTIVE_PANEL.BASIC_CREATE ||
+  //     currentPanel == ACTIVE_PANEL.BASIC_STUDY ||
+  //     currentPanel == ACTIVE_PANEL.GEN_AI_PRO
 
-    setTranslateY( activateLessonBar ? NAVBAR_BOTTOM_TRANSLATE_Y : 'translate-y-full')
-  })
+  //   setTranslateY( activateLessonBar ? NAVBAR_BOTTOM_TRANSLATE_Y : 'translate-y-full')
+  // })
 
   const lesson = useMemo(() => {
     return lessons.find(l => l.number === selectedLessonNumber)

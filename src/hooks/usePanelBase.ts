@@ -2,46 +2,82 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 import type { ActivePanel } from '@cknTypes/types'
 
-export const usePanelBase = (
-  panelName: ActivePanel,
-  translateXOpen: string,
-  {
-    onOpen,
-    onClose
-  }: {
+type UsePanelBaseProps = {
+  panelName: ActivePanel
+  translateXOpen?: string
+  translateXClose?: string
+  translateYOpen?: string
+  translateYClose?: string
+  callback?: {
     onOpen?: () => void
     onClose?: () => void
-  } = {}
-) => {
+    onFocus?: () => void
+  }
+}
+
+export const usePanelBase = ({
+  panelName,
+  translateXOpen,
+  translateXClose = 'translate-x-full',
+  translateYOpen,
+  translateYClose = 'translate-y-full',
+  callback
+}: UsePanelBaseProps) => {
   const ref = useRef<HTMLDivElement | null>(null)
+  const firstFocusDivRef = useRef<HTMLDivElement | null>(null)
+  const firstFocusButtonRef = useRef<HTMLButtonElement | null>(null)
+  const firstFocusInputRef = useRef<HTMLInputElement | null>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const [translateX, setTranslateX] = useState('translate-x-full')
+  const [translateX, setTranslateX] = useState(translateXClose)
+  const [translateY, setTranslateY] = useState(translateYClose)
+  const [tabIndex, setTabIndex] = useState<number>(-1)
+  const [ariaDisabled, setAriaDisabled] = useState<boolean>(true)
 
   const { registerPanel, unregisterPanel, closePanel } = usePanelManager()
 
   const open = useCallback(() => {
     setIsOpen(true)
-    setTranslateX(translateXOpen)
-    if (onOpen) onOpen()
-  }, [translateXOpen, onOpen])
+    setTabIndex(0)
+    setAriaDisabled(false)
+    if (translateXOpen) setTranslateX(translateXOpen)
+    if (translateYOpen) setTranslateY(translateYOpen)
+    if (callback?.onOpen) callback.onOpen()
+  }, [translateXOpen, translateYOpen, callback])
 
   const close = useCallback(() => {
     setIsOpen(false)
-    setTranslateX('translate-x-full')
-    if (onClose) onClose()
-  }, [onClose])
+    setTabIndex(-1)
+    setAriaDisabled(true)
+    if (translateXClose) setTranslateX(translateXClose)
+
+    // Yes, on translateYOpen. If there is a translateYOpen,
+    // then there must be a translateYClose, defaulted or
+    // otherwise.
+    if (translateYOpen) setTranslateX(translateYClose) 
+    if (callback?.onClose) callback.onClose()
+  }, [callback, translateXClose, translateYClose, translateYOpen])
+
+  const focus = useCallback(() => {
+    setTimeout(() => {
+      firstFocusDivRef.current?.focus()
+      firstFocusInputRef.current?.focus()
+      firstFocusButtonRef.current?.focus()
+    }, 250)    
+    if (callback?.onFocus) callback.onFocus()
+  }, [callback])
 
   useEffect(() => {
     registerPanel(panelName, {
       open,
       close,
+      focus,
       isOpen
     })
 
     return () => {
       unregisterPanel(panelName)
     }
-  }, [panelName, open, close, isOpen, registerPanel, unregisterPanel])
+  }, [panelName, open, close, isOpen, registerPanel, unregisterPanel, focus])
 
   useEffect(() => {
     if (!isOpen) return
@@ -62,7 +98,13 @@ export const usePanelBase = (
 
   return {
     ref,
+    firstFocusDivRef,
+    firstFocusButtonRef,
+    firstFocusInputRef,
+    tabIndex,
+    ariaDisabled,
     isOpen,
-    translateX
+    translateX,
+    translateY
   }
 }

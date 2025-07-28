@@ -80,11 +80,11 @@ const AppMain = () => {
       </div>
       <NavbarTop />
       <NavbarBottom />
-      <ViewportWidthOverlay />
+      {/* <ViewportWidthOverlay /> */}
       {/* <NavbarColor /> */}
       {/* <FontSizeControls /> */}
       {/* <ColorScheme /> */}
-      <DayNightToggle />
+      {/* <DayNightToggle /> */}
     </>
   )
 }

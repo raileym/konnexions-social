@@ -70,6 +70,14 @@ $break-pairs: (
     background-color: #{$value};
   }
 
+  .focus\:b--solid:focus {
+    border-style:solid
+  } 
+
+  .focus\:b--double:focus {
+    border-style:double
+  } 
+
   .focus\:bg-#{$name}:focus {
     background-color: #{$value};
   }

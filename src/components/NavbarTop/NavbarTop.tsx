@@ -1,5 +1,4 @@
 // src/components/NavbarTop.tsx
-import React, { useRef, useState } from 'react'
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'   
 
 import Button from '@components/Button/Button'
@@ -11,24 +10,22 @@ import type { MdxPage } from '@cknTypes/types'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 import { usePanelBase } from '@hooks/usePanelBase'
 
-const NavbarTop: React.FC = () => {
-  const firstFocusRef = useRef<HTMLDivElement | null>(null)
-  const [tabIndex, setTabIndex] = useState<number>(0)
-
+const NavbarTop = () => {
   const {
-    setMdxPage,
-    // setActivePanel,
-    setEngageSpanish,
+    setMdxPage
   } = useAppContext()
 
-  const { openPanel, currentPanel, togglePanel } = usePanelManager()
+  const { tabIndex, ariaDisabled, firstFocusDivRef } = usePanelBase({
+    panelName: ACTIVE_PANEL.NAVBAR_TOP, 
+  })
+
+  const { openPanel, currentPanel, togglePanel, focusPanel } = usePanelManager()
   
   const navigate = useNavigate()
   
   const navigateTo = (route: string) => {
     navigate(`/${route.toLowerCase()}`)
     setMdxPage(route.toLowerCase() as MdxPage)
-    // setActivePanel(ACTIVE_PANEL.MDX)
     openPanel(ACTIVE_PANEL.MDX)              
   }
 
@@ -37,35 +34,24 @@ const NavbarTop: React.FC = () => {
   }
 
   const handleEngageSpanish = () => {
-    // setEngageSpanish(prev => !prev)
     togglePanel(ACTIVE_PANEL.BASIC_CREATE)
+    togglePanel(ACTIVE_PANEL.LESSON_BAR)
+    togglePanel(ACTIVE_PANEL.NAVBAR_BOTTOM)
+    focusPanel(ACTIVE_PANEL.LESSON_BAR)
   }
 
   const handleEngageSpanishPro = () => {
-    // setEngageSpanish(prev => !prev)
     togglePanel(ACTIVE_PANEL.GEN_AI_PRO)
   }
 
   const handleProfile = () => {
     togglePanel(ACTIVE_PANEL.PROFILE)
-
   }
 
   const handleMenu = () => {
     togglePanel(ACTIVE_PANEL.MENU)
+    focusPanel(ACTIVE_PANEL.MENU)
   }
-
-  usePanelBase(ACTIVE_PANEL.NAVBAR_TOP, 'translate-x-full', {
-    onOpen: () => {
-      setTabIndex(0)
-      setTimeout(() => {
-        firstFocusRef.current?.focus()
-      }, 250)
-    },
-    onClose: () => {
-      setTabIndex(-1)
-    }
-  })
   
   return (
     <>
@@ -84,8 +70,9 @@ const NavbarTop: React.FC = () => {
         className="navbar-top fixed top-0 shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999"
         style={{borderRadius: 0}}>
         <div
-          ref={firstFocusRef}
+          ref={firstFocusDivRef}
           tabIndex={tabIndex}
+          aria-disabled={ariaDisabled}
           aria-describedby={'button-home'}
           className="button-home flex justify-start flex-row pointer lh-4-kx grow-5-kxX mh0 mh2X ph3 focus-visible:bg-tertiaryX focus-visible:b--redX bw3X hover:b--attention-hover"
           onClick={handleGoHome}

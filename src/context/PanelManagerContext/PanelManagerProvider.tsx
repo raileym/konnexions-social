@@ -4,9 +4,11 @@ import { PanelManagerContext } from './PanelManagerContext'
 import { ACTIVE_PANEL } from '@cknTypes/constants'
 
 export const PanelManagerProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currentPanel, setCurrentPanel] = useState<ActivePanel>(ACTIVE_PANEL.MDX)
-
   const registry = useRef<Map<ActivePanel, PanelControl>>(new Map())
+  const supportPanels = useRef<Set<ActivePanel>>(new Set([ACTIVE_PANEL.LESSON_BAR, ACTIVE_PANEL.NAVBAR_BOTTOM]))
+
+  const [currentPanel, setCurrentPanel] = useState<ActivePanel>(ACTIVE_PANEL.MDX)
+  const [currentFocus, setCurrentFocus] = useState<ActivePanel>(ACTIVE_PANEL.MDX)
 
   const registerPanel = useCallback((name: ActivePanel, control: PanelControl) => {
     // cXnsole.log('[PanelManagerProvider] registerPanel:', name)
@@ -19,21 +21,30 @@ export const PanelManagerProvider = ({ children }: { children: React.ReactNode }
   }, [])
 
   const openPanel = useCallback((name: ActivePanel) => {
-    // cXnsole.log('[PanelManagerProvider] openPanel:', name)
+    const isSupportPanel = supportPanels.current.has(name)
 
     // Close all other panels first
-    registry.current.forEach((entry, key) => {
-      if (key !== name && entry?.close) {
-        // cXnsole.log(`Auto-closing other panel: ${key}`)
-        entry.close()
-      }
-    })
+    if (!isSupportPanel) {
+      registry.current.forEach((entry, key) => {
+        if (key !== name && entry?.close) {
+          entry.close()
+        }
+      })
+
+      setCurrentPanel(name)
+    }
 
     // Now open requested panel
     const entry = registry.current.get(name)
     if (entry?.open) entry.open()
+  }, [])
 
-    setCurrentPanel(name)
+  const focusPanel = useCallback((name: ActivePanel) => {
+    // Now focus requested panel
+    const entry = registry.current.get(name)
+    if (entry?.focus) entry.focus()
+
+    setCurrentFocus(name)
   }, [])
 
   const closePanel = useCallback((name: ActivePanel) => {
@@ -60,7 +71,7 @@ export const PanelManagerProvider = ({ children }: { children: React.ReactNode }
 
   const closeAllPanels = useCallback(() => {
     // cXnsole.log('[PanelManagerProvider] closeAllPanels')
-    registry.current.forEach((entry, name) => {
+    registry.current.forEach((entry) => {
       if (entry?.close) {
         // cXnsole.log(`Closing Panel: ${name}`)
         entry.close()
@@ -69,18 +80,24 @@ export const PanelManagerProvider = ({ children }: { children: React.ReactNode }
     setCurrentPanel(ACTIVE_PANEL.MDX)
   }, [])
 
-  const isPanelOpen = useCallback((who: string, name: ActivePanel) => {
+  const isPanelOpen = useCallback((name: ActivePanel) => {
     const result = currentPanel === name
-    // cXnsole.log(`[${who}] isPanelOpen(${name}): ${result ? 'OPEN' : 'CLOSED'}`)
     return result
   }, [currentPanel])
+
+  const isPanelFocus = useCallback((name: ActivePanel) => {
+    const result = currentFocus === name
+    return result
+  }, [currentFocus])
 
   const value: PanelManagerContextType = {
     openPanel,
     closePanel,
+    focusPanel,
     closeAllPanels,
-    togglePanel, // ✅ new
+    togglePanel,
     isPanelOpen,
+    isPanelFocus,
     registerPanel,
     unregisterPanel,
     currentPanel,

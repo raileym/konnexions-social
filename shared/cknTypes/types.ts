@@ -1398,10 +1398,12 @@ export type ButtonName = ButtonNameValue
 
 export type PanelManagerContextType = {
   openPanel: (name: ActivePanel) => void
+  focusPanel: (name: ActivePanel) => void
   closePanel: (name: ActivePanel) => void
   closeAllPanels: () => void
   togglePanel: (name: ActivePanel) => void // ✅ new
-  isPanelOpen: (who: string, name: ActivePanel) => boolean
+  isPanelOpen: (name: ActivePanel) => boolean
+  isPanelFocus: (name: ActivePanel) => boolean
   registerPanel: (name: ActivePanel, control: PanelControl) => void
   unregisterPanel: (name: ActivePanel) => void
   currentPanel: ActivePanel
@@ -1410,6 +1412,7 @@ export type PanelManagerContextType = {
 export type PanelControl = {
   open: () => void
   close: () => void
+  focus: () => void
   isOpen: boolean
 }
 
@@ -1451,6 +1454,7 @@ export type InputCustomParticipantListProps = {
 }
 
 export type PanelBasicCreateComponentsProps = {
+  firstFocusRef: React.RefObject<HTMLInputElement | null>
   tabIndex: number
   ariaDisabled: boolean
 }

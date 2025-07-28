@@ -131,6 +131,8 @@ export const ACTIVE_PANEL = {
   HELP: 'help',
 
   NAVBAR_TOP: 'navbarTop',
+  LESSON_BAR: 'lessonBar',
+  NAVBAR_BOTTOM: 'navbarBottom',
 
   PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',

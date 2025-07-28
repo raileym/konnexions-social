@@ -1,4 +1,3 @@
-import React, { useRef, useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import {
   ACTIVE_PANEL,
@@ -13,10 +12,7 @@ import { faCircleQuestion, faGear, faHome, faUser } from '@fortawesome/free-soli
 import { usePanelBase } from '@hooks/usePanelBase'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
-const PanelMenu: React.FC = () => {
-  const firstFocusRef = useRef<HTMLButtonElement | null>(null)
-  const [tabIndex, setTabIndex] = useState<number>(-1)
-
+const PanelMenu = () => {
   const { setActivePanel, setMdxPage } = useAppContext()
   const { switchPanel } = usePanel()
   const navigate = useNavigate()
@@ -26,17 +22,14 @@ const PanelMenu: React.FC = () => {
   const {
     ref,
     isOpen,
-    translateX
-  } = usePanelBase(ACTIVE_PANEL.MENU, MENU_PANEL_TRANSLATE_X, {
-    onOpen: () => {
-      setTabIndex(0)
-      setTimeout(() => {
-        firstFocusRef.current?.focus()
-      }, 250)
-    },
-    onClose: () => {
-      setTabIndex(-1)
-    }
+    translateX,
+    tabIndex,
+    ariaDisabled,
+    firstFocusButtonRef
+  } = usePanelBase({
+    panelName: ACTIVE_PANEL.MENU,
+    translateXOpen: MENU_PANEL_TRANSLATE_X, 
+    translateXClose: 'translate-x-full'
   })
 
   const navigateTo = (route: string) => {
@@ -69,10 +62,10 @@ const PanelMenu: React.FC = () => {
             <h2 id="menu-panel-title" className="f3 pa3 mt5 tc on-tertiary">Menu Panel</h2>
             <div className="flex justify-between flex-m dn-lX">
               <Button
-                buttonRef={firstFocusRef}
+                buttonRef={firstFocusButtonRef}
                 ariaLabelledBy="label-button-home"
                 tabIndex={tabIndex}
-                ariaDisabled={tabIndex !== 0}
+                ariaDisabled={ariaDisabled}
                 titleClass="white"
                 iconClass="white mh0 ph0"
                 buttonClass="bnX w-50X width-3 mh0 ph2 brand bg-transparent focus:bg-redX focus:b--red b--double"
@@ -90,7 +83,7 @@ const PanelMenu: React.FC = () => {
               <Button
                 ariaLabelledBy="label-button-settings"
                 tabIndex={tabIndex}
-                ariaDisabled={tabIndex !== 0}
+                ariaDisabled={ariaDisabled}
                 titleClass="white"
                 iconClass="white mh0 ph0"
                 buttonClass="bnX w-50X width-3 mh0 ph2 brand bg-transparent"
@@ -104,7 +97,7 @@ const PanelMenu: React.FC = () => {
               <Button
                 ariaLabelledBy="label-button-help"
                 tabIndex={tabIndex}
-                ariaDisabled={tabIndex !== 0}
+                ariaDisabled={ariaDisabled}
                 titleClass="white"
                 iconClass="white mh0 ph0"
                 buttonClass="bnX o-20X width-3 mh0 ph2 brand bg-transparent"
@@ -118,7 +111,7 @@ const PanelMenu: React.FC = () => {
                 <Button
                   ariaLabelledBy="label-button-profile"
                   tabIndex={tabIndex}
-                  ariaDisabled={tabIndex !== 0}
+                  ariaDisabled={ariaDisabled}
                   titleClass="white"
                   iconClass="white mh0 ph0"
                   buttonClass="bn w-50X width-3 mh0 ph0 brand bg-transparent"
@@ -137,7 +130,7 @@ const PanelMenu: React.FC = () => {
               <li
                 aria-labelledby="li-home-page"
                 tabIndex={tabIndex}
-                aria-disabled={tabIndex !== 0}
+                aria-disabled={ariaDisabled}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.WELCOME)}
               >
@@ -146,7 +139,7 @@ const PanelMenu: React.FC = () => {
               <li
                 aria-labelledby="li-about-page"
                 tabIndex={tabIndex}
-                aria-disabled={tabIndex !== 0}
+                aria-disabled={ariaDisabled}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.ABOUT)}
               >
@@ -155,7 +148,7 @@ const PanelMenu: React.FC = () => {
               <li
                 aria-labelledby="li-terms-and-conditions-page"
                 tabIndex={tabIndex}
-                aria-disabled={tabIndex !== 0}
+                aria-disabled={ariaDisabled}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}
               >
@@ -164,7 +157,7 @@ const PanelMenu: React.FC = () => {
               <li
                 aria-labelledby="li-privacy-policy"
                 tabIndex={tabIndex}
-                aria-disabled={tabIndex !== 0}
+                aria-disabled={ariaDisabled}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.PRIVACY_POLICY)}
               >
