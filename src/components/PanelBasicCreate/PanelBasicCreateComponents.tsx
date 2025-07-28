@@ -96,6 +96,12 @@ const PanelBasicCreateComponents = () => {
             onChange={(lessonName) => updateLessonField({ lessonName, isComplete: false })}
           />
 
+          <div className="flex flex-row justify-center">
+            <button tabIndex={tabIndex} aria-disabled={ariaDisabled} className="mh3 bg-yellow pv1 ph2">ONE</button>
+            <button tabIndex={tabIndex} aria-disabled={ariaDisabled} className="mh3 bg-yellow pv1 ph2">TWO</button>
+            <button tabIndex={tabIndex} aria-disabled={ariaDisabled} className="mh3 bg-yellow pv1 ph2">THREE</button>
+          </div>
+
           {!ariaDisabled &&
             <TiptapEditor
               key={lesson.number} // reinitialize when lesson changes
