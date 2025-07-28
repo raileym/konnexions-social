@@ -14,7 +14,9 @@ import { usePanelBase } from '@hooks/usePanelBase'
 const PanelBasicCreateComponents = () => {
   const [formattedFlexLesson, setFormattedFlexLesson] = useState<Lines>([])
 
-  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.BASIC_CREATE})
+  const { firstFocusButtonRef, tabIndex, ariaDisabled } = usePanelBase({
+    panelName: ACTIVE_PANEL.BASIC_CREATE_COMPONENTS
+  })
 
   const {
     cutoff,
@@ -70,6 +72,8 @@ const PanelBasicCreateComponents = () => {
     } else {
       content = (
         <>
+          <button ref={firstFocusButtonRef} className="bg-yellow pv1 ph2">PLACEHOLDER</button>
+
           <h2 className="flex flex-column f2 f3-m pa3 pb0X mt4X w-100 on-background items-center tc">
             <div>{LANGUAGE_TITLE[targetLanguage]}: Basic</div>
           <div className="w-100 background f2 f3-m on-background">Lesson {selectedLessonNumber}</div>

@@ -1453,9 +1453,3 @@ export type InputCustomParticipantListProps = {
   tabIndex: number
   ariaDisabled: boolean
 }
-
-export type PanelBasicCreateComponentsProps = {
-  firstFocusRef: React.RefObject<HTMLInputElement | null>
-  tabIndex: number
-  ariaDisabled: boolean
-}

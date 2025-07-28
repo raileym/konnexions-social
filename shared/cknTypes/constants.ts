@@ -134,6 +134,7 @@ export const ACTIVE_PANEL = {
   LESSON_BAR: 'lessonBar',
   NAVBAR_BOTTOM: 'navbarBottom',
   SELECT_MARKETING_PREFERENCES: 'SelectMarketingPreferences',
+  INPUT_CUSTOM_PARICIPANT_LIST: 'InputCustomParticipantList',
 
   PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',
@@ -143,9 +144,15 @@ export const ACTIVE_PANEL = {
   MENU: 'menu',
 
   MDX: 'mdx',
+  
   BASIC_CREATE: 'basicCreate',
+  BASIC_CREATE_COMPONENTS: 'basicCreateComponents',
+
   GEN_AI: 'genAI',
+
   GEN_AI_PRO: 'genAIPro',
+  GEN_AI_PRO_COMPONENTS: 'genAIProComponents',
+
   BASIC_STUDY: 'basicStudy',
   BASIC_WELCOME: 'basicWelcome'
 } as const

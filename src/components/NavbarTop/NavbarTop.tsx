@@ -34,18 +34,15 @@ const NavbarTop = () => {
   }
 
   const handleEngageSpanish = () => {
-    togglePanel(ACTIVE_PANEL.BASIC_CREATE)
-    togglePanel(ACTIVE_PANEL.NAVBAR_BOTTOM)
-    togglePanelWithFocus(ACTIVE_PANEL.LESSON_BAR)
+    togglePanelWithFocus(ACTIVE_PANEL.BASIC_CREATE)
   }
 
   const handleEngageSpanishPro = () => {
-    togglePanel(ACTIVE_PANEL.GEN_AI_PRO)
+    togglePanelWithFocus(ACTIVE_PANEL.GEN_AI_PRO)
   }
 
   const handleProfile = () => {
-    togglePanel(ACTIVE_PANEL.PROFILE)
-    togglePanelWithFocus(ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES)
+    togglePanelWithFocus(ACTIVE_PANEL.PROFILE)
   }
 
   const handleMenu = () => {

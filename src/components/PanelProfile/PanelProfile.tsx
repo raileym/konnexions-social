@@ -43,13 +43,19 @@ const PanelProfile = () => {
   const [success, setSuccess] = useState(false)
   const [localCookedEmail, setLocalCookedEmail] = useState('')
 
-  const { focusPanel } = usePanelManager()
-  
+  const { openPanel, closePanel, focusPanel } = usePanelManager()
+
   const { ref, isOpen, translateX } = usePanelBase({
     panelName: ACTIVE_PANEL.PROFILE,
     translateXOpen: PROFILE_PANEL_TRANSLATE_X,
     translateXClose: 'translate-x-full',
     callback: {
+      onOpen: () => {
+        openPanel(ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES)
+      },
+      onClose: () => {
+        closePanel(ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES)
+      },
       onFocus: () => {
         focusPanel(ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES)
       }

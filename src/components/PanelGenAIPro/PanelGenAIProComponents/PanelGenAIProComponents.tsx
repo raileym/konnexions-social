@@ -41,6 +41,7 @@ import { TextareaFlexLesson } from '@components/TextareaFlexLesson/TextareaFlexL
 import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { FormatSentence } from '@components/FormatSentence/FormatSentence'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
+import { usePanelBase } from '@hooks/usePanelBase'
 
 const PanelGenAIProComponents: React.FC = () => {
   // const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
@@ -52,22 +53,22 @@ const PanelGenAIProComponents: React.FC = () => {
   const [showNounsReviewPrompt, setShowNounsReviewPrompt] = useState(false)
   const [showVerbsReviewPrompt, setShowVerbsReviewPrompt] = useState(false)
 
-  const [tabIndex, setTabIndex] = useState<number>(-1)
-  const [ariaDisabled, setAriaDisabled] = useState<boolean>(true)
+  const { focusPanel, openPanel } = usePanelManager()
 
-  const { currentPanel } = usePanelManager()
+  const { tabIndex, ariaDisabled } = usePanelBase({
+    panelName: ACTIVE_PANEL.GEN_AI_PRO,
+    translateXOpen: 'translate-x-0',
+    translateXClose: 'translate-x-full',
+    callback: {
+      onOpen: () => {
+        openPanel(ACTIVE_PANEL.INPUT_CUSTOM_PARICIPANT_LIST)
+      },
+      onFocus: () => {
+        focusPanel(ACTIVE_PANEL.INPUT_CUSTOM_PARICIPANT_LIST)
+      }
+    }
+  })
   
-  useEffect(()=> {
-    setTabIndex( currentPanel === ACTIVE_PANEL.GEN_AI_PRO ? 0 : -1)
-    setAriaDisabled( currentPanel !== ACTIVE_PANEL.GEN_AI_PRO )
-  }, [currentPanel])
-
-  // const debugLog = useDebugLogger()
-
-  // const toggleShowDialogDraftPrompt = () => {
-  //   (prev => !prev)
-  // }
-    
   const toggleShowNounsPrompt = () => {
     setShowNounsPrompt(prev => !prev)
   }
