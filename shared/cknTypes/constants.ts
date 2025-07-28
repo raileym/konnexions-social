@@ -135,7 +135,8 @@ export const ACTIVE_PANEL = {
   NAVBAR_BOTTOM: 'navbarBottom',
   SELECT_MARKETING_PREFERENCES: 'SelectMarketingPreferences',
   INPUT_CUSTOM_PARICIPANT_LIST: 'InputCustomParticipantList',
-
+  INPUT_LESSON_NAME: 'InputLessonName',
+  
   PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',
   
@@ -148,13 +149,16 @@ export const ACTIVE_PANEL = {
   BASIC_CREATE: 'basicCreate',
   BASIC_CREATE_COMPONENTS: 'basicCreateComponents',
 
+  BASIC_STUDY: 'basicStudy',
+  BASIC_STUDY_COMPONENTS: 'basicStudyComponents',
+
+  BASIC_WELCOME: 'basicWelcome',
+
   GEN_AI: 'genAI',
 
   GEN_AI_PRO: 'genAIPro',
   GEN_AI_PRO_COMPONENTS: 'genAIProComponents',
 
-  BASIC_STUDY: 'basicStudy',
-  BASIC_WELCOME: 'basicWelcome'
 } as const
 
 export const ERROR_LABEL: Record<ModuleName, string> = {

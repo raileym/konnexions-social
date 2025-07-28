@@ -10,12 +10,26 @@ import InputLessonName from '@components/InputLessonName/InputLessonName'
 import { useEffect, useMemo, useState } from 'react'
 import type { Lesson, Lines } from '@cknTypes/types'
 import { usePanelBase } from '@hooks/usePanelBase'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
 const PanelBasicCreateComponents = () => {
   const [formattedFlexLesson, setFormattedFlexLesson] = useState<Lines>([])
 
-  const { firstFocusButtonRef, tabIndex, ariaDisabled } = usePanelBase({
-    panelName: ACTIVE_PANEL.BASIC_CREATE_COMPONENTS
+  const { openPanel, closePanel, focusPanel } = usePanelManager()
+  
+  const { tabIndex, ariaDisabled } = usePanelBase({
+    panelName: ACTIVE_PANEL.BASIC_CREATE_COMPONENTS,
+    callback: {
+      onOpen: () => {
+        openPanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
+      },
+      onClose: () => {
+        closePanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
+      },
+      onFocus: () => {
+        focusPanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
+      }
+    }
   })
 
   const {
@@ -72,8 +86,6 @@ const PanelBasicCreateComponents = () => {
     } else {
       content = (
         <>
-          <button ref={firstFocusButtonRef} className="bg-yellow pv1 ph2">PLACEHOLDER</button>
-
           <h2 className="flex flex-column f2 f3-m pa3 pb0X mt4X w-100 on-background items-center tc">
             <div>{LANGUAGE_TITLE[targetLanguage]}: Basic</div>
           <div className="w-100 background f2 f3-m on-background">Lesson {selectedLessonNumber}</div>

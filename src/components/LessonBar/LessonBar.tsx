@@ -7,6 +7,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { ACTIVE_PANEL } from '@cknTypes/constants'
 import { usePanel } from '@hooks/usePanel'
 import { usePanelBase } from '@hooks/usePanelBase'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
 export const LessonBar: React.FC = () => {
 
@@ -21,6 +22,8 @@ export const LessonBar: React.FC = () => {
     setLesson,
     paywall
   } = useAppContext()
+  
+  const { focusPanel } = usePanelManager()
   
   const { firstFocusButtonRef, translateX, tabIndex, ariaDisabled } = usePanelBase({
     panelName: ACTIVE_PANEL.LESSON_BAR,
@@ -96,6 +99,11 @@ export const LessonBar: React.FC = () => {
                 setLessonComplete(lesson.isComplete)
                 if (activePanel === ACTIVE_PANEL.BASIC_STUDY && !lesson.isComplete) {
                   switchPanel(ACTIVE_PANEL.BASIC_CREATE)
+                  focusPanel(ACTIVE_PANEL.BASIC_CREATE_COMPONENTS)
+                } else if  (activePanel === ACTIVE_PANEL.BASIC_STUDY) {
+                  focusPanel(ACTIVE_PANEL.BASIC_STUDY_COMPONENTS)
+                } else {
+                  focusPanel(ACTIVE_PANEL.BASIC_CREATE_COMPONENTS)                  
                 }
               }}
               className={`focus:b--red focus:b--double b--transparent b pa2 pointer br2X f3 bw2 bbX tc b--blueX on-tertiaryX whiteX hover:tertiary ${

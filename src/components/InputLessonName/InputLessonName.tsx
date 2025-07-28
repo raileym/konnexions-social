@@ -12,7 +12,7 @@ type InputLessonNameProps = {
 
 const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
   
-  const { firstFocusInputRef, tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.BASIC_CREATE})
+  const { firstFocusInputRef, tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_LESSON_NAME})
 
   useEffect(() =>{
     if (tabIndex === 0) {
@@ -33,7 +33,7 @@ const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
         type="text"
         value={lessonName}
         onChange={(e) => onChange(e.target.value)}
-        className="pa2 input-reset ba b--background bg-on-background background w-100 br2"
+        className="pa2 input-reset focus-visible:b--double b--solidX focus:b--double bw3 baX b--background bg-white black  w-100 br2"
         placeholder="Enter a lesson name"
       />
     </div>
