@@ -58,102 +58,60 @@ $break-pairs: (
 );
 
 .focus\:b--solid:focus,
-.focus-visible\:b--solid:focus-visible {
+.focus-visible\:b--solid:focus-visible,
+.focus-within\:b--double:focus-within {
   border-style:solid;
 } 
 
 .focus\:bn:focus,
-.focus-visible\:bn:focus-visible {
+.focus-visible\:bn:focus-visible,
+.focus-within\:b--double:focus-within {
   border: none;
 } 
 
 .focus\:b--double:focus,
-.focus-visible\:b--double:focus-visible {
+.focus-visible\:b--double:focus-visible,
+.focus-within\:b--double:focus-within {
   border-style:double
 }
 
 @each $bw in $border-width {
   $i: index($border-width, $bw); // 1-based index
 
-  .focus\:bw#{$i}:focus {
-    border-width: #{$bw};
-  }
-
-  .focus-visible\:bw#{$i}:focus-visible {
+  .focus\:bw#{$i}:focus,
+  .focus-visible\:bw#{$i}:focus-visible,  
+  .focus-within\:b--double:focus-within {
     border-width: #{$bw};
   }
 }
 
 @each $name, $value in $color-set {
-  .disabled\:bg-#{$name}:disabled {
-    background-color: #{$value};
-  }
-
-  .active\:bg-#{$name}:active {
-    background-color: #{$value};
-  }
-
-  .hover\:bg-#{$name}:hover {
-    background-color: #{$value};
-  }
-
-  .focus\:bg-#{$name}:focus {
-    background-color: #{$value};
-  }
-
+  .disabled\:bg-#{$name}:disabled,
+  .active\:bg-#{$name}:active,
+  .hover\:bg-#{$name}:hover,
+  .focus\:bg-#{$name}:focus,
   .focus-visible\:bg-#{$name}:focus-visible {
     background-color: #{$value};
   }
 
-  .disabled\:#{$name}:disabled {
-    color: #{$value};
-  }
-  .disabled\:#{$name}:disabled {
-    color: #{$value};
-  }
-
-  .active\:#{$name}:active {
-    color: #{$value};
-  }
-
-  .hover\:#{$name}:hover {
-    color: #{$value};
-  }
-
-  .focus\:#{$name}:focus {
-    color: #{$value};
-  }
-
-  .focus-visible\:#{$name}:focus-visible {
-    color: #{$value};
-  }
-
-  .disabled\:b--#{$name}:disabled {
-    border-color: #{$value};
-  }
-
-  .active\:b--#{$name}:active {
-    border-color: #{$value};
-  }
-
-  .hover\:b--#{$name}:hover {
-    border-color: #{$value};
-  }
-
-  .focus\:b--#{$name}:focus {
-    border-color: #{$value} !important;
-  }
-
-  .focus-visible\:b--#{$name}:focus-visible {
-    border-color: #{$value} !important;
-  }
-
-  .placeholder\:#{$name}::placeholder {
-    color: #{$value};
-  }
-
+  .disabled\:#{$name}:disabled,
+  .disabled\:#{$name}:disabled,
+  .active\:#{$name}:active,
+  .hover\:#{$name}:hover,
+  .focus\:#{$name}:focus,
+  .focus-visible\:#{$name}:focus-visible,
+  .placeholder\:#{$name}::placeholder,
   .placeholder-disabled\:#{$name}:disabled::placeholder {
     color: #{$value};
+  }
+
+  .disabled\:b--#{$name}:disabled,
+  .active\:b--#{$name}:active,
+  .hover\:b--#{$name}:hover,
+  .focus\:b--#{$name}:focus,
+  .focus-visible\:b--#{$name}:focus-visible,
+  .focus-within\:b--#{$name}:focus-within {
+    border-color: #{$value} !important;
   }
 }
 

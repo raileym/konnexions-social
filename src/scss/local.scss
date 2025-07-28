@@ -244,11 +244,11 @@ button {
   border-radius: 1rem;
 }
 
-label.focusable:focus-within,
-input:focus-visible,
-nav:focus-visible,
+// label.focusable:focus-within,
+// input:focus-visible,
+// nav:focus-visible,
+// .link-url:focus-visible,
 .button-home:focus-visible,
-.link-url:focus-visible,
 button:focus-visible {
   border-color: red;
 }

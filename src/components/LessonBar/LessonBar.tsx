@@ -106,7 +106,7 @@ export const LessonBar = () => {
                   focusPanel(ACTIVE_PANEL.BASIC_CREATE_COMPONENTS)                  
                 }
               }}
-              className={`focus:b--red focus:b--double b--transparent b pa2 pointer br2X f3 bw2 bbX tc b--blueX on-tertiaryX whiteX hover:tertiary ${
+              className={`b--transparent b--double focus:b--red focus:b--double b mv1 pa2 pointer br2X f3 bw2 bbX tc b--blueX on-tertiaryX whiteX hover:tertiary ${
                 selectedLessonNumber === lesson.number ? 'bg-light-green black b' : 'hover-bg-light-gray black  '
               }`}
             >

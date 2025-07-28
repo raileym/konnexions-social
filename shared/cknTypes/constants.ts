@@ -128,6 +128,8 @@ export const GEN_AI_STEP = {
 
 export const TABINDEX_NEVER = -1
 export const TABINDEX_ALWAYS = 0
+export const ARIA_DISABLED_ALWAYS = true
+export const ARIA_DISABLED_NEVER = false
 
 export const ACTIVE_PANEL = {
   // HOME: 'home',

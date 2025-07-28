@@ -2,7 +2,7 @@
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'   
 
 import Button from '@components/Button/Button'
-import { ACTIVE_PANEL, TABINDEX_NEVER } from '@cknTypes/constants'
+import { ACTIVE_PANEL, ARIA_DISABLED_NEVER, TABINDEX_ALWAYS, TABINDEX_NEVER } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useNavigate } from 'react-router-dom'
 import MyKonnexionsTitle from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
@@ -22,10 +22,10 @@ const NavbarTop = () => {
 
   const { openPanel, currentPanel, togglePanelWithFocus, focusPanel } = usePanelManager()
   
-  useEffect(() => {
-    openPanel(ACTIVE_PANEL.NAVBAR_TOP)
-    focusPanel(ACTIVE_PANEL.NAVBAR_TOP)
-  })
+  // useEffect(() => {
+  //   openPanel(ACTIVE_PANEL.NAVBAR_TOP)
+  //   focusPanel(ACTIVE_PANEL.NAVBAR_TOP)
+  // })
   
   const navigate = useNavigate()
   
@@ -70,23 +70,23 @@ const NavbarTop = () => {
         aria-labelledby={'label-navbar-top'} 
         aria-describedby={'describe-navbar-top'}
         tabIndex={TABINDEX_NEVER}
-        aria-disabled={ariaDisabled}
+        aria-disabled={ARIA_DISABLED_NEVER}
         className="navbar-top fixed top-0 focus:bn focus-visible:bn shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999"
         style={{borderRadius: 0}}>
+        
         <div
           ref={firstFocusDivRef}
-          tabIndex={tabIndex}
-          aria-disabled={ariaDisabled}
+          tabIndex={TABINDEX_ALWAYS}
+          aria-disabled={ARIA_DISABLED_NEVER}
           aria-describedby={'button-home'}
-          className="button-home flex justify-start flex-row pointer lh-4-kx grow-5-kxX mh0 mh2X ph3 focus-visible:bg-tertiaryX focus-visible:b--redX bw3X hover:b--attention-hover"
+          className="button-home b--double b--transparent flex flex-row justify-start pointer lh-4-kx mh0 ph3 hover:b--attention-hover"
           onClick={handleGoHome}
         >
-
           <div aria-hidden={true} className="ml4X mr4 width-3-kx height-3-kx items-center flex-ks-vvs flex-kx-45 flex-kx-60 lh-4-kx">
             <div className="silver bX flex flex-column">
               <div className="flex f3">
                 <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
-                  <div className="absolute top-0 left-0 bg-secondary mt2X width-4-kx br3 height-4-kx"></div>
+                  <div className="absolute top-0 left-0 bg-secondary mt2X width-4-kx br3 height-4-kx" style={{marginTop: '0.1em'}}></div>
                   <div className="konnexions-title f2 absolute top-0 left-0 ml3">
                     <MyKonnexionsTitle ariaHidden={true} ariaLabel='' ariaDescribedBy={''} shorten={true} color='on-background' fontSizeInRem={2}/>
                   </div>
@@ -109,10 +109,10 @@ const NavbarTop = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.GEN_AI_PRO} title='Bienvenido! Pro' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanishPro} />
-          <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.BASIC_CREATE} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-profile'} isActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <Button tabIndex={tabIndex} ariaLabelledBy={'label-button-menu'} isActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.GEN_AI_PRO} title='Bienvenido! Pro' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanishPro} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.BASIC_CREATE} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-profile'} isActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-menu'} isActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>

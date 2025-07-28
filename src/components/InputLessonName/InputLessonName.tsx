@@ -25,17 +25,19 @@ const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
       <label htmlFor="lessonName" className="f3 db mb2 on-background">
         Lesson Name
       </label>
-      <input
-        ref={firstFocusInputRef}
-        tabIndex={tabIndex}
-        aria-disabled={ariaDisabled}
-        id="lessonName"
-        type="text"
-        value={lessonName}
-        onChange={(e) => onChange(e.target.value)}
-        className="pa2 input-reset ba b--black bw1 focus:b--red focus:bw4 focus:b--double focus-visible:b--red focus-visible:b--double focus-visible:bw4 br2 bg-white black w-100"
-        placeholder="Enter a lesson name"
-      />
+      <div className="w-100 bw3 b--double b--transparent focus-within:b--red pa2">
+        <input
+          ref={firstFocusInputRef}
+          tabIndex={tabIndex}
+          aria-disabled={ariaDisabled}
+          id="lessonName"
+          type="text"
+          value={lessonName}
+          onChange={(e) => onChange(e.target.value)}
+          className="pa2 input-reset ba b--black bw1 focus:bnX focus-visible:bnX br2 bg-white black w-100"
+          placeholder="Enter a lesson name"
+        />
+      </div>
     </div>
   )
 }
