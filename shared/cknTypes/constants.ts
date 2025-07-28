@@ -133,6 +133,7 @@ export const ACTIVE_PANEL = {
   NAVBAR_TOP: 'navbarTop',
   LESSON_BAR: 'lessonBar',
   NAVBAR_BOTTOM: 'navbarBottom',
+  SELECT_MARKETING_PREFERENCES: 'SelectMarketingPreferences',
 
   PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',

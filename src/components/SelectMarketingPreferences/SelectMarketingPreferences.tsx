@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react'
 import { defaultMarketingPreferences } from '@shared/cknTypes/types'
-import { MARKETING_PREFERENCE } from '@shared/cknTypes/constants'
+import { ACTIVE_PANEL, MARKETING_PREFERENCE } from '@shared/cknTypes/constants'
 import type { MarketingPreferences } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { upsertMarketingPreferences } from '@components/upsertMarketingPreferences/upsertMarketingPreferences'
 import { getMarketingPreferences } from '@components/getMarketingPreferences/getMarketingPreferences'
+import { usePanelBase } from '@hooks/usePanelBase'
 
-type SelectMarketingPreferencesProps = {
-  ref?: React.RefObject<HTMLInputElement | null>
-  tabIndex: number
-}
-
-export const SelectMarketingPreferences = ({ref, tabIndex}: SelectMarketingPreferencesProps) => {
+export const SelectMarketingPreferences = () => {
   const [preferences, setPreferences] = useState<MarketingPreferences>(defaultMarketingPreferences)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const { firstFocusInputRef: ref, tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES})
 
   const { clientUUID } = useAppContext()
 
@@ -83,6 +81,7 @@ export const SelectMarketingPreferences = ({ref, tabIndex}: SelectMarketingPrefe
           <input
             {...(index === 0 ? { ref } : {})}
             tabIndex={tabIndex}
+            aria-disabled={ariaDisabled}
             // aria-disabled={!screenState[SCREEN.PROFILE]}
             type="checkbox"
             checked={preferences[label] ?? false}

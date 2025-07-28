@@ -5,7 +5,7 @@ import { ACTIVE_PANEL } from '@cknTypes/constants'
 
 export const PanelManagerProvider = ({ children }: { children: React.ReactNode }) => {
   const registry = useRef<Map<ActivePanel, PanelControl>>(new Map())
-  const supportPanels = useRef<Set<ActivePanel>>(new Set([ACTIVE_PANEL.LESSON_BAR, ACTIVE_PANEL.NAVBAR_BOTTOM]))
+  const supportPanels = useRef<Set<ActivePanel>>(new Set([ACTIVE_PANEL.LESSON_BAR, ACTIVE_PANEL.NAVBAR_BOTTOM, ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES]))
 
   const [currentPanel, setCurrentPanel] = useState<ActivePanel>(ACTIVE_PANEL.MDX)
   const [currentFocus, setCurrentFocus] = useState<ActivePanel>(ACTIVE_PANEL.MDX)
@@ -61,13 +61,22 @@ export const PanelManagerProvider = ({ children }: { children: React.ReactNode }
     const isOpen = currentPanel === name
 
     if (isOpen) {
-      // cXnsole.log(`[PanelManagerProvider] togglePanel: closing ${name}`)
       closePanel(name)
     } else {
-      // cXnsole.log(`[PanelManagerProvider] togglePanel: opening ${name}`)
       openPanel(name)
     }
   }, [currentPanel, closePanel, openPanel])
+
+  const togglePanelWithFocus = useCallback((name: ActivePanel) => {
+    const isOpen = currentPanel === name
+
+    if (isOpen) {
+      closePanel(name)
+    } else {
+      openPanel(name)
+      focusPanel(name)
+    }
+  }, [currentPanel, closePanel, openPanel, focusPanel])
 
   const closeAllPanels = useCallback(() => {
     // cXnsole.log('[PanelManagerProvider] closeAllPanels')
@@ -96,6 +105,7 @@ export const PanelManagerProvider = ({ children }: { children: React.ReactNode }
     focusPanel,
     closeAllPanels,
     togglePanel,
+    togglePanelWithFocus,
     isPanelOpen,
     isPanelFocus,
     registerPanel,

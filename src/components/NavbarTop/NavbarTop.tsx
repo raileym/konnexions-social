@@ -19,7 +19,7 @@ const NavbarTop = () => {
     panelName: ACTIVE_PANEL.NAVBAR_TOP, 
   })
 
-  const { openPanel, currentPanel, togglePanel, focusPanel } = usePanelManager()
+  const { openPanel, currentPanel, togglePanel, togglePanelWithFocus, focusPanel } = usePanelManager()
   
   const navigate = useNavigate()
   
@@ -35,9 +35,8 @@ const NavbarTop = () => {
 
   const handleEngageSpanish = () => {
     togglePanel(ACTIVE_PANEL.BASIC_CREATE)
-    togglePanel(ACTIVE_PANEL.LESSON_BAR)
     togglePanel(ACTIVE_PANEL.NAVBAR_BOTTOM)
-    focusPanel(ACTIVE_PANEL.LESSON_BAR)
+    togglePanelWithFocus(ACTIVE_PANEL.LESSON_BAR)
   }
 
   const handleEngageSpanishPro = () => {
@@ -46,11 +45,11 @@ const NavbarTop = () => {
 
   const handleProfile = () => {
     togglePanel(ACTIVE_PANEL.PROFILE)
+    togglePanelWithFocus(ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES)
   }
 
   const handleMenu = () => {
-    togglePanel(ACTIVE_PANEL.MENU)
-    focusPanel(ACTIVE_PANEL.MENU)
+    togglePanelWithFocus(ACTIVE_PANEL.MENU)
   }
   
   return (

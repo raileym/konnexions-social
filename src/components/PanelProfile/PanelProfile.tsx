@@ -14,7 +14,8 @@ import { usePaywall } from '@hooks/usePaywall/usePaywall'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { usePanelBase } from '@hooks/usePanelBase'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
 const PanelProfile = () => {
   const {
@@ -28,14 +29,10 @@ const PanelProfile = () => {
     setLessons,
     setSelectedLessonNumber,
     setLessonPrompt,
-    setLessonTimestamp,
-    isProfileOpen
+    setLessonTimestamp
   } = useAppContext()
 
   const { refreshPaywall } = usePaywall()
-
-  const firstFocusRef = useRef<HTMLInputElement | null>(null)
-  const [tabIndex, setTabIndex] = useState<number>(-1)
 
   const [validationMessage, setValidationMessage] = useState<string>(USER_EMAIL_NOT_VALIDATED)
   const [email, setEmail] = useState('')
@@ -46,39 +43,22 @@ const PanelProfile = () => {
   const [success, setSuccess] = useState(false)
   const [localCookedEmail, setLocalCookedEmail] = useState('')
 
-  const { ref, isOpen, translateX } = usePanelBase(
-    ACTIVE_PANEL.PROFILE,
-    PROFILE_PANEL_TRANSLATE_X,
-    {
-      onOpen: () => {
-        setTabIndex(0)
-        setTimeout(() => {
-          console.log('Apply that focus for PanelProfile')
-          firstFocusRef.current?.focus()
-        }, 250)
-      },
-      onClose: () => {
-        setTabIndex(-1)
+  const { focusPanel } = usePanelManager()
+  
+  const { ref, isOpen, translateX } = usePanelBase({
+    panelName: ACTIVE_PANEL.PROFILE,
+    translateXOpen: PROFILE_PANEL_TRANSLATE_X,
+    translateXClose: 'translate-x-full',
+    callback: {
+      onFocus: () => {
+        focusPanel(ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES)
       }
     }
-  )
+  })
 
   useEffect(() => {
     setValidationMessage(isUserValidated ? USER_EMAIL_VALIDATED : USER_EMAIL_NOT_VALIDATED)
   }, [isUserValidated])
-
-  useEffect(() => {
-    if (isProfileOpen && firstFocusRef.current) {
-      const timeoutId = setTimeout(() => {
-        firstFocusRef.current?.focus()
-        setTabIndex(0)
-      }, 250)
-
-      return () => clearTimeout(timeoutId)
-    } else {
-      setTabIndex(-1)
-    }
-  }, [isProfileOpen])
 
   const sendEmail = async () => {
     setLoading(true)
@@ -184,14 +164,6 @@ const PanelProfile = () => {
           <p className="tc b background f4">Let's konnect! - through Spanish!</p>
           <p className="background">we require and use a validated version of your email address to store lesson materials remotely. We do not store your email in the cloud. </p>
 
-          {/*
-          <div className="flex flex-column items-center">
-            <button ref={firstFocusRef} tabIndex={tabIndex} className="bg-yellow w4 h2 focus:bg-red">Test only</button>
-            <button tabIndex={tabIndex} className="bg-yellow w4 h2 b--transparent b--solid"><div className="bg-red br5 b--red bw1">Test only</div></button>
-            <button tabIndex={tabIndex} className="bg-yellow w4 h2">Test only</button>
-          </div>
-          */}
-
           <div className="background f3 b mt3 mb4">
             {validationMessage}
             {validationMessage === USER_EMAIL_VALIDATED && (
@@ -246,7 +218,7 @@ const PanelProfile = () => {
             {!error && <div className="mt3 on-background f5 tc"><br /></div>}
           </form>
 
-          <SelectMarketingPreferences ref={firstFocusRef} tabIndex={tabIndex} />
+          <SelectMarketingPreferences />
           <Paywall />
 
           <button
