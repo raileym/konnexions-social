@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { ACTIVE_PANEL } from '@cknTypes/constants'
 import PanelMDXComponents from '@components/PanelMDX/PanelMDXComponents'
 // import PanelBasicWelcomeReviewComponents from '@components/PanelBasicWelcomeReview/PanelBasicWelcomeReviewComponents'
 // import PanelBasicWelcomeComponents from '@components/PanelBasicWelcome/PanelBasicWelcomeComponents'
 
-const PanelBasicWelcome: React.FC = () => {
+const PanelBasicWelcome = () => {
   const {
     activePanel,
     setActivateLessonBar,

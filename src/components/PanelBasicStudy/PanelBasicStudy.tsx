@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { ACTIVE_PANEL } from '@cknTypes/constants'
 import PanelBasicStudyComponents from '@components/PanelBasicStudy/PanelBasicStudyComponents'
 
-const PanelBasicStudy: React.FC = () => {
+const PanelBasicStudy = () => {
   const {
     activePanel,
     setActivateLessonBar

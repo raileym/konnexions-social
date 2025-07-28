@@ -126,6 +126,9 @@ export const GEN_AI_STEP = {
   NOUN_USAGE_REVIEW: 9
 } as const
 
+export const TABINDEX_NEVER = -1
+export const TABINDEX_ALWAYS = 0
+
 export const ACTIVE_PANEL = {
   // HOME: 'home',
   HELP: 'help',
@@ -136,7 +139,7 @@ export const ACTIVE_PANEL = {
   SELECT_MARKETING_PREFERENCES: 'SelectMarketingPreferences',
   INPUT_CUSTOM_PARICIPANT_LIST: 'InputCustomParticipantList',
   INPUT_LESSON_NAME: 'InputLessonName',
-  
+
   PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',
   

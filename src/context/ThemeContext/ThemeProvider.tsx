@@ -5,7 +5,7 @@ import {
   type ColorPalette,
   type ThemeMode
 } from '@cknTypes/theme'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { ThemeContext } from '@context/ThemeContext/ThemeContext'
 import { usePersistentState } from '@hooks/usePersistentState'
 

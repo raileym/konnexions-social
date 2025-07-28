@@ -9,7 +9,7 @@ import { useState } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faListUl, faListOl } from '@fortawesome/free-solid-svg-icons';
-import { SCREEN } from '@cknTypes/constants';
+import { SCREEN, TABINDEX_NEVER } from '@cknTypes/constants';
 import { useAppContext } from '@context/AppContext/AppContext';
 // import { faBold, faListUl, faListOl, faItalic, faUnderline } from '@fortawesome/free-solid-svg-icons';
 
@@ -140,7 +140,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
         </div>
 
         <EditorContent
-          tabIndex={-1}
+          tabIndex={TABINDEX_NEVER}
           // tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
           // aria-disabled={!screenState[SCREEN.CREATE]}
           aria-disabled={false}

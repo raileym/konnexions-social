@@ -1,7 +1,8 @@
 import { useAppContext } from '@context/AppContext/AppContext'
 import {
   ACTIVE_PANEL,
-  LANGUAGE_TITLE
+  LANGUAGE_TITLE,
+  TABINDEX_NEVER
 } from '@cknTypes/constants'
 import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
@@ -154,7 +155,7 @@ const PanelBasicCreateComponents = () => {
 
   return (
     <div className={'panel-right panel-basic bw1 b--moon-gray bl panel-basic z-1 absolute top-0 left-0 w-100 h-100 bg-transparent flex flex-rowX transition-transform translate-x-0'}>
-      <div tabIndex={-1} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+      <div tabIndex={TABINDEX_NEVER} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
       </div>
     </div>

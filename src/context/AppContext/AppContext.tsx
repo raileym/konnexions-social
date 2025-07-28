@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState, type FC } from 'react'
+import { createContext, useContext, useState, type FC } from 'react'
 import About from '@mdxPages/About.mdx'
 import Welcome from '@mdxPages/Welcome.mdx'
 import FAQ from '@mdxPages/FAQ.mdx'

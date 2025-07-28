@@ -1,3 +1,4 @@
+import { TABINDEX_NEVER } from '@cknTypes/constants'
 import Button from '@components/Button/Button'
 import { useAppContext } from '@context/AppContext/AppContext'
 
@@ -9,7 +10,8 @@ const MdxEngageSpanish = () => {
     <div className="mv5 flex flex-column grow-largeW wiggle">
       <div className="f5 tc brand">Let's konnect! - Through Spanish</div>
       <Button
-        tabIndex={-1}
+        tabIndex={TABINDEX_NEVER}
+        ariaLabelledBy={''}
         ariaDisabled={true}
         iconClass={'f2'}
         buttonClass='mh3 bn grow'

@@ -1,3 +1,4 @@
+import { TABINDEX_NEVER } from '@cknTypes/constants'
 import { THEME_MODE } from '@cknTypes/theme'
 import { useThemeContext } from '@context/ThemeContext/ThemeContext'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +16,7 @@ const DayNightToggle = () => {
 
   return (
     <div
-      tabIndex={-1}
+      tabIndex={TABINDEX_NEVER}
       aria-disabled={false}
       className="day-night-toggle fixed top-0 right-0 z-9999 pa1 bg-whiteX ba bw1 b--backgroundX br3 flex items-center bg-on-background background b--on-background"
       style={{ right: '12rem', top: '8rem', fontFamily: 'monospace' }}

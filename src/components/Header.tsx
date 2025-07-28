@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { SCENARIO } from '@cknTypes/constants'
 import { LANGUAGE_TITLE } from '@cknTypes/constants'
 import { scenarioDescriptions } from '@cknTypes/types'
 
-const Header: React.FC = () => {
+const Header = () => {
   const {
     targetLanguage,
     scenario,

@@ -4,12 +4,12 @@ import { defaultLesson, type Lesson } from '@cknTypes/types'
 // import ShowMaxCount from '@components/ShowMaxCount'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { ACTIVE_PANEL } from '@cknTypes/constants'
+import { ACTIVE_PANEL, TABINDEX_NEVER } from '@cknTypes/constants'
 import { usePanel } from '@hooks/usePanel'
 import { usePanelBase } from '@hooks/usePanelBase'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
-export const LessonBar: React.FC = () => {
+export const LessonBar = () => {
 
   const {
     lessons,
@@ -67,7 +67,7 @@ export const LessonBar: React.FC = () => {
 
   return (
     <div
-      tabIndex={-1}
+      tabIndex={TABINDEX_NEVER}
       aria-disabled={true}
       className={`panel-left lesson-bar bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--background-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
       <button

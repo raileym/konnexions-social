@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import type { Prompt } from '@cknTypes/types'
 import { SCREEN } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'

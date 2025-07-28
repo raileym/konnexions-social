@@ -1,4 +1,5 @@
 // FontSizeControls.tsx
+import { TABINDEX_NEVER } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { useEffect } from 'react'
 
@@ -16,7 +17,7 @@ const FontSizeControls = () => {
 
   return (
     <div
-      tabIndex={-1}
+      tabIndex={TABINDEX_NEVER}
       aria-disabled={false}
       className="control-font-size fixed top-0 right-0 z-9999 pa2 on-background bg-background ba b--background br3 flex items-center focus:b--red bw3"
       style={{ right: '5%', top: '8rem', fontFamily: 'monospace' }}

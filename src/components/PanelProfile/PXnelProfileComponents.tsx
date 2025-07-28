@@ -6,7 +6,7 @@ import { useAppContext } from '@context/AppContext/AppContext'
 import { faSquareCheck } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { usePaywall } from '@hooks/usePaywall/usePaywall'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const PanelRequestEmailComponents = () => {
   const firstFocusRef = useRef<HTMLButtonElement | null>(null)

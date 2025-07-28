@@ -4,7 +4,7 @@ import { defaultLesson, type Lesson } from '@cknTypes/types'
 import CutoffToggle from '../../../CutoffToggle'
 import ShowMaxCount from '../../../ShowMaxCount'
 
-const LeftPane: React.FC = () => {
+const LeftPane = () => {
   const {
     lessons,
     setLessons,

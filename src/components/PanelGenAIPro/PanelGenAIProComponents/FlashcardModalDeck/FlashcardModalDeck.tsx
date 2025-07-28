@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogTrigger } from '@radix-ui/react-dialog';
 // import Button from '@components/Button'
 

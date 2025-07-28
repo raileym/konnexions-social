@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import SelectorScenario from '@components/SelectorScenario/SelectorScenario'
 import { getPrompt_cb } from '@shared/getPrompt_cb'
@@ -12,10 +12,11 @@ import {
   MODULE_NAME,
   LANGUAGE_TITLE,
   SCENARIO,
-  ACTIVE_PANEL
+  ACTIVE_PANEL,
+  TABINDEX_NEVER
 } from '@cknTypes/constants'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails'
 import { DialogList } from '@components/DialogList/DialogList'
 // import { ExpandedVerbListWithPronouns } from '../ExpandedVerbListWithPronouns/ExpandedVerbListWithPronouns'
@@ -28,7 +29,7 @@ import SelectorLanguage from '@components/SelectorLanguage'
 import PromptToggle from '@PanelGenAIProComponents/PromptToggle/PromptToggle'
 // import Hr from '@components/Hr'
 import LessonElementToggle from '@PanelGenAIProComponents/LessonElementToggle/LessonElementToggle'
-import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus'
+// import { LessonStatus } from '@PanelGenAIProComponents/LessonStatus/LessonStatus'
 // import { useDebugLogger } from '@hooks/useDebugLogger'
 import SelectorLessonPromptStyle from '@components/SelectorLessonPromptStyle'
 import SelectorParticipantRole from '@components/SelectorParticipantRole'
@@ -43,7 +44,7 @@ import { FormatSentence } from '@components/FormatSentence/FormatSentence'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 import { usePanelBase } from '@hooks/usePanelBase'
 
-const PanelGenAIProComponents: React.FC = () => {
+const PanelGenAIProComponents = () => {
   // const [lessonComplete, setLessonComplete] = useState<LessonComplete>(true)
   const [testMode,] = useState<TestMode>(false)
   // const [showDialogDraftPrompt, setShowDialogDraftPrompt] = useState(false)
@@ -102,7 +103,7 @@ const PanelGenAIProComponents: React.FC = () => {
     scenario,
     selectedLessonNumber,
     setCustomSeed,
-    setDebugMode,
+    // setDebugMode,
     // setLessonTimestamp,
     // setLessons,
     sourceLanguage,
@@ -603,7 +604,7 @@ const PanelGenAIProComponents: React.FC = () => {
   // },[lesson])
 
   return (
-    <div tabIndex={-1} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+    <div tabIndex={TABINDEX_NEVER} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )

@@ -2,7 +2,7 @@
 import React from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 
-const ModalGlobal: React.FC = () => {
+const ModalGlobal = () => {
   const { isModalVisible, modalConfig, hideModal } = useAppContext()
 
   if (!isModalVisible || !modalConfig) return null

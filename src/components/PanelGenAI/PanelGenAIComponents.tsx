@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { type Language, type UseMyself } from '@cknTypes/types'
 import { LANGUAGE, SCENARIO_LABELS, SCREEN } from '@cknTypes/constants'
@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { usePanel } from '@hooks/usePanel'
 
-const PanelGenAI: React.FC = () => {
+const PanelGenAI = () => {
   const [language, ] = useState<Language>(LANGUAGE.SPANISH)
   const [useMyself, ] = useState<UseMyself>(true)
   

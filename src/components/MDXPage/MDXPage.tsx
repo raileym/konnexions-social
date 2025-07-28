@@ -1,3 +1,4 @@
+import { TABINDEX_NEVER } from '@cknTypes/constants'
 import type { FC } from 'react'
 
 type MDXPageProps = {
@@ -7,7 +8,7 @@ type MDXPageProps = {
 const MDXPage = ({ Component }: MDXPageProps) => {
   return (
   <>
-    <div tabIndex={-1} aria-disabled={false} className="f3 o-20X mdx-content pt6 bg-background w-100 pa4 background overflow-y-auto">
+    <div tabIndex={TABINDEX_NEVER} aria-disabled={false} className="f3 o-20X mdx-content pt6 bg-background w-100 pa4 background overflow-y-auto">
       <Component />
     </div>
   </>

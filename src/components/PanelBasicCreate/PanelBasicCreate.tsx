@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 // import { useAppContext } from '@context/AppContext/AppContext'
 import { ACTIVE_PANEL } from '@cknTypes/constants'
 // import PanelBasicStudyComponents from '@components/PanelBasicStudy/PanelBasicStudyComponents'
@@ -6,7 +5,7 @@ import PanelBasicCreateComponents from '@components/PanelBasicCreate/PanelBasicC
 import { usePanelBase } from '@hooks/usePanelBase'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
-const PanelBasicCreate: React.FC = () => {
+const PanelBasicCreate = () => {
 
   const { focusPanel, openPanel, closePanel } = usePanelManager()
   

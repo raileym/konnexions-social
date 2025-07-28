@@ -1,5 +1,5 @@
 // src/components/NavbarBottom.tsx
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-svg-icons'   
 import Button from '@components/Button/Button'
 import { usePanel } from '@hooks/usePanel'
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useActivePanel } from '@hooks/useActivePanel'
 import { usePanelBase } from '@hooks/usePanelBase'
 
-const NavbarBottom: React.FC = () => {
+const NavbarBottom = () => {
   const { closePanel } = useActivePanel()
 
   const {

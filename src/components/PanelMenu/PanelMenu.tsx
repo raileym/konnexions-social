@@ -3,7 +3,8 @@ import {
   ACTIVE_PANEL,
   MDX_PAGE,
   MENU_PANEL_TRANSLATE_X,
-  MENU_PANEL_WIDTH_PERCENT
+  MENU_PANEL_WIDTH_PERCENT,
+  TABINDEX_NEVER
 } from '@cknTypes/constants'
 import { useNavigate } from 'react-router-dom'
 import Button from '@components/Button/Button'
@@ -57,7 +58,7 @@ const PanelMenu = () => {
         aria-labelledby="menu-panel-title"
         className={`panel-right-short panel-help absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform ${translateX}`}
       >
-        <div tabIndex={-1} aria-disabled={!isOpen} className="three h-100 w-100 overflow-y-auto">
+        <div tabIndex={TABINDEX_NEVER} aria-disabled={!isOpen} className="three h-100 w-100 overflow-y-auto">
           <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>
             <h2 id="menu-panel-title" className="f3 pa3 mt5 tc on-tertiary">Menu Panel</h2>
             <div className="flex justify-between flex-m dn-lX">

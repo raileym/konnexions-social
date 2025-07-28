@@ -10,7 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { useTTS } from '../useTTS/useTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { GENDER } from '@cknTypes/constants'
+import { GENDER, TABINDEX_NEVER } from '@cknTypes/constants'
 import type { DebugLog } from '@cknTypes/types'
 
 type FlashcardProps = {
@@ -33,8 +33,8 @@ export function FlashcardModal({
   const cardRef = useRef<HTMLDivElement>(null)
 
   const { cutoff,
-    maxCount,
-    setMaxCount,
+    // maxCount,
+    // setMaxCount,
     targetLanguage
   } = useAppContext()
   
@@ -50,8 +50,8 @@ export function FlashcardModal({
   const currentText = showBack ? shuffled[current].back : shuffled[current].front
   const { speak, stop } = useTTS({
     useCloudTTS,
-    maxCount,
-    setMaxCount,
+    // maxCount,
+    // setMaxCount,
     cutoff,
     // store: storeAudioOrLine,
     language: targetLanguage,
@@ -147,7 +147,7 @@ export function FlashcardModal({
               className='pa4 pointer no-focus-outline mv5'
               onClick={() => setShowBack(s => !s)}
               ref={cardRef}
-              tabIndex={-1}
+              tabIndex={TABINDEX_NEVER}
               aria-disabled={true}
               style={{
                 width: '100%',

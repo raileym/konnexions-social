@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import PanelSettings from '@components/PanelSettings/PanelSettings'
@@ -89,7 +89,7 @@ const AppMain = () => {
   )
 }
 
-const App: React.FC = () => {
+const App = () => {
   const hasLoadedUserData = useRef(false)
   const { refreshPaywall } = usePaywall()
 
@@ -322,7 +322,7 @@ const App: React.FC = () => {
     //       aria-labelledby="group-label"
     //       aria-describedby="group-desc"
     //       className="mb4 pa3 bg-washed-red"
-    //       tabIndex={-1} // not focusable itself
+    //       tabIndex={TABINDEX_NEVER} // not focusable itself
     //     >
     //       <div id="group-label" className="mb2 f5 fw6" tabIndex={0}>
     //         Action Group
