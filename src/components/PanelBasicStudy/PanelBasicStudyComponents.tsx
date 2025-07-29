@@ -1,16 +1,35 @@
 import { useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import {
+  ACTIVE_PANEL,
   LANGUAGE_TITLE,
   TABINDEX_NEVER,
 } from '@cknTypes/constants'
 import { DialogList } from '@components/DialogList/DialogList'
+// import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
+import { usePanelBase } from '@hooks/usePanelBase'
 // import { useDebugLogger } from '@hooks/useDebugLogger'
 
 const PanelBasicStudyComponents = () => {
-  // const [showDialogDraftPrompt, setShowDialogDraftPrompt] = useState(false)
 
-  // const debugLog = useDebugLogger()
+// const { openPanel, closePanel, focusPanel } = usePanelManager()
+
+  const { firstFocusButtonRef, tabIndex, ariaDisabled } = usePanelBase({
+    panelName: ACTIVE_PANEL.BASIC_STUDY_COMPONENTS,
+    // callback: {
+    //   onOpen: () => {
+    //     openPanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
+    //     openPanel(ACTIVE_PANEL.TIPTAP_EDITOR)
+    //   },
+    //   onClose: () => {
+    //     closePanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
+    //     closePanel(ACTIVE_PANEL.TIPTAP_EDITOR)
+    //   },
+    //   onFocus: () => {
+    //     focusPanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
+    //   }
+    // }
+  })
 
   const {
     cutoff,
@@ -25,8 +44,6 @@ const PanelBasicStudyComponents = () => {
     return lessons.find(l => l.number === selectedLessonNumber)
   }, [lessons, selectedLessonNumber])
   
-  // cXonsole.log('PanelBasicStudyComponents', lesson)
-
   let content
   if (selectedLessonNumber != null && Array.isArray(lessons)) {
     if (!lesson) {
@@ -40,6 +57,8 @@ const PanelBasicStudyComponents = () => {
             </div>
           <div className="w-100 on-background f2">Lesson {selectedLessonNumber}</div>
           </h2>
+
+          <button ref={firstFocusButtonRef} tabIndex={tabIndex} aria-disabled={ariaDisabled} className="wiggle bg_secondary pv1 ph3">Placeholder</button>
 
           <div className="w-60 center db mb4 f3 mb3 on-background">{tiptapEditorTitle}</div>
           <div className="pa3 mt3 ba bg-background w-100">
@@ -66,11 +85,6 @@ const PanelBasicStudyComponents = () => {
       </>
     )
   }
-
-  // useEffect(() => {
-  //   // debugLog('lesson', lesson)
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // },[lesson])
 
   return (
     <div className={'panel-right panel-basic-review-components z-1 absolute top-0 left-0 w-100 h-100 flex'}>

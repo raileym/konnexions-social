@@ -9,23 +9,18 @@ import MyKonnexionsTitle from '@components/MyKonnexionsTitle/MyKonnexionsTitle'
 import type { MdxPage } from '@cknTypes/types'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 import { usePanelBase } from '@hooks/usePanelBase'
-import { useEffect } from 'react'
+import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
 
 const NavbarTop = () => {
   const {
     setMdxPage
   } = useAppContext()
 
-  const { tabIndex, ariaDisabled, firstFocusDivRef } = usePanelBase({
+  const { firstFocusDivRef } = usePanelBase({
     panelName: ACTIVE_PANEL.NAVBAR_TOP, 
   })
 
-  const { openPanel, currentPanel, togglePanelWithFocus, focusPanel } = usePanelManager()
-  
-  // useEffect(() => {
-  //   openPanel(ACTIVE_PANEL.NAVBAR_TOP)
-  //   focusPanel(ACTIVE_PANEL.NAVBAR_TOP)
-  // })
+  const { openPanel, currentPanel, togglePanelWithFocus } = usePanelManager()
   
   const navigate = useNavigate()
   
@@ -112,6 +107,7 @@ const NavbarTop = () => {
           <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.GEN_AI_PRO} title='Bienvenido! Pro' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanishPro} />
           <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.BASIC_CREATE} title='Bienvenido!' buttonClass={'mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
           <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-profile'} isActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='bnX mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <DayNightToggle />
           <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-menu'} isActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='bnX b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>

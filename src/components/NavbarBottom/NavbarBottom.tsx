@@ -1,16 +1,18 @@
 // src/components/NavbarBottom.tsx
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { faPersonChalkboard, faBookOpen, faUser } from '@fortawesome/free-solid-svg-icons'   
 import Button from '@components/Button/Button'
-import { usePanel } from '@hooks/usePanel'
+// import { usePanel } from '@hooks/usePanel'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { ACTIVE_PANEL, MDX_PAGE, NAVBAR_BOTTOM_TRANSLATE_Y, SCREEN } from '@cknTypes/constants'
+// import { ACTIVE_PANEL, MDX_PAGE, NAVBAR_BOTTOM_TRANSLATE_Y, SCREEN } from '@cknTypes/constants'
+import { ACTIVE_PANEL, NAVBAR_BOTTOM_TRANSLATE_Y } from '@cknTypes/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useActivePanel } from '@hooks/useActivePanel'
+// import { useActivePanel } from '@hooks/useActivePanel'
 import { usePanelBase } from '@hooks/usePanelBase'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
 const NavbarBottom = () => {
-  const { closePanel } = useActivePanel()
+  // const { closePanel } = useActivePanel()
 
   const {
     activePanel,
@@ -18,53 +20,58 @@ const NavbarBottom = () => {
     showModal,
     lessons,
     selectedLessonNumber, 
-    // engageSpanish,
-    setMdxPage,
+    // setMdxPage,
     isSelectedCreate,
-    setIsSelectedCreate,
-    screenState
+    // setIsSelectedCreate
   } = useAppContext()
 
-  const { translateY } = usePanelBase({
+  const { togglePanelWithFocus } = usePanelManager()
+  
+  const { translateY, tabIndex, ariaDisabled } = usePanelBase({
     panelName: ACTIVE_PANEL.NAVBAR_BOTTOM, 
     translateYOpen: NAVBAR_BOTTOM_TRANSLATE_Y,
     translateYClose: 'translate-y-full',
   })
 
-  const { switchPanel } = usePanel()
+  // const { switchPanel } = usePanel()
   
-  // const { activeHome, activePanel, lesson } = useAppContext()
-  // const { switchPanel, switchHome } = usePanel()
-
-  // useEffect(() =>{
-  //   cXnsole.log('lesson', lesson)
-  // }, [lesson])
-
-  // useEffect(() =>{
-  //   const activateLessonBar =
-  //     currentPanel == ACTIVE_PANEL.BASIC_CREATE ||
-  //     currentPanel == ACTIVE_PANEL.BASIC_STUDY ||
-  //     currentPanel == ACTIVE_PANEL.GEN_AI_PRO
-
-  //   setTranslateY( activateLessonBar ? NAVBAR_BOTTOM_TRANSLATE_Y : 'translate-y-full')
-  // })
-
   const lesson = useMemo(() => {
     return lessons.find(l => l.number === selectedLessonNumber)
   }, [lessons, selectedLessonNumber])
   
-  // cXonsole.log('isUserValidated', isUserValidated)
-  
+  // const handleCreate = () => {
+  //   closePanel('menu')
+  //   closePanel('help')
+  //   closePanel('profile')
+  //   setIsSelectedCreate(prev => !prev)
+  //   if (isSelectedCreate) {
+  //     switchPanel(ACTIVE_PANEL.BASIC_WELCOME)              
+  //     setMdxPage(MDX_PAGE.WELCOME)
+  //   }
+  // }
+
   const handleCreate = () => {
-    closePanel('menu')
-    closePanel('help')
-    closePanel('profile')
-    setIsSelectedCreate(prev => !prev)
-    if (isSelectedCreate) {
-      switchPanel(ACTIVE_PANEL.BASIC_WELCOME)              
-      setMdxPage(MDX_PAGE.WELCOME)
-    }
+    togglePanelWithFocus(ACTIVE_PANEL.BASIC_CREATE)
   }
+
+  const handleStudy = () => {
+    togglePanelWithFocus(ACTIVE_PANEL.BASIC_STUDY)
+  }
+
+  const [shouldWiggle, setShouldWiggle] = useState(false)
+
+  useEffect(() => {
+    if (isUserValidated && lesson?.isComplete) {
+      setShouldWiggle(false) // Step 1: remove class
+      const timeout = setTimeout(() => {
+        setShouldWiggle(true) // Step 2: re-add class after DOM has updated
+        const timer = setTimeout(() => setShouldWiggle(false), 1000) // Optional reset
+        return () => clearTimeout(timer)
+      }, 50) // Give React 1 frame to remove class
+
+      return () => clearTimeout(timeout)
+    }
+  }, [isUserValidated, lesson?.isComplete])
 
   return (
     <nav className={`navbar-bottom fixed bottom-0 bt b--background-30 left-0 w-100 flex flex-column items-center bg-secondary justify-aroundX ph3 pv2 transition-transform ${translateY} z-999 br0`}>
@@ -99,28 +106,19 @@ const NavbarBottom = () => {
             <div className='bg-blueX mb0 pb0 w-100X h2 tc on-background'>Konnect with Spanish!</div>
             <Button
               ariaLabelledBy={'button-create'} 
-              tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
-              ariaDisabled={!screenState[SCREEN.CREATE]}
-              // reverse={true}
+              tabIndex={tabIndex}
+              ariaDisabled={ariaDisabled}
               iconClass={`f2 ${isSelectedCreate ? 'secondaryX' : 'secondaryX'}`}
-              // iconClass={`f2 ${isSelectedCreate ? 'secondary' : 'on-background'}`}
               disable={!isUserValidated}
               buttonClass={`mh3 bn bg-whiteX ${isSelectedCreate ? 'bg-backgroundX' : 'bg-on-backgroundX'}`}
-              // buttonClass={`mh3 bn bg-redX ${isSelectedCreate ? 'bg-on-background' : 'bg-secondary'}`}
-              // titleClass={`${isSelectedCreate ? 'secondary' : 'on-background'}`}
               titleClass={`${isSelectedCreate ? 'secondaryX' : 'secondaryX'}`}
-              // titleClass={`${isSelectedCreate ? reverse ? 'secondary' : 'on-background' : 'secondary' : 'on-background' : reverse ? 'secondary' : 'on-background' : 'secondary' : 'on-background'  }`}
               isActive={activePanel === ACTIVE_PANEL.BASIC_CREATE}
-              switchFn={switchPanel}
               panel={ACTIVE_PANEL.BASIC_CREATE}
               icon={faPersonChalkboard}
               title='Create'
-              onClick={() => {
-                handleCreate()          
-                // setSelectedCreate(prev => !prev)
-              }}
+              onClick={handleCreate}
             />
-            <Button ariaLabelledBy={'button-study'} tabIndex={screenState[SCREEN.CREATE] ? 0 : -1} ariaDisabled={!screenState[SCREEN.CREATE]} iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass='mh3 bn' isActive={activePanel === 'basicStudy'} switchFn={switchPanel} panel='basicStudy' icon={faBookOpen} title='Study' />
+            <Button ariaLabelledBy={'button-study'} tabIndex={tabIndex} ariaDisabled={ariaDisabled} iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass={`${shouldWiggle ? 'wiggle-once' : ''} grow mh3 bn`} isActive={activePanel === 'basicStudy'} onClick={handleStudy} panel='basicStudy' icon={faBookOpen} title='Study' />
           </div>
         </>
       </div>
