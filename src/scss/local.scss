@@ -5,12 +5,13 @@
   margin: 0;
 }
 
-.ProseMirror-focused,
-.tiptap.ProseMirror {
+.ProseMirror-focused:visible-focus,
+.tiptap.ProseMirror:visible-focus {
   outline: none !important; // removes the default outline
   // optionally add a subtle focus style that's less intrusive:
   // box-shadow: 0 0 0 2px rgba(53, 126, 221, 0.5);
-  border-radius: 4px;
+  border: .5rem double red;
+  // border-radius: 4px;
 }
 
 // body {

@@ -141,6 +141,7 @@ export const ACTIVE_PANEL = {
   SELECT_MARKETING_PREFERENCES: 'SelectMarketingPreferences',
   INPUT_CUSTOM_PARICIPANT_LIST: 'InputCustomParticipantList',
   INPUT_LESSON_NAME: 'InputLessonName',
+  TIPTAP_EDITOR: 'TiptapEditor',
 
   PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',

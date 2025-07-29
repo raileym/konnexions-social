@@ -12,7 +12,8 @@ export const PanelManagerProvider = ({ children }: { children: React.ReactNode }
     ACTIVE_PANEL.INPUT_CUSTOM_PARICIPANT_LIST,
     ACTIVE_PANEL.BASIC_CREATE_COMPONENTS,
     ACTIVE_PANEL.INPUT_LESSON_NAME,
-    ACTIVE_PANEL.NAVBAR_TOP
+    ACTIVE_PANEL.NAVBAR_TOP,
+    ACTIVE_PANEL.TIPTAP_EDITOR
   ]))
 
   const [currentPanel, setCurrentPanel] = useState<ActivePanel>(ACTIVE_PANEL.MDX)

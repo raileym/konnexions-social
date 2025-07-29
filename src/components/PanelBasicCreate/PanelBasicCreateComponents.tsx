@@ -23,9 +23,11 @@ const PanelBasicCreateComponents = () => {
     callback: {
       onOpen: () => {
         openPanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
+        openPanel(ACTIVE_PANEL.TIPTAP_EDITOR)
       },
       onClose: () => {
         closePanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
+        closePanel(ACTIVE_PANEL.TIPTAP_EDITOR)
       },
       onFocus: () => {
         focusPanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
@@ -97,11 +99,11 @@ const PanelBasicCreateComponents = () => {
             onChange={(lessonName) => updateLessonField({ lessonName, isComplete: false })}
           />
 
-          <div className="flex flex-row justify-center">
+          {/* <div className="flex flex-row justify-center">
             <button tabIndex={tabIndex} aria-disabled={ariaDisabled} className="mh3 bg-yellow pv1 ph2">ONE</button>
             <button tabIndex={tabIndex} aria-disabled={ariaDisabled} className="mh3 bg-yellow pv1 ph2">TWO</button>
             <button tabIndex={tabIndex} aria-disabled={ariaDisabled} className="mh3 bg-yellow pv1 ph2">THREE</button>
-          </div>
+          </div> */}
 
           {!ariaDisabled &&
             <TiptapEditor
@@ -121,7 +123,7 @@ const PanelBasicCreateComponents = () => {
               <button
                 tabIndex={tabIndex}
                 aria-disabled={ariaDisabled}
-                className={'f3 pa3 br4 bn bg-brand on-background pointer'}
+                className={'f3 pa3 br4 bnX bg-brand on-background pointer b--transparent bw3 bg-secondary'}
                 onClick={() => {
                   createFlexLesson({lesson})
                 }}
