@@ -4,7 +4,7 @@ import { runPipelineCbClient } from '@PanelGenAIProComponents/runPipelineCbClien
 import { formatDialogLinesForReview } from '@shared/formatDialogLinesForReview'
 import { formatTranslationLinesForReview } from '@shared/formatTranslationLinesForReview'
 import { defaultLesson, type CreateFlexLessonProps, type CreateLessonResult } from '@cknTypes/types'
-// import { useDebugLogger } from '@hooks/useDebugLogger'
+import { useDebugLogger } from '@hooks/useDebugLogger'
 import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDetails'
 import { upsertUserData } from '@components/upsertUserData/upsertUserData'
 import { usePaywall } from './usePaywall/usePaywall'
@@ -12,7 +12,7 @@ import { usePaywall } from './usePaywall/usePaywall'
 
 export const useLessonHandlers = () => {
 
-  // const debugLog = useDebugLogger()
+  const debugLog = useDebugLogger()
   
   const {
     setLessons,
@@ -274,15 +274,21 @@ export const useLessonHandlers = () => {
     // ********************************************
     // Update lesson list
     // ********************************************
-    setLessons((prev) => {
-      // debugLog('🔄 Updating lesson list...')
-      // debugLog('▶️ updatedTranslationLesson:', updatedTranslationLesson)
-      const next = prev.map((lsn) =>
-        lsn.number === selectedLessonNumber ? { ...updatedTranslationLesson, id: lsn.id, name: lsn.name } : lsn
-      )
-      // debugLog('📦 New lessons array:', next)
-      return next
-    })
+    // setLessons((prev) => {
+    //   debugLog('🔄 Updating lesson list...')
+    //   debugLog('▶️ updatedTranslationLesson:', updatedTranslationLesson)
+    //   const next = prev.map((lsn) =>
+    //     lsn.number === selectedLessonNumber ? { ...updatedTranslationLesson, id: lsn.id, name: lsn.name } : lsn
+    //   )
+    //   debugLog('📦 New lessons array:', next)
+    //   return next
+    // })
+
+    const nextLessons = lessons.map((lsn) =>
+      lsn.number === selectedLessonNumber ? { ...updatedTranslationLesson, id: lsn.id, name: lsn.name } : lsn
+    )
+
+    setLessons(nextLessons)
 
     refreshPaywall()
     
@@ -293,7 +299,7 @@ export const useLessonHandlers = () => {
       clientUUID,
       flexLesson,
       currentLesson: updatedTranslationLesson,
-      lessons,
+      lessons: nextLessons, // use the freshly updated list
       lessonNumber: selectedLessonNumber,
       lessonPrompt,
       lessonTimestamp: new Date().toISOString()

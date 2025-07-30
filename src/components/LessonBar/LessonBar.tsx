@@ -16,14 +16,14 @@ export const LessonBar = () => {
     setLessons,
     selectedLessonNumber,
     setSelectedLessonNumber,
-    activePanel,
+    // activePanel,
     // lessonComplete,
     setLessonComplete,
     setLesson,
     paywall
   } = useAppContext()
   
-  const { focusPanel } = usePanelManager()
+  const { focusPanel, openPanel } = usePanelManager()
   
   const { firstFocusButtonRef, translateX, tabIndex, ariaDisabled } = usePanelBase({
     panelName: ACTIVE_PANEL.LESSON_BAR,
@@ -95,16 +95,27 @@ export const LessonBar = () => {
                 }
               }}
               onClick={() => {
+                // console.log('lesson', lesson)
                 setSelectedLessonNumber(lesson.number)
                 setLessonComplete(lesson.isComplete)
-                if (activePanel === ACTIVE_PANEL.BASIC_STUDY && !lesson.isComplete) {
-                  switchPanel(ACTIVE_PANEL.BASIC_CREATE)
-                  focusPanel(ACTIVE_PANEL.BASIC_CREATE_COMPONENTS)
-                } else if  (activePanel === ACTIVE_PANEL.BASIC_STUDY) {
-                  focusPanel(ACTIVE_PANEL.BASIC_STUDY_COMPONENTS)
+                if (lesson.isComplete) {
+                  // switchPanel(ACTIVE_PANEL.BASIC_STUDY)
+                  // focusPanel(ACTIVE_PANEL.BASIC_STUDY_COMPONENTS)
+                  openPanel(ACTIVE_PANEL.BASIC_STUDY)
+                  focusPanel(ACTIVE_PANEL.BASIC_STUDY)
                 } else {
-                  focusPanel(ACTIVE_PANEL.BASIC_CREATE_COMPONENTS)                  
+                  // switchPanel(ACTIVE_PANEL.BASIC_CREATE)
+                  openPanel(ACTIVE_PANEL.BASIC_CREATE)
+                  focusPanel(ACTIVE_PANEL.BASIC_CREATE_COMPONENTS)
                 }
+                // if (activePanel === ACTIVE_PANEL.BASIC_STUDY && !lesson.isComplete) {
+                //   switchPanel(ACTIVE_PANEL.BASIC_CREATE)
+                //   focusPanel(ACTIVE_PANEL.BASIC_CREATE_COMPONENTS)
+                // } else if  (activePanel === ACTIVE_PANEL.BASIC_STUDY) {
+                //   focusPanel(ACTIVE_PANEL.BASIC_STUDY_COMPONENTS)
+                // } else {
+                //   focusPanel(ACTIVE_PANEL.BASIC_CREATE_COMPONENTS)                  
+                // }
               }}
               className={`lesson-bar button-lesson b--transparent b--double focus:b--red focus:b--double b mv1 pa2 pointer br2X f3 bw2 bbX tc b--blueX on-tertiaryX whiteX hover:tertiary ${
                 selectedLessonNumber === lesson.number ? 'bg-light-green black b' : 'hover-bg-light-gray black  '

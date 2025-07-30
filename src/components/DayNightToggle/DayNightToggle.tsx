@@ -5,7 +5,11 @@ import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { MODE } from '@context/AppContext/constants'
 
-const DayNightToggle = () => {
+type DayNightToggleProps = {
+  className?: string
+}
+
+const DayNightToggle = ({className}: DayNightToggleProps) => {
   const { mode, setMode } = useThemeContext()
 
   const toggleMode = () => {
@@ -18,10 +22,10 @@ const DayNightToggle = () => {
     <div
       tabIndex={TABINDEX_NEVER}
       aria-disabled={false}
-      className="day-night-toggle pa1 bw1 br3 flex items-center"
+      className={'day-night-toggle pa1 bw1 br3 flex items-center'}
       style={{ right: '12rem', top: '8rem', fontFamily: 'monospace' }}
     >
-      <button onClick={toggleMode} className={'secondary ma1 f2 w3 ph2 pv1 bg-transparent b--transparent b--double bw3 focus:b--transparent'}>
+      <button onClick={toggleMode} className={`${className} secondary ma1 f2 w3 ph2 pv1 bg-transparent b--transparent b--double bw3 focus:b--transparent`}>
         {!isDay ? 
           <>
             <FontAwesomeIcon className="w2X" icon={faSun} /> 

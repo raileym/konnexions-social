@@ -125,7 +125,7 @@ const NavbarBottom = () => {
               iconClass={'f2'}
               disable={!isUserValidated || !(lesson?.isComplete)}
               buttonClass={`b--double b--transparent bw3 ${shouldWiggle ? 'wiggle-once' : ''} growX mh3 bnX Xfocus-visible:b--red`}
-              isActive={activePanel === 'basicStudy'}
+              isActive={activePanel === ACTIVE_PANEL.BASIC_STUDY}
               onClick={handleStudy}
               panel='basicStudy'
               icon={faBookOpen}
