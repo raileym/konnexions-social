@@ -275,7 +275,7 @@ const PanelGenAIProComponents = () => {
               <button
                 tabIndex={tabIndex}
                 aria-disabled={ariaDisabled}
-                className={`f3 pa3 br4 bn ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
+                className={`f3 pa3 br4 bnX ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   createFullLesson()
                 }}

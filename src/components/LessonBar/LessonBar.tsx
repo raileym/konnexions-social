@@ -94,6 +94,17 @@ export const LessonBar = () => {
                   e.currentTarget.click() // trigger onClick
                 }
               }}
+              onFocus={() => {
+                  setSelectedLessonNumber(lesson.number)
+                  setLessonComplete(lesson.isComplete)
+                  if (lesson.isComplete) {
+                    openPanel(ACTIVE_PANEL.BASIC_STUDY)
+                    // focusPanel(ACTIVE_PANEL.BASIC_STUDY_COMPONENTS)
+                  } else {
+                    openPanel(ACTIVE_PANEL.BASIC_CREATE)
+                    // focusPanel(ACTIVE_PANEL.BASIC_CREATE_COMPONENTS)
+                  }
+                }}
               onClick={() => {
                 // console.log('lesson', lesson)
                 setSelectedLessonNumber(lesson.number)

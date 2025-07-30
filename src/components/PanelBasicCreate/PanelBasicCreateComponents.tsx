@@ -124,7 +124,7 @@ const PanelBasicCreateComponents = () => {
                 type="button" 
                 tabIndex={tabIndex}
                 disabled={ariaDisabled}
-                className={'f3 pa3 br4 bnX bg-brand on-background pointer b--transparent bw3 bg-secondary'}
+                className={'f3 pa3 br4 bnX bg-brandX on-backgroundX pointer b--transparent bw3 bg-tertiary on-tertiary'}
                 onClick={() => {
                   if (!ariaDisabled) createFlexLesson({ lesson })
                 }}

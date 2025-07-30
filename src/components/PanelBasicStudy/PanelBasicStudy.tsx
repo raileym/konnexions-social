@@ -21,7 +21,7 @@ const PanelBasicStudy = () => {
         closePanel(ACTIVE_PANEL.NAVBAR_BOTTOM)
         closePanel(ACTIVE_PANEL.LESSON_BAR)
         closePanel(ACTIVE_PANEL.BASIC_STUDY_COMPONENTS)
-        focusPanel(ACTIVE_PANEL.NAVBAR_TOP)
+        // focusPanel(ACTIVE_PANEL.NAVBAR_TOP)
       },
       onFocus: () => {
         focusPanel(ACTIVE_PANEL.BASIC_STUDY_COMPONENTS)
