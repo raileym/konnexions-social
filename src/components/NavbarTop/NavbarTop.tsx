@@ -81,7 +81,7 @@ const NavbarTop = () => {
             <div className="silver bX flex flex-column">
               <div className="flex f3">
                 <div className="dn relative width-4-kx height-3-kx dn-kx-45 dib-kx-n45">
-                  <div className="absolute top-0 left-0 bg-secondary mt2X width-4-kx br3 height-4-kx ar-1" style={{marginTop: '0.2rem', marginLeft: '0.2rem', width: '3.6rem', height: '3.6rem'}}></div>
+                  <div className="absolute top-0 left-0 bg-secondary mt2X width-4-kx br3 height-4-kx ar-1" style={{marginTop: '0.2rem', marginLeft: '0.2rem'}}></div>
                   <div className="konnexions-title f2 absolute top-0 left-0 ml3">
                     <MyKonnexionsTitle ariaHidden={true} ariaLabel='' ariaDescribedBy={''} shorten={true} color='on-background' fontSizeInRem={2}/>
                   </div>
@@ -104,11 +104,11 @@ const NavbarTop = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.GEN_AI_PRO} title='Bienvenido! Pro' buttonClass={'baX b--black mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanishPro} />
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.BASIC_CREATE} title='Bienvenido!' buttonClass={'baX b--black mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-profile'} isActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='baX b--black mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
-          <DayNightToggle className="baX b--black bw1X b--solidX mh3" />
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-menu'} isActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='baX b--black mh3 b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.GEN_AI_PRO} title='Bienvenido! Pro' buttonClass={'baX b--transparent mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanishPro} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.BASIC_CREATE} title='Bienvenido!' buttonClass={'baX b--transparent mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-profile'} isActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='baX b--transparent mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <DayNightToggle className="baX b--transparent bw1X b--solidX mh3" />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-menu'} isActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='baX b--transparent mh3 b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>
