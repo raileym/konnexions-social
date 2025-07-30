@@ -1,11 +1,13 @@
 import { useAppContext } from '@context/AppContext/AppContext'
-import { SCENARIO } from '@cknTypes/constants'
-import type { InputCustomScenarioProps } from '@cknTypes/types'
+import { ACTIVE_PANEL, SCENARIO } from '@cknTypes/constants'
+import { usePanelBase } from '@hooks/usePanelBase'
 
-const InputCustomScenario  = ({tabIndex, ariaDisabled}: InputCustomScenarioProps) => {
+const InputCustomScenario  = () => {
   const { scenario, customScenario, setCustomScenario } = useAppContext()
   const disabled = scenario !== SCENARIO.CUSTOM
 
+  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_CUSTOM_SCENARIO})
+  
   return (
     <div className="mb3 on-background" style={{ opacity: disabled ? 0.5 : 1 }}>
       <label className="db mb2 f5 b">Custom Scenario</label>

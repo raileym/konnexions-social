@@ -57,15 +57,15 @@ const PanelGenAIProComponents = () => {
   const { focusPanel, openPanel } = usePanelManager()
 
   const { tabIndex, ariaDisabled } = usePanelBase({
-    panelName: ACTIVE_PANEL.GEN_AI_PRO,
+    panelName: ACTIVE_PANEL.GEN_AI_PRO_COMPONENTS,
     translateXOpen: 'translate-x-0',
     translateXClose: 'translate-x-full',
     callback: {
       onOpen: () => {
-        openPanel(ACTIVE_PANEL.INPUT_CUSTOM_PARICIPANT_LIST)
+        openPanel(ACTIVE_PANEL.INPUT_CUSTOM_PARTICIPANT_LIST)
       },
       onFocus: () => {
-        focusPanel(ACTIVE_PANEL.INPUT_CUSTOM_PARICIPANT_LIST)
+        focusPanel(ACTIVE_PANEL.INPUT_CUSTOM_PARTICIPANT_LIST)
       }
     }
   })
@@ -204,7 +204,7 @@ const PanelGenAIProComponents = () => {
           */}
          
           <div className="mv4 flex flex-row justify-center">
-            <SelectorLanguage tabIndex={tabIndex} ariaDisabled={ariaDisabled} />
+            <SelectorLanguage />
           </div>
 
           <h2 className="flex flex-column f2 pa3 pb0X mt4X w-100 items-center tc on-background">
@@ -213,7 +213,7 @@ const PanelGenAIProComponents = () => {
           </h2>
 
 
-          <TextareaFlexLesson tabIndex={tabIndex} ariaDisabled={ariaDisabled} title={'Flex Lesson'}/>
+          <TextareaFlexLesson title={'Flex Lesson'}/>
           
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
@@ -250,14 +250,14 @@ const PanelGenAIProComponents = () => {
           </div>
 
           <div className="flex flex-row">
-            <SelectorLessonPromptStyle tabIndex={tabIndex} ariaDisabled={ariaDisabled} />
-            <SelectorScenario tabIndex={tabIndex} ariaDisabled={ariaDisabled} custom={true} />
-            <SelectorParticipantRole tabIndex={tabIndex} ariaDisabled={ariaDisabled} />
+            <SelectorLessonPromptStyle />
+            <SelectorScenario custom={true} />
+            <SelectorParticipantRole />
           </div>
 
           <div>
-            <InputCustomScenario tabIndex={tabIndex} ariaDisabled={ariaDisabled} />
-            <InputCustomParticipantList tabIndex={tabIndex} ariaDisabled={ariaDisabled} />
+            <InputCustomScenario />
+            <InputCustomParticipantList />
           </div>
           
           {/*
@@ -303,14 +303,16 @@ const PanelGenAIProComponents = () => {
             rows={10}
           />
 
-          <div className="pa3 mt3 ba bg-on-background w-100">
-            <DialogList
-              language={lesson.targetLanguage}
-              translations={(lesson?.translationResolve?.lines ?? [])}
-              lines={(lesson?.dialogResolve?.lines ?? [])}
-              useCloudTTS={true}
-            />
-          </div>
+          {!ariaDisabled && 
+            <div className="pa3 mt3 ba bg-on-background w-100">
+              <DialogList
+                language={lesson.targetLanguage}
+                translations={(lesson?.translationResolve?.lines ?? [])}
+                lines={(lesson?.dialogResolve?.lines ?? [])}
+                useCloudTTS={true}
+              />
+            </div>
+          }
 
           <div className="pa3 mt3 ba bg-on-background w-100">
             <div className='tc f3 w-100 mt4X b'>{capitalize(lessonPromptStyle)} {customScenario}</div>

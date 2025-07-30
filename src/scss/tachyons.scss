@@ -813,7 +813,7 @@ $non-break-pairs: (
 .wiggle-once {
   animation: wiggleOnce 0.5s ease-in-out;
   animation-fill-mode: forwards;
-  animation-delay: 2.2s; // adjust as needed
+  animation-delay: 0.25s; // adjust as needed
 }
 
 .wiggle-effect {

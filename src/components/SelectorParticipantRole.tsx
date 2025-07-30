@@ -1,8 +1,8 @@
 import { useAppContext } from '@context/AppContext/AppContext'
-import { SCENARIO } from '@cknTypes/constants'
-import type { SelectorParticipantRoleProps } from '@cknTypes/types'
+import { ACTIVE_PANEL, SCENARIO } from '@cknTypes/constants'
+import { usePanelBase } from '@hooks/usePanelBase'
 
-const SelectorParticipantRole = ({tabIndex, ariaDisabled}: SelectorParticipantRoleProps) => {
+const SelectorParticipantRole = () => {
   const {
     useMyself,
     setUseMyself,
@@ -12,6 +12,8 @@ const SelectorParticipantRole = ({tabIndex, ariaDisabled}: SelectorParticipantRo
 
   const isDisabled = scenario === SCENARIO.CUSTOM
   const labelClass = isDisabled ? 'o-50' : '' // o-50 = 50% opacity in Tachyons
+
+  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_PARTICIPANT_ROLE})
 
   return (
     <div className="mb3 on-background">

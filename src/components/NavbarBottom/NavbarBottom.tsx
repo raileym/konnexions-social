@@ -110,7 +110,7 @@ const NavbarBottom = () => {
               ariaDisabled={ariaDisabled}
               iconClass={`f2 ${isSelectedCreate ? 'secondaryX' : 'secondaryX'}`}
               disable={!isUserValidated}
-              buttonClass={`mh3 bn bg-whiteX ${isSelectedCreate ? 'bg-backgroundX' : 'bg-on-backgroundX'}`}
+              buttonClass={`b--double b--transparent bw3 mh3 bnX bg-whiteX ${isSelectedCreate ? 'bg-backgroundX' : 'bg-on-backgroundX'} focus-visible:b--red`}
               titleClass={`${isSelectedCreate ? 'secondaryX' : 'secondaryX'}`}
               isActive={activePanel === ACTIVE_PANEL.BASIC_CREATE}
               panel={ACTIVE_PANEL.BASIC_CREATE}
@@ -118,7 +118,18 @@ const NavbarBottom = () => {
               title='Create'
               onClick={handleCreate}
             />
-            <Button ariaLabelledBy={'button-study'} tabIndex={tabIndex} ariaDisabled={ariaDisabled} iconClass={'f2'} disable={!isUserValidated || !(lesson?.isComplete)} buttonClass={`${shouldWiggle ? 'wiggle-once' : ''} grow mh3 bn`} isActive={activePanel === 'basicStudy'} onClick={handleStudy} panel='basicStudy' icon={faBookOpen} title='Study' />
+            <Button
+              ariaLabelledBy={'button-study'}
+              tabIndex={tabIndex}
+              ariaDisabled={ariaDisabled}
+              iconClass={'f2'}
+              disable={!isUserValidated || !(lesson?.isComplete)}
+              buttonClass={`b--double b--transparent bw3 ${shouldWiggle ? 'wiggle-once' : ''} growX mh3 bnX Xfocus-visible:b--red`}
+              isActive={activePanel === 'basicStudy'}
+              onClick={handleStudy}
+              panel='basicStudy'
+              icon={faBookOpen}
+              title='Study' />
           </div>
         </>
       </div>

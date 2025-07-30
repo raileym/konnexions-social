@@ -60,14 +60,14 @@ const PanelBasicStudyComponents = () => {
 
           <button ref={firstFocusButtonRef} tabIndex={tabIndex} aria-disabled={ariaDisabled} className="wiggle bg_secondary pv1 ph3">Placeholder</button>
 
-          <div className="w-60 center db mb4 f3 mb3 on-background">{tiptapEditorTitle}</div>
+          {/* <div className="w-60 center db mb4 f3 mb3 on-background">{tiptapEditorTitle}</div>
           <div className="pa3 mt3 ba bg-background w-100">
             <DialogList
               language={lesson.targetLanguage}
               lines={(lesson?.dialogResolve?.lines ?? [])}
               translations={(lesson?.translationResolve?.lines ?? [])} 
               useCloudTTS={true} />
-          </div>
+          </div> */}
 
           {/* <ul className="mv3 bg-on-background background">
             {lesson.translationResolve.lines.map((line, i) => (

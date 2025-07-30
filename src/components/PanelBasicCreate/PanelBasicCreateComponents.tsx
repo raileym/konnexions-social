@@ -121,11 +121,12 @@ const PanelBasicCreateComponents = () => {
           <div className={'mt3 mb4 flex justify-center'}>
             <div>
               <button
+                type="button" 
                 tabIndex={tabIndex}
-                aria-disabled={ariaDisabled}
+                disabled={ariaDisabled}
                 className={'f3 pa3 br4 bnX bg-brand on-background pointer b--transparent bw3 bg-secondary'}
                 onClick={() => {
-                  createFlexLesson({lesson})
+                  if (!ariaDisabled) createFlexLesson({ lesson })
                 }}
               >
                 Create Lesson

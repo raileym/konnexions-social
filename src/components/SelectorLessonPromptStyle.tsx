@@ -1,15 +1,18 @@
 import { useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { type LessonPromptStyle, type SelectorLessonPromptStyleProps } from '@cknTypes/types'
-import { LESSON_PROMPT_STYLE } from '@cknTypes/constants'
+import { type LessonPromptStyle } from '@cknTypes/types'
+import { ACTIVE_PANEL, LESSON_PROMPT_STYLE } from '@cknTypes/constants'
+import { usePanelBase } from '@hooks/usePanelBase'
 
-const SelectorLessonPromptStyle = ({tabIndex, ariaDisabled}: SelectorLessonPromptStyleProps) => {
+const SelectorLessonPromptStyle = () => {
   const {
     lessonPromptStyle,
     setLessonPromptStyle
   } = useAppContext()
 
   const lessonPromptStyles = useMemo<LessonPromptStyle[]>(() => Object.values(LESSON_PROMPT_STYLE), [])
+
+  const {tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_LESSON_PROMPT_STYLE})
 
   return (
     <div className="mb3 on-background">

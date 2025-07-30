@@ -1,9 +1,10 @@
 import { useMemo } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { type Scenario, type SelectorScenarioProps } from '@cknTypes/types'
-import { SCENARIO } from '@cknTypes/constants'
+import { ACTIVE_PANEL, SCENARIO } from '@cknTypes/constants'
+import { usePanelBase } from '@hooks/usePanelBase'
 
-const SelectorScenario = ({ tabIndex, ariaDisabled, custom }: SelectorScenarioProps) => {
+const SelectorScenario = ({ custom }: SelectorScenarioProps) => {
   const {
     scenario,
     setScenario //,
@@ -20,6 +21,7 @@ const SelectorScenario = ({ tabIndex, ariaDisabled, custom }: SelectorScenarioPr
     ]
   }, [custom])
 
+  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_SCENARIO})
   // const scenarioDescriptions = useMemo<Record<Scenario, string>>(() => ({
   //   restaurant: 'at a restaurant',
   //   hotel: 'at the hotel check-in desk',

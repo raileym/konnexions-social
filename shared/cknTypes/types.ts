@@ -1118,8 +1118,6 @@ export type FormatSentenceProps = {
 }
 
 export type TextareaFlexLessonProps = {
-  tabIndex: number
-  ariaDisabled: boolean
   title: string
 }
 
@@ -1375,8 +1373,6 @@ export const defaultScreenState: ScreenState = {
 }
 
 export type SelectorScenarioProps = {
-  tabIndex: number
-  ariaDisabled: boolean
   custom: boolean
 }
 
@@ -1432,24 +1428,4 @@ export type MyKonnexionsTitleProps = {
 
 export type MyConnexionsTitleLegalProps = {
   nominal: string
-}
-
-export type SelectorLessonPromptStyleProps = {
-  tabIndex: number
-  ariaDisabled: boolean
-}
-
-export type SelectorParticipantRoleProps = {
-  tabIndex: number
-  ariaDisabled: boolean
-}
-
-export type InputCustomScenarioProps = {
-  tabIndex: number
-  ariaDisabled: boolean
-}
-
-export type InputCustomParticipantListProps = {
-  tabIndex: number
-  ariaDisabled: boolean
 }

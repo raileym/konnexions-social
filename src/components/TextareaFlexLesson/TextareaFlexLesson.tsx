@@ -1,6 +1,8 @@
 import type { TextareaFlexLessonProps } from '@cknTypes/types'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
+import { ACTIVE_PANEL } from '@cknTypes/constants'
+import { usePanelBase } from '@hooks/usePanelBase'
 
 // Assume you have this helper function somewhere
 // const formatFlexLesson = ({ flexLesson }: { flexLesson: string }): string[] => {
@@ -10,8 +12,10 @@ import { formatFlexLesson } from '@components/formatFlexLesson/formatFlexLesson'
 //     .filter(line => line.length > 0)
 // }
 
-export const TextareaFlexLesson = ({title, tabIndex, ariaDisabled}: TextareaFlexLessonProps) => {
+export const TextareaFlexLesson = ({title}: TextareaFlexLessonProps) => {
   const { flexLesson, setFlexLesson, setFormattedFlexLesson } = useAppContext()
+
+  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.TEXTAREA_FLEX_LESSON})
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value

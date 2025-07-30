@@ -1,13 +1,9 @@
 import { useAppContext } from '@context/AppContext/AppContext'
 import { type Language } from '@cknTypes/types'
-import { LANGUAGE, LANGUAGE_TITLE } from '@cknTypes/constants'
+import { ACTIVE_PANEL, LANGUAGE, LANGUAGE_TITLE } from '@cknTypes/constants'
+import { usePanelBase } from '@hooks/usePanelBase'
 
-type SelectorLanguageProps = {
-  tabIndex: number,
-  ariaDisabled: boolean
-}
-
-const SelectorLanguage = ({tabIndex, ariaDisabled}: SelectorLanguageProps) => {
+const SelectorLanguage = () => {
   const { targetLanguage, setTargetLanguage } = useAppContext()
 
   const languages: Language[] = [
@@ -17,6 +13,8 @@ const SelectorLanguage = ({tabIndex, ariaDisabled}: SelectorLanguageProps) => {
     LANGUAGE.ITALIAN
   ]
 
+  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_LANGUAGE})
+  
   return (
     <div className="mb3X on-background">
       <label className="db mb2 f5 b">Choose a language:</label>

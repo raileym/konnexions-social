@@ -4,12 +4,13 @@ import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchTTS } from '@PanelGenAIProComponents/fetchTTS/fetchTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
-import { LANGUAGE_TITLE, SCREEN } from '@cknTypes/constants'
+import { ACTIVE_PANEL, LANGUAGE_TITLE } from '@cknTypes/constants'
 import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useDebugLogger } from '@hooks/useDebugLogger'
 import { capitalize } from '@components/Util'
 import type { DialogListProps } from '@cknTypes/types'
 import { usePaywall } from '@hooks/usePaywall/usePaywall'
+import { usePanelBase } from '@hooks/usePanelBase'
 
 export const DialogList = ({ language, lines, translations, useCloudTTS }: DialogListProps) => {
   const [showTranslations, setShowTranslations] = useState(false)
@@ -30,10 +31,11 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
     lessonPromptStyle,
     customScenario,
     paywall,
-    clientUUID,
-    screenState
+    clientUUID
   } = useAppContext()
 
+  const { tabIndex, ariaDisabled, firstFocusButtonRef } = usePanelBase({panelName: ACTIVE_PANEL.DIALOG_LIST})
+  
   const { refreshPaywall } = usePaywall()
 
   // cXonsole.log('lines', lines)
@@ -151,15 +153,15 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
       <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
 
       <div className='flex flex-row items-center mt4'>
-        <button onClick={playAll} className='ml3 f6 br2 ph2 pv1 on-background bg-secondary hover:bg-blue' tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1} aria-disabled={!screenState[SCREEN.REVIEW]}>
+        <button onClick={playAll} className='ml3 f6 br2 ph2 pv1 on-background bg-secondary hover:bg-blue' tabIndex={tabIndex} aria-disabled={ariaDisabled}>
           <FontAwesomeIcon icon={faPlay} /> Play All
         </button>
-        <button onClick={stopAll} className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red' tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1} aria-disabled={!screenState[SCREEN.REVIEW]}>
+        <button onClick={stopAll} className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red' tabIndex={tabIndex} aria-disabled={ariaDisabled}>
           <FontAwesomeIcon icon={faStop} /> Stop
         </button>
         <button
-          tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
-          aria-disabled={!screenState[SCREEN.REVIEW]}
+          tabIndex={tabIndex}
+          aria-disabled={ariaDisabled}
           onClick={() => setShowTranslations(prev => !prev)}
           className={`ml2 f6 br2 ph2 pv1 on-background ${hasTranslations ? 'bg-background hover:bg-silver' : 'bg-background cursor-not-allowed'}`}
           disabled={!hasTranslations}
@@ -170,7 +172,9 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
 
       <hr className="mv3 pv0" />
 
-      <div className="h5 overflow-y-auto" style={{ height: '30rem' }}>
+      <button ref={firstFocusButtonRef} tabIndex={tabIndex} aria-disabled={ariaDisabled} className="bg-yellow pv1 ph3">Placeholder</button>
+
+      <div aria-disabled={true} className="h5 overflow-y-auto" style={{ height: '30rem' }}>
         <ul className='mt0 ml0 pl3'>
           {lines.map((line, i) => {
             const rawTranslation = translations && translations[i] ? translations[i] : ''
