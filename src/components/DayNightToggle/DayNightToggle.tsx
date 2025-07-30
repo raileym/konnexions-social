@@ -19,26 +19,19 @@ const DayNightToggle = ({className}: DayNightToggleProps) => {
   const isDay = mode === THEME_MODE.DAY
 
   return (
-    <div
-      tabIndex={TABINDEX_NEVER}
-      aria-disabled={false}
-      className={'day-night-toggle pa1 bw1 br3 flex items-center'}
-      style={{ right: '12rem', top: '8rem', fontFamily: 'monospace' }}
-    >
-      <button onClick={toggleMode} className={`${className} secondary ma1 f2 w3 ph2 pv1 bg-transparent b--transparent b--double bw3 focus:b--transparent`}>
-        {!isDay ? 
-          <>
-            <FontAwesomeIcon className="w2X" icon={faSun} /> 
-            <div className={'f6 mt1 tc secondary'}>Day</div>        
-          </>
-          : 
-          <>
-            <FontAwesomeIcon className="w2X" icon={faMoon} />
-            <div className={'f6 mt1 tc secondary'}>Night</div>        
-          </>
-        }
-      </button>
-    </div>
+    <button onClick={toggleMode} className={`day-night-toggle secondary ma1X f2 w3 ph2 pv1 bg-transparent b--transparentX b--double bw3X focus:b--transparent ${className} `}>
+      {!isDay ? 
+        <>
+          <FontAwesomeIcon className="w2X" icon={faSun} /> 
+          <div className={'f6 mt1 tc secondary'}>Day</div>        
+        </>
+        : 
+        <>
+          <FontAwesomeIcon className="w2X" icon={faMoon} />
+          <div className={'f6 mt1 tc secondary'}>Night</div>        
+        </>
+      }
+    </button>
   )
 }
 

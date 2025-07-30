@@ -60,19 +60,19 @@ $break-pairs: (
 .focus\:b--solid:focus,
 .focus-visible\:b--solid:focus-visible,
 .focus-within\:b--double:focus-within {
-  border-style:solid;
+  border-style:solid !important;
 } 
 
 .focus\:bn:focus,
 .focus-visible\:bn:focus-visible,
 .focus-within\:b--double:focus-within {
-  border: none;
+  border: none !important;
 } 
 
 .focus\:b--double:focus,
 .focus-visible\:b--double:focus-visible,
 .focus-within\:b--double:focus-within {
-  border-style:double
+  border-style:double !important;
 }
 
 @each $bw in $border-width {
@@ -81,7 +81,7 @@ $break-pairs: (
   .focus\:bw#{$i}:focus,
   .focus-visible\:bw#{$i}:focus-visible,  
   .focus-within\:b--double:focus-within {
-    border-width: #{$bw};
+    border-width: #{$bw} !important;
   }
 }
 
@@ -91,7 +91,7 @@ $break-pairs: (
   .hover\:bg-#{$name}:hover,
   .focus\:bg-#{$name}:focus,
   .focus-visible\:bg-#{$name}:focus-visible {
-    background-color: #{$value};
+    background-color: #{$value} !important;
   }
 
   .disabled\:#{$name}:disabled,
@@ -102,7 +102,7 @@ $break-pairs: (
   .focus-visible\:#{$name}:focus-visible,
   .placeholder\:#{$name}::placeholder,
   .placeholder-disabled\:#{$name}:disabled::placeholder {
-    color: #{$value};
+    color: #{$value} !important;
   }
 
   .disabled\:b--#{$name}:disabled,
@@ -848,9 +848,9 @@ $non-break-pairs: (
 }
 
 .b--solid {
-  border-style: solid
+  border-style: solid;
 }
 
 .b--double {
-  border-style: double
+  border-style: double;
 }
