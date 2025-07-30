@@ -20,11 +20,13 @@ const { openPanel, closePanel } = usePanelManager()
     callback: {
       onOpen: () => {
         openPanel(ACTIVE_PANEL.DIALOG_LIST)
+        openPanel(ACTIVE_PANEL.DIALOG_LINE)
     //     openPanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
     //     openPanel(ACTIVE_PANEL.TIPTAP_EDITOR)
       },
       onClose: () => {
         closePanel(ACTIVE_PANEL.DIALOG_LIST)
+        closePanel(ACTIVE_PANEL.DIALOG_LINE)
     //     closePanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
     //     closePanel(ACTIVE_PANEL.TIPTAP_EDITOR)
       },
@@ -61,7 +63,7 @@ const { openPanel, closePanel } = usePanelManager()
           <div className="w-100 on-background f2">Lesson {selectedLessonNumber}</div>
           </h2>
 
-          <button ref={firstFocusButtonRef} tabIndex={tabIndex} aria-disabled={ariaDisabled} className="wiggle bg_secondary pv1 ph3">Placeholder</button>
+          <button ref={firstFocusButtonRef} tabIndex={tabIndex} aria-disabled={ariaDisabled} className="wiggle bg-secondary pv1 ph3">Placeholder</button>
 
           {!ariaDisabled && 
             <>

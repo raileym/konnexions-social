@@ -143,6 +143,7 @@ export const ACTIVE_PANEL = {
   INPUT_LESSON_NAME: 'InputLessonName',
   TIPTAP_EDITOR: 'TiptapEditor',
   DIALOG_LIST: 'DialogList',
+  DIALOG_LINE: 'DialogLine',
   SELECTOR_LANGUAGE: 'SelectorLanguage',
   TEXTAREA_FLEX_LESSON: 'TextareaFlexLesson',
   SELECTOR_LESSON_PROMPT_STYLE: 'SelectorLessonPromptStyle',

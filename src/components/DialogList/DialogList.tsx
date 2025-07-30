@@ -153,17 +153,27 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
       <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
 
       <div className='flex flex-row items-center mt4'>
-        <button onClick={playAll} className='ml3 f6 br2 ph2 pv1 on-background bg-secondary hover:bg-blue' tabIndex={tabIndex} aria-disabled={ariaDisabled}>
+        <button
+          onClick={playAll}
+          className='ml3 f6 br2 ph2 pv1 on-background bg-secondary hover:bg-blue'
+          tabIndex={tabIndex}
+          aria-disabled={ariaDisabled}
+        >
           <FontAwesomeIcon icon={faPlay} /> Play All
         </button>
-        <button onClick={stopAll} className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red' tabIndex={tabIndex} aria-disabled={ariaDisabled}>
+        <button
+          onClick={stopAll}
+          className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red focus-visible:b--tertiary'
+          tabIndex={tabIndex}
+          aria-disabled={ariaDisabled}
+        >
           <FontAwesomeIcon icon={faStop} /> Stop
         </button>
         <button
           tabIndex={tabIndex}
           aria-disabled={ariaDisabled}
           onClick={() => setShowTranslations(prev => !prev)}
-          className={`ml2 f6 br2 ph2 pv1 on-background ${hasTranslations ? 'bg-background hover:bg-silver' : 'bg-background cursor-not-allowed'}`}
+          className={`ml2 f6 br2 ph2 pv1 b--tertiary b--solidX bw3 on-tertiary focus-visible:b--red ${hasTranslations ? 'bg-tertiary hover:bg-silver' : 'bg-tertiary cursor-not-allowed'}`}
           disabled={!hasTranslations}
         >
           {showTranslations ? 'Hide' : 'Show'} Translations

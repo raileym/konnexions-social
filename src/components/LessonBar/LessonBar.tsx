@@ -30,9 +30,10 @@ export const LessonBar = () => {
     translateXOpen: 'translateX-0',
     translateXClose: 'translateX--100',
     callback: {
-      // onOpen: () => {
-      //     openPanel(ACTIVE_PANEL.BASIC_WELCOME)
-      // }
+      onOpen: () => {
+        // setSelectedLessonNumber(1)
+        // openPanel(ACTIVE_PANEL.BASIC_WELCOME)
+      }
       // onFocus: () => {
       //   openPanel(ACTIVE_PANEL.BASIC_WELCOME)
       // },

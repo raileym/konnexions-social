@@ -21,7 +21,8 @@ export const PanelManagerProvider = ({ children }: { children: React.ReactNode }
     ACTIVE_PANEL.SELECTOR_LESSON_PROMPT_STYLE,
     ACTIVE_PANEL.SELECTOR_SCENARIO,
     ACTIVE_PANEL.SELECTOR_PARTICIPANT_ROLE,
-    ACTIVE_PANEL.INPUT_CUSTOM_SCENARIO
+    ACTIVE_PANEL.INPUT_CUSTOM_SCENARIO,
+    ACTIVE_PANEL.DIALOG_LINE
   ]))
 
   const [currentPanel, setCurrentPanel] = useState<ActivePanel>(ACTIVE_PANEL.MDX)

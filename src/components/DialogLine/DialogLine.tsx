@@ -4,7 +4,8 @@ import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
 import type { DialogLineProps } from '@cknTypes/types'
 import { FormatSentence } from '../FormatSentence/FormatSentence'
-import { SCREEN } from '@cknTypes/constants'
+import { ACTIVE_PANEL, SCREEN } from '@cknTypes/constants'
+import { usePanelBase } from '@hooks/usePanelBase'
 
 export const DialogLine = ({
   debugLog,
@@ -33,6 +34,8 @@ export const DialogLine = ({
     speak({ text: sentence, speaker, gender, index })
   }
 
+  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.DIALOG_LINE})
+  
   className = ''
   return (
     <div className={'dialog-line flex flex-column w-100'}>
@@ -47,10 +50,10 @@ export const DialogLine = ({
           )}
         </div>
         <button
-          tabIndex={screenState[SCREEN.REVIEW] ? 0 : -1}
-          aria-disabled={!screenState[SCREEN.REVIEW]}        
+          tabIndex={0}
+          aria-disabled={ariaDisabled}        
           onClick={handleSpeak}
-          className="ml3 f6 br2 ph2 pv1 dib on-background bg-secondary hover:bg-blue no-outline"
+          className="ml3 f6 br2 ph2 pv1 dib on-background bg-secondary hover:bg-blue no-outline bg-redX"
         >
           <FontAwesomeIcon icon={faPlay} />
         </button>
