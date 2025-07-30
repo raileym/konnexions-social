@@ -35,7 +35,8 @@ const NavbarTop = () => {
   }
 
   const handleEngageSpanish = () => {
-    togglePanelWithFocus(ACTIVE_PANEL.BASIC_CREATE)
+    // togglePanelWithFocus(ACTIVE_PANEL.BASIC_CREATE)
+    togglePanelWithFocus(ACTIVE_PANEL.BASIC_WELCOME)
   }
 
   const handleEngageSpanishPro = () => {

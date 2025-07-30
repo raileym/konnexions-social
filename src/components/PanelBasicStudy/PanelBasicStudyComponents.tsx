@@ -6,29 +6,32 @@ import {
   TABINDEX_NEVER,
 } from '@cknTypes/constants'
 import { DialogList } from '@components/DialogList/DialogList'
-// import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
+import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 import { usePanelBase } from '@hooks/usePanelBase'
 // import { useDebugLogger } from '@hooks/useDebugLogger'
 
 const PanelBasicStudyComponents = () => {
 
+const { openPanel, closePanel } = usePanelManager()
 // const { openPanel, closePanel, focusPanel } = usePanelManager()
 
   const { firstFocusButtonRef, tabIndex, ariaDisabled } = usePanelBase({
     panelName: ACTIVE_PANEL.BASIC_STUDY_COMPONENTS,
-    // callback: {
-    //   onOpen: () => {
+    callback: {
+      onOpen: () => {
+        openPanel(ACTIVE_PANEL.DIALOG_LIST)
     //     openPanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
     //     openPanel(ACTIVE_PANEL.TIPTAP_EDITOR)
-    //   },
-    //   onClose: () => {
+      },
+      onClose: () => {
+        closePanel(ACTIVE_PANEL.DIALOG_LIST)
     //     closePanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
     //     closePanel(ACTIVE_PANEL.TIPTAP_EDITOR)
-    //   },
+      },
     //   onFocus: () => {
     //     focusPanel(ACTIVE_PANEL.INPUT_LESSON_NAME)
     //   }
-    // }
+    }
   })
 
   const {

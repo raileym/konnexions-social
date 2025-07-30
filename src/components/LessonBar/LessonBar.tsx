@@ -23,12 +23,23 @@ export const LessonBar = () => {
     paywall
   } = useAppContext()
   
-  const { focusPanel, openPanel } = usePanelManager()
+  const { focusPanel, openPanel, closePanel } = usePanelManager()
   
   const { firstFocusButtonRef, translateX, tabIndex, ariaDisabled } = usePanelBase({
     panelName: ACTIVE_PANEL.LESSON_BAR,
     translateXOpen: 'translateX-0',
-    translateXClose: 'translateX--100'
+    translateXClose: 'translateX--100',
+    callback: {
+      // onOpen: () => {
+      //     openPanel(ACTIVE_PANEL.BASIC_WELCOME)
+      // }
+      // onFocus: () => {
+      //   openPanel(ACTIVE_PANEL.BASIC_WELCOME)
+      // },
+      // onClose: () => {
+      //   closePanel(ACTIVE_PANEL.BASIC_WELCOME)
+      // }
+    }
   })
   
   // const translateX = activateLessonBar ? 'translateX-0' : 'translateX--100'
