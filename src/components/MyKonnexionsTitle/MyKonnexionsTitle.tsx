@@ -20,7 +20,7 @@ return (
         { shorten &&
           <div aria-hidden={true} className="flex flex-row" style={{marginLeft: '-0.3rem'}}>
             <div className={`b ${slashColor}`}>K</div>
-            <MyKonnexionsSlash slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
+            <MyKonnexionsSlash slashColor={slashColor} color={'var(--kx-background)'} fontSizeInRem={fontSizeInRem} />
           </div>
         }
         { !shorten &&

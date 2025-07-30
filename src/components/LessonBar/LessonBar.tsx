@@ -86,7 +86,7 @@ export const LessonBar = () => {
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
         onClick={handleAddLesson}
-        className="lesson-bar button-add focus-visible:bg-redX focus:b--red b--double mv3X pa2 bnX bbX white b--backgroundX bw3X baX bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
+        className="lesson-bar button-add focus-visible:bg-redX focus:b--redX b--double mv3X pa2 bnX bbX white b--backgroundX bw3X baX bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
       >
         <FontAwesomeIcon className="f1X" icon={faPlus} />
       </button>
@@ -139,8 +139,8 @@ export const LessonBar = () => {
                 //   focusPanel(ACTIVE_PANEL.BASIC_CREATE_COMPONENTS)                  
                 // }
               }}
-              className={`lesson-bar button-lesson b--transparent b--double focus:b--red focus:b--double b mv1 pa2 pointer br2X f3 bw2 bbX tc b--blueX on-tertiaryX whiteX hover:tertiary ${
-                selectedLessonNumber === lesson.number ? 'bg-light-green black b' : 'hover-bg-light-gray black  '
+              className={`lesson-bar button-lesson b--transparent b--double focus:b--redX focus:b--doubleX b mv1 pa2 pointer br2X f3 bw2 bbX tc b--blueX on-tertiaryX whiteX hover:tertiary ${
+                selectedLessonNumber === lesson.number ? 'bg-light-green black b' : 'hover-bg-light-gray on-tertiary  '
               }`}
             >
               <div className="flex flex-column">
