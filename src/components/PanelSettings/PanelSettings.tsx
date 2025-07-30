@@ -9,7 +9,7 @@ const PanelSettings = () => {
 
   const { theme, setTheme } = useThemeContext()
 
-  const { ref, firstFocusButtonRef, tabIndex, ariaDisabled, translateX } = usePanelBase({
+  const { ref, firstFocusButtonRef, tabIndex, ariaDisabled, ariaHidden, translateX } = usePanelBase({
     panelName: ACTIVE_PANEL.SETTINGS,
     translateXOpen: SETTINGS_PANEL_TRANSLATE_X,
     translateXClose: 'translate-x-full'
@@ -29,6 +29,7 @@ const PanelSettings = () => {
         ref={firstFocusButtonRef}
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
         className="mv3"
         onClick={() => {
           setTheme('Midnight Sand')
@@ -39,6 +40,7 @@ const PanelSettings = () => {
       <button
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
         className="mv3"
         onClick={() => {
           setTheme('Dunkin')
@@ -49,6 +51,7 @@ const PanelSettings = () => {
       <button
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
         className="mv3"
         onClick={() => {
           setTheme('McDonalds')
@@ -59,6 +62,7 @@ const PanelSettings = () => {
       <button
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
         className="mv3"
         onClick={() => {
           setTheme('Starbucks')
@@ -69,6 +73,7 @@ const PanelSettings = () => {
       <button
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
         className="mv3"
         onClick={() => {
           setTheme('Ocean View')
@@ -87,6 +92,7 @@ const PanelSettings = () => {
       <div
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
         className="six h-100 w-100 overflow-y-auto"
       >
         <div className={`pa4 ${SETTINGS_PANEL_WIDTH_PERCENT} mb5`}>

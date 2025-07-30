@@ -6,7 +6,7 @@ const InputCustomScenario  = () => {
   const { scenario, customScenario, setCustomScenario } = useAppContext()
   const disabled = scenario !== SCENARIO.CUSTOM
 
-  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_CUSTOM_SCENARIO})
+  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_CUSTOM_SCENARIO})
   
   return (
     <div className="mb3 on-background" style={{ opacity: disabled ? 0.5 : 1 }}>
@@ -14,6 +14,7 @@ const InputCustomScenario  = () => {
       <input
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
         type="text"
         value={customScenario}
         onChange={(e) => setCustomScenario(e.target.value)}

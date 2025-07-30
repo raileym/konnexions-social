@@ -26,6 +26,7 @@ const PanelMenu = () => {
     translateX,
     tabIndex,
     ariaDisabled,
+    ariaHidden,
     firstFocusButtonRef
   } = usePanelBase({
     panelName: ACTIVE_PANEL.MENU,
@@ -132,6 +133,7 @@ const PanelMenu = () => {
                 aria-labelledby="li-home-page"
                 tabIndex={tabIndex}
                 aria-disabled={ariaDisabled}
+                aria-hidden={ariaHidden}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.WELCOME)}
               >
@@ -141,6 +143,7 @@ const PanelMenu = () => {
                 aria-labelledby="li-about-page"
                 tabIndex={tabIndex}
                 aria-disabled={ariaDisabled}
+                aria-hidden={ariaHidden}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.ABOUT)}
               >
@@ -150,6 +153,7 @@ const PanelMenu = () => {
                 aria-labelledby="li-terms-and-conditions-page"
                 tabIndex={tabIndex}
                 aria-disabled={ariaDisabled}
+                aria-hidden={ariaHidden}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.TERMS_AND_CONDITIONS)}
               >
@@ -159,6 +163,7 @@ const PanelMenu = () => {
                 aria-labelledby="li-privacy-policy"
                 tabIndex={tabIndex}
                 aria-disabled={ariaDisabled}
+                aria-hidden={ariaHidden}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
                 onClick={() => navigateTo(MDX_PAGE.PRIVACY_POLICY)}
               >

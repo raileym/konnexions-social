@@ -21,14 +21,7 @@ const SelectorScenario = ({ custom }: SelectorScenarioProps) => {
     ]
   }, [custom])
 
-  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_SCENARIO})
-  // const scenarioDescriptions = useMemo<Record<Scenario, string>>(() => ({
-  //   restaurant: 'at a restaurant',
-  //   hotel: 'at the hotel check-in desk',
-  //   airport: 'at the airport check-in counter',
-  //   taxi: 'in a taxi',
-  //   custom: customScenario ?? 'a custom situation'
-  // }), [])
+  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_SCENARIO})
 
   return (
     <div className="mb3 on-background">
@@ -39,6 +32,7 @@ const SelectorScenario = ({ custom }: SelectorScenarioProps) => {
             <input
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+              aria-hidden={ariaHidden}
               type="radio"
               name="scenario"
               value={s}

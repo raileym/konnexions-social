@@ -13,7 +13,7 @@ const SelectorParticipantRole = () => {
   const isDisabled = scenario === SCENARIO.CUSTOM
   const labelClass = isDisabled ? 'o-50' : '' // o-50 = 50% opacity in Tachyons
 
-  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_PARTICIPANT_ROLE})
+  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_PARTICIPANT_ROLE})
 
   return (
     <div className="mb3 on-background">
@@ -23,6 +23,7 @@ const SelectorParticipantRole = () => {
           <input
             tabIndex={tabIndex}
             aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
             type="radio"
             name="participant-role"
             value="yes"
@@ -37,6 +38,7 @@ const SelectorParticipantRole = () => {
           <input
             tabIndex={tabIndex}
             aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
             type="radio"
             name="participant-role"
             value="no"

@@ -27,7 +27,7 @@ const NavbarBottom = () => {
 
   const { togglePanelWithFocus } = usePanelManager()
   
-  const { translateY, tabIndex, ariaDisabled } = usePanelBase({
+  const { translateY, tabIndex, ariaDisabled, ariaHidden } = usePanelBase({
     panelName: ACTIVE_PANEL.NAVBAR_BOTTOM, 
     translateYOpen: NAVBAR_BOTTOM_TRANSLATE_Y,
     translateYClose: 'translate-y-full',
@@ -108,6 +108,7 @@ const NavbarBottom = () => {
               ariaLabelledBy={'button-create'} 
               tabIndex={tabIndex}
               ariaDisabled={ariaDisabled}
+              ariaHidden={ariaHidden}
               iconClass={`f2 ${isSelectedCreate ? 'secondaryX' : 'secondaryX'}`}
               disable={!isUserValidated}
               buttonClass={`b--double b--transparent bw3 mh3 bnX bg-whiteX ${isSelectedCreate ? 'bg-backgroundX' : 'bg-on-backgroundX'} focus-visible:b--red`}
@@ -122,6 +123,7 @@ const NavbarBottom = () => {
               ariaLabelledBy={'button-study'}
               tabIndex={tabIndex}
               ariaDisabled={ariaDisabled}
+              ariaHidden={ariaHidden}
               iconClass={'f2'}
               disable={!isUserValidated || !(lesson?.isComplete)}
               buttonClass={`b--double b--transparent bw3 ${shouldWiggle ? 'wiggle-once' : ''} growX mh3 bnX Xfocus-visible:b--red`}

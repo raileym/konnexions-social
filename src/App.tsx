@@ -21,15 +21,21 @@ import { getUserData } from '@components/getUserData/getUserData'
 import { Navigate } from 'react-router-dom'
 import { usePaywall } from '@hooks/usePaywall/usePaywall'
 import PanelMDXWrapper from '@components/PanelMDXWrapper/PanelMDXWrapper'
-import ViewportWidthOverlay from '@components/ViewportWidthOverlay/ViewportWidthOverlay'
+// import ViewportWidthOverlay from '@components/ViewportWidthOverlay/ViewportWidthOverlay'
 // import NavbarColor from '@components/NavbarColor/__tests__/NavbarColor'
 import PanelBasicCreate from '@components/PanelBasicCreate/PanelBasicCreate'
 // import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
 // import ColorScheme from '@components/ColorScheme/__tests__/ColorScheme'
-import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
+// import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
 
 const AppMain = () => {
+  const voStartRef = useRef<HTMLDivElement>(null)
+
   const { mdxPagesMap } = useAppContext()
+
+  useEffect(() => {
+    voStartRef.current?.focus()
+  }, [])
 
   return (
     <>
@@ -39,6 +45,17 @@ const AppMain = () => {
   className="absolute opacity-0 pointer-events-none"
   id="initial-focus-anchor"
 /> */}
+
+<div
+  tabIndex={0}
+  ref={voStartRef}
+  aria-label="Main application loaded"
+  role="region"
+  className="sr-only"
+>
+  Application ready
+</div>
+
 
 {/* <div className="sr-only white" role="region" aria-label="App loaded and ready">
   Application ready

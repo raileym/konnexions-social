@@ -15,7 +15,7 @@ import { usePanelBase } from '@hooks/usePanelBase'
 export const TextareaFlexLesson = ({title}: TextareaFlexLessonProps) => {
   const { flexLesson, setFlexLesson, setFormattedFlexLesson } = useAppContext()
 
-  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.TEXTAREA_FLEX_LESSON})
+  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.TEXTAREA_FLEX_LESSON})
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value
@@ -31,6 +31,7 @@ export const TextareaFlexLesson = ({title}: TextareaFlexLessonProps) => {
       <textarea
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
         value={flexLesson}
         onChange={handleChange}
         className="w-100 ba b--gray br2 pa2"

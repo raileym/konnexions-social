@@ -56,7 +56,7 @@ const PanelGenAIProComponents = () => {
 
   const { focusPanel, openPanel } = usePanelManager()
 
-  const { tabIndex, ariaDisabled } = usePanelBase({
+  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({
     panelName: ACTIVE_PANEL.GEN_AI_PRO_COMPONENTS,
     translateXOpen: 'translate-x-0',
     translateXClose: 'translate-x-full',
@@ -113,17 +113,9 @@ const PanelGenAIProComponents = () => {
     lessonPromptStyle,
     customParticipantList,
     customScenario,
-    // clientMeter,
-    // clientSignature,
-    // clientUUID,
-    // clientEmail,
-    // setClientUUID,
     flexLesson,
     formattedFlexLesson,
-    
     lessonComplete,
-    // screenState,
-    // setLessonComplete
   } = useAppContext()
   
   // debugLog('clientUUID', clientUUID)
@@ -178,6 +170,7 @@ const PanelGenAIProComponents = () => {
             <button
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
               onClick={() => setDebugMode(prev => !prev)}
               className={`w-30 pa3 br2 bn ${debugMode ? 'bg-brand' : 'bg-background'} on-background pointer`}
             >
@@ -220,6 +213,7 @@ const PanelGenAIProComponents = () => {
               <button
                 tabIndex={tabIndex}
                 aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
                 className={'f3 pa3 br4 bn bg-secondary on-secondary pointer'}
                 onClick={() => {
                   const formattedFlexLesson = formatFlexLesson({flexLesson})
@@ -275,6 +269,7 @@ const PanelGenAIProComponents = () => {
               <button
                 tabIndex={tabIndex}
                 aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
                 className={`f3 pa3 br4 bnX ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   createFullLesson()
@@ -297,6 +292,7 @@ const PanelGenAIProComponents = () => {
           <textarea
             tabIndex={tabIndex}
             aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
             value={customSeed}
             onChange={(e) => setCustomSeed(e.target.value)}
             className="w-100 ba b--gray br2 pa2"

@@ -18,7 +18,7 @@ const PanelBasicCreateComponents = () => {
 
   const { openPanel, closePanel, focusPanel } = usePanelManager()
   
-  const { tabIndex, ariaDisabled } = usePanelBase({
+  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({
     panelName: ACTIVE_PANEL.BASIC_CREATE_COMPONENTS,
     callback: {
       onOpen: () => {

@@ -23,9 +23,9 @@ export const LessonBar = () => {
     paywall
   } = useAppContext()
   
-  const { focusPanel, openPanel, closePanel } = usePanelManager()
+  const { focusPanel, openPanel } = usePanelManager()
   
-  const { firstFocusButtonRef, translateX, tabIndex, ariaDisabled } = usePanelBase({
+  const { firstFocusButtonRef, translateX, tabIndex, ariaDisabled, ariaHidden } = usePanelBase({
     panelName: ACTIVE_PANEL.LESSON_BAR,
     translateXOpen: 'translateX-0',
     translateXClose: 'translateX--100',
@@ -86,6 +86,7 @@ export const LessonBar = () => {
         ref={firstFocusButtonRef}
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
         onClick={handleAddLesson}
         className="lesson-bar button-add focus-visible:bg-redX focus:b--redX b--double mv3X pa2 bnX bbX white b--backgroundX bw3X baX bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
       >
@@ -99,6 +100,7 @@ export const LessonBar = () => {
               role="button"
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+              aria-hidden={ariaHidden}
               key={lesson.number}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {

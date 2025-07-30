@@ -12,7 +12,7 @@ export const SelectMarketingPreferences = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const { firstFocusInputRef: ref, tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES})
+  const { firstFocusInputRef: ref, tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES})
 
   const { clientUUID } = useAppContext()
 
@@ -82,7 +82,7 @@ export const SelectMarketingPreferences = () => {
             {...(index === 0 ? { ref } : {})}
             tabIndex={tabIndex}
             aria-disabled={ariaDisabled}
-            // aria-disabled={!screenState[SCREEN.PROFILE]}
+            aria-hidden={ariaHidden}
             type="checkbox"
             checked={preferences[label] ?? false}
             onChange={() => handleToggle(key as keyof typeof MARKETING_PREFERENCE)}

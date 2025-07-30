@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAppContext } from '@context/AppContext/AppContext'
 import { type Language, type UseMyself } from '@cknTypes/types'
-import { LANGUAGE, SCENARIO_LABELS, SCREEN } from '@cknTypes/constants'
+import { ACTIVE_PANEL, LANGUAGE, SCENARIO_LABELS } from '@cknTypes/constants'
 import Button from '@components/Button/Button'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { getCurrentWeek } from '@components/getCurrentWeek'
@@ -10,6 +10,7 @@ import SelectorScenario from '@components/SelectorScenario/SelectorScenario'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { usePanel } from '@hooks/usePanel'
+import { usePanelBase } from '@hooks/usePanelBase'
 
 const PanelGenAI = () => {
   const [language, ] = useState<Language>(LANGUAGE.SPANISH)
@@ -27,8 +28,7 @@ const PanelGenAI = () => {
     openAiUsage,
     setOpenAiUsage,
     answer,
-    scenario,
-    screenState
+    scenario
   } = useAppContext()
 
   const incrementOpenAiUsage = () => {
@@ -87,21 +87,23 @@ const PanelGenAI = () => {
 
   const headline = 'Ask ChatGPT to create a custom dialog based on a specific situation — at a restaurant, in a hotel, at the airport, or one you describe yourself.'
 
+  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.GEN_AI})
+  
   return (
     <div className={'panel-right panel-gen-ai-components bw1 b--moon-gray bl z-1 absolute top-0 left-0 w-90 h-100 bg-light-gray transition-transform translate-x-0'}>
-      <div tabIndex={screenState[SCREEN.GEN_AI] ? 0 : -1} aria-disabled={!screenState[SCREEN.GEN_AI]} className='one h-100 w-100 overflow-y-auto'>
+      <div tabIndex={tabIndex} aria-disabled={ariaDisabled} className='one h-100 w-100 overflow-y-auto'>
         <div className='pa4 mw7 w-100 background center mb5'>
           <h2 className='f3 pa3 pb0 mt5 w-100 tc'>Spanish: Scenarios</h2>
           <div className='f3 pv3 pt0 mt0'>{headline}</div>
 
-          <SelectorScenario tabIndex={screenState[SCREEN.GEN_AI] ? 0 : -1} ariaDisabled={!screenState[SCREEN.GEN_AI]} custom={true} />
+          <SelectorScenario custom={true} />
           
           { !openAiKey && (
               <div className='mt5'>
                 <div>Set a <b>GenAI Key</b> to use a Generative AI technology</div>
                 <div className='w-100 flex justify-center pa4'>
                   <div>
-                    <Button tabIndex={screenState[SCREEN.GEN_AI] ? 0 : -1} ariaDisabled={!screenState[SCREEN.GEN_AI]} switchFn={switchPanel} isActive={false} panel='keys' icon={faKey} title='API Keys' />
+                    <Button ariaLabelledBy={''} tabIndex={tabIndex} ariaDisabled={ariaDisabled} ariaHidden={ariaHidden} switchFn={switchPanel} isActive={false} panel='keys' icon={faKey} title='API Keys' />
                   </div>
                 </div>
               </div>
@@ -119,8 +121,8 @@ const PanelGenAI = () => {
               </div>
               <label className='o-100 db mt0 mb2 f3 b'>Ask ChatGPT</label>
               <textarea
-                tabIndex={screenState[SCREEN.GEN_AI] ? 0 : -1}
-                aria-disabled={!screenState[SCREEN.GEN_AI]}
+                tabIndex={tabIndex}
+                aria-disabled={ariaDisabled}
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
                 className='o-100 input-reset ba b--background-20 pa2 mb2 db w-100'
@@ -154,8 +156,8 @@ const PanelGenAI = () => {
                 {/* <div className='relative z-1'> */}
                   <label className='o-20 db mt0 mb2 f3 b'>Ask ChatGPT</label>
                   <textarea
-                    tabIndex={screenState[SCREEN.GEN_AI] ? 0 : -1}
-                    aria-disabled={!screenState[SCREEN.GEN_AI]}
+                    tabIndex={tabIndex}
+                    aria-disabled={ariaDisabled}
                     value={questionContext}
                     onChange={(e) => setQuestionContext(e.target.value)}
                     className='o-50 bg-on-background input-reset ba b--background-20 pa2 mb2 db w-100'

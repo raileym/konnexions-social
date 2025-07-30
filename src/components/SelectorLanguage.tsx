@@ -13,7 +13,7 @@ const SelectorLanguage = () => {
     LANGUAGE.ITALIAN
   ]
 
-  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_LANGUAGE})
+  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_LANGUAGE})
   
   return (
     <div className="mb3X on-background">
@@ -24,6 +24,7 @@ const SelectorLanguage = () => {
             <input
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
               type="radio"
               name="language" // fixed name ensures exclusive selection
               value={code}

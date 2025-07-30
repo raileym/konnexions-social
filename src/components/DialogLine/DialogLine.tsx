@@ -20,7 +20,7 @@ export const DialogLine = ({
 }: DialogLineProps) => {
   const [gender, speaker, sentence] = line.split('|')
 
-  const { cutoff, screenState } = useAppContext()
+  const { cutoff } = useAppContext()
 
   const { speak } = useTTS({
     useCloudTTS,
@@ -34,7 +34,7 @@ export const DialogLine = ({
     speak({ text: sentence, speaker, gender, index })
   }
 
-  const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.DIALOG_LINE})
+  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.DIALOG_LINE})
   
   className = ''
   return (

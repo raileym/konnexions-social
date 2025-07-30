@@ -1141,6 +1141,7 @@ export type ButtonProps = {
   buttonRef?: React.RefObject<HTMLButtonElement | null>
   ariaLabelledBy: string
   ariaDisabled?: boolean
+  ariaHidden?: boolean
   tabIndex: number
   disable?: boolean
   panel?: ActivePanel | ActiveHome

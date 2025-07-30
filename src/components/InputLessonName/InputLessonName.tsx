@@ -12,7 +12,7 @@ type InputLessonNameProps = {
 
 const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
   
-  const { firstFocusInputRef, tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_LESSON_NAME})
+  const { firstFocusInputRef, tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_LESSON_NAME})
 
   useEffect(() =>{
     if (tabIndex === 0) {
@@ -30,6 +30,7 @@ const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
           ref={firstFocusInputRef}
           tabIndex={tabIndex}
           aria-disabled={ariaDisabled}
+          aria-hidden={ariaHidden}
           id="lessonName"
           type="text"
           value={lessonName}

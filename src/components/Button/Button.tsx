@@ -6,6 +6,7 @@ const Button = ({
   buttonRef,
   tabIndex,
   ariaDisabled = false,
+  ariaHidden = false,
   ariaLabelledBy,
   iconClass,
   titleClass,
@@ -29,6 +30,7 @@ const Button = ({
         aria-labelledby={ariaLabelledBy}
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
         onClick={() => { if (!disable) handleClick() }}
         disabled={disable}
         className={`f2 pa1 bnX b--redX focus-visible:bg-tertiaryX bw3X pointer width-2X secondary ${isActive ? 'bg-on-background' : 'bg-background'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}

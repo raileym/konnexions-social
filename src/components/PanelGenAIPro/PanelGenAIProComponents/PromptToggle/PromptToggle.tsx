@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Prompt } from '@cknTypes/types'
-import { SCREEN } from '@cknTypes/constants'
-import { useAppContext } from '@context/AppContext/AppContext'
+import { ACTIVE_PANEL } from '@cknTypes/constants'
+import { usePanelBase } from '@hooks/usePanelBase'
 
 type PromptToggleProps = {
   title: string
@@ -12,13 +12,15 @@ type PromptToggleProps = {
 const PromptToggle: React.FC<PromptToggleProps> = ({ title, prompt, className = 'b--background bg-brand black' }) => {
   const [isVisible, setIsVisible] = useState(false)
 
-  const { screenState } = useAppContext()
+  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.PROMPT_TOGGLE})
   
   return (
     <>
       <div className={'w-100 mv3X'}>
         <button
-          tabIndex={screenState[SCREEN.CREATE] ? 0 : -1}
+          tabIndex={tabIndex}
+          aria-disabled={ariaDisabled}
+          aria-hidden={ariaHidden}
           onClick={() => setIsVisible(prev => !prev)}
           className={`pa2 br3 ma1 pointer b--background ${className}`}
         >

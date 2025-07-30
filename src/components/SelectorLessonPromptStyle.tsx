@@ -12,7 +12,7 @@ const SelectorLessonPromptStyle = () => {
 
   const lessonPromptStyles = useMemo<LessonPromptStyle[]>(() => Object.values(LESSON_PROMPT_STYLE), [])
 
-  const {tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_LESSON_PROMPT_STYLE})
+  const {tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_LESSON_PROMPT_STYLE})
 
   return (
     <div className="mb3 on-background">
@@ -23,6 +23,7 @@ const SelectorLessonPromptStyle = () => {
             <input
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+              aria-hidden={ariaHidden}
               type="radio"
               name="content-style"
               value={style}

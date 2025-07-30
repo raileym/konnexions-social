@@ -32,7 +32,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
     }
   })
 
-  // const { tabIndex, ariaDisabled } = usePanelBase({panelName: ACTIVE_PANEL.TIPTAP_EDITOR})
+  // const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.TIPTAP_EDITOR})
 
   const tabIndex = 0
   const ariaDisabled = false
@@ -49,6 +49,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
               onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
               className={'tiptap-editor button-h1 bw3 b--transparent width-2 height-2 pa1 mv1 mv0-ns mh1 mh2-m mh3-ns f3 f3-m b bg-transparent brand bnX focus-visible:b--redX focus-visible:bw3X'}
               title="Header 1"
@@ -58,6 +59,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
               onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
               className={'tiptap-editor button-h2 bw3 b--transparent width-2 height-2 pa1 mv1 mv0-ns mh1 mh2-m mh3-ns f3 f3-m b bg-transparent brand bnX focus-visible:b--redX focus-visible:bw3X'}
               title="Header 2"
@@ -67,6 +69,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
               onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
               className={'tiptap-editor button-h3 bw3 b--transparent width-2 height-2 pa1 mv1 mv0-ns mh1 mh2-m mh3-ns f3 f3-m b bg-transparent brand bnX focus-visible:b--redX focus-visible:bw3X'}
               title="Header 3"
@@ -79,6 +82,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
               onClick={() => editor.chain().focus().toggleBold().run()}
               disabled={!editor.can().chain().focus().toggleBold().run()}
               className={'tiptap-editor button-bold bw3 b--transparent width-2 height-2 pa1 mv1 mv0-ns mh1 mh1-ns f3 f3-m b bg-transparent brand'}
@@ -92,6 +96,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
               onClick={() => editor.chain().focus().toggleItalic().run()}
               disabled={!editor.can().chain().focus().toggleItalic().run()}
               className={'tiptap-editor button-italic bw3 b--transparent width-2 height-2 pa1 mv1 mv0-ns mh1 mh1-ns f3 f3-m b bg-transparent brand'}
@@ -105,6 +110,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
               onClick={() => editor.chain().focus().toggleUnderline().run()}
               disabled={!editor.can().chain().focus().toggleUnderline().run()}
               className={'tiptap-editor button-underline bw3 b--transparent width-2 height-2 pa1 mv1 mv0-ns mh1 mh1-ns f3 f3-m bg-transparent brand b'}
@@ -122,6 +128,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
               onClick={() => editor.chain().focus().toggleBulletList().run()}
               // disabled={!editor.can().chain().focus().toggleBulletList().run()}
               className={'tiptap-editor button-bullet-list bw3 b--transparent width-2 height-2 pa1 mv1 mv0-ns mh1 mh2-m mh3-ns f3 f3-m bg-transparent brand bnX focus-visible:b--redX focus-visible:bw3X'}
@@ -132,6 +139,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <button
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
               onClick={() => editor.chain().focus().toggleOrderedList().run()}
               // disabled={!editor.can().chain().focus().toggleOrderedList().run()}
               className={'tiptap-editor button-number-list bw3 b--transparent width-2 height-2 pa1 mv1 mv0-ns mh1 mh2-m mh3-ns f3 f3-m bg-transparent brand bnX focus-visible:b--redX focus-visible:bw3X'}
@@ -146,7 +154,9 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             tabIndex={-1}
             // tabIndex={tabIndex}
             // aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
             aria-disabled={ariaDisabled}
+        aria-hidden={ariaHidden}
             editor={editor}
             className="tiptap-editor editor-content min-h-[200px] f5 f6-m h5 ph3 b---background-300X overflow-auto roundedX p-4X focus:outline-noneX focus:ring-2X focus:ring-blue-400X bg-moon-gray bw3 focus-within:bg-red focus-within:b--red"
           />

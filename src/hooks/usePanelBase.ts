@@ -32,6 +32,7 @@ export const usePanelBase = ({
   const [translateY, setTranslateY] = useState(translateYClose)
   const [tabIndex, setTabIndex] = useState<number>(-1)
   const [ariaDisabled, setAriaDisabled] = useState<boolean>(true)
+  const [ariaHidden, setAriaHidden] = useState<boolean>(true)
 
   const { registerPanel, unregisterPanel, closePanel } = usePanelManager()
 
@@ -39,6 +40,7 @@ export const usePanelBase = ({
     setIsOpen(true)
     setTabIndex(0)
     setAriaDisabled(false)
+    setAriaHidden(false)
     if (translateXOpen) setTranslateX(translateXOpen)
     if (translateYOpen) setTranslateY(translateYOpen)
     if (callback?.onOpen) callback.onOpen()
@@ -48,6 +50,7 @@ export const usePanelBase = ({
     setIsOpen(false)
     setTabIndex(-1)
     setAriaDisabled(true)
+    setAriaHidden(true)
     if (translateXClose) setTranslateX(translateXClose)
 
     // Yes, on translateYOpen. If there is a translateYOpen,
@@ -103,6 +106,7 @@ export const usePanelBase = ({
     firstFocusInputRef,
     tabIndex,
     ariaDisabled,
+    ariaHidden,
     isOpen,
     translateX,
     translateY

@@ -265,7 +265,6 @@ export type AppContextType = {
   question: Question
   questionContext: QuestionContext
   scenario: Scenario
-  screenState: ScreenState
   selectedLessonNumber: LessonNumber
   setActivateLessonBar: SetActivateLessonBar
   setActiveHome: SetActiveHome
@@ -320,7 +319,6 @@ export type AppContextType = {
   setQuestion: SetQuestion
   setQuestionContext: SetQuestionContext
   setScenario: SetScenario
-  setScreenState: SetScreenState
   setSelectedLessonNumber: SetLessonNumber
   setShowIsUserValidatedModal: SetShowIsUserValidatedModal
   setSourceLanguage: SetSourceLanguage
@@ -389,8 +387,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [isHelpOpen, setIsHelpOpen] = useState<IsHelpOpen>(false)
   const [isNavbarTopOpen, setIsNavbarTopOpen] = useState<IsNavbarTopOpen>(true)
-
-  const [screenState, setScreenState] = useState<ScreenState>(defaultScreenState)
 
   const [engageSpanish, setEngageSpanish] = useState<EngageSpanish>(false)
   
@@ -551,7 +547,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     question,
     questionContext,
     scenario,
-    screenState,
     selectedLessonNumber,
     setActivateLessonBar,    
     setActiveHome,
@@ -606,7 +601,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setQuestion,
     setQuestionContext,
     setScenario,
-    setScreenState,
     setSelectedLessonNumber,
     setShowIsUserValidatedModal,
     setSourceLanguage,
