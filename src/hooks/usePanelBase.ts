@@ -8,6 +8,7 @@ type UsePanelBaseProps = {
   translateXClose?: string
   translateYOpen?: string
   translateYClose?: string
+  defaultOpen?: boolean
   callback?: {
     onOpen?: () => void
     onClose?: () => void
@@ -17,6 +18,7 @@ type UsePanelBaseProps = {
 
 export const usePanelBase = ({
   panelName,
+  defaultOpen = false,
   translateXOpen,
   translateXClose = 'translate-x-full',
   translateYOpen,
@@ -27,13 +29,13 @@ export const usePanelBase = ({
   const firstFocusDivRef = useRef<HTMLDivElement | null>(null)
   const firstFocusButtonRef = useRef<HTMLButtonElement | null>(null)
   const firstFocusInputRef = useRef<HTMLInputElement | null>(null)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(defaultOpen)
   const [translateX, setTranslateX] = useState(translateXClose)
   const [translateY, setTranslateY] = useState(translateYClose)
   const [tabIndex, setTabIndex] = useState<number>(-1)
   const [ariaDisabled, setAriaDisabled] = useState<boolean>(true)
   const [ariaHidden, setAriaHidden] = useState<boolean>(true)
-  const [isMounted, setIsMounted] = useState(false)
+  const [isMounted, setIsMounted] = useState(defaultOpen)
 
   const { registerPanel, unregisterPanel, closePanel } = usePanelManager()
 

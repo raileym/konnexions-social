@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { mdxPagesMap } from '@context/AppContext/AppContext'
 import type { MdxPage } from '@cknTypes/types'
+import { usePanelBase } from '@hooks/usePanelBase'
 
 const PanelMDX = () => {
   const {
@@ -30,9 +31,23 @@ const PanelMDX = () => {
     (key): key is MdxPage => key.toLowerCase() === path
   )
 
+  const { ref, tabIndex, ariaHidden, ariaDisabled, translateX, isOpen, isMounted } = usePanelBase({
+    panelName: ACTIVE_PANEL.MDX,
+    translateXOpen: 'translate-x-0',
+    translateXClose: 'translate-x-100',
+    defaultOpen: true
+  })
 
   return (
-    <div className="panel-right panel-mdx bw1 b--moon-gray bl panel-basic z-0 absolute top-0 left-0 w-100 h-100 flex transition-transform translate-x-0">
+    <div
+      ref={ref}
+      role="region"
+      aria-modal="true"
+      aria-hidden={ariaHidden}
+      aria-disabled={ariaDisabled}
+      tabIndex={tabIndex}
+
+      className={`panel-right panel-mdx bw1 b--moon-gray bl panel-basic z-0 absolute top-0 left-0 w-100 h-100 flex transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       {matchedKey ? <PanelMDXComponents page={matchedKey} /> : null}
     </div>
   )
