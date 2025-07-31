@@ -34,7 +34,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
     clientUUID
   } = useAppContext()
 
-  const { tabIndex, ariaDisabled, ariaHidden, firstFocusButtonRef } = usePanelBase({panelName: ACTIVE_PANEL.DIALOG_LIST})
+  const { tabIndex, ariaDisabled, ariaHidden, firstFocusButtonRef, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.DIALOG_LIST})
   
   const { refreshPaywall } = usePaywall()
 
@@ -148,7 +148,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
   }
 
   return (
-    <div className="dialog-list">
+    <div className={`dialog-list ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <div className='tc f2 w-100 mt4X b background'>{capitalize(lessonPromptStyle)} {customScenario}</div>
       <div className='tc f4 w-100 mt4X b'>{LANGUAGE_TITLE[language]}</div>
 

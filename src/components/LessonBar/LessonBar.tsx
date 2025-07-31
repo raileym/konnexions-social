@@ -25,7 +25,7 @@ export const LessonBar = () => {
   
   const { focusPanel, openPanel } = usePanelManager()
   
-  const { firstFocusButtonRef, translateX, tabIndex, ariaDisabled, ariaHidden } = usePanelBase({
+  const { firstFocusButtonRef, translateX, tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({
     panelName: ACTIVE_PANEL.LESSON_BAR,
     translateXOpen: 'translateX-0',
     translateXClose: 'translateX--100',
@@ -81,7 +81,7 @@ export const LessonBar = () => {
     <div
       tabIndex={TABINDEX_NEVER}
       aria-disabled={true}
-      className={`panel-left lesson-bar bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--background-20X bnX transition-transform ${translateX}`} style={{paddingTop: '10em'}}>
+      className={`lesson-bar panel-left bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--background-20X bnX transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`} style={{paddingTop: '10em'}}>
       <button
         ref={firstFocusButtonRef}
         tabIndex={tabIndex}

@@ -6,7 +6,7 @@ import { usePanelBase } from '@hooks/usePanelBase'
 const PanelGenAIPro = () => {
   const { focusPanel, openPanel, closePanel } = usePanelManager()
   
-  const { translateX } = usePanelBase({
+  const { translateX, isOpen, isMounted } = usePanelBase({
     panelName: ACTIVE_PANEL.GEN_AI_PRO,
     translateXOpen: 'translate-x-0',
     translateXClose: 'translate-x-full',
@@ -24,7 +24,7 @@ const PanelGenAIPro = () => {
   })
 
   return (
-    <div className={`panel-right panel-gen-ai-pro bw1 b--moon-gray bl panel-gen-ai-pro z-1 absolute top-0 left-10 w-90 h-100 bg-light-greenX flex flex-rowX transition-transform ${translateX}`}>
+    <div className={`panel-gen-ai-pro panel-right bw1 b--moon-gray bl panel-gen-ai-pro z-1 absolute top-0 left-10 w-90 h-100 bg-light-greenX flex flex-rowX transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <PanelGenAIProComponents />
     </div>
   )

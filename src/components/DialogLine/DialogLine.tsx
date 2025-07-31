@@ -4,7 +4,7 @@ import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
 import type { DialogLineProps } from '@cknTypes/types'
 import { FormatSentence } from '../FormatSentence/FormatSentence'
-import { ACTIVE_PANEL, SCREEN } from '@cknTypes/constants'
+import { ACTIVE_PANEL, SCREEN, TABINDEX_ALWAYS } from '@cknTypes/constants'
 import { usePanelBase } from '@hooks/usePanelBase'
 
 export const DialogLine = ({
@@ -34,11 +34,11 @@ export const DialogLine = ({
     speak({ text: sentence, speaker, gender, index })
   }
 
-  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.DIALOG_LINE})
+  const { ariaDisabled, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.DIALOG_LINE})
   
   className = ''
   return (
-    <div className={'dialog-line flex flex-column w-100'}>
+    <div className={`dialog-line flex flex-column w-100 ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <div className={`bg-greenX flex items-center justify-between w-100 ${className}`}>
         <div className="ph2 flex-auto">
           {noSpeaker ? (
@@ -50,7 +50,7 @@ export const DialogLine = ({
           )}
         </div>
         <button
-          tabIndex={0}
+          tabIndex={TABINDEX_ALWAYS}
           aria-disabled={ariaDisabled}        
           onClick={handleSpeak}
           className="ml3 f6 br2 ph2 pv1 dib on-background bg-secondary hover:bg-blue no-outline bg-redX"

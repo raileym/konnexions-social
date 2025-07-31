@@ -204,11 +204,27 @@ const App = () => {
 
   useEffect(() => {
     const handleFocus = (e: FocusEvent) => {
-      console.log('Focus point', e.target)
+      const el = e.target as HTMLElement
+      console.log('🔍 Focused element:', el)
+      console.log('🧭 Outer HTML:', el.outerHTML)
+
+      // if (el.parentElement) {
+      //   console.log('⬆️ Parent element:', el.parentElement)
+      //   console.log('⬆️ Parent outerHTML:', el.parentElement.outerHTML)
+      // }
+
+      // if (el.parentElement?.parentElement) {
+      //   console.log('⬆️ Grandparent element:', el.parentElement.parentElement)
+      //   console.log('⬆️ Grandparent outerHTML:', el.parentElement.parentElement.outerHTML)
+      // }
+
+      // console.groupEnd()
     }
+
     window.addEventListener('focusin', handleFocus)
     return () => window.removeEventListener('focusin', handleFocus)
   }, [])
+
 
   useEffect(() => {
     const el = document.activeElement

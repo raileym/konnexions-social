@@ -12,7 +12,7 @@ type InputLessonNameProps = {
 
 const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
   
-  const { firstFocusInputRef, tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_LESSON_NAME})
+  const { firstFocusInputRef, tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_LESSON_NAME})
 
   useEffect(() =>{
     if (tabIndex === 0) {
@@ -21,7 +21,7 @@ const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
   }, [tabIndex])
   
   return (
-    <div className="mv3X flex flex-column items-start w-40 justify-center center mb4">
+    <div className={`Input-lesson-name mv3X flex flex-column items-start w-40 justify-center center mb4 ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <label htmlFor="lessonName" className="f3 db mb2 on-background">
         Lesson Name
       </label>

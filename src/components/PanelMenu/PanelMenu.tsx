@@ -20,15 +20,7 @@ const PanelMenu = () => {
 
   const { openPanel } = usePanelManager()
 
-  const {
-    ref,
-    isOpen,
-    translateX,
-    tabIndex,
-    ariaDisabled,
-    ariaHidden,
-    firstFocusButtonRef
-  } = usePanelBase({
+  const { ref, translateX, tabIndex, ariaDisabled, ariaHidden, firstFocusButtonRef, isOpen, isMounted } = usePanelBase({
     panelName: ACTIVE_PANEL.MENU,
     translateXOpen: MENU_PANEL_TRANSLATE_X, 
     translateXClose: 'translate-x-full'
@@ -57,7 +49,7 @@ const PanelMenu = () => {
         role="dialog"
         aria-modal="true"
         aria-labelledby="menu-panel-title"
-        className={`panel-right-short panel-help absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform ${translateX}`}
+        className={`panel-menu panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}
       >
         <div tabIndex={TABINDEX_NEVER} aria-disabled={!isOpen} className="three h-100 w-100 overflow-y-auto">
           <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>

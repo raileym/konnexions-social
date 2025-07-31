@@ -12,10 +12,10 @@ const SelectorLessonPromptStyle = () => {
 
   const lessonPromptStyles = useMemo<LessonPromptStyle[]>(() => Object.values(LESSON_PROMPT_STYLE), [])
 
-  const {tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_LESSON_PROMPT_STYLE})
+  const {tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_LESSON_PROMPT_STYLE})
 
   return (
-    <div className="mb3 on-background">
+    <div className={`selector-lesson-prompt-style mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <label className="db mb2 f5 b">Content Style:</label>
       <div className="flex flex-wrap flex-column">
         {lessonPromptStyles.map((style) => (

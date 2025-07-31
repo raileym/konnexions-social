@@ -96,10 +96,12 @@ button:focus {
 
 .slide-in {
   animation: slideInFromRight 0.3s ease forwards;
+  animation-delay: 0.5s; // adjust as needed
 }
 
 .slide-out {
   animation: slideOut 300ms ease-in-out forwards;
+  animation-delay: 0.5s; // adjust as needed
 }
 
 @keyframes slideInFromRight {

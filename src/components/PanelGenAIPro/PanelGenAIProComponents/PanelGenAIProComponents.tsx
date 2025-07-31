@@ -56,7 +56,7 @@ const PanelGenAIProComponents = () => {
 
   const { focusPanel, openPanel } = usePanelManager()
 
-  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({
+  const { tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({
     panelName: ACTIVE_PANEL.GEN_AI_PRO_COMPONENTS,
     translateXOpen: 'translate-x-0',
     translateXClose: 'translate-x-full',
@@ -602,7 +602,7 @@ const PanelGenAIProComponents = () => {
   // },[lesson])
 
   return (
-    <div tabIndex={TABINDEX_NEVER} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+    <div tabIndex={TABINDEX_NEVER} aria-disabled={false} className={`panel-gen-ai-pro-components b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )

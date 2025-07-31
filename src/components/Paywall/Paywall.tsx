@@ -13,10 +13,10 @@ const Paywall = () => {
   if (!paywall) return <div className="pa3">No paywall data available.</div>
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.PAYWALL})
+  const { tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.PAYWALL})
 
   return (
-    <div className="pa3 bg-background">
+    <div className={`paywall pa3 bg-background ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <h3 className="mb2">Paywall Packages</h3>
       <ul className="bg-on-background background f6 pa2 br2">
         <li><strong><span className="green">Green</span> Remaining:</strong> {paywall.paywall_package_green_remaining}</li>

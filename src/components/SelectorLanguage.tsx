@@ -13,10 +13,10 @@ const SelectorLanguage = () => {
     LANGUAGE.ITALIAN
   ]
 
-  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_LANGUAGE})
+  const { tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_LANGUAGE})
   
   return (
-    <div className="mb3X on-background">
+    <div className={`selector-language mb3X on-background ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <label className="db mb2 f5 b">Choose a language:</label>
       <div className="flex flex-wrap flex-columnX">
         {languages.map((code) => (

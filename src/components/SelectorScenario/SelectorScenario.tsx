@@ -21,10 +21,10 @@ const SelectorScenario = ({ custom }: SelectorScenarioProps) => {
     ]
   }, [custom])
 
-  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_SCENARIO})
+  const { tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_SCENARIO})
 
   return (
-    <div className="mb3 on-background">
+    <div className={`selector-scenario mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <label className="db mb2 f5 b">Scenario</label>
       <div className="flex flex-wrap flex-column">
         {scenarios.map((s) => (

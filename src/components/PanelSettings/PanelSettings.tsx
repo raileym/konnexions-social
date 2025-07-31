@@ -9,7 +9,7 @@ const PanelSettings = () => {
 
   const { theme, setTheme } = useThemeContext()
 
-  const { ref, firstFocusButtonRef, tabIndex, ariaDisabled, ariaHidden, translateX } = usePanelBase({
+  const { ref, firstFocusButtonRef, tabIndex, ariaDisabled, ariaHidden, translateX, isOpen, isMounted } = usePanelBase({
     panelName: ACTIVE_PANEL.SETTINGS,
     translateXOpen: SETTINGS_PANEL_TRANSLATE_X,
     translateXClose: 'translate-x-full'
@@ -87,7 +87,7 @@ const PanelSettings = () => {
   return (
     <div
       ref={ref}
-      className={`panel-right-short panel-settings pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX}`}
+      className={`panel-settings panel-right-short pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}
     >
       <div
         tabIndex={tabIndex}

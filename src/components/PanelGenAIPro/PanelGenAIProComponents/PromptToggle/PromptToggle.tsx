@@ -12,10 +12,10 @@ type PromptToggleProps = {
 const PromptToggle: React.FC<PromptToggleProps> = ({ title, prompt, className = 'b--background bg-brand black' }) => {
   const [isVisible, setIsVisible] = useState(false)
 
-  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.PROMPT_TOGGLE})
+  const { tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.PROMPT_TOGGLE})
   
   return (
-    <>
+    <div className={`prompt-toggle ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <div className={'w-100 mv3X'}>
         <button
           tabIndex={tabIndex}
@@ -23,7 +23,7 @@ const PromptToggle: React.FC<PromptToggleProps> = ({ title, prompt, className = 
           aria-hidden={ariaHidden}
           onClick={() => setIsVisible(prev => !prev)}
           className={`pa2 br3 ma1 pointer b--background ${className}`}
-        >
+          >
           {isVisible ? `Hide ${title}` : `Show ${title}`}
         </button>
       </div>
@@ -36,7 +36,7 @@ const PromptToggle: React.FC<PromptToggleProps> = ({ title, prompt, className = 
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

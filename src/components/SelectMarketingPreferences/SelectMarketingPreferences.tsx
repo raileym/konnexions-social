@@ -12,7 +12,7 @@ export const SelectMarketingPreferences = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const { firstFocusInputRef: ref, tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES})
+  const { firstFocusInputRef: ref, tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES})
 
   const { clientUUID } = useAppContext()
 
@@ -71,7 +71,7 @@ export const SelectMarketingPreferences = () => {
   if (!preferences) return null
 
   return (
-    <div className="mv4">
+    <div className={`select-marketing-preferences mv4 ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <div className="b f3 mv3 background">Email preferences</div>
       {Object.entries(MARKETING_PREFERENCE).map(([key, label], index) => {
         // const checked = preferences[label]

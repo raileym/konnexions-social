@@ -9,7 +9,7 @@ const PanelBasicCreate = () => {
 
   const { focusPanel, openPanel, closePanel } = usePanelManager()
   
-  const { translateX } = usePanelBase({
+  const { translateX, isOpen, isMounted } = usePanelBase({
     panelName: ACTIVE_PANEL.BASIC_CREATE,
     translateXOpen: 'translate-x-0',
     translateXClose: 'translate-x-full',
@@ -32,7 +32,7 @@ const PanelBasicCreate = () => {
   })
 
   return (
-    <div className={`panel-right panel-basic bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-grayX bg-on-background transition-transform ${translateX}`}>
+    <div className={`panel-basic-create panel-right bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-grayX bg-on-background transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <PanelBasicCreateComponents />
     </div>
   )

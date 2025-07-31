@@ -13,10 +13,10 @@ const SelectorParticipantRole = () => {
   const isDisabled = scenario === SCENARIO.CUSTOM
   const labelClass = isDisabled ? 'o-50' : '' // o-50 = 50% opacity in Tachyons
 
-  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_PARTICIPANT_ROLE})
+  const { tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_PARTICIPANT_ROLE})
 
   return (
-    <div className="mb3 on-background">
+    <div className={`selector-participant-role mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <label className="db mb2 f5 b">My role</label>
       <div className={`flex flex-column mh3 ${labelClass}`}>
         <label className="mb1 flex items-center">

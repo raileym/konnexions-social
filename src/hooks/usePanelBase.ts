@@ -33,17 +33,21 @@ export const usePanelBase = ({
   const [tabIndex, setTabIndex] = useState<number>(-1)
   const [ariaDisabled, setAriaDisabled] = useState<boolean>(true)
   const [ariaHidden, setAriaHidden] = useState<boolean>(true)
+  const [isMounted, setIsMounted] = useState(false)
 
   const { registerPanel, unregisterPanel, closePanel } = usePanelManager()
 
   const open = useCallback(() => {
-    setIsOpen(true)
-    setTabIndex(0)
-    setAriaDisabled(false)
-    setAriaHidden(false)
-    if (translateXOpen) setTranslateX(translateXOpen)
-    if (translateYOpen) setTranslateY(translateYOpen)
-    if (callback?.onOpen) callback.onOpen()
+    setIsMounted(true)
+    requestAnimationFrame(() => {
+      setIsOpen(true)
+      setTabIndex(0)
+      setAriaDisabled(false)
+      setAriaHidden(false)
+      if (translateXOpen) setTranslateX(translateXOpen)
+      if (translateYOpen) setTranslateY(translateYOpen)
+      callback?.onOpen?.()
+    })
   }, [translateXOpen, translateYOpen, callback])
 
   const close = useCallback(() => {
@@ -52,12 +56,14 @@ export const usePanelBase = ({
     setAriaDisabled(true)
     setAriaHidden(true)
     if (translateXClose) setTranslateX(translateXClose)
-
     // Yes, on translateYOpen. If there is a translateYOpen,
     // then there must be a translateYClose, defaulted or
     // otherwise.
-    if (translateYOpen) setTranslateX(translateYClose) 
-    if (callback?.onClose) callback.onClose()
+    if (translateYOpen) setTranslateX(translateYClose)
+    callback?.onClose?.()
+
+    // Wait for animation to finish before fully unmounting
+    setTimeout(() => setIsMounted(false), 300) // match transition duration
   }, [callback, translateXClose, translateYClose, translateYOpen])
 
   const focus = useCallback(() => {
@@ -108,6 +114,7 @@ export const usePanelBase = ({
     ariaDisabled,
     ariaHidden,
     isOpen,
+    isMounted,
     translateX,
     translateY
   }

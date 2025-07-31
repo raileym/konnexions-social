@@ -6,10 +6,10 @@ const InputCustomParticipantList = () => {
   const { scenario, customParticipantList, setCustomParticipantList } = useAppContext()
   const disabled = scenario !== SCENARIO.CUSTOM
 
-  const { tabIndex, ariaDisabled, ariaHidden } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_CUSTOM_PARTICIPANT_LIST})
+  const { tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_CUSTOM_PARTICIPANT_LIST})
   
   return (
-    <div className="mb3 on-background" style={{ opacity: disabled ? 0.5 : 1 }}>
+    <div className={`input-custom-participant-list mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`} style={{ opacity: disabled ? 0.5 : 1 }}>
       <label className="db mb2 f5 b">Custom Participants</label>
       <input
         tabIndex={tabIndex}

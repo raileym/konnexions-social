@@ -46,7 +46,7 @@ const PanelProfile = () => {
 
   const { openPanel, closePanel, focusPanel } = usePanelManager()
 
-  const { ref, isOpen, translateX } = usePanelBase({
+  const { ref, translateX, isOpen, isMounted } = usePanelBase({
     panelName: ACTIVE_PANEL.PROFILE,
     translateXOpen: PROFILE_PANEL_TRANSLATE_X,
     translateXClose: 'translate-x-full',
@@ -162,7 +162,7 @@ const PanelProfile = () => {
   return (
     <div
       ref={ref}
-      className={`panel-right-short panel-profile absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 pt5 transition-transform ${translateX}`}
+      className={`panel-profile panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 pt5 transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}
     >
       <div tabIndex={TABINDEX_NEVER} aria-disabled={!isOpen} className="five h-100 w-100 overflow-y-auto">
         <div className={`pa4 ${PROFILE_PANEL_WIDTH_PERCENT} mb5`}>
