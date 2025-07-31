@@ -16,7 +16,7 @@ const SelectorParticipantRole = () => {
   const { tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.SELECTOR_PARTICIPANT_ROLE})
 
   return (
-    <div className={`selector-participant-role mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
+    <div className={`selector-participant-role mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <label className="db mb2 f5 b">My role</label>
       <div className={`flex flex-column mh3 ${labelClass}`}>
         <label className="mb1 flex items-center">

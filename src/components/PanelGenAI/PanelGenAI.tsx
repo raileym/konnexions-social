@@ -21,7 +21,7 @@ const PanelGenAI = () => {
   const { isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.GEN_AI})
   
   return (
-    <div className={`panel-gen-ai panel-right bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
+    <div className={`panel-gen-ai panel-right bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       Hello, world
       <PanelGenAIComponents />
     </div>

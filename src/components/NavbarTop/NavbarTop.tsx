@@ -20,8 +20,8 @@ const NavbarTop = () => {
     panelName: ACTIVE_PANEL.NAVBAR_TOP, 
   })
 
-  const { openPanel, currentPanel, togglePanelWithFocus } = usePanelManager()
-  
+  const { openPanel, isPanelOpen, focusPanel, closePanel, currentPanel, togglePanelWithFocus } = usePanelManager()
+
   const navigate = useNavigate()
   
   const navigateTo = (route: string) => {
@@ -36,7 +36,22 @@ const NavbarTop = () => {
 
   const handleEngageSpanish = () => {
     // togglePanelWithFocus(ACTIVE_PANEL.BASIC_CREATE)
-    togglePanelWithFocus(ACTIVE_PANEL.BASIC_WELCOME)
+    if (isPanelOpen(ACTIVE_PANEL.BASIC_WELCOME)) {
+      closePanel(ACTIVE_PANEL.BASIC_WELCOME)
+      openPanel(ACTIVE_PANEL.MDX)
+      focusPanel(ACTIVE_PANEL.MDX)
+    } else if (isPanelOpen(ACTIVE_PANEL.BASIC_CREATE)) {
+      closePanel(ACTIVE_PANEL.BASIC_CREATE)
+      openPanel(ACTIVE_PANEL.MDX)
+      focusPanel(ACTIVE_PANEL.MDX)
+    } else if (isPanelOpen(ACTIVE_PANEL.BASIC_STUDY)) {
+      closePanel(ACTIVE_PANEL.BASIC_STUDY)
+      openPanel(ACTIVE_PANEL.MDX)
+      focusPanel(ACTIVE_PANEL.MDX)
+    } else {
+      openPanel(ACTIVE_PANEL.BASIC_WELCOME)
+      focusPanel(ACTIVE_PANEL.BASIC_WELCOME)
+    }
   }
 
   const handleEngageSpanishPro = () => {

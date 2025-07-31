@@ -157,7 +157,7 @@ const PanelBasicCreateComponents = () => {
   }
 
   return (
-    <div className={`panel-basic-create-components panel-right bw1 b--moon-gray bl panel-basic z-1 absolute top-0 left-0 w-100 h-100 bg-transparent flex flex-rowX transition-transform translate-x-0 $${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
+    <div className={`panel-basic-create-components panel-right bw1 b--moon-gray bl panel-basic z-1 absolute top-0 left-0 w-100 h-100 bg-transparent flex flex-rowX transition-transform translate-x-0 $${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <div tabIndex={TABINDEX_NEVER} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
       </div>

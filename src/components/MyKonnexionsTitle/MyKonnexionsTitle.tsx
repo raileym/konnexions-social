@@ -62,8 +62,8 @@ export const MyKonnexionsTitleSpan = ({
 export const MyKonnexionsTitleLegal = ({nominal = ''}: MyConnexionsTitleLegalProps) => {
   return(
     <>
-      <div className="dib b">MY KONNEXIONS<sup className="f7 relative" style={{ top: '-1.2em' }}>TM</sup></div>
-      {nominal ? <div className="ml2 dib">{nominal}</div> : ''}
+      <span className="dib b">MY KONNEXIONS<sup className="f7 relative" style={{ top: '-1.2em' }}>TM</sup></span>
+      {nominal ? <span className="ml2 dib">{nominal}</span> : ''}
     </>
   )
 }

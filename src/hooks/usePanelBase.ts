@@ -82,7 +82,7 @@ export const usePanelBase = ({
       open,
       close,
       focus,
-      isOpen
+      isOpen: () => isOpen
     })
 
     return () => {

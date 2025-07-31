@@ -21,7 +21,7 @@ const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
   }, [tabIndex])
   
   return (
-    <div className={`Input-lesson-name mv3X flex flex-column items-start w-40 justify-center center mb4 ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
+    <div className={`Input-lesson-name mv3X flex flex-column items-start w-40 justify-center center mb4 ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
       <label htmlFor="lessonName" className="f3 db mb2 on-background">
         Lesson Name
       </label>

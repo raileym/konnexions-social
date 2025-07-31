@@ -1411,7 +1411,7 @@ export type PanelControl = {
   open: () => void
   close: () => void
   focus: () => void
-  isOpen: boolean
+  isOpen: () => boolean
 }
 
 export type MyKonnexionsTitleProps = {

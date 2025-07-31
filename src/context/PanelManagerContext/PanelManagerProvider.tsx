@@ -43,13 +43,20 @@ export const PanelManagerProvider = ({ children }: { children: React.ReactNode }
     registry.current.delete(name)
   }, [])
 
+  // const closePanel = useCallback((name: ActivePanel) => {
+  //   console.log('[PanelManagerProvider] closePanel:', name)
+  //   const entry = registry.current.get(name)
+  //   if (entry?.close) entry.close()
+  //   setCurrentPanel(ACTIVE_PANEL.MDX)
+  // }, [])
+
   const closePanel = useCallback((name: ActivePanel) => {
-    console.log('[PanelManagerProvider] closePanel:', name)
     const entry = registry.current.get(name)
-    if (entry?.close) entry.close()
+    if (!entry || !entry.isOpen()) return // ✅ Only close if open
+    console.log('[PanelManagerProvider] closePanel:', name)
+    entry.close()
     setCurrentPanel(ACTIVE_PANEL.MDX)
   }, [])
-
 
   const openPanel = useCallback((name: ActivePanel) => {
     const isSupportPanel = supportPanels.current.has(name)

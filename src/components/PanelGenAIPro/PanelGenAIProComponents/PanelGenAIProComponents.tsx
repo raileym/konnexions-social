@@ -602,7 +602,7 @@ const PanelGenAIProComponents = () => {
   // },[lesson])
 
   return (
-    <div tabIndex={TABINDEX_NEVER} aria-disabled={false} className={`panel-gen-ai-pro-components b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`} style={{ paddingTop: '7em' }}>
+    <div tabIndex={TABINDEX_NEVER} aria-disabled={false} className={`panel-gen-ai-pro-components b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )
