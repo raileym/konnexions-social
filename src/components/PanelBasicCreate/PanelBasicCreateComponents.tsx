@@ -105,7 +105,7 @@ const PanelBasicCreateComponents = () => {
             <button tabIndex={tabIndex} aria-disabled={ariaDisabled} className="mh3 bg-yellow pv1 ph2">THREE</button>
           </div> */}
 
-          {!ariaDisabled &&
+          {!ariaDisabled && !ariaHidden && 
             <TiptapEditor
               key={lesson.number} // reinitialize when lesson changes
               initialValue={lesson.flexLesson ?? ''}

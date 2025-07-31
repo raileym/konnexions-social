@@ -210,6 +210,12 @@ const App = () => {
     return () => window.removeEventListener('focusin', handleFocus)
   }, [])
 
+  useEffect(() => {
+    const el = document.activeElement
+    console.log('🟢 Focused element on mount:', el)
+    console.dir(el)
+  }, [])
+
   const alwaysTrue = false
   if (alwaysTrue) {
     return (

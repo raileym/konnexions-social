@@ -34,7 +34,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
     clientUUID
   } = useAppContext()
 
-  const { tabIndex, ariaDisabled, firstFocusButtonRef } = usePanelBase({panelName: ACTIVE_PANEL.DIALOG_LIST})
+  const { tabIndex, ariaDisabled, ariaHidden, firstFocusButtonRef } = usePanelBase({panelName: ACTIVE_PANEL.DIALOG_LIST})
   
   const { refreshPaywall } = usePaywall()
 
@@ -158,7 +158,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
           className='ml3 f6 br2 ph2 pv1 on-background bg-secondary hover:bg-blue'
           tabIndex={tabIndex}
           aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+          aria-hidden={ariaHidden}
         >
           <FontAwesomeIcon icon={faPlay} /> Play All
         </button>
@@ -167,14 +167,14 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
           className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red focus-visible:b--tertiary'
           tabIndex={tabIndex}
           aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+          aria-hidden={ariaHidden}
         >
           <FontAwesomeIcon icon={faStop} /> Stop
         </button>
         <button
           tabIndex={tabIndex}
           aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+          aria-hidden={ariaHidden}
           onClick={() => setShowTranslations(prev => !prev)}
           className={`ml2 f6 br2 ph2 pv1 b--tertiary b--solidX bw3 on-tertiary focus-visible:b--red ${hasTranslations ? 'bg-tertiary hover:bg-silver' : 'bg-tertiary cursor-not-allowed'}`}
           disabled={!hasTranslations}
