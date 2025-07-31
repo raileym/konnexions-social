@@ -9,7 +9,7 @@ const InputCustomParticipantList = () => {
   const { tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_CUSTOM_PARTICIPANT_LIST})
   
   return (
-    <div className={`input-custom-participant-list mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`} style={{ opacity: disabled ? 0.5 : 1 }}>
+    <div className={`input-custom-participant-list mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`} style={{ opacity: disabled ? 0.5 : 1 }}>
       <label className="db mb2 f5 b">Custom Participants</label>
       <input
         tabIndex={tabIndex}

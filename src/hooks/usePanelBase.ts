@@ -34,7 +34,7 @@ export const usePanelBase = ({
   const [translateY, setTranslateY] = useState(translateYClose)
   const [tabIndex, setTabIndex] = useState<number>(-1)
   const [ariaDisabled, setAriaDisabled] = useState<boolean>(true)
-  const [ariaHidden, setAriaHidden] = useState<boolean>(true)
+  const [ariaHidden, setAriaHidden] = useState<boolean>(false)
   const [isMounted, setIsMounted] = useState(defaultOpen)
 
   const { registerPanel, unregisterPanel, closePanel } = usePanelManager()
@@ -56,7 +56,7 @@ export const usePanelBase = ({
     setIsOpen(false)
     setTabIndex(-1)
     setAriaDisabled(true)
-    setAriaHidden(true)
+    setAriaHidden(false)
     if (translateXClose) setTranslateX(translateXClose)
     // Yes, on translateYOpen. If there is a translateYOpen,
     // then there must be a translateYClose, defaulted or

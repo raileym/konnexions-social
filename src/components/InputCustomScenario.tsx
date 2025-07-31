@@ -9,7 +9,7 @@ const InputCustomScenario  = () => {
   const { tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.INPUT_CUSTOM_SCENARIO})
   
   return (
-    <div className={`input-custom-scenario mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`} style={{ opacity: disabled ? 0.5 : 1 }}>
+    <div className={`input-custom-scenario mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`} style={{ opacity: disabled ? 0.5 : 1 }}>
       <label className="db mb2 f5 b">Custom Scenario</label>
       <input
         tabIndex={tabIndex}

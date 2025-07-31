@@ -51,7 +51,7 @@ const PanelBasicWelcome = () => {
   // })
 
   return (
-    <div className={`panel-basic-welcome panel-right panel-basic bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
+    <div className={`panel-basic-welcome panel-right panel-basic bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
       <PanelMDXComponents page={'WelcomeLearnSpanish'} />
     </div>
   )
