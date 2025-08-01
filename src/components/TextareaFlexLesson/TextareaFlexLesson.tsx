@@ -30,6 +30,7 @@ export const TextareaFlexLesson = ({title}: TextareaFlexLessonProps) => {
       <div className={`textarea-flex-lesson tc w-60 center db mb2 f3 mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>{title}</div>
       <textarea
         tabIndex={tabIndex}
+        inert={!isOpen}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
         value={flexLesson}

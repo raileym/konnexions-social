@@ -16,7 +16,7 @@ const NavbarTop = () => {
     setMdxPage
   } = useAppContext()
 
-  const { firstFocusDivRef } = usePanelBase({
+  const { isOpen, firstFocusDivRef } = usePanelBase({
     panelName: ACTIVE_PANEL.NAVBAR_TOP, 
   })
 
@@ -81,6 +81,7 @@ const NavbarTop = () => {
         aria-labelledby={'label-navbar-top'} 
         aria-describedby={'describe-navbar-top'}
         tabIndex={TABINDEX_NEVER}
+        inert={false}
         aria-disabled={ARIA_DISABLED_NEVER}
         className="navbar-top fixed top-0 focus:bn focus-visible:bn shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999"
         style={{borderRadius: 0}}>
@@ -88,6 +89,7 @@ const NavbarTop = () => {
         <div
           ref={firstFocusDivRef}
           tabIndex={TABINDEX_ALWAYS}
+          inert={false}
           aria-disabled={ARIA_DISABLED_NEVER}
           aria-describedby={'button-home'}
           className="button-home b--double b--transparent flex flex-row justify-start pointer lh-4-kx mh0 ph3 hover:b--attention-hover"
@@ -120,11 +122,11 @@ const NavbarTop = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.GEN_AI_PRO} title='Bienvenido! Pro' buttonClass={'baX b--transparent mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanishPro} />
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isActive={currentPanel === ACTIVE_PANEL.BASIC_CREATE} title='Bienvenido!' buttonClass={'baX b--transparent mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-profile'} isActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='baX b--transparent mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isOpen={isOpen} isActive={currentPanel === ACTIVE_PANEL.GEN_AI_PRO} title='Bienvenido! Pro' buttonClass={'baX b--transparent mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanishPro} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-bienvenido'} isOpen={isOpen} isActive={currentPanel === ACTIVE_PANEL.BASIC_CREATE} title='Bienvenido!' buttonClass={'baX b--transparent mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-profile'} isOpen={isOpen} isActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='baX b--transparent mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
           <DayNightToggle className="baX b--transparent bw1X b--solidX mh3" />
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-menu'} isActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='baX b--transparent mh3 b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={'label-button-menu'} isOpen={isOpen} isActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='baX b--transparent mh3 b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>

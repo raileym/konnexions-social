@@ -43,13 +43,14 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
   } else {
     return (
       <>
-      <div aria-disabled={ariaDisabled} aria-hidden={ariaHidden} className={`find-this ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
+      <div inert={!isOpen} aria-disabled={ariaDisabled} aria-hidden={ariaHidden} className={`find-this ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
         <div className="mw7 w-60 center db mb4 f3 f4-m mb3">{title}</div>
         <div className="mw7 mw8-ns ba w-80 w-70-mX center pa3X br3 max-w-xl mx-auto p-6X bg-transparent shadow-md rounded-md">
           <div className="flex justify-center mb-6X bg-brandX bb bw1 b--black h2X pv1 bg-moon-gray" >
             <div className="mh2 mh3-m mh4-ns">
               <button
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -60,6 +61,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
               </button>
               <button
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
@@ -70,6 +72,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
               </button>
               <button
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
@@ -83,6 +86,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <div className="mh2 mh3-m mh4-ns">
               <button
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 onClick={() => editor.chain().focus().toggleBold().run()}
@@ -97,6 +101,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
   
               <button
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -111,6 +116,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
   
               <button
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
@@ -129,6 +135,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
             <div className="mh2 mh3-m mh4-ns">
               <button
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -140,6 +147,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
   
               <button
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
@@ -156,6 +164,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
               tabIndex={-1}
               // tabIndex={tabIndex}
               // aria-disabled={ariaDisabled}
+              inert={!isOpen}
               aria-hidden={ariaHidden}
               aria-disabled={ariaDisabled}
               editor={editor}

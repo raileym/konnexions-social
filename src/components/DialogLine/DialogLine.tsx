@@ -4,7 +4,7 @@ import { useTTS } from '@PanelGenAIProComponents/useTTS/useTTS'
 import { useAppContext } from '@context/AppContext/AppContext'
 import type { DialogLineProps } from '@cknTypes/types'
 import { FormatSentence } from '../FormatSentence/FormatSentence'
-import { ACTIVE_PANEL, SCREEN, TABINDEX_ALWAYS } from '@cknTypes/constants'
+import { ACTIVE_PANEL, TABINDEX_ALWAYS } from '@cknTypes/constants'
 import { usePanelBase } from '@hooks/usePanelBase'
 
 export const DialogLine = ({
@@ -51,6 +51,7 @@ export const DialogLine = ({
         </div>
         <button
           tabIndex={TABINDEX_ALWAYS}
+          inert={!isOpen}
           aria-disabled={ariaDisabled}        
           onClick={handleSpeak}
           className="ml3 f6 br2 ph2 pv1 dib on-background bg-secondary hover:bg-blue no-outline bg-redX"

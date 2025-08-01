@@ -1,6 +1,7 @@
 // FontSizeControls.tsx
-import { TABINDEX_NEVER } from '@cknTypes/constants'
+import { ACTIVE_PANEL } from '@cknTypes/constants'
 import { useAppContext } from '@context/AppContext/AppContext'
+import { usePanelBase } from '@hooks/usePanelBase'
 import { useEffect } from 'react'
 
 const FontSizeControls = () => {
@@ -15,16 +16,19 @@ const FontSizeControls = () => {
   const increment = () => setBaseFontSize(prev => Math.min(prev + 1, 32))
   const decrement = () => setBaseFontSize(prev => Math.max(prev - 1, 10))
 
+  const { tabIndex, ariaDisabled, isOpen } = usePanelBase({panelName: ACTIVE_PANEL.FONT_SIZE_CONTROL})
+
   return (
     <div
-      tabIndex={TABINDEX_NEVER}
-      aria-disabled={false}
+      tabIndex={tabIndex}
+      aria-disabled={ariaDisabled}
+      inert={!isOpen}
       className="control-font-size fixed top-0 right-0 z-9999 pa2 on-background bg-background ba b--background br3 flex items-center focus:b--red bw3"
       style={{ right: '5%', top: '8rem', fontFamily: 'monospace' }}
     >
-      <button tabIndex={0} aria-disabled={false} onClick={decrement} className="ba f4 b ph2 pv1 mr2 bg-light-gray focus:bg-tertiary focus:white bw2">−</button>
+      <button inert={!isOpen} tabIndex={0} aria-disabled={false} onClick={decrement} className="ba f4 b ph2 pv1 mr2 bg-light-gray focus:bg-tertiary focus:white bw2">−</button>
       <span className="f6">{baseFontSize}px</span>
-      <button tabIndex={0} aria-disabled={false} onClick={increment} className="ba f4 b ph2 pv1 ml2 bg-light-gray focus:bg-tertiary focus:white bw2">+</button>
+      <button inert={!isOpen} tabIndex={0} aria-disabled={false} onClick={increment} className="ba f4 b ph2 pv1 ml2 bg-light-gray focus:bg-tertiary focus:white bw2">+</button>
     </div>
   )
 }

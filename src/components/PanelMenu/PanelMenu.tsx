@@ -51,13 +51,14 @@ const PanelMenu = () => {
         aria-labelledby="menu-panel-title"
         className={`panel-menu panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}
       >
-        <div tabIndex={TABINDEX_NEVER} aria-disabled={!isOpen} className="three h-100 w-100 overflow-y-auto">
+        <div tabIndex={TABINDEX_NEVER} inert={!isOpen} aria-disabled={!isOpen} className="three h-100 w-100 overflow-y-auto">
           <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>
             <h2 id="menu-panel-title" className="f3 pa3 mt5 tc on-tertiary">Menu Panel</h2>
             <div className="flex justify-between flex-m dn-lX">
               <Button
                 buttonRef={firstFocusButtonRef}
                 ariaLabelledBy="label-button-home"
+                isOpen={isOpen}
                 tabIndex={tabIndex}
                 ariaDisabled={ariaDisabled}
                 titleClass="white"
@@ -81,6 +82,7 @@ const PanelMenu = () => {
                 titleClass="white"
                 iconClass="white mh0 ph0"
                 buttonClass="bnX w-50X width-3 mh0 ph2 brand bg-transparent"
+                isOpen={isOpen}
                 isActive={false}
                 switchFn={switchPanel}
                 panel={ACTIVE_PANEL.SETTINGS}
@@ -95,6 +97,7 @@ const PanelMenu = () => {
                 titleClass="white"
                 iconClass="white mh0 ph0"
                 buttonClass="bnX o-20X width-3 mh0 ph2 brand bg-transparent"
+                isOpen={isOpen}
                 isActive={false}
                 switchFn={switchPanel}
                 panel={ACTIVE_PANEL.HELP}
@@ -109,6 +112,7 @@ const PanelMenu = () => {
                   titleClass="white"
                   iconClass="white mh0 ph0"
                   buttonClass="bn w-50X width-3 mh0 ph0 brand bg-transparent"
+                  isOpen={isOpen}
                   isActive={false}
                   switchFn={switchPanel}
                   onClick={() => openPanel('profile')}
@@ -124,6 +128,7 @@ const PanelMenu = () => {
               <li
                 aria-labelledby="li-home-page"
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
@@ -134,6 +139,7 @@ const PanelMenu = () => {
               <li
                 aria-labelledby="li-about-page"
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
@@ -144,6 +150,7 @@ const PanelMenu = () => {
               <li
                 aria-labelledby="li-terms-and-conditions-page"
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"
@@ -154,6 +161,7 @@ const PanelMenu = () => {
               <li
                 aria-labelledby="li-privacy-policy"
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 aria-hidden={ariaHidden}
                 className="link-url pl2 pointer bullet underline on-tertiaryX on-tertiary hover:b--attention-hover"

@@ -1143,6 +1143,7 @@ export type ButtonProps = {
   ariaDisabled?: boolean
   ariaHidden?: boolean
   tabIndex: number
+  isOpen: boolean
   disable?: boolean
   panel?: ActivePanel | ActiveHome
   icon?: IconProp // IconDefinition

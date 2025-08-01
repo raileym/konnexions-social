@@ -28,6 +28,7 @@ const PanelSettings = () => {
       <button
         ref={firstFocusButtonRef}
         tabIndex={tabIndex}
+        inert={!isOpen}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
         className="mv3 bg-yellow"
@@ -39,6 +40,7 @@ const PanelSettings = () => {
       </button>
       <button
         tabIndex={tabIndex}
+        inert={!isOpen}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
         className="mv3 bg-yellow"
@@ -50,6 +52,7 @@ const PanelSettings = () => {
       </button>
       <button
         tabIndex={tabIndex}
+        inert={!isOpen}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
         className="mv3 bg-yellow"
@@ -61,6 +64,7 @@ const PanelSettings = () => {
       </button>
       <button
         tabIndex={tabIndex}
+        inert={!isOpen}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
         className="mv3 bg-yellow"
@@ -72,6 +76,7 @@ const PanelSettings = () => {
       </button>
       <button
         tabIndex={tabIndex}
+        inert={!isOpen}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
         className="mv3 bg-yellow"
@@ -91,6 +96,7 @@ const PanelSettings = () => {
     >
       <div
         tabIndex={tabIndex}
+        inert={!isOpen}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
         className="six h-100 w-100 overflow-y-auto"

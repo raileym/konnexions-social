@@ -152,6 +152,7 @@ export const ACTIVE_PANEL = {
   SELECT_MARKETING_PREFERENCES: 'SelectMarketingPreferences',
   TEXTAREA_FLEX_LESSON: 'TextareaFlexLesson',
   TIPTAP_EDITOR: 'TiptapEditor',
+  FONT_SIZE_CONTROL: 'FontSizeControl',
 
   PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',

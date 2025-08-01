@@ -26,6 +26,7 @@ const Paywall = () => {
       <div className="mt3 flex gap2">
         <button
           tabIndex={tabIndex}
+          inert={!isOpen}
           aria-disabled={ariaDisabled}
           aria-hidden={ariaHidden}
           className="n1 w4 f6 mr2 br3 ba bw1 ph3 pv2 mb2 dib background b--green bg-green hover:b--green active:bg-oceanblue active:on-background"
@@ -36,6 +37,7 @@ const Paywall = () => {
 
         <button
           tabIndex={tabIndex}
+          inert={!isOpen}
           aria-disabled={ariaDisabled}
           aria-hidden={ariaHidden}
           className="n2 w4 f6 ml2 br3 ba bw1 ph3 pv2 mb2 dib background b--yellow bg-yellow hover:b--yellow active:bg-oceanblue active:on-background"
@@ -48,6 +50,7 @@ const Paywall = () => {
       <div className="mt3 flex gap2">
         <button
           tabIndex={tabIndex}
+          inert={!isOpen}
           aria-disabled={ariaDisabled}
           aria-hidden={ariaHidden}
           className="n3 w4 f6 mr2 br3 ba bw1 ph3 pv2 mb2 dib background b--green bg-green hover:b--green active:bg-oceanblue active:on-background"
@@ -58,6 +61,7 @@ const Paywall = () => {
 
         <button
           tabIndex={tabIndex}
+          inert={!isOpen}
           aria-disabled={ariaDisabled}
           aria-hidden={ariaHidden}
           className="n4 w4 f6 ml2 br3 ba bw1 ph3 pv2 mb2 dib background b--yellow bg-yellow hover:b--yellow active:bg-oceanblue active:on-background"

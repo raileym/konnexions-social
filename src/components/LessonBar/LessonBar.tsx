@@ -80,11 +80,13 @@ export const LessonBar = () => {
   return (
     <div
       tabIndex={TABINDEX_NEVER}
+      inert={!isOpen}
       aria-disabled={true}
       className={`lesson-bar panel-left bg-tertiary w-10 br b--moon-gray bw1 o-50X z-4 w-05X w-10X vh-100 overflow-y-auto pa2 bg-washed-yellowX brX b--background-20X bnX transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`} style={{paddingTop: '10em'}}>
       <button
         ref={firstFocusButtonRef}
         tabIndex={tabIndex}
+        inert={!isOpen}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
         onClick={handleAddLesson}
@@ -99,6 +101,7 @@ export const LessonBar = () => {
             <li
               role="button"
               tabIndex={tabIndex}
+              inert={!isOpen}
               aria-disabled={ariaDisabled}
               aria-hidden={ariaHidden}
               key={lesson.number}

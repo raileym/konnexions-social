@@ -24,7 +24,8 @@ const SelectorLanguage = () => {
             <input
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+              inert={!isOpen}
+              aria-hidden={ariaHidden}
               type="radio"
               name="language" // fixed name ensures exclusive selection
               value={code}

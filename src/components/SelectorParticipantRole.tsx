@@ -22,8 +22,9 @@ const SelectorParticipantRole = () => {
         <label className="mb1 flex items-center">
           <input
             tabIndex={tabIndex}
+            inert={!isOpen}
             aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+            aria-hidden={ariaHidden}
             type="radio"
             name="participant-role"
             value="yes"
@@ -37,8 +38,9 @@ const SelectorParticipantRole = () => {
         <label className="mb1 flex items-center">
           <input
             tabIndex={tabIndex}
+            inert={!isOpen}
             aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+            aria-hidden={ariaHidden}
             type="radio"
             name="participant-role"
             value="no"

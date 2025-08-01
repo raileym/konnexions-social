@@ -19,6 +19,7 @@ const PromptToggle: React.FC<PromptToggleProps> = ({ title, prompt, className = 
       <div className={'w-100 mv3X'}>
         <button
           tabIndex={tabIndex}
+          inert={!isOpen}
           aria-disabled={ariaDisabled}
           aria-hidden={ariaHidden}
           onClick={() => setIsVisible(prev => !prev)}

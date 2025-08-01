@@ -63,7 +63,7 @@ const { openPanel, closePanel } = usePanelManager()
           <div className="w-100 on-background f2">Lesson {selectedLessonNumber}</div>
           </h2>
 
-          <button ref={firstFocusButtonRef} tabIndex={tabIndex} aria-disabled={ariaDisabled} className="wiggle bg-secondary pv1 ph3">Placeholder</button>
+          <button ref={firstFocusButtonRef} inert={!isOpen} tabIndex={tabIndex} aria-disabled={ariaDisabled} className="wiggle bg-secondary pv1 ph3">Placeholder</button>
 
           {!ariaDisabled && 
             <>
@@ -97,7 +97,7 @@ const { openPanel, closePanel } = usePanelManager()
 
   return (
     <div className={`panel-basic-study-components panel-right z-1 absolute top-0 left-0 w-100 h-100 flex ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
-      <div tabIndex={TABINDEX_NEVER} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
+      <div tabIndex={TABINDEX_NEVER} inert={!isOpen} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
         {content}
       </div>
     </div>

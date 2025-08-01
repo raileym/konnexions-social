@@ -157,6 +157,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
           onClick={playAll}
           className='ml3 f6 br2 ph2 pv1 on-background bg-secondary hover:bg-blue'
           tabIndex={tabIndex}
+          inert={!isOpen}
           aria-disabled={ariaDisabled}
           aria-hidden={ariaHidden}
         >
@@ -166,6 +167,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
           onClick={stopAll}
           className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red focus-visible:b--tertiary'
           tabIndex={tabIndex}
+          inert={!isOpen}
           aria-disabled={ariaDisabled}
           aria-hidden={ariaHidden}
         >
@@ -174,6 +176,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
         <button
           tabIndex={tabIndex}
           aria-disabled={ariaDisabled}
+          inert={!isOpen}
           aria-hidden={ariaHidden}
           onClick={() => setShowTranslations(prev => !prev)}
           className={`ml2 f6 br2 ph2 pv1 b--tertiary b--solidX bw3 on-tertiary focus-visible:b--red ${hasTranslations ? 'bg-tertiary hover:bg-silver' : 'bg-tertiary cursor-not-allowed'}`}
@@ -185,9 +188,21 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
 
       <hr className="mv3 pv0" />
 
-      <button ref={firstFocusButtonRef} tabIndex={tabIndex} aria-disabled={ariaDisabled} className="bg-yellow pv1 ph3">Placeholder</button>
+      <button
+        ref={firstFocusButtonRef}
+        tabIndex={tabIndex}
+        inert={!isOpen}
+        aria-disabled={ariaDisabled}
+        className="bg-yellow pv1 ph3">
+          Placeholder
+      </button>
 
-      <div aria-disabled={true} className="h5 overflow-y-auto" style={{ height: '30rem' }}>
+      <div 
+        aria-disabled={true}
+        inert={!isOpen}
+        className="h5 overflow-y-auto"
+        style={{ height: '30rem' }}
+      >
         <ul className='mt0 ml0 pl3'>
           {lines.map((line, i) => {
             const rawTranslation = translations && translations[i] ? translations[i] : ''

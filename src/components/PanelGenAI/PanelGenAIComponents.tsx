@@ -91,7 +91,7 @@ const PanelGenAI = () => {
   
   return (
     <div className={`panel-gen-ai-components panel-right panel-gen-ai-components bw1 b--moon-gray bl z-1 absolute top-0 left-0 w-90 h-100 bg-light-gray transition-transform translate-x-0 ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
-      <div tabIndex={tabIndex} aria-disabled={ariaDisabled} className='one h-100 w-100 overflow-y-auto'>
+      <div tabIndex={tabIndex} inert={!isOpen} aria-disabled={ariaDisabled} className='one h-100 w-100 overflow-y-auto'>
         <div className='pa4 mw7 w-100 background center mb5'>
           <h2 className='f3 pa3 pb0 mt5 w-100 tc'>Spanish: Scenarios</h2>
           <div className='f3 pv3 pt0 mt0'>{headline}</div>
@@ -103,7 +103,7 @@ const PanelGenAI = () => {
                 <div>Set a <b>GenAI Key</b> to use a Generative AI technology</div>
                 <div className='w-100 flex justify-center pa4'>
                   <div>
-                    <Button ariaLabelledBy={''} tabIndex={tabIndex} ariaDisabled={ariaDisabled} ariaHidden={ariaHidden} switchFn={switchPanel} isActive={false} panel='keys' icon={faKey} title='API Keys' />
+                    <Button ariaLabelledBy={''} tabIndex={tabIndex} ariaDisabled={ariaDisabled} ariaHidden={ariaHidden} switchFn={switchPanel} isOpen={isOpen} isActive={false} panel='keys' icon={faKey} title='API Keys' />
                   </div>
                 </div>
               </div>
@@ -122,6 +122,7 @@ const PanelGenAI = () => {
               <label className='o-100 db mt0 mb2 f3 b'>Ask ChatGPT</label>
               <textarea
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
@@ -157,6 +158,7 @@ const PanelGenAI = () => {
                   <label className='o-20 db mt0 mb2 f3 b'>Ask ChatGPT</label>
                   <textarea
                     tabIndex={tabIndex}
+                    inert={!isOpen}
                     aria-disabled={ariaDisabled}
                     value={questionContext}
                     onChange={(e) => setQuestionContext(e.target.value)}

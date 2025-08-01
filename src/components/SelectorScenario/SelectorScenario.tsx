@@ -31,6 +31,7 @@ const SelectorScenario = ({ custom }: SelectorScenarioProps) => {
           <label key={s} className="mh3 mb2 flex items-center">
             <input
               tabIndex={tabIndex}
+              inert={!isOpen}
               aria-disabled={ariaDisabled}
               aria-hidden={ariaHidden}
               type="radio"

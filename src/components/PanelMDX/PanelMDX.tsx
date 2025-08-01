@@ -43,6 +43,7 @@ const PanelMDX = () => {
       ref={ref}
       role="region"
       aria-modal="true"
+      inert={!isOpen}
       aria-hidden={ariaHidden}
       aria-disabled={ariaDisabled}
       tabIndex={tabIndex}

@@ -169,8 +169,9 @@ const PanelGenAIProComponents = () => {
           <div className="mv3X flex justify-center">
             <button
               tabIndex={tabIndex}
+              inert={!isOpen}
               aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+              aria-hidden={ariaHidden}
               onClick={() => setDebugMode(prev => !prev)}
               className={`w-30 pa3 br2 bn ${debugMode ? 'bg-brand' : 'bg-background'} on-background pointer`}
             >
@@ -212,8 +213,9 @@ const PanelGenAIProComponents = () => {
             <div>
               <button
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+                aria-hidden={ariaHidden}
                 className={'f3 pa3 br4 bn bg-secondary on-secondary pointer'}
                 onClick={() => {
                   const formattedFlexLesson = formatFlexLesson({flexLesson})
@@ -268,8 +270,9 @@ const PanelGenAIProComponents = () => {
             <div>
               <button
                 tabIndex={tabIndex}
+                inert={!isOpen}
                 aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+                aria-hidden={ariaHidden}
                 className={`f3 pa3 br4 bnX ${debugMode ? 'bg-background white' : 'bg-brand white'} pointer`}
                 onClick={() => {
                   createFullLesson()
@@ -291,8 +294,9 @@ const PanelGenAIProComponents = () => {
           <label className="db mb2 f5 b on-background">Seed or Prompt Description (optional):</label>
           <textarea
             tabIndex={tabIndex}
+            inert={!isOpen}
             aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+            aria-hidden={ariaHidden}
             value={customSeed}
             onChange={(e) => setCustomSeed(e.target.value)}
             className="w-100 ba b--gray br2 pa2"
@@ -602,7 +606,7 @@ const PanelGenAIProComponents = () => {
   // },[lesson])
 
   return (
-    <div tabIndex={TABINDEX_NEVER} aria-disabled={false} className={`panel-gen-ai-pro-components b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`} style={{ paddingTop: '7em' }}>
+    <div tabIndex={TABINDEX_NEVER} inert={false} aria-disabled={false} className={`panel-gen-ai-pro-components b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )

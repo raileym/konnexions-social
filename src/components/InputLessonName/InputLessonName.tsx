@@ -29,6 +29,7 @@ const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
         <input
           ref={firstFocusInputRef}
           tabIndex={tabIndex}
+          inert={!isOpen}
           aria-disabled={ariaDisabled}
           aria-hidden={ariaHidden}
           id="lessonName"

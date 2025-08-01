@@ -81,6 +81,7 @@ export const SelectMarketingPreferences = () => {
           <input
             {...(index === 0 ? { ref } : {})}
             tabIndex={tabIndex}
+            inert={!isOpen}
             aria-disabled={ariaDisabled}
             aria-hidden={ariaHidden}
             type="checkbox"

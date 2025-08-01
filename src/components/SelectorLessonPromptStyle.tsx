@@ -23,6 +23,7 @@ const SelectorLessonPromptStyle = () => {
             <input
               tabIndex={tabIndex}
               aria-disabled={ariaDisabled}
+              inert={!isOpen}
               aria-hidden={ariaHidden}
               type="radio"
               name="content-style"

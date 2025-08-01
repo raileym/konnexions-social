@@ -47,7 +47,7 @@ export const MyKonnexionsTitleSpan = ({
 }: MyKonnexionsTitleProps) => {
   return (
     <span aria-label={`my connections ${nominal}`} className={`konnexions-title-span dib ${className}`}>
-      <span aria-disabled={true} className="inline-flex flex-wrap">
+      <span inert={false} aria-disabled={true} className="inline-flex flex-wrap">
         <span className={`b ${color} mr1`}>My </span>
         <span className={`b ${slashColor}`}>K</span>
         <span className={`b  ${color}`}>onne</span>

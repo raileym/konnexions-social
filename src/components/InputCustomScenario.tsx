@@ -13,6 +13,7 @@ const InputCustomScenario  = () => {
       <label className="db mb2 f5 b">Custom Scenario</label>
       <input
         tabIndex={tabIndex}
+        inert={!isOpen}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
         type="text"
