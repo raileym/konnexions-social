@@ -24,7 +24,7 @@ const PanelGenAIPro = () => {
   })
 
   return (
-    <div className={`panel-gen-ai-pro panel-right bw1 b--moon-gray bl panel-gen-ai-pro z-1 absolute top-0 left-10 w-90 h-100 bg-light-greenX flex flex-rowX transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
+    <div inert={!isOpen} className={`panel-gen-ai-pro panel-right bw1 b--moon-gray bl panel-gen-ai-pro z-1 absolute top-0 left-10 w-90 h-100 bg-light-greenX flex flex-rowX transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
       <PanelGenAIProComponents />
     </div>
   )

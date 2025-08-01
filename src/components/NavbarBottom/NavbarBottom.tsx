@@ -116,6 +116,7 @@ const NavbarBottom = () => {
               isActive={activePanel === ACTIVE_PANEL.BASIC_CREATE}
               panel={ACTIVE_PANEL.BASIC_CREATE}
               icon={faPersonChalkboard}
+              inert={!isOpen}
               title='Create'
               onClick={handleCreate}
             />
@@ -124,6 +125,7 @@ const NavbarBottom = () => {
               tabIndex={tabIndex}
               ariaDisabled={ariaDisabled}
               ariaHidden={ariaHidden}
+              inert={!isOpen}
               iconClass={'f2'}
               disable={!isUserValidated || !(lesson?.isComplete)}
               buttonClass={`b--double b--transparent bw3 ${shouldWiggle ? 'wiggle-once' : ''} growX mh3 bnX Xfocus-visible:b--red`}

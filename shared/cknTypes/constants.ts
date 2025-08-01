@@ -153,6 +153,7 @@ export const ACTIVE_PANEL = {
   TEXTAREA_FLEX_LESSON: 'TextareaFlexLesson',
   TIPTAP_EDITOR: 'TiptapEditor',
   FONT_SIZE_CONTROL: 'FontSizeControl',
+  MDX_ENGAGE_SPANISH: 'MdxEngageSpanish',
 
   PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',

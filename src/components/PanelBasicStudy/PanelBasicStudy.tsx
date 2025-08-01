@@ -30,7 +30,7 @@ const PanelBasicStudy = () => {
   })
   
   return (
-    <div className={`panel-basic-study panel-right bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
+    <div inert={!isOpen} className={`panel-basic-study panel-right bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
       <PanelBasicStudyComponents />
     </div>
   )

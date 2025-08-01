@@ -11,7 +11,7 @@ const Button = ({
   iconClass,
   titleClass,
   disable,
-  isOpen,
+  inert,
   icon,
   img,
   title,
@@ -31,7 +31,7 @@ const Button = ({
         aria-labelledby={ariaLabelledBy}
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
-        inert={!isOpen}
+        inert={inert}
         aria-hidden={ariaHidden}
         onClick={() => { if (!disable) handleClick() }}
         disabled={disable}

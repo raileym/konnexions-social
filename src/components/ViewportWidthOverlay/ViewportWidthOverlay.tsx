@@ -17,6 +17,7 @@ const ViewportWidthOverlay = () => {
 
   return (
     <div
+      inert={true}
       className="control-viewport-width bg-on-background background b--background ba bw1"
       style={{
         position: 'fixed',

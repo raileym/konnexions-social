@@ -4,32 +4,57 @@ import Button from '@components/Button/Button'
 import { useAppContext } from '@context/AppContext/AppContext'
 import MdxEngageSpanish from '@mdxComponents/MdxEngageSpanish/MdxEngageSpanish'
 import MyKonnexionsSlash from '@components/MyKonnexionsSlash/MyKonnexionsSlash'
+import { ARIA_LABEL_IDS, ARIA_LABEL_STRINGS } from '@components/AriaLabels/ariaLabelsContstants'
+import { HeadingMdx } from '@components/HeadingMdx/HeadingMdx'
 
 <div className="tc">
-  <img src="/img/transistor-boy-and-girl-drawing-at-the-childrens-table.png" />
+  <img
+    src="/img/transistor-boy-and-girl-drawing-at-the-childrens-table.png"
+    alt={ARIA_LABEL_STRINGS.IMAGE_MAIN}
+  />
 </div>
 
-<h1 className="tc secondary f3 f5-vvs f4-vs f3-s f2-m f1-ns"><MyKonnexionsTitle slashColor='primary' fontSizeInRem={3} color='secondary' nominal={'Social Platform'} /></h1>
+<HeadingMdx level={1} className="tc secondary f3 f5-vvs f4-vs f3-s f2-m f1-ns">
+  <MyKonnexionsTitle
+    slashColor="primary"
+    fontSizeInRem={3}
+    color="secondary"
+    nominal="Social Platform"
+  />
+</HeadingMdx>
 
-Welcome to the <MyKonnexionsTitleSpan fontSizeInRem={1.5} nominal="Social Platform" />, a technology platform developed and operated by Professor Malcolm's LLC, doing business as <MyKonnexionsTitleSpan fontSizeInRem={1.5} nominal={'Social'} />.
+<HeadingMdx level={2} className="f3 f4-m f2-l">Welcome and Mission</HeadingMdx>
 
-<MyKonnexionsTitleSpan fontSizeInRem={1.5} nominal={'Social'} /> is more than a name — it’s a mission-driven technology, education, and research initiative committed to strengthening the social ties that connect us, for everyone’s better health and well-being.
+Welcome to the <MyKonnexionsTitleSpan fontSizeInRem={1.5} nominal="Social Platform" />, a technology platform developed and operated by Professor Malcolm's LLC, doing business as <MyKonnexionsTitleSpan fontSizeInRem={1.5} nominal="Social" />.
 
-At <MyKonnexionsTitleSpan fontSizeInRem={1.5} nominal={'Social'} />, we focus on how people connect, why they connect, and why it matters.
+<MyKonnexionsTitleSpan fontSizeInRem={1.5} nominal="Social" /> is more than a name — it’s a mission-driven technology, education, and research initiative committed to strengthening the social ties that connect us, for everyone’s better health and well-being.
+
+<HeadingMdx level={2} className="f3 f4-m f2-l">What We Focus On</HeadingMdx>
+
+At <MyKonnexionsTitleSpan fontSizeInRem={1.5} nominal="Social" />, we focus on how people connect, why they connect, and why it matters.
+
+<HeadingMdx level={2} className="f3 f4-m f2-l">Our Approach to Connection</HeadingMdx>
 
 While technology makes it easier to stay in touch, we believe it’s not enough on its own. Real connection takes more than just a signal — it needs purpose. That’s why we design tools and experiences that give people a reason to reach out: through shared interests, shared joy, and shared meaning.
 
+<HeadingMdx level={2} className="f3 f4-m f2-l">Why Connection Matters</HeadingMdx>
+
 Our work is inspired by the growing recognition — including the 2023 U.S. Surgeon General’s Advisory on the Healing Effects of Social Connection and Community, issued by Dr. Vivek H. Murthy — that human connection isn’t just nice to have. It’s essential. As the Advisory highlights, a lack of connection contributes to a public health crisis of loneliness, isolation, and disconnection. It affects our health, our happiness, and the well-being of our communities.
+
+<HeadingMdx level={2} className="f3 f4-m f2-l">Interactive Tools That Help</HeadingMdx>
 
 So we’re building interactive resources that make it easier (and more fun) to connect with others — whether you're learning a new language together, starting a book club, sharing a garden, or simply having a good laugh.
 
+<HeadingMdx level={2} className="f3 f4-m f2-l">At the Heart of It All</HeadingMdx>
+
 At the heart of it all is a simple idea: stronger connections make us stronger people. We’re here to spark real moments between real people — not just through apps or feeds, but through conversations, collaboration, and community.
 
-### Reference
+<HeadingMdx level={2} className="f3 f4-m f2-l">Reference</HeadingMdx>
 
-Murthy, V. H. (2023). Our epidemic of loneliness and isolation: The U.S. Surgeon General’s Advisory on the healing effects of social connection and community. U.S. Department of Health and Human Services. https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf
+Murthy, V. H. (2023). *Our epidemic of loneliness and isolation: The U.S. Surgeon General’s Advisory on the healing effects of social connection and community*. U.S. Department of Health and Human Services.  
+[https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf](https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf)
 
-----
+---
 
 <MdxEngageSpanish />
 
@@ -37,7 +62,7 @@ Murthy, V. H. (2023). Our epidemic of loneliness and isolation: The U.S. Surgeon
 
 <div className="dn">
 
-# Nearly final statements
+<HeadingMdx level={1}>Nearly final statements</HeadingMdx>
 
 Class 042: Providing software as a service (SAAS) featuring technology that encourages, motivates, and facilitates social connection through engaging and interactive digital experiences, designed to foster positive social outcomes and support mental, emotional, and community well-being.
 
@@ -64,8 +89,7 @@ Class 045: Providing technology-enabled services that promote and facilitate soc
 
 In our first release of our Let's konnect! Technical Platform, we announce our Let's konnect! -- Through Spanish technology,
 
-At <MyKonnexionsTitleSpan />, we know that simply connecting people through technology is not enough to strengthen the ties they share. Therefore, we are promote fun technologies that motivate people to connect.
+At <MyKonnexionsTitleSpan />, we know that simply connecting people through technology is not enough to strengthen the ties they share. Therefore, we promote fun technologies that motivate people to connect.
 
 <span className="brand">CK</span>Ո Social is a for-profit organization that promotes social connectedness between our families, friends, and community for our better well-being and good health.
 </div>
-

@@ -24,6 +24,8 @@ import PanelMDXWrapper from '@components/PanelMDXWrapper/PanelMDXWrapper'
 // import ViewportWidthOverlay from '@components/ViewportWidthOverlay/ViewportWidthOverlay'
 // import NavbarColor from '@components/NavbarColor/__tests__/NavbarColor'
 import PanelBasicCreate from '@components/PanelBasicCreate/PanelBasicCreate'
+import { ARIA_LABEL_IDS } from '@components/AriaLabels/ariaLabelsContstants'
+import { TABINDEX_ALWAYS } from '@cknTypes/constants'
 // import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
 // import ColorScheme from '@components/ColorScheme/__tests__/ColorScheme'
 // import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
@@ -47,13 +49,13 @@ const AppMain = () => {
 /> */}
 
 <div
-  tabIndex={0}
+  tabIndex={TABINDEX_ALWAYS}
   ref={voStartRef}
-  aria-label="Main application loaded"
+  aria-labelledby={ARIA_LABEL_IDS.REGION_MAIN}
   role="region"
   className="sr-only"
 >
-  Application ready
+  {ARIA_LABEL_IDS.REGION_MAIN_TEXT}
 </div>
 
 

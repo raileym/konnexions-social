@@ -35,7 +35,7 @@ import SelectorLessonPromptStyle from '@components/SelectorLessonPromptStyle'
 import SelectorParticipantRole from '@components/SelectorParticipantRole'
 import InputCustomScenario from '@components/InputCustomScenario'
 import InputCustomParticipantList from '@components/InputCustomParticipantList'
-import Header from '@components/Header'
+import Header from '@components/Header/Header'
 import { capitalize } from '@components/Util'
 import { useLessonHandlers } from '@hooks/useLessonHandlers'
 import { TextareaFlexLesson } from '@components/TextareaFlexLesson/TextareaFlexLesson'
@@ -606,7 +606,7 @@ const PanelGenAIProComponents = () => {
   // },[lesson])
 
   return (
-    <div tabIndex={TABINDEX_NEVER} inert={false} aria-disabled={false} className={`panel-gen-ai-pro-components b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`} style={{ paddingTop: '7em' }}>
+    <div inert={!isOpen} tabIndex={TABINDEX_NEVER} aria-disabled={false} className={`panel-gen-ai-pro-components b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-grayX bg-background ${cutoff ? 'bg-yellow' : ''} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`} style={{ paddingTop: '7em' }}>
       {content}
     </div>
   )

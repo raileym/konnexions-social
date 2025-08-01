@@ -28,7 +28,8 @@ export const PanelManagerProvider = ({ children }: { children: React.ReactNode }
     ACTIVE_PANEL.SELECT_MARKETING_PREFERENCES,
     ACTIVE_PANEL.TEXTAREA_FLEX_LESSON,
     ACTIVE_PANEL.TIPTAP_EDITOR,
-    ACTIVE_PANEL.FONT_SIZE_CONTROL
+    ACTIVE_PANEL.FONT_SIZE_CONTROL,
+    ACTIVE_PANEL.MDX_ENGAGE_SPANISH
   ]))
 
   const [currentPanel, setCurrentPanel] = useState<ActivePanel>(ACTIVE_PANEL.MDX)

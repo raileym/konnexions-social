@@ -48,6 +48,7 @@ const PanelMenu = () => {
         ref={ref}
         role="dialog"
         aria-modal="true"
+        inert={!isOpen}
         aria-labelledby="menu-panel-title"
         className={`panel-menu panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}
       >
@@ -58,7 +59,7 @@ const PanelMenu = () => {
               <Button
                 buttonRef={firstFocusButtonRef}
                 ariaLabelledBy="label-button-home"
-                isOpen={isOpen}
+                inert={!isOpen}
                 tabIndex={tabIndex}
                 ariaDisabled={ariaDisabled}
                 titleClass="white"
@@ -82,7 +83,7 @@ const PanelMenu = () => {
                 titleClass="white"
                 iconClass="white mh0 ph0"
                 buttonClass="bnX w-50X width-3 mh0 ph2 brand bg-transparent"
-                isOpen={isOpen}
+                inert={!isOpen}
                 isActive={false}
                 switchFn={switchPanel}
                 panel={ACTIVE_PANEL.SETTINGS}
@@ -97,7 +98,7 @@ const PanelMenu = () => {
                 titleClass="white"
                 iconClass="white mh0 ph0"
                 buttonClass="bnX o-20X width-3 mh0 ph2 brand bg-transparent"
-                isOpen={isOpen}
+                inert={!isOpen}
                 isActive={false}
                 switchFn={switchPanel}
                 panel={ACTIVE_PANEL.HELP}
@@ -112,7 +113,7 @@ const PanelMenu = () => {
                   titleClass="white"
                   iconClass="white mh0 ph0"
                   buttonClass="bn w-50X width-3 mh0 ph0 brand bg-transparent"
-                  isOpen={isOpen}
+                  inert={!isOpen}
                   isActive={false}
                   switchFn={switchPanel}
                   onClick={() => openPanel('profile')}

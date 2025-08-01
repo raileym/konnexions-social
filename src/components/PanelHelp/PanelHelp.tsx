@@ -18,6 +18,7 @@ const PanelHelp = () => {
   return (
     <div
       ref={ref}
+      inert={!isOpen}
       className={`panel-help panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-green on-background pt5 transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}
     >
       <div tabIndex={TABINDEX_NEVER} className="two h-100 w-100 overflow-y-auto">
