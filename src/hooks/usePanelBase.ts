@@ -56,17 +56,23 @@ export const usePanelBase = ({
     setIsOpen(false)
     setTabIndex(-1)
     setAriaDisabled(true)
+    
+    // Temporarily keep ariaHidden false to allow animation
     setAriaHidden(false)
+
+    // Set transform to start slide-out
     if (translateXClose) setTranslateX(translateXClose)
-    // Yes, on translateYOpen. If there is a translateYOpen,
-    // then there must be a translateYClose, defaulted or
-    // otherwise.
-    if (translateYOpen) setTranslateX(translateYClose)
+    if (translateYOpen) setTranslateY(translateYClose)
+
     callback?.onClose?.()
 
-    // Wait for animation to finish before fully unmounting
-    setTimeout(() => setIsMounted(false), 300) // match transition duration
+    // Wait for transform to finish before hiding panel
+    setTimeout(() => {
+      setAriaHidden(true)
+      setIsMounted(false)
+    }, 2000) // Match your transition duration
   }, [callback, translateXClose, translateYClose, translateYOpen])
+
 
   const focus = useCallback(() => {
     setTimeout(() => {

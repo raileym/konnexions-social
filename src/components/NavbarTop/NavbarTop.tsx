@@ -27,7 +27,7 @@ const NavbarTop = () => {
   const navigateTo = (route: string) => {
     navigate(`/${route.toLowerCase()}`)
     setMdxPage(route.toLowerCase() as MdxPage)
-    openPanel(ACTIVE_PANEL.MDX)              
+    // openPanel(ACTIVE_PANEL.MDX)              
   }
 
   const handleGoHome = () => {
@@ -38,16 +38,16 @@ const NavbarTop = () => {
     // togglePanelWithFocus(ACTIVE_PANEL.BASIC_CREATE)
     if (isPanelOpen(ACTIVE_PANEL.BASIC_WELCOME)) {
       closePanel(ACTIVE_PANEL.BASIC_WELCOME)
-      openPanel(ACTIVE_PANEL.MDX)
-      focusPanel(ACTIVE_PANEL.MDX)
+      // openPanel(ACTIVE_PANEL.MDX)
+      // focusPanel(ACTIVE_PANEL.MDX)
     } else if (isPanelOpen(ACTIVE_PANEL.BASIC_CREATE)) {
       closePanel(ACTIVE_PANEL.BASIC_CREATE)
-      openPanel(ACTIVE_PANEL.MDX)
-      focusPanel(ACTIVE_PANEL.MDX)
+      // openPanel(ACTIVE_PANEL.MDX)
+      // focusPanel(ACTIVE_PANEL.MDX)
     } else if (isPanelOpen(ACTIVE_PANEL.BASIC_STUDY)) {
       closePanel(ACTIVE_PANEL.BASIC_STUDY)
-      openPanel(ACTIVE_PANEL.MDX)
-      focusPanel(ACTIVE_PANEL.MDX)
+      // openPanel(ACTIVE_PANEL.MDX)
+      // focusPanel(ACTIVE_PANEL.MDX)
     } else {
       openPanel(ACTIVE_PANEL.BASIC_WELCOME)
       focusPanel(ACTIVE_PANEL.BASIC_WELCOME)

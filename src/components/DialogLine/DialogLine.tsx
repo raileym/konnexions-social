@@ -38,7 +38,7 @@ export const DialogLine = ({
   
   className = ''
   return (
-    <div className={`dialog-line flex flex-column w-100 ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
+    <div className={`dialog-line flex flex-column w-100 ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
       <div className={`bg-greenX flex items-center justify-between w-100 ${className}`}>
         <div className="ph2 flex-auto">
           {noSpeaker ? (

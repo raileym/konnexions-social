@@ -271,15 +271,26 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--kx-onBackground);
 }
 
+.panel {
+  transition: opacity 300ms ease, transform 300ms ease;
+  will-change: transform, opacity;
+  position: absolute; /* or fixed, depending on panel */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .panel-visible {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transition: opacity 300ms ease;
+  transform: translateX(0); /* or translateY(0) depending on your direction */
 }
+
 .panel-hidden {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 300ms ease;
+  transform: translateX(100%); /* slide out */
 }

@@ -30,7 +30,7 @@ const PanelSettings = () => {
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
-        className="mv3"
+        className="mv3 bg-yellow"
         onClick={() => {
           setTheme('Midnight Sand')
         }}
@@ -41,7 +41,7 @@ const PanelSettings = () => {
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
-        className="mv3"
+        className="mv3 bg-yellow"
         onClick={() => {
           setTheme('Dunkin')
         }}
@@ -52,7 +52,7 @@ const PanelSettings = () => {
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
-        className="mv3"
+        className="mv3 bg-yellow"
         onClick={() => {
           setTheme('McDonalds')
         }}
@@ -63,7 +63,7 @@ const PanelSettings = () => {
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
-        className="mv3"
+        className="mv3 bg-yellow"
         onClick={() => {
           setTheme('Starbucks')
         }}
@@ -74,7 +74,7 @@ const PanelSettings = () => {
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
         aria-hidden={ariaHidden}
-        className="mv3"
+        className="mv3 bg-yellow"
         onClick={() => {
           setTheme('Ocean View')
         }}
@@ -87,7 +87,7 @@ const PanelSettings = () => {
   return (
     <div
       ref={ref}
-      className={`panel-settings panel-right-short pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}
+      className={`panel-settings panel-right-short pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}
     >
       <div
         tabIndex={tabIndex}

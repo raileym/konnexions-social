@@ -43,7 +43,7 @@ export const TiptapEditor = ({ initialValue, title, onChange }: TiptapEditorProp
   } else {
     return (
       <>
-      <div aria-disabled={ariaDisabled} aria-hidden={ariaHidden} className={`find-this ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>
+      <div aria-disabled={ariaDisabled} aria-hidden={ariaHidden} className={`find-this ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
         <div className="mw7 w-60 center db mb4 f3 f4-m mb3">{title}</div>
         <div className="mw7 mw8-ns ba w-80 w-70-mX center pa3X br3 max-w-xl mx-auto p-6X bg-transparent shadow-md rounded-md">
           <div className="flex justify-center mb-6X bg-brandX bb bw1 b--black h2X pv1 bg-moon-gray" >

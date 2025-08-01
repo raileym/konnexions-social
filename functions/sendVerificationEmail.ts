@@ -65,6 +65,8 @@ export const handler: Handler = async (event) => {
       <p>This code will expire in 15 minutes.</p>
     `
 
+    console.log('sendVerificationEmail', code)
+    
     await resend.emails.send({
       from: 'Your team at CKN Social <no-reply@ckn.social>',
       to: email,

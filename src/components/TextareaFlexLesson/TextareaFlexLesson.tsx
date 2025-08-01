@@ -27,7 +27,7 @@ export const TextareaFlexLesson = ({title}: TextareaFlexLessonProps) => {
 
   return (
     <>
-      <div className={`textarea-flex-lesson tc w-60 center db mb2 f3 mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hidden'} ${!isMounted ? 'dn' : ''}`}>{title}</div>
+      <div className={`textarea-flex-lesson tc w-60 center db mb2 f3 mb3 on-background ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>{title}</div>
       <textarea
         tabIndex={tabIndex}
         aria-disabled={ariaDisabled}
