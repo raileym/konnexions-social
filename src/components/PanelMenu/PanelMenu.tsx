@@ -18,7 +18,7 @@ const PanelMenu = () => {
   const { switchPanel } = usePanel()
   const navigate = useNavigate()
 
-  const { openPanel } = usePanelManager()
+  const { openPanel, togglePanelWithFocus } = usePanelManager()
 
   const { ref, translateX, tabIndex, ariaDisabled, ariaHidden, firstFocusButtonRef, isOpen, isMounted } = usePanelBase({
     panelName: ACTIVE_PANEL.MENU,
@@ -29,6 +29,10 @@ const PanelMenu = () => {
   const navigateTo = (route: string) => {
     setActivePanel(ACTIVE_PANEL.MDX)
     navigate(`/${route.toLowerCase()}`)
+  }
+
+  const handleHelp = () => {
+    togglePanelWithFocus(ACTIVE_PANEL.HELP)
   }
 
   return (
@@ -45,12 +49,16 @@ const PanelMenu = () => {
       </div>
 
       <div
+        className={`
+          panel-menu panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform
+          ${translateX}
+          ${isOpen ? 'panel-visible' : 'panel-hiddenX'}
+          ${!isMounted ? 'dn' : ''}`}
         inert={!isOpen}
         ref={ref}
         role="dialog"
         aria-modal="true"
         aria-labelledby="menu-panel-title"
-        className={`panel-menu panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}
       >
         <div tabIndex={TABINDEX_NEVER} inert={!isOpen} aria-disabled={!isOpen} className="three h-100 w-100 overflow-y-auto">
           <div className={`pa4 ${MENU_PANEL_WIDTH_PERCENT} mb5`}>
@@ -100,8 +108,9 @@ const PanelMenu = () => {
                 buttonClass="bnX o-20X width-3 mh0 ph2 brand bg-transparent"
                 inert={!isOpen}
                 isActive={false}
-                switchFn={switchPanel}
-                panel={ACTIVE_PANEL.HELP}
+                onClick={handleHelp}
+                // switchFn={switchPanel}
+                // panel={ACTIVE_PANEL.HELP}
                 icon={faCircleQuestion}
                 title="Help"
               />

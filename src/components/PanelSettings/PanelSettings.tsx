@@ -91,9 +91,13 @@ const PanelSettings = () => {
 
   return (
     <div
+      className={`
+        panel-settings panel-right-short pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform
+        ${translateX}
+        ${isOpen ? 'panel-visible' : 'panel-hiddenX'}
+        ${!isMounted ? 'dn' : ''}`}
       ref={ref}
       inert={!isOpen}
-      className={`panel-settings panel-right-short pt5 bl b--moon-gray bw1 z-2 absolute top-0 left-10 w-90 h-100 bg-light-gray transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}
     >
       <div
         tabIndex={tabIndex}

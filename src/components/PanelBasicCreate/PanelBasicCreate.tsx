@@ -32,7 +32,14 @@ const PanelBasicCreate = () => {
   })
 
   return (
-    <div inert={!isOpen} className={`panel-basic-create panel-right bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-grayX bg-on-background transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}>
+    <div
+      inert={!isOpen}
+      className={`
+        panel-basic-create panel-right bl b--moon-gray bw1 z-1 absolute top-0 left-10 w-90 h-100 bg-light-grayX bg-on-background transition-transform
+        ${translateX}
+        ${isOpen ? 'panel-visible' : 'panel-hiddenX'}
+        ${!isMounted ? 'dn' : ''}`}
+    >
       <PanelBasicCreateComponents />
     </div>
   )

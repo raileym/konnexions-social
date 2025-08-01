@@ -41,11 +41,13 @@ export const usePanelBase = ({
 
   const open = useCallback(() => {
     setIsMounted(true)
+
     requestAnimationFrame(() => {
       setIsOpen(true)
       setTabIndex(0)
       setAriaDisabled(false)
       setAriaHidden(false)
+
       if (translateXOpen) setTranslateX(translateXOpen)
       if (translateYOpen) setTranslateY(translateYOpen)
       callback?.onOpen?.()
@@ -56,9 +58,8 @@ export const usePanelBase = ({
     setIsOpen(false)
     setTabIndex(-1)
     setAriaDisabled(true)
-    
-    // Temporarily keep ariaHidden false to allow animation
-    setAriaHidden(false)
+    // setAriaHidden(false)
+    setAriaHidden(true)
 
     // Set transform to start slide-out
     if (translateXClose) setTranslateX(translateXClose)
@@ -68,9 +69,9 @@ export const usePanelBase = ({
 
     // Wait for transform to finish before hiding panel
     setTimeout(() => {
-      setAriaHidden(true)
+      // setAriaHidden(true)
       setIsMounted(false)
-    }, 2000) // Match your transition duration
+    }, 600) // Match your transition duration
   }, [callback, translateXClose, translateYClose, translateYOpen])
 
 

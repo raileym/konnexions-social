@@ -70,11 +70,11 @@ const NavbarTop = () => {
   return (
     <>
       <nav
+        className="o-20 navbar-top fixed top-0 focus:bn focus-visible:bn shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999"
         aria-describedby={ARIA_LABEL_IDS.NAVBAR_TOP}
         tabIndex={TABINDEX_NEVER}
         inert={false}
         aria-disabled={ARIA_DISABLED_NEVER}
-        className="navbar-top fixed top-0 focus:bn focus-visible:bn shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999"
         style={{borderRadius: 0}}>
         
         <div

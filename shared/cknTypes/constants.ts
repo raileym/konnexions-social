@@ -154,6 +154,7 @@ export const ACTIVE_PANEL = {
   TIPTAP_EDITOR: 'TiptapEditor',
   FONT_SIZE_CONTROL: 'FontSizeControl',
   MDX_ENGAGE_SPANISH: 'MdxEngageSpanish',
+  PANEL_MDX_WRAPPER: 'PanelMdxWrapper',
 
   PROFILE: 'profile',
   VERIFY_EMAIL: 'verifyEmail',

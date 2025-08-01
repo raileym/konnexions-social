@@ -163,7 +163,11 @@ const PanelProfile = () => {
     <div
       ref={ref}
       inert={!isOpen}
-      className={`panel-profile panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 pt5 transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}
+      className={`
+        panel-profile panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 pt5 transition-transform
+        ${translateX}
+        ${isOpen ? 'panel-visible' : 'panel-hiddenX'}
+        ${!isMounted ? 'dn' : ''}`}
     >
       <div tabIndex={TABINDEX_NEVER} inert={!isOpen} aria-disabled={!isOpen} className="five h-100 w-100 overflow-y-auto">
         <div className={`pa4 ${PROFILE_PANEL_WIDTH_PERCENT} mb5`}>
