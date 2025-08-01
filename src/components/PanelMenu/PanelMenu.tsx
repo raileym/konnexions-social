@@ -45,10 +45,10 @@ const PanelMenu = () => {
       </div>
 
       <div
+        inert={!isOpen}
         ref={ref}
         role="dialog"
         aria-modal="true"
-        inert={!isOpen}
         aria-labelledby="menu-panel-title"
         className={`panel-menu panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform ${translateX} ${isOpen ? 'panel-visible' : 'panel-hiddenX'} ${!isMounted ? 'dnX' : ''}`}
       >
