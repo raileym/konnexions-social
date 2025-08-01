@@ -17,6 +17,7 @@ const { openPanel, closePanel } = usePanelManager()
 
   const { firstFocusButtonRef, tabIndex, ariaDisabled, isOpen, isMounted } = usePanelBase({
     panelName: ACTIVE_PANEL.BASIC_STUDY_COMPONENTS,
+    defaultClickOutside: false,
     callback: {
       onOpen: () => {
         openPanel(ACTIVE_PANEL.DIALOG_LIST)
@@ -101,7 +102,9 @@ const { openPanel, closePanel } = usePanelManager()
       className={`
         panel-basic-study-components panel-right z-1 absolute top-0 left-0 w-100 h-100 flexX
         ${isOpen ? 'panel-visible' : 'panel-hiddenX'}
-        ${!isMounted ? 'dn' : 'flex'}`}
+        ${!isMounted ? 'dn' : 'flex'}
+        ${isMounted ? 'isMounted' : 'not-isMounted'}
+        ${isOpen ? 'isOpen' : 'not-isOpen'}`}
     >
       <div tabIndex={TABINDEX_NEVER} inert={!isOpen} aria-disabled={false} className={`b--greenX bw1X w-100 vh-100 pb6 overflow-y-auto pa3 bg-light-gray ${cutoff ? 'bg-yellow' : ''}`} style={{ paddingTop: '7em' }}>
         {content}

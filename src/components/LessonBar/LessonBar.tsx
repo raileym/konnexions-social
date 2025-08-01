@@ -5,7 +5,7 @@ import { defaultLesson, type Lesson } from '@cknTypes/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { ACTIVE_PANEL, TABINDEX_NEVER } from '@cknTypes/constants'
-import { usePanel } from '@hooks/usePanel'
+// import { usePanel } from '@hooks/usePanel'
 import { usePanelBase } from '@hooks/usePanelBase'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
@@ -46,13 +46,13 @@ export const LessonBar = () => {
   // const translateX = activateLessonBar ? 'translateX-0' : 'translateX--100'
   // const translateX = currentPanel === ACTIVE_PANEL.BASIC_CREATE ? 'translateX-0' : 'translateX--100'
 
-  const { switchPanel } = usePanel()
+  // const { switchPanel } = usePanel()
 
   const handleAddLesson = () => {
     setLessonComplete(false)
 
     console.log('switching panel', ACTIVE_PANEL.BASIC_CREATE)
-    switchPanel(ACTIVE_PANEL.BASIC_CREATE)
+    // switchPanel(ACTIVE_PANEL.BASIC_CREATE)
 
     // Not sure the logic below versus a straight
     // patch through to ACTIVE_PANEL.BASIC_CREATE
@@ -88,7 +88,7 @@ export const LessonBar = () => {
         tabIndex={tabIndex}
         inert={!isOpen}
         aria-disabled={ariaDisabled}
-        aria-hidden={ariaHidden}
+        // aria-hidden={ariaHidden}
         onClick={handleAddLesson}
         className="lesson-bar button-add focus-visible:bg-redX focus:b--redX b--double mv3X pa2 bnX bbX white b--backgroundX bw3X baX bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
       >
@@ -103,7 +103,7 @@ export const LessonBar = () => {
               tabIndex={tabIndex}
               inert={!isOpen}
               aria-disabled={ariaDisabled}
-              aria-hidden={ariaHidden}
+              // aria-hidden={ariaHidden}
               key={lesson.number}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {

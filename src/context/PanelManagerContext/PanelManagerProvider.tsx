@@ -6,7 +6,8 @@ import { ACTIVE_PANEL } from '@cknTypes/constants'
 export const PanelManagerProvider = ({ children }: { children: React.ReactNode }) => {
   const registry = useRef<Map<ActivePanel, PanelControl>>(new Map())
   const alwaysOpenPanels = useRef<Set<ActivePanel>>(new Set([
-    ACTIVE_PANEL.MDX
+    ACTIVE_PANEL.MDX,
+    ACTIVE_PANEL.PANEL_MDX_WRAPPER
   ]))
   const supportPanels = useRef<Set<ActivePanel>>(new Set([
     ACTIVE_PANEL.BASIC_CREATE_COMPONENTS,
@@ -56,7 +57,10 @@ export const PanelManagerProvider = ({ children }: { children: React.ReactNode }
   // }, [])
 
   const closePanel = useCallback((name: ActivePanel) => {
-    if (alwaysOpenPanels.current.has(name)) return // 🚫 Skip closing MDX
+    if (alwaysOpenPanels.current.has(name)) {
+      console.log(`Always open: Do not close ${name}`)
+      return // 🚫 Skip closing MDX
+    }
 
     const entry = registry.current.get(name)
     if (!entry || !entry.isOpen()) return

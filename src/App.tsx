@@ -24,7 +24,7 @@ import PanelMDXWrapper from '@components/PanelMDXWrapper/PanelMDXWrapper'
 // import ViewportWidthOverlay from '@components/ViewportWidthOverlay/ViewportWidthOverlay'
 // import NavbarColor from '@components/NavbarColor/__tests__/NavbarColor'
 import PanelBasicCreate from '@components/PanelBasicCreate/PanelBasicCreate'
-// import { ARIA_LABEL_IDS } from '@components/AriaLabels/ariaLabelsContstants'
+// import { ARIA_LABEL_IDS } from '@components/AriaLabels/ariaLabelsConstants'
 // import { TABINDEX_ALWAYS } from '@cknTypes/constants'
 // import FontSizeControls from '@components/FontSizeControl/FontSizeControl'
 // import ColorScheme from '@components/ColorScheme/__tests__/ColorScheme'
@@ -201,7 +201,7 @@ const App = () => {
     const handleFocus = (e: FocusEvent) => {
       const el = e.target as HTMLElement
       console.log('🔍 Focused element:', el)
-      console.log('🧭 Outer HTML:', el.outerHTML)
+      // console.log('🧭 Outer HTML:', el.outerHTML)
     }
 
     window.addEventListener('focusin', handleFocus)
@@ -212,7 +212,7 @@ const App = () => {
   useEffect(() => {
     const el = document.activeElement
     console.log('🟢 Focused element on mount:', el)
-    console.dir(el)
+    // console.dir(el)
   }, [])
 
   return (

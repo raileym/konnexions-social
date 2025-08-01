@@ -1,24 +1,10 @@
-import { useEffect } from 'react'
-import { useAppContext } from '@context/AppContext/AppContext'
 import { ACTIVE_PANEL } from '@cknTypes/constants'
 import PanelGenAIComponents from '@components/PanelGenAI/PanelGenAIComponents'
 import { usePanelBase } from '@hooks/usePanelBase'
 
 const PanelGenAI = () => {
-  const {
-    activePanel,
-    setActivateLessonBar
-  } = useAppContext()
-  const isActive = activePanel === ACTIVE_PANEL.GEN_AI
-  const translateX = isActive ? 'translate-x-0' : 'translate-x-full'
 
-  useEffect(() => {
-    if (isActive) {
-      setActivateLessonBar(true)
-    }
-  }, [isActive, setActivateLessonBar])
-
-  const { isOpen, isMounted } = usePanelBase({panelName: ACTIVE_PANEL.GEN_AI})
+  const { isOpen, isMounted, translateX } = usePanelBase({panelName: ACTIVE_PANEL.GEN_AI})
   
   return (
     <div

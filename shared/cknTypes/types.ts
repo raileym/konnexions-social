@@ -176,6 +176,7 @@ export type TtsCharUsage = number
 export type UseCloudTTS = boolean
 
 export type IsActive = boolean
+export type IsButtonActive = boolean
 
 export type GenAIStepValue = (typeof GEN_AI_STEP)[keyof typeof GEN_AI_STEP]
 export type GenAIStepKey = keyof typeof GEN_AI_STEP
@@ -1151,7 +1152,7 @@ export type ButtonProps = {
   title?: string
   buttonClass?: string
   switchFn?: (target: ActivePanel | ActiveHome) => void
-  isActive?: IsActive
+  isButtonActive?: IsActive
   iconClass?: string
   titleClass?: string
   onClick?: () => void   // ← NEW

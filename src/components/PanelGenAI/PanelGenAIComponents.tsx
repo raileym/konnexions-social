@@ -9,15 +9,12 @@ import { getScenarioDetails } from '@components/getScenarioDetails/getScenarioDe
 import SelectorScenario from '@components/SelectorScenario/SelectorScenario'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
-import { usePanel } from '@hooks/usePanel'
 import { usePanelBase } from '@hooks/usePanelBase'
 
 const PanelGenAI = () => {
   const [language, ] = useState<Language>(LANGUAGE.SPANISH)
   const [useMyself, ] = useState<UseMyself>(true)
   
-  const { switchPanel } = usePanel()
-
   const {
     question,
     questionContext,
@@ -109,7 +106,7 @@ const PanelGenAI = () => {
                 <div>Set a <b>GenAI Key</b> to use a Generative AI technology</div>
                 <div className='w-100 flex justify-center pa4'>
                   <div>
-                    <Button ariaLabelledBy={''} tabIndex={tabIndex} ariaDisabled={ariaDisabled} ariaHidden={ariaHidden} switchFn={switchPanel} inert={!isOpen} isActive={false} panel='keys' icon={faKey} title='API Keys' />
+                    <Button ariaLabelledBy={''} tabIndex={tabIndex} ariaDisabled={ariaDisabled} ariaHidden={ariaHidden} inert={!isOpen} isButtonActive={false} panel='keys' icon={faKey} title='API Keys' />
                   </div>
                 </div>
               </div>

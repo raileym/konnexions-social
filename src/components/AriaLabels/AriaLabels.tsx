@@ -1,9 +1,9 @@
 // src/a11y/ariaLabels.tsx
 
-import { ARIA_LABEL_IDS, ARIA_LABEL_STRINGS } from '@components/AriaLabels/ariaLabelsContstants';
+import { ARIA_LABEL_IDS, ARIA_LABEL_STRINGS } from '@components/AriaLabels/ariaLabelsConstants';
 
 export const AriaLabels = () => (
-  <div className="sr-only" aria-hidden="true">
+  <div inert={true} className="sr-only" aria-hidden="true">
     <span id={ARIA_LABEL_IDS.NAVBAR_TOP}>[Top Navigation Bar] The Top Navigation Bar is always present.</span>
     <span id={ARIA_LABEL_IDS.BUTTON_HOME}>[Home Button] Press the Home Button to return to the Welcome Page.</span>
     <span id={ARIA_LABEL_IDS.BUTTON_BIENVENIDO}>[Bienvenido Button] Press the Bienvenido Button to engage your Spanish lesson.</span>

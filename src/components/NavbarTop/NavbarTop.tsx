@@ -10,7 +10,7 @@ import type { MdxPage } from '@cknTypes/types'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 import { usePanelBase } from '@hooks/usePanelBase'
 import DayNightToggle from '@components/DayNightToggle/DayNightToggle'
-import { ARIA_LABEL_IDS } from '@components/AriaLabels/ariaLabelsContstants'
+import { ARIA_LABEL_IDS } from '@components/AriaLabels/ariaLabelsConstants'
 
 const NavbarTop = () => {
   const {
@@ -70,7 +70,7 @@ const NavbarTop = () => {
   return (
     <>
       <nav
-        className="o-20 navbar-top fixed top-0 focus:bn focus-visible:bn shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999"
+        className="o-20X navbar-top fixed top-0 focus:bn focus-visible:bn shadow-on-background-kx left-0 w-100 bg-background flex justify-between ph2 pt2 pt2-kx-45 pt3-kx-60 pb2 pb2-kx-45 pb3-kx-60 z-999"
         aria-describedby={ARIA_LABEL_IDS.NAVBAR_TOP}
         tabIndex={TABINDEX_NEVER}
         inert={false}
@@ -113,11 +113,11 @@ const NavbarTop = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={ARIA_LABEL_IDS.BUTTON_BIENVENIDO_PRO} inert={false} isActive={currentPanel === ACTIVE_PANEL.GEN_AI_PRO} title='Bienvenido! Pro' buttonClass={'baX b--transparent mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanishPro} />
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={ARIA_LABEL_IDS.BUTTON_BIENVENIDO} inert={false} isActive={currentPanel === ACTIVE_PANEL.BASIC_CREATE} title='Bienvenido!' buttonClass={'baX b--transparent mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={ARIA_LABEL_IDS.BUTTON_PROFILE} inert={false} isActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='baX b--transparent mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={ARIA_LABEL_IDS.BUTTON_BIENVENIDO_PRO} inert={false} isButtonActive={currentPanel === ACTIVE_PANEL.GEN_AI_PRO} title='Bienvenido! Pro' buttonClass={'baX b--transparent mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanishPro} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={ARIA_LABEL_IDS.BUTTON_BIENVENIDO} inert={false} isButtonActive={currentPanel === ACTIVE_PANEL.BASIC_CREATE} title='Bienvenido!' buttonClass={'baX b--transparent mh3 bg-background bnX wiggle-grow-kxX grow-kxX bw3X focus-visible:bg-tertiaryX'} iconClass={'f2'} img={'icons8-sombrero-48.png'} onClick={handleEngageSpanish} />
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={ARIA_LABEL_IDS.BUTTON_PROFILE} inert={false} isButtonActive={currentPanel === ACTIVE_PANEL.PROFILE} title='Profile' buttonClass='baX b--transparent mh3 ph2 dn dn-m dib-l grow-kxX bg-background bw3X focus-visible:bg-tertiaryX' panel={ACTIVE_PANEL.PROFILE} icon={faUser} onClick={handleProfile} />
           <DayNightToggle className="baX b--transparent bw1X b--solidX mh3" />
-          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={ARIA_LABEL_IDS.BUTTON_MENU} inert={false} isActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='baX b--transparent mh3 b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
+          <Button tabIndex={TABINDEX_ALWAYS} ariaLabelledBy={ARIA_LABEL_IDS.BUTTON_MENU} inert={false} isButtonActive={currentPanel === ACTIVE_PANEL.MENU} title='Menu' buttonClass='baX b--transparent mh3 b--backgroundX ph2 ml2 mr2 grow-kxX bg-backgound bw3X focus-visible:bg-tertiaryX' titleClass='db' panel={ACTIVE_PANEL.MENU} icon={faBars} onClick={handleMenu}/>
         </div>
       </nav>
     </>

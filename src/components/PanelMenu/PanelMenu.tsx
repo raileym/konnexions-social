@@ -8,14 +8,12 @@ import {
 } from '@cknTypes/constants'
 import { useNavigate } from 'react-router-dom'
 import Button from '@components/Button/Button'
-import { usePanel } from '@hooks/usePanel'
 import { faCircleQuestion, faGear, faHome, faUser } from '@fortawesome/free-solid-svg-icons'
 import { usePanelBase } from '@hooks/usePanelBase'
 import { usePanelManager } from '@context/PanelManagerContext/PanelManagerContext'
 
 const PanelMenu = () => {
   const { setActivePanel, setMdxPage } = useAppContext()
-  const { switchPanel } = usePanel()
   const navigate = useNavigate()
 
   const { openPanel, togglePanelWithFocus } = usePanelManager()
@@ -73,12 +71,10 @@ const PanelMenu = () => {
                 titleClass="white"
                 iconClass="white mh0 ph0"
                 buttonClass="bnX w-50X width-3 mh0 ph2 brand bg-transparent focus:bg-redX focus:b--red b--double"
-                isActive={false}
-                switchFn={switchPanel}
-                panel={ACTIVE_PANEL.MDX}
+                isButtonActive={false}
                 onClick={() => {
                   setMdxPage('Welcome')
-                  openPanel('mdx')
+                  openPanel(ACTIVE_PANEL.MDX)
                 }}
                 icon={faHome}
                 title="Home"
@@ -92,9 +88,7 @@ const PanelMenu = () => {
                 iconClass="white mh0 ph0"
                 buttonClass="bnX w-50X width-3 mh0 ph2 brand bg-transparent"
                 inert={!isOpen}
-                isActive={false}
-                switchFn={switchPanel}
-                panel={ACTIVE_PANEL.SETTINGS}
+                isButtonActive={false}
                 icon={faGear}
                 title="Settings"
                 onClick={() => openPanel('settings')}
@@ -107,10 +101,8 @@ const PanelMenu = () => {
                 iconClass="white mh0 ph0"
                 buttonClass="bnX o-20X width-3 mh0 ph2 brand bg-transparent"
                 inert={!isOpen}
-                isActive={false}
+                isButtonActive={false}
                 onClick={handleHelp}
-                // switchFn={switchPanel}
-                // panel={ACTIVE_PANEL.HELP}
                 icon={faCircleQuestion}
                 title="Help"
               />
@@ -123,10 +115,8 @@ const PanelMenu = () => {
                   iconClass="white mh0 ph0"
                   buttonClass="bn w-50X width-3 mh0 ph0 brand bg-transparent"
                   inert={!isOpen}
-                  isActive={false}
-                  switchFn={switchPanel}
+                  isButtonActive={false}
                   onClick={() => openPanel('profile')}
-                  panel={ACTIVE_PANEL.PROFILE}
                   icon={faUser}
                   title="Profile"
                 />

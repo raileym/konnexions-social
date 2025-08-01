@@ -118,7 +118,7 @@ const NavbarBottom = () => {
               disable={!isUserValidated}
               buttonClass={`b--double b--transparent bw3 mh3 bnX bg-whiteX ${isSelectedCreate ? 'bg-backgroundX' : 'bg-on-backgroundX'} focus-visible:b--red`}
               titleClass={`${isSelectedCreate ? 'secondaryX' : 'secondaryX'}`}
-              isActive={activePanel === ACTIVE_PANEL.BASIC_CREATE}
+              isButtonActive={activePanel === ACTIVE_PANEL.BASIC_CREATE}
               panel={ACTIVE_PANEL.BASIC_CREATE}
               icon={faPersonChalkboard}
               inert={!isOpen}
@@ -134,7 +134,7 @@ const NavbarBottom = () => {
               iconClass={'f2'}
               disable={!isUserValidated || !(lesson?.isComplete)}
               buttonClass={`b--double b--transparent bw3 ${shouldWiggle ? 'wiggle-once' : ''} growX mh3 bnX Xfocus-visible:b--red`}
-              isActive={activePanel === ACTIVE_PANEL.BASIC_STUDY}
+              isButtonActive={activePanel === ACTIVE_PANEL.BASIC_STUDY}
               onClick={handleStudy}
               panel='basicStudy'
               icon={faBookOpen}
