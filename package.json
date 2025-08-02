@@ -74,5 +74,8 @@
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5",
     "vite-plugin-mdx": "^3.6.1"
+  },
+  "resolutions": {
+    "aria-disabled": "1.2.5"
   }
 }

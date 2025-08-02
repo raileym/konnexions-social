@@ -26,6 +26,7 @@ build
 
 .yarn
 .yarn/
+.yarn/cache
 
 .env
 # Local Netlify folder
