@@ -165,7 +165,7 @@ export const DialogList = ({ language, lines, translations, useCloudTTS }: Dialo
         </button>
         <button
           onClick={stopAll}
-          className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red focus-visible:b--tertiary'
+          className='ml2 f6 br2 ph2 pv1 on-background bg-dark-red hover:bg-red focus-visible:b--red'
           tabIndex={tabIndex}
           inert={!isOpen}
           aria-disabled={ariaDisabled}

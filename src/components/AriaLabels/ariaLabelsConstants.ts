@@ -23,6 +23,6 @@ export const ARIA_LABEL_STRINGS = {
   REGION_MAIN: 'region-main',
   REGION_MAIN_TEXT: 'region-main-text',
 
-  IMAGE_MAIN: 'Image of two young people, boy and girl, greeting one another over an activity table.'
+  IMAGE_MAIN: 'Image of two young people, a boy and a girl, greeting one another over an activity table.'
 } as const
 

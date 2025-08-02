@@ -133,7 +133,7 @@ const NavbarBottom = () => {
               inert={!isOpen}
               iconClass={'f2'}
               disable={!isUserValidated || !(lesson?.isComplete)}
-              buttonClass={`b--double b--transparent bw3 ${shouldWiggle ? 'wiggle-once' : ''} growX mh3 bnX Xfocus-visible:b--red`}
+              buttonClass={`b--double b--transparent bw3 ${shouldWiggle ? 'wiggle-once' : ''} mh3`}
               isButtonActive={activePanel === ACTIVE_PANEL.BASIC_STUDY}
               onClick={handleStudy}
               panel='basicStudy'

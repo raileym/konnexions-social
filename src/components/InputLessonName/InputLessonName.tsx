@@ -36,7 +36,7 @@ const InputLessonName = ({ lessonName, onChange }: InputLessonNameProps) => {
           type="text"
           value={lessonName}
           onChange={(e) => onChange(e.target.value)}
-          className="pa2 input-reset ba b--black bw1 focus:bnX focus-visible:bnX br2 bg-white black w-100"
+          className="pa2 input-reset ba b--black bw1 br2 bg-white black w-100"
           placeholder="Enter a lesson name"
         />
       </div>

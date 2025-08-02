@@ -35,7 +35,7 @@ const Button = ({
         aria-hidden={ariaHidden}
         onClick={() => { if (!disable) handleClick() }}
         disabled={disable}
-        className={`f2 pa1 bnX b--redX focus-visible:bg-tertiaryX bw3X pointer width-2X secondary ${isButtonActive ? 'bg-on-background' : 'bg-background'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
+        className={`f2 pa1 pointer secondary ${isButtonActive ? 'bg-on-background' : 'bg-background'} mr2X ${disable ? 'o-20' : 'o-100'} ${buttonClass}`}
         title={title}
       >
         { icon && <FontAwesomeIcon className={`secondary ${iconClass} baX`} icon={icon} /> }

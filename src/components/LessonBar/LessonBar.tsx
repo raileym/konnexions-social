@@ -25,7 +25,7 @@ export const LessonBar = () => {
   
   const { focusPanel, openPanel } = usePanelManager()
   
-  const { firstFocusButtonRef, translateX, tabIndex, ariaDisabled, ariaHidden, isOpen, isMounted } = usePanelBase({
+  const { firstFocusButtonRef, translateX, tabIndex, ariaDisabled, isOpen, isMounted } = usePanelBase({
     panelName: ACTIVE_PANEL.LESSON_BAR,
     translateXOpen: 'translateX-0',
     translateXClose: 'translateX--100',
@@ -90,7 +90,7 @@ export const LessonBar = () => {
         aria-disabled={ariaDisabled}
         // aria-hidden={ariaHidden}
         onClick={handleAddLesson}
-        className="lesson-bar button-add focus-visible:bg-redX focus:b--redX b--double mv3X pa2 bnX bbX white b--backgroundX bw3X baX bg-transparent bg-light-blueX br2X bX f2 flex justify-center tc w-100"
+        className="lesson-bar button-add b--double pa2 white bg-transparent bX f2 flex justify-center tc w-100"
       >
         <FontAwesomeIcon className="f1X" icon={faPlus} />
       </button>

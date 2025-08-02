@@ -48,7 +48,7 @@ export const MyKonnexionsTitleSpan = ({
   return (
     <>
       <span className="sr-only">
-        my connections {nominal}
+        My Konnexions {nominal}
       </span>
       <span aria-hidden={'true'} className={`konnexions-title-span dib ${className}`}>
         <span className="inline-flex flex-wrap">

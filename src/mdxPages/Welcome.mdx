@@ -14,7 +14,7 @@ import { HeadingMdx } from '@components/HeadingMdx/HeadingMdx'
   />
 </div>
 
-<HeadingMdx level={1} className="tc secondary f3 f5-vvs f4-vs f3-s f2-m f1-ns">
+<HeadingMdx ariaLabel={'My connections social platform'} level={1} className="tc secondary f3 f5-vvs f4-vs f3-s f2-m f1-ns">
   <MyKonnexionsTitle
     slashColor="primary"
     fontSizeInRem={3}
@@ -51,8 +51,16 @@ At the heart of it all is a simple idea: stronger connections make us stronger p
 
 <HeadingMdx level={2} className="f3 f4-m f2-l">Reference</HeadingMdx>
 
-Murthy, V. H. (2023). *Our epidemic of loneliness and isolation: The U.S. Surgeon General’s Advisory on the healing effects of social connection and community*. U.S. Department of Health and Human Services.  
-[https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf](https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf)
+<div>
+<div className='sr-only' role={'text'}>
+Murthy, V H 2023. Our epidemic of loneliness and isolation. The U S Surgeon General’s Advisory on the healing effects of social connection and community.
+U S Department of Health and Human Services.
+</div>
+<div aria-hidden={true}>
+Murthy, V. H. (2023). *Our epidemic of loneliness and isolation: The U.S. Surgeon General’s Advisory on the healing effects of social connection and community*. U.S. Department of Health and Human Services. 
+https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf
+</div>
+</div>
 
 ---
 

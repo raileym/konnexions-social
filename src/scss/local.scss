@@ -220,8 +220,15 @@ p {
   background-color:#f8f8f8;
 }
 
-*:focus-visible {
-  outline: none
+// *:focus-visible {
+//   outline: none !important;
+//   box-shadow: 0 0 0 2px red, 0 0 0 4px red; /* your double red ring */
+// }
+
+*:focus {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-focus-ring-color: transparent;
 }
 
 label,
@@ -250,10 +257,19 @@ button {
 // input:focus-visible,
 // nav:focus-visible,
 // .link-url:focus-visible,
-.button-home:focus-visible,
-button:focus-visible {
-  border-color: red;
-}
+// .button-home:focus-visible,
+// button:focus-visible,
+// div:focus-visible {
+  // border-color: red;
+  // border-style: double;
+  // border-width: 0.5rem;
+  // outline: none !important;
+  // box-shadow:
+  // 0 0 0 2px red,
+  // 0 0 0 4px red;  
+  // -webkit-focus-ring-color: transparent;
+  // -webkit-tap-highlight-color: transparent;
+// }
 
 .sr-only {
   position: absolute;

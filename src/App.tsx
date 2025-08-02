@@ -43,7 +43,7 @@ const AppMain = () => {
     <>
       <a
         href="#main-content"
-        className="skip-link sr-only-focusable"
+        className="ml3 mt3 skip-link sr-only-focusable ba bw1 br3 shadow-black-medium-kxX"
       >
         Skip to main content
       </a>

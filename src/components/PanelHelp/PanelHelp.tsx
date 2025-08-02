@@ -33,7 +33,7 @@ const PanelHelp = () => {
         <div className={`pa4 ${HELP_PANEL_WIDTH_PERCENT} mb5X`}>
           <h2 className="f3 pa3 mt5">Help Panel for {helpPanel}</h2>
           <p className="pl3">This panel slides in and out correctly based on context.</p>
-          <div ref={firstFocusDivRef} inert={!isOpen} tabIndex={tabIndex} aria-disabled={ariaDisabled} style={{ height: '20rem' }} className="bg-blue focus-visible:bg-red focus:bg-cyan" />
+          <div ref={firstFocusDivRef} inert={!isOpen} tabIndex={tabIndex} aria-disabled={ariaDisabled} style={{ height: '20rem' }} className="bg-blue focus:bg-cyan" />
         </div>
       </div>
     </div>
