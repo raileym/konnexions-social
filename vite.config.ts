@@ -13,8 +13,8 @@ export default defineConfig({
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
         manifest: {
-          name: 'Konnexions',
-          short_name: 'Konnexions',
+          name: 'My Konnexions',
+          short_name: 'My Konnexions',
           description: 'Let\'s konnect! Promoting ways to connect socially',
           theme_color: '#ffffff',
           background_color: '#ffffff',
