@@ -46,16 +46,21 @@ export const MyKonnexionsTitleSpan = ({
   className
 }: MyKonnexionsTitleProps) => {
   return (
-    <span aria-label={`my connections ${nominal}`} className={`konnexions-title-span dib ${className}`}>
-      <span inert={false} aria-disabled={true} className="inline-flex flex-wrap">
-        <span className={`b ${color} mr1`}>My </span>
-        <span className={`b ${slashColor}`}>K</span>
-        <span className={`b  ${color}`}>onne</span>
-        <MyKonnexionsSlash asSpan={true} slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
-        <span className={`b ${color}`}>ions<sup className="f7 relative" style={{ top: '-1em' }}>TM</sup></span>
-        {nominal ? <span className={`ml1 b ${color}`}>{nominal}</span> : null}
+    <>
+      <span className="sr-only">
+        my connections {nominal}
       </span>
-    </span>
+      <span aria-hidden={'true'} className={`konnexions-title-span dib ${className}`}>
+        <span className="inline-flex flex-wrap">
+          <span className={`b ${color} mr1`}>My </span>
+          <span className={`b ${slashColor}`}>K</span>
+          <span className={`b  ${color}`}>onne</span>
+          <MyKonnexionsSlash asSpan={true} slashColor={slashColor} color={color} fontSizeInRem={fontSizeInRem} />
+          <span className={`b ${color}`}>ions<sup className="f7 relative" style={{ top: '-1em' }}>TM</sup></span>
+          {nominal ? <span className={`ml1 b ${color}`}>{nominal}</span> : null}
+        </span>
+      </span>
+    </>
   )
 }
 

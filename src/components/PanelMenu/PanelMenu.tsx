@@ -35,17 +35,6 @@ const PanelMenu = () => {
 
   return (
     <>
-      <div className="sr-only">
-        <span id="label-button-home">[Home Button] Press the Home Button to return to the Welcome Page.</span>
-        <span id="label-button-settings">[Settings Button] Press the Settings Button to adjust your settings.</span>
-        <span id="label-button-menu">[Help Button] Press the Help Button to engage the tour.</span>
-        <span id="label-button-profile">[Profile Button] Press the Profile Button to update your profile.</span>
-        <span id="li-home-page">[Home Page] Click on this link to return to the Welcome Page</span>
-        <span id="li-about-page">[About Page] Click on this link to go to the About Page</span>
-        <span id="li-terms-and-conditions">[Terms and Conditions] Click on this link to go to the Terms and Conditions Page</span>
-        <span id="li-privacy-policy">[Privacy Policy] Click on this link to go to the Privacy Policy</span>
-      </div>
-
       <div
         className={`
           panel-menu panel-right-short absolute bl b--background bw1 z-3 top-0 left-10 w-90 h-100 bg-tertiary on-tertiary on-background pt5 transition-transform
